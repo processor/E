@@ -1,4 +1,4 @@
-# Primitives
+## Primitives
 
 Number
 Integer
@@ -8,7 +8,7 @@ Lists       [ ] String
 Maps        Map<S, T>
 
 
-# Protocals
+## Protocals
 
 ```
 Arithmetic<T> protocal { 
@@ -17,7 +17,7 @@ Arithmetic<T> protocal {
 }
 ```
 
-# Implementations
+## Implementations
 
 ```
 Vector2 impl for Arithmetic<Vector2> {
@@ -26,7 +26,7 @@ Vector2 impl for Arithmetic<Vector2> {
 }
 ```
 
-# Pattern Matching
+## Pattern Matching
 
 a is (t: Type)
 
@@ -38,7 +38,7 @@ match x {
          _     => ...
 }
 
-# Pipes
+## Pipes
 
 pipes the result of the function into the next function as the first argument. 
 
@@ -46,7 +46,7 @@ pipes the result of the function into the next function as the first argument.
 a |> b |> c
 ```
 
-# Ranges
+## Ranges
 
 Inclusive...
 
@@ -54,7 +54,7 @@ Inclusive...
 1..10 
 ```
 
-Enumerating
+## Enumerating
 
 Single for statement
 
@@ -71,11 +71,22 @@ for list {
 
 ```
 
-# Deconstruction
+## Deconstruction
 
 ```
 let (a, b) = func()
 ```
+
+## Multithreading
+```
+
+Async by default.
+
+Automatically yields thread when calling an async function and registers a continuation.
+
+Override with 
+
+await func().awaiter
 
 ...
 
