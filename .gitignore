@@ -3,5 +3,13 @@
 */obj
 *.TMP
 *.xproj.user
-*/project.lock.json
+*project.lock.json
 */.DS_Store
+/.DS_Store
+/build/
+*.suo
+*.user
+bin/
+obj/
+Debug/
+Release/
