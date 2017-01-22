@@ -1,1 +1,7 @@
 /.vs
+*/bin
+*/obj
+*.TMP
+*.xproj.user
+*/project.lock.json
+*/.DS_Store
