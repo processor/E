@@ -1,0 +1,15 @@
+Point(5, 5) * 10                // Point { x: 50, y: 50, z: 0 }
+Point(5, 10).negate             // Point { x: -5, y: -10, z: 3 }
+
+Point { x: 5, y: 10, z: 5 }
+
+Point (5, 5, 5)
+Point (5, 5)
+Point (0)
+
+let point = (1, 2, 3) to Point  // from tuple 
+
+let (x, y, z) = point           // deconstruction
+
+Point.parse "1,2,3"             // Point { x: 1, y: 2, z: 3 }
+Point(1,2,3) to String          // "1,2,3"

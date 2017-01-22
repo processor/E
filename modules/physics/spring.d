@@ -1,0 +1,3 @@
+Spring<T> : Force<T> {
+  
+}

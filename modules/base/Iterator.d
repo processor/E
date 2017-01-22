@@ -1,0 +1,12 @@
+next
+chain
+last
+count
+zip
+map
+filter
+fold
+any
+all
+sum
+product

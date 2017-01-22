@@ -1,0 +1,7 @@
+Resolution protocal {
+
+}
+
+Resolution 'Signature { 
+
+}

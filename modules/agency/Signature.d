@@ -1,0 +1,3 @@
+Signature event {
+  entity: Entity
+}

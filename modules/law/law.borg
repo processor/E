@@ -1,0 +1,20 @@
+﻿Legal_Rule record { 
+  authority: Entity
+}
+
+
+
+  Law    
+, Regulation 
+, Term 
+: Rule record { 
+ 
+} 
+
+Patent extends Document {
+  inventor: Inventor
+};
+
+Trademark record {
+  term: String
+}

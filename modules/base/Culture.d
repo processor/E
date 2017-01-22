@@ -1,0 +1,3 @@
+Culture record { 
+  code: string
+}

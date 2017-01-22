@@ -1,0 +1,12 @@
+﻿Citizen record { 
+  place: Country
+}
+
+Government `Official record {
+  person : Human,
+  role   : String
+}
+
+Government `Official protocal {
+  name = this.person.name
+}

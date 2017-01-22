@@ -1,0 +1,3 @@
+Node protocal {
+  children: Node [ ]
+}

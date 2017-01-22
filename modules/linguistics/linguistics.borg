@@ -1,0 +1,20 @@
+﻿Language type { name: String; }
+
+  Dialect 
+, Sentence		  
+, Prediate		  
+, Verb			    
+, Noun `Phrase  
+, Article	    
+, Noun		   	  
+, Preposition	
+, Predicate  	
+, Verb `Phrase	
+, Morpheme		  
+, Stem 
+: Object record { 
+  name: String 
+}
+
+
+Word defination			    { language: Language, name: String } 

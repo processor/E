@@ -1,0 +1,4 @@
+
+Juristriction record {
+  place: Place
+}

@@ -1,0 +1,4 @@
+Figure type : Inline { 
+ 
+
+}

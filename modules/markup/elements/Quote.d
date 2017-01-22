@@ -1,0 +1,5 @@
+// <Quote />
+
+Quote type : Element { 
+
+}

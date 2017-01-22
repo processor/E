@@ -1,0 +1,3 @@
+Event<T> {
+  timestamp: Timestamp
+}
