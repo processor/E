@@ -8,7 +8,7 @@ let a = 1  // immutable
 var b = 2  // mutable
 ```
 
-# Variables
+## Variables
 
 - Defined with the var operator
 - Mutiple variables may be defined at once using a comma.
@@ -20,7 +20,7 @@ var x = 1, y = 2, z = 3
 a = a + 1
 ```
 
-# Type Annotations
+## Type Annotations
 
 By default, types are infered by the value defined on the right hand site of a constant or variable declaration.
 
