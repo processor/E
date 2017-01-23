@@ -34,18 +34,17 @@ They may be explictly specified using a type annotation.
 
 ## Literals
 
-* Numbers   e.g. 1, 1.1     DEC64 Encoded
-* Integer   e.g. 1i         BigInteger
-* Float     e.g. 1f         double
-* String    e.g. "hello"    UTF8 Encoded
-* Lists       [ ] String    [ 1, 2, 3 ]    
-* Maps        Map<S, T>     { a: 1, b: 2 }
-
-
+* Numbers   1, 1.1         DEC64 Encoded
+* Integer   1i             Integer
+* Float     1f             Float64
+* String    "hello"        UTF8 Encoded
+* Lists     [ 1, 2, 3 ]    List<Number>
+* Maps      { a: 1, b: 2 } Map<string, Number>
+* Tuples    (1, 2, 3)      Tuple<Number, Number, Number>
+ 
 ## Protocals
 
 A protocal defines a set of operations that may be implemented by a Type.
-
 
 ```
 Arithmetic<T> protocal { 
