@@ -1,14 +1,51 @@
-## Primitives
+## Constants
 
-Number
-Integer
-Float
-String
-Lists       [ ] String
-Maps        Map<S, T>
+- Defined with the let operator
+- Immutable
+
+```
+let a = 1  // immutable
+var b = 2  // mutable
+```
+
+# Variables
+
+- Defined with the var operator
+- Mutiple variables may be defined at once using a comma.
+```
+var a = 1
+var x = 1, y = 2, z = 3
+
+
+a = a + 1
+```
+
+# Type Annotations
+
+By default, types are infered by the value defined on the right hand site of a constant or variable declaration.
+
+They may be explictly specified using a type annotation.
+
+ ```
+ 
+ var a: Integer = 1
+ 
+ ```
+
+## Literals
+
+* Numbers   e.g. 1, 1.1     DEC64 Encoded
+* Integer   e.g. 1i         BigInteger
+* Float     e.g. 1f         double
+* String    e.g. "hello"    UTF8 Encoded
+* Lists       [ ] String    [ 1, 2, 3 ]    
+* Maps        Map<S, T>     { a: 1, b: 2 }
 
 
 ## Protocals
+
+A protocal defines a set of operations that may be implemented by a Type.
+
 
 ```
 Arithmetic<T> protocal { 
@@ -19,6 +56,10 @@ Arithmetic<T> protocal {
 
 ## Implementations
 
+Any type may implement one or more protocals.
+
+Unlike a class, implementations are defined in isolation.
+
 ```
 Vector2 impl for Arithmetic<Vector2> {
   * (right: Vector2) => Vector2(x * right.x, y * right.y)
@@ -28,14 +69,17 @@ Vector2 impl for Arithmetic<Vector2> {
 
 ## Pattern Matching
 
+- Constants
+- Shapes
+
 a is (t: Type)
 
 match x {
-        1      => ...
-        2      => ...
+  1            => ...
+  2            => ...
   (t: Type)    => ...
   (a: T, b, T) => ...
-         _     => ...
+  _            => ...
 }
 
 ## Pipes
@@ -43,20 +87,20 @@ match x {
 pipes the result of the function into the next function as the first argument. 
 
 ```
-a |> b |> c
+a |> b("extra") |> c
 ```
 
 ## Ranges
 
-Inclusive...
+Ranges are inclusive.
 
 ```
 1..10 
 ```
 
-## Enumerating
+## Loops
 
-Single for statement
+All enumerable objects may be looped through using a for operator.
 
 ```
 for x in list {
@@ -84,9 +128,7 @@ Async by default.
 
 Automatically yields thread when calling an async function and registers a continuation.
 
-Override with 
-
-await func().awaiter
+todo: overriding...
 
 ...
 
