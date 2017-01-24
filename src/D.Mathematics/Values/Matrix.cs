@@ -132,5 +132,4 @@ namespace D.Numerics
 
         Kind IObject.Kind => Kind.MatrixLiteral;
     }
-
 }
