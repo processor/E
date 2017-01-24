@@ -1,17 +1,24 @@
-﻿using System.Collections.Generic;
+﻿using System;
 
 namespace D.Expressions
 {
     public class TupleExpression : IExpression
     {
-        public TupleExpression(IList<IExpression> elements)
+        public TupleExpression(IExpression[] elements)
         {
+            #region Preconditions
+
+            if (elements == null)
+                throw new ArgumentNullException(nameof(elements));
+
+            #endregion
+
             Elements = elements;
         }
 
-        public int Size => Elements.Count;
+        public int Size => Elements.Length;
 
-        public IList<IExpression> Elements { get; }
+        public IExpression[] Elements { get; }
 
         public Kind Kind => Kind.TupleExpression;
     }

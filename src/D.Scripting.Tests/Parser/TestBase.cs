@@ -18,12 +18,12 @@ namespace D.Parsing.Tests
         private static readonly string RootDirectory = Directory.GetCurrentDirectory();
 
         public FileInfo GetDocument(string name)
-            => new FileInfo(RootDirectory + "..\\..\\modules\\" + name);
+            => new FileInfo(RootDirectory + "..\\..\\..\\modules\\" + name);
 
 
         public IEnumerable<FileInfo> ReadDocuments(string path)
         {
-            return new DirectoryInfo(RootDirectory + "..\\..\\modules\\" + path).EnumerateFiles();
+            return new DirectoryInfo(RootDirectory + "..\\..\\..\\modules\\" + path).EnumerateFiles();
         }
 
         public string ReadDocument(string name)

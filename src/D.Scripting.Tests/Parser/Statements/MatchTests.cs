@@ -18,7 +18,22 @@ match x >> 4 {
         }
 
         [Fact]
-        public void Switch()
+        public void MatchTypes()
+        {
+
+            var match = Parse<MatchExpression>(
+                @"match instance { 
+                  (image: Image) => image.resize(100, 100)
+                }
+            ");
+
+            Assert.Equal(1, match.Cases.Count);
+            Assert.Equal("image", ((TypePattern)match.Cases[0].Pattern).VariableName);
+
+        }
+
+        [Fact]
+        public void Match()
         {
             // ... |> format mp4
             var pipe = Parse<PipeStatement>(
@@ -26,9 +41,9 @@ match x >> 4 {
                   |> split 1s
                   |> group a
                   |> match kind {
-                     Audio a => a
-                     Image i => b
-                     Video v => c
+                     (a: Audio) => a;
+                     (i: Image) => b;
+                     (v: Video) => c;
                   }
                   |> format mp4
                 ");

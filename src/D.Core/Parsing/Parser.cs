@@ -1534,17 +1534,17 @@ namespace D.Parsing
         // (a: Integer, b: String)
         public TupleExpression ReadTuple()
         {
-            Consume(ParenthesisOpen); // 
+            Consume(ParenthesisOpen);       // ! (
 
             EnterMode(Mode.Parenthesis);
 
             return FinishReadingTuple(ReadTupleElement());
         }
 
+        private readonly List<IExpression> elements = new List<IExpression>();
+
         public TupleExpression FinishReadingTuple(IExpression first)
         {
-            var elements = new List<IExpression>();
-
             elements.Add(first);
 
             while (ConsumeIf(Comma)) // ? ,
@@ -1552,11 +1552,11 @@ namespace D.Parsing
                 elements.Add(ReadTupleElement());
             }
 
-            Consume(ParenthesisClose); // )
+            Consume(ParenthesisClose); // ! )
 
             LeaveMode(Mode.Parenthesis);
 
-            return new TupleExpression(elements);
+            return new TupleExpression(elements.Extract());
         }
 
         public IExpression ReadTupleElement()
@@ -1605,8 +1605,8 @@ namespace D.Parsing
 
             while (!IsEof && !IsKind(BraceClose))
             {
-
                 var pattern = ReadPattern();
+
                 IExpression when = null;
 
                 if (ConsumeIf(When))            // ? when
@@ -1634,7 +1634,7 @@ namespace D.Parsing
 
         // record  : { a, b, c }
         // tuple   : (a, b, c)
-        // type    : Type alias
+        // type    : (alias: Type)
         // variant : A | B 
         // any     : _
         // range   : 0..10
@@ -1643,18 +1643,26 @@ namespace D.Parsing
         {
             switch (reader.Current.Kind)
             {
-                case Identifier      : return ReadTypePattern();
                 case BraceOpen       : return ReadRecordPattern();
                 case Underscore      : Consume(Underscore); return new AnyPattern();
 
-                default:
-                    var value = MaybeTuple();
+                case ParenthesisOpen:
+                    var tuple = ReadTuple();
 
-                    if (value is TupleExpression)
+                    if (tuple.Size == 1)
                     {
-                        return new TuplePattern((TupleExpression)value); 
+                        var element = (NamedType)tuple.Elements[0];
+
+                        return new TypePattern(element.Type, Symbol.Local(element.Name));
                     }
 
+                    return new TuplePattern(tuple);
+
+              
+
+                default:
+                    var value = MaybeTuple();
+                    
                     if (value is RangeExpression)
                     {
                         var range = (RangeExpression)value;
@@ -1666,21 +1674,9 @@ namespace D.Parsing
             }
         }
 
-
         public TypePattern ReadRecordPattern()
         {
             throw new Exception("Not yet implemented");
-        }
-
-        public TypePattern ReadTypePattern()
-        {
-            var type = ReadSymbol();
-
-            var variable = IsKind(Identifier)
-                ? ReadSymbol()
-                : null;
-
-            return new TypePattern(type, variable);
         }
 
         #endregion
@@ -2000,8 +1996,8 @@ namespace D.Parsing
 
             switch (reader.Current.Kind)
             {
-                case Match  : body = ReadMatch(); break; // match
-                default     : body = ReadCall(null); break; // otherwise call
+                case Match : body = ReadMatch();    break; // match
+                default    : body = ReadCall(null); break; // otherwise call
             }
 
             return new PipeStatement(callee, body);

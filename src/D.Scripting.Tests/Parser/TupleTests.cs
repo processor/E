@@ -23,12 +23,12 @@ namespace D.Parsing.Tests
         {
             var tuple = Parse<TupleExpression>("(x, y)");
 
-            Assert.Equal(2, tuple.Elements.Count);
+            Assert.Equal(2, tuple.Elements.Length);
 
             Assert.Equal("x", (Symbol)tuple.Elements[0]);
             Assert.Equal("y", (Symbol)tuple.Elements[1]);
 
-            Assert.Equal(2, tuple.Elements.Count);
+            Assert.Equal(2, tuple.Elements.Length);
         }
 
         [Fact]
@@ -36,7 +36,7 @@ namespace D.Parsing.Tests
         {
             var tuple = Parse<TupleExpression>("(x: i32, y: i64)");
 
-            Assert.Equal(2, tuple.Elements.Count);
+            Assert.Equal(2, tuple.Elements.Length);
 
             var x = (NamedType)tuple.Elements[0];
             var y = (NamedType)tuple.Elements[1];
@@ -46,7 +46,7 @@ namespace D.Parsing.Tests
             Assert.Equal("i32", x.Type.ToString());
             Assert.Equal("i64", y.Type.ToString());
 
-            Assert.Equal(2, tuple.Elements.Count);
+            Assert.Equal(2, tuple.Elements.Length);
         }
     }
 }

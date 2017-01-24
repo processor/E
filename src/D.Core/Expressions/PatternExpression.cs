@@ -47,9 +47,9 @@
     {
         public TuplePattern(TupleExpression tuple)
         {
-            Variables = new NamedType[tuple.Elements.Count];
+            Variables = new NamedType[tuple.Elements.Length];
 
-            for (var i = 0; i < tuple.Elements.Count; i++)
+            for (var i = 0; i < tuple.Elements.Length; i++)
             {
                 var element = tuple.Elements[i];
 
@@ -73,7 +73,7 @@
         Kind IObject.Kind => Kind.TuplePattern;
     }
 
-    // Fruit fruit
+    // (fruit: Fruit)
     // Fruit | Walrus
 
     public class TypePattern : IExpression
