@@ -1,13 +1,8 @@
 ﻿Language type { name: String; }
 
-  Dialect 
-, Sentence		  
-, Prediate		  
 , Verb			    
 , Noun `Phrase  
-, Article	    
-, Noun		   	  
-, Preposition	
+, Article	       	  	
 , Predicate  	
 , Verb `Phrase	
 , Morpheme		  
@@ -15,6 +10,3 @@
 : Object record { 
   name: String 
 }
-
-
-Word defination			    { language: Language, name: String } 

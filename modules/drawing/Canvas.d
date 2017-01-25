@@ -5,6 +5,7 @@
 }
 
 Canvas protocal { 
+  draw (buffer: Image, position: Vector2) -> *Done
   draw (Circle,    at: Vector3)
   draw (Rectangle, at: Vector3)
   draw (Sphere,    at: Vector3)

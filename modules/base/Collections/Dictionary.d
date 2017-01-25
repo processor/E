@@ -1,4 +1,0 @@
-Dictionary<T> protocal { 
-
-  
-}

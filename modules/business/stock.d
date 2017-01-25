@@ -2,7 +2,7 @@ Stock : Finance_Instrument {
   entity   : Entity
   holder   : Entity
   shares   : Decimal
-  issued   : Moment
+  issued   : DateTime
 }
 
 Stock protocal { 

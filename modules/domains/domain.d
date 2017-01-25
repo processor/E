@@ -1,33 +1,27 @@
-, Natural_Science   // the study of natural phenomena (including fundamental forces and biological life)
-, Formal _Science   // the study of mathematics and logic, which use an a priori, as opposed to factual, methodology)
-, Social _Science   // the study of human behavior and societies[1]
-, Applied_Science   // apply existing scientific knowledge to develop more practical applications (like healthcare, technology or inventions).
-, Informal_Science  // ?
-, Humanity           // things produced for human experience
+, Natural  `Science // the study of natural phenomena (including fundamental forces and biological life)
+, Formal   `Science // the study of mathematics and logic, which use an a priori, as opposed to factual, methodology)
+, Social   `Science // the study of human behavior and societies[1]
+, Applie   `Science // apply existing scientific knowledge to develop more practical applications (like healthcare, technology or inventions).
+, Informal `Science // ?
+, Humanity          // things produced for human experience
 : Domain type { 
 
 }
 
-
-Pysical_Science : Natural_Science;
+Pysical 'Science : Natural 'Science;
 
 , // Base Libraries
-, Base                   // Types, Records, Tuples, Arrays, Implementations
-, Collections            
-, Graphics               
-, Imaging                
-, Multimedia             // Mime, ...
-, Text                   // Typeface, ...
-, IO                     
+, Base                   // Types, Records, Tuples, Arrays, Implementations       
+, Graphics                                        
 : Library
 
 , // Formal, Physical, & Life 
-, Chemistry   : Pysical_Science 
-, Biology     : Natural_Science   
-, Mathematics : Formal _Science
-, Physics     : Natural_Science
+, Chemistry   : Pysical 'Science 
+, Biology     : Natural 'Science   
+, Mathematics : Formal  'Science
+, Physics     : Natural 'Science
 
-, // Social (Business, being, law, history, etc)
+, // Social Sciences (Business, being, law, history, etc)
 , Antropology           
 , Archaeology           
 , Business              
@@ -43,9 +37,9 @@ Pysical_Science : Natural_Science;
 , Linguistics           
 , Sociology             
 , Law                   
-: Social_Science; 
+: Social 'Science; 
 
-, // Applied
+, // Applied Sciences
 , Agriculture             // Crops & livestock, includes Agrochemistry
 , Architechure          
 , Astronautics‎         
@@ -60,7 +54,7 @@ Pysical_Science : Natural_Science;
 , Psychology            
 , Robotics              
 , Transportation      
-: Applied_Science  
+: Applied 'Science  
 
 
 

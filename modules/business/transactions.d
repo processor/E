@@ -1,13 +1,13 @@
   Deposit
 , Charge
 , Refund
-: Monetary_Transaction record {
-  from  _account : Account
-  to    _account	: Account
+: Monetary `Transaction record {
+  from  account : Account
+  to    account	: Account
   amount		      : Money
 } 
 
-Monetary_Transaction protocal {
+Monetary `Transaction protocal {
   * initiate    : pending
   * ? authorize : authorized 
   * | settle    : settled
@@ -26,11 +26,11 @@ Monetary_Transaction protocal {
   reverse  () -> Reversal
 }
 
-  Account_Closed
-  Authorization_Expired
+  Account `Closed
+  Authorization `Expired
   Unauthorized
-, Insufficient_Funds 
-: Refusal_Reason term
+, Insufficient `Funds 
+: Refusal `Reason term
 
 
 // Events ------------------------------------------

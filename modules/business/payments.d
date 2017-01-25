@@ -18,11 +18,11 @@ AmericanExpress`Card : Payment_Card
 
 Check : Payment_Method
 
-Payment_Card protocal { 
+Payment `Card protocal { 
   issuer   : Entity
   network  : Payment'Network
-  chip?    :  Card`Chip
-  issued   : Moment
+  chip?    : Card`Chip
+  issued   : DateTime
 }
 
 
@@ -33,11 +33,11 @@ Check protocal {
 
 // Automatated Clearing House
 
-ACH_Transfer record : Payment`Method { 
+ACH `Transfer record : Payment`Method { 
   transaction: Transaction
 }
 
-Wire_Transfer record : Payment`Method {
+Wire `Transfer record : Payment`Method {
   transaction: Transaction
 }
 
@@ -50,7 +50,7 @@ Payment `Processor record
 Authorization event { 
   amount    : Money
   signature : Digital`Signature | Drawn`Signature
-  expires   : Moment
+  expires   : DateTime
 }
 
 Digital`Signature record {
