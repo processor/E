@@ -1,7 +1,11 @@
-﻿using D.Expressions;
+﻿using System;
+using System.IO;
+using System.Text;
 
 namespace D
 {
+    using Expressions;
+
     public class Function : INamedObject
     {
         public Function(string name, IType returnType, params Parameter[] parameters)
@@ -11,11 +15,60 @@ namespace D
             ReturnType = returnType;
         }
 
+        public Function(
+           Parameter[] parameters,
+           IExpression body,
+           FunctionFlags flags = FunctionFlags.None)
+            : this(parameters, body, null, flags) { }
+
+        public Function(
+           Parameter[] parameters,
+           IExpression body,
+           IType returnType,
+           FunctionFlags flags = FunctionFlags.None)
+        {
+            Parameters = parameters;
+            GenericParameters = Array.Empty<Parameter>();
+            Body = body;
+            ReturnType = returnType;
+            Flags = flags;
+        }
+
+        public Function(
+            Symbol name,
+            Parameter[] genericParameters,
+            Parameter[] parameters,
+            IType returnType,
+            IExpression body,
+            FunctionFlags flags = FunctionFlags.None)
+        {
+            Name = name;
+            GenericParameters = genericParameters;
+            Parameters = parameters;
+            ReturnType = returnType;
+            Body = body;
+            Flags = flags;
+        }
+
+
+
         public string Name { get; }
 
         public Parameter[] Parameters { get; }
 
         public IType ReturnType { get; }
+
+        public override string ToString()
+        {
+            var sb = new StringBuilder();
+
+            using (var writer = new StringWriter(sb))
+            {
+                WriteTo(writer);    
+            }
+
+            return sb.ToString();
+        }
 
         public virtual IObject Invoke(IArguments arguments)
         {
@@ -28,7 +81,8 @@ namespace D
 
         public Parameter[] GenericParameters { get; set; }
 
-        public BlockStatement Body { get; set; }
+        // Block or lambda
+        public IExpression Body { get; set; }
 
         public FunctionFlags Flags { get; set; }
 
@@ -62,8 +116,32 @@ namespace D
 
         #endregion
 
-        // Body
+        public void WriteTo(TextWriter writer)
+        {
+            writer.Write("ƒ(");
+
+            foreach (var parameter in Parameters)
+            {
+                writer.Write(parameter.Type);
+            }
+
+            writer.Write(")");
+
+            writer.Write(Body.ToString());
+        }
 
         Kind IObject.Kind => Kind.Function;
     }
 }
+
+
+// a + 5    =  a → a + 5
+// a + 5^2  =  a → a^2
+
+// →
+// f: X → Y 
+// f(x) = 1/x
+
+// ƒ(x, y) = 5x4
+
+// ƒ(x, y) = x·y

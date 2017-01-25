@@ -1,8 +1,6 @@
-﻿namespace D
+﻿namespace D.Syntax
 {
-    using Expressions;
-
-    public class BooleanLiteral : IExpression
+    public class BooleanLiteral : ISyntax
     {
         public static readonly BooleanLiteral True = new BooleanLiteral(true);
         public static readonly BooleanLiteral False = new BooleanLiteral(false);

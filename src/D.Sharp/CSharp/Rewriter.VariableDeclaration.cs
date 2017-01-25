@@ -14,8 +14,8 @@
 
                 return;
             }
-           
-            WriteTypeSymbol(declaration.Type != null ? _env.GetType(declaration.Type) : new Type(declaration.Value.Kind));
+
+            WriteTypeSymbol(declaration.Type ?? Type.Get(Kind.Any));
          
             Emit(" ");
             Emit(declaration.Name);
@@ -27,7 +27,7 @@
 
         private void WriteVariableDeclarationWithMatch(VariableDeclaration expression)
         {
-            WriteTypeSymbol(expression.Type ?? Symbol.Any);
+            WriteTypeSymbol(expression.Type ?? Type.Get(Kind.Any));
 
             Emit(" ");
 

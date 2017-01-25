@@ -2,7 +2,7 @@
 
 namespace D.Parsing.Tests
 {
-    using Expressions;
+    using Syntax;
 
     public class ForTests : TestBase
     {
@@ -19,8 +19,8 @@ for (x, y) in points {
   sum += y
 }");
 
-            var pointsVar    = statements.Next() as VariableDeclaration;
-            var sumVar       = statements.Next() as VariableDeclaration;
+            var pointsVar    = statements.Next() as VariableDeclarationSyntax;
+            var sumVar       = statements.Next() as VariableDeclarationSyntax;
             var forStatement = (ForStatement)statements.Next();
 
             var pattern = forStatement.VariableExpression as TuplePattern;
@@ -39,7 +39,7 @@ for _ in 0...100 {
   a = a + 1
 }");
 
-            Assert.True(f.VariableExpression is AnyPattern);
+            Assert.True(f.VariableExpression is AnyPatternSyntax);
             Assert.True(f.GeneratorExpression  is RangeExpression);
         }
 
@@ -54,7 +54,7 @@ for 0 ... i8.max {
             var sequence = f.GeneratorExpression as RangeExpression;
 
             Assert.Null(f.VariableExpression);
-            Assert.True(sequence.End is MemberAccessExpression);
+            Assert.True(sequence.End is MemberAccessExpressionSyntax);
         }
 
         [Fact]

@@ -4,18 +4,15 @@
     {  
         public Protocal(Symbol name, Function[] members)
         {
-            Domain = name.Domain;
-            Name = name.Name;
+            Name = name;
             Members = members;
         }
 
-        public string Domain { get; set; }
-
-        public string Name { get; set; }
+        public Symbol Name { get; set; }
 
         public Function[] Members { get; }
 
-        // StateMachine
+        // public IMessageDeclaration[] Channel { get; set; }
 
         Kind IObject.Kind => Kind.Protocal;
     }

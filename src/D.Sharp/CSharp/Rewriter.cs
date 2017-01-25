@@ -204,9 +204,10 @@ namespace D.Compiler
                 case "Int16"    : Emit("short");      break;
                 case "Int32"    : Emit("int");        break;
                 case "Int64"    : Emit("long");       break;
-                case "Float32"  : Emit("float");      break;
+
                 case "Integer"  : Emit("long");       break;
                 case "Float"    : Emit("double");     break;
+                case "Float32"  : Emit("float");      break;
                 case "Float64"  : Emit("double");     break;
                 case "String"   : Emit("string");     break;
                 case "Number"   : Emit("double");     break;

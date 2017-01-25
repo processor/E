@@ -2,7 +2,7 @@
 
 namespace D.Parsing.Tests
 {
-    using Expressions;
+    using Syntax;
 
     public class QueryExpressionTests : TestBase
     {
@@ -19,7 +19,7 @@ take 100
 
             Assert.Equal("Accounts", query.Collection.ToString());
 
-            var map = (TypeInitializer)query.Map;
+            var map = (TypeInitializerSyntax)query.Map;
 
             Assert.Equal(2, map.Members.Length);
 
@@ -59,7 +59,7 @@ skip 25
 take 50
 ");
 
-            Assert.Equal(3, ((TypeInitializer)query.Map).Count);
+            Assert.Equal(3, ((TypeInitializerSyntax)query.Map).Count);
 
             Assert.Equal(25, query.Skip);
             Assert.Equal(50, query.Take);

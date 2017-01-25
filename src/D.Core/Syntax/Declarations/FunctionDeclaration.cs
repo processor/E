@@ -2,35 +2,35 @@
 using System.IO;
 using System.Text;
 
-namespace D.Expressions
+namespace D.Syntax
 {
-    public class FunctionDeclaration : IExpression
+    public class FunctionDeclarationSyntax : ISyntax
     {
-        public FunctionDeclaration(
-            ParameterExpression[] parameters,
-            IExpression body,
+        public FunctionDeclarationSyntax(
+            ParameterSyntax[] parameters,
+            ISyntax body,
             FunctionFlags flags = FunctionFlags.None)
             : this(parameters, body, null, flags) { }
 
-        public FunctionDeclaration(
-           ParameterExpression[] parameters,
-           IExpression body,
+        public FunctionDeclarationSyntax(
+           ParameterSyntax[] parameters,
+           ISyntax body,
            Symbol returnType,
            FunctionFlags flags = FunctionFlags.None)
         {
             Parameters = parameters;
-            GenericParameters = Array.Empty<ParameterExpression>();
+            GenericParameters = Array.Empty<ParameterSyntax>();
             Body = body;
             ReturnType = returnType;
             Flags = flags;
         }
 
-        public FunctionDeclaration(
+        public FunctionDeclarationSyntax(
             Symbol name, 
-            ParameterExpression[] genericParameters,
-            ParameterExpression[] parameters,
+            ParameterSyntax[] genericParameters,
+            ParameterSyntax[] parameters,
             Symbol returnType,
-            IExpression body,
+            ISyntax body,
             FunctionFlags flags = FunctionFlags.None)
         {
             Name              = name;
@@ -43,18 +43,18 @@ namespace D.Expressions
 
         public Symbol Name { get; }
 
-        public ParameterExpression[] GenericParameters { get; }
+        public ParameterSyntax[] GenericParameters { get; }
 
-        public ParameterExpression[] Parameters { get; }
+        public ParameterSyntax[] Parameters { get; }
 
         public Symbol ReturnType { get; }
 
         // Class Or Interface
 
-        public IExpression DeclaringType { get; }
+        public ISyntax DeclaringType { get; }
 
         // Block or lambda
-        public IExpression Body { get; }
+        public ISyntax Body { get; }
 
         public override string ToString()
         {
@@ -103,21 +103,6 @@ namespace D.Expressions
         #endregion
 
         Kind IObject.Kind => Kind.FunctionDeclaration;
-    }
-
-    public enum FunctionFlags
-    {
-        None        = 0,
-        Abstract    = 1 << 1,
-        Instance    = 1 << 2,
-        Operator    = 1 << 3,
-        Anonymous   = 1 << 4,  // a => a + 1
-        Initializer = 1 << 5,
-        Converter   = 1 << 6,
-        Indexer     = 1 << 7,
-        Property    = 1 << 8
-
-        // Lambda = 1 << 3
     }
 }
 

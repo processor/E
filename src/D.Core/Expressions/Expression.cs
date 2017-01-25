@@ -2,17 +2,16 @@
 {
     public static class Expression
     {
+        /*
         public static VariableDeclaration Variable(string name, Kind kind)
             => new VariableDeclaration(name, Symbol.Type(kind.ToString()), false);
+            */
 
         public static CallExpression Call(Symbol name, IArguments arguments)
            => new CallExpression(null, name, arguments);
 
-        public static ParameterExpression Parameter(string name)
-            => new ParameterExpression(name);
-
-        public static ParameterExpression Parameter(string name, Kind kind)
-            => new ParameterExpression(name, Symbol.Type(kind.ToString()));
+        public static Parameter Parameter(string name)
+            => new Parameter(name);
 
         #region Logic
 

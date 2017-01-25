@@ -2,14 +2,14 @@
 
 namespace D.Parsing.Tests
 {
-    using Expressions;
+    using Syntax;
 
     public class BlockTests : TestBase
     {
         [Fact]
         public void While()
         {
-            var statement = Parse<WhileStatement>(@"
+            var statement = Parse<WhileStatementSyntax>(@"
 while a > 1 {
   a = a + 1
 }");

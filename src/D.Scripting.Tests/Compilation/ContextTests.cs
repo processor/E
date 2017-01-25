@@ -2,6 +2,7 @@
 
 namespace D.Compilation.Tests
 {
+    using Expressions;
     using Parsing.Tests;
 
     public class ContextTests : TestBase

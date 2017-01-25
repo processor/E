@@ -6,7 +6,7 @@ namespace D
 
     public class Implementation : IObject
     {
-        public Implementation(Protocal protocal, Type type, Variable[] variables, Function[] members)
+        public Implementation(Protocal protocal, Type type, VariableDeclaration[] variables, Function[] members)
         {
             #region Preconditions
 
@@ -28,7 +28,7 @@ namespace D
 
         public Protocal Protocal { get; }
 
-        public Variable[] Variables { get; }
+        public VariableDeclaration[] Variables { get; }
 
         public Function[] Methods { get; }
         

@@ -1,6 +1,6 @@
 ﻿using System.Text;
 
-namespace D.Expressions
+namespace D
 {
     // x > 10
     // x < 10

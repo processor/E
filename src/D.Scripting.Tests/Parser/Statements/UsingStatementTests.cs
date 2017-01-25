@@ -2,7 +2,7 @@
 
 namespace D.Parsing.Tests
 {
-    using Expressions;
+    using Syntax;
 
     public class UsingStatementTests : TestBase
     {

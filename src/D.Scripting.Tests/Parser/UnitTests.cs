@@ -2,6 +2,7 @@
 
 namespace D.Parsing.Tests
 {
+    using Syntax;
     using Units;
 
     public class UnitTests : TestBase
@@ -9,7 +10,7 @@ namespace D.Parsing.Tests
         [Fact]
         public void A()
         {
-            var unit = Parse<Unit<double>>(@"50deg");
+            Unit<double> unit = Parse<UnitLiteral>(@"50deg");
 
             Assert.Equal(50, unit.Quantity);
             Assert.Equal("deg", unit.Type.Name);

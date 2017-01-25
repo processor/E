@@ -32,7 +32,7 @@
 
     public class TypeDeclaration : TypeDefinationBase
     {
-        public TypeDeclaration(Symbol name, ParameterExpression[] genericParameters, Symbol baseType, PropertyDeclaration[] members, TypeFlags flags)
+        public TypeDeclaration(Symbol name, Parameter[] genericParameters, Symbol baseType, PropertyDeclaration[] members, TypeFlags flags)
             : base (baseType, flags, members)
         {
             Name = name;
@@ -44,7 +44,7 @@
         // Vehicle 'Crash   term
         public Symbol Name { get; }
 
-        public ParameterExpression[] GenericParameters { get; }
+        public Parameter[] GenericParameters { get; }
     }
 
     public class CompoundTypeDeclaration : TypeDefinationBase

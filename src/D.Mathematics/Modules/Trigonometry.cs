@@ -69,6 +69,10 @@ namespace D.Mathematics
         Kind IObject.Kind => Kind.Function;
 
         public IObject Invoke(IArguments args)
-            => new Float(func.Invoke(((INumber)args[0]).Real));
+        { 
+            var arg0 = (INumber)args[0];
+
+            return new Float(func.Invoke(arg0.Real));
+        }
     }
 }

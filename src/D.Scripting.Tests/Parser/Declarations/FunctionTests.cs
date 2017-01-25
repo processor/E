@@ -3,7 +3,7 @@
 namespace D.Parsing.Tests
 {
     using Compilation;
-    using Expressions;
+    using Syntax;
 
     public class FunctionDeclarationTests : TestBase
     {
@@ -12,28 +12,28 @@ namespace D.Parsing.Tests
         [Fact]
         public void IndexAssignment()
         {
-            var func = Parse<FunctionDeclaration>(@"
+            var func = Parse<FunctionDeclarationSyntax>(@"
 inverse ƒ -> Matrix<T> {
     this[0] = t11 * detInv
     this[1] = (n24 * n33 * n41 - n23 * n34 * n41 - n24 * n31 * n43 + n21 * n34 * n43 + n23 * n31 * n44 - n21 * n33 * n44) * detInv
   }
 ");
 
-            var body = (BlockStatement)func.Body;
+            var body = (BlockStatementSyntax)func.Body;
 
-            var assignment = (BinaryExpression)body.Statements[0];
+            var assignment = (BinaryExpressionSyntax)body.Statements[0];
 
-            var left = (IndexAccessExpression)assignment.Left;
-            var right = (BinaryExpression)assignment.Right;
+            var left = (IndexAccessExpressionSyntax)assignment.Left;
+            var right = (BinaryExpressionSyntax)assignment.Right;
 
             Assert.Equal("this", (Symbol)left.Left);
-            Assert.Equal(0, (Integer)left.Arguments[0]);
+            Assert.Equal(0, (NumberLiteral)left.Arguments[0].Value);
         }
 
         [Fact]
         public void Elements()
         {
-            var func = Parse<FunctionDeclaration>(@"
+            var func = Parse<FunctionDeclarationSyntax>(@"
 fromTranslation ƒ <T: Number>(x: T, y: T, z: T) => Matrix4<T> {
   elements: [
     1, 0, 0, x,
@@ -54,18 +54,18 @@ fromTranslation ƒ <T: Number>(x: T, y: T, z: T) => Matrix4<T> {
             
             // Assert.Equal("Matrix4", f.ReturnType.Name);
 
-            var elements = ((TypeInitializer)((LambdaExpression)func.Body).Expression)[0];
-            var array = (ArrayLiteral)elements.Value;
+            var elements = ((TypeInitializerSyntax)((LambdaExpressionSyntax)func.Body).Expression)[0];
+            var array = (ArrayLiteralSyntax)elements.Value;
 
             Assert.Equal(16  , array.Elements.Count);
-            Assert.Equal(1   , (Integer)array[0]);
+            Assert.Equal(1   , (NumberLiteral)array[0]);
             Assert.Equal("x" , (Symbol)array[3]);
         }
 
         [Fact]
         public void Constructor()
         {
-            var func = Parse<FunctionDeclaration>("Point ƒ <T: Number>(x: T, y: T, z: T) => Point<T> { x, y, z }");
+            var func = Parse<FunctionDeclarationSyntax>("Point ƒ <T: Number>(x: T, y: T, z: T) => Point<T> { x, y, z }");
 
             Assert.Equal("Point", func.Name);
 
@@ -82,8 +82,8 @@ fromTranslation ƒ <T: Number>(x: T, y: T, z: T) => Matrix4<T> {
             Assert.Equal("T",     func.Parameters[1].Type);
             Assert.Equal("T",     func.Parameters[2].Type);
 
-            var lambda          = (LambdaExpression)func.Body;
-            var typeInitializer = (TypeInitializer)lambda.Expression;
+            var lambda          = (LambdaExpressionSyntax)func.Body;
+            var typeInitializer = (TypeInitializerSyntax)lambda.Expression;
 
             Assert.Equal("Point", typeInitializer.Type.Name);
             Assert.Equal("T",     typeInitializer.Type.Arguments[0].Name);
@@ -101,7 +101,7 @@ fromTranslation ƒ <T: Number>(x: T, y: T, z: T) => Matrix4<T> {
         [Fact]
         public void Q()
         {
-            var func = Parse<FunctionDeclaration>(@"
+            var func = Parse<FunctionDeclarationSyntax>(@"
 clamp ƒ <T> (p: Point<T>, min: Point<T>, max: Point<T>) => Point<T> {
   x: max(min.x, min(max.x, p.x)),
   y: max(min.y, min(max.y, p.y)),
@@ -128,7 +128,7 @@ clamp ƒ <T> (p: Point<T>, min: Point<T>, max: Point<T>) => Point<T> {
         [Fact]
         public void FuncToString()
         {
-            var func = Parse<FunctionDeclaration>("toString ƒ () => $\"{x},{y},{z}\"");
+            var func = Parse<FunctionDeclarationSyntax>("toString ƒ () => $\"{x},{y},{z}\"");
 
             Assert.Equal("toString", func.Name);
 
@@ -138,7 +138,7 @@ clamp ƒ <T> (p: Point<T>, min: Point<T>, max: Point<T>) => Point<T> {
         [Fact]
         public void Generic2()
         {
-            var func = Parse<FunctionDeclaration>(
+            var func = Parse<FunctionDeclarationSyntax>(
 "dot ƒ <T: Number> (Point<T>, Point<T>) => $0.x * $1.x + $0.y * $1.y + $0.z * $1.z");
 
             // 'T / Generic arg
@@ -162,7 +162,7 @@ clamp ƒ <T> (p: Point<T>, min: Point<T>, max: Point<T>) => Point<T> {
         [Fact]
         public void Generic()
         {
-            var func = Parse<FunctionDeclaration>(@"
+            var func = Parse<FunctionDeclarationSyntax>(@"
 clamp ƒ(p: geometry::Point<T>, min: Point<T>, max: Point<T>) => Point {
   x: max(min.x, min(max.x, p.x)),
   y: max(min.y, min(max.y, p.y)),
@@ -183,7 +183,7 @@ clamp ƒ(p: geometry::Point<T>, min: Point<T>, max: Point<T>) => Point {
         [Fact]
         public void Predicate()
         {
-            var func = Parse<FunctionDeclaration>("a function(a: Integer > 0) => 1");
+            var func = Parse<FunctionDeclarationSyntax>("a function(a: Integer > 0) => 1");
 
             Assert.Equal("a > 0", func.Parameters[0].Predicate.ToString());
         }
@@ -193,7 +193,7 @@ clamp ƒ(p: geometry::Point<T>, min: Point<T>, max: Point<T>) => Point {
         [Fact]
         public void Log2()
         {
-            var f = Parse<FunctionDeclaration>(@"
+            var f = Parse<FunctionDeclarationSyntax>(@"
 log2 ƒ(x) {
  var n = 1, i = 0;
 
@@ -211,7 +211,7 @@ log2 ƒ(x) {
         [Fact]
         public void Readi8()
         {
-            var f = Parse<FunctionDeclaration>(@"readi8 ƒ(start, data) => data[start] << 24 >> 24");
+            var f = Parse<FunctionDeclarationSyntax>(@"readi8 ƒ(start, data) => data[start] << 24 >> 24");
         }
 
         // (i8,i8) -> i8
@@ -222,7 +222,7 @@ log2 ƒ(x) {
         [Fact]
         public void TypedFunction()
         {
-            var w = Parse<FunctionDeclaration>(@"
+            var w = Parse<FunctionDeclarationSyntax>(@"
 sum ƒ(a: Integer, b: Integer) {
   return a + b
 }
@@ -232,9 +232,9 @@ sum ƒ(a: Integer, b: Integer) {
             Assert.Equal("a",       w.Parameters[0].Name);
             Assert.Equal("Integer", w.Parameters[0].Type.ToString());
 
-            var body = (BlockStatement)w.Body;
+            var body = (BlockStatementSyntax)w.Body;
 
-            var returnStatement = (ReturnStatement)body.Statements[0];
+            var returnStatement = (ReturnStatementSyntax)body.Statements[0];
 
             Assert.Equal(1, body.Statements.Length);
         }
@@ -242,7 +242,7 @@ sum ƒ(a: Integer, b: Integer) {
         [Fact]
         public void InferedFunction()
         {
-            var w = Parse<FunctionDeclaration>(@"
+            var w = Parse<FunctionDeclarationSyntax>(@"
 sum ƒ(a, b) {
   return a + b
 }");
@@ -255,7 +255,7 @@ sum ƒ(a, b) {
         [Fact]
         public void InferedFunctionLambda()
         {
-            var w = Parse<FunctionDeclaration>("sum ƒ(a, b) => a + b");
+            var w = Parse<FunctionDeclarationSyntax>("sum ƒ(a, b) => a + b");
 
             Assert.Equal(2, w.Parameters.Length);
             Assert.Equal("a", w.Parameters[0].Name);
@@ -265,15 +265,15 @@ sum ƒ(a, b) {
         [Fact]
         public void DefaultParameters()
         {
-            var w = Parse<FunctionDeclaration>(@"
+            var w = Parse<FunctionDeclarationSyntax>(@"
 add100 ƒ(a, b: Integer = 100) => a + b
 ");
 
-            Assert.Equal("add100",  w.Name.ToString());
-            Assert.Equal(2,         w.Parameters.Length);
-            Assert.Equal(100,       (Integer)w.Parameters[1].DefaultValue);
+            Assert.Equal("add100",   w.Name.ToString());
+            Assert.Equal(2,          w.Parameters.Length);
+            Assert.Equal("100",      ((NumberLiteral)w.Parameters[1].DefaultValue).Text);
 
-            Assert.True(w.Body is LambdaExpression);
+            Assert.True(w.Body is LambdaExpressionSyntax);
         }
     }
 }

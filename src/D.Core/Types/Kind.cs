@@ -11,7 +11,8 @@
         Symbol   = 5,
         Type     = 6,         
         Function = 7, // functions can be standalone // ƒ
-        
+        Number    = 15,
+
         // 9-15
         Pointer        = 9,
         Expression     = 10,
@@ -22,7 +23,7 @@
 
         Protocal       = 17,
         Implementation = 18,
-        Variable       = 19,
+        // Variable       = 19,
         Void           = 20, // static instance = nothing
         Character      = 21,
 
@@ -38,6 +39,11 @@
         Vector         = 114,
         Complex        = 115,
         Matrix         = 116,
+
+        Int32      = 120,
+        Int64      = 121,
+        Float32        = 121,
+        Float64        = 122,
 
         #region Intergers (1, 8, 16, 32, 64, 128, 256, 1024, 2048, 4096)
 

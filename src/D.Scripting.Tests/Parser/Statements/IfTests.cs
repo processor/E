@@ -2,7 +2,7 @@
 
 namespace D.Parsing.Tests
 {
-    using Expressions;
+    using Syntax;
 
     public class IfTests
     {
@@ -20,11 +20,11 @@ else {
   log ""else branch""
 }");
 
-            var elseIf = statement.ElseBranch as ElseIfStatement;
-            var e      = elseIf.ElseBranch as ElseStatement;
+            var elseIf = statement.ElseBranch as ElseIfStatementSyntax;
+            var e      = elseIf.ElseBranch as ElseStatementSyntax;
 
 
-            Assert.True(elseIf.Condition is BinaryExpression);
+            Assert.True(elseIf.Condition is BinaryExpressionSyntax);
 
             // Assert.Equal(1, elseIf.Body.Statements.Count);
             // Assert.Equal(1, e.Body.Statements.Count);
@@ -83,7 +83,7 @@ if i ∈ 100...1000 {
         }
         */
 
-        public IfStatement ParseIf(string text)
+        public IfStatementSyntax ParseIf(string text)
             => new Parser(text).ReadIf();
     }
 }

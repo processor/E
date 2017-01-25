@@ -2,6 +2,7 @@
 
 namespace D.Scripting.Tests
 {
+    using Syntax;
     using Compilation;
     using Expressions;
     using Parsing.Tests;
@@ -11,7 +12,7 @@ namespace D.Scripting.Tests
         [Fact]
         public void Constructor() 
         {
-            var func = Parse<FunctionDeclaration>(@"
+            var func = Parse<FunctionDeclarationSyntax>(@"
                 Point ƒ <T: Number>(x: T, y: T, z: T) => Point<T> { x, y, z }
             ");
 
@@ -19,7 +20,7 @@ namespace D.Scripting.Tests
             
             var compiler = new Compiler();
 
-            var f = compiler.VisitFunction(func);
+            var f = compiler.VisitFunctionDeclaration(func);
 
             Assert.Equal("Point", f.ReturnType.Name);
             Assert.Equal("T", f.ReturnType.Arguments[0].Name);
@@ -28,13 +29,13 @@ namespace D.Scripting.Tests
         [Fact]
         public void FuncToString()
         {
-            var func = Parse<FunctionDeclaration>("toString ƒ () => $\"{x},{y},{z}\"");
+            var func = Parse<FunctionDeclarationSyntax>("toString ƒ () => $\"{x},{y},{z}\"");
 
             Assert.Equal("toString", func.Name);
 
             var compiler = new Compiler();
 
-            var f = compiler.VisitFunction(func);
+            var f = compiler.VisitFunctionDeclaration(func);
 
             Assert.Equal(Type.Get(Kind.String), f.ReturnType);
         }

@@ -3,6 +3,8 @@ using Xunit;
 
 namespace D.Operators.Tests
 {
+    using Expressions;
+
     using static OperatorType;
 
     public class OperatorTests

@@ -2,14 +2,14 @@
 
 namespace D.Parsing.Tests
 {
-    using Expressions;
+    using Syntax;
 
     public class InterpolatedStringTests : TestBase
     {
         [Fact]
         public void A()
         {
-            var s = Parse<InterpolatedStringExpression>(@"$""hello""");
+            var s = Parse<InterpolatedStringExpressionSyntax>(@"$""hello""");
 
             Assert.Equal(1, s.Children.Length);
             Assert.Equal("hello", (StringLiteral)s[0]);
@@ -18,7 +18,7 @@ namespace D.Parsing.Tests
         [Fact]
         public void B()
         {
-            var s = Parse<InterpolatedStringExpression>(@"$""dear {name}:""");
+            var s = Parse<InterpolatedStringExpressionSyntax>(@"$""dear {name}:""");
 
             Assert.Equal(3, s.Children.Length);
             Assert.Equal("dear ", (StringLiteral)s[0]);
@@ -29,7 +29,7 @@ namespace D.Parsing.Tests
         [Fact]
         public void C()
         {
-            var s = Parse<InterpolatedStringExpression>(@"$""{x},{y},{z}""");
+            var s = Parse<InterpolatedStringExpressionSyntax>(@"$""{x},{y},{z}""");
 
             Assert.Equal(5, s.Children.Length);
 

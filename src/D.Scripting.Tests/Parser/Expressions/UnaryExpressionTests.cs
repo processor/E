@@ -4,7 +4,7 @@ using Xunit;
 
 namespace D.Parsing.Tests
 {
-    using Expressions;
+    using Syntax;
 
     public class UnaryExpressionTests : TestBase
     {
@@ -20,11 +20,11 @@ namespace D.Parsing.Tests
         [Fact]
         public void Negate()
         {
-            var expression = Parse<UnaryExpression>("-(a - b)");
+            var expression = Parse<UnaryExpressionSyntax>("-(a - b)");
 
             Assert.Equal(Operator.Negation, expression.Operator);
 
-            var arg = (BinaryExpression)expression.Argument;
+            var arg = (BinaryExpressionSyntax)expression.Argument;
 
             Assert.Equal(Operator.Subtraction, arg.Operator);
         }
@@ -32,7 +32,7 @@ namespace D.Parsing.Tests
         [Fact]
         public void Not()
         {
-            var expression = Parse<UnaryExpression>("!(1 == 1)");
+            var expression = Parse<UnaryExpressionSyntax>("!(1 == 1)");
 
             Assert.Equal(Operator.Not,          expression.Operator);
             Assert.Equal(Kind.EqualsExpression, expression.Argument.Kind);
@@ -41,7 +41,7 @@ namespace D.Parsing.Tests
         [Fact]
         public void B()
         {
-            var expression = Parse<UnaryExpression>("!a");
+            var expression = Parse<UnaryExpressionSyntax>("!a");
 
             Assert.Equal(Kind.Symbol, expression.Argument.Kind);
         }

@@ -46,7 +46,7 @@
 
             EmitLine();
 
-            var block = func.Body;
+            var block = (BlockStatement)func.Body;
 
             Emit("{", level);
 
@@ -107,7 +107,7 @@
             
             WriteParameters(func.Parameters, "[", "]");
 
-            WriteFunctionBody(func.Body);
+            WriteFunctionBody((BlockStatement)func.Body);
         }
 
         public void WriteProtocalFunction(Protocal protocal, Function func)
@@ -136,7 +136,7 @@
                 WriteParameters(func.Parameters, "(", ")");
             }
 
-            WriteFunctionBody(func.Body);
+            WriteFunctionBody((BlockStatement)func.Body);
         }
 
         public void VisitFunction(Function func)
@@ -191,7 +191,7 @@
                 WriteParameters(func.Parameters, "(", ")");
             }
 
-            WriteFunctionBody(func.Body);
+            WriteFunctionBody((BlockStatement)func.Body);
         }
 
         private void WriteFunctionBody(BlockStatement body)

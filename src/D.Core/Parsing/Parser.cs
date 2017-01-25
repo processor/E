@@ -6,7 +6,7 @@ using System.Text;
 
 namespace D.Parsing
 {
-    using Expressions;
+    using Syntax;
     using Units;
 
     using static OperatorType;
@@ -28,7 +28,7 @@ namespace D.Parsing
             modes.Push(Mode.Root);
         }
 
-        public static IExpression Parse(string text)
+        public static ISyntax Parse(string text)
         {
             using (var parser = new Parser(text))
             {
@@ -75,7 +75,7 @@ namespace D.Parsing
 
         #endregion
 
-        public IEnumerable<IExpression> Enumerate()
+        public IEnumerable<ISyntax> Enumerate()
         {
             while (!reader.IsEof)
             {
@@ -83,14 +83,14 @@ namespace D.Parsing
             }
         }
 
-        public IExpression Next()
+        public ISyntax Next()
         {
             if (reader.IsEof) return null;
 
             return ReadExpression();
         }
 
-        private IExpression ReadExpression()
+        private ISyntax ReadExpression()
         {
             if (reader.IsEof) return null;
 
@@ -100,7 +100,7 @@ namespace D.Parsing
 
             switch (reader.Current.Kind)
             {
-                case Null                   : reader.Consume(); return None.Instance;
+                case Null                   : reader.Consume(); return NullLiteral.Instance;
                 case True                   : reader.Consume(); return BooleanLiteral.True;
                 case False                  : reader.Consume(); return BooleanLiteral.False;
 
@@ -221,7 +221,7 @@ namespace D.Parsing
             return new UsingStatement(domains.ToArray());
         }
 
-        public LambdaExpression ReadLambda()
+        public LambdaExpressionSyntax ReadLambda()
         {
             Consume(LambdaOperator);            // ! =>
 
@@ -231,10 +231,10 @@ namespace D.Parsing
 
             ConsumeIf(Semicolon);               // ? ;
 
-            return new LambdaExpression(expression);
+            return new LambdaExpressionSyntax(expression);
         }
 
-        public ReturnStatement ReadReturn()
+        public ReturnStatementSyntax ReadReturn()
         {
             Consume(Return);                    // ! return
 
@@ -242,7 +242,7 @@ namespace D.Parsing
 
             ConsumeIf(Semicolon);               // ? ;
 
-            return new ReturnStatement(expression);
+            return new ReturnStatementSyntax(expression);
         }
 
         public EmitStatement ReadEmit()
@@ -256,7 +256,7 @@ namespace D.Parsing
             return new EmitStatement(expression);
         }
 
-        public IfStatement ReadIf()
+        public IfStatementSyntax ReadIf()
         {
             Consume(If);                        // ! if
 
@@ -272,10 +272,10 @@ namespace D.Parsing
 
             LeaveMode(Mode.Statement);
 
-            return new IfStatement(condition, body, elseBranch);
+            return new IfStatementSyntax(condition, body, elseBranch);
         }
 
-        public IExpression ReadElse()
+        public ISyntax ReadElse()
         {
             Consume(Else);                      // ! else
 
@@ -291,12 +291,12 @@ namespace D.Parsing
 
 
             return condition != null
-                ? (IExpression)new ElseIfStatement(condition, body, elseBranch)
-                : new ElseStatement(body);
+                ? (ISyntax)new ElseIfStatementSyntax(condition, body, elseBranch)
+                : new ElseStatementSyntax(body);
 
         }
 
-        public WhileStatement ReadWhile()
+        public WhileStatementSyntax ReadWhile()
         {
             Consume(While); // ! while
 
@@ -307,7 +307,7 @@ namespace D.Parsing
 
             LeaveMode(Mode.Statement);
 
-            return new WhileStatement(condition, body);
+            return new WhileStatementSyntax(condition, body);
         }
 
         // for 1..10 { }  
@@ -320,8 +320,8 @@ namespace D.Parsing
 
             EnterMode(Mode.For);
 
-            IExpression generatorExpression;
-            IExpression variableExpression = null;  // variable | pattern
+            ISyntax generatorExpression;
+            ISyntax variableExpression = null;  // variable | pattern
 
             var first = IsOneOf(ParenthesisOpen, Underscore, BraceOpen)
                 ? ReadPattern()
@@ -373,13 +373,13 @@ namespace D.Parsing
             return new UntilExpression(untilObservable, untilEventType);
         }
 
-        public BlockStatement ReadBlock()
+        public BlockStatementSyntax ReadBlock()
         {
             Consume(BraceOpen); // ! {
 
             EnterMode(Mode.Block);
 
-            var statements = new List<IExpression>();
+            var statements = new List<ISyntax>();
 
             while (!IsEof && !IsKind(BraceClose))
             {
@@ -390,7 +390,7 @@ namespace D.Parsing
 
             LeaveMode(Mode.Block);
 
-            return new BlockStatement(statements.ToArray());
+            return new BlockStatementSyntax(statements.ToArray());
         }
 
         public SpreadExpression ReadSpread()
@@ -420,15 +420,15 @@ namespace D.Parsing
         // Destructuring
         // let (a: Integer, b, c) = instance
 
-        private readonly List<VariableDeclaration> variableList = new List<VariableDeclaration>();
+        private readonly List<VariableDeclarationSyntax> variableList = new List<VariableDeclarationSyntax>();
         
-        public IExpression ReadLet(TokenKind kind)
+        public ISyntax ReadLet(TokenKind kind)
         {
             Consume(kind); // ! let | var
 
             if (ConsumeIf(ParenthesisOpen))
             {
-                var list = new List<TypedValue>();
+                var list = new List<AssignmentElementSyntax>();
 
                 do
                 {
@@ -438,19 +438,19 @@ namespace D.Parsing
                         ? ReadSymbol()
                         : null;
 
-                    list.Add(new TypedValue(name, type));
+                    list.Add(new AssignmentElementSyntax(name, type));
 
                 } while (ConsumeIf(Comma));
 
                 Consume(ParenthesisClose);
 
-                reader.Consume("=");
+                reader.Consume("="); // ! =
 
                 var right = ReadExpression();
 
                 ConsumeIf(Semicolon); // ? ;
 
-                return new DestructuringAssignment(list.ToArray(), right);
+                return new DestructuringAssignmentSyntax(list.ToArray(), right);
             }
 
             var declaration = ReadVariableDeclaration(kind == Var);
@@ -476,13 +476,13 @@ namespace D.Parsing
 
                 if (inferedFromLast)
                 {
-                    var l = new List<VariableDeclaration>(variableList.Count);
+                    var l = new List<VariableDeclarationSyntax>(variableList.Count);
 
                     var k = variableList[variableList.Count - 1].Type;
 
                     foreach (var var in variableList)
                     {
-                        l.Add(new VariableDeclaration(var.Name, k, var.IsMutable));
+                        l.Add(new VariableDeclarationSyntax(var.Name, k, var.IsMutable));
                     }
 
                     variableList.Clear();
@@ -501,7 +501,7 @@ namespace D.Parsing
             }
         }
 
-        private VariableDeclaration ReadVariableDeclaration(bool mutable)
+        private VariableDeclarationSyntax ReadVariableDeclaration(bool mutable)
         {
             mutable = ConsumeIf(Mutable) || mutable;
 
@@ -519,11 +519,11 @@ namespace D.Parsing
                 ? IsKind(Function) ? ReadFunctionDeclaration(name) : ReadExpression()
                 : null;
 
-            return new VariableDeclaration(name.ToString(), type, mutable, value);
+            return new VariableDeclarationSyntax(name.ToString(), type, mutable, value);
 
         }
 
-        private FunctionDeclaration ReadInitializer()
+        private FunctionDeclarationSyntax ReadInitializer()
         {
             var flags = FunctionFlags.Initializer;
 
@@ -533,7 +533,7 @@ namespace D.Parsing
         }
 
         // to String =>
-        private FunctionDeclaration ReadConverter()
+        private FunctionDeclarationSyntax ReadConverter()
         {
             var flags = FunctionFlags.Converter;
 
@@ -545,11 +545,11 @@ namespace D.Parsing
 
             ConsumeIf(Semicolon); // ? ;
 
-            return new FunctionDeclaration(Array.Empty<ParameterExpression>(), body, returnType, flags);
+            return new FunctionDeclarationSyntax(Array.Empty<ParameterSyntax>(), body, returnType, flags);
         }
 
         // [index: Integer] -> T { ..
-        private FunctionDeclaration ReadIndexerDeclaration()
+        private FunctionDeclarationSyntax ReadIndexerDeclaration()
         {
             var flags = FunctionFlags.Indexer;
 
@@ -567,10 +567,10 @@ namespace D.Parsing
 
             ConsumeIf(Semicolon); // ? ;
 
-            return new FunctionDeclaration(parameters, body, returnType, flags);
+            return new FunctionDeclarationSyntax(parameters, body, returnType, flags);
         }
 
-        private FunctionDeclaration ReadFunctionDeclaration(FunctionFlags flags = FunctionFlags.None)
+        private FunctionDeclarationSyntax ReadFunctionDeclaration(FunctionFlags flags = FunctionFlags.None)
         {
             var isOperator = IsKind(Op);
 
@@ -581,7 +581,7 @@ namespace D.Parsing
             return ReadFunctionDeclaration(name, flags);
         }
 
-        private FunctionDeclaration ReadFunctionDeclaration(Symbol name, FunctionFlags flags = FunctionFlags.None)
+        private FunctionDeclarationSyntax ReadFunctionDeclaration(Symbol name, FunctionFlags flags = FunctionFlags.None)
         {
             ConsumeIf(Function);        // ? ƒ | function
 
@@ -593,7 +593,7 @@ namespace D.Parsing
             // generic parameters <T: Number> 
             var genericParameters = ReadGenericParameters();
 
-            ParameterExpression[] parameters;
+            ParameterSyntax[] parameters;
 
             if (ConsumeIf(ParenthesisOpen)) // ! (
             {
@@ -608,22 +608,22 @@ namespace D.Parsing
                 bool isType = (char.IsUpper(varName.Text[0]));
 
                 parameters = new[] { isType 
-                    ? ParameterExpression.Ordinal(0, Symbol.Argument(varName)) 
-                    : Expression.Parameter(varName)
+                    ? ParameterSyntax.Ordinal(0, Symbol.Argument(varName)) 
+                    : new ParameterSyntax(varName)
                 };
             }
             else
             {
                 flags |= FunctionFlags.Property | FunctionFlags.Instance;
 
-                parameters = Array.Empty<ParameterExpression>();
+                parameters = Array.Empty<ParameterSyntax>();
             }
 
             var returnType = ConsumeIf(ReturnArrow)
                 ? ReadSymbol(SymbolKind.Argument)
                 : null;
 
-            IExpression body;
+            ISyntax body;
 
             if (IsKind(Semicolon))
             {
@@ -638,16 +638,16 @@ namespace D.Parsing
 
             ConsumeIf(Semicolon); // ? ;
 
-            return new FunctionDeclaration(name, genericParameters, parameters, returnType, body, flags);
+            return new FunctionDeclarationSyntax(name, genericParameters, parameters, returnType, body, flags);
         }
 
-        public ParameterExpression[] ReadGenericParameters()
+        public ParameterSyntax[] ReadGenericParameters()
         {
             if (ConsumeIf(TagOpen))
             {
                 var i = 0;
 
-                var list = new List<ParameterExpression>();
+                var list = new List<ParameterSyntax>();
 
                 do
                 {
@@ -657,7 +657,7 @@ namespace D.Parsing
                         ? ReadSymbol()
                         : null;
 
-                    list.Add(new ParameterExpression(genericName, genericType));
+                    list.Add(new ParameterSyntax(genericName, genericType));
 
                     i++;
                 }
@@ -668,10 +668,10 @@ namespace D.Parsing
                 return list.ToArray();
             }
            
-            return Array.Empty<ParameterExpression>();
+            return Array.Empty<ParameterSyntax>();
         }
 
-        private IExpression ReadBody()
+        private ISyntax ReadBody()
         {
             switch (Current.Kind)
             {
@@ -682,7 +682,7 @@ namespace D.Parsing
             throw new UnexpectedTokenException("Expected block or lambda reading lambda", Current);
         }
 
-        private FunctionDeclaration ReadAnonymousFunctionDeclaration(Symbol variableName)
+        private FunctionDeclarationSyntax ReadAnonymousFunctionDeclaration(Symbol variableName)
         {
             // TODO: determine whether it captures any outside variables 
 
@@ -690,14 +690,14 @@ namespace D.Parsing
 
             ConsumeIf(Semicolon); // ? ;
 
-            return new FunctionDeclaration(
-                parameters  : new[] { Expression.Parameter(variableName) },
+            return new FunctionDeclarationSyntax(
+                parameters  : new[] { new ParameterSyntax(variableName) },
                 body        : lambda.Expression, 
                 flags       : FunctionFlags.Anonymous
             );
         }
 
-        public IEnumerable<ParameterExpression> ReadParameters()
+        public IEnumerable<ParameterSyntax> ReadParameters()
         {
             if (IsKind(ParenthesisClose)) yield break;
 
@@ -716,7 +716,7 @@ namespace D.Parsing
         // Integer)
         // i: Integer
         // this Type
-        public ParameterExpression ReadParameter(int index)
+        public ParameterSyntax ReadParameter(int index)
         {
             var name = ReadSymbol(SymbolKind.Argument); // name
 
@@ -734,15 +734,15 @@ namespace D.Parsing
 
             if (type == null && IsOneOf(Comma, ParenthesisClose) && char.IsUpper(name.Name[0]))
             {
-                return ParameterExpression.Ordinal(index, type: name);
+                return ParameterSyntax.Ordinal(index, type: name);
             }
 
-            return new ParameterExpression(name, type, defaultValue, predicate, index: index);
+            return new ParameterSyntax(name, type, defaultValue, predicate, index: index);
         }
 
         // type | event (?record) | record
 
-        public CompoundTypeDeclaration ReadCompoundTypeDeclaration(Symbol[] names)
+        public CompoundTypeDeclarationSyntax ReadCompoundTypeDeclaration(Symbol[] names)
         {
             ConsumeIf(Type);
 
@@ -758,18 +758,18 @@ namespace D.Parsing
 
             ConsumeIf(Semicolon); // ? ;
 
-            return new CompoundTypeDeclaration(names, flags, baseTypes, members);
+            return new CompoundTypeDeclarationSyntax(names, flags, baseTypes, members);
         }
 
 
         // primitives may have a single member (size)
 
         // Int32 primitive { size: 32 }
-        public PrimitiveDeclaration ReadPrimitiveDeclaration(Symbol typeName)
+        public PrimitiveDeclarationSyntax ReadPrimitiveDeclaration(Symbol typeName)
         {
             Consume(Primitive); // ! primitive
 
-            Integer? size = null;
+            int? size = null;
 
             if (ConsumeIf(BraceOpen))
             {
@@ -779,7 +779,7 @@ namespace D.Parsing
 
                     Consume(Colon);
 
-                    size = (Integer) ReadNumeric();
+                    size = int.Parse(ReadNumeric().ToString());
 
                     ConsumeIf(Semicolon);
                 }
@@ -789,12 +789,12 @@ namespace D.Parsing
 
             ConsumeIf(Semicolon); // ? ;
 
-            return new PrimitiveDeclaration(typeName, size);
+            return new PrimitiveDeclarationSyntax(typeName, size);
 
         }
 
         // Point type <T:Number> : Vector3 { 
-        public TypeDeclaration ReadTypeDeclaration(Symbol typeName)
+        public TypeDeclarationSyntax ReadTypeDeclaration(Symbol typeName)
         {
             ConsumeIf(Type);
 
@@ -813,10 +813,10 @@ namespace D.Parsing
 
             ConsumeIf(Semicolon); // ? ;
 
-            return new TypeDeclaration(typeName, genericParameters, baseType, members, flags);
+            return new TypeDeclarationSyntax(typeName, genericParameters, baseType, members, flags);
         }
 
-        private PropertyDeclaration[] ReadTypeDeclarationBody()
+        private PropertyDeclarationSyntax[] ReadTypeDeclarationBody()
         {
             if (ConsumeIf(BraceOpen))  // ? {
             {
@@ -827,14 +827,14 @@ namespace D.Parsing
                 return members.ToArray();
             }
             
-            return Array.Empty<PropertyDeclaration>();
+            return Array.Empty<PropertyDeclarationSyntax>();
         }
 
         private readonly List<Symbol> names = new List<Symbol>();
 
-        private List<PropertyDeclaration> ReadMembers()
+        private List<PropertyDeclarationSyntax> ReadMembers()
         {
-            var members = new List<PropertyDeclaration>();
+            var members = new List<PropertyDeclarationSyntax>();
 
             while (!IsEof && !IsKind(BraceClose))
             {
@@ -857,19 +857,19 @@ namespace D.Parsing
 
                 foreach(var name in names.Extract())
                 {
-                    members.Add(new PropertyDeclaration(name, type, mutable));
+                    members.Add(new PropertyDeclarationSyntax(name, type, mutable));
                 }
             }
 
             return members;
         }
 
-        private readonly List<IExpression> members = new List<IExpression>();
-        private readonly List<FunctionDeclaration> methods = new List<FunctionDeclaration>();
+        private readonly List<ISyntax> members = new List<ISyntax>();
+        private readonly List<FunctionDeclarationSyntax> methods = new List<FunctionDeclarationSyntax>();
 
         // Account protocal { }
 
-        public ProtocalDeclaration ReadProtocal(Symbol name)
+        public ProtocalDeclarationSyntax ReadProtocal(Symbol name)
         {
             Consume(Protocal);      // ! protocal
 
@@ -887,7 +887,7 @@ namespace D.Parsing
             Consume(BraceClose);  // ! }
             ConsumeIf(Semicolon); // ? ;
 
-            return new ProtocalDeclaration(name, channelProtocal, methods.Extract());
+            return new ProtocalDeclarationSyntax(name, channelProtocal, methods.Extract());
         }
 
         public List<IMessageDeclaration> ReadChannelProtocal()
@@ -943,7 +943,7 @@ namespace D.Parsing
 
         //  settle  'Transaction  ƒ (Transaction) -> Transaction' Settlement
 
-        public FunctionDeclaration ReadProtocalMember()
+        public FunctionDeclarationSyntax ReadProtocalMember()
         {
             var name = ReadSymbol(SymbolKind.Label);
             
@@ -951,7 +951,7 @@ namespace D.Parsing
 
             var flags = FunctionFlags.Abstract;
 
-            ParameterExpression[] parameters;
+            ParameterSyntax[] parameters;
 
             if (ConsumeIf(ParenthesisOpen))                     // ! (
             {
@@ -963,7 +963,7 @@ namespace D.Parsing
             {
                 flags |= FunctionFlags.Property;
 
-                parameters = Array.Empty<ParameterExpression>(); 
+                parameters = Array.Empty<ParameterSyntax>(); 
             }
 
 
@@ -973,7 +973,7 @@ namespace D.Parsing
 
             ConsumeIf(Semicolon);
 
-            return new FunctionDeclaration(name, Array.Empty<ParameterExpression>(), parameters, returnType, null, flags);
+            return new FunctionDeclarationSyntax(name, Array.Empty<ParameterSyntax>(), parameters, returnType, null, flags);
         }
 
       
@@ -1010,7 +1010,7 @@ namespace D.Parsing
 
         // Curve implemention for Bezier {
 
-        public ImplementationDeclaration ReadImplementation(Symbol name)
+        public ImplementationDeclarationSyntax ReadImplementation(Symbol name)
         {
             Consume(Implementation);            // !implementation  
 
@@ -1040,10 +1040,10 @@ namespace D.Parsing
 
             Consume(BraceClose); // ! }
 
-            return new ImplementationDeclaration(protocal, type, members.Extract());
+            return new ImplementationDeclarationSyntax(protocal, type, members.Extract());
         }
 
-        private IExpression ReadImplMember()
+        private ISyntax ReadImplMember()
         {
             switch (Current.Kind)
             {
@@ -1090,6 +1090,8 @@ namespace D.Parsing
         A & B                           | Intersection<A, B>
         A?                              | Optional<A>
         */
+
+        // Symbol...
 
         private Symbol ReadSymbol(SymbolKind kind = SymbolKind.Type)
         {
@@ -1236,9 +1238,9 @@ namespace D.Parsing
 
         // { a: 1, b: 2 }
         // { a, b }
-        public TypeInitializer ReadTypeInitializer(Symbol type)
+        public TypeInitializerSyntax ReadTypeInitializer(Symbol type)
         {
-            var members = new List<RecordMember>();
+            var members = new List<RecordMemberSyntax>();
 
             // EnterMode(Mode.Block); // ! {
 
@@ -1249,8 +1251,8 @@ namespace D.Parsing
                 var name = ReadSymbol(SymbolKind.Member);
 
                 var member = ConsumeIf(Colon)
-                    ? new RecordMember(name, value: ReadExpression())
-                    : new RecordMember(name);
+                    ? new RecordMemberSyntax(name, value: ReadExpression())
+                    : new RecordMemberSyntax(name);
 
                 members.Add(member);
 
@@ -1261,14 +1263,14 @@ namespace D.Parsing
 
             // LeaveMode(Mode.Block);
 
-            return new TypeInitializer(type, members.ToArray());
+            return new TypeInitializerSyntax(type, members.ToArray());
         }
         
         // 1
         // 1_000
         // 1e100
         // 1.1
-        public INumber ReadNumeric()
+        public ISyntax ReadNumeric()
         {
             // precision & scale...
 
@@ -1322,6 +1324,7 @@ namespace D.Parsing
 
             if (IsKind(Identifier) && Unit<int>.TryParse(reader.Current.Text, out unit)) 
             {
+               
                 Consume(Identifier); // read the unit identifier
 
                 int pow = 1;
@@ -1330,11 +1333,13 @@ namespace D.Parsing
                 {
                     pow = D.Superscript.Parse(reader.Consume().Text);
                 }
-
-                return unit.With(number.Real, power: pow);
+                
+                return new UnitLiteral(unit.With(number.Real, power: pow));
             }
 
-            return number;
+            // return number;
+
+            return new NumberLiteral(number.ToString());
         }
 
         private string ReadNumberText()
@@ -1360,9 +1365,9 @@ namespace D.Parsing
             return text;
         }
 
-        public readonly List<IExpression> children = new List<IExpression>();
+        public readonly List<ISyntax> children = new List<ISyntax>();
 
-        public InterpolatedStringExpression ReadInterpolatedString()
+        public InterpolatedStringExpressionSyntax ReadInterpolatedString()
         {
             Consume(InterpolatedStringOpen); // ! $"
 
@@ -1381,10 +1386,10 @@ namespace D.Parsing
 
             LeaveMode(Mode.InterpolatedString);
 
-            return new InterpolatedStringExpression(children.Extract());
+            return new InterpolatedStringExpressionSyntax(children.Extract());
         }
 
-        public IExpression ReadInterpolatedExpression()
+        public ISyntax ReadInterpolatedExpression()
         {
             Consume(BraceOpen); // ! {
 
@@ -1433,7 +1438,7 @@ namespace D.Parsing
             return new CharacterLiteral(text.Text[0]);
         }
 
-        public IExpression ReadArrayOrMatrix()
+        public ISyntax ReadArrayOrMatrix()
         {
             Consume(BracketOpen); // [
 
@@ -1446,7 +1451,7 @@ namespace D.Parsing
             var rows = 0;
             var stride = 0;
 
-            var elements = new List<IObject>();
+            var elements = new List<ISyntax>();
             var type = Kind.None;
             var uniform = true;
 
@@ -1456,9 +1461,9 @@ namespace D.Parsing
 
                 #region Check for uniformity
 
-                if (uniform && el is ArrayLiteral)
+                if (uniform && el is ArrayLiteralSyntax)
                 {
-                    var array = (ArrayLiteral)el;
+                    var array = (ArrayLiteralSyntax)el;
 
                     if (rows == 0)
                     {
@@ -1503,11 +1508,11 @@ namespace D.Parsing
                 // Flatten
                 var i = 0;
 
-                var items = new IObject[elements.Count * stride];
+                var items = new ISyntax[elements.Count * stride];
 
                 foreach (var row in elements)
                 {
-                    foreach (var column in ((ArrayLiteral)row).Elements)
+                    foreach (var column in ((ArrayLiteralSyntax)row).Elements)
                     {
                         items[i] = column;
 
@@ -1515,19 +1520,19 @@ namespace D.Parsing
                     }
                 }
 
-                return new MatrixLiteral(items, stride);
+                return new MatrixLiteralSyntax(items, stride);
             }
 
             // [5] Type -> new List(capacity: 5)
 
-            if (elements.Count == 1 && elements[0] is Integer && IsKind(Identifier) && char.IsUpper(reader.Current.Text[0]))
+            if (elements.Count == 1 && elements[0] is NumberLiteral && IsKind(Identifier) && char.IsUpper(reader.Current.Text[0]))
             {
                 var name = Symbol.Type("List", ReadSymbol(SymbolKind.Type));
 
-                return Expression.Call(name, new Argument(elements[0]));
+                return new CallExpressionSyntax(null, name, new[] { new ArgumentSyntax(elements[0]) });
             }
 
-            return new ArrayLiteral(elements);
+            return new ArrayLiteralSyntax(elements);
         }
 
         // (a, b, c)
@@ -1541,9 +1546,9 @@ namespace D.Parsing
             return FinishReadingTuple(ReadTupleElement());
         }
 
-        private readonly List<IExpression> elements = new List<IExpression>();
+        private readonly List<ISyntax> elements = new List<ISyntax>();
 
-        public TupleExpression FinishReadingTuple(IExpression first)
+        public TupleExpression FinishReadingTuple(ISyntax first)
         {
             elements.Add(first);
 
@@ -1559,7 +1564,7 @@ namespace D.Parsing
             return new TupleExpression(elements.Extract());
         }
 
-        public IExpression ReadTupleElement()
+        public ISyntax ReadTupleElement()
         {
             var first = ReadPrimary();
 
@@ -1586,7 +1591,7 @@ namespace D.Parsing
 
         #region Matching
 
-        public MatchExpression ReadMatch()
+        public MatchExpressionSyntax ReadMatch()
         {
             Consume(Match);                     // ! match
 
@@ -1598,7 +1603,7 @@ namespace D.Parsing
 
             ConsumeIf(BraceOpen);               // ? {
 
-            var cases = new List<MatchCase>();
+            var cases = new List<MatchCaseSyntax>();
 
             // pattern => action
             // ...
@@ -1607,7 +1612,7 @@ namespace D.Parsing
             {
                 var pattern = ReadPattern();
 
-                IExpression when = null;
+                ISyntax when = null;
 
                 if (ConsumeIf(When))            // ? when
                 {
@@ -1616,7 +1621,7 @@ namespace D.Parsing
 
                 var lambda = ReadLambda();
 
-                cases.Add(new MatchCase(pattern, when, lambda));
+                cases.Add(new MatchCaseSyntax(pattern, when, lambda));
 
                 ConsumeIf(Comma); // ? ,
             }
@@ -1625,7 +1630,7 @@ namespace D.Parsing
 
             LeaveMode(Mode.Statement);
 
-            return new MatchExpression(expression, cases);
+            return new MatchExpressionSyntax(expression, cases);
         }
 
         #endregion
@@ -1639,12 +1644,12 @@ namespace D.Parsing
         // any     : _
         // range   : 0..10
 
-        public IExpression ReadPattern()
+        public ISyntax ReadPattern()
         {
             switch (reader.Current.Kind)
             {
                 case BraceOpen       : return ReadRecordPattern();
-                case Underscore      : Consume(Underscore); return new AnyPattern();
+                case Underscore      : Consume(Underscore); return new AnyPatternSyntax();
 
                 case ParenthesisOpen:
                     var tuple = ReadTuple();
@@ -1653,7 +1658,7 @@ namespace D.Parsing
                     {
                         var element = (NamedType)tuple.Elements[0];
 
-                        return new TypePattern(element.Type, Symbol.Local(element.Name));
+                        return new TypePatternSyntax(element.Type, Symbol.Local(element.Name));
                     }
 
                     return new TuplePattern(tuple);
@@ -1667,14 +1672,14 @@ namespace D.Parsing
                     {
                         var range = (RangeExpression)value;
 
-                        return new RangePattern(range.Start, range.End);
+                        return new RangePatternSyntax(range.Start, range.End);
                     }
 
-                    return new ConstantPattern(value);
+                    return new ConstantPatternSyntax(value);
             }
         }
 
-        public TypePattern ReadRecordPattern()
+        public TypePatternSyntax ReadRecordPattern()
         {
             throw new Exception("Not yet implemented");
         }
@@ -1683,7 +1688,7 @@ namespace D.Parsing
 
         #region Expressions
 
-        private IExpression TopExpression(int minPrecedence = 0)
+        private ISyntax TopExpression(int minPrecedence = 0)
         {
             var left = MaybeTuple();
 
@@ -1698,7 +1703,7 @@ namespace D.Parsing
 
         // *=
 
-        private IExpression MaybeBinary(IExpression left, int minPrecedence)
+        private ISyntax MaybeBinary(ISyntax left, int minPrecedence)
         {
             // x = a || b && c
 
@@ -1709,9 +1714,9 @@ namespace D.Parsing
                 // *-, +=, ...
                 if (ConsumeIf("="))
                 {
-                    var r = new BinaryExpression(op, left, right: ReadExpression());
+                    var r = new BinaryExpressionSyntax(op, left, right: ReadExpression());
 
-                    return new BinaryExpression(Operator.Assign, left, r);
+                    return new BinaryExpressionSyntax(Operator.Assign, left, r);
                 }
 
                 var o = op;
@@ -1723,7 +1728,7 @@ namespace D.Parsing
                     right = MaybeBinary(right, o.Precedence);
                 }
 
-                left = new BinaryExpression(o, left, right) {
+                left = new BinaryExpressionSyntax(o, left, right) {
                     Grouped = InMode(Mode.Parenthesis)
                 };
 
@@ -1739,7 +1744,7 @@ namespace D.Parsing
             return left;
         }
 
-        public UnaryExpression ReadUnary(Token opToken)
+        public UnaryExpressionSyntax ReadUnary(Token opToken)
         {
             // maybe postfix?
 
@@ -1752,10 +1757,10 @@ namespace D.Parsing
 
             var expression = ReadExpression();
 
-            return new UnaryExpression(op, expression);
+            return new UnaryExpressionSyntax(op, expression);
         }
 
-        public TernaryExpression ReadTernaryExpression(IExpression condition)
+        public TernaryExpressionSyntax ReadTernaryExpression(ISyntax condition)
         {
             Consume(Question); // ! ?
 
@@ -1765,14 +1770,14 @@ namespace D.Parsing
 
             var right = ReadExpression();
 
-            return new TernaryExpression(condition, left, right);
+            return new TernaryExpressionSyntax(condition, left, right);
         }
 
         #endregion
 
         #region Primary Expressions
 
-        public IExpression MaybeTuple()
+        public ISyntax MaybeTuple()
         {
             if (InMode(Mode.Parenthesis))
             {
@@ -1804,7 +1809,7 @@ namespace D.Parsing
         // 1...100
         // i..<10
         // i..i32.max
-        public IExpression MaybeRange()
+        public ISyntax MaybeRange()
         {
             var left = MaybeType();
 
@@ -1828,7 +1833,7 @@ namespace D.Parsing
         private List<Symbol> symbolList = new List<Symbol>(20);
 
         // {Symbol} (type|event|record|protocal)
-        public IExpression MaybeType()
+        public ISyntax MaybeType()
         {
             var left = MaybeMemberAccess();
 
@@ -1859,7 +1864,7 @@ namespace D.Parsing
                         if (InMode(Mode.Root))
                         {
                             return symbolList.Count > 0
-                                ? (IExpression)ReadCompoundTypeDeclaration(symbolList.Extract())
+                                ? (ISyntax)ReadCompoundTypeDeclaration(symbolList.Extract())
                                 : ReadTypeDeclaration(name);
                         }
 
@@ -1869,7 +1874,7 @@ namespace D.Parsing
                     case Event:
                     case Record:
                         return symbolList.Count > 0
-                            ? (IExpression)ReadCompoundTypeDeclaration(symbolList.Extract())
+                            ? (ISyntax)ReadCompoundTypeDeclaration(symbolList.Extract())
                             : ReadTypeDeclaration(name);  // type : hello
 
                     case Implementation : return ReadImplementation(name);
@@ -1885,7 +1890,7 @@ namespace D.Parsing
         int depth = 0;
         int count = 0;
 
-        public IExpression MaybeMemberAccess()
+        public ISyntax MaybeMemberAccess()
         {
             var left = ReadPrimary();
 
@@ -1907,15 +1912,15 @@ namespace D.Parsing
 
                     Consume(BracketClose);
 
-                    left = new IndexAccessExpression(left, args);
+                    left = new IndexAccessExpressionSyntax(left, args);
                 }
                 else if (ConsumeIf(Dot))         // ? .
                 {
                     var name = ReadSymbol(SymbolKind.Member);
 
                     left = IsKind(ParenthesisOpen)  // ? (
-                        ? (IExpression)new CallExpression(left, name, arguments: ReadArguments())
-                        : new MemberAccessExpression(left, name);
+                        ? (ISyntax)new CallExpressionSyntax(left, name, arguments: ReadArguments())
+                        : new MemberAccessExpressionSyntax(left, name);
                 }
             }
 
@@ -1923,7 +1928,7 @@ namespace D.Parsing
             return left;
         }
 
-        public IExpression ReadPrimary()
+        public ISyntax ReadPrimary()
         {
             if (depth > 1)
             {
@@ -1988,11 +1993,11 @@ namespace D.Parsing
 
         #region Pipes & Calls
 
-        private PipeStatement ReadPipe(IExpression callee)
+        private PipeStatementSyntax ReadPipe(ISyntax callee)
         {
             Consume(PipeForward); // |>
 
-            IExpression body;
+            ISyntax body;
 
             switch (reader.Current.Kind)
             {
@@ -2000,33 +2005,33 @@ namespace D.Parsing
                 default    : body = ReadCall(null); break; // otherwise call
             }
 
-            return new PipeStatement(callee, body);
+            return new PipeStatementSyntax(callee, body);
         }
 
         // a =>
         // (arg1, arg2, arg3)
         // (a: 1, a: 2, a: 3)
 
-        private IArguments ReadArguments()
+        private ArgumentSyntax[] ReadArguments()
         {
-            if (!MoreArguments()) return Arguments.None;
+            if (!MoreArguments()) return Array.Empty<ArgumentSyntax>();
 
             var parenthesized = ConsumeIf(ParenthesisOpen); // ? (
 
             if (parenthesized && ConsumeIf(ParenthesisClose))
             {
-                return Arguments.None;
+                return Array.Empty<ArgumentSyntax>();
             }
 
             EnterMode(Mode.Arguments);
 
-            IArguments args;
+            ArgumentSyntax[] args;
 
             var arg = ReadArgument();
 
             if (IsKind(Comma))
             {
-                var arguments = new List<Argument>();
+                var arguments = new List<ArgumentSyntax>();
 
                 arguments.Add(arg);
 
@@ -2035,11 +2040,11 @@ namespace D.Parsing
                     arguments.Add(ReadArgument());
                 }
 
-                args = Arguments.Create(arguments);
+                args = arguments.ToArray();
             }
             else
             {
-                args = arg;
+                args = new[] { arg };
             }
 
             if (parenthesized)
@@ -2052,12 +2057,12 @@ namespace D.Parsing
             return args;
         }
 
-        public Argument ReadArgument()
+        public ArgumentSyntax ReadArgument()
         {
             var first = ReadExpression();
 
             Symbol name;
-            IExpression value;
+            ISyntax value;
 
             if (ConsumeIf(Colon))
             {
@@ -2070,7 +2075,7 @@ namespace D.Parsing
                 value = first;
             }
 
-            return new Argument(name, value);
+            return new ArgumentSyntax(name, value);
         }
 
         private bool MoreArguments()
@@ -2087,17 +2092,15 @@ namespace D.Parsing
             }
         }
 
-
-
-        public CallExpression ReadCall(IExpression callee)
+        public CallExpressionSyntax ReadCall(ISyntax callee)
         {
             return ReadCall(callee, ReadSymbol(SymbolKind.Function));
         }
 
         // Question: Scope read if arg count is fixed ?
 
-        public CallExpression ReadCall(IExpression callee, Symbol functionName)
-            => new CallExpression(callee, functionName, ReadArguments());
+        public CallExpressionSyntax ReadCall(ISyntax callee, Symbol functionName)
+            => new CallExpressionSyntax(callee, functionName, ReadArguments());
 
         public void Dispose()
         {

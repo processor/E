@@ -2,14 +2,14 @@
 
 namespace D.Parsing.Tests
 {
-    using Expressions;
+    using Syntax;
 
     public class ProtocalTests : TestBase
     {
         [Fact]
         public void EmptyBody()
         {
-            var protocal = Parse<ProtocalDeclaration>("SVG protocal { }");
+            var protocal = Parse<ProtocalDeclarationSyntax>("SVG protocal { }");
 
             Assert.Equal("SVG", protocal.Name.ToString());
         }
@@ -17,7 +17,7 @@ namespace D.Parsing.Tests
         [Fact]
         public void PropertyTests2()
         {
-            var protocal = Parse<ProtocalDeclaration>(@"
+            var protocal = Parse<ProtocalDeclarationSyntax>(@"
 Node protocal { 
   kind     -> Kind
   children -> [ ] Node
@@ -40,7 +40,7 @@ Node protocal {
         public void VoidTests()
         {
 
-            var protocal = Parse<ProtocalDeclaration>(@"
+            var protocal = Parse<ProtocalDeclarationSyntax>(@"
 Memory protocal { 
   free()
 }");
@@ -53,7 +53,7 @@ Memory protocal {
         public void PropertyTests()
         {
 
-            var protocal = Parse<ProtocalDeclaration>(@"
+            var protocal = Parse<ProtocalDeclarationSyntax>(@"
 Point protocal { 
   length -> Number
 }");
@@ -67,7 +67,7 @@ Point protocal {
         [Fact]
         public void ChannelAndActions()
         {
-            var protocal = Parse<ProtocalDeclaration>(@"
+            var protocal = Parse<ProtocalDeclarationSyntax>(@"
 Bank protocal { 
   * | open       `Account       
     | close      `Account     
@@ -107,7 +107,7 @@ Bank protocal {
         public void B()
         {
 
-            var protocal = Parse<ProtocalDeclaration>(@"
+            var protocal = Parse<ProtocalDeclarationSyntax>(@"
 Bank protocal { 
   * | open       `Account
     | close      `Account 

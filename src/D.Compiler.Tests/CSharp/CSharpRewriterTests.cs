@@ -7,7 +7,9 @@ using Xunit;
 namespace D.Compilation.Tests
 {
     using D.Compiler;
+    using Expressions;
     using Parsing;
+    using System.Collections.Generic;
 
     public class CSharpRewriterTests
     {
@@ -124,6 +126,7 @@ Account {
 "));
         }
 
+
         [Fact]
         public void Ternary()
         {
@@ -135,11 +138,10 @@ Account {
         [Fact]
         public void SingleStatements()
         {
-            Assert.Equal("long a = 100;",       Rewrite("let a = 100"));
+            Assert.Equal("long a = 100;",       Rewrite("let a: Int64 = 100"));
             Assert.Equal("int a = 100;",        Rewrite("let a: Int32 = 100"));
             Assert.Equal("decimal a = 100;",    Rewrite("let a: Decimal = 100"));
-            Assert.Equal("long a = 100;",       Rewrite("var a = 100"));
-            Assert.Equal("double a = 1;",       Rewrite("var a = 1.0"));
+            Assert.Equal("double a = 1;",       Rewrite("var a: Float64 = 1.0"));
             Assert.Equal("string s = \"hi\";",  Rewrite("let s = \"hi\""));
         }
 
@@ -220,9 +222,9 @@ switch (media)
 
 Rewrite(@"
 let width = match media {
-  Image image => image.width
-  Video video => video.width
-  _           => 0
+  (image: Image) => image.width;
+  (video: Video) => video.width;
+  _              => 0
 }
 
 "));
@@ -231,16 +233,23 @@ let width = match media {
         public static string Rewrite(string source)
         {
             var sb = new StringBuilder();
+            var compilier = new Compiler();
 
             using (var parser = new Parser(source))
             {
-                var nodes = parser.Enumerate().ToArray();
+                var expressions = new List<IExpression>();
 
+                foreach (var node in parser.Enumerate())
+                {
+                    expressions.Add(compilier.Visit(node));
+
+                }
+                
                 using (var writer = new StringWriter(sb))
                 {
                     var csharp = new CSharpTranspiler(writer);
 
-                    csharp.Visit(nodes);
+                    csharp.Visit(expressions);
                 }
             }
 

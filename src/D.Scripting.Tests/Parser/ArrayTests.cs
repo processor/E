@@ -2,35 +2,37 @@
 
 namespace D.Parsing.Tests
 {
-    using Expressions;
+    using Syntax;
 
     public class ArrayTests : TestBase
     {
         [Fact]
         public void Array1x4()
         {
-            var statement = Parse<ArrayLiteral>(@"[ 0, 1, 2, 3 ]");
+            var statement = Parse<ArrayLiteralSyntax>(@"[ 0, 1, 2, 3 ]");
 
             Assert.Equal(4, statement.Count);
 
-            Assert.Equal(0L, (Integer)statement[0]);
-            Assert.Equal(1L, (Integer)statement[1]);
-            Assert.Equal(2L, (Integer)statement[2]);
+            Assert.Equal(0L, (NumberLiteral)statement[0]);
+            Assert.Equal(1L, (NumberLiteral)statement[1]);
+            Assert.Equal(2L, (NumberLiteral)statement[2]);
         }
 
+        /*
         [Fact]
         public void ArrayInit()
         {
-            var call = Parse<CallExpression>("[5] Element");
+            var call = Parse<CallExpressionSyntax>("[5] Element");
 
             Assert.Equal("List<Element>", call.FunctionName);
-            Assert.Equal(5, (Integer)call.Arguments[0]);
+            Assert.Equal(5, (NumberLiteral)call.Arguments[0]);
         }
+        */
 
         [Fact]
         public void OfTuples()
         {
-            var array = Parse<ArrayLiteral>("[(0, 1), (2, 3)]");
+            var array = Parse<ArrayLiteralSyntax>("[(0, 1), (2, 3)]");
 
             Assert.Equal(2, array.Count);
         }
@@ -38,24 +40,24 @@ namespace D.Parsing.Tests
         [Fact]
         public void JaggedArray()
         {
-            var statement = Parse<ArrayLiteral>(@"[ 
+            var statement = Parse<ArrayLiteralSyntax>(@"[ 
                 [ 0, 1, 2, 3 ], 
                 [ 4, 5, 6, 7 ],
                 [ 8, 9, 10, 11 ],
                 [ 12, 13, 14 ]
             ]");
 
-            var row1 = (ArrayLiteral)(statement.Elements[0]);
+            var row1 = (ArrayLiteralSyntax)(statement.Elements[0]);
 
-            Assert.Equal(0, (Integer)row1[0]);
-            Assert.Equal(1, (Integer)row1[1]);
-            Assert.Equal(2, (Integer)row1[2]);
+            Assert.Equal(0, (NumberLiteral)row1[0]);
+            Assert.Equal(1, (NumberLiteral)row1[1]);
+            Assert.Equal(2, (NumberLiteral)row1[2]);
         }
 
         [Fact]
         public void OfNumbers()
         {
-            var array = Parse<ArrayLiteral>(@"
+            var array = Parse<ArrayLiteralSyntax>(@"
 [
   0, 1, 8, 16, 9, 2, 3, 10, 17, 24, 32, 25, 18, 11, 4, 5, 12, 19, 26,
   33, 40, 48, 41, 34, 27, 20, 13, 6, 7, 14, 21, 28, 35, 42, 49, 56, 57,

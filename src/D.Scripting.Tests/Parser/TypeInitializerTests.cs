@@ -2,14 +2,14 @@
 
 namespace D.Parsing.Tests
 {
-    using Expressions;
+    using Syntax;
 
     public class TypeInitializerTests : TestBase
     {
         [Fact]
         public void Nested()
         {
-            var type = Parse<TypeInitializer>(@"
+            var type = Parse<TypeInitializerSyntax>(@"
 
 Account {
   balance : 100,
@@ -24,12 +24,12 @@ Account {
 
             Assert.Equal(3, type.Count);
 
-            Assert.Equal("Date", ((TypeInitializer)type.Members[2].Value).Type);
+            Assert.Equal("Date", ((TypeInitializerSyntax)type.Members[2].Value).Type);
         }
         [Fact]
         public void RootScoped()
         {
-            var type = Parse<TypeInitializer>(@"
+            var type = Parse<TypeInitializerSyntax>(@"
 Point {
   x: 1,
   y: 2,
@@ -42,9 +42,9 @@ Point {
         [Fact]
         public void Let()
         {
-            var let = Parse<VariableDeclaration>("let zero = Point { x: 0, y: 0, z: 0 };");
+            var let = Parse<VariableDeclarationSyntax>("let zero = Point { x: 0, y: 0, z: 0 };");
 
-            var value = (TypeInitializer)let.Value;
+            var value = (TypeInitializerSyntax)let.Value;
 
             Assert.Equal("Point", value.Type.Name);
         }
@@ -52,7 +52,7 @@ Point {
         [Fact]
         public void BlockScoped()
         {
-            var ifS = Parse<IfStatement>(@"
+            var ifS = Parse<IfStatementSyntax>(@"
 if 1 + 1 == 3 {
   return Point {
     x: 1 + 1,
@@ -61,9 +61,9 @@ if 1 + 1 == 3 {
   }
 }");
 
-            var r = (ReturnStatement)ifS.Body.Statements[0];
+            var r = (ReturnStatementSyntax)ifS.Body.Statements[0];
 
-            var type = (TypeInitializer)r.Expression;
+            var type = (TypeInitializerSyntax)r.Expression;
 
             Assert.Equal("Point", type.Type.Name);
 

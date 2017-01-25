@@ -2,33 +2,33 @@
 
 namespace D.Parsing.Tests
 {
-    using Expressions;
+    using Syntax;
 
     public class PatternTests : TestBase
     {
         [Fact]
         public void X()
         {
-            var m = Parse<MatchExpression>(@"
+            var m = Parse<MatchExpressionSyntax>(@"
 match x >> 4 { 
   1 => true
 }");
 
-            Assert.True(m.Expression is BinaryExpression);
+            Assert.True(m.Expression is BinaryExpressionSyntax);
         }
 
         [Fact]
         public void MatchTypes()
         {
 
-            var match = Parse<MatchExpression>(
+            var match = Parse<MatchExpressionSyntax>(
                 @"match instance { 
                   (image: Image) => image.resize(100, 100)
                 }
             ");
 
             Assert.Equal(1, match.Cases.Count);
-            Assert.Equal("image", ((TypePattern)match.Cases[0].Pattern).VariableName);
+            Assert.Equal("image", ((TypePatternSyntax)match.Cases[0].Pattern).VariableName);
 
         }
 
@@ -36,7 +36,7 @@ match x >> 4 {
         public void Match()
         {
             // ... |> format mp4
-            var pipe = Parse<PipeStatement>(
+            var pipe = Parse<PipeStatementSyntax>(
                 @"image 
                   |> split 1s
                   |> group a
@@ -49,11 +49,11 @@ match x >> 4 {
                 ");
 
 
-            var match = (MatchExpression)((PipeStatement)pipe.Callee).Expression;
+            var match = (MatchExpressionSyntax)((PipeStatementSyntax)pipe.Callee).Expression;
 
             Assert.Equal(3, match.Cases.Count);
 
-            var pattern1 = (TypePattern)match.Cases[0].Pattern;
+            var pattern1 = (TypePatternSyntax)match.Cases[0].Pattern;
 
             Assert.Equal("Audio", pattern1.TypeExpression.ToString());
             Assert.Equal("a",    pattern1.VariableName);
@@ -73,8 +73,8 @@ match x >> 4 {
                   }
                 ");
 
-            var a = (VariableDeclaration)parser.Next();
-            var b = (VariableDeclaration)parser.Next();
+            var a = (VariableDeclarationSyntax)parser.Next();
+            var b = (VariableDeclarationSyntax)parser.Next();
             var c = parser.ReadMatch();      // switch
 
             Assert.Equal("i", a.Name.ToString());
@@ -82,7 +82,7 @@ match x >> 4 {
 
             Assert.Equal(2, c.Cases.Count);
 
-            var pattern1 = (RangePattern)c.Cases[0].Pattern;
+            var pattern1 = (RangePatternSyntax)c.Cases[0].Pattern;
 
             Assert.Equal("0", pattern1.Start.ToString());
             Assert.Equal("100", pattern1.End.ToString());

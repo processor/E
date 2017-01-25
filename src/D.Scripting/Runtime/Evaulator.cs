@@ -3,12 +3,16 @@ using System.Collections.Generic;
 
 namespace D
 {
+    using Syntax;
+    using Compilation;
     using Expressions;
     using Parsing;
 
     public class Evaulator
     {
         private Scope scope = new Scope();
+        private Compiler compiler = new Compiler();
+
         private Env env;
 
         int count = 0;
@@ -42,13 +46,20 @@ namespace D
 
             using (var parser = new Parser(script, env))
             {
-                foreach (var statement in parser.Enumerate())
+                foreach (var syntax in parser.Enumerate())
                 {
-                    last = Evaluate(statement);
+                    last = Evaluate(syntax);
                 }
             }
 
             return last;
+        }
+
+        public IObject Evaluate(ISyntax sytax)
+        {
+            var expression = compiler.Visit(sytax);
+
+            return Evaluate(expression);
         }
 
         public IObject Evaluate(IObject expression)
@@ -73,7 +84,7 @@ namespace D
                     case Kind.CallExpression  : result = Evaluate((CallExpression)expression);       break;
                     default:
                     
-                        if ((long)expression.Kind > 255) throw new Exception("expected kind");
+                        if ((long)expression.Kind > 255) throw new Exception($"expected kind: was {expression.Kind}");
 
                         result = expression;
                             break;    
@@ -98,7 +109,7 @@ namespace D
             
             if ((long)v.Kind < 255) return v;
 
-            return Evaluate(value);
+            return Evaluate((IExpression)value);
         }
         
 
@@ -118,7 +129,7 @@ namespace D
 
             if (argList.ContainsUnresolvedSymbols)
             {
-                var parameters = new List<ParameterExpression>();
+                var parameters = new List<Parameter>();
 
                 foreach (var arg in expression.Arguments)
                 {
@@ -128,7 +139,7 @@ namespace D
                     }
                 }
 
-                return new FunctionDeclaration(parameters.ToArray(), new LambdaExpression(expression));
+                return new Function(parameters.ToArray(), new LambdaExpression(expression));
             }
 
             IObject func;
@@ -201,17 +212,17 @@ namespace D
 
             // Simplify logic here?
 
-            if (l is Symbol || l is FunctionDeclaration || r is Symbol || r is FunctionDeclaration)
+            if (l is Symbol || l is Function || r is Symbol || r is Function)
             {
-                var args = new List<ParameterExpression>();
+                var args = new List<Parameter>();
 
                 if (l is Symbol)
                 {
                     args.Add(Expression.Parameter(l.ToString()));
                 }
-                else if (l is FunctionDeclaration)
+                else if (l is Function)
                 {
-                    var lf = (FunctionDeclaration)l;
+                    var lf = (Function)l;
 
                     args.AddRange(lf.Parameters);
 
@@ -222,9 +233,9 @@ namespace D
                 {
                     args.Add(Expression.Parameter(r.ToString()));
                 }
-                else if (r is FunctionDeclaration)
+                else if (r is Function)
                 {
-                    var rf = (FunctionDeclaration)r;
+                    var rf = (Function)r;
 
                     args.AddRange(rf.Parameters);
 
@@ -250,7 +261,7 @@ namespace D
 
                 // i > 10
 
-                return new FunctionDeclaration(args.ToArray(), new BinaryExpression(expression.Operator, l, r));
+                return new Function(args.ToArray(), new BinaryExpression(expression.Operator, l, r));
             }
 
             #endregion

@@ -12,14 +12,11 @@ namespace D.Parsing.Tests
                 return (T)parser.Next();
             }
         }
-
-
        
         private static readonly string RootDirectory = Directory.GetCurrentDirectory();
 
         public FileInfo GetDocument(string name)
             => new FileInfo(RootDirectory + "..\\..\\..\\modules\\" + name);
-
 
         public IEnumerable<FileInfo> ReadDocuments(string path)
         {

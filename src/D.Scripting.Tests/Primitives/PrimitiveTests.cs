@@ -2,14 +2,14 @@
 
 namespace D.Parsing.Tests
 {
-    using Expressions;
+    using Syntax;
 
     public class PrimitiveTests : TestBase
     {
         [Fact]
         public void A()
         {
-            var a = Parse<PrimitiveDeclaration>("Float32 primitive");
+            var a = Parse<PrimitiveDeclarationSyntax>("Float32 primitive");
 
             Assert.Equal("Float32", a.Name);
         }
@@ -17,7 +17,7 @@ namespace D.Parsing.Tests
         [Fact]
         public void B()
         {
-            var a = Parse<PrimitiveDeclaration>("Int64 primitive { size: 8 }");
+            var a = Parse<PrimitiveDeclarationSyntax>("Int64 primitive { size: 8 }");
 
             Assert.Equal("Int64", a.Name);
             Assert.Equal(8, a.Size.Value);

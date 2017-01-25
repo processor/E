@@ -1,18 +1,19 @@
 ﻿using System.Text;
 
-namespace D.Expressions
+namespace D.Syntax
 {
-    public class UnaryExpression : IExpression
+    public class UnaryExpressionSyntax : ISyntax
     {
-        public UnaryExpression(Operator op, IExpression arg)
+        public UnaryExpressionSyntax(Operator op, ISyntax arg)
         {
             Operator = op;
             Argument = arg;
         }
 
+        // Change to symbol
         public Operator Operator { get; }
 
-        public IExpression Argument { get; }
+        public ISyntax Argument { get; }
 
         #region ToString
 
@@ -30,7 +31,7 @@ namespace D.Expressions
 
             return sb.ToString();
         }
-
+        
         #endregion
 
         public Kind Kind => Operator.OpKind;

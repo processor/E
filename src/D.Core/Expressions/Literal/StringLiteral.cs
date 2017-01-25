@@ -1,7 +1,5 @@
-﻿namespace D
+﻿namespace D.Expressions
 {
-    using Expressions;
-
     public struct StringLiteral : IExpression
     { 
         public StringLiteral(string text)

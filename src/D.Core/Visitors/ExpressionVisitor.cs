@@ -122,7 +122,7 @@ namespace D.Expressions
                     break;
 
                 default:
-                    throw new System.Exception("unexpected expression:" + expression.GetType().Name);
+                    throw new Exception("unexpected expression:" + expression.GetType().Name);
 
                     /*
                 default:

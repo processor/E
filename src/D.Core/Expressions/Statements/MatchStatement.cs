@@ -4,7 +4,7 @@ namespace D.Expressions
 {
     public class MatchExpression : IExpression
     {
-        public MatchExpression(IExpression expression, IList<MatchCase> cases)
+        public MatchExpression(IExpression expression, MatchCase[] cases)
         {
             Expression = expression;
             Cases = cases;

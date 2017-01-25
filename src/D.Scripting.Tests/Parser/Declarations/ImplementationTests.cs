@@ -4,14 +4,14 @@ using Xunit;
 
 namespace D.Parsing.Tests
 {
-    using Expressions;
+    using Syntax;
 
     public class ImplementationTests : TestBase
     {
         [Fact]
         public void Converter()
         {
-            var impl = Parse<ImplementationDeclaration>(@"
+            var impl = Parse<ImplementationDeclarationSyntax>(@"
 Point impl { 
   to String    => $""{x},{y},{z}""
   to [ ] T     => [ x, y, z ]
@@ -19,14 +19,14 @@ Point impl {
 }
 ");
 
-            Assert.Equal("String",       ((FunctionDeclaration)impl[0]).ReturnType);
-            Assert.Equal("List<T>",      ((FunctionDeclaration)impl[1]).ReturnType);
-            Assert.Equal("Tuple<T,T,T>", ((FunctionDeclaration)impl[2]).ReturnType);
+            Assert.Equal("String",       ((FunctionDeclarationSyntax)impl[0]).ReturnType);
+            Assert.Equal("List<T>",      ((FunctionDeclarationSyntax)impl[1]).ReturnType);
+            Assert.Equal("Tuple<T,T,T>", ((FunctionDeclarationSyntax)impl[2]).ReturnType);
 
-            foreach (var member in impl.Members.OfType<FunctionDeclaration>())
+            foreach (var member in impl.Members.OfType<FunctionDeclarationSyntax>())
             {
                 Assert.True(member.IsConverter);
-                Assert.True(member.Body is LambdaExpression);
+                Assert.True(member.Body is LambdaExpressionSyntax);
             }
         }
 
@@ -82,7 +82,7 @@ Point<T> impl {
         [Fact]
         public void D()
         {
-            var bank = Parse<ImplementationDeclaration>(@"
+            var bank = Parse<ImplementationDeclarationSyntax>(@"
 Point impl { 
   from (x: Number, y: Number, z: Number) {
     let point = Point { x, y, z }
@@ -100,8 +100,8 @@ Point impl {
     return point
   }
 }");
-            var f  = (FunctionDeclaration)  bank.Members[0];
-            var b  = (BlockStatement)       f.Body;
+            var f  = (FunctionDeclarationSyntax)  bank.Members[0];
+            var b  = (BlockStatementSyntax)       f.Body;
             var o  = (ObserveStatement)     b.Statements[1];
             var o2 = (ObserveStatement)     b.Statements[2];
             var o3 = (ObserveStatement)     b.Statements[3];
@@ -118,7 +118,7 @@ Point impl {
         [Fact]
         public void A()
         {
-            var bank = Parse<ImplementationDeclaration>(@"
+            var bank = Parse<ImplementationDeclarationSyntax>(@"
 Bank impl { 
   openAccount (account: Account) {
     log ""neat""
@@ -133,7 +133,7 @@ Bank impl {
 
             Assert.Equal(2, bank.Members.Length);
 
-            var f = (FunctionDeclaration)bank.Members[0];
+            var f = (FunctionDeclarationSyntax)bank.Members[0];
 
             Assert.Equal("openAccount", f.Name.ToString());
         }
@@ -141,7 +141,7 @@ Bank impl {
         [Fact]
         public void OperatorTests()
         {
-            var a = Parse<ImplementationDeclaration>(@"
+            var a = Parse<ImplementationDeclarationSyntax>(@"
 Point impl { 
   * (p: Point, v: Number)  => Point { x: p.x * v, y: p.y * v, z: p.z * v };
   / (p: Point, v: Number)  => Point { x: p.x / v, y: p.y / v, z: p.z / v };
@@ -151,11 +151,11 @@ Point impl {
 
             Assert.Equal(4, a.Members.Length);
 
-            var l = (LambdaExpression)((FunctionDeclaration)a.Members[0]).Body;
+            var l = (LambdaExpressionSyntax)((FunctionDeclarationSyntax)a.Members[0]).Body;
 
-            Assert.Equal(3, ((TypeInitializer)l.Expression).Members.Length);
+            Assert.Equal(3, ((TypeInitializerSyntax)l.Expression).Members.Length);
 
-            foreach (var member in a.Members.OfType<FunctionDeclaration>())
+            foreach (var member in a.Members.OfType<FunctionDeclarationSyntax>())
             {
                 Assert.True(member.IsStatic);
                 Assert.True(member.IsOperator);
@@ -165,7 +165,7 @@ Point impl {
         [Fact]
         public void B()
         {
-            var a = Parse<ImplementationDeclaration>(@"
+            var a = Parse<ImplementationDeclarationSyntax>(@"
 A impl { 
   zero   => Point { x: 1, y: 1, z: 1 }
   string => ""neat""
@@ -174,11 +174,11 @@ A impl {
 
             Assert.Equal(3, a.Members.Length);
 
-            var f = (FunctionDeclaration)a.Members[0];
-            var l = (LambdaExpression)f.Body;
-            var p = (TypeInitializer)l.Expression;
+            var f = (FunctionDeclarationSyntax)a.Members[0];
+            var l = (LambdaExpressionSyntax)f.Body;
+            var p = (TypeInitializerSyntax)l.Expression;
 
-            var t = (TupleExpression)((LambdaExpression)((FunctionDeclaration)a.Members[2]).Body).Expression;
+            var t = (TupleExpression)((LambdaExpressionSyntax)((FunctionDeclarationSyntax)a.Members[2]).Body).Expression;
 
             Assert.Equal("zero", f.Name);
             Assert.Equal("Point", p.Type);
@@ -189,15 +189,15 @@ A impl {
         [Fact]
         public void Expression()
         {
-            var i = Parse<ImplementationDeclaration>(@"
+            var i = Parse<ImplementationDeclarationSyntax>(@"
 A implementation { 
    a => Point { x: p.x * v, y: p.y * v, z: p.z * v }
 }
 ");
 
-            var f = (FunctionDeclaration)i.Members[0];
-            var l = (LambdaExpression)f.Body;
-            var t = (TypeInitializer)l.Expression;
+            var f = (FunctionDeclarationSyntax)i.Members[0];
+            var l = (LambdaExpressionSyntax)f.Body;
+            var t = (TypeInitializerSyntax)l.Expression;
 
             Assert.Equal("Point", t.Type.Name);
             Assert.True(f.IsProperty);
@@ -207,7 +207,7 @@ A implementation {
         [Fact]
         public void Members()
         {
-            var declaration = Parse<ImplementationDeclaration>(@"
+            var declaration = Parse<ImplementationDeclarationSyntax>(@"
 Matrix4<T> implementation {
   [index: Integer] => this.elements[index]
 
@@ -233,18 +233,18 @@ Matrix4<T> implementation {
             Assert.Equal(null, declaration.Protocal);
             Assert.Equal(17, declaration.Members.Length);
 
-            var indexer = (FunctionDeclaration)declaration[0];
+            var indexer = (FunctionDeclarationSyntax)declaration[0];
             
             Assert.Equal("index", indexer.Parameters[0].Name);
             Assert.Equal("Integer", indexer.Parameters[0].Type);
             Assert.True(indexer.IsIndexer);
 
-            var n11 = (FunctionDeclaration)declaration[1];
-            var n12 = (FunctionDeclaration)declaration[2];
+            var n11 = (FunctionDeclarationSyntax)declaration[1];
+            var n12 = (FunctionDeclarationSyntax)declaration[2];
 
             Assert.Equal("m11", n11.Name);
             Assert.True(n11.IsProperty);
-            Assert.True(((LambdaExpression)n11.Body).Expression is IndexAccessExpression);
+            Assert.True(((LambdaExpressionSyntax)n11.Body).Expression is IndexAccessExpressionSyntax);
 
             Assert.Equal("m12", n12.Name);
             Assert.True(n12.IsProperty);
@@ -253,7 +253,7 @@ Matrix4<T> implementation {
         [Fact]
         public void Z()
         {
-            var declaration = Parse<ImplementationDeclaration>(@"
+            var declaration = Parse<ImplementationDeclarationSyntax>(@"
 Curve<T> implementation for Arc<T> {
   getPoint(Arc<T>, t: Number) {
     var deltaAngle = endAngle - startAngle
@@ -284,14 +284,14 @@ Curve<T> implementation for Arc<T> {
             Assert.Equal("Curve<T>", declaration.Protocal);
             Assert.Equal("Arc<T>",   declaration.Type);
 
-            var f = (FunctionDeclaration)declaration.Members[0];
+            var f = (FunctionDeclarationSyntax)declaration.Members[0];
 
             Assert.Equal("getPoint", f.Name);
 
-            var body     = (BlockStatement)f.Body;
+            var body     = (BlockStatementSyntax)f.Body;
 
-            var returnStatement = (ReturnStatement)body[body.Statements.Length - 1];
-            var initializer     = (TypeInitializer)returnStatement.Expression;
+            var returnStatement = (ReturnStatementSyntax)body[body.Statements.Length - 1];
+            var initializer     = (TypeInitializerSyntax)returnStatement.Expression;
 
             Assert.Equal("Point<T>", initializer.Type);
         }

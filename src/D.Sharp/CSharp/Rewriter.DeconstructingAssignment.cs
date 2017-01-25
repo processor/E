@@ -16,11 +16,13 @@
 
                 Emit("var ");
 
-                Emit(a.Value.ToString());
+                Emit(a.Name);
 
                 Emit(" = ");
 
-                Emit(expression.Instance.ToString() + "." + ToPascalCase(a.Value.ToString()));
+                Visit(expression.Expression);
+                Emit(".");
+                Emit(ToPascalCase(a.Name));
                 Emit(";");
 
                 i++;

@@ -2,7 +2,7 @@
 
 namespace D.Parsing.Tests
 {
-    using Expressions;
+    using Syntax;
 
     public class TypeTests : TestBase
     { 
@@ -13,7 +13,7 @@ namespace D.Parsing.Tests
         [InlineData("Vehicle`Crash event record { vehicle: Vehicle }", TypeFlags.Event | TypeFlags.Record)]
         public void Subtypes(string text, TypeFlags flags)
         {
-            var type = Parse<TypeDeclaration>(text);
+            var type = Parse<TypeDeclarationSyntax>(text);
 
             Assert.Equal(type.Flags, flags);
         }
@@ -24,7 +24,7 @@ namespace D.Parsing.Tests
         [InlineData("SVG : Graphic;")]        // Optional semicolon
         public void ExtendsTest(string text)
         {
-            var type = Parse<TypeDeclaration>(text);
+            var type = Parse<TypeDeclarationSyntax>(text);
 
             Assert.Equal("SVG", type.Name.ToString());
             Assert.Equal("Graphic", type.BaseType.ToString());
@@ -33,7 +33,7 @@ namespace D.Parsing.Tests
         [Fact]
         public void ReallyLongTerm()
         {
-            var type = Parse<TypeDeclaration>("Type `III `Autoimmune `Polyglandular `Syndrome : Syndrome");
+            var type = Parse<TypeDeclarationSyntax>("Type `III `Autoimmune `Polyglandular `Syndrome : Syndrome");
 
             Assert.Equal("TypeIIIAutoimmunePolyglandularSyndrome", type.Name);
             Assert.Equal("Syndrome", type.BaseType.ToString());
@@ -42,7 +42,7 @@ namespace D.Parsing.Tests
         [Fact]
         public void ShorthandFields()
         {
-            var a = Parse<TypeDeclaration>(@"
+            var a = Parse<TypeDeclarationSyntax>(@"
 Point type {
   x, y, z: T
 }
@@ -61,7 +61,7 @@ Point type {
         [Fact]
         public void Multidefination()
         {
-            var type = Parse<CompoundTypeDeclaration>(@"
+            var type = Parse<CompoundTypeDeclarationSyntax>(@"
 A, B, C : D type {
   id : Identity
 }");
@@ -75,7 +75,7 @@ A, B, C : D type {
         [Fact]
         public void TypeDefination()
         {
-            var declaration = Parse<TypeDeclaration>(@"
+            var declaration = Parse<TypeDeclarationSyntax>(@"
 Graphic type {
   text : String
   id   : Identity
@@ -92,7 +92,7 @@ Graphic type {
         [Fact]
         public void GenericParams()
         {
-            var declaration = Parse<TypeDeclaration>(@"
+            var declaration = Parse<TypeDeclarationSyntax>(@"
 Point type <T: Number> : Vector3<T> {
   x: T
   y: T
@@ -126,7 +126,7 @@ T record {
         [Fact]
         public void Q()
         {
-            var declaration = Parse<TypeDeclaration>(@"
+            var declaration = Parse<TypeDeclarationSyntax>(@"
 T record {
   a: Set<String>
   b: Function<A, B>
@@ -165,7 +165,7 @@ T record {
         [Fact]
         public void Complicated()
         {
-            var type = Parse<TypeDeclaration>(@"
+            var type = Parse<TypeDeclarationSyntax>(@"
 Account record {
    mutable balance : Decimal
    owner           : Entity

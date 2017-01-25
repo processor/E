@@ -4,7 +4,7 @@
     // let a of type Integer equal 5
     public class VariableDeclaration : IExpression
     {
-        public VariableDeclaration(string name, Symbol type, bool mutable, IExpression value = null)
+        public VariableDeclaration(string name, IType type, bool mutable, IExpression value = null)
         {
             Name = name;
             Type = type;
@@ -14,7 +14,7 @@
 
         public string Name { get; }
 
-        public Symbol Type { get; }
+        public IType Type { get; }
 
         public bool IsMutable { get; }
 

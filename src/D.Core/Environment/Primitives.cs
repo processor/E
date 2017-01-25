@@ -10,6 +10,11 @@
             Add(Type.Get(Kind.String));
             Add(Type.Get(Kind.Integer));
             Add(Type.Get(Kind.Float));
+            Add(Type.Get(Kind.Number));
+            Add(Type.Get(Kind.Float32));
+            Add(Type.Get(Kind.Float64));
+            Add(Type.Get(Kind.Int32));
+            Add(Type.Get(Kind.Int64));
         }
     }
 }

@@ -27,11 +27,11 @@ namespace D.Expressions
 
         #region Helpers
 
-        public IEnumerable<FunctionDeclaration> Constructors
+        public IEnumerable<Function> Constructors
         {
             get
             {
-                foreach (var method in Members.OfType<FunctionDeclaration>())
+                foreach (var method in Members.OfType<Function>())
                 {
                     if (method.IsInitializer)
                     {
@@ -41,11 +41,11 @@ namespace D.Expressions
             }
         }
 
-        public IEnumerable<FunctionDeclaration> Methods
+        public IEnumerable<Function> Methods
         {
             get
             {
-                foreach (var method in Members.OfType<FunctionDeclaration>())
+                foreach (var method in Members.OfType<Function>())
                 {
                     if (!method.IsInitializer)
                     {
@@ -55,11 +55,11 @@ namespace D.Expressions
             }
         }
 
-        public IEnumerable<FunctionDeclaration> Properties
+        public IEnumerable<Function> Properties
         {
             get
             {
-                foreach (var method in Members.OfType<FunctionDeclaration>())
+                foreach (var method in Members.OfType<Function>())
                 {
                     if (method.IsProperty)
                     {

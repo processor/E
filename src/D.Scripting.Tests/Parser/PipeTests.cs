@@ -2,7 +2,7 @@
 
 namespace D.Parsing.Tests
 {
-    using Expressions;
+    using Syntax;
     using Units;
 
     public class PipeTests : TestBase
@@ -10,12 +10,12 @@ namespace D.Parsing.Tests
         [Fact]
         public void Simple()
         {
-            var pipe = Parse<PipeStatement>("a |> function1 |> function2");
+            var pipe = Parse<PipeStatementSyntax>("a |> function1 |> function2");
 
-            var b = (PipeStatement)pipe.Callee;
+            var b = (PipeStatementSyntax)pipe.Callee;
 
-            Assert.Equal("function2", ((CallExpression)pipe.Expression).FunctionName);
-            Assert.Equal("function1", ((CallExpression)b.Expression).FunctionName);
+            Assert.Equal("function2", ((CallExpressionSyntax)pipe.Expression).FunctionName);
+            Assert.Equal("function1", ((CallExpressionSyntax)b.Expression).FunctionName);
         }
 
         [InlineData("image |> resize(width: 800px, height: 600px)")]
@@ -23,19 +23,19 @@ namespace D.Parsing.Tests
         [InlineData("image |> resize 800px 600px")]
         public void Funcs(string text)
         {
-            var pipe = Parse<PipeStatement>(text);
+            var pipe = Parse<PipeStatementSyntax>(text);
 
-            var call = (CallExpression)pipe.Expression;
+            var call = (CallExpressionSyntax)pipe.Expression;
 
             Assert.Equal("image", pipe.Callee.ToString());
             Assert.Equal("resize", call.FunctionName);
 
             // Assert.Equal(2, call.Function.Definition.Arguments.Length);
 
-            Assert.Equal(2, call.Arguments.Count);
+            Assert.Equal(2, call.Arguments.Length);
 
-            var arg1 = (IUnit)call.Arguments[0];
-            var arg2 = (IUnit)call.Arguments[1];
+            var arg1 = (UnitLiteral)call.Arguments[0].Value;
+            var arg2 = (UnitLiteral)call.Arguments[1].Value;
 
             Assert.Equal("800px", arg1.ToString());
             Assert.Equal("600px", arg2.ToString());
@@ -44,28 +44,28 @@ namespace D.Parsing.Tests
         [Fact]
         public void Read3()
         {
-            var pipe = Parse<PipeStatement>("image |> resize (800px, 600px) |> format Gif");
+            var pipe = Parse<PipeStatementSyntax>("image |> resize (800px, 600px) |> format Gif");
 
-            Assert.Equal("format", ((CallExpression)pipe.Expression).FunctionName);
+            Assert.Equal("format", ((CallExpressionSyntax)pipe.Expression).FunctionName);
 
-            var resizePipe = (PipeStatement)pipe.Callee;
+            var resizePipe = (PipeStatementSyntax)pipe.Callee;
             
-            var resizePipeFunc = (CallExpression)resizePipe.Expression;
+            var resizePipeFunc = (CallExpressionSyntax)resizePipe.Expression;
 
             Assert.Equal("resize", resizePipeFunc.FunctionName);
 
-            Assert.Equal("800px", ((IUnit)resizePipeFunc.Arguments[0]).ToString());
-            Assert.Equal("600px", ((IUnit)resizePipeFunc.Arguments[1]).ToString());
+            Assert.Equal("800px", ((UnitLiteral)resizePipeFunc.Arguments[0].Value).ToString());
+            Assert.Equal("600px", ((UnitLiteral)resizePipeFunc.Arguments[1].Value).ToString());
             Assert.Equal("image",  (Symbol)resizePipe.Callee);
 
-            Assert.Equal("Gif", ((CallExpression)pipe.Expression).Arguments[0].ToString());
+            Assert.Equal("Gif", ((CallExpressionSyntax)pipe.Expression).Arguments[0].Value.ToString());
           
         }
 
         [Fact]
         public void ObjectDef()
         {
-            var pipe = Parse<PipeStatement>(@"
+            var pipe = Parse<PipeStatementSyntax>(@"
 f |> plot {
   x: 0...100
   y: 0...100
@@ -74,9 +74,9 @@ f |> plot {
 
             Assert.Equal("f", pipe.Callee.ToString());
 
-            var call = (CallExpression)pipe.Expression;
+            var call = (CallExpressionSyntax)pipe.Expression;
 
-            var record = (TypeInitializer)call.Arguments[0];
+            var record = (TypeInitializerSyntax)call.Arguments[0].Value;
 
             Assert.Equal(null, record.Type);
             Assert.Equal("x", record[0].Name);

@@ -27,14 +27,13 @@ namespace D
         {
             Id = (long)kind;
             Name = kind.ToString();
-
             Arguments = args;
         }
 
-        public Type(string domain, string name, IType[] args = null)
+        public Type(string @namespace, string name, IType[] args = null)
         {
             Id         = Interlocked.Increment(ref id);
-            Domain     = domain;
+            Namespace  = @namespace;
             Name       = name;
             Arguments  = args ?? Array.Empty<IType>();
         }
@@ -57,7 +56,7 @@ namespace D
         public long Id { get; set; }
 
         // e.g. physics
-        public string Domain { get; set; }
+        public string Namespace { get; }
 
         // unique within domain
         public string Name { get; }
@@ -94,9 +93,9 @@ namespace D
         {
             var sb = new StringBuilder();
 
-            if (Domain != null)
+            if (Namespace != null)
             {
-                sb.Append(Domain);
+                sb.Append(Namespace);
                 sb.Append("::");
             }
 

@@ -1,14 +1,14 @@
 ﻿using System.Collections.Generic;
 
-namespace D.Expressions
+namespace D.Syntax
 {
     // A protocal { }
 
     // mutable name -> String
 
-    public class ProtocalDeclaration : IExpression
+    public class ProtocalDeclarationSyntax : ISyntax
     {
-        public ProtocalDeclaration(Symbol name, IList<IMessageDeclaration> messages, FunctionDeclaration[] members)
+        public ProtocalDeclarationSyntax(Symbol name, IList<IMessageDeclaration> messages, FunctionDeclarationSyntax[] members)
         {
             Name    = name;
             Channel = messages;
@@ -21,7 +21,7 @@ namespace D.Expressions
 
         public IList<IMessageDeclaration> Channel { get; set; } 
 
-        public FunctionDeclaration[] Members { get; set; }
+        public FunctionDeclarationSyntax[] Members { get; set; }
 
         Kind IObject.Kind => Kind.ProtocalDeclaration;
     }

@@ -1,8 +1,11 @@
-﻿namespace D
+﻿using D.Expressions;
+
+namespace D
 {
     // Field?
 
-    public class Variable : IObject
+    /*
+    public class Variable : IExpression
     {
         public Variable(IType type, object value, bool isMutable)
         {
@@ -19,4 +22,5 @@
 
         Kind IObject.Kind => Kind.Variable;
     }   
+    */
 }

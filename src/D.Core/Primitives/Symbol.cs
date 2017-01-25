@@ -3,7 +3,7 @@ using System.Text;
 
 namespace D
 {
-    using Expressions;
+    using Expressions; 
 
     // Array        [ ] Type
     // Dictionary   [ key`Type: value`Type ]
@@ -16,7 +16,7 @@ namespace D
     // Array<String>
     // Array<physics::Momentum>
 
-    public class Symbol : IExpression
+    public class Symbol : IExpression, D.Syntax.ISyntax
     {
         public static readonly Symbol Any    = new Symbol("Any",    SymbolKind.Type);
         public static readonly Symbol String = new Symbol("String", SymbolKind.Type);
