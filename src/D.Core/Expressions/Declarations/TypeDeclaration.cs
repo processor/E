@@ -1,13 +1,15 @@
-﻿namespace D.Expressions
+﻿using System;
+
+namespace D.Expressions
 {
     // type | record | event
 
-    public class TypeDefinationBase : IExpression
+    public class TypeDeclarationBase : IExpression
     {
-        public TypeDefinationBase(Symbol baseType, TypeFlags flags, PropertyDeclaration[] members)
+        public TypeDeclarationBase(Symbol baseType, Property[] properties, TypeFlags flags = TypeFlags.None)
         {
             BaseType = baseType;
-            Members = members;
+            Members = properties;
             Flags = flags;
         }
 
@@ -16,7 +18,7 @@
 
         public TypeFlags Flags { get; }
 
-        public PropertyDeclaration[] Members { get; }
+        public Property[] Members { get; }
 
         public bool IsRecord 
             => Flags.HasFlag(TypeFlags.Record);
@@ -30,10 +32,10 @@
         Kind IObject.Kind => Kind.TypeDeclaration;
     }
 
-    public class TypeDeclaration : TypeDefinationBase
+    public class TypeDeclaration : TypeDeclarationBase
     {
-        public TypeDeclaration(Symbol name, Parameter[] genericParameters, Symbol baseType, PropertyDeclaration[] members, TypeFlags flags)
-            : base (baseType, flags, members)
+        public TypeDeclaration(Symbol name, Parameter[] genericParameters, Symbol baseType, Property[] members, TypeFlags flags)
+            : base (baseType, members, flags)
         {
             Name = name;
             GenericParameters = genericParameters;
@@ -47,45 +49,18 @@
         public Parameter[] GenericParameters { get; }
     }
 
-    public class CompoundTypeDeclaration : TypeDefinationBase
+    public class CompoundTypeDeclaration : TypeDeclarationBase
     {
-        public CompoundTypeDeclaration(Symbol[] names, TypeFlags flags, Symbol baseType, PropertyDeclaration[] properties)
-             : base(baseType, flags, properties)
+        public CompoundTypeDeclaration(Symbol[] names, TypeFlags flags, Symbol baseType, Property[] properties)
+             : base(baseType, properties, flags)
         {
             Names = names;
         }
 
         public Symbol[] Names { get; }
-    }
-
-    public struct PropertyDeclaration
-    {
-        public PropertyDeclaration(string name, Symbol type, bool mutable = false)
-        {
-            Name = name;
-            Type = type;
-            IsMutable = mutable;
-        }
-
-        public string Name { get; }
-
-        public bool IsMutable { get; }
-
-        // String
-        // String | Number
-        // A & B
-        public Symbol Type { get; }
-    }
+    }    
 
     // MAP = * -> *
-
-    public enum TypeFlags
-    {
-        None = 0,
-        Primitive,
-        Record = 1 << 3,
-        Event = 1 << 4
-    }
 }
 
 

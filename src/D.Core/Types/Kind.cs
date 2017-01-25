@@ -107,7 +107,6 @@
         HalfOpenRange    = 2008,
         Equation         = 2010,
        
-
         Predicate           = 2100,
 
         // Declarations
@@ -119,8 +118,8 @@
         ProtocalDeclaration             = 2206,
         ChannelDeclaration              = 2207,
         ImplementationDeclaration       = 2208,
-        PrimitiveDeclaration            = 2209,
-        UnitDeclaration                 = 2210,
+        UnitDeclaration                 = 2209,
+        NamedMetadata            = 2210,
 
         DestructuringAssignment         = 2220,
 

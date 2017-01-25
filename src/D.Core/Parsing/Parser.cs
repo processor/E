@@ -761,46 +761,19 @@ namespace D.Parsing
             return new CompoundTypeDeclarationSyntax(names, flags, baseTypes, members);
         }
 
+        // primitives may have const properties (e.g. size, epsilon)
 
-        // primitives may have a single member (size)
-
-        // Int32 primitive { size: 32 }
-        public PrimitiveDeclarationSyntax ReadPrimitiveDeclaration(Symbol typeName)
-        {
-            Consume(Primitive); // ! primitive
-
-            int? size = null;
-
-            if (ConsumeIf(BraceOpen))
-            {
-                while (!IsKind(BraceClose))
-                {
-                    var name = Consume("size");
-
-                    Consume(Colon);
-
-                    size = int.Parse(ReadNumeric().ToString());
-
-                    ConsumeIf(Semicolon);
-                }
-
-                Consume(BraceClose);
-            }
-
-            ConsumeIf(Semicolon); // ? ;
-
-            return new PrimitiveDeclarationSyntax(typeName, size);
-
-        }
+        // Int32 primitive { size = 32 }
 
         // Point type <T:Number> : Vector3 { 
         public TypeDeclarationSyntax ReadTypeDeclaration(Symbol typeName)
         {
             ConsumeIf(Type);
 
-            var flags = ConsumeIf("event") ? TypeFlags.Event  : TypeFlags.None;
+            var flags = ConsumeIf("event") ? TypeFlags.Event : TypeFlags.None;
 
-            if (ConsumeIf(Record)) flags |= TypeFlags.Record;
+            if (ConsumeIf(Primitive)) flags |= TypeFlags.Primitive;
+            if (ConsumeIf(Record))    flags |= TypeFlags.Record;
 
             // <T: Number>
             var genericParameters = ReadGenericParameters();
@@ -809,22 +782,48 @@ namespace D.Parsing
                 ? ReadSymbol(SymbolKind.Type)  // baseType
                 : null;
 
-            var members = ReadTypeDeclarationBody();
+            var properties = new List<PropertyDeclarationSyntax>();
+            var attributes = new List<NamedMetadataSyntax>();
+
+            if (ConsumeIf(BraceOpen))  // ? {
+            {
+                foreach (var member in ReadTypeMembers())
+                {
+                    if (member is PropertyDeclarationSyntax)
+                    {
+                        properties.Add((PropertyDeclarationSyntax)member);
+                    }
+                    else if (member is NamedMetadataSyntax)
+                    {
+                        attributes.Add((NamedMetadataSyntax)member);
+                    }
+                }
+
+                Consume(BraceClose);  // ! }
+            }
 
             ConsumeIf(Semicolon); // ? ;
 
-            return new TypeDeclarationSyntax(typeName, genericParameters, baseType, members, flags);
+            return new TypeDeclarationSyntax(typeName, genericParameters, baseType, properties.ToArray(), attributes.ToArray(), flags: flags);
         }
 
         private PropertyDeclarationSyntax[] ReadTypeDeclarationBody()
         {
             if (ConsumeIf(BraceOpen))  // ? {
             {
-                var members = ReadMembers();
+                var properties = new List<PropertyDeclarationSyntax>();
 
+                foreach (var member in ReadTypeMembers())
+                {
+                    if (member is PropertyDeclarationSyntax)
+                    {
+                        properties.Add((PropertyDeclarationSyntax)member);
+                    }
+                }
+                
                 Consume(BraceClose);  // ! }
 
-                return members.ToArray();
+                return properties.ToArray();
             }
             
             return Array.Empty<PropertyDeclarationSyntax>();
@@ -832,7 +831,7 @@ namespace D.Parsing
 
         private readonly List<Symbol> names = new List<Symbol>();
 
-        private List<PropertyDeclarationSyntax> ReadMembers()
+        private IEnumerable<ISyntax> ReadTypeMembers()
         {
             var members = new List<PropertyDeclarationSyntax>();
 
@@ -840,28 +839,41 @@ namespace D.Parsing
             {
                 // mutable name: Type | Type,
 
-                bool mutable = ConsumeIf(Mutable);
+                bool isMutable = ConsumeIf(Mutable);
 
-                names.Add(ReadSymbol(SymbolKind.Property));
-           
-                while (ConsumeIf(Comma))
+                var name = ReadSymbol(SymbolKind.Property);
+
+                // size = 1
+                if (ConsumeIf("="))
                 {
-                    names.Add(ReadSymbol(SymbolKind.Property));
+                    var value = ReadPrimary();
+
+                    ConsumeIf(Semicolon); // ? ;
+
+                    yield return new NamedMetadataSyntax(name, value);
                 }
-           
-                Consume(Colon); // ! :
-
-                var type = ReadSymbol(SymbolKind.Type);
-
-                ConsumeIf(Semicolon); // ? ;
-
-                foreach(var name in names.Extract())
+                else
                 {
-                    members.Add(new PropertyDeclarationSyntax(name, type, mutable));
+
+                    names.Add(name);
+
+                    while (ConsumeIf(Comma))
+                    {
+                        names.Add(ReadSymbol(SymbolKind.Property));
+                    }
+
+                    Consume(Colon); // ! :
+
+                    var type = ReadSymbol(SymbolKind.Type);
+
+                    ConsumeIf(Semicolon); // ? ;
+
+                    foreach (var n in names.Extract())
+                    {
+                        yield return new PropertyDeclarationSyntax(n, type, isMutable);
+                    }
                 }
             }
-
-            return members;
         }
 
         private readonly List<ISyntax> members = new List<ISyntax>();
@@ -1869,7 +1881,7 @@ namespace D.Parsing
                         }
 
                         break;
-                    case Primitive: return ReadPrimitiveDeclaration(name); // Int32 primitive
+                    case Primitive:
                     case Type:
                     case Event:
                     case Record:

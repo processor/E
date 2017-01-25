@@ -1,4 +1,6 @@
-﻿namespace D.Syntax
+﻿using System;
+
+namespace D.Syntax
 {
     // type | record | event
 
@@ -18,10 +20,10 @@
 
         public PropertyDeclarationSyntax[] Members { get; }
 
-        public bool IsRecord 
+        public bool IsRecord
             => Flags.HasFlag(TypeFlags.Record);
 
-        public bool IsEvent 
+        public bool IsEvent
             => Flags.HasFlag(TypeFlags.Event);
 
         public bool IsPrimitive
@@ -32,10 +34,17 @@
 
     public class TypeDeclarationSyntax : TypeDefinationBase
     {
-        public TypeDeclarationSyntax(Symbol name, ParameterSyntax[] genericParameters, Symbol baseType, PropertyDeclarationSyntax[] members, TypeFlags flags)
-            : base (baseType, flags, members)
+        public TypeDeclarationSyntax(
+            Symbol name,
+            ParameterSyntax[] genericParameters,
+            Symbol baseType,
+            PropertyDeclarationSyntax[] members,
+            NamedMetadataSyntax[] attributes,
+            TypeFlags flags = TypeFlags.None)
+            : base(baseType, flags, members)
         {
             Name = name;
+            Attributes = attributes;
             GenericParameters = genericParameters;
         }
 
@@ -44,7 +53,35 @@
         // Vehicle 'Crash   term
         public Symbol Name { get; }
 
+        public NamedMetadataSyntax[] Attributes { get; }
+
         public ParameterSyntax[] GenericParameters { get; }
+    }
+
+
+    public class NamedMetadataSyntax : ISyntax
+    {
+        public NamedMetadataSyntax(Symbol name, ISyntax value)
+        {
+            #region Preconditions
+
+            if (name == null)
+                throw new ArgumentNullException(nameof(name));
+
+            if (value == null)
+                throw new ArgumentNullException(nameof(value));
+
+            #endregion
+
+            Name = name;
+            Value = value;
+        }
+
+        public Symbol Name { get; }
+
+        public ISyntax Value { get; }
+
+        Kind IObject.Kind => Kind.NamedMetadata;
     }
 
     public class CompoundTypeDeclarationSyntax : TypeDefinationBase
@@ -58,7 +95,7 @@
         public Symbol[] Names { get; }
     }
 
-    public struct PropertyDeclarationSyntax
+    public class PropertyDeclarationSyntax : ISyntax
     {
         public PropertyDeclarationSyntax(string name, Symbol type, bool mutable = false)
         {
@@ -75,17 +112,13 @@
         // String | Number
         // A & B
         public Symbol Type { get; }
+
+        Kind IObject.Kind => Kind.Property;
     }
 
     // MAP = * -> *
 
-    public enum TypeFlags
-    {
-        None = 0,
-        Primitive,
-        Record = 1 << 3,
-        Event = 1 << 4
-    }
+  
 }
 
 

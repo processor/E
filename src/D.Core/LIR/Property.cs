@@ -23,6 +23,9 @@ namespace D
 
         public string Name { get; }
 
+        // String
+        // String | Number
+        // A & B
         public IType Type { get; }
 
         public bool IsMutable { get; }

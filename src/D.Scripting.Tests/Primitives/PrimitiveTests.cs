@@ -9,18 +9,21 @@ namespace D.Parsing.Tests
         [Fact]
         public void A()
         {
-            var a = Parse<PrimitiveDeclarationSyntax>("Float32 primitive");
+            var a = Parse<TypeDeclarationSyntax>("Float32 primitive");
 
             Assert.Equal("Float32", a.Name);
+            Assert.True(a.Flags.HasFlag(TypeFlags.Primitive));
         }
 
         [Fact]
         public void B()
         {
-            var a = Parse<PrimitiveDeclarationSyntax>("Int64 primitive { size: 8 }");
+            var a = Parse<TypeDeclarationSyntax>("Int64 primitive { size = 8 }");
 
             Assert.Equal("Int64", a.Name);
-            Assert.Equal(8, a.Size.Value);
+            Assert.Equal(1, a.Attributes.Length);
+            Assert.Equal("size", a.Attributes[0].Name);
+            Assert.Equal(8, (NumberLiteral)a.Attributes[0].Value);
         }
 
         [Fact]
