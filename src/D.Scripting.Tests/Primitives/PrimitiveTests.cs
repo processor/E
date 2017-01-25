@@ -1,4 +1,6 @@
-﻿using Xunit;
+﻿using System.Linq;
+
+using Xunit;
 
 namespace D.Parsing.Tests
 {
@@ -6,6 +8,16 @@ namespace D.Parsing.Tests
 
     public class PrimitiveTests : TestBase
     {
+        [Fact]
+        public void All()
+        {
+            var text = ReadDocument("base/primitives.d");
+            
+            var a = new Parser(text).Enumerate().ToArray();
+
+            Assert.Equal(18, a.Length);
+        }
+
         [Fact]
         public void A()
         {
