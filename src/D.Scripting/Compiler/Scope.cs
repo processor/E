@@ -2,15 +2,15 @@
 
 namespace D.Compilation
 {
-    public class CompliationContext
+    public class Scope
     {
         // TODO: Use a Trie to lookup Functions w/ different signatures
 
         private readonly ConcurrentDictionary<string, IObject> objects = new ConcurrentDictionary<string, IObject>();
 
-        private readonly CompliationContext parent;
+        private readonly Scope parent;
 
-        public CompliationContext(CompliationContext parent = null)
+        public Scope(Scope parent = null)
         {
             this.parent = parent;
 
@@ -20,7 +20,7 @@ namespace D.Compilation
             }
         }
 
-        public CompliationContext Parent => parent;
+        public Scope Parent => parent;
 
         public bool Add(string name, IObject value)
         {
@@ -85,9 +85,9 @@ namespace D.Compilation
             return null;
         }
 
-        public CompliationContext Nested()
+        public Scope Nested()
         {
-            return new CompliationContext(this);
+            return new Scope(this);
         }
     }
 }

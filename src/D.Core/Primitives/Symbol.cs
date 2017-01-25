@@ -16,12 +16,12 @@ namespace D
     // Array<String>
     // Array<physics::Momentum>
 
-    public class Symbol : IExpression, D.Syntax.ISyntax
+    public class Symbol : IExpression, Syntax.ISyntax
     {
-        public static readonly Symbol Any    = new Symbol("Any",    SymbolKind.Type);
-        public static readonly Symbol String = new Symbol("String", SymbolKind.Type);
-        public static readonly Symbol Number = new Symbol("Number", SymbolKind.Type);
-        public static readonly Symbol Void   = new Symbol("Void",   SymbolKind.Type);         // unit '()' in rust. Void in Swift / C#, ...
+        public static readonly Symbol Any    = Symbol.Type("Any");
+        public static readonly Symbol String = Symbol.Type("String");
+        public static readonly Symbol Number = Symbol.Type("Number");
+        public static readonly Symbol Void   = Symbol.Type("Void");         // unit '()' in rust. Void in Swift / C#, ...
 
         public Symbol(string name, SymbolKind kind)
         {

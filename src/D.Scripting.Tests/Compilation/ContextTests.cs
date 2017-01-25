@@ -10,7 +10,7 @@ namespace D.Compilation.Tests
         [Fact]
         public void PrimaryContext() 
         {
-            var context = new CompliationContext();
+            var context = new Scope();
 
             context.Add("a", new StringLiteral("a"));
             context.Add("b", new Integer(1));
@@ -25,7 +25,7 @@ namespace D.Compilation.Tests
         [Fact]
         public void ChildContext()
         {
-            var context = new CompliationContext();
+            var context = new Scope();
 
             context.Add("name", new StringLiteral("name"));
 

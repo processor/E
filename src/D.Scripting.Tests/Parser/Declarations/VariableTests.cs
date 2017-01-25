@@ -41,9 +41,9 @@ namespace D.Parsing.Tests
             Assert.Equal(3, var.Variables.Length);
             Assert.Equal("point", (Symbol)var.Instance);
 
-            Assert.Equal("x", (Symbol)var.Variables[0].Value);
-            Assert.Equal("y", (Symbol)var.Variables[1].Value);
-            Assert.Equal("z", (Symbol)var.Variables[2].Value);
+            Assert.Equal("x", var.Variables[0].Name);
+            Assert.Equal("y", var.Variables[1].Name);
+            Assert.Equal("z", var.Variables[2].Name);
         }
 
         [Fact]

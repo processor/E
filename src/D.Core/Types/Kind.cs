@@ -2,15 +2,15 @@
 {
     public enum Kind
     {
-        None     = 0, // Null
-        Boolean  = 1, // boolean
-        Any      = 2, // * | Any type
-        Integer  = 3, // {…, -2, -1, 0, 1, 2,…}     // 64 bit
+        None      = 0, // Null
+        Boolean   = 1, // boolean
+        Any       = 2, // * | Any type
+        Integer   = 3, // {…, -2, -1, 0, 1, 2,…}     // 64 bit
 
-        String   = 4,
-        Symbol   = 5,
-        Type     = 6,         
-        Function = 7, // functions can be standalone // ƒ
+        String    = 4,
+        Symbol    = 5,
+        Type      = 6,         
+        Function  = 7, // functions can be standalone // ƒ
         Number    = 15,
 
         // 9-15
