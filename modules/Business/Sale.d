@@ -15,3 +15,4 @@ Sale event {
   quantity  : Decimal
 }
 
+Purchase := Sale					       // reverse of a sale is a purchase

@@ -1,6 +1,8 @@
 using Math
 
-Angle unit;
+Angle protocal { 
+  
+}
 
 Radian    unit : Angle = 1
 Degree    unit : Angle = (π / 180) rad

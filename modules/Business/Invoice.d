@@ -9,6 +9,10 @@ Invoice record {
   lines  : [ ] Line
 }
 
+Receipt  := Invoice	when closed  // friendly name for a paid invoice
+
+
+
 Invoice protocal {
   * created     : created
   * | bill      : billed

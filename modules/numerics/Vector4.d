@@ -2,7 +2,6 @@ Vector4 type {
   x, y, z, w: Float
 }
 
-
 apply `Quaternion (q: Quaternion) {
     let ix =   q.w * x + q.y * z - q.z * this.y
     let iy =   q.w * y + q.z * x - q.x * this.z

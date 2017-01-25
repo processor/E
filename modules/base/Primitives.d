@@ -1,4 +1,5 @@
-Boolean    primitive { size = 1   }
+None       primtive  { size = 0 }
+Boolean    primitive { size = 1 }
 
 // Integers
 Int8       primitive { size = 1   }
