@@ -6,7 +6,7 @@ App protocal {
   diagnostics : [ ] Diagnostic
   services    : [ ] Service
   ui          : UI
-  screen      : Canvas
+  screen      : Screen
   reactor     : Reactor
   user        : User
   devices     : [ ] Devices       // e.g. keyboard, mouse, pen
