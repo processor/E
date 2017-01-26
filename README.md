@@ -1,24 +1,36 @@
 # DSharp.
 
-PLEASE NOTE: This remains an experimental prototype.
+NOTE: This is all experimental. No not expect this to work!
 
-Aspiring strongly typed language inspired by C#, Swift, JavaScript and Rust -- with a high level support for targeting multiple platforms including JavaScript & the CoreCLR. Bootstrapping with C# implementation.
+Aspiring strongly typed language inspired by C#, Swift, JavaScript and Rust -- with first class support for targeting both JavaScript and the Core CRL. The initial implementation is being bootstrapped with C#.
 
 High Level Features
 * Immutable by default
 * UTF8 everywhere
 * Pattern Matching
 * User defined units & operators w/ automatic conversions
-* Traits + Protocals
-* Pipes
+* Protocals
+* Used defined operators & extensions
  
 Breve syntax with strong inferance.
 
-Optional semicolons and parenthesis. 
+* Parenthesis are omited in most cases
+* Semicolons are only needed to deliminate statements on the same line
 
-Status: Initial lexer and parser completed.
 
-Need help developing CoreCRL & JavaScript backends, developing test library, and ML based type system. 
+Status
+
+* Initial Parser 
+* Initial Shape of Syntax & Expression Trees
+* Stubs for compilation, type inference, etc
+
+NEED HELP
+
+* Finalizing syntax (open: unit types)
+* Developing CoreCRL & JavaScript compliers
+* Finalizing ML based type system 
+* Testing
+* Developing Base Library shape and aquisition methods
 
 Waiting on UtfString & DEC64 story in CLR. Contribute where possible to advance these standards into the core library.
 
