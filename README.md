@@ -1,11 +1,11 @@
 # DSharp.
-Still a loose prototype.
+
+PLEASE NOTE: This remains an experimental prototype.
 
 Aspiring strongly typed language inspired by C#, Swift, JavaScript and Rust -- with a high level support for targeting multiple platforms including JavaScript & the CoreCLR. Bootstrapping with C# implementation.
 
 High Level Features
 * Immutable by default
-* Precise number type based on DEC64
 * UTF8 everywhere
 * Pattern Matching
 * User defined units & operators w/ automatic conversions
@@ -26,12 +26,12 @@ Example:
 
 ```
 Vector3 type { 
-  x, y, z: Float
+  x, y, z: Number
 }
 
 Vector3 impl  { 
-  from (x, y, z: Float) => Vector3 { x, y, z }
-  from (x, y: Float)    => Vector3 { x, y, z: 0 }
+  from (x, y, z: Number) => Vector3 { x, y, z }
+  from (x, y: Number)    => Vector3 { x, y, z: 0 }
   from (value: T)       => Vector3 { x: value, y: value, z: value }
 
   [index: Integer] => match index { 
@@ -44,8 +44,8 @@ Vector3 impl  {
   length                       => sqrt(this.dot(this))
   lengthSquared                => dot(this);
 
-  * (value: Float)   => Vector3 { x: x * value,   y: y * value,   z: z * value   };
-  / (value: Float)   => Vector3 { x: x / value,   y: y / value,   z: z / value   };
+  * (value: Number)   => Vector3 { x: x * value,   y: y * value,   z: z * value   };
+  / (value: Number)   => Vector3 { x: x / value,   y: y / value,   z: z / value   };
   + (value: Vector3) => Vector3 { x: x + value.x, y: y + value.y, z: z + value.z };
   - (value: Vector3) => Vector3 { x: x - value.x, y: y - value.y, z: z - value.z };
   
