@@ -1,5 +1,5 @@
 Heading type : Element { 
-  level: Float
+  level: Number
 }
 
 Heading protocal { 

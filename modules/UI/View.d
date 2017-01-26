@@ -1,3 +1,5 @@
+import { Rectangle } from Geometry
+
 View protocal { 
   width  : Integer
   height : Integer

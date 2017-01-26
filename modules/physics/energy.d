@@ -1,7 +1,7 @@
 ElementaryCharge  = 1.60217653e-19          // C
 
-ElectronMass      = 9.1093826e31         // in kg
-SpeedOfLight      = 2.99792458e8         // in kg
+ElectronMass      = 9.1093826e31kg     
+SpeedOfLight      = 2.99792458e8m
 ProtonMassUnit    = 1.67262171e-27     
 AtomicMassUnit    = 1.66053886e-27
 
@@ -11,7 +11,7 @@ AtomicMassUnit    = 1.66053886e-27
 // ~ accelatte 1kg mass 1 m/s though 1m of space
 // ~ electricity required to light 1 watt LED for 1s
       
-Joule unit si {
+Joule SI unit {
 
 
 }

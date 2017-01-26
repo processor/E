@@ -1,6 +1,11 @@
 Temperature unit;
 
-Kelvin unit si : Temperature = 0
+// SI
+
+Kelvin unit {
+
+}
+
 Celsius unit : Temperature {
-  to Kelvin => this + 273.15
+  to Kelvin => value + 273.15
 }

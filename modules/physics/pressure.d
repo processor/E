@@ -1,12 +1,13 @@
 // can be intepreseted as PSI, Bar, etc
 
+Pressure unit { } 
 
-Pascal unit : Pressure {
+Pascal unit {
 
 }
 
-Pressure extension { 
 
+Pressure extension { 
   // Pascal
   
   // ...
@@ -32,8 +33,8 @@ Torr,
 
 
 
-ksi,
-psi, // Pound/Square Inch
-bar = Bar,
-atm = Atmosphere,
-mmHg,
+ksi  unit = ?
+psi  unit = ? ,          // Pound/Square Inch
+bar  unit = ?,
+atm  unit = Atmosphere,
+mmHg unit = ?,
