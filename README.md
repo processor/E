@@ -1,5 +1,6 @@
 # DSharp.
-Still a loose prototype.
+
+PLEASE NOTE: This remains an experimental prototype.
 
 Aspiring strongly typed language inspired by C#, Swift, JavaScript and Rust -- with a high level support for targeting multiple platforms including JavaScript & the CoreCLR. Bootstrapping with C# implementation.
 
