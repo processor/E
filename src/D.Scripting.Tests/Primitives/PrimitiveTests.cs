@@ -35,7 +35,7 @@ namespace D.Parsing.Tests
             Assert.Equal("Int64", a.Name);
             Assert.Equal(1, a.Attributes.Length);
             Assert.Equal("size", a.Attributes[0].Name);
-            Assert.Equal(8, (NumberLiteral)a.Attributes[0].Value);
+            Assert.Equal(8, (NumberLiteralSyntax)a.Attributes[0].Value);
         }
 
         [Fact]

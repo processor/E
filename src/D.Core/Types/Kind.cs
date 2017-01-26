@@ -2,16 +2,16 @@
 {
     public enum Kind
     {
-        None      = 0, // Null
-        Boolean   = 1, // boolean
-        Any       = 2, // * | Any type
-        Integer   = 3, // {…, -2, -1, 0, 1, 2,…}     // 64 bit
+        None            = 0, // Null
+        Boolean         = 1, // boolean
+        Any             = 2, // * | Any type
+        Integer         = 3, // {…, -2, -1, 0, 1, 2,…}     // 64 bit
 
-        String    = 4,
-        Symbol    = 5,
-        Type      = 6,         
-        Function  = 7, // functions can be standalone // ƒ
-        Number    = 15,
+        String          = 4,
+        Symbol          = 5,
+        Type            = 6,         
+        Function        = 7,  // functions can be standalone // ƒ
+        Number          = 15, // Alias Float64: IEEE-754 encoded. Matches JavaScript
 
         // 9-15
         Pointer        = 9,
@@ -34,25 +34,17 @@
         Byte           = 103,
        
         Rational       = 111, // 1/3                        // ?
-        Float          = 112, // 1.1                        // 64 bit
         Decimal        = 113,                               // 128 bit
         Vector         = 114,
         Complex        = 115,
         Matrix         = 116,
 
-        Int32      = 120,
-        Int64      = 121,
-        Float32        = 121,
-        Float64        = 122,
+        Int16           = 119,
+        Int32           = 120,
+        Int64           = 121,
+        Float32         = 122,
+        Float64         = 123,
 
-        #region Intergers (1, 8, 16, 32, 64, 128, 256, 1024, 2048, 4096)
-
-        
-        BigInteger = 5000,
-
-        #endregion
-
-      
 
         #region 200-300 Vectors
 
@@ -105,9 +97,11 @@
         MatrixLiteral    = 2006,
         RangeLiteral     = 2007,
         HalfOpenRange    = 2008,
-        Equation         = 2010,
+        NumberLiteral    = 2009,
+        StringLiteral    = 2010,
+        Equation         = 2011,
        
-        Predicate           = 2100,
+        Predicate        = 2100,
 
         // Declarations
         TypeDeclaration                 = 2201,
@@ -129,15 +123,15 @@
         // RecordExpression = 2009,
 
         PipeStatement = 2302,
-        MatchStatement  = 2303,
+        MatchExpression  = 2303,
         BlockStatement  = 2304,
         SpreadStatement = 2305,
 
-        CallExpression   = 2500,
-
-        TupleExpression  = 2501,
-        LambdaExpression = 2502,
-        QueryExpression  = 2503,
+        CallExpression     = 2500,
+        // ConstantExpression = 2501,
+        TupleExpression    = 2502,
+        LambdaExpression   = 2503,
+        QueryExpression    = 2504,
 
         // Statements
         ReturnStatement   = 3001,

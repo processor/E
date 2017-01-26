@@ -15,7 +15,7 @@ namespace D
 
         public double Value { get; }
 
-        Kind IObject.Kind => Kind.Float;
+        Kind IObject.Kind => Kind.Number;
 
         double INumber.Real => Value;
 

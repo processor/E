@@ -4,7 +4,7 @@
 
     public partial class CSharpTranspiler
     {
-        public override void VisitVariableDeclaration(VariableDeclaration declaration)
+        public override IExpression VisitVariableDeclaration(VariableDeclaration declaration)
         {
             Indent(level);
 
@@ -12,7 +12,7 @@
             {
                 WriteVariableDeclarationWithMatch(declaration);
 
-                return;
+                return declaration;
             }
 
             WriteTypeSymbol(declaration.Type ?? Type.Get(Kind.Any));
@@ -22,6 +22,8 @@
             Emit(" = ");
             Visit(declaration.Value);
             Emit(";");
+
+            return declaration;
         }
 
 

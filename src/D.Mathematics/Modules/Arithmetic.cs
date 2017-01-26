@@ -47,7 +47,7 @@ namespace D.Mathematics
         public ArithmethicFunction(string name, Func<INumber, INumber, INumber> func)
         {
             Name = name;
-            Parameters = new[] { Parameter.Float, Parameter.Float };
+            Parameters = new[] { Parameter.Number, Parameter.Number };
 
             this.func = func;
         }

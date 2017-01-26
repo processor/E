@@ -17,24 +17,24 @@ namespace D.Mathematics
         T Pow(T x, T y);
     }
 
-    public class RealArithmetic : IArithmetic<Float>
+    public class RealArithmetic : IArithmetic<double>
     {
-        public Float Add(Float x, Float y)      => new Float(x.Value * y.Value);
-        public Float Subtract(Float x, Float y) => new Float(x.Value * y.Value);
-        public Float Mutiply(Float x, Float y)  => new Float(x.Value * y.Value);
-        public Float Divide(Float x, Float y)   => new Float(x.Value * y.Value);
-        public Float Mod(Float x, Float y)      => new Float(x.Value % y.Value);
-        public Float Pow(Float x, Float y)      => new Float(Math.Pow(x.Value, y.Value));
+        public double Add(double x, double y)      => x + y;
+        public double Subtract(double x, double y) => x - y;
+        public double Mutiply(double x, double y)  => x * y;
+        public double Divide(double x, double y)   => x / y;
+        public double Mod(double x, double y)      => x % y;
+        public double Pow(double x, double y)      => Math.Pow(x, y);
     }
 
-    public class IntegerArithmetic : IArithmetic<Integer>
+    public class IntegerArithmetic : IArithmetic<long>
     {
-        public Integer Add(Integer x, Integer y)         => new Integer(x.Value * y.Value);
-        public Integer Subtract(Integer x, Integer y)    => new Integer(x.Value * y.Value);
-        public Integer Mutiply(Integer x, Integer y)     => new Integer(x.Value * y.Value);
-        public Integer Divide(Integer x, Integer y)      => new Integer(x.Value * y.Value);
-        public Integer Mod(Integer x, Integer y)         => new Integer(x.Value % y.Value);
-        public Integer Pow(Integer x, Integer y)         => new Integer((long)Math.Pow(x.Value, y.Value));
+        public long Add(long x, long y)         => x + y;
+        public long Subtract(long x, long y)    => x - y;
+        public long Mutiply(long x, long y)     => x * y;
+        public long Divide(long x, long y)      => x / y;
+        public long Mod(long x, long y)         => x % y;
+        public long Pow(long x, long y)         => (long)Math.Pow(x, y);
     }
 
     public class Int32Arithmetic : IArithmetic<Int32>

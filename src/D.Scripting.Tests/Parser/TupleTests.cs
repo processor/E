@@ -15,7 +15,7 @@ namespace D.Parsing.Tests
 
             // Assert.Equal(0L,   (Integer)tuple.Elements[0]);
             // Assert.Equal(100L, (Integer)tuple.Elements[1]);
-            Assert.Equal("a", (StringLiteral)tuple.Elements[2]);
+            Assert.Equal("a", (StringLiteralSyntax)tuple.Elements[2]);
         }
 
         [Fact]

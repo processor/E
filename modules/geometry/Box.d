@@ -1,12 +1,12 @@
 Box type { 
   center : Point
-  width  : Float
-  height : Float
-  length : Float 
+  width  : Number
+  height : Number
+  length : Number 
 }
 
 Box impl { 
-  from (width, height, length: Float) => Box { width, height, length }
+  from (width, height, length: Number) => Box { width, height, length }
 }
 
 Geometry impl for Box { 

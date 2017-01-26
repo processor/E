@@ -111,8 +111,8 @@ namespace D.Units
 
         #region Conversions
 
-        public Float From(IUnit source)
-            => new Float(Prefix.Value * source.Prefix.Value);
+        public double From(IUnit source)
+            => Prefix.Value * source.Prefix.Value;
 
         public double To(UnitType type)
         {

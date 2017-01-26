@@ -115,6 +115,7 @@ namespace D.Numerics
 
         #endregion        
 
+        /*
         public static Matrix<T> Create(MatrixLiteral expression)
         {
             var elements = new T[expression.Elements.Length];
@@ -128,7 +129,7 @@ namespace D.Numerics
 
             return new Matrix<T>(expression.RowCount, expression.ColumnCount, elements);
         }
-
+        */
 
         Kind IObject.Kind => Kind.MatrixLiteral;
     }

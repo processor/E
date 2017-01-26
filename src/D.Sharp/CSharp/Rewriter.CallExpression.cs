@@ -22,11 +22,13 @@ namespace D.Compiler
             { "sqrt"    , "Math.Sqrt" }
         };
 
-        public override void VisitCall(CallExpression call)
+        public override IExpression VisitCall(CallExpression call)
         {
             Emit(GetFunctionName(call.FunctionName));
 
             WriteArguments(null, call.Arguments);
+
+            return call;
         }
 
         private string GetFunctionName(string name)

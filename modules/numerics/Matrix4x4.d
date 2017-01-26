@@ -60,7 +60,7 @@ Matrix4x4<T> impl {
     return Matrix4<T> { elements: els }
   }
 
-  fromScale (x: T, y: T, z: Float) => Matrix4<T> {
+  fromScale (x: T, y: T, z: Number) => Matrix4<T> {
     elements: [ 
       x, 0, 0, 0,
       0, y, 0, 0,
@@ -69,7 +69,7 @@ Matrix4x4<T> impl {
     ] 
   }
 
-  fromRotationX (theta: Float) {
+  fromRotationX (theta: Number) {
     let c = cos(theta)
     let s = sin(theta)
 
@@ -83,7 +83,7 @@ Matrix4x4<T> impl {
     }		
   }
 
-  fromTranslation (x: T, y: T, z: Float) => Matrix4 {
+  fromTranslation (x: T, y: T, z: Number) => Matrix4 {
     elements: [
       1, 0, 0, x,
       0, 1, 0, y,

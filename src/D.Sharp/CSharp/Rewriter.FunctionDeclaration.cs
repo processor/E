@@ -4,13 +4,15 @@
 
     public partial class CSharpTranspiler
     {
-        public override void VisitLambda(LambdaExpression lambda)
+        public override IExpression VisitLambda(LambdaExpression lambda)
         {
             Indent(level);
 
             Emit("=> ");
 
             Visit(lambda.Expression);
+
+            return lambda;
         }
 
         public void WriteParameters(Parameter[] parameters, string start = "(", string end = ")")

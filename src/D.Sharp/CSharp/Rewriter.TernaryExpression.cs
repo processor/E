@@ -4,7 +4,7 @@
 
     public partial class CSharpTranspiler
     {
-        public override void VisitTernary(TernaryExpression expression)
+        public override IExpression VisitTernary(TernaryExpression expression)
         {
             Visit(expression.Condition);
 
@@ -15,6 +15,8 @@
             Emit(" : ");
 
             Visit(expression.Right);
+
+            return expression;
         }
     }
 }

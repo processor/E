@@ -58,7 +58,7 @@ Quaternion impl {
 
   // spherical linear interpolation
   // https://en.wikipedia.org/wiki/Slerp
-  slerp (rhs: Quaternion, amount: Float) {
+  slerp (rhs: Quaternion, amount: Number) {
     let t = amount
 
     let cosOmega = this.x * rhs.x + this.y * rhs.y +
@@ -70,7 +70,7 @@ Quaternion impl {
       cosOmega = -cosOmega;
     }
 
-    let s1, s2: Float
+    let s1, s2: Number
 
     if cosOmega > 1.0 - Float.epsilon {
         // Too close, do straight linear interpolation.

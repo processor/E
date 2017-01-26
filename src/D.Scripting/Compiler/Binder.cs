@@ -35,9 +35,8 @@ namespace D.Compilation
 
             switch (expression.Kind)
             {
-                case Kind.Number                       : return Type.Get(Kind.Number);
+                case Kind.Number                       : return Type.Get(Kind.Number); // Double
                 case Kind.Integer                      : return Type.Get(Kind.Integer);
-                case Kind.Float                        : return Type.Get(Kind.Float);
                 case Kind.Decimal                      : return Type.Get(Kind.Decimal);
                 case Kind.String                       : return Type.Get(Kind.String);
                 case Kind.InterpolatedStringExpression : return Type.Get(Kind.String);

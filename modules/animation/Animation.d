@@ -1,8 +1,8 @@
 Animation type {
   delay         : Duration
   duration      : Duration
-  from          : Float | Color
-  to            : Float | Color
+  from          : Number | Color
+  to            : Number | Color
   properties    : [ ] Tweenable
   direction     : Forwards | Backwards
   interpolator  : Interpolator

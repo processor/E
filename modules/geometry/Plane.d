@@ -1,11 +1,11 @@
 Plane type {
   normal : Vector3
-  d      : Float  // sometimes known as w
+  d      : Number  // sometimes known as w
 }
 
 // : Clonable
 Plane impl {
-  from(normal: Vector3, d: Float) => Plane { normal, d }
+  from(normal: Vector3, d: Number) => Plane { normal, d }
 
   // from Points
   from (Vector3, Vector3, Vector3) {

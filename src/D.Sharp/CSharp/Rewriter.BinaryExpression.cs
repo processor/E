@@ -4,9 +4,11 @@
 
     public partial class CSharpTranspiler
     {
-        public override void VisitBinary(BinaryExpression be)
+        public override IExpression VisitBinary(BinaryExpression be)
         {
             VisitBinary(be, false);
+
+            return be;
         }
 
         public void VisitBinary(BinaryExpression be, bool a)

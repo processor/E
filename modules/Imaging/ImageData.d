@@ -1,5 +1,5 @@
 ImageData {
   data   : [ ] Byte
-  height : Float
-  width  : Float
+  height : Number
+  width  : Number
 }

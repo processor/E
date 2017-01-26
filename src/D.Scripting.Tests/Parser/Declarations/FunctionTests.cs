@@ -27,7 +27,7 @@ inverse ƒ -> Matrix<T> {
             var right = (BinaryExpressionSyntax)assignment.Right;
 
             Assert.Equal("this", (Symbol)left.Left);
-            Assert.Equal(0, (NumberLiteral)left.Arguments[0].Value);
+            Assert.Equal(0, (NumberLiteralSyntax)left.Arguments[0].Value);
         }
 
         [Fact]
@@ -58,7 +58,7 @@ fromTranslation ƒ <T: Number>(x: T, y: T, z: T) => Matrix4<T> {
             var array = (ArrayLiteralSyntax)elements.Value;
 
             Assert.Equal(16  , array.Elements.Count);
-            Assert.Equal(1   , (NumberLiteral)array[0]);
+            Assert.Equal(1   , (NumberLiteralSyntax)array[0]);
             Assert.Equal("x" , (Symbol)array[3]);
         }
 
@@ -271,7 +271,7 @@ add100 ƒ(a, b: Integer = 100) => a + b
 
             Assert.Equal("add100",   w.Name.ToString());
             Assert.Equal(2,          w.Parameters.Length);
-            Assert.Equal("100",      ((NumberLiteral)w.Parameters[1].DefaultValue).Text);
+            Assert.Equal("100",      ((NumberLiteralSyntax)w.Parameters[1].DefaultValue).Text);
 
             Assert.True(w.Body is LambdaExpressionSyntax);
         }

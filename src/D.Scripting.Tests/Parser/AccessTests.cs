@@ -43,7 +43,7 @@ var quant = Color[255]");
             var b = (IndexAccessExpressionSyntax)a.Left;
 
             Assert.Equal("tree",    b.Left.ToString());
-            Assert.Equal(500,       (NumberLiteral)b.Arguments[0].Value);
+            Assert.Equal(500,       (NumberLiteralSyntax)b.Arguments[0].Value);
             Assert.Equal("bananas", a.MemberName);
         }
 
@@ -52,7 +52,7 @@ var quant = Color[255]");
         {
             var statement = Parse<IndexAccessExpressionSyntax>("members[0]");
 
-            Assert.Equal(0, (NumberLiteral)statement.Arguments[0].Value);
+            Assert.Equal(0, (NumberLiteralSyntax)statement.Arguments[0].Value);
         }
 
         [Fact]
@@ -60,8 +60,8 @@ var quant = Color[255]");
         {
             var statement = Parse<IndexAccessExpressionSyntax>("members[0, 1]");
 
-            Assert.Equal(0, (NumberLiteral)statement.Arguments[0].Value);
-            Assert.Equal(1, (NumberLiteral)statement.Arguments[1].Value);
+            Assert.Equal(0, (NumberLiteralSyntax)statement.Arguments[0].Value);
+            Assert.Equal(1, (NumberLiteralSyntax)statement.Arguments[1].Value);
         }
 
         [Fact]
@@ -71,8 +71,8 @@ var quant = Color[255]");
 
             var left = (IndexAccessExpressionSyntax)statement.Left;
 
-            Assert.Equal(0L, (NumberLiteral)left.Arguments[0].Value);
-            Assert.Equal(3L, (NumberLiteral)statement.Arguments[0].Value);
+            Assert.Equal(0L, (NumberLiteralSyntax)left.Arguments[0].Value);
+            Assert.Equal(3L, (NumberLiteralSyntax)statement.Arguments[0].Value);
         }
 
         [Fact]
@@ -86,7 +86,7 @@ var quant = Color[255]");
 
             for (var i = 9; i > 0; i--)
             {
-                Assert.Equal(i, (NumberLiteral)left.Arguments[0].Value);
+                Assert.Equal(i, (NumberLiteralSyntax)left.Arguments[0].Value);
 
                 var a = (MemberAccessExpressionSyntax)left.Left;
 
@@ -107,7 +107,7 @@ var quant = Color[255]");
 
             for (var i = 9; i > 0; i--)
             {
-                Assert.Equal(i, (NumberLiteral)left.Arguments[0].Value);
+                Assert.Equal(i, (NumberLiteralSyntax)left.Arguments[0].Value);
 
                 left = (IndexAccessExpressionSyntax)left.Left;
             }

@@ -1294,7 +1294,7 @@ namespace D.Parsing
                 ? ReadNumberText()
                 : null;
 
-            INumber number;
+            string number;
 
             if (mantissaText == null)
             {
@@ -1307,25 +1307,16 @@ namespace D.Parsing
 
                     var result = a * Math.Pow(10, b);
 
-                    number = b > 0 ? (INumber)new Integer((long)result) : new Float(result); 
+                    number = b > 0 ? result.ToString() : result.ToString();
                 }
                 else
                 {
-                    long i64;
-
-                    if (!long.TryParse(wholeText, out i64))
-                    {
-                        throw new Exception(wholeText);
-                    }
-
-                    number = long.TryParse(wholeText, out i64)
-                        ? (INumber) new Integer(i64)
-                        : new HugeInteger(BigInteger.Parse(wholeText));
+                    number = wholeText;
                 }
             }
             else
             {
-                number = new Float(double.Parse(wholeText + "." + mantissaText));
+                number = wholeText + "." + mantissaText;
             }
 
             // Read any immediately preceding unit prefixes, types, and expondents
@@ -1336,7 +1327,6 @@ namespace D.Parsing
 
             if (IsKind(Identifier) && Unit<int>.TryParse(reader.Current.Text, out unit)) 
             {
-               
                 Consume(Identifier); // read the unit identifier
 
                 int pow = 1;
@@ -1346,12 +1336,12 @@ namespace D.Parsing
                     pow = D.Superscript.Parse(reader.Consume().Text);
                 }
                 
-                return new UnitLiteral(unit.With(number.Real, power: pow));
+                return new UnitLiteral(unit.With(double.Parse(number), power: pow));
             }
 
             // return number;
 
-            return new NumberLiteral(number.ToString());
+            return new NumberLiteralSyntax(number);
         }
 
         private string ReadNumberText()
@@ -1412,7 +1402,7 @@ namespace D.Parsing
             return expression;
         }
 
-        public StringLiteral ReadInterpolatedSpan()
+        public StringLiteralSyntax ReadInterpolatedSpan()
         {
             var sb = new StringBuilder();
 
@@ -1428,7 +1418,7 @@ namespace D.Parsing
             return sb.ToString();
         }
 
-        public StringLiteral ReadStringLiteral()
+        public StringLiteralSyntax ReadStringLiteral()
         {
             Consume(Quote); // "
 
@@ -1436,7 +1426,7 @@ namespace D.Parsing
 
             Consume(Quote); // "
 
-            return new StringLiteral(text);
+            return new StringLiteralSyntax(text);
         }
 
         public CharacterLiteral ReadCharacterLiteral()
@@ -1537,7 +1527,7 @@ namespace D.Parsing
 
             // [5] Type -> new List(capacity: 5)
 
-            if (elements.Count == 1 && elements[0] is NumberLiteral && IsKind(Identifier) && char.IsUpper(reader.Current.Text[0]))
+            if (elements.Count == 1 && elements[0] is NumberLiteralSyntax && IsKind(Identifier) && char.IsUpper(reader.Current.Text[0]))
             {
                 var name = Symbol.Type("List", ReadSymbol(SymbolKind.Type));
 

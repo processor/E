@@ -4,8 +4,8 @@ parse ƒ String -> Point {
   let parts = split($0, ',')
 
   return Point {
-    x: Float.parse(parts[0])
-    y: Float.parse(parts[1])
-    z: parts.count == 3 ? Float.parse(parts[2]) : 0
+    x: Number.parse(parts[0])
+    y: Number.parse(parts[1])
+    z: parts.count == 3 ? Number.parse(parts[2]) : 0
   }
 }

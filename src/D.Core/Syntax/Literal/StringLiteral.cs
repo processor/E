@@ -1,21 +1,21 @@
 ﻿namespace D.Syntax
 {
-    public struct StringLiteral : ISyntax
+    public struct StringLiteralSyntax : ISyntax
     { 
-        public StringLiteral(string text)
+        public StringLiteralSyntax(string text)
         {
             Value = text;
         }
 
         public string Value { get; }
 
-        public static implicit operator StringLiteral(string text)
-            => new StringLiteral(text);
+        public static implicit operator StringLiteralSyntax(string text)
+            => new StringLiteralSyntax(text);
 
-        public static implicit operator string(StringLiteral text)
+        public static implicit operator string(StringLiteralSyntax text)
             => text.Value;
 
-        Kind IObject.Kind => Kind.String;
+        Kind IObject.Kind => Kind.StringLiteral;
 
         public override string ToString() => Value;
     }

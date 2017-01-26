@@ -10,7 +10,7 @@
 
         // c(b(a, 100), 100, 18))
 
-        public override void VisitPipe(PipeStatement pipe)
+        public override IExpression VisitPipe(PipeStatement pipe)
         {
             var call = (CallExpression)pipe.Expression;
                 
@@ -37,6 +37,8 @@
             }
 
             writer.Write(")");
+
+            return pipe;
         }
     }
 }

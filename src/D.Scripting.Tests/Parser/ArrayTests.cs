@@ -13,9 +13,9 @@ namespace D.Parsing.Tests
 
             Assert.Equal(4, statement.Count);
 
-            Assert.Equal(0L, (NumberLiteral)statement[0]);
-            Assert.Equal(1L, (NumberLiteral)statement[1]);
-            Assert.Equal(2L, (NumberLiteral)statement[2]);
+            Assert.Equal(0L, (NumberLiteralSyntax)statement[0]);
+            Assert.Equal(1L, (NumberLiteralSyntax)statement[1]);
+            Assert.Equal(2L, (NumberLiteralSyntax)statement[2]);
         }
 
         /*
@@ -49,9 +49,9 @@ namespace D.Parsing.Tests
 
             var row1 = (ArrayLiteralSyntax)(statement.Elements[0]);
 
-            Assert.Equal(0, (NumberLiteral)row1[0]);
-            Assert.Equal(1, (NumberLiteral)row1[1]);
-            Assert.Equal(2, (NumberLiteral)row1[2]);
+            Assert.Equal(0, (NumberLiteralSyntax)row1[0]);
+            Assert.Equal(1, (NumberLiteralSyntax)row1[1]);
+            Assert.Equal(2, (NumberLiteralSyntax)row1[2]);
         }
 
         [Fact]

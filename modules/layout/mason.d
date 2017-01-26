@@ -1,5 +1,5 @@
 Masonary'Layout type {
-  gap     : Float
+  gap     : Number
   columns : Box [ ]
 }
 
@@ -58,8 +58,8 @@ Size type <T> {
 }
 
 Box type { 
-  width          : Float  
-  mutable height : Float  
-  top            : Float 
-  left           : Float
+  width          : Number  
+  mutable height : Number  
+  top            : Number 
+  left           : Number
 }

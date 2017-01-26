@@ -4,7 +4,7 @@
 
     public partial class CSharpTranspiler
     {
-        public override void VisitMatch(MatchExpression match)
+        public override IExpression VisitMatch(MatchExpression match)
         {
             Indent(level);
             Emit("switch (");
@@ -22,6 +22,8 @@
             level--;
 
             Emit("}", level);
+
+            return match;
         }
 
         public void WriteMatchCase(MatchCase c)

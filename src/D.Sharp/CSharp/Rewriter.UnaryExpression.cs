@@ -4,11 +4,13 @@
 
     public partial class CSharpTranspiler
     {
-        public override void VisitUnary(UnaryExpression be)
+        public override IExpression VisitUnary(UnaryExpression expression)
         {
-            Emit(be.Operator.Name);
+            Emit(expression.Operator.Name);
 
-            Visit(be.Argument);
+            Visit(expression.Argument);
+
+            return expression;
         }
     }
 }

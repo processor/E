@@ -86,7 +86,7 @@ namespace D.Syntax
                     VisitPipe((PipeStatementSyntax)expression);
                     break;
 
-                case Kind.MatchStatement:
+                case Kind.MatchExpression:
                     VisitMatch((MatchExpressionSyntax)expression);
                     break;
                 case Kind.IfStatement:
@@ -116,9 +116,9 @@ namespace D.Syntax
                     VisitSymbol((Symbol)expression);
                     break;
 
-                case Kind.Integer:
-                case Kind.String:
-                case Kind.Float:
+                case Kind.Number:
+                case Kind.StringLiteral:
+                
                     VisitConstant(expression);
                     break;
 

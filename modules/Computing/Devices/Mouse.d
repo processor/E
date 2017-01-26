@@ -27,5 +27,5 @@ Mouse`Clicked event {
 
 
 Mouse `Wheel event {
-  delta: (x, y, z: Float)
+  delta: (x, y, z: Number)
 }

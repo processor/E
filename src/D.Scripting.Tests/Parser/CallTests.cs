@@ -18,7 +18,7 @@ namespace D.Parsing.Tests
 
             Assert.Equal(Operator.Subtraction , left.Operator);
             Assert.Equal("negate"             , a.FunctionName);
-            Assert.Equal(1                    , (NumberLiteral)a.Arguments[0].Value);
+            Assert.Equal(1                    , (NumberLiteralSyntax)a.Arguments[0].Value);
         }
 
         [Fact]
@@ -65,15 +65,15 @@ namespace D.Parsing.Tests
 
             Assert.Equal(3, call.Arguments.Length);
 
-            Assert.Equal(1, (NumberLiteral)call.Arguments[0].Value);
-            Assert.Equal(2, (NumberLiteral)call.Arguments[1].Value);
-            Assert.Equal(3, (NumberLiteral)call.Arguments[2].Value);
+            Assert.Equal(1, (NumberLiteralSyntax)call.Arguments[0].Value);
+            Assert.Equal(2, (NumberLiteralSyntax)call.Arguments[1].Value);
+            Assert.Equal(3, (NumberLiteralSyntax)call.Arguments[2].Value);
 
             var args = call.Arguments.ToArray();
 
-            Assert.Equal(1, (NumberLiteral)args[0].Value);
-            Assert.Equal(2, (NumberLiteral)args[1].Value);
-            Assert.Equal(3, (NumberLiteral)args[2].Value);
+            Assert.Equal(1, (NumberLiteralSyntax)args[0].Value);
+            Assert.Equal(2, (NumberLiteralSyntax)args[1].Value);
+            Assert.Equal(3, (NumberLiteralSyntax)args[2].Value);
 
             Assert.Equal("x", args[0].Name);
             Assert.Equal("y", args[1].Name);

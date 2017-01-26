@@ -262,7 +262,7 @@ namespace D.Compilation
                 // Statements
                 case Kind.PipeStatement             : return VisitPipe((PipeStatementSyntax)syntax);
                 case Kind.CallExpression            : return VisitCall((CallExpressionSyntax)syntax);
-                case Kind.MatchStatement            : return VisitMatch((MatchExpressionSyntax)syntax);
+                case Kind.MatchExpression            : return VisitMatch((MatchExpressionSyntax)syntax);
                 case Kind.IfStatement               : return VisitIf((IfStatementSyntax)syntax);
                 case Kind.ElseIfStatement           : return VisitElseIf((ElseIfStatementSyntax)syntax);
                 case Kind.ElseStatement             : return VisitElse((ElseStatementSyntax)syntax);
@@ -275,12 +275,12 @@ namespace D.Compilation
                 case Kind.AnyPattern                : return VisitAnyPattern((AnyPatternSyntax)syntax);
 
                 case Kind.Symbol                    : return VisitSymbol((Symbol)syntax);
-                case Kind.Number                    : return VisitNumber((NumberLiteral)syntax);
+                case Kind.NumberLiteral             : return VisitNumber((NumberLiteralSyntax)syntax);
                 case Kind.Unit                      : return VisitUnit((UnitLiteral)syntax);
                 
                 case Kind.ArrayLiteral              : return VisitArrayLiteral((ArrayLiteralSyntax)syntax);
                 case Kind.MatrixLiteral             : return VisitMatrixLiteral((MatrixLiteralSyntax)syntax);
-                case Kind.String                    : return new Expressions.StringLiteral(syntax.ToString());
+                case Kind.StringLiteral             : return new StringLiteral(syntax.ToString());
 
             }
 
@@ -330,7 +330,7 @@ namespace D.Compilation
         public virtual IExpression VisitAnyPattern(AnyPatternSyntax syntax)
             => new AnyPattern();
 
-        public virtual IExpression VisitNumber(NumberLiteral expression)
+        public virtual IExpression VisitNumber(NumberLiteralSyntax expression)
         {
             if (expression.Text.Contains("."))
             {

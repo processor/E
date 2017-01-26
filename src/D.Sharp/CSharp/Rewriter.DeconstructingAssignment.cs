@@ -4,7 +4,7 @@
 
     public partial class CSharpTranspiler
     {
-        public override void VisitDestructuringAssignment(DestructuringAssignment expression)
+        public override IExpression VisitDestructuringAssignment(DestructuringAssignment expression)
         {
             var i = 0;
 
@@ -27,6 +27,8 @@
 
                 i++;
             }
+
+            return expression;
         }
     }
 }

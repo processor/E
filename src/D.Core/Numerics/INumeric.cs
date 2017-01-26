@@ -19,9 +19,9 @@ namespace D
 
     public enum NumericKind
     {
-        Integer     = Kind.Integer,           // {…, -2, -1, 0, 1, 2,…}
-        Rational    = Kind.Rational,          // ratio (i.e. 1/3)
-        Float       = Kind.Float,             // represents a physical quantity along a continuous line
+        Integer     = Kind.Integer,      // {…, -2, -1, 0, 1, 2,…}
+        Rational    = Kind.Rational,     // ratio (i.e. 1/3)
+        Float       = Kind.Float64,      // represents a physical quantity along a continuous line
 
         // Irrational  = Kind.Irrational,
         // Imaginary   = Kind.Imaginary,

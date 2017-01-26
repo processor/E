@@ -5,7 +5,7 @@
         public static readonly Parameter Any     = Get(Kind.Any);
         public static readonly Parameter String  = Get(Kind.String);
         public static readonly Parameter Byte    = Get(Kind.Byte);
-        public static readonly Parameter Float   = Get(Kind.Float);
+        public static readonly Parameter Number  = Get(Kind.Number);
         public static readonly Parameter Decimal = Get(Kind.Decimal);
         public static readonly Parameter Integer = Get(Kind.Integer);
 

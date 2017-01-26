@@ -1,4 +1,4 @@
 Brush type { 
-  thickness : Float     // in units  
+  thickness : Number     // in units  
   color     : Color
 }

@@ -1,5 +1,5 @@
-﻿using System.IO;
-using System.Linq;
+﻿using System.Collections.Generic;
+using System.IO;
 using System.Text;
 
 using Xunit;
@@ -9,7 +9,6 @@ namespace D.Compilation.Tests
     using D.Compiler;
     using Expressions;
     using Parsing;
-    using System.Collections.Generic;
 
     public class CSharpRewriterTests
     {
@@ -142,6 +141,9 @@ Account {
             Assert.Equal("int a = 100;",        Rewrite("let a: Int32 = 100"));
             Assert.Equal("decimal a = 100;",    Rewrite("let a: Decimal = 100"));
             Assert.Equal("double a = 1;",       Rewrite("var a: Float64 = 1.0"));
+            Assert.Equal("double a = 1.9;",     Rewrite("var a: Number = 1.9"));
+            Assert.Equal("double a = 1.9;",     Rewrite("var a = 1.9"));
+
             Assert.Equal("string s = \"hi\";",  Rewrite("let s = \"hi\""));
         }
 

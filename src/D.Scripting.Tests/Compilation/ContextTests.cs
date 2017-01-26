@@ -19,7 +19,6 @@ namespace D.Compilation.Tests
 
             Assert.Equal("a", context.Get<StringLiteral>(Symbol.Local("a")));
             Assert.Equal(1,   context.Get<Integer>(Symbol.Local("b")));
-
         }
 
         [Fact]
@@ -31,7 +30,7 @@ namespace D.Compilation.Tests
 
             var child = context.Nested();
 
-            Assert.Equal("name", child.Get<StringLiteral>(Symbol.Local("name")).Value);
+            Assert.Equal("name", child.Get<StringLiteral>(Symbol.Local("name")));
             Assert.Equal("Any",  child.Get<Type>(Symbol.Any).Name);
 
         }

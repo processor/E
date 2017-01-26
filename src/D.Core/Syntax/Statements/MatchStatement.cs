@@ -22,7 +22,7 @@ namespace D.Syntax
 
         public IList<MatchCaseSyntax> Cases { get; }
 
-        Kind IObject.Kind => Kind.MatchStatement;
+        Kind IObject.Kind => Kind.MatchExpression;
     }
 
     public class MatchCaseSyntax

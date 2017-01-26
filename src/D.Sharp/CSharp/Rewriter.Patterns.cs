@@ -4,16 +4,20 @@
 
     public partial class CSharpTranspiler
     {
-        public override void VisitConstantPattern(ConstantPattern expression)
+        public override IExpression VisitConstantPattern(ConstantPattern expression)
         {
             VisitConstant(expression.Constant);
+
+            return expression;
         }
         
-        public override void VisitTypePattern(TypePattern expression)
+        public override IExpression VisitTypePattern(TypePattern expression)
         {
             Emit(expression.TypeExpression.ToString());
             Emit(" ");
             Emit(expression.VariableName);
+
+            return expression;
         }
     }
 }

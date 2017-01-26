@@ -14,7 +14,7 @@ namespace D.Expressions
 
         public IList<MatchCase> Cases { get; }
 
-        Kind IObject.Kind => Kind.MatchStatement;
+        Kind IObject.Kind => Kind.MatchExpression;
     }
 
     public class MatchCase

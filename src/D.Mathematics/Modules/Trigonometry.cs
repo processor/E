@@ -57,7 +57,7 @@ namespace D.Mathematics
         public MathFunction(string name, Func<double, double> func)
         {
             Name = name;
-            Parameters = new[] { Parameter.Get(Kind.Float) };
+            Parameters = new[] { Parameter.Get(Kind.Number) };
 
             this.func = func;
         }

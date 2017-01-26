@@ -12,7 +12,7 @@ namespace D.Parsing.Tests
             var s = Parse<InterpolatedStringExpressionSyntax>(@"$""hello""");
 
             Assert.Equal(1, s.Children.Length);
-            Assert.Equal("hello", (StringLiteral)s[0]);
+            Assert.Equal("hello", (StringLiteralSyntax)s[0]);
         }
         
         [Fact]
@@ -21,9 +21,9 @@ namespace D.Parsing.Tests
             var s = Parse<InterpolatedStringExpressionSyntax>(@"$""dear {name}:""");
 
             Assert.Equal(3, s.Children.Length);
-            Assert.Equal("dear ", (StringLiteral)s[0]);
+            Assert.Equal("dear ", (StringLiteralSyntax)s[0]);
             Assert.Equal("name",  (Symbol)s[1]);
-            Assert.Equal(":",     (StringLiteral)s[2]);
+            Assert.Equal(":",     (StringLiteralSyntax)s[2]);
         }
 
         [Fact]
@@ -34,9 +34,9 @@ namespace D.Parsing.Tests
             Assert.Equal(5, s.Children.Length);
 
             Assert.Equal("x", (Symbol)s[0] as Symbol);
-            Assert.Equal(",", (StringLiteral)s[1]);
+            Assert.Equal(",", (StringLiteralSyntax)s[1]);
             Assert.Equal("y", (Symbol)s[2]);
-            Assert.Equal(",", (StringLiteral)s[3]);
+            Assert.Equal(",", (StringLiteralSyntax)s[3]);
             Assert.Equal("z", (Symbol)s[4]);
         }
 

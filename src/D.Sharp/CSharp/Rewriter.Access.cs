@@ -4,19 +4,23 @@
 
     public partial class CSharpTranspiler
     {
-        public override void VisitIndexAccess(IndexAccessExpression access)
+        public override IExpression VisitIndexAccess(IndexAccessExpression expression)
         {
-            Visit(access.Left);
+            Visit(expression.Left);
             Emit("[");
-            Visit(access.Arguments[0]);
+            Visit(expression.Arguments[0]);
             Emit("]");
+
+            return expression;
         }
 
-        public override void VisitMemberAccess(MemberAccessExpression access)
+        public override IExpression VisitMemberAccess(MemberAccessExpression expression)
         {
-            Visit(access.Left);
+            Visit(expression.Left);
             Emit(".");
-            Emit(ToPascalCase(access.MemberName));
+            Emit(ToPascalCase(expression.MemberName));
+
+            return expression;
         }
     }
 }

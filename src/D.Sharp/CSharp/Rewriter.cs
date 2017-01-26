@@ -60,7 +60,7 @@ namespace D.Compiler
         public static string ToPascalCase(string text)
             => text.Substring(0, 1).ToUpper() + text.Substring(1);
 
-        public override void VisitSymbol(Symbol symbol)
+        public override IExpression VisitSymbol(Symbol symbol)
         {
             if (symbol.Name[0] == '$')
             {
@@ -74,45 +74,51 @@ namespace D.Compiler
             {
                 Emit(symbol.Name);
             }
+
+            return symbol;
         }
 
-        public void WriteString(StringLiteral text)
+        public void WriteString(string text)
         {
             writer.Write('"');
-            Emit(text.Value);
+            Emit(text);
             writer.Write('"');
         }
 
-        public override void VisitReturn(ReturnStatement type)
+        public override IExpression VisitReturn(ReturnStatement expression)
         {
             Indent(level);
             Emit("return ");
 
-            Visit(type.Expression);
+            Visit(expression.Expression);
 
             Emit(";");
+
+            return expression;
         }
 
-        public override void VisitIf(IfStatement type)
+        public override IExpression VisitIf(IfStatement expression)
         {
             Indent(level);
             Emit("if (");
 
-            Visit(type.Condition);
+            Visit(expression.Condition);
 
             writer.WriteLine(")");
 
-            VisitBlock(type.Body);
+            VisitBlock(expression.Body);
 
-            if (type.ElseBranch != null)
+            if (expression.ElseBranch != null)
             {
                 EmitLine();
 
-                Visit(type.ElseBranch);
+                Visit(expression.ElseBranch);
             }
+
+            return expression;
         }
 
-        public override void VisitElseIf(ElseIfStatement type)
+        public override IExpression VisitElseIf(ElseIfStatement type)
         {
             Indent(level);
             Emit("else if (");
@@ -129,14 +135,18 @@ namespace D.Compiler
 
                 Visit(type.ElseBranch);
             }
+
+            return type;
         }
 
-        public override void VisitElse(ElseStatement type)
+        public override IExpression VisitElse(ElseStatement type)
         {
             Emit("else");
             writer.WriteLine();
 
             VisitBlock(type.Body);
+
+            return type;
         }
         
         public void Indent(int level)
@@ -147,18 +157,20 @@ namespace D.Compiler
             }
         }
 
-        public override void VisitConstant(IObject value)
+        public override IExpression VisitConstant(IExpression value)
         {
             switch (value.Kind)
             {
                 case Kind.String:
-                    WriteString((StringLiteral)value);
+                    WriteString(value.ToString());
 
                     break;
                 default:
                     writer.Write(value.ToString());
                     break;
             }
+
+            return value;
         }
 
         private static readonly Env _env = new Env();

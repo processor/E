@@ -13,9 +13,9 @@ namespace D.Parsing.Tests
         {
             var matrix = Parse<MatrixLiteralSyntax>(@"[ [ 0, 1, 2, 3 ] ]");
 
-            Assert.Equal(0, (NumberLiteral)matrix.Elements[0]);
-            Assert.Equal(1, (NumberLiteral)matrix.Elements[1]);
-            Assert.Equal(2, (NumberLiteral)matrix.Elements[2]);
+            Assert.Equal(0, (NumberLiteralSyntax)matrix.Elements[0]);
+            Assert.Equal(1, (NumberLiteralSyntax)matrix.Elements[1]);
+            Assert.Equal(2, (NumberLiteralSyntax)matrix.Elements[2]);
         }
 
         [Fact]

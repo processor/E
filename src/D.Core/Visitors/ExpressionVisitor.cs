@@ -4,130 +4,83 @@ namespace D.Expressions
 {
     public abstract class ExpressionVisitor
     {
-        public virtual void VisitBinary(BinaryExpression expression)                         { throw new NotImplementedException(); }
-        public virtual void VisitUnary(UnaryExpression expression)                           { throw new NotImplementedException(); }
-        public virtual void VisitTernary(TernaryExpression expression)                       { throw new NotImplementedException(); }
-        public virtual void VisitBlock(BlockStatement block)                                 { throw new NotImplementedException(); }
-        public virtual void VisitCall(CallExpression call)                                   { throw new NotImplementedException(); }
-        public virtual void VisitVariableDeclaration(VariableDeclaration declaration)        { throw new NotImplementedException(); }
-        public virtual void VisitTypeInitializer(TypeInitializer a)                          { throw new NotImplementedException(); }
-        public virtual void VisitDestructuringAssignment(DestructuringAssignment assignment) { throw new NotImplementedException(); }
-        public virtual void VisitIndexAccess(IndexAccessExpression expression)               { throw new NotImplementedException(); }
-        public virtual void VisitMemberAccess(MemberAccessExpression expression)             { throw new NotImplementedException(); }  
-        public virtual void VisitLambda(LambdaExpression expression)                         { throw new NotImplementedException(); }
-        public virtual void VisitPipe(PipeStatement pipe)                                    { throw new NotImplementedException(); }
-        public virtual void VisitMatch(MatchExpression expression)                           { throw new NotImplementedException(); }
-        public virtual void VisitIf(IfStatement expression)                                  { throw new NotImplementedException(); }
-        public virtual void VisitElse(ElseStatement expression)                              { throw new NotImplementedException(); }
-        public virtual void VisitElseIf(ElseIfStatement expression)                          { throw new NotImplementedException(); }
-        public virtual void VisitReturn(ReturnStatement expression)                          { throw new NotImplementedException(); }
-        public virtual void VisitTypePattern(TypePattern pattern)                            { throw new NotImplementedException(); }
-        public virtual void VisitConstantPattern(ConstantPattern pattern)                    { throw new NotImplementedException(); }
-        public virtual void VisitSymbol(Symbol symbol)                                       { throw new NotImplementedException(); }
-        public virtual void VisitConstant(IObject constant)                                  { throw new NotImplementedException(); }
+        public virtual IExpression VisitBinary(BinaryExpression expression)                         { throw new NotImplementedException(); }
+        public virtual IExpression VisitUnary(UnaryExpression expression)                           { throw new NotImplementedException(); }
+        public virtual IExpression VisitTernary(TernaryExpression expression)                       { throw new NotImplementedException(); }
+        public virtual IExpression VisitBlock(BlockStatement block)                                 { throw new NotImplementedException(); }
+        public virtual IExpression VisitCall(CallExpression call)                                   { throw new NotImplementedException(); }
+        public virtual IExpression VisitVariableDeclaration(VariableDeclaration declaration)        { throw new NotImplementedException(); }
+        public virtual IExpression VisitTypeInitializer(TypeInitializer a)                          { throw new NotImplementedException(); }
+        public virtual IExpression VisitDestructuringAssignment(DestructuringAssignment assignment) { throw new NotImplementedException(); }
+        public virtual IExpression VisitIndexAccess(IndexAccessExpression expression)               { throw new NotImplementedException(); }
+        public virtual IExpression VisitMemberAccess(MemberAccessExpression expression)             { throw new NotImplementedException(); }  
+        public virtual IExpression VisitLambda(LambdaExpression expression)                         { throw new NotImplementedException(); }
+        public virtual IExpression VisitPipe(PipeStatement pipe)                                    { throw new NotImplementedException(); }
+        public virtual IExpression VisitMatch(MatchExpression expression)                           { throw new NotImplementedException(); }
+        public virtual IExpression VisitIf(IfStatement expression)                                  { throw new NotImplementedException(); }
+        public virtual IExpression VisitElse(ElseStatement expression)                              { throw new NotImplementedException(); }
+        public virtual IExpression VisitElseIf(ElseIfStatement expression)                          { throw new NotImplementedException(); }
+        public virtual IExpression VisitReturn(ReturnStatement expression)                          { throw new NotImplementedException(); }
+        public virtual IExpression VisitTypePattern(TypePattern pattern)                            { throw new NotImplementedException(); }
+        public virtual IExpression VisitConstantPattern(ConstantPattern pattern)                    { throw new NotImplementedException(); }
+        public virtual IExpression VisitSymbol(Symbol symbol)                                       { throw new NotImplementedException(); }
 
-        public void Visit(IObject expression)
+
+        public virtual IExpression VisitConstant(IExpression expression) { throw new NotImplementedException(); }
+
+        public IExpression Visit(IObject expression)
         {
             if (expression is UnaryExpression)
             {
-                VisitUnary((UnaryExpression)expression);
-
-                return;
+                return VisitUnary((UnaryExpression)expression);
             }
             else if (expression is BinaryExpression)
             {
-                VisitBinary((BinaryExpression)expression);
-
-                return;
+                return VisitBinary((BinaryExpression)expression);
             }
             else if (expression is TernaryExpression)
             {
-                VisitTernary((TernaryExpression)expression);
-
-                return;
+                return VisitTernary((TernaryExpression)expression);
             }
-
-            if (expression is BlockStatement)
+            else if (expression is BlockStatement)
             {
-                VisitBlock((BlockStatement)expression);
-
-                return;
+                return VisitBlock((BlockStatement)expression);
             }
 
             switch (expression.Kind)
             {
                 // Declarations
-                case Kind.VariableDeclaration:
-                    VisitVariableDeclaration((VariableDeclaration)expression);
+                case Kind.VariableDeclaration       : return VisitVariableDeclaration((VariableDeclaration)expression);
+                    
+                case Kind.TypeInitializer           : return VisitTypeInitializer((TypeInitializer)expression);
+                case Kind.DestructuringAssignment   : return VisitDestructuringAssignment((DestructuringAssignment)expression);
 
-                    break;
-                case Kind.TypeInitializer:
-                    VisitTypeInitializer((TypeInitializer)expression);
-                    break;
-                case Kind.DestructuringAssignment:
-                    VisitDestructuringAssignment((DestructuringAssignment)expression);
-                    break;
-
-                case Kind.MemberAccessExpression:
-                    VisitMemberAccess((MemberAccessExpression)expression);
-                    break;
-                case Kind.IndexAccessExpression:
-                    VisitIndexAccess((IndexAccessExpression)expression);
-                    break;
-                case Kind.LambdaExpression:
-                    VisitLambda((LambdaExpression)expression); break;
+                case Kind.CallExpression            : return VisitCall((CallExpression)expression);
+                case Kind.MemberAccessExpression    : return VisitMemberAccess((MemberAccessExpression)expression);
+                case Kind.IndexAccessExpression     : return VisitIndexAccess((IndexAccessExpression)expression);
+                case Kind.LambdaExpression          : return VisitLambda((LambdaExpression)expression); 
 
                 // Statements
-                case Kind.CallExpression:
-                    VisitCall((CallExpression)expression);
-                    break;
-                case Kind.PipeStatement:
-                    VisitPipe((PipeStatement)expression);
-                    break;
+          
+                case Kind.PipeStatement             : return VisitPipe((PipeStatement)expression);
 
-                case Kind.MatchStatement:
-                    VisitMatch((MatchExpression)expression);
-                    break;
-                case Kind.IfStatement:
-                    VisitIf((IfStatement)expression);
-                    break;
-                case Kind.ElseIfStatement:
-
-                    VisitElseIf((ElseIfStatement)expression);
-                    break;
-
-                case Kind.ElseStatement:
-                    VisitElse((ElseStatement)expression);
-                    break;
-                case Kind.ReturnStatement:
-                    VisitReturn((ReturnStatement)expression);
-                    break;
+                case Kind.MatchExpression            : return VisitMatch((MatchExpression)expression);
+                case Kind.IfStatement               : return VisitIf((IfStatement)expression);
+                case Kind.ElseIfStatement           : return VisitElseIf((ElseIfStatement)expression);
+                case Kind.ElseStatement             : return VisitElse((ElseStatement)expression);
+                case Kind.ReturnStatement           : return VisitReturn((ReturnStatement)expression);
 
                 // Patterns
-                case Kind.ConstantPattern:
-                    VisitConstantPattern((ConstantPattern)expression);
-                    break;
-                case Kind.TypePattern:
-                    VisitTypePattern((TypePattern)expression);
-                    break;
+                case Kind.ConstantPattern           : return VisitConstantPattern((ConstantPattern)expression);
+                case Kind.TypePattern               : return VisitTypePattern((TypePattern)expression);
 
-                case Kind.Symbol:
-                    VisitSymbol((Symbol)expression);
-                    break;
+                case Kind.Symbol                    : return VisitSymbol((Symbol)expression);
 
                 case Kind.Integer:
-                case Kind.String:
-                case Kind.Float:
-                    VisitConstant(expression);
-                    break;
+                case Kind.Number:
+                case Kind.String                    : return VisitConstant((IExpression)expression);
 
-                default:
-                    throw new Exception("unexpected expression:" + expression.GetType().Name);
-
-                    /*
-                default:
-                    writer.Write(expression.ToString()); break;
-                    */
+                default                             : throw new Exception("unexpected expression:" + expression.GetType().Name);
             }
         }
     
