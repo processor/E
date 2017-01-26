@@ -38,13 +38,13 @@ namespace D.Syntax
             Symbol name,
             ParameterSyntax[] genericParameters,
             Symbol baseType,
+            AnnotationExpressionSyntax[] annotations,
             PropertyDeclarationSyntax[] members,
-            NamedMetadataSyntax[] attributes,
             TypeFlags flags = TypeFlags.None)
             : base(baseType, flags, members)
         {
             Name = name;
-            Attributes = attributes;
+            Annotations = annotations;
             GenericParameters = genericParameters;
         }
 
@@ -53,35 +53,9 @@ namespace D.Syntax
         // Vehicle 'Crash   term
         public Symbol Name { get; }
 
-        public NamedMetadataSyntax[] Attributes { get; }
+        public AnnotationExpressionSyntax[] Annotations { get; }
 
         public ParameterSyntax[] GenericParameters { get; }
-    }
-
-
-    public class NamedMetadataSyntax : ISyntax
-    {
-        public NamedMetadataSyntax(Symbol name, ISyntax value)
-        {
-            #region Preconditions
-
-            if (name == null)
-                throw new ArgumentNullException(nameof(name));
-
-            if (value == null)
-                throw new ArgumentNullException(nameof(value));
-
-            #endregion
-
-            Name = name;
-            Value = value;
-        }
-
-        public Symbol Name { get; }
-
-        public ISyntax Value { get; }
-
-        Kind IObject.Kind => Kind.NamedMetadata;
     }
 
     public class CompoundTypeDeclarationSyntax : TypeDefinationBase

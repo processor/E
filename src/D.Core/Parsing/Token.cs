@@ -91,6 +91,8 @@ namespace D.Parsing
 
         Op                  = 10,
 
+
+        At                  = 100, // @
         Apostrophe          = 101, // '
         Backtick            = 102, // `
         Bar                 = 103, // |

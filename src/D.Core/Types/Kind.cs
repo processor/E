@@ -113,7 +113,6 @@
         ChannelDeclaration              = 2207,
         ImplementationDeclaration       = 2208,
         UnitDeclaration                 = 2209,
-        NamedMetadata            = 2210,
 
         DestructuringAssignment         = 2220,
 
@@ -122,16 +121,17 @@
         TypeInitializer = 2250,
         // RecordExpression = 2009,
 
-        PipeStatement = 2302,
-        MatchExpression  = 2303,
+        PipeStatement = 2302,  // Merge with Call?
         BlockStatement  = 2304,
         SpreadStatement = 2305,
 
-        CallExpression     = 2500,
-        // ConstantExpression = 2501,
-        TupleExpression    = 2502,
-        LambdaExpression   = 2503,
-        QueryExpression    = 2504,
+        AnnotationExpression = 2500,
+        CallExpression       = 2501,
+        // ConstantExpression = 2502,
+        TupleExpression      = 2503,
+        LambdaExpression     = 2504,
+        MatchExpression      = 2305,
+        QueryExpression      = 2506,
 
         // Statements
         ReturnStatement   = 3001,
@@ -143,7 +143,6 @@
         UsingStatement    = 3007,
         ObserveStatement  = 3008,
         EmitStatement     = 3009,
-
 
         // Patterns
         AnyPattern = 4000,

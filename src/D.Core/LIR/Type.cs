@@ -67,7 +67,7 @@ namespace D
 
         public Parameter[] GenericParameters { get; }
 
-        public Annotation[] Annotations { get; }
+        // public Annotation[] Annotations { get; }
 
         public string FullName => ToString();
 

@@ -15,7 +15,7 @@ namespace D.Parsing.Tests
             
             var a = new Parser(text).Enumerate().ToArray();
 
-            Assert.Equal(20, a.Length);
+            Assert.Equal(18, a.Length);
         }
 
         [Fact]
@@ -30,12 +30,12 @@ namespace D.Parsing.Tests
         [Fact]
         public void B()
         {
-            var a = Parse<TypeDeclarationSyntax>("Int64 primitive { size = 8 }");
+            var a = Parse<TypeDeclarationSyntax>("Int64 primitive @size(8)");
 
             Assert.Equal("Int64", a.Name);
-            Assert.Equal(1, a.Attributes.Length);
-            Assert.Equal("size", a.Attributes[0].Name);
-            Assert.Equal(8, (NumberLiteralSyntax)a.Attributes[0].Value);
+            Assert.Equal(1, a.Annotations.Length);
+            Assert.Equal("size", a.Annotations[0].Name);
+            Assert.Equal(8, (NumberLiteralSyntax)a.Annotations[0].Arguments[0].Value);
         }
 
         [Fact]

@@ -65,6 +65,7 @@ namespace D.Parsing
 
             switch (reader.Current)
             {
+                case '@': return Read(At);
                 case '↺': return Read(Repeats);
                 case '∎': return Read(End);
 
