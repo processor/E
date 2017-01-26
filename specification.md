@@ -32,15 +32,16 @@ They may be explictly specified using a type annotation.
  
  ```
 
-## Literals
+## Types
 
-* Numbers   1, 1.1         DEC64 Encoded
-* Integer   1i             Integer
-* Float     1f             Float64
-* String    "hello"        UTF8 Encoded
-* Lists     [ 1, 2, 3 ]    List<Number>
-* Maps      { a: 1, b: 2 } Map<string, Number>
-* Tuples    (1, 2, 3)      Tuple<Number, Number, Number>
+* Byte       1b
+* Number     1, 1.1         alias for Float64
+* Integers   1i             Int16, Int32, _Int64_, Int128
+* Floats     1f             Float32, _Float64_
+* String     "hello"        UTF8 Encoded
+* Lists      [ 1, 2, 3 ]    List<Number>
+* Maps       { a: 1, b: 2 } Dictionary<string, Number>
+* Tuples     (1, 2, 3)      Tuple<Number, Number, Number>
  
 ## Protocals
 
@@ -87,6 +88,8 @@ pipes the result of the function into the next function as the first argument.
 
 ```
 a |> b("extra") |> c
+...
+c(b(a(), "extra"))
 ```
 
 ## Ranges
@@ -102,6 +105,7 @@ Ranges are inclusive.
 All enumerable objects may be looped through using a for operator.
 
 ```
+
 for x in list {
   log(x)
 }
@@ -112,7 +116,12 @@ for list {
   log($0)
 }
 
+while condition { 
+
+}
+
 ```
+
 
 ## Deconstruction
 
@@ -130,7 +139,4 @@ Automatically yields thread when calling an async function and registers a conti
 todo: overriding...
 
 ...
-
-
-
 
