@@ -2,10 +2,9 @@
 
 Pressure protocal : Number { } 
 
-Pascal unit = 1
+Pascal unit : Pressure @symbol("Pa") = 1
 
-
-Pressure extension { 
+Pascal extension { 
   // Pascal
   
   // ...
@@ -14,7 +13,6 @@ Pressure extension {
 
 
 Atmosphere,
-
 
 
 Bar,
@@ -28,8 +26,8 @@ pièze,
 
 Torr,
 
-ksi  unit = ?
-psi  unit = ? ,          // Pound/Square Inch
-bar  unit = ?,
-atm  unit = Atmosphere,
-mmHg unit = ?,
+@symbol("ksi"  unit = ?
+@symbol("psi"  unit = ? ,          // Pound/Square Inch
+@symbol("bar"  unit = ?,
+@symbol("atm"  unit = Atmosphere,
+@symbol("mmHg" unit = ?,

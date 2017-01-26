@@ -1,4 +1,3 @@
-// 128bits
-Record type <T> { 
+Record protocal { 
   id : i64 > 0
 }

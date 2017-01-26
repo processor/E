@@ -1,4 +1,4 @@
-Arithmetic protocal <T> {
+Arithmetic<T> protocal {
   +  (T, T) -> T;
   -  (T, T) -> T;
   *  (T, T) -> T;
