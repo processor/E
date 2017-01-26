@@ -34,15 +34,17 @@ They may be explictly specified using a type annotation.
 
 ## Types
 
-* Byte       1b
-* Number     1, 1.1         alias for Float64
-* Integers   1i             Int16, Int32, _Int64_, Int128
-* Floats     1f             Float32, _Float64_
-* String     "hello"        UTF8 Encoded
-* Lists      [ 1, 2, 3 ]    List<Number>
-* Maps       { a: 1, b: 2 } Dictionary<string, Number>
-* Tuples     (1, 2, 3)      Tuple<Number, Number, Number>
- 
+```
+Byte       1b
+Number     1, 1.1         alias for Float64
+Integers   1i             Int16, Int32, _Int64_, Int128
+Floats     1f             Float32, _Float64_
+String     "hello"        UTF8 Encoded
+Lists      [ 1, 2, 3 ]    List<Number>
+Maps       { a: 1, b: 2 } Dictionary<string, Number>
+Tuples     (1, 2, 3)      Tuple<Number, Number, Number>
+```
+
 ## Protocals
 
 A protocal defines a set of operations that may be implemented by a Type.
