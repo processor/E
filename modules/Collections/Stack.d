@@ -1,4 +1,4 @@
-Stack protocal <T> : Collection<T> {
+Stack<T> protocal : Collection<T> {
   push(T);
   pop() -> T
   drain -> * T

@@ -1,4 +1,4 @@
-Force<T> type { 
+Force type { 
   
 }
 

@@ -34,23 +34,6 @@
 
 #endregion
 
-#region Area 1200-1299
-
-Are = 221, // 100 square metres
-Hectare = 222, // 100 ares                  // ha
-
-Barn,           //  10^−28 square meters.
-
-Tetrad,
-Hectad,
-Myriad,
-
-SquareFoot,
-SquareYard,
-SquareMile,     // sq mi
-Acre,           // 4,840 square yards = 43,560 square feet.
-
-#endregion
 
 #region Binary Units - Base 10 1300-1399
 
@@ -148,11 +131,6 @@ Dalton = AtomicMass, // not SI
 Dram,
 
 
-Pound,
-Stone,
-ShortTon,   // 2000lb
-LongTon,    // 2240lb
-
 kt = Carat,
 
  
@@ -233,34 +211,6 @@ Sound,  // sampleRate: Frequency | PCM
 
 
 
-#region Volume (2100-2200)
-
-       
-Ounce,
-Cup,
-Pint,
-Quart,
-Gallon,
-
-
-Teaspoon,
-Tablespoon,
-
-CubicFoot,
-CubicInch,
-        
-       
-// Fluids
-
-FluidPint,
-
-
-λ,
-
-qt = Quart,
-tsp = Teaspoon,
-
-#endregion
 
 #region Resolution
 

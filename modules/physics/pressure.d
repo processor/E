@@ -1,10 +1,8 @@
 // can be intepreseted as PSI, Bar, etc
 
-Pressure unit { } 
+Pressure protocal : Number { } 
 
-Pascal unit {
-
-}
+Pascal unit = 1
 
 
 Pressure extension { 
@@ -25,13 +23,10 @@ cmHg,
 inHg,
 
 
-
 // None SI Units
 pièze,
 
 Torr,
-
-
 
 ksi  unit = ?
 psi  unit = ? ,          // Pound/Square Inch

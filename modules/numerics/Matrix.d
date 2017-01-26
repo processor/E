@@ -1,4 +1,4 @@
-﻿Matrix protocal <T> { 
+﻿Matrix<T> protocal { 
   [ index: Integer ] -> T;
   [ row: Integer, column: Integer ] -> T;
 }

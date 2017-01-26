@@ -1,10 +1,15 @@
-Mass measurement
+Mass protocal : Number { }
 
-@symbol mg  Mass<Milligram> unit = 0.0001g
-@symbol cg  Mass<Centigram> unit = 0.001g
-@symbol g   Mass<Gram>      unit = 1
-@symbol kg  Mass<Kilogram>  unit = 1000g
-
+Milligram(s) SI unit : Mass @symbol("mg") = 0.0001g
+Centigram(s) SI unit : Mass @symbol("cg") = 0.001g
+Gram(s)      SI unit : Mass @symbol("g")  = 1
+Kilogram(s)  SI unit : Mass @symbol("kg") = 1000g      // SI base...
 
 // Kilograms(5)
-// 5 kg
+// 5kg
+
+
+Pound    unit : Mass
+Stone    unit : Mass
+ShortTon unit : Mass = 2000lb
+LongTon  unit : Mass = 2240lb

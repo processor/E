@@ -1,4 +1,4 @@
-Trie type {
+Trie<T> type {
   root: Node<T>
 
   contains(T) -> Boolean

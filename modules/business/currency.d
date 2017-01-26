@@ -1,3 +1,7 @@
+Money type { 
+  amount: Decimal
+}
+
   ARS                       // Argentina, Pesos
 , AUD                       // Australia, Dollars
 , CAD                       // Canada,Dollars
@@ -27,13 +31,11 @@
 , Stella,
 , Ether,
 
-: Money type {
-  amount: Decimal 
-}
+: Money;
 
-$   prefix  => USD      // $1000 ≡ USD(100)
-Ƀ   postfix => Bitcoin  // 100Ƀ                 ref: https://bitcoinmagazine.com/articles/bitcoin-finally-gets-an-approved-unicode-character-point-1446580490
-؋   postfix => AFN
-ман postfix => AZN
-лв  postfix => BGN
-£   postfix => GBP
+$   prefix  operator (amount: Decimal) |> USD      // $1000 ≡ USD(100)
+Ƀ   postfix operator (amount: Decimal) |> Bitcoin  // 100Ƀ                 ref: https://bitcoinmagazine.com/articles/bitcoin-finally-gets-an-approved-unicode-character-point-1446580490
+؋   postfix operator (amount: Decimal) |> AFN
+ман postfix operator (amount: Decimal) |> AZN
+лв  postfix operator (amount: Decimal) |> BGN
+£   postfix operator (amount: Decimal) |> GBP

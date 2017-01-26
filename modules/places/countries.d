@@ -50,12 +50,12 @@
 , Denmark
 , Djibouti
 , Dominica
-, Dominican Republic
-, East Timor (see Timor-Leste)
+, Dominican `Republic
+, East `Timor
 , Ecuador
 , Egypt
 , El Salvador
-, Equatorial Guinea
+, Equatorial `Guinea
 , Eritrea
 , Estonia
 , Ethiopia
@@ -138,9 +138,9 @@
 , Oman
 , Pakistan
 , Palau
-, Palestinian Territories
+, Palestinian `Territories
 , Panama
-, Papua New Guinea
+, Papua `New `Guinea
 , Paraguay
 , Peru
 , Philippines
@@ -150,13 +150,13 @@
 , Romania
 , Russia
 , Rwanda
-, Saint_Kitts and_Nevis
-, Saint_Lucia
-, Saint_Vincent and the_Grenadines
+, Saint `Kitts ` and `Nevis
+, Saint `Lucia
+, Saint `Vincent ` and ` the `Grenadines
 , Samoa 
-, San_Marino
-, Sao Tome and Principe
-, Saudi Arabia
+, San `Marino
+, Sao `Tome `and `Principe
+, Saudi `Arabia
 , Senegal
 , Serbia
 , Seychelles
@@ -192,8 +192,8 @@
 , Tuvalu
 , Uganda
 , Ukraine
-, United_Arab_Emirates
-, United Kingdom
+, United `Arab `Emirates
+, United `Kingdom
 , Uruguay
 , Uzbekistan
 , Vanuatu

@@ -1,4 +1,4 @@
-Gravity unit { 
+Gravity type : Number { 
 
 }
 

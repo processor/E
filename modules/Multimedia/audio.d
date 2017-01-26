@@ -1,9 +1,7 @@
-﻿dB unit {
-  name = "Decibel"
-}
+﻿Decibel unit @symbol("dB") 
 
 
-Audio_Channel type { }
+Audio `Channel type { }
 
 
 

@@ -14,6 +14,7 @@ Document type : Parentable<Element> {
 
 Node = Element | Content;
 
+
   Added<T>
 , Wrapped<T>
 , Unwrapped<T>

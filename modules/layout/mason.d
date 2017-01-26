@@ -52,9 +52,9 @@ Layout impl for Masonary'Layout {
   }
 }
 
-Size type <T> {
-  width  : T
-  height : T
+Size type {
+  width  : Number
+  height : Number
 }
 
 Box type { 

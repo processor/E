@@ -52,7 +52,7 @@ Channel`Awaiter protocal for T {
 
 // Create a multicast wrapper around a channel
 
-Observerable protocal <T> {
+Observerable<T> protocal {
   subscriptions : [ ] Subscription<T>
   subscribe(ƒ(Message|∎)) -> Subscription<T>
 }  

@@ -1,10 +1,10 @@
-Length measurement
+Length protocal : Number
 
-cm SI unit = 0.001m       // Centimeters
-m  SI unit = 1            // Meters
-km SI unit = 1000m        // Kilometers
+Centimeter(s) SI unit : Length @symbol("cm") = 0.001m      
+Meter(s)      SI unit : Length @symbol("m")  = 1
+Kilimeter(s)  SI unit : Length @symbol"km"   = 1000m
 
 // Imperial
-in unit = 0.025400m       // Inches
-ft unit = 12in            // Feet
-mi unit = 5280ft          // Miles
+Inch(s) unit : Length @symbol("in") = 0.025400m  
+Foot|Feet    unit : Length @symbol("ft") = 12in
+Mile(s) unit : Length @symbol("mi") = 5280ft

@@ -1,4 +1,4 @@
-Vector protocal <T> { 
+Vector<T> protocal{ 
   count -> Integer
   
   [index: Integer] -> T

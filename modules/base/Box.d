@@ -1,3 +1,3 @@
-﻿Box type <T> { 
+﻿Box<T> type { 
   value: T
 }
