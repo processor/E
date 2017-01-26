@@ -1,5 +1,5 @@
 Matrix4x4<T> type {
-  elements: [ ] Float // 4x4 = 16 elements
+  elements: [ ] Number // 4x4 = 16 elements
 }
 
 Matrix4x4<T> impl {
@@ -35,7 +35,7 @@ Matrix4x4<T> impl {
 
     let detInv = 1 / determinant
 
-    let els = Float[16]
+    let els = Number[16]
 
     els[0] = t11 * detInv;
     els[1] = (m24 * m33 * m41 - m23 * m34 * m41 - m24 * m31 * m43 + m21 * m34 * m43 + m23 * m31 * m44 - m21 * m33 * m44) * detInv
@@ -94,7 +94,7 @@ Matrix4x4<T> impl {
 
   // inplace
   scale (v: Vector3) {
-    var els = Float[16]
+    var els = Number[16]
 
 		els[0] *= v.x; els[4] *= v.y; els[8]  *= v.z;
 		els[1] *= v.x; els[5] *= v.y; els[9]  *= v.z;

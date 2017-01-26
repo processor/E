@@ -1,3 +1,3 @@
 Curve protocal {
-  getPoint (Float) -> Vector2
+  getPoint (Number) -> Vector2
 }

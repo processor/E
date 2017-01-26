@@ -4,6 +4,6 @@ linear     ƒ(x: Number) => x
 sinIn      ƒ(x: Number) => sin(x * π * 0.5)
 sinOut     ƒ(x: Number) => - (cos(π * x) / 2) + 0.5
 
-Interpolator protocal = (x: Number) -> Float
+Interpolator protocal = (x: Number) -> Number
 
 // TimeInterpolator

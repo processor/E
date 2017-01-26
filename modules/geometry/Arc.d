@@ -18,7 +18,7 @@ Curve impl for Arc {
     while deltaAngle < 0     { deltaAngle += π * 2 }
     while deltaAngle > π * 2 { deltaAngle -= π * 2 }
     
-    if deltaAngle < Float.elipson {
+    if deltaAngle < Number.elipson {
       deltaAngle = samePoints ? 0 : π * 2
     }
 

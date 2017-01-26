@@ -1,5 +1,5 @@
 Quaternion type {
-  w, x, y, z: Float
+  w, x, y, z: Number
 }
 
 Quaternion impl {
@@ -72,7 +72,7 @@ Quaternion impl {
 
     let s1, s2: Number
 
-    if cosOmega > 1.0 - Float.epsilon {
+    if cosOmega > 1.0 - Number.epsilon {
         // Too close, do straight linear interpolation.
         s1 = 1.0 - t;
         s2 = flip ? - t : t;

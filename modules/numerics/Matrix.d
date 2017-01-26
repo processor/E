@@ -5,7 +5,7 @@
 
 
 transpose
-determinant -> Float
+determinant -> Number
 inverse
 outerProduct
 componentWiseMultiply

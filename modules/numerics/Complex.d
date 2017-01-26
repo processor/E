@@ -1,6 +1,6 @@
 Complex type {
-  real      : Float
-  imaginary : Float
+  real      : Number
+  imaginary : Number
 }
 
 

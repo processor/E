@@ -1,6 +1,6 @@
 Sphere type { 
   center: Point
-  radius: Float
+  radius: Number
 }
 
 Sphere impl {

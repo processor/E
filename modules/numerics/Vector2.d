@@ -1,5 +1,5 @@
 Vector2 type { 
-  x, y: Float
+  x, y: Number
 }
 
 Vector2 impl {

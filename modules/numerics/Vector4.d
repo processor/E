@@ -1,5 +1,5 @@
 Vector4 type { 
-  x, y, z, w: Float
+  x, y, z, w: Number
 }
 
 apply `Quaternion (q: Quaternion) {
