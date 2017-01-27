@@ -1,8 +1,6 @@
 // can be intepreseted as PSI, Bar, etc
 
-Pressure protocal : Number { } 
-
-Pascal unit : Pressure @symbol("Pa") = 1
+Pa unit : Pressure @name("Pascal") =  N / m²
 
 Pascal extension { 
   // Pascal
@@ -26,8 +24,8 @@ pièze,
 
 Torr,
 
-@symbol("ksi"  unit = ?
-@symbol("psi"  unit = ? ,          // Pound/Square Inch
-@symbol("bar"  unit = ?,
-@symbol("atm"  unit = Atmosphere,
-@symbol("mmHg" unit = ?,
+ksi  unit : Pressure = ?
+psi  unit : Pressure = lb/in²
+bar  unit : Pressure = ?,
+atm  unit : Pressure = Atmosphere,
+mmHg unit : Pressure = ?,

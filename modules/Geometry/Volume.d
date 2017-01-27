@@ -1,16 +1,16 @@
-Volume protocal : Number { }
+ml   unit<Volume> Milliliter = 0.001 L
+L    unit<Volume> Liter      = 1;
+  
+// Imperial
+oz   unit<Volume> Ounce      = 0.0295735 L
+cups unit<Volume> Cup        = 8 oz
+pt   unit<Volume> Pint       = 2 cups
+qt   unit<Volume> Quart      = 4 cups
+gal  unit<Volume> Gallon     = 4 qt
+tsp  unit<Volume> Teaspoon   = (1/6) oz
+tbsp unit<Volume> Tablespoon = 3 tsp
 
-Milliliter(s) unit : Volume @symbol("ml")    = 0.001 liter
-Liter(s)      unit : Volume @symbol("liter") = 1;
-       
-Ounce(s)      unit : Volume @symbol("")
-Cup(s)        unit : Volume @symbol("")
-Pint(s)       unit : Volume @symbol("")
-Quart(s)      unit : Volume @symbol("qt")
-Gallon(s)     unit : Volume @symbol("")
 
-Teaspoon(s)   unit : Volume @symbol("tsp")  
-Tablespoon(s) unit : Volume @symbol("")
 
 CubicFoot,
 CubicInch,

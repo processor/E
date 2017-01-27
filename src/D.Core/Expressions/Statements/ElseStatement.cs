@@ -2,12 +2,12 @@
 {
     public class ElseStatement : IExpression
     {
-        public ElseStatement(BlockStatement body)
+        public ElseStatement(BlockExpression body)
         {
             Body = body;
         }
 
-        public BlockStatement Body { get; }
+        public BlockExpression Body { get; }
 
         Kind IObject.Kind => Kind.ElseStatement;
     }

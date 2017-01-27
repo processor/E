@@ -8,7 +8,7 @@ namespace D.Syntax
 
     public class ProtocalDeclarationSyntax : ISyntax
     {
-        public ProtocalDeclarationSyntax(Symbol name, IList<IMessageDeclaration> messages, FunctionDeclarationSyntax[] members)
+        public ProtocalDeclarationSyntax(Symbol name, IList<IProtocalMessage> messages, FunctionDeclarationSyntax[] members)
         {
             Name    = name;
             Channel = messages;
@@ -19,7 +19,7 @@ namespace D.Syntax
 
         // AKA a state machine...
 
-        public IList<IMessageDeclaration> Channel { get; set; } 
+        public IList<IProtocalMessage> Channel { get; set; } 
 
         public FunctionDeclarationSyntax[] Members { get; set; }
 
@@ -37,12 +37,12 @@ namespace D.Syntax
     ∙ dissolve ∎   : dissolved
     */
 
-    public interface IMessageDeclaration
+    public interface IProtocalMessage
     {
         bool Fallthrough { get; }
     }
 
-    public class MessageChoice : IMessageDeclaration
+    public class MessageChoice : IProtocalMessage
     {
         public MessageChoice(IList<ProtocalMessage> options, MessageFlags flags)
         {
@@ -69,7 +69,7 @@ namespace D.Syntax
 
     }
 
-    public class ProtocalMessage : IMessageDeclaration
+    public class ProtocalMessage : IProtocalMessage
     {
         // name
         // label

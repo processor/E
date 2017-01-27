@@ -2,11 +2,6 @@
 {
     public static class Expression
     {
-        /*
-        public static VariableDeclaration Variable(string name, Kind kind)
-            => new VariableDeclaration(name, Symbol.Type(kind.ToString()), false);
-            */
-
         public static CallExpression Call(Symbol name, IArguments arguments)
            => new CallExpression(null, name, arguments);
 

@@ -1,22 +1,25 @@
 ﻿namespace D.Expressions
 {
-    // px unit
-    // m unit
-
-    // Radian : Angle = 1
+    // rad unit : Angle @name("Radian") = 1
 
     public class UnitDeclaration : IExpression
     {
-        public UnitDeclaration(Symbol name, Symbol baseUnit, IExpression expression)
+        public UnitDeclaration(Symbol name, Symbol baseType, IExpression expression)
         {
             Name = name;
-            BaseUnit = BaseUnit;
+            BaseType = baseType;
             Expression = expression;
         }
 
         public Symbol Name { get; }
 
-        public Symbol BaseUnit { get; }
+        public Symbol BaseType { get; }
+
+        public Symbol Symbol { get; }
+
+        // Arithmetic relationship to another unit
+        
+        // ml = cm**3
 
         public IExpression Expression { get; }
 

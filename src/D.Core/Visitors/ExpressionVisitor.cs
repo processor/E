@@ -7,7 +7,7 @@ namespace D.Expressions
         public virtual IExpression VisitBinary(BinaryExpression expression)                         { throw new NotImplementedException(); }
         public virtual IExpression VisitUnary(UnaryExpression expression)                           { throw new NotImplementedException(); }
         public virtual IExpression VisitTernary(TernaryExpression expression)                       { throw new NotImplementedException(); }
-        public virtual IExpression VisitBlock(BlockStatement block)                                 { throw new NotImplementedException(); }
+        public virtual IExpression VisitBlock(BlockExpression block)                                { throw new NotImplementedException(); }
         public virtual IExpression VisitCall(CallExpression call)                                   { throw new NotImplementedException(); }
         public virtual IExpression VisitVariableDeclaration(VariableDeclaration declaration)        { throw new NotImplementedException(); }
         public virtual IExpression VisitTypeInitializer(TypeInitializer a)                          { throw new NotImplementedException(); }
@@ -42,9 +42,9 @@ namespace D.Expressions
             {
                 return VisitTernary((TernaryExpression)expression);
             }
-            else if (expression is BlockStatement)
+            else if (expression is BlockExpression)
             {
-                return VisitBlock((BlockStatement)expression);
+                return VisitBlock((BlockExpression)expression);
             }
 
             switch (expression.Kind)

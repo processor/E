@@ -2,7 +2,7 @@
 {
     public class WhileStatementSyntax : ISyntax
     {
-        public WhileStatementSyntax(ISyntax condition, BlockStatementSyntax body)
+        public WhileStatementSyntax(ISyntax condition, BlockExpressionSyntax body)
         {
             Condition = condition;
             Body = body;
@@ -10,8 +10,8 @@
 
         public ISyntax Condition { get; }
 
-        public BlockStatementSyntax Body { get; }
+        public BlockExpressionSyntax Body { get; }
 
-        Kind IObject.Kind => Kind.WhileStatement;
+        Kind IObject.Kind => Kind.LoopExpression;
     }
 }

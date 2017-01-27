@@ -2,9 +2,9 @@
 
 namespace D.Syntax
 {
-    public class BlockStatementSyntax : ISyntax
+    public class BlockExpressionSyntax : ISyntax
     {
-        public BlockStatementSyntax(params ISyntax[] statements)
+        public BlockExpressionSyntax(params ISyntax[] statements)
         {
             #region Preconditions
 
@@ -22,6 +22,6 @@ namespace D.Syntax
 
         public int Count => Statements.Length;
 
-        Kind IObject.Kind => Kind.BlockStatement;
+        Kind IObject.Kind => Kind.BlockExpression;
     }
 }

@@ -2,7 +2,7 @@
 {
     public class ForStatement : ISyntax
     {
-        public ForStatement(ISyntax variable, ISyntax generator, BlockStatementSyntax body)
+        public ForStatement(ISyntax variable, ISyntax generator, BlockExpressionSyntax body)
         {
             VariableExpression = variable;
             GeneratorExpression = generator;
@@ -17,8 +17,8 @@
         //    c     | 1...100
         public ISyntax GeneratorExpression { get; }
 
-        public BlockStatementSyntax Body { get; }
+        public BlockExpressionSyntax Body { get; }
 
-        Kind IObject.Kind => Kind.ForStatement;
+        Kind IObject.Kind => Kind.ForExpression;
     }
 }

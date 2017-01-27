@@ -22,7 +22,7 @@ namespace D.Units
 
         #region Electromagism / Energy
 
-        public static readonly UnitType Ampere  = new UnitType("A",  ElectricCurrent, SIBase);
+        public static readonly UnitType Ampere  = new UnitType("A",  ElectricCurrent, SI | Base);
         public static readonly UnitType Coulomb = new UnitType("C",  ElectricCharge);
         public static readonly UnitType Ohm     = new UnitType("Ω",  ElectricResistance);
         public static readonly UnitType Farad   = new UnitType("F",  Capacitance);
@@ -69,7 +69,7 @@ namespace D.Units
 
         #region Length
 
-        public static readonly UnitType Meter     = new UnitType("m", Length, SIBase);  // m
+        public static readonly UnitType Meter     = new UnitType("m", Length, SI | Base);  // m
 
         #endregion
 
@@ -83,26 +83,26 @@ namespace D.Units
 
         #endregion
 
-        public static readonly UnitType Mole = new UnitType("mol", AmountOfSubstance, SIBase);
+        public static readonly UnitType Mole = new UnitType("mol", AmountOfSubstance, SI | Base);
 
         #region Luminocity
 
-        public static readonly UnitType Candela = new UnitType("cd", LuminousIntensity, SIBase);
+        public static readonly UnitType Candela = new UnitType("cd", LuminousIntensity, SI | Base);
 
         #endregion
 
         #region Temperature (Thermodynamic)
 
-        public static readonly UnitType Kelvin = new UnitType("K", ThermodynamicTemperature, SIBase);
+        public static readonly UnitType Kelvin = new UnitType("K", ThermodynamicTemperature, SI | Base);
 
         // Add −273.15
-        public static readonly UnitType Celsius = new UnitType("°C", ThermodynamicTemperature, SIBase); // + x
+        public static readonly UnitType Celsius = new UnitType("°C", ThermodynamicTemperature, SI | Base); // + x
 
         #endregion
 
         #region Time
 
-        public static readonly UnitType Second      = new UnitType("s", Time, SIBase);  // s
+        public static readonly UnitType Second      = new UnitType("s", Time, SI | Base);  // s
 
         // 60 seconds in minute
         public static readonly UnitType Minute      = new UnitType("min" , Time, 60d);
@@ -163,7 +163,7 @@ namespace D.Units
             BaseFactor = baseMultiplier;
         }
 
-        public bool IsBaseUnit => Flags.HasFlag(SIBase);
+        public bool IsBaseUnit => Flags.HasFlag(Base);
 
         public UnitId BaseUnit { get; }
 

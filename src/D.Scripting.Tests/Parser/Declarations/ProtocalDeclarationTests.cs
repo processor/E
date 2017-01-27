@@ -4,7 +4,7 @@ namespace D.Parsing.Tests
 {
     using Syntax;
 
-    public class ProtocalTests : TestBase
+    public class ProtocalDeclarationTests : TestBase
     {
         [Fact]
         public void EmptyBody()

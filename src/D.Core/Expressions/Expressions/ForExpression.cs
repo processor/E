@@ -1,8 +1,8 @@
 ﻿namespace D.Expressions
 {
-    public class ForStatement : IExpression
+    public class ForExpression : IExpression
     {
-        public ForStatement(IExpression variable, IExpression generator, BlockStatement body)
+        public ForExpression(IExpression variable, IExpression generator, BlockExpression body)
         {
             VariableExpression = variable;
             GeneratorExpression = generator;
@@ -17,8 +17,8 @@
         //    c     | 1...100
         public IExpression GeneratorExpression { get; }
 
-        public BlockStatement Body { get; }
+        public BlockExpression Body { get; }
 
-        Kind IObject.Kind => Kind.ForStatement;
+        Kind IObject.Kind => Kind.ForExpression;
     }
 }

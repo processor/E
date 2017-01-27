@@ -122,21 +122,14 @@
         // RecordExpression = 2009,
 
         PipeStatement = 2302,  // Merge with Call?
-        BlockStatement  = 2304,
+        
         SpreadStatement = 2305,
 
-        AnnotationExpression = 2500,
-        CallExpression       = 2501,
-        // ConstantExpression = 2502,
-        TupleExpression      = 2503,
-        LambdaExpression     = 2504,
-        MatchExpression      = 2305,
-        QueryExpression      = 2506,
 
         // Statements
         ReturnStatement   = 3001,
-        WhileStatement    = 3002,
-        ForStatement      = 3003,
+        LoopExpression    = 3002,
+        ForExpression      = 3003,
         IfStatement       = 3004,
         ElseIfStatement   = 3005,
         ElseStatement     = 3006,
@@ -165,16 +158,26 @@
 
         #region Expressions
 
-        CoalesceExpression      = 6100, // ??
+        BlockExpression          = 5000, // { ... }
+        CoalesceExpression       = 5001, // ??
 
-        // Unary 
-        LogicalNotExpression    = 5000, // ! prefix
-        UnaryPlusExpression     = 5001, // + prefix
-        NegateExpression        = 5002, // - prefix
-
-        // Binary: Logical
-        LogicalAndExpression    = 6000, // &&
-        LogicalOrExpression     = 6001, // ||
+        
+        AnnotationExpression = 5003,
+        CallExpression       = 5004,
+        // ConstantExpression = 2502,
+        TupleExpression      = 5005,
+        LambdaExpression     = 5006,
+        MatchExpression      = 5007,
+        QueryExpression      = 5008,
+                                 
+        // Unary                 
+        LogicalNotExpression     = 6000, // ! prefix
+        UnaryPlusExpression      = 6001, // + prefix
+        NegateExpression         = 6002, // - prefix
+                                 
+        // Binary: Logical       
+        LogicalAndExpression     = 6003, // &&
+        LogicalOrExpression      = 6004, // ||
 
         // Binary - Arithmetic
         AddExpression            = 6010, // +

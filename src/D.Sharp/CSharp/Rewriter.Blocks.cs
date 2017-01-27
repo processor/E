@@ -4,7 +4,7 @@
 
     public partial class CSharpTranspiler
     {
-        public override IExpression VisitBlock(BlockStatement block)
+        public override IExpression VisitBlock(BlockExpression block)
         {
             EmitLine("{", level);
 

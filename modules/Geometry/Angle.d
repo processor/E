@@ -1,15 +1,9 @@
-Angle protocal : Number { }
-
-Radian    SI unit : Angle @symbol("rad")  = 1
-Degree       unit : Angle @symbol("deg")  = (π / 180) rad
-Turn         unit : Angle @symbol("turn") = 360 deg                
-Gradian      unit : Angle @symbol("grad") = (1 / 400) turn
-Arcsecond    unit : Angle @symbol("arcs") = (1 / 3600) deg            
-Arcminute    unit : Angle @symbol("arcm") = (1 / 60) deg
-   
-Octant       unit : Angle = 45deg
-Sextant      unit : Angle = 60deg
-Quadrant     unit : Angle = 90deg
+rad  unit : Angle @name("Radian") @SI = 1;
+deg  unit : Angle @name("Degree")     = (π/180) rad;
+turn unit : Angle @name("Turn")       = 360 deg;               
+grad unit : Angle @name("Gradian")    = (1/400) turn;
+arcs unit : Angle @name("Arcsecond")  = (1/3600) deg;            
+arcm unit : Angle @name("Arcminute")  = (1/60) deg;
 
 // 1 grad
 // 90 deg

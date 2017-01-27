@@ -48,7 +48,7 @@
 
             EmitLine();
 
-            var block = (BlockStatement)func.Body;
+            var block = (BlockExpression)func.Body;
 
             Emit("{", level);
 
@@ -109,7 +109,7 @@
             
             WriteParameters(func.Parameters, "[", "]");
 
-            WriteFunctionBody((BlockStatement)func.Body);
+            WriteFunctionBody((BlockExpression)func.Body);
         }
 
         public void WriteProtocalFunction(Protocal protocal, Function func)
@@ -138,7 +138,7 @@
                 WriteParameters(func.Parameters, "(", ")");
             }
 
-            WriteFunctionBody((BlockStatement)func.Body);
+            WriteFunctionBody((BlockExpression)func.Body);
         }
 
         public void VisitFunction(Function func)
@@ -193,10 +193,10 @@
                 WriteParameters(func.Parameters, "(", ")");
             }
 
-            WriteFunctionBody((BlockStatement)func.Body);
+            WriteFunctionBody((BlockExpression)func.Body);
         }
 
-        private void WriteFunctionBody(BlockStatement body)
+        private void WriteFunctionBody(BlockExpression body)
         {
             // May need to nest in GET statement if it's a property
 

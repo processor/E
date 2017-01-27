@@ -101,7 +101,7 @@ Point impl {
   }
 }");
             var f  = (FunctionDeclarationSyntax)  bank.Members[0];
-            var b  = (BlockStatementSyntax)       f.Body;
+            var b  = (BlockExpressionSyntax)       f.Body;
             var o  = (ObserveStatement)     b.Statements[1];
             var o2 = (ObserveStatement)     b.Statements[2];
             var o3 = (ObserveStatement)     b.Statements[3];
@@ -288,7 +288,7 @@ Curve<T> implementation for Arc<T> {
 
             Assert.Equal("getPoint", f.Name);
 
-            var body     = (BlockStatementSyntax)f.Body;
+            var body     = (BlockExpressionSyntax)f.Body;
 
             var returnStatement = (ReturnStatementSyntax)body[body.Statements.Length - 1];
             var initializer     = (TypeInitializerSyntax)returnStatement.Expression;

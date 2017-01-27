@@ -88,7 +88,7 @@ namespace D.Compilation
                 ? scope.Get<Type>(f.ReturnType) 
                 : b.Kind == Kind.LambdaExpression
                     ? GetType((LambdaExpression)b)
-                    : GetReturnType((BlockStatement)b);
+                    : GetReturnType((BlockExpression)b);
 
             var paramaters = ResolveParameters(f.Parameters);
 
@@ -97,21 +97,21 @@ namespace D.Compilation
                 scope.Add(p.Name, (Type)p.Type);
             }
 
-            BlockStatement body;
+            BlockExpression body;
 
             if (f.Body == null) 
             {
                 body = null; // Protocal functions do not define a body.
             }
-            else if (f.Body is BlockStatementSyntax)
+            else if (f.Body is BlockExpressionSyntax)
             {
-                body = VisitBlock((BlockStatementSyntax)f.Body);
+                body = VisitBlock((BlockExpressionSyntax)f.Body);
             }
             else if (f.Body is LambdaExpressionSyntax)
             {
                 var lambda = VisitLambda((LambdaExpressionSyntax)f.Body);
 
-                body = new BlockStatement(new ReturnStatement(lambda.Expression));
+                body = new BlockExpression(new ReturnStatement(lambda.Expression));
             }
             else
             {
@@ -203,18 +203,18 @@ namespace D.Compilation
 
         #region Binding
 
-        public BlockStatement VisitBlock(BlockStatementSyntax block)
+        public BlockExpression VisitBlock(BlockExpressionSyntax syntax)
         {
             var statements = new List<IExpression>();
 
-            foreach(var s in block.Statements)
+            foreach(var s in syntax.Statements)
             {
                 var expression = Visit(s);
               
                 statements.Add(expression);
             }
 
-            return new BlockStatement(statements.ToArray());
+            return new BlockExpression(statements.ToArray());
         }
 
         int i = 0;
@@ -240,9 +240,9 @@ namespace D.Compilation
                 return VisitTernary((TernaryExpressionSyntax)syntax);
             }
 
-            if (syntax is BlockStatementSyntax)
+            if (syntax is BlockExpressionSyntax)
             {
-                return VisitBlock((BlockStatementSyntax)syntax);
+                return VisitBlock((BlockExpressionSyntax)syntax);
             }
 
             switch (syntax.Kind)

@@ -2,7 +2,7 @@
 {
     public class ElseIfStatementSyntax : ISyntax
     {
-        public ElseIfStatementSyntax(ISyntax condition, BlockStatementSyntax body, ISyntax elseBranch)
+        public ElseIfStatementSyntax(ISyntax condition, BlockExpressionSyntax body, ISyntax elseBranch)
         {
             Condition = condition;
             Body = body;
@@ -11,7 +11,7 @@
 
         public ISyntax Condition { get; }
 
-        public BlockStatementSyntax Body { get; }
+        public BlockExpressionSyntax Body { get; }
 
         // Else, ElseIf
         public ISyntax ElseBranch { get; }

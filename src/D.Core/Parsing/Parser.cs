@@ -373,7 +373,7 @@ namespace D.Parsing
             return new UntilExpression(untilObservable, untilEventType);
         }
 
-        public BlockStatementSyntax ReadBlock()
+        public BlockExpressionSyntax ReadBlock()
         {
             Consume(BraceOpen); // ! {
 
@@ -390,7 +390,7 @@ namespace D.Parsing
 
             LeaveMode(Mode.Block);
 
-            return new BlockStatementSyntax(statements.ToArray());
+            return new BlockExpressionSyntax(statements.ToArray());
         }
 
         public SpreadExpression ReadSpread()
@@ -788,6 +788,31 @@ namespace D.Parsing
             return new TypeDeclarationSyntax(typeName, genericParameters, baseType, annotations, properties, flags: flags);
         }
 
+        // Pa unit : Pressure @name("Pascal") = 1
+
+        public UnitDeclarationSyntax ReadUnitDeclaration(Symbol name)
+        {
+            var flags = UnitFlags.None;
+
+            if (ConsumeIf("SI")) flags |= UnitFlags.SI;
+
+            ConsumeIf(TokenKind.Unit);
+
+            var baseType = ConsumeIf(Colon)    // ? :
+                ? ReadSymbol(SymbolKind.Type)  // baseType
+                : null;
+
+            var annotations = ReadAnnotations().ToArray();
+
+            ISyntax expression = ConsumeIf("=")
+                ? Next()
+                : null;
+
+            ConsumeIf(Semicolon); // ? ;
+
+            return new UnitDeclarationSyntax(name, baseType, annotations, expression);
+        }
+
         private PropertyDeclarationSyntax[] ReadTypeDeclarationBody()
         {
             if (ConsumeIf(BraceOpen))  // ? {
@@ -850,21 +875,35 @@ namespace D.Parsing
         private readonly List<FunctionDeclarationSyntax> methods = new List<FunctionDeclarationSyntax>();
 
         // Account protocal { }
+        // Point protocal : Vector3 { } 
 
         public ProtocalDeclarationSyntax ReadProtocal(Symbol name)
         {
             Consume(Protocal);      // ! protocal
 
-            Consume(BraceOpen);     // ! {
-
-            var channelProtocal = reader.Current.Text == "*"
-                ? ReadChannelProtocal()
+            Symbol baseProtocal = ConsumeIf(Colon)
+                ? ReadSymbol()
                 : null;
 
-            while (!IsEof && !IsKind(BraceClose))
+
+            var annotations = ReadAnnotations().ToArray();
+
+            Consume(BraceOpen);     // ! {
+
+            var channelProtocal = Array.Empty<IProtocalMessage>();
+
+            if (!IsKind(BraceClose))
             {
-                methods.Add(ReadProtocalMember());
+                channelProtocal = reader.Current.Text == "*"
+                    ? ReadProtocalChannel().ToArray()
+                    : Array.Empty<IProtocalMessage>();
+
+                while (!IsEof && !IsKind(BraceClose))
+                {
+                    methods.Add(ReadProtocalMember());
+                }
             }
+
             
             Consume(BraceClose);  // ! }
             ConsumeIf(Semicolon); // ? ;
@@ -872,15 +911,15 @@ namespace D.Parsing
             return new ProtocalDeclarationSyntax(name, channelProtocal, methods.Extract());
         }
 
-        public List<IMessageDeclaration> ReadChannelProtocal()
+        public List<IProtocalMessage> ReadProtocalChannel()
         {
-            var messages = new List<IMessageDeclaration>();
+            var messages = new List<IProtocalMessage>();
 
             while (ConsumeIf("*"))  // ! ∙
             {
                 ConsumeIf(Bar);         // ? |  // Optional leading bar in a oneof set
 
-                var message = ReadMessageDeclaration();
+                var message = ReadProtocalMessage();
 
                 if (message.Fallthrough)
                 {
@@ -892,7 +931,7 @@ namespace D.Parsing
 
                     while (message.Fallthrough && !IsKind(Repeats) && reader.Current.Text != "*")
                     {
-                        options.Add(ReadMessageDeclaration());
+                        options.Add(ReadProtocalMessage());
                     }
 
                     if (ConsumeIf(Repeats))
@@ -929,17 +968,17 @@ namespace D.Parsing
         {
             var name = ReadSymbol(SymbolKind.Label);
             
-            ConsumeIf(Function);                                // ƒ
+            ConsumeIf(Function);                             // ? ƒ
 
             var flags = FunctionFlags.Abstract;
 
             ParameterSyntax[] parameters;
 
-            if (ConsumeIf(ParenthesisOpen))                     // ! (
+            if (ConsumeIf(ParenthesisOpen))                  // ! (
             {
                 parameters = ReadParameters().ToArray();
 
-                Consume(ParenthesisClose);                      // ! )
+                Consume(ParenthesisClose);                   // ! )
             }
             else
             {
@@ -947,7 +986,6 @@ namespace D.Parsing
 
                 parameters = Array.Empty<ParameterSyntax>(); 
             }
-
 
             var returnType = ConsumeIf(ReturnArrow)
                 ? ReadSymbol()
@@ -961,7 +999,7 @@ namespace D.Parsing
       
         // dissolve ∎   : dissolved
         // settling 'Transaction  |
-        public ProtocalMessage ReadMessageDeclaration()
+        public ProtocalMessage ReadProtocalMessage()
         {
             var flags = ConsumeIf(Question)   // ? ?
                 ? MessageFlags.Optional 
@@ -1841,6 +1879,9 @@ namespace D.Parsing
                         }
 
                         break;
+
+                    case TokenKind.Unit: return ReadUnitDeclaration(name);
+
                     case Primitive:
                     case Type:
                     case Event:

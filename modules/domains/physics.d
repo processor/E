@@ -157,15 +157,6 @@ kn = Knot,
 
 #endregion
 
-#region Temperature (1600-1700)
-
-Celsius,
-
-Fahrenheit,
-Rankine,
-Delistle,
-
-#endregion
 
 #region Time (2000-3000)
         

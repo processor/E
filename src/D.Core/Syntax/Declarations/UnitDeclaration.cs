@@ -1,22 +1,33 @@
-﻿namespace D.Syntax
+﻿using System;
+
+namespace D.Syntax
 {
-    // px unit
-    // m unit
-
-    // Radian : Angle = 1
-
-    public class UnitDeclaration : ISyntax
+    // K unit : Temperature @name("Kelvin") @SI = 1
+    public class UnitDeclarationSyntax : ISyntax
     {
-        public UnitDeclaration(Symbol name, Symbol baseUnit, ISyntax expression)
+        public UnitDeclarationSyntax(Symbol name, Symbol baseType, AnnotationExpressionSyntax[] annotations, ISyntax expression)
         {
+            #region Preconditions
+
+            if (name == null)
+                throw new ArgumentNullException(nameof(name));
+
+            if (annotations == null)
+                throw new ArgumentNullException(nameof(annotations));
+
+            #endregion
+
             Name = name;
-            BaseUnit = BaseUnit;
+            BaseType = baseType;
+            Annotations = annotations;
             Expression = expression;
         }
 
         public Symbol Name { get; }
 
-        public Symbol BaseUnit { get; }
+        public Symbol BaseType { get; }
+
+        public AnnotationExpressionSyntax[] Annotations { get; }
 
         public ISyntax Expression { get; }
 

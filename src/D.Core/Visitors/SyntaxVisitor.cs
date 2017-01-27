@@ -7,7 +7,7 @@ namespace D.Syntax
         public virtual void VisitBinary(BinaryExpressionSyntax expression)                         { throw new NotImplementedException(); }
         public virtual void VisitUnary(UnaryExpressionSyntax expression)                           { throw new NotImplementedException(); }
         public virtual void VisitTernary(TernaryExpressionSyntax expression)                       { throw new NotImplementedException(); }
-        public virtual void VisitBlock(BlockStatementSyntax block)                                 { throw new NotImplementedException(); }
+        public virtual void VisitBlock(BlockExpressionSyntax block)                                 { throw new NotImplementedException(); }
         public virtual void VisitCall(CallExpressionSyntax call)                                   { throw new NotImplementedException(); }
         public virtual void VisitVariableDeclaration(VariableDeclarationSyntax declaration)        { throw new NotImplementedException(); }
         public virtual void VisitTypeInitializer(TypeInitializerSyntax a)                          { throw new NotImplementedException(); }
@@ -48,9 +48,9 @@ namespace D.Syntax
                 return;
             }
 
-            if (expression is BlockStatementSyntax)
+            if (expression is BlockExpressionSyntax)
             {
-                VisitBlock((BlockStatementSyntax)expression);
+                VisitBlock((BlockExpressionSyntax)expression);
 
                 return;
             }

@@ -6,10 +6,11 @@ namespace D.Units
     public enum UnitFlags
     {
         None     = 0,
-        SIBase   = 1 << 1,
-        Derived  = 1 << 2,
+        SI       = 0 << 1,
+        Base     = 1 << 2,
+        Derived  = 1 << 3,
 
         // Other Systems
-        Imperial = 1 << 3
+        Imperial = 1 << 4
     }
 }

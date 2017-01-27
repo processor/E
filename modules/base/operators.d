@@ -1,8 +1,4 @@
-﻿+ infix operator { 
-  precedence    : 1,
-  associativity : Left,
-  name          : "add"
-}
+﻿+ infix operator @precedence(1) @associativity(Left) @name("add")
 
 ≡ aliases ===
 

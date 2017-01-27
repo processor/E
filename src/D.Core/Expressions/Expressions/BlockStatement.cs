@@ -2,9 +2,9 @@
 
 namespace D.Expressions
 {
-    public class BlockStatement : IExpression
+    public class BlockExpression : IExpression
     {
-        public BlockStatement(params IExpression[] statements)
+        public BlockExpression(params IExpression[] statements)
         {
             #region Preconditions
 
@@ -22,6 +22,6 @@ namespace D.Expressions
 
         public int Count => Statements.Length;
 
-        Kind IObject.Kind => Kind.BlockStatement;
+        Kind IObject.Kind => Kind.BlockExpression;
     }
 }

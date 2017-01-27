@@ -1,10 +1,7 @@
-Length protocal : Number
+cm unit : Length @name("Centimeter") @SI = 0.001 m      
+m  unit : Length @name("Meter")      @SI = 1
+km unit : Length @name("Kilometer")  @SI = 1000 m
 
-Centimeter(s) SI unit : Length @symbol("cm") = 0.001m      
-Meter(s)      SI unit : Length @symbol("m")  = 1
-Kilimeter(s)  SI unit : Length @symbol"km"   = 1000m
-
-// Imperial
-Inch(s) unit : Length @symbol("in") = 0.025400m  
-Foot|Feet    unit : Length @symbol("ft") = 12in
-Mile(s) unit : Length @symbol("mi") = 5280ft
+in unit : Length @name("Inch") @imperial = 0.025400 m  
+ft unit : Length @name("Foot") @imperial = 12 in
+mi unit : Length @name("Mile") @imperial = 5280 ft

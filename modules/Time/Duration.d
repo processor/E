@@ -8,16 +8,13 @@ Duration type {
   }
 }
 
-Millisecond unit
-Second unit
+ns  Unit<Time> Nanosecond     = ?
+ms  Unit<Time> Millisecond    = 0.0001s
+s   Unit<Time> Second         = 1
+min Unit<Time> Minute         = 60s
+h   Unit<Time> Hour           = 60min
 
-Minute unit {
-  to Day => value / 1440
+
+Year type {
+
 }
-
-Year unit {
-
-}
-
-s  postfix (value: Integer) => Second
-ms postfix (value: Integer) => Millisecond(value)

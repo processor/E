@@ -2,7 +2,7 @@
 {
     public class ElseIfStatement : IExpression
     {
-        public ElseIfStatement(IExpression condition, BlockStatement body, IExpression elseBranch)
+        public ElseIfStatement(IExpression condition, BlockExpression body, IExpression elseBranch)
         {
             Condition = condition;
             Body = body;
@@ -11,7 +11,7 @@
 
         public IExpression Condition { get; }
 
-        public BlockStatement Body { get; }
+        public BlockExpression Body { get; }
 
         // Else, ElseIf
         public IExpression ElseBranch { get; }
