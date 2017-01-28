@@ -133,10 +133,10 @@ namespace D
     {
         None        = 0,
         Variable    = 1 << 0,
-        Argument    = 1 << 1, // function scope
+        Argument    = 1 << 1,  // function scope
         Member      = 1 << 2,
         Type        = 1 << 3,       
-        Function    = 1 << 4,   // instance vs global?
+        Function    = 1 << 4,  // instance vs global?
         Module      = 1 << 5,
         Label       = 1 << 6,
 

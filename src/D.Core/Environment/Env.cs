@@ -119,11 +119,11 @@ namespace D
                     args[i] = GetType(symbol.Arguments[i]);
                 }
 
-                return new Type(symbol.Domain, symbol.Name, args);
+                return new Type(symbol.Module, symbol.Name, args);
             }
             else
             {
-                return new Type(symbol.Domain, symbol.Name);   
+                return new Type(symbol.Module, symbol.Name);   
             }
         }
 

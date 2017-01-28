@@ -92,7 +92,7 @@ for criminology::Crimes {
 
             var generator = (Symbol)f.GeneratorExpression;
 
-            Assert.Equal("criminology", generator.Domain);
+            Assert.Equal("criminology", generator.Module);
             Assert.Equal("Crimes",      generator.Name);
         }
     }

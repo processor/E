@@ -174,7 +174,7 @@ clamp ƒ(p: geometry::Point<T>, min: Point<T>, max: Point<T>) => Point {
             Assert.Equal(3, func.Parameters.Length);
 
             Assert.Equal("p",        func.Parameters[0].Name);
-            Assert.Equal("geometry", func.Parameters[0].Type.Domain);
+            Assert.Equal("geometry", func.Parameters[0].Type.Module);
 
             Assert.Equal("Point",    func.Parameters[0].Type.Name);
             Assert.Equal("T",        func.Parameters[0].Type.Arguments[0]);

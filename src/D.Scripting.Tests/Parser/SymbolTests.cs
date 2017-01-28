@@ -16,7 +16,7 @@ namespace D.Parsing.Tests
         {
             var symbol = Parse<Symbol>("physics::Momentum");
 
-            Assert.Equal("physics", symbol.Domain);
+            Assert.Equal("physics", symbol.Module);
             Assert.Equal("Momentum", symbol.Name);
         }
 
@@ -29,7 +29,7 @@ namespace D.Parsing.Tests
 
             var a = symbol.Arguments[0];
 
-            Assert.Equal("physics",  a.Domain);
+            Assert.Equal("physics",  a.Module);
             Assert.Equal("Momentum", a.Name);
         }
 
@@ -45,7 +45,7 @@ namespace D.Parsing.Tests
         {
             var symbol = Parse<Symbol>("Momentum");
 
-            Assert.Equal(null, symbol.Domain);
+            Assert.Equal(null, symbol.Module);
             Assert.Equal("Momentum", symbol.Name);
         }
     }

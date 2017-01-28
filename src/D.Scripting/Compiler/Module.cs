@@ -3,11 +3,11 @@ using System.Collections.Concurrent;
 
 namespace D
 {
-    public class Namespace
+    public class Module
     {
         private readonly ConcurrentDictionary<string, Symbol> symbols = new ConcurrentDictionary<string, Symbol>();
 
-        public Namespace(string name)
+        public Module(string name)
         {
             #region Preconditions
 
