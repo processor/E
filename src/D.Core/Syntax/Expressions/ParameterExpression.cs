@@ -5,8 +5,8 @@
         public ParameterSyntax(
             string name, 
             Symbol type = null,
-            ISyntax defaultValue = null,
-            ISyntax predicate = null,
+            SyntaxNode defaultValue = null,
+            SyntaxNode predicate = null,
             ParameterFlags flags = ParameterFlags.None,
             int index = 0)
         {
@@ -22,9 +22,9 @@
 
         public int Index { get; }
 
-        public ISyntax DefaultValue { get; }
+        public SyntaxNode DefaultValue { get; }
 
-        public ISyntax Predicate { get; }
+        public SyntaxNode Predicate { get; }
 
         public Symbol Type { get; }
 

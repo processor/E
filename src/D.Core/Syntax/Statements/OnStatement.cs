@@ -2,9 +2,9 @@
 {
     // e.g. on bank Account'Opened opening { }
 
-    public class ObserveStatement : ISyntax
+    public class ObserveStatement : SyntaxNode
     {
-        public ObserveStatement(ISyntax observable, Symbol eventType, string eventName, ISyntax body, UntilExpression until)
+        public ObserveStatement(SyntaxNode observable, Symbol eventType, string eventName, SyntaxNode body, UntilExpression until)
         {
             Observable = observable;
             EventType = eventType;
@@ -23,7 +23,7 @@
         public string ParameterName { get; set; }
 
         // Block | Lambda
-        public ISyntax Body { get; }
+        public SyntaxNode Body { get; }
 
         // until gallary Detached
         public UntilExpression UntilExpression { get; set; }
@@ -33,13 +33,13 @@
 
     public class UntilExpression
     {
-        public UntilExpression(ISyntax observable, Symbol eventType)
+        public UntilExpression(SyntaxNode observable, Symbol eventType)
         {
             Observable = observable;
             EventType = eventType;
         }
 
-        public ISyntax Observable { get; }
+        public SyntaxNode Observable { get; }
 
         public Symbol EventType { get; }
     }

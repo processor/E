@@ -1,49 +1,49 @@
 ﻿namespace D.Syntax
 {
     // 1
-    public class ConstantPatternSyntax : ISyntax
+    public class ConstantPatternSyntax : SyntaxNode
     {
-        public ConstantPatternSyntax(ISyntax constant)
+        public ConstantPatternSyntax(SyntaxNode constant)
         {
             Constant = constant;
         }
         
-        public ISyntax Constant { get; }
+        public SyntaxNode Constant { get; }
 
         Kind IObject.Kind => Kind.ConstantPattern;
     }
 
     // 0...10
     // 0..<10       // Half open
-    public class RangePatternSyntax : ISyntax
+    public class RangePatternSyntax : SyntaxNode
     {
-        public RangePatternSyntax(ISyntax start, ISyntax end)
+        public RangePatternSyntax(SyntaxNode start, SyntaxNode end)
         {
             Start = start;
             End   = end;
         }
 
-        public ISyntax Start { get; }
+        public SyntaxNode Start { get; }
 
-        public ISyntax End { get; }
+        public SyntaxNode End { get; }
 
         Kind IObject.Kind => Kind.RangePattern;
     }
 
     // [ a, b ]
-    public class ArrayPatternSyntax : ISyntax
+    public class ArrayPatternSyntax : SyntaxNode
     {
         Kind IObject.Kind => Kind.ArrayPattern;
     }
 
     // { a, b }
-    public class RecordPattern : ISyntax
+    public class RecordPattern : SyntaxNode
     {
         Kind IObject.Kind => Kind.RecordPattern;
     }
 
     // (a, b, c)
-    public class TuplePattern : ISyntax
+    public class TuplePattern : SyntaxNode
     {
         public TuplePattern(TupleExpressionSyntax tuple)
         {
@@ -76,7 +76,7 @@
     // (fruit: Fruit)
     // Fruit | Walrus
 
-    public class TypePatternSyntax : ISyntax
+    public class TypePatternSyntax : SyntaxNode
     {
         public TypePatternSyntax(Symbol typeExpression, Symbol variable)
         {
@@ -92,7 +92,7 @@
     }
 
     // _
-    public class AnyPatternSyntax : ISyntax
+    public class AnyPatternSyntax : SyntaxNode
     {
         Kind IObject.Kind => Kind.AnyPattern;
     }

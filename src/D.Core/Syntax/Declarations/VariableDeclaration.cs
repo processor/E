@@ -2,9 +2,9 @@
 {
     // let a: Integer = 5
     // let a of type Integer equal 5
-    public class VariableDeclarationSyntax : ISyntax
+    public class VariableDeclarationSyntax : SyntaxNode
     {
-        public VariableDeclarationSyntax(string name, Symbol type, bool mutable, ISyntax value = null)
+        public VariableDeclarationSyntax(string name, Symbol type, bool mutable, SyntaxNode value = null)
         {
             Name = name;
             Type = type;
@@ -18,12 +18,12 @@
 
         public bool IsMutable { get; }
 
-        public ISyntax Value { get; }
+        public SyntaxNode Value { get; }
 
         Kind IObject.Kind => Kind.VariableDeclaration;
     }
 
-    public class CompoundVariableDeclaration : ISyntax
+    public class CompoundVariableDeclaration : SyntaxNode
     {
         public CompoundVariableDeclaration(VariableDeclarationSyntax[] declarations)
         {

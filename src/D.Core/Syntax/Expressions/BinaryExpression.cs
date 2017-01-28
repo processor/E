@@ -2,9 +2,9 @@
 
 namespace D.Syntax
 {
-    public class BinaryExpressionSyntax : ISyntax
+    public class BinaryExpressionSyntax : SyntaxNode
     {
-        public BinaryExpressionSyntax(Operator op, ISyntax left, ISyntax right)
+        public BinaryExpressionSyntax(Operator op, SyntaxNode left, SyntaxNode right)
         {
             Operator = op;
             Left = left;
@@ -13,9 +13,9 @@ namespace D.Syntax
 
         public Operator Operator { get; }
 
-        public ISyntax Left { get; }
+        public SyntaxNode Left { get; }
 
-        public ISyntax Right { get; }
+        public SyntaxNode Right { get; }
 
         public bool Grouped { get; set; }
 

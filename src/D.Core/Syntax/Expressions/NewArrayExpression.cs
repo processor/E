@@ -1,14 +1,14 @@
 ﻿namespace D.Syntax
 {
-    public class NewArrayExpressionSyntax : ISyntax
+    public class NewArrayExpressionSyntax : SyntaxNode
     {
-        public NewArrayExpressionSyntax(ISyntax[] elements, int? stride)
+        public NewArrayExpressionSyntax(SyntaxNode[] elements, int? stride)
         {
             Elements = elements;
             Stride = stride;
         }
 
-        public ISyntax[] Elements { get; }
+        public SyntaxNode[] Elements { get; }
 
         public int? Stride { get; }
 

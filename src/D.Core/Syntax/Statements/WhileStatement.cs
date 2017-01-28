@@ -1,14 +1,14 @@
 ﻿namespace D.Syntax
 {
-    public class WhileStatementSyntax : ISyntax
+    public class WhileStatementSyntax : SyntaxNode
     {
-        public WhileStatementSyntax(ISyntax condition, BlockExpressionSyntax body)
+        public WhileStatementSyntax(SyntaxNode condition, BlockExpressionSyntax body)
         {
             Condition = condition;
             Body = body;
         }
 
-        public ISyntax Condition { get; }
+        public SyntaxNode Condition { get; }
 
         public BlockExpressionSyntax Body { get; }
 

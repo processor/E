@@ -3,9 +3,9 @@ using System.Collections.Generic;
 
 namespace D.Syntax
 {
-    public class MatchExpressionSyntax : ISyntax
+    public class MatchExpressionSyntax : SyntaxNode
     {
-        public MatchExpressionSyntax(ISyntax expression, IList<MatchCaseSyntax> cases)
+        public MatchExpressionSyntax(SyntaxNode expression, IList<MatchCaseSyntax> cases)
         {
             #region Preconditions
 
@@ -18,7 +18,7 @@ namespace D.Syntax
             Cases = cases;
         }
 
-        public ISyntax Expression { get; }
+        public SyntaxNode Expression { get; }
 
         public IList<MatchCaseSyntax> Cases { get; }
 
@@ -27,16 +27,16 @@ namespace D.Syntax
 
     public class MatchCaseSyntax
     {
-        public MatchCaseSyntax(ISyntax pattern, ISyntax condition, LambdaExpressionSyntax body)
+        public MatchCaseSyntax(SyntaxNode pattern, SyntaxNode condition, LambdaExpressionSyntax body)
         {
             Pattern     = pattern;
             Condition   = condition;
             Body        = body;
         }
         
-        public ISyntax Pattern { get; }
+        public SyntaxNode Pattern { get; }
 
-        public ISyntax Condition { get; }
+        public SyntaxNode Condition { get; }
 
         public LambdaExpressionSyntax Body { get; }
     }

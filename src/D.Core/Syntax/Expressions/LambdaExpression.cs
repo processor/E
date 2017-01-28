@@ -1,14 +1,14 @@
 ﻿namespace D.Syntax
 {
     // => ...
-    public class LambdaExpressionSyntax : ISyntax
+    public class LambdaExpressionSyntax : SyntaxNode
     {
-        public LambdaExpressionSyntax(ISyntax expression)
+        public LambdaExpressionSyntax(SyntaxNode expression)
         {
             Expression = expression;
         }
 
-        public ISyntax Expression { get; }
+        public SyntaxNode Expression { get; }
 
         Kind IObject.Kind => Kind.LambdaExpression;
     }

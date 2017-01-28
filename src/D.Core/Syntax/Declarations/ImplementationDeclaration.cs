@@ -7,9 +7,9 @@ namespace D.Syntax
     // Matrix4 implementation 
     // Int32 implementation : Addable, Subtractable, ...
 
-    public class ImplementationDeclarationSyntax : ISyntax
+    public class ImplementationDeclarationSyntax : SyntaxNode
     {
-        public ImplementationDeclarationSyntax(Symbol protocal, Symbol type, ISyntax[] members)
+        public ImplementationDeclarationSyntax(Symbol protocal, Symbol type, SyntaxNode[] members)
         {
             Protocal = protocal;
             Type     = type;
@@ -21,9 +21,9 @@ namespace D.Syntax
         public Symbol Type { get; }
 
         // Protocals
-        public ISyntax[] Members { get; set; }
+        public SyntaxNode[] Members { get; set; }
 
-        public ISyntax this[int index] => Members[index];
+        public SyntaxNode this[int index] => Members[index];
 
         #region Helpers
 

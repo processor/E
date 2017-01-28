@@ -56,7 +56,7 @@ namespace D
             return last;
         }
 
-        public IObject Evaluate(ISyntax sytax)
+        public IObject Evaluate(SyntaxNode sytax)
         {
             var expression = compiler.Visit(sytax);
 

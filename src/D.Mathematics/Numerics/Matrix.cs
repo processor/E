@@ -161,7 +161,6 @@ namespace D.Numerics
 
             return new Matrix<T>(elements, stride);
         }
-        
 
         Kind IObject.Kind => Kind.Matrix;
     }

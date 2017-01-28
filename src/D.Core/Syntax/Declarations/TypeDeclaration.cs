@@ -4,7 +4,7 @@ namespace D.Syntax
 {
     // type | record | event
 
-    public class TypeDefinationBase : ISyntax
+    public class TypeDefinationBase : SyntaxNode
     {
         public TypeDefinationBase(Symbol baseType, TypeFlags flags, PropertyDeclarationSyntax[] members)
         {
@@ -69,7 +69,7 @@ namespace D.Syntax
         public Symbol[] Names { get; }
     }
 
-    public class PropertyDeclarationSyntax : ISyntax
+    public class PropertyDeclarationSyntax : SyntaxNode
     {
         public PropertyDeclarationSyntax(string name, Symbol type, bool mutable = false)
         {

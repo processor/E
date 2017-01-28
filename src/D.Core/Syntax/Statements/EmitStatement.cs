@@ -1,13 +1,13 @@
 ﻿namespace D.Syntax
 {
-    public class EmitStatement : ISyntax
+    public class EmitStatement : SyntaxNode
     {
-        public EmitStatement(ISyntax expression)
+        public EmitStatement(SyntaxNode expression)
         {
             Expression = expression;
         }
 
-        public ISyntax Expression { get; }
+        public SyntaxNode Expression { get; }
 
         Kind IObject.Kind => Kind.EmitStatement;
     }

@@ -1,6 +1,6 @@
 ﻿namespace D.Syntax
 {
-    public class NumberLiteralSyntax : ISyntax
+    public class NumberLiteralSyntax : SyntaxNode
     {
         public NumberLiteralSyntax(string text)
         {

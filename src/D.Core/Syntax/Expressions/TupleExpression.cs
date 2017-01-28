@@ -2,9 +2,9 @@
 
 namespace D.Syntax
 {
-    public class TupleExpressionSyntax : ISyntax
+    public class TupleExpressionSyntax : SyntaxNode
     {
-        public TupleExpressionSyntax(ISyntax[] elements)
+        public TupleExpressionSyntax(SyntaxNode[] elements)
         {
             #region Preconditions
 
@@ -18,15 +18,15 @@ namespace D.Syntax
 
         public int Size => Elements.Length;
 
-        public ISyntax[] Elements { get; }
+        public SyntaxNode[] Elements { get; }
 
         public Kind Kind => Kind.TupleExpression;
     }
 
     // a: 100
-    public class NamedElement : ISyntax
+    public class NamedElement : SyntaxNode
     {
-        public NamedElement(string name, ISyntax value)
+        public NamedElement(string name, SyntaxNode value)
         {
             Name = name;
             Value = value;
@@ -35,13 +35,13 @@ namespace D.Syntax
         public string Name { get; }
 
         // type or constant
-        public ISyntax Value { get; }
+        public SyntaxNode Value { get; }
 
         Kind IObject.Kind => Kind.NamedValue;
     }
 
     // a: [ ] byte
-    public class NamedType : ISyntax
+    public class NamedType : SyntaxNode
     {
         public NamedType(string name, Symbol type)
         {
@@ -60,13 +60,13 @@ namespace D.Syntax
     // 1: i32
     public class TypedValueSyntax : IObject
     {
-        public TypedValueSyntax(ISyntax value, Symbol type)
+        public TypedValueSyntax(SyntaxNode value, Symbol type)
         {
             Value = value;
             Type = type;
         }
 
-        public ISyntax Value { get; }
+        public SyntaxNode Value { get; }
 
         // type or constant
         public Symbol Type { get; }

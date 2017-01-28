@@ -16,7 +16,7 @@ namespace D
     // Array<String>
     // Array<physics::Momentum>
 
-    public class Symbol : IExpression, Syntax.ISyntax
+    public class Symbol : IExpression, Syntax.SyntaxNode
     {
         public static readonly Symbol Any    = Symbol.Type("Any");
         public static readonly Symbol String = Symbol.Type("String");

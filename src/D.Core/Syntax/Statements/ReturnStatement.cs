@@ -2,9 +2,9 @@
 
 namespace D.Syntax
 {
-    public class ReturnStatementSyntax : ISyntax
+    public class ReturnStatementSyntax : SyntaxNode
     {
-        public ReturnStatementSyntax(ISyntax expression)
+        public ReturnStatementSyntax(SyntaxNode expression)
         {
             if (expression == null)
             {
@@ -14,7 +14,7 @@ namespace D.Syntax
             Expression = expression;
         }
 
-        public ISyntax Expression { get; }
+        public SyntaxNode Expression { get; }
 
         Kind IObject.Kind => Kind.ReturnStatement;
     }

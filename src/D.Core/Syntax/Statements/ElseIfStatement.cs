@@ -1,20 +1,20 @@
 ﻿namespace D.Syntax
 {
-    public class ElseIfStatementSyntax : ISyntax
+    public class ElseIfStatementSyntax : SyntaxNode
     {
-        public ElseIfStatementSyntax(ISyntax condition, BlockExpressionSyntax body, ISyntax elseBranch)
+        public ElseIfStatementSyntax(SyntaxNode condition, BlockExpressionSyntax body, SyntaxNode elseBranch)
         {
             Condition = condition;
             Body = body;
             ElseBranch = elseBranch;
         }
 
-        public ISyntax Condition { get; }
+        public SyntaxNode Condition { get; }
 
         public BlockExpressionSyntax Body { get; }
 
         // Else, ElseIf
-        public ISyntax ElseBranch { get; }
+        public SyntaxNode ElseBranch { get; }
 
         Kind IObject.Kind => Kind.ElseIfStatement;
     }

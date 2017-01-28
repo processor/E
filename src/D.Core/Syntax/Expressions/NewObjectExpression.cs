@@ -1,6 +1,6 @@
 ﻿namespace D.Syntax
 {
-    public class NewObjectExpressionSyntax : ISyntax
+    public class NewObjectExpressionSyntax : SyntaxNode
     {
         public NewObjectExpressionSyntax(Symbol type, RecordMemberSyntax[] members)
         {
@@ -31,7 +31,7 @@
             Implict = true;
         }
 
-        public RecordMemberSyntax(Symbol name, ISyntax value)
+        public RecordMemberSyntax(Symbol name, SyntaxNode value)
         {
             Name = name;
             Value = value;
@@ -42,7 +42,7 @@
 
         public bool Implict { get; }
 
-        public ISyntax Value { get; }
+        public SyntaxNode Value { get; }
     }
 
     // Point { x: 1, y: 2 }

@@ -3,9 +3,9 @@ using System.Text;
 
 namespace D.Syntax
 {
-    public class CallExpressionSyntax : ISyntax
+    public class CallExpressionSyntax : SyntaxNode
     {
-        public CallExpressionSyntax(ISyntax callee, Symbol functionName, ArgumentSyntax[] arguments)
+        public CallExpressionSyntax(SyntaxNode callee, Symbol functionName, ArgumentSyntax[] arguments)
         {
             Callee = callee;
             FunctionName = functionName;
@@ -13,7 +13,7 @@ namespace D.Syntax
         }
 
         // Nullable 
-        public ISyntax Callee { get; }  // Piper
+        public SyntaxNode Callee { get; }  // Piper
 
         public Symbol FunctionName { get; }
 
@@ -23,14 +23,14 @@ namespace D.Syntax
     }
 
 
-    public class ArgumentSyntax : ISyntax
+    public class ArgumentSyntax : SyntaxNode
     {
-        public ArgumentSyntax(ISyntax value)
+        public ArgumentSyntax(SyntaxNode value)
         {
             Value = value;
         }
 
-        public ArgumentSyntax(string name, ISyntax value)
+        public ArgumentSyntax(string name, SyntaxNode value)
         {
             Name = name;
             Value = value;
@@ -38,23 +38,23 @@ namespace D.Syntax
 
         public string Name { get; }
 
-        public ISyntax Value { get; }
+        public SyntaxNode Value { get; }
 
         public Kind Kind => Kind.Argument;
 
     }
 
     // .member
-    public class MemberAccessExpressionSyntax : ISyntax
+    public class MemberAccessExpressionSyntax : SyntaxNode
     {
-        public MemberAccessExpressionSyntax(ISyntax left, Symbol memberName)
+        public MemberAccessExpressionSyntax(SyntaxNode left, Symbol memberName)
         {
             Left = left;
             MemberName = memberName;
         }
 
         // Type: Array | Property
-        public ISyntax Left { get; }
+        public SyntaxNode Left { get; }
 
         // The member
         public Symbol MemberName { get; }
@@ -75,9 +75,9 @@ namespace D.Syntax
     }
 
     // [index]
-    public class IndexAccessExpressionSyntax : ISyntax
+    public class IndexAccessExpressionSyntax : SyntaxNode
     {
-        public IndexAccessExpressionSyntax(ISyntax left, ArgumentSyntax[] arguments)
+        public IndexAccessExpressionSyntax(SyntaxNode left, ArgumentSyntax[] arguments)
         {
             #region Preconditions
 
@@ -90,7 +90,7 @@ namespace D.Syntax
             Arguments = arguments;
         }
 
-        public ISyntax Left { get; set; }
+        public SyntaxNode Left { get; set; }
 
         // [1]
         // [1, 2]

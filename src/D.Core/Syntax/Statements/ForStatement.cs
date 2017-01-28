@@ -1,8 +1,8 @@
 ﻿namespace D.Syntax
 {
-    public class ForStatement : ISyntax
+    public class ForStatement : SyntaxNode
     {
-        public ForStatement(ISyntax variable, ISyntax generator, BlockExpressionSyntax body)
+        public ForStatement(SyntaxNode variable, SyntaxNode generator, BlockExpressionSyntax body)
         {
             VariableExpression = variable;
             GeneratorExpression = generator;
@@ -11,11 +11,11 @@
 
         // name | tuple pattern
         //  x   |    (x, x)
-        public ISyntax VariableExpression { get; set; }
+        public SyntaxNode VariableExpression { get; set; }
 
         // variable |  range
         //    c     | 1...100
-        public ISyntax GeneratorExpression { get; }
+        public SyntaxNode GeneratorExpression { get; }
 
         public BlockExpressionSyntax Body { get; }
 

@@ -6,7 +6,7 @@ namespace D.Syntax
 
     // mutable name -> String
 
-    public class ProtocalDeclarationSyntax : ISyntax
+    public class ProtocalDeclarationSyntax : SyntaxNode
     {
         public ProtocalDeclarationSyntax(Symbol name, IList<IProtocalMessage> messages, FunctionDeclarationSyntax[] members)
         {

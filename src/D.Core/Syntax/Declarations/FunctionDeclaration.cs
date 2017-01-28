@@ -4,17 +4,17 @@ using System.Text;
 
 namespace D.Syntax
 {
-    public class FunctionDeclarationSyntax : ISyntax
+    public class FunctionDeclarationSyntax : SyntaxNode
     {
         public FunctionDeclarationSyntax(
             ParameterSyntax[] parameters,
-            ISyntax body,
+            SyntaxNode body,
             FunctionFlags flags = FunctionFlags.None)
             : this(parameters, body, null, flags) { }
 
         public FunctionDeclarationSyntax(
            ParameterSyntax[] parameters,
-           ISyntax body,
+           SyntaxNode body,
            Symbol returnType,
            FunctionFlags flags = FunctionFlags.None)
         {
@@ -30,7 +30,7 @@ namespace D.Syntax
             ParameterSyntax[] genericParameters,
             ParameterSyntax[] parameters,
             Symbol returnType,
-            ISyntax body,
+            SyntaxNode body,
             FunctionFlags flags = FunctionFlags.None)
         {
             Name              = name;
@@ -51,10 +51,10 @@ namespace D.Syntax
 
         // Class Or Interface
 
-        public ISyntax DeclaringType { get; }
+        public SyntaxNode DeclaringType { get; internal set; }
 
         // Block or lambda
-        public ISyntax Body { get; }
+        public SyntaxNode Body { get; }
 
         public override string ToString()
         {

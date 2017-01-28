@@ -2,16 +2,16 @@
 {
     // 5 m^2
     
-    public class UnitLiteralSyntax : ISyntax
+    public class UnitLiteralSyntax : SyntaxNode
     {
-        public UnitLiteralSyntax(ISyntax expression, string unitName, int unitPower)
+        public UnitLiteralSyntax(SyntaxNode expression, string unitName, int unitPower)
         {
             Expression = expression;
             UnitName = unitName;
             UnitPower = unitPower;
         }
 
-        public ISyntax Expression { get; }
+        public SyntaxNode Expression { get; }
 
         public string UnitName { get; set; }
 

@@ -1,33 +1,33 @@
 ﻿namespace D.Syntax
 {
     // ... Inclusive
-    public class RangeExpression : ISyntax
+    public class RangeExpression : SyntaxNode
     {
-        public RangeExpression(ISyntax start, ISyntax end)
+        public RangeExpression(SyntaxNode start, SyntaxNode end)
         {
             Start = start;
             End = end;
         }
 
-        public ISyntax Start { get; }
+        public SyntaxNode Start { get; }
 
-        public ISyntax End { get; }
+        public SyntaxNode End { get; }
 
         Kind IObject.Kind => Kind.RangeLiteral;
     }
 
     // ..<
-    public class HalfOpenRangeExpression : ISyntax
+    public class HalfOpenRangeExpression : SyntaxNode
     {
-        public HalfOpenRangeExpression(ISyntax start, ISyntax end)
+        public HalfOpenRangeExpression(SyntaxNode start, SyntaxNode end)
         {
             Start = start;
             End = end;
         }
 
-        public ISyntax Start { get; }
+        public SyntaxNode Start { get; }
 
-        public ISyntax End { get; }
+        public SyntaxNode End { get; }
 
         Kind IObject.Kind => Kind.HalfOpenRange;
     }

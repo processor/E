@@ -1,12 +1,12 @@
 ﻿namespace D.Syntax
 {
-    public class QueryExpression : ISyntax
+    public class QueryExpression : SyntaxNode
     {
         public QueryExpression(
-            ISyntax collection,
-            ISyntax variable,
-            ISyntax filter,
-            ISyntax map,
+            SyntaxNode collection,
+            SyntaxNode variable,
+            SyntaxNode filter,
+            SyntaxNode map,
             OrderByStatement orderBy,
             long skip = 0,
             long take = 0)
@@ -20,17 +20,17 @@
             Take = take;
         }
 
-        public ISyntax Collection { get; }       // from Y
+        public SyntaxNode Collection { get; }       // from Y
 
-        public ISyntax Variable { get; }         // from [x] in Y 
+        public SyntaxNode Variable { get; }         // from [x] in Y 
 
-        public ISyntax Filter { get; }           // where a > 100
+        public SyntaxNode Filter { get; }           // where a > 100
 
-        public ISyntax Map { get; }              // select a || { a, b, c }  
+        public SyntaxNode Map { get; }              // select a || { a, b, c }  
 
         public OrderByStatement OrderBy { get; }     // orderby a desc
 
-        public ISyntax Using { get; }            // using index_name
+        public SyntaxNode Using { get; }            // using index_name
 
         public long Skip { get; }
 
@@ -41,7 +41,7 @@
 
     public class OrderByStatement
     {
-        public OrderByStatement(ISyntax member, bool descending)
+        public OrderByStatement(SyntaxNode member, bool descending)
         {
             Member = member;
             Descending = descending;
@@ -50,7 +50,7 @@
         // orderby student.Last ascending, 
         // student.First ascending
 
-        public ISyntax Member { get; }
+        public SyntaxNode Member { get; }
 
         public bool Descending { get; }
     }

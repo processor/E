@@ -1,13 +1,13 @@
 ﻿namespace D.Syntax
 {
-    public class SpreadExpression : ISyntax
+    public class SpreadExpression : SyntaxNode
     {
-        public SpreadExpression(ISyntax symbol)
+        public SpreadExpression(SyntaxNode symbol)
         {
             Expression = symbol;
         }
 
-        public ISyntax Expression { get; }
+        public SyntaxNode Expression { get; }
 
         Kind IObject.Kind => Kind.SpreadStatement;
     }

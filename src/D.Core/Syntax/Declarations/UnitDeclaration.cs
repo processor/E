@@ -3,9 +3,9 @@
 namespace D.Syntax
 {
     // K unit : Temperature @name("Kelvin") @SI = 1
-    public class UnitDeclarationSyntax : ISyntax
+    public class UnitDeclarationSyntax : SyntaxNode
     {
-        public UnitDeclarationSyntax(Symbol name, Symbol baseType, AnnotationExpressionSyntax[] annotations, ISyntax expression)
+        public UnitDeclarationSyntax(Symbol name, Symbol baseType, AnnotationExpressionSyntax[] annotations, SyntaxNode expression)
         {
             #region Preconditions
 
@@ -29,7 +29,7 @@ namespace D.Syntax
 
         public AnnotationExpressionSyntax[] Annotations { get; }
 
-        public ISyntax Expression { get; }
+        public SyntaxNode Expression { get; }
 
         Kind IObject.Kind => Kind.UnitDeclaration;
     }

@@ -1,6 +1,6 @@
 ﻿namespace D.Syntax
 {
-    public struct StringLiteralSyntax : ISyntax
+    public struct StringLiteralSyntax : SyntaxNode
     { 
         public StringLiteralSyntax(string text)
         {

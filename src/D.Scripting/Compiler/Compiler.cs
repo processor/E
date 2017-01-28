@@ -10,12 +10,13 @@ namespace D.Compilation
     {
         // Phases:
         // - Parse
-        // - Bind
+        // - Capture declarations...
+        // - Bind (Bind the symbols to their declarations -- which may belong within modules)
         // - Emit
 
         private Scope scope = new Scope();
 
-        public CompliationUnit Compile(ISyntax[] nodes)
+        public CompliationUnit Compile(SyntaxNode[] nodes)
         {
             var unit = new CompliationUnit();
             
@@ -219,7 +220,7 @@ namespace D.Compilation
 
         int i = 0;
 
-        public IExpression Visit(ISyntax syntax)
+        public IExpression Visit(SyntaxNode syntax)
         {
             i++;
 

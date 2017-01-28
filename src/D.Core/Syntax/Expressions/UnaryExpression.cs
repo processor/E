@@ -2,9 +2,9 @@
 
 namespace D.Syntax
 {
-    public class UnaryExpressionSyntax : ISyntax
+    public class UnaryExpressionSyntax : SyntaxNode
     {
-        public UnaryExpressionSyntax(Operator op, ISyntax arg)
+        public UnaryExpressionSyntax(Operator op, SyntaxNode arg)
         {
             Operator = op;
             Argument = arg;
@@ -13,7 +13,7 @@ namespace D.Syntax
         // Change to symbol
         public Operator Operator { get; }
 
-        public ISyntax Argument { get; }
+        public SyntaxNode Argument { get; }
 
         #region ToString
 
