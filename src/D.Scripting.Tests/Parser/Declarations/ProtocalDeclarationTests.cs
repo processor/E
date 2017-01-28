@@ -13,7 +13,7 @@ namespace D.Parsing.Tests
 
             Assert.Equal("SVG", protocal.Name.ToString());
         }
-        
+
         [Fact]
         public void PropertyTests2()
         {

@@ -251,10 +251,25 @@ Matrix4<T> implementation {
         }
 
         [Fact]
+        public void ModulePrefixedProtocalImplementation()
+        {
+            var declaration = Parse<ImplementationDeclarationSyntax>(@"
+HTML::Element implementation for CustomElement {
+    align: String 
+}");
+
+
+            Assert.Equal("HTML", declaration.Protocal.Module);
+            Assert.Equal("Element", declaration.Protocal.Name);
+            Assert.Equal("CustomElement", declaration.Type.Name);
+        }
+        
+
+        [Fact]
         public void Z()
         {
             var declaration = Parse<ImplementationDeclarationSyntax>(@"
-Curve<T> implementation for Arc<T> {
+Curve <T> implementation for Arc<T> {
   getPoint(Arc<T>, t: Number) {
     var deltaAngle = endAngle - startAngle
     let samePoints = abs(deltaAngle) < ε

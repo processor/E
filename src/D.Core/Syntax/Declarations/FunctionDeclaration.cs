@@ -6,6 +6,8 @@ namespace D.Syntax
 {
     public class FunctionDeclarationSyntax : SyntaxNode
     {
+        // TODO: Module
+
         public FunctionDeclarationSyntax(
             ParameterSyntax[] parameters,
             SyntaxNode body,

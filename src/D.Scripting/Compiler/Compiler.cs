@@ -9,10 +9,10 @@ namespace D.Compilation
     public partial class Compiler
     {
         // Phases:
-        // - Parse
-        // - Capture declarations...
-        // - Bind (Bind the symbols to their declarations -- which may belong within modules)
-        // - Emit
+        // - Parse into Syntax Tree
+        // - Capture declarations within modules ...
+        // - Bind symbols to their declarations
+        // - Transform to ExpressionTree
 
         private Scope scope = new Scope();
 

@@ -3,6 +3,8 @@ using System.Linq;
 
 namespace D.Syntax
 {
+    // TODO: Module
+
     // Curve implementation for Bezier { }
     // Matrix4 implementation 
     // Int32 implementation : Addable, Subtractable, ...
