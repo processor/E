@@ -180,7 +180,6 @@ namespace D.Tests
             Assert.Equal(argNames, ƒ.Parameters.Select(p => p.Name).ToArray());
         }
 
-        /*
         [Fact]
         public void Equations()
         {
@@ -194,7 +193,7 @@ namespace D.Tests
             Assert.Equal("y", equation.Left.ToString());
             Assert.Equal("5 * x", equation.Right.ToString()); // ∙
         }
-        */
+        
 
         [Fact]
         public void FunctionCall()
@@ -226,12 +225,12 @@ namespace D.Tests
 
             var statement = (BinaryExpressionSyntax)parser.Next();
 
-            var l = (UnitLiteral)statement.Left;
+            var l = (UnitLiteralSyntax)statement.Left;
             var r = (BinaryExpressionSyntax)statement.Right;
 
-            Assert.Equal("1kg", l.ToString());
-            Assert.Equal("1lb", r.Left.ToString());
-            Assert.Equal("4kg", r.Right.ToString());
+            Assert.Equal("1 kg", l.ToString());
+            Assert.Equal("1 lb", r.Left.ToString());
+            Assert.Equal("4 kg", r.Right.ToString());
 
             /*
             var result = (Literal)new Evaulator().Evaluate(statement);

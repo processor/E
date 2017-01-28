@@ -2,9 +2,9 @@
 
 namespace D.Syntax
 {
-    public class TupleExpression : ISyntax
+    public class TupleExpressionSyntax : ISyntax
     {
-        public TupleExpression(ISyntax[] elements)
+        public TupleExpressionSyntax(ISyntax[] elements)
         {
             #region Preconditions
 

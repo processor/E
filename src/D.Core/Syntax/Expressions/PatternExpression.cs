@@ -45,7 +45,7 @@
     // (a, b, c)
     public class TuplePattern : ISyntax
     {
-        public TuplePattern(TupleExpression tuple)
+        public TuplePattern(TupleExpressionSyntax tuple)
         {
             Variables = new NamedType[tuple.Elements.Length];
 

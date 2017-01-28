@@ -268,14 +268,14 @@ namespace D.Parsing.Tests
         [Fact]
         public void Parse3()
         {
-            var statement = Parse<BinaryExpressionSyntax>("1g * 1g * 2g");
+            var statement = Parse<BinaryExpressionSyntax>("1 g * 1 g * 2 g");
 
-            var l = (UnitLiteral)statement.Left;
+            var l = (UnitLiteralSyntax)statement.Left;
             var r = (BinaryExpressionSyntax)statement.Right;
 
-            Assert.Equal("1g", l.ToString());
-            Assert.Equal("1g", r.Left.ToString());
-            Assert.Equal("2g", r.Right.ToString());
+            Assert.Equal("1 g", l.ToString());
+            Assert.Equal("1 g", r.Left.ToString());
+            Assert.Equal("2 g", r.Right.ToString());
         }
 
         [Fact]
@@ -317,10 +317,10 @@ namespace D.Parsing.Tests
 
             Assert.Equal("5", statement.Left.ToString());
 
-            Unit<double> right = (UnitLiteral)statement.Right;
+            var right = (UnitLiteralSyntax)statement.Right;
 
-            Assert.Equal(10, (int)right.Quantity);
-            Assert.Equal("px", right.Type.Name);
+            Assert.Equal(10, (NumberLiteralSyntax)right.Expression);
+            Assert.Equal("px", right.UnitName);
         }
 
         [Fact]
@@ -330,13 +330,15 @@ namespace D.Parsing.Tests
 
             Assert.Equal(Multiplication, statement.Operator);
 
-            var left = (TupleExpression)statement.Left;
-            Unit<double> right = (UnitLiteral)statement.Right;
+            var left = (TupleExpressionSyntax)statement.Left;
+            var right = (UnitLiteralSyntax)statement.Right;
 
-            Assert.Equal(5,     (int)right.Quantity);
-            Assert.Equal("k",   right.Prefix.Name);
-            Assert.Equal("g",   right.Type.Name);
-            Assert.Equal("5kg", right.ToString());
+            // Unit.Parse<double>()
+
+            // Assert.Equal(5,     (int)right.Quantity);
+            // Assert.Equal("k",   right.Prefix.Name);
+            // Assert.Equal("g",   right.Type.Name);
+            // Assert.Equal("5kg", right.ToString());
         }
 
         [Fact]
@@ -344,8 +346,8 @@ namespace D.Parsing.Tests
         {
             var a = Parse<BinaryExpressionSyntax>("1kg + 1000g");
 
-            Assert.Equal("1kg", a.Left.ToString());
-            Assert.Equal("1000g", a.Right.ToString());
+            Assert.Equal("1 kg", a.Left.ToString());
+            Assert.Equal("1000 g", a.Right.ToString());
         }
     }
 

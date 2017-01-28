@@ -1,22 +1,25 @@
-﻿using D.Units;
-
-namespace D.Syntax
+﻿namespace D.Syntax
 {
-    public class UnitLiteral : ISyntax
+    // 5 m^2
+    
+    public class UnitLiteralSyntax : ISyntax
     {
-        public UnitLiteral(Unit<double> unit)
+        public UnitLiteralSyntax(ISyntax expression, string unitName, int unitPower)
         {
-            Value = unit;
+            Expression = expression;
+            UnitName = unitName;
+            UnitPower = unitPower;
         }
 
-        public Unit<double> Value { get; }
+        public ISyntax Expression { get; }
 
-        Kind IObject.Kind => Kind.Unit;
+        public string UnitName { get; set; }
 
-        public static implicit operator Unit<double>(UnitLiteral value)
-            => value.Value;
+        public int UnitPower { get; set; }
+
+        Kind IObject.Kind => Kind.UnitLiteral;
 
         public override string ToString()
-            => Value.ToString();
+            => Expression.ToString() + " " + UnitName;
     }
 }

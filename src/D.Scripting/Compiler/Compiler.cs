@@ -276,7 +276,7 @@ namespace D.Compilation
 
                 case Kind.Symbol                    : return VisitSymbol((Symbol)syntax);
                 case Kind.NumberLiteral             : return VisitNumber((NumberLiteralSyntax)syntax);
-                case Kind.Unit                      : return VisitUnit((UnitLiteral)syntax);
+                case Kind.UnitLiteral                      : return VisitUnit((UnitLiteralSyntax)syntax);
                 
                 case Kind.ArrayLiteral              : return VisitArrayLiteral((ArrayLiteralSyntax)syntax);
                 case Kind.MatrixLiteral             : return VisitMatrixLiteral((MatrixLiteralSyntax)syntax);
@@ -324,8 +324,13 @@ namespace D.Compilation
             return new InterpolatedStringExpression(members);
         }
 
-        public IExpression VisitUnit(UnitLiteral unit)
-            => unit.Value;
+        public IExpression VisitUnit(UnitLiteralSyntax unit)
+        {
+            // Lookup unit...
+            // Parser power...
+
+            return new UnitLiteral(Visit(unit.Expression), unit.UnitName, unit.UnitPower);
+        }
 
         public virtual IExpression VisitAnyPattern(AnyPatternSyntax syntax)
             => new AnyPattern();

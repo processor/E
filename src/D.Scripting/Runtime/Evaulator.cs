@@ -7,6 +7,7 @@ namespace D
     using Compilation;
     using Expressions;
     using Parsing;
+    using Units;
 
     public class Evaulator
     {
@@ -79,9 +80,10 @@ namespace D
             { 
                 switch (expression.Kind)
                 {
-                    case Kind.PipeStatement   : result = Evaluate((PipeStatement)expression);        break;
-                    case Kind.Symbol          : result = Evaluate((Symbol)expression);               break;
-                    case Kind.CallExpression  : result = Evaluate((CallExpression)expression);       break;
+                    case Kind.PipeStatement   : result = EvaluatePipe((PipeStatement)expression);   break;
+                    case Kind.Symbol          : result = EvaluateSymbol((Symbol)expression);        break;
+                    case Kind.CallExpression  : result = EvaluateCall((CallExpression)expression);  break;
+                    case Kind.UnitLiteral     : result = EvaluateUnit((UnitLiteral)expression);     break;
                     default:
                     
                         if ((long)expression.Kind > 255) throw new Exception($"expected kind: was {expression.Kind}");
@@ -96,7 +98,28 @@ namespace D
             return result;
         }
 
-        public IObject Evaluate(Symbol expression)
+        /*
+        public IObject EvaluateConstant(ConstantExpression expression)
+        {
+        }
+        */
+
+        public IObject EvaluateUnit(UnitLiteral expression)
+        {
+
+            var number = (INumber)expression.Expression;
+
+            Unit<double> unit;
+
+            if (!Unit<double>.TryParse(expression.UnitName, out unit))
+            {
+                throw new Exception("no unit found for:" + expression.UnitName);
+            }
+
+            return unit.With(number.Real, expression.UnitPower);
+        }
+
+        public IObject EvaluateSymbol(Symbol expression)
         {
             var value = scope.Get(expression.Name);
 
@@ -113,16 +136,16 @@ namespace D
         }
         
 
-        public IObject Evaluate(PipeStatement expression)
+        public IObject EvaluatePipe(PipeStatement expression)
         {
             var call = (CallExpression)expression.Expression;
 
             // TODO: Handle match
 
-            return Evaluate(call, piped: true);
+            return EvaluateCall(call, piped: true);
         }
 
-        public IObject Evaluate(CallExpression expression, bool piped = false)
+        public IObject EvaluateCall(CallExpression expression, bool piped = false)
         {
             var argList = EvaluateArguments(expression.Arguments, piped);
             var args = argList.Arguments;

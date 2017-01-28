@@ -16,7 +16,7 @@
         // 9-15
         Pointer        = 9,
         Expression     = 10,
-        Unit           = 11, // A currency is a unit?
+        UnitLiteral           = 11, // A currency is a unit?
         Currency       = 12,
         Entity         = 13,
         Timestamp      = 14,

@@ -9,7 +9,7 @@ namespace D.Parsing.Tests
         [Fact]
         public void ValueTuple()
         {
-            var tuple = Parse<TupleExpression>(@"(0, 100, ""a"")");
+            var tuple = Parse<TupleExpressionSyntax>(@"(0, 100, ""a"")");
 
             Assert.Equal(3, tuple.Size);
 
@@ -21,7 +21,7 @@ namespace D.Parsing.Tests
         [Fact]
         public void TuplePattern()
         {
-            var tuple = Parse<TupleExpression>("(x, y)");
+            var tuple = Parse<TupleExpressionSyntax>("(x, y)");
 
             Assert.Equal(2, tuple.Elements.Length);
 
@@ -34,7 +34,7 @@ namespace D.Parsing.Tests
         [Fact]
         public void TupleDefination()
         {
-            var tuple = Parse<TupleExpression>("(x: i32, y: i64)");
+            var tuple = Parse<TupleExpressionSyntax>("(x: i32, y: i64)");
 
             Assert.Equal(2, tuple.Elements.Length);
 

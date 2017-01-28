@@ -178,7 +178,7 @@ A impl {
             var l = (LambdaExpressionSyntax)f.Body;
             var p = (TypeInitializerSyntax)l.Expression;
 
-            var t = (TupleExpression)((LambdaExpressionSyntax)((FunctionDeclarationSyntax)a.Members[2]).Body).Expression;
+            var t = (TupleExpressionSyntax)((LambdaExpressionSyntax)((FunctionDeclarationSyntax)a.Members[2]).Body).Expression;
 
             Assert.Equal("zero", f.Name);
             Assert.Equal("Point", p.Type);

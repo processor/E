@@ -1290,11 +1290,16 @@ namespace D.Parsing
         // 1_000
         // 1e100
         // 1.1
+        // 1.1 Pa
+                    
         public ISyntax ReadNumeric()
         {
             // precision & scale...
 
             // _ support
+
+            var line = Current.Start.Line;
+
             var wholeText = ReadNumberText();
 
             // right hand side of the decimal
@@ -1327,15 +1332,10 @@ namespace D.Parsing
                 number = wholeText + "." + mantissaText;
             }
 
-            // Read any immediately preceding unit prefixes, types, and expondents
-            // do we need to scope to line?
-            Unit<int> unit;
-
-            // move units to environment
-
-            if (IsKind(Identifier) && Unit<int>.TryParse(reader.Current.Text, out unit)) 
+            // Read any immediately preceding unit prefixes, types, and expondents on the same line
+            if (IsKind(Identifier) && Current.Start.Line == line) 
             {
-                Consume(Identifier); // read the unit identifier
+                var unitName = Consume(Identifier); // read the unit identifier
 
                 int pow = 1;
 
@@ -1343,8 +1343,10 @@ namespace D.Parsing
                 {
                     pow = D.Superscript.Parse(reader.Consume().Text);
                 }
-                
-                return new UnitLiteral(unit.With(double.Parse(number), power: pow));
+
+                var num = new NumberLiteralSyntax(number);
+
+                return new UnitLiteralSyntax(num, unitName, pow);
             }
 
             // return number;
@@ -1547,7 +1549,7 @@ namespace D.Parsing
 
         // (a, b, c)
         // (a: Integer, b: String)
-        public TupleExpression ReadTuple()
+        public TupleExpressionSyntax ReadTuple()
         {
             Consume(ParenthesisOpen);       // ! (
 
@@ -1558,7 +1560,7 @@ namespace D.Parsing
 
         private readonly List<ISyntax> elements = new List<ISyntax>();
 
-        public TupleExpression FinishReadingTuple(ISyntax first)
+        public TupleExpressionSyntax FinishReadingTuple(ISyntax first)
         {
             elements.Add(first);
 
@@ -1571,7 +1573,7 @@ namespace D.Parsing
 
             LeaveMode(Mode.Parenthesis);
 
-            return new TupleExpression(elements.Extract());
+            return new TupleExpressionSyntax(elements.Extract());
         }
 
         public ISyntax ReadTupleElement()
