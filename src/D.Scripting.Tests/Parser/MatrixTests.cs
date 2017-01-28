@@ -2,46 +2,59 @@
 
 namespace D.Parsing.Tests
 {
+    using Numerics;
+    using Compilation;
     using Syntax;
+    using Expressions;
 
     // tuples, vectors, and arrays share elements & may be enumerated & accessed by index
 
     public class MatrixTests : TestBase
     {
+        public Matrix<double> FromText(string text)
+        {
+            var syntax = Parse<NewArrayExpressionSyntax>(text);
+
+            var arrayExpression = (NewArrayExpression)new Compiler().Visit(syntax);
+
+            return Matrix<double>.Create(arrayExpression);
+        }
+
         [Fact]
         public void Matrix1x4()
         {
-            var matrix = Parse<MatrixLiteralSyntax>(@"[ [ 0, 1, 2, 3 ] ]");
+            var matrix = FromText(@"[ [ 0, 1, 2, 3 ] ]");
 
-            Assert.Equal(0, (NumberLiteralSyntax)matrix.Elements[0]);
-            Assert.Equal(1, (NumberLiteralSyntax)matrix.Elements[1]);
-            Assert.Equal(2, (NumberLiteralSyntax)matrix.Elements[2]);
+            Assert.Equal(0d, matrix[0, 0]);
+            Assert.Equal(1d, matrix[0, 1]);
+            Assert.Equal(2d, matrix[0, 2]);
         }
 
         [Fact]
         public void Matrix4x4()
         {
-            var matrix = Parse<MatrixLiteralSyntax>(@"[ 
+            var matrix = FromText(@"[ 
                 [ 0, 1, 2, 3 ], 
                 [ 4, 5, 6, 7 ],
                 [ 8, 9, 10, 11 ],
                 [ 12, 13, 14, 15 ]
             ]");
 
-            Assert.Equal(16, matrix.Elements.Length);
+            Assert.Equal(4, matrix.ColumnCount);
+            Assert.Equal(4, matrix.RowCount);
 
-            Assert.Equal("0", matrix[0, 0].ToString());
-            Assert.Equal("1", matrix[0, 1].ToString());
-            Assert.Equal("2", matrix[0, 2].ToString());
-            Assert.Equal("5", matrix[1, 1].ToString());
-            Assert.Equal("10", matrix[2, 2].ToString());
+            Assert.Equal(0d,  matrix[0, 0]);
+            Assert.Equal(1d,  matrix[0, 1]);
+            Assert.Equal(2d,  matrix[0, 2]);
+            Assert.Equal(5d,  matrix[1, 1]);
+            Assert.Equal(10d, matrix[2, 2]);
         }
 
-        /*
+
         [Fact]
         public void Matrix5x5()
         {
-            var matrix = Parse<MatrixLiteral>(@"[ 
+            var matrix = FromText(@"[ 
               [  0,   0,  -1,   0,   0 ],
               [  0,  -1,  -2,  -1,   0 ],
               [ -1,  -2,  16,  -2,  -1 ],
@@ -51,24 +64,19 @@ namespace D.Parsing.Tests
 
             Assert.Equal(5, matrix.RowCount);
             Assert.Equal(5, matrix.ColumnCount);
-            Assert.Equal(25, matrix.Elements.Length);
+            Assert.Equal(25, matrix.ElementCount);
 
 
-            var m2 = Numerics.Matrix<double>.Create(matrix);
+            Assert.Equal(0d,  matrix[0, 0]);
+            Assert.Equal(-1d, matrix[2, 0]);
+            Assert.Equal(-2d, matrix[2, 1]);
+            Assert.Equal(16d, matrix[2, 2]);
 
-            Assert.Equal(0d, m2[0, 0]);
-            Assert.Equal(-1d, m2[2, 0]);
-            Assert.Equal(-2d, m2[2, 1]);
-            Assert.Equal(16d, m2[2, 2]);
-
-            var r = m2 * 5;
+            var r = matrix * 5;
 
             Assert.Equal(0d, r[1, 0]);
-
             Assert.Equal(-5d, r[1, 1]);
-
             Assert.Equal(-10d, r[1, 2]);
         }
-        */
     }
 }

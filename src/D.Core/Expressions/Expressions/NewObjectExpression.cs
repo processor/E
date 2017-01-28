@@ -16,7 +16,7 @@
 
         public int Count => Members.Length;
 
-        Kind IObject.Kind => Kind.TypeInitializer; 
+        Kind IObject.Kind => Kind.NewObjectExpression; 
     }
 
     // { a: 1, b: 2 }

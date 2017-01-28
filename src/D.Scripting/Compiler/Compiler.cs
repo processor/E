@@ -254,7 +254,7 @@ namespace D.Compilation
 
                 // Declarations
                 case Kind.VariableDeclaration     : return VisitVariableDeclaration((VariableDeclarationSyntax)syntax);
-                case Kind.TypeInitializer         : return VisitTypeInitializer((TypeInitializerSyntax)syntax);
+                case Kind.NewObjectExpression         : return VisitNewObject((NewObjectExpressionSyntax)syntax);
                 case Kind.DestructuringAssignment : return VisitDestructuringAssignment((DestructuringAssignmentSyntax)syntax);
                 case Kind.MemberAccessExpression  : return VisitMemberAccess((MemberAccessExpressionSyntax)syntax);
                 case Kind.IndexAccessExpression   : return VisitIndexAccess((IndexAccessExpressionSyntax)syntax);
@@ -277,36 +277,23 @@ namespace D.Compilation
                 case Kind.NumberLiteral           : return VisitNumber((NumberLiteralSyntax)syntax);
                 case Kind.UnitLiteral             : return VisitUnit((UnitLiteralSyntax)syntax);
                 
-                case Kind.ArrayLiteral            : return VisitArrayLiteral((ArrayLiteralSyntax)syntax);
-                case Kind.MatrixLiteral           : return VisitMatrixLiteral((MatrixLiteralSyntax)syntax);
+                case Kind.NewArrayExpression      : return VisitNewArray((NewArrayExpressionSyntax)syntax);
                 case Kind.StringLiteral           : return new StringLiteral(syntax.ToString());
             }
 
             throw new Exception("Unexpected node:" + syntax.Kind + "/" + syntax.GetType().ToString());
         }
-        
-        public MatrixLiteral VisitMatrixLiteral(MatrixLiteralSyntax syntax)
+
+        public NewArrayExpression VisitNewArray(NewArrayExpressionSyntax syntax)
         {
-            var elements = new IObject[syntax.Elements.Length];
+            var elements = new IExpression[syntax.Elements.Length];
 
             for (var i = 0; i < elements.Length; i++)
             {
                 elements[i] = Visit(syntax.Elements[i]);
             }
 
-            return new MatrixLiteral(elements, syntax.Stride);
-        }
-
-        public ArrayLiteral VisitArrayLiteral(ArrayLiteralSyntax syntax)
-        {
-            var elements = new IExpression[syntax.Elements.Count];
-
-            for (var i = 0; i < elements.Length; i++)
-            {
-                elements[i] = Visit(syntax.Elements[i]);
-            }
-
-            return new ArrayLiteral(elements);
+            return new NewArrayExpression(elements, syntax.Stride);
         }
 
         public IExpression VisitInterpolatedStringExpression(InterpolatedStringExpressionSyntax syntax)
@@ -383,7 +370,7 @@ namespace D.Compilation
             return new VariableDeclaration(syntax.Name, type, syntax.IsMutable, value);
         }
 
-        public virtual TypeInitializer VisitTypeInitializer(TypeInitializerSyntax syntax)
+        public virtual TypeInitializer VisitNewObject(NewObjectExpressionSyntax syntax)
         {
             var members = new RecordMember[syntax.Members.Length];
 

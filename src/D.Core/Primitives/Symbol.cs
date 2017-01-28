@@ -23,35 +23,39 @@ namespace D
         public static readonly Symbol Number = Symbol.Type("Number");
         public static readonly Symbol Void   = Symbol.Type("Void");         // unit '()' in rust. Void in Swift / C#, ...
 
-        public Symbol(string name, SymbolKind kind)
+        public Symbol(string name, SymbolFlags flags)
         {
             Name = name;
-            SymbolKind = kind;
+            Flags = flags;
             Arguments = Array.Empty<Symbol>();
         }
 
-        public Symbol(string domain, string name, SymbolKind kind, Symbol[] arguments)
+        public Symbol(string domain, string name, SymbolFlags flags, Symbol[] arguments)
         {
             Domain      = domain;
             Name        = name;
             Arguments   = arguments;
-            SymbolKind  = kind;
+            Flags       = flags;
         }
 
-        public Symbol(string name, SymbolKind kind, params Symbol[] arguments)
+        public Symbol(string name, SymbolFlags flags, params Symbol[] arguments)
         {
             Name        = name;
             Arguments   = arguments;
-            SymbolKind  = kind;
+            Flags       = flags;
         }
 
         public string Domain { get; }
 
         public string Name { get; }
+        
+        // Declaration?
 
         public Symbol[] Arguments { get; }
 
-        public SymbolKind SymbolKind { get; }
+        public SymbolFlags Flags { get; }
+
+        public SymbolFlags SymbolKind => Flags & SymbolFlags.Types;
 
         #region Initializization
 
@@ -59,10 +63,10 @@ namespace D
         {
             ResolvedTyped = type;
 
-            Status = SymbolStatus.Initialized;
+            Status = SymbolStatus.Resolved;
         }
 
-        public SymbolStatus Status { get; set; } = SymbolStatus.Uninitialized;
+        public SymbolStatus Status { get; set; } = SymbolStatus.Unresolved;
 
         public IType ResolvedTyped { get; set; }
 
@@ -102,52 +106,56 @@ namespace D
         }
 
         public static Symbol Label(string name)
-           => new Symbol(name, SymbolKind.Label);
+           => new Symbol(name, SymbolFlags.Label);
 
         public static Symbol Argument(string name)
-            => new Symbol(name, SymbolKind.Argument);
+            => new Symbol(name, SymbolFlags.Argument);
 
-        public static Symbol Local(string name)
-            => new Symbol(name, SymbolKind.LocalVariable);
-
-        public static Symbol Instance(string name)
-            => new Symbol(name, SymbolKind.Property);
+        public static Symbol Variable(string name)
+            => new Symbol(name, SymbolFlags.Variable);
 
         public static Symbol Type(string name)
-         => new Symbol(name, SymbolKind.Type);
+         => new Symbol(name, SymbolFlags.Type);
 
         public static Symbol Type(string name, params Symbol[] arguments)
-         => new Symbol(name, SymbolKind.Type, arguments);
+         => new Symbol(name, SymbolFlags.Type, arguments);
 
         public static implicit operator string(Symbol symbol)
             => symbol?.ToString();
     }
 
-    public enum SymbolKind
+    public enum SymbolFlags
     {
-        Member,
-        Type,
-        Function,   // instance vs global?
-        Domain,
-        Label,
+        None        = 0,
+        Variable    = 1 << 0,
+        Argument    = 1 << 1, // function scope
+        Member      = 1 << 2,
+        Type        = 1 << 3,       
+        Function    = 1 << 4,   // instance vs global?
+        Module      = 1 << 5,
+        Label       = 1 << 6,
+
+        Types = Variable | Member | Type | Function | Module | Label,
 
         // Variables
-        Argument,
-        Property, // type member
-        LocalVariable
+        Property    = 1 << 7, // type member
+  
+
+        Operator    = 1 << 8,
+
+        Infix       = 1 << 9,
+        Postfix     = 1 << 10,
+
+        // Variable Scope...
+        BlockScoped = 1 << 11,
+        Local       = 1 << 12
     }
 
-    public enum SymbolFlags 
-    {
-        InfixOperator   = 1,
-        PrefixOperator  = 2,
-        PostfixOperator = 3
-    }
 
     public enum SymbolStatus
     {
-        Uninitialized,
-        Initializing,
-        Initialized
+        Unresolved = 0,
+        Resoliving = 1,
+        Resolved   = 2
     }
 }

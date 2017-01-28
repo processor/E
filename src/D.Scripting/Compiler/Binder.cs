@@ -39,8 +39,8 @@ namespace D.Compilation
                 case Kind.Integer                      : return Type.Get(Kind.Integer);
                 case Kind.Decimal                      : return Type.Get(Kind.Decimal);
                 case Kind.String                       : return Type.Get(Kind.String);
+                case Kind.Matrix                       : return Type.Get(Kind.Matrix);
                 case Kind.InterpolatedStringExpression : return Type.Get(Kind.String);
-                case Kind.MatrixLiteral                : return Type.Get(Kind.Matrix);
             }
 
             if (expression is BinaryExpression || expression is Symbol || expression is CallExpression || expression is UnaryExpression)
@@ -49,7 +49,7 @@ namespace D.Compilation
                 return Type.Get(Kind.Any);
             }
 
-            if (expression.Kind == Kind.TypeInitializer)
+            if (expression.Kind == Kind.NewObjectExpression)
             {
                 var initializer = (TypeInitializer)expression;
 

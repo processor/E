@@ -9,7 +9,7 @@ namespace D.Parsing.Tests
         [Fact]
         public void Nested()
         {
-            var type = Parse<TypeInitializerSyntax>(@"
+            var type = Parse<NewObjectExpressionSyntax>(@"
 
 Account {
   balance : 100,
@@ -24,12 +24,12 @@ Account {
 
             Assert.Equal(3, type.Count);
 
-            Assert.Equal("Date", ((TypeInitializerSyntax)type.Members[2].Value).Type);
+            Assert.Equal("Date", ((NewObjectExpressionSyntax)type.Members[2].Value).Type);
         }
         [Fact]
         public void RootScoped()
         {
-            var type = Parse<TypeInitializerSyntax>(@"
+            var type = Parse<NewObjectExpressionSyntax>(@"
 Point {
   x: 1,
   y: 2,
@@ -44,7 +44,7 @@ Point {
         {
             var let = Parse<VariableDeclarationSyntax>("let zero = Point { x: 0, y: 0, z: 0 };");
 
-            var value = (TypeInitializerSyntax)let.Value;
+            var value = (NewObjectExpressionSyntax)let.Value;
 
             Assert.Equal("Point", value.Type.Name);
         }
@@ -63,7 +63,7 @@ if 1 + 1 == 3 {
 
             var r = (ReturnStatementSyntax)ifS.Body.Statements[0];
 
-            var type = (TypeInitializerSyntax)r.Expression;
+            var type = (NewObjectExpressionSyntax)r.Expression;
 
             Assert.Equal("Point", type.Type.Name);
 

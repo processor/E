@@ -1,18 +1,18 @@
 ﻿namespace D.Syntax
 {
-    public struct CharacterLiteral : ISyntax
+    public struct CharacterLiteralSyntax : ISyntax
     { 
-        public CharacterLiteral(char value)
+        public CharacterLiteralSyntax(char value)
         {
             Value = value;
         }
 
         public char Value { get; }
 
-        public static implicit operator CharacterLiteral(char value)
-            => new CharacterLiteral(value);
+        public static implicit operator CharacterLiteralSyntax(char value)
+            => new CharacterLiteralSyntax(value);
 
-        public static implicit operator char(CharacterLiteral text)
+        public static implicit operator char(CharacterLiteralSyntax text)
             => text.Value;
 
         Kind IObject.Kind => Kind.Character;

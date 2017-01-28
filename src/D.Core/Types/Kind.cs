@@ -93,8 +93,7 @@
         #region Declaration & Statement Expressions
 
         // Literal Expressions
-        ArrayLiteral     = 2004,
-        MatrixLiteral    = 2006,
+      
         RangeLiteral     = 2007,
         HalfOpenRange    = 2008,
         NumberLiteral    = 2009,
@@ -118,7 +117,6 @@
 
         InterpolatedStringExpression    = 2221,
 
-        TypeInitializer = 2250,
 
         PipeStatement = 2302,  // Merge with Call?
         
@@ -161,14 +159,17 @@
         CoalesceExpression       = 5001, // ??
 
         
-        AnnotationExpression = 5003,
-        CallExpression       = 5004,
-        ConstantExpression   = 2505,
-        TupleExpression      = 5006,
-        LambdaExpression     = 5007,
-        MatchExpression      = 5008,
-        QueryExpression      = 5009,
-                                 
+        AnnotationExpression     = 5003,
+        CallExpression           = 5004,
+        ConstantExpression       = 2505,
+        TupleExpression          = 5006,
+        LambdaExpression         = 5007,
+        MatchExpression          = 5008,
+        QueryExpression          = 5009,
+
+        NewArrayExpression       = 5020,
+        NewObjectExpression      = 5021,
+
         // Unary                 
         LogicalNotExpression     = 6000, // ! prefix
         UnaryPlusExpression      = 6001, // + prefix

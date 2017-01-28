@@ -10,7 +10,7 @@ namespace D.Syntax
         public virtual void VisitBlock(BlockExpressionSyntax block)                                 { throw new NotImplementedException(); }
         public virtual void VisitCall(CallExpressionSyntax call)                                   { throw new NotImplementedException(); }
         public virtual void VisitVariableDeclaration(VariableDeclarationSyntax declaration)        { throw new NotImplementedException(); }
-        public virtual void VisitTypeInitializer(TypeInitializerSyntax a)                          { throw new NotImplementedException(); }
+        public virtual void VisitTypeInitializer(NewObjectExpressionSyntax a)                          { throw new NotImplementedException(); }
         public virtual void VisitDestructuringAssignment(DestructuringAssignmentSyntax assignment) { throw new NotImplementedException(); }
         public virtual void VisitIndexAccess(IndexAccessExpressionSyntax expression)               { throw new NotImplementedException(); }
         public virtual void VisitMemberAccess(MemberAccessExpressionSyntax expression)             { throw new NotImplementedException(); }  
@@ -62,8 +62,8 @@ namespace D.Syntax
                     VisitVariableDeclaration((VariableDeclarationSyntax)expression);
 
                     break;
-                case Kind.TypeInitializer:
-                    VisitTypeInitializer((TypeInitializerSyntax)expression);
+                case Kind.NewObjectExpression:
+                    VisitTypeInitializer((NewObjectExpressionSyntax)expression);
                     break;
                 case Kind.DestructuringAssignment:
                     VisitDestructuringAssignment((DestructuringAssignmentSyntax)expression);

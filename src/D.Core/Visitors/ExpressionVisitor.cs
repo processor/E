@@ -52,7 +52,7 @@ namespace D.Expressions
                 // Declarations
                 case Kind.VariableDeclaration       : return VisitVariableDeclaration((VariableDeclaration)expression);
                     
-                case Kind.TypeInitializer           : return VisitTypeInitializer((TypeInitializer)expression);
+                case Kind.NewObjectExpression           : return VisitTypeInitializer((TypeInitializer)expression);
                 case Kind.DestructuringAssignment   : return VisitDestructuringAssignment((DestructuringAssignment)expression);
 
                 case Kind.CallExpression            : return VisitCall((CallExpression)expression);

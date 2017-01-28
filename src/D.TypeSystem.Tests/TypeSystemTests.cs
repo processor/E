@@ -12,7 +12,7 @@ namespace D.Inference
             var flow = new Flow();
 
             var listOfString = flow.GetListTypeOf(Kind.String);
-            var listOfFloat  = flow.GetListTypeOf(Kind.Float);
+            var listOfFloat  = flow.GetListTypeOf(Kind.Number);
 
             Assert.Equal("String",  flow.Infer(new Call("head",     new[] { new Constant(listOfString) })).Name);
             Assert.Equal("Float",   flow.Infer(new Call("head",     new[] { new Constant(listOfFloat) })).Name);
@@ -25,8 +25,8 @@ namespace D.Inference
             var flow = new Flow();
 
             flow.AddVariable("a", Kind.Integer);
-            flow.AddVariable("b", Kind.Float);
-            flow.AddVariable("c", Kind.Float);
+            flow.AddVariable("b", Kind.Number);
+            flow.AddVariable("c", Kind.Number);
             flow.AddVariable("name", Kind.String);
 
             flow.AddFunction("+",

@@ -1,8 +1,8 @@
 ﻿namespace D.Syntax
 {
-    public class TypeInitializerSyntax : ISyntax
+    public class NewObjectExpressionSyntax : ISyntax
     {
-        public TypeInitializerSyntax(Symbol type, RecordMemberSyntax[] members)
+        public NewObjectExpressionSyntax(Symbol type, RecordMemberSyntax[] members)
         {
             Type = type;
             Members = members;
@@ -16,7 +16,7 @@
 
         public int Count => Members.Length;
 
-        Kind IObject.Kind => Kind.TypeInitializer; 
+        Kind IObject.Kind => Kind.NewObjectExpression; 
     }
 
     // { a: 1, b: 2 }
@@ -45,6 +45,6 @@
         public ISyntax Value { get; }
     }
 
-    // // Point { x: 1, y: 2 }
+    // Point { x: 1, y: 2 }
     // Rust Notes: There is exactly one way to create an instance of a user-defined type: name it, and initialize all its fields at once:
 }

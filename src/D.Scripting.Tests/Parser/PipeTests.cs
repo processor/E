@@ -76,7 +76,7 @@ f |> plot {
 
             var call = (CallExpressionSyntax)pipe.Expression;
 
-            var record = (TypeInitializerSyntax)call.Arguments[0].Value;
+            var record = (NewObjectExpressionSyntax)call.Arguments[0].Value;
 
             Assert.Equal(null, record.Type);
             Assert.Equal("x", record[0].Name);

@@ -9,9 +9,11 @@ namespace D.Numerics
     {
         private MathNet.Numerics.LinearAlgebra.Matrix<T> impl;
 
-        public Matrix(int rows, int columns, T[] elements)
+        public Matrix(T[] elements, int stride)
         {
-            impl = MathNet.Numerics.LinearAlgebra.Matrix<T>.Build.Dense(rows, columns, elements);
+            int rows = elements.Length / stride;
+
+            impl = MathNet.Numerics.LinearAlgebra.Matrix<T>.Build.Dense(rows, stride, elements);
         }
 
         private Matrix(MathNet.Numerics.LinearAlgebra.Matrix<T> impl)
@@ -19,7 +21,13 @@ namespace D.Numerics
             this.impl = impl;
         }
 
-        public object this[int x, int y] => impl[x, y];
+        public T this[int x, int y] => impl[x, y];
+
+        public int RowCount => impl.RowCount;
+
+        public int ColumnCount => impl.ColumnCount;
+
+        public int ElementCount => RowCount * ColumnCount;
 
         #region IArithmetic / Scalars
 
@@ -116,21 +124,45 @@ namespace D.Numerics
         #endregion        
 
         /*
-        public static Matrix<T> Create(MatrixLiteral expression)
+        [ 
+          [ 1, 2, 3],
+          [ 4, 5, 6] 
+        ] 
+        */
+        public static Matrix<T> Create(NewArrayExpression expression)
         {
-            var elements = new T[expression.Elements.Length];
+            #region Preconditions
 
-            for (var i = 0; i < elements.Length; i++)
+            if (expression.Stride == null)
+                throw new Exception("Missing stride");
+
+            #endregion
+
+            var rows = expression.Elements.Length;
+            var stride = expression.Stride.Value;
+            
+            var elements = new T[rows * stride];
+
+            var i = 0;
+
+            foreach (var row in expression.Elements)
             {
-                var v = (INumber)expression.Elements[i];
+                var r = ((NewArrayExpression)row);
 
-                elements[i] = v.As<T>();
+                if (r.Elements.Length != stride) throw new Exception("invalid row lenth");
+
+                foreach (var column in r.Elements)
+                {
+                    elements[i] = ((INumber)column).As<T>();
+
+                    i++;
+                }
             }
 
-            return new Matrix<T>(expression.RowCount, expression.ColumnCount, elements);
+            return new Matrix<T>(elements, stride);
         }
-        */
+        
 
-        Kind IObject.Kind => Kind.MatrixLiteral;
+        Kind IObject.Kind => Kind.Matrix;
     }
 }

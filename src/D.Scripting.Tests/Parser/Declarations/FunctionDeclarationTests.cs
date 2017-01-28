@@ -54,12 +54,12 @@ fromTranslation ƒ <T: Number>(x: T, y: T, z: T) => Matrix4<T> {
             
             // Assert.Equal("Matrix4", f.ReturnType.Name);
 
-            var elements = ((TypeInitializerSyntax)((LambdaExpressionSyntax)func.Body).Expression)[0];
-            var array = (ArrayLiteralSyntax)elements.Value;
+            var elements = ((NewObjectExpressionSyntax)((LambdaExpressionSyntax)func.Body).Expression)[0];
+            var array = (NewArrayExpressionSyntax)elements.Value;
 
-            Assert.Equal(16  , array.Elements.Count);
-            Assert.Equal(1   , (NumberLiteralSyntax)array[0]);
-            Assert.Equal("x" , (Symbol)array[3]);
+            Assert.Equal(16  , array.Elements.Length);
+            Assert.Equal(1   , (NumberLiteralSyntax)array.Elements[0]);
+            Assert.Equal("x" , (Symbol)array.Elements[3]);
         }
 
         [Fact]
@@ -83,7 +83,7 @@ fromTranslation ƒ <T: Number>(x: T, y: T, z: T) => Matrix4<T> {
             Assert.Equal("T",     func.Parameters[2].Type);
 
             var lambda          = (LambdaExpressionSyntax)func.Body;
-            var typeInitializer = (TypeInitializerSyntax)lambda.Expression;
+            var typeInitializer = (NewObjectExpressionSyntax)lambda.Expression;
 
             Assert.Equal("Point", typeInitializer.Type.Name);
             Assert.Equal("T",     typeInitializer.Type.Arguments[0].Name);

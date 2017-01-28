@@ -153,7 +153,7 @@ Point impl {
 
             var l = (LambdaExpressionSyntax)((FunctionDeclarationSyntax)a.Members[0]).Body;
 
-            Assert.Equal(3, ((TypeInitializerSyntax)l.Expression).Members.Length);
+            Assert.Equal(3, ((NewObjectExpressionSyntax)l.Expression).Members.Length);
 
             foreach (var member in a.Members.OfType<FunctionDeclarationSyntax>())
             {
@@ -176,7 +176,7 @@ A impl {
 
             var f = (FunctionDeclarationSyntax)a.Members[0];
             var l = (LambdaExpressionSyntax)f.Body;
-            var p = (TypeInitializerSyntax)l.Expression;
+            var p = (NewObjectExpressionSyntax)l.Expression;
 
             var t = (TupleExpressionSyntax)((LambdaExpressionSyntax)((FunctionDeclarationSyntax)a.Members[2]).Body).Expression;
 
@@ -197,7 +197,7 @@ A implementation {
 
             var f = (FunctionDeclarationSyntax)i.Members[0];
             var l = (LambdaExpressionSyntax)f.Body;
-            var t = (TypeInitializerSyntax)l.Expression;
+            var t = (NewObjectExpressionSyntax)l.Expression;
 
             Assert.Equal("Point", t.Type.Name);
             Assert.True(f.IsProperty);
@@ -291,7 +291,7 @@ Curve<T> implementation for Arc<T> {
             var body     = (BlockExpressionSyntax)f.Body;
 
             var returnStatement = (ReturnStatementSyntax)body[body.Statements.Length - 1];
-            var initializer     = (TypeInitializerSyntax)returnStatement.Expression;
+            var initializer     = (NewObjectExpressionSyntax)returnStatement.Expression;
 
             Assert.Equal("Point<T>", initializer.Type);
         }
