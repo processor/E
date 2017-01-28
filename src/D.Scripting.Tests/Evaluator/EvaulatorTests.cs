@@ -180,6 +180,7 @@ namespace D.Tests
             Assert.Equal(argNames, ƒ.Parameters.Select(p => p.Name).ToArray());
         }
 
+        /*
         [Fact]
         public void Equations()
         {
@@ -193,8 +194,8 @@ namespace D.Tests
             Assert.Equal("y", equation.Left.ToString());
             Assert.Equal("5 * x", equation.Right.ToString()); // ∙
         }
+        */
         
-
         [Fact]
         public void FunctionCall()
         {

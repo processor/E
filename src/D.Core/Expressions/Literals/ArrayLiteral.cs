@@ -2,14 +2,14 @@
 {
     public class ArrayLiteral : IExpression
     {
-        public ArrayLiteral(IObject[] elements)
+        public ArrayLiteral(IExpression[] elements)
         {
             Elements = elements;
         }
 
-        public IObject[] Elements { get; }
+        public IExpression[] Elements { get; }
 
-        public IObject this[int index] => Elements[index];
+        public IExpression this[int index] => Elements[index];
 
         public int Count => Elements.Length;
 

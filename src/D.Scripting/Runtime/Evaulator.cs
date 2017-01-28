@@ -80,10 +80,11 @@ namespace D
             { 
                 switch (expression.Kind)
                 {
-                    case Kind.PipeStatement   : result = EvaluatePipe((PipeStatement)expression);   break;
-                    case Kind.Symbol          : result = EvaluateSymbol((Symbol)expression);        break;
-                    case Kind.CallExpression  : result = EvaluateCall((CallExpression)expression);  break;
-                    case Kind.UnitLiteral     : result = EvaluateUnit((UnitLiteral)expression);     break;
+                    case Kind.ConstantExpression : result = EvaluateConstant((ConstantExpression)expression); break;
+                    case Kind.PipeStatement      : result = EvaluatePipe((PipeStatement)expression);          break;
+                    case Kind.Symbol             : result = EvaluateSymbol((Symbol)expression);               break;
+                    case Kind.CallExpression     : result = EvaluateCall((CallExpression)expression);         break;
+                    case Kind.UnitLiteral        : result = EvaluateUnit((UnitLiteral)expression);            break;
                     default:
                     
                         if ((long)expression.Kind > 255) throw new Exception($"expected kind: was {expression.Kind}");
@@ -98,15 +99,17 @@ namespace D
             return result;
         }
 
-        /*
+        
         public IObject EvaluateConstant(ConstantExpression expression)
         {
+            // Pull out the value
+
+
+            return (IObject)expression.Value; 
         }
-        */
 
         public IObject EvaluateUnit(UnitLiteral expression)
         {
-
             var number = (INumber)expression.Expression;
 
             Unit<double> unit;

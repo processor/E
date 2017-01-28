@@ -119,7 +119,6 @@
         InterpolatedStringExpression    = 2221,
 
         TypeInitializer = 2250,
-        // RecordExpression = 2009,
 
         PipeStatement = 2302,  // Merge with Call?
         
@@ -164,11 +163,11 @@
         
         AnnotationExpression = 5003,
         CallExpression       = 5004,
-        // ConstantExpression = 2502,
-        TupleExpression      = 5005,
-        LambdaExpression     = 5006,
-        MatchExpression      = 5007,
-        QueryExpression      = 5008,
+        ConstantExpression   = 2505,
+        TupleExpression      = 5006,
+        LambdaExpression     = 5007,
+        MatchExpression      = 5008,
+        QueryExpression      = 5009,
                                  
         // Unary                 
         LogicalNotExpression     = 6000, // ! prefix

@@ -253,40 +253,37 @@ namespace D.Compilation
                 case Kind.InterpolatedStringExpression:  return VisitInterpolatedStringExpression((InterpolatedStringExpressionSyntax)syntax);
 
                 // Declarations
-                case Kind.VariableDeclaration       : return VisitVariableDeclaration((VariableDeclarationSyntax)syntax);
-                case Kind.TypeInitializer           : return VisitTypeInitializer((TypeInitializerSyntax)syntax);
-                case Kind.DestructuringAssignment   : return VisitDestructuringAssignment((DestructuringAssignmentSyntax)syntax);
-                case Kind.MemberAccessExpression    : return VisitMemberAccess((MemberAccessExpressionSyntax)syntax);
-                case Kind.IndexAccessExpression     : return VisitIndexAccess((IndexAccessExpressionSyntax)syntax);
+                case Kind.VariableDeclaration     : return VisitVariableDeclaration((VariableDeclarationSyntax)syntax);
+                case Kind.TypeInitializer         : return VisitTypeInitializer((TypeInitializerSyntax)syntax);
+                case Kind.DestructuringAssignment : return VisitDestructuringAssignment((DestructuringAssignmentSyntax)syntax);
+                case Kind.MemberAccessExpression  : return VisitMemberAccess((MemberAccessExpressionSyntax)syntax);
+                case Kind.IndexAccessExpression   : return VisitIndexAccess((IndexAccessExpressionSyntax)syntax);
 
                 // Statements
-                case Kind.PipeStatement             : return VisitPipe((PipeStatementSyntax)syntax);
-                case Kind.CallExpression            : return VisitCall((CallExpressionSyntax)syntax);
-                case Kind.MatchExpression            : return VisitMatch((MatchExpressionSyntax)syntax);
-                case Kind.IfStatement               : return VisitIf((IfStatementSyntax)syntax);
-                case Kind.ElseIfStatement           : return VisitElseIf((ElseIfStatementSyntax)syntax);
-                case Kind.ElseStatement             : return VisitElse((ElseStatementSyntax)syntax);
-                case Kind.ReturnStatement           : return VisitReturn((ReturnStatementSyntax)syntax);
-
+                case Kind.PipeStatement           : return VisitPipe((PipeStatementSyntax)syntax);
+                case Kind.CallExpression          : return VisitCall((CallExpressionSyntax)syntax);
+                case Kind.MatchExpression         : return VisitMatch((MatchExpressionSyntax)syntax);
+                case Kind.IfStatement             : return VisitIf((IfStatementSyntax)syntax);
+                case Kind.ElseIfStatement         : return VisitElseIf((ElseIfStatementSyntax)syntax);
+                case Kind.ElseStatement           : return VisitElse((ElseStatementSyntax)syntax);
+                case Kind.ReturnStatement         : return VisitReturn((ReturnStatementSyntax)syntax);
              
                 // Patterns
-                case Kind.ConstantPattern           : return VisitConstantPattern((ConstantPatternSyntax)syntax);
-                case Kind.TypePattern               : return VisitTypePattern((TypePatternSyntax)syntax);
-                case Kind.AnyPattern                : return VisitAnyPattern((AnyPatternSyntax)syntax);
+                case Kind.ConstantPattern         : return VisitConstantPattern((ConstantPatternSyntax)syntax);
+                case Kind.TypePattern             : return VisitTypePattern((TypePatternSyntax)syntax);
+                case Kind.AnyPattern              : return VisitAnyPattern((AnyPatternSyntax)syntax);
 
-                case Kind.Symbol                    : return VisitSymbol((Symbol)syntax);
-                case Kind.NumberLiteral             : return VisitNumber((NumberLiteralSyntax)syntax);
-                case Kind.UnitLiteral                      : return VisitUnit((UnitLiteralSyntax)syntax);
+                case Kind.Symbol                  : return VisitSymbol((Symbol)syntax);
+                case Kind.NumberLiteral           : return VisitNumber((NumberLiteralSyntax)syntax);
+                case Kind.UnitLiteral             : return VisitUnit((UnitLiteralSyntax)syntax);
                 
-                case Kind.ArrayLiteral              : return VisitArrayLiteral((ArrayLiteralSyntax)syntax);
-                case Kind.MatrixLiteral             : return VisitMatrixLiteral((MatrixLiteralSyntax)syntax);
-                case Kind.StringLiteral             : return new StringLiteral(syntax.ToString());
-
+                case Kind.ArrayLiteral            : return VisitArrayLiteral((ArrayLiteralSyntax)syntax);
+                case Kind.MatrixLiteral           : return VisitMatrixLiteral((MatrixLiteralSyntax)syntax);
+                case Kind.StringLiteral           : return new StringLiteral(syntax.ToString());
             }
 
             throw new Exception("Unexpected node:" + syntax.Kind + "/" + syntax.GetType().ToString());
         }
-
         
         public MatrixLiteral VisitMatrixLiteral(MatrixLiteralSyntax syntax)
         {
@@ -302,7 +299,7 @@ namespace D.Compilation
 
         public ArrayLiteral VisitArrayLiteral(ArrayLiteralSyntax syntax)
         {
-            var elements = new IObject[syntax.Elements.Count];
+            var elements = new IExpression[syntax.Elements.Count];
 
             for (var i = 0; i < elements.Length; i++)
             {
