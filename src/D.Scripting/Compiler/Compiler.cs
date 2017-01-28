@@ -80,13 +80,13 @@ namespace D.Compilation
 
             return new Protocal(protocal.Name, functions);
         }
-        
+
         public Function VisitFunctionDeclaration(FunctionDeclarationSyntax f, IType declaringType = null)
         {
             var b = Visit(f.Body);
 
-            var returnType = f.ReturnType != null 
-                ? scope.Get<Type>(f.ReturnType) 
+            var returnType = f.ReturnType != null
+                ? scope.Get<Type>(f.ReturnType)
                 : b.Kind == Kind.LambdaExpression
                     ? GetType((LambdaExpression)b)
                     : GetReturnType((BlockExpression)b);
@@ -100,7 +100,7 @@ namespace D.Compilation
 
             BlockExpression body;
 
-            if (f.Body == null) 
+            if (f.Body == null)
             {
                 body = null; // Protocal functions do not define a body.
             }
@@ -119,14 +119,12 @@ namespace D.Compilation
                 throw new Exception("unexpected function body type:" + f.Body.Kind);
             }
 
-            var function = new Function(f.Name, returnType, paramaters);
-
-            function.GenericParameters = ResolveParameters(f.GenericParameters);
-            function.Flags             = f.Flags;
-            function.Body              = body;
-            function.DeclaringType     = declaringType;
-
-            return function;
+            return new Function(f.Name, returnType, paramaters) {
+                GenericParameters = ResolveParameters(f.GenericParameters),
+                Flags = f.Flags,
+                Body = body,
+                DeclaringType = declaringType
+            };
         }
 
         public Implementation VisitImplementation(ImplementationDeclarationSyntax impl)

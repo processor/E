@@ -79,9 +79,9 @@ f |> plot {
             var record = (NewObjectExpressionSyntax)call.Arguments[0].Value;
 
             Assert.Equal(null, record.Type);
-            Assert.Equal("x", record[0].Name);
-            Assert.Equal("y", record[1].Name);
-            Assert.Equal("z", record[2].Name);
+            Assert.Equal("x", record.Members[0].Name);
+            Assert.Equal("y", record.Members[1].Name);
+            Assert.Equal("z", record.Members[2].Name);
         }
     }
 }

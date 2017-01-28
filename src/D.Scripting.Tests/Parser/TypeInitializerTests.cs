@@ -10,21 +10,19 @@ namespace D.Parsing.Tests
         public void Nested()
         {
             var type = Parse<NewObjectExpressionSyntax>(@"
-
 Account {
   balance : 100,
   owner   : ""me"",
   created : Date { year: 2000, month: 01, day: 01 }
 }
-
 ");
 
-
             Assert.Equal("Account", type.Type);
+            Assert.Equal(3, type.Members.Length);
 
-            Assert.Equal(3, type.Count);
+            var dateObject = (NewObjectExpressionSyntax)type.Members[2].Value;
 
-            Assert.Equal("Date", ((NewObjectExpressionSyntax)type.Members[2].Value).Type);
+            Assert.Equal("Date", dateObject.Type);
         }
         [Fact]
         public void RootScoped()
@@ -33,7 +31,7 @@ Account {
 Point {
   x: 1,
   y: 2,
-  z: 3 
+  z: 3
 }");
             Assert.Equal("Point", type.Type.Name);
             Assert.Equal(3, type.Members.Length);

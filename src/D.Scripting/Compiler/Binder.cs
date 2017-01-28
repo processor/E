@@ -6,7 +6,7 @@ namespace D.Compilation
 {
     public partial class Compiler
     {
-         public Type GetReturnType(BlockExpression block)
+        public Type GetReturnType(BlockExpression block)
         {
             foreach (var x in block.Statements)
             {

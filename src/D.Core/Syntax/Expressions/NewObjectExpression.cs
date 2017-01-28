@@ -2,7 +2,7 @@
 {
     public class NewObjectExpressionSyntax : SyntaxNode
     {
-        public NewObjectExpressionSyntax(Symbol type, RecordMemberSyntax[] members)
+        public NewObjectExpressionSyntax(Symbol type, ObjectMemberSyntax[] members)
         {
             Type = type;
             Members = members;
@@ -10,11 +10,7 @@
 
         public Symbol Type { get; }
 
-        public RecordMemberSyntax[] Members { get; }
-
-        public RecordMemberSyntax this[int index] => Members[index];
-
-        public int Count => Members.Length;
+        public ObjectMemberSyntax[] Members { get; }
 
         Kind IObject.Kind => Kind.NewObjectExpression; 
     }
@@ -22,16 +18,16 @@
     // { a: 1, b: 2 }
     // { a, b, c }
 
-    public struct RecordMemberSyntax
+    public struct ObjectMemberSyntax
     {
-        public RecordMemberSyntax(Symbol auto)
+        public ObjectMemberSyntax(Symbol auto)
         {
             Name = auto;
             Value = auto;
             Implict = true;
         }
 
-        public RecordMemberSyntax(Symbol name, SyntaxNode value)
+        public ObjectMemberSyntax(Symbol name, SyntaxNode value)
         {
             Name = name;
             Value = value;

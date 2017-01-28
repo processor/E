@@ -145,7 +145,6 @@ namespace D
         // Variables
         Property    = 1 << 7, // type member
   
-
         Operator    = 1 << 8,
 
         Infix       = 1 << 9,
@@ -155,7 +154,6 @@ namespace D
         BlockScoped = 1 << 11,
         Local       = 1 << 12
     }
-
 
     public enum SymbolStatus
     {

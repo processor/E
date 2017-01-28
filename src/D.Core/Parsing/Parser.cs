@@ -1259,7 +1259,7 @@ namespace D.Parsing
         // { a, b }
         public NewObjectExpressionSyntax ReadNewObject(Symbol type)
         {
-            var members = new List<RecordMemberSyntax>();
+            var members = new List<ObjectMemberSyntax>();
 
             // EnterMode(Mode.Block); // ! {
 
@@ -1270,8 +1270,8 @@ namespace D.Parsing
                 var name = ReadSymbol(SymbolFlags.Member);
 
                 var member = ConsumeIf(Colon)
-                    ? new RecordMemberSyntax(name, value: ReadExpression())
-                    : new RecordMemberSyntax(name);
+                    ? new ObjectMemberSyntax(name, value: ReadExpression())
+                    : new ObjectMemberSyntax(name);
 
                 members.Add(member);
 
