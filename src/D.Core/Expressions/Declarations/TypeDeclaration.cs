@@ -26,9 +26,6 @@ namespace D.Expressions
         public bool IsEvent 
             => Flags.HasFlag(TypeFlags.Event);
 
-        public bool IsPrimitive
-            => Flags.HasFlag(TypeFlags.Primitive);
-
         Kind IObject.Kind => Kind.TypeDeclaration;
     }
 

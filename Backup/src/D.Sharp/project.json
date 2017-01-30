@@ -1,0 +1,23 @@
+﻿{
+  "version": "0.0.1-alpha1",
+
+  "dependencies": {
+    "D.Core": { "target": "project" }
+  },
+
+  "frameworks": {
+    "netstandard1.6": {
+      "dependencies": {
+        "System.Collections": "4.3.0",
+        "System.Runtime.Numerics": "4.3.0",
+        "System.IO": "4.3.0"
+      },
+      "imports": "dnxcore50"
+    }
+  },
+
+  "packOptions": {
+    "owners": [ "Jason Nelson" ],
+    "requireLicenseAcceptance": false
+  }
+}
