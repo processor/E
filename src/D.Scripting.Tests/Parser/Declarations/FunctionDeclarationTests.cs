@@ -51,8 +51,7 @@ fromTranslation ƒ <T: Number>(x: T, y: T, z: T) => Matrix4<T> {
 
             Assert.Equal(3, func.Parameters.Length);
             
-            
-            // Assert.Equal("Matrix4", f.ReturnType.Name);
+            // Assert.Equal("Matrix4", func.ReturnType.Name);
 
             var elements = ((NewObjectExpressionSyntax)((LambdaExpressionSyntax)func.Body).Expression).Members[0];
             var array    = (NewArrayExpressionSyntax)elements.Value;

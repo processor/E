@@ -50,7 +50,4 @@ namespace D.Syntax
 
         #endregion
     }
-
-    // may have been expanded from: apply then Assign
-    
 }

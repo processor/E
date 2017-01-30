@@ -1,12 +1,16 @@
-﻿using System;
-
-namespace D.Syntax
+﻿namespace D.Syntax
 {
     // type | record | event
 
+    /*
+    A type { 
+      a: String
+      b: Number
+    }     
+    */
     public class TypeDefinationBase : SyntaxNode
     {
-        public TypeDefinationBase(Symbol baseType, TypeFlags flags, PropertyDeclarationSyntax[] members)
+        public TypeDefinationBase(Symbol baseType, PropertyDeclarationSyntax[] members, TypeFlags flags)
         {
             BaseType = baseType;
             Members = members;
@@ -41,7 +45,7 @@ namespace D.Syntax
             AnnotationExpressionSyntax[] annotations,
             PropertyDeclarationSyntax[] members,
             TypeFlags flags = TypeFlags.None)
-            : base(baseType, flags, members)
+            : base(baseType, members, flags)
         {
             Name = name;
             Annotations = annotations;
@@ -61,7 +65,7 @@ namespace D.Syntax
     public class CompoundTypeDeclarationSyntax : TypeDefinationBase
     {
         public CompoundTypeDeclarationSyntax(Symbol[] names, TypeFlags flags, Symbol baseType, PropertyDeclarationSyntax[] properties)
-             : base(baseType, flags, properties)
+             : base(baseType, properties, flags)
         {
             Names = names;
         }

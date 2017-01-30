@@ -349,16 +349,16 @@ namespace D.Compilation
         {
             if (arguments.Length == 0) return Arguments.None;
             
-            var items = new IObject[arguments.Length];
+            var items = new Argument[arguments.Length];
 
             for (var i = 0; i < items.Length; i++)
             {
-                // TODO: Named arg support
-                items[i] = Visit(arguments[i].Value);
+                var a = arguments[i];
+
+                items[i] = new Argument(a.Name, Visit(a.Value));
             }
 
             return Arguments.Create(items);
-            
         }
 
         public virtual VariableDeclaration VisitVariableDeclaration(VariableDeclarationSyntax syntax)

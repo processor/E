@@ -1,6 +1,6 @@
 ﻿namespace D.Syntax
 {
-    // ... Inclusive
+    // .. Inclusive
     public class RangeExpression : SyntaxNode
     {
         public RangeExpression(SyntaxNode start, SyntaxNode end)
@@ -12,7 +12,7 @@
         public SyntaxNode Start { get; }
 
         public SyntaxNode End { get; }
-
+        
         Kind IObject.Kind => Kind.RangeLiteral;
     }
 

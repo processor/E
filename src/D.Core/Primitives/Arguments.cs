@@ -55,13 +55,13 @@ namespace D
             Value = value;
         }
 
-        public Argument(Symbol name, IObject value)
+        public Argument(string name, IObject value)
         {
             Name = name;
             Value = value;
         }
 
-        public Symbol Name { get; }
+        public string Name { get; }
 
         public IObject Value { get; }
 
@@ -79,7 +79,7 @@ namespace D
         {
             get
             {
-                if (Name.Name != name) throw new Exception("not found");
+                if (Name != name) throw new Exception("not found");
 
                 return Value;
             }
@@ -119,7 +119,7 @@ namespace D
                     if (arg.Name == name) return arg.Value;
                 }
 
-                throw new Exception("not found");
+                throw new Exception("not found: " + name);
             }
         }
 

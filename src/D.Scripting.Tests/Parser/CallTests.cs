@@ -59,17 +59,17 @@ namespace D.Parsing.Tests
         [Fact]
         public void CallNamed()
         {
-            var call = Parse<CallExpressionSyntax>("move(x: 1, y: 2, z: 3)");
+            var syntax = Parse<CallExpressionSyntax>("move(x: 1, y: 2, z: 3)");
 
-            Assert.Equal("move", call.FunctionName);
+            Assert.Equal("move", syntax.FunctionName);
 
-            Assert.Equal(3, call.Arguments.Length);
+            Assert.Equal(3, syntax.Arguments.Length);
 
-            Assert.Equal(1, (NumberLiteralSyntax)call.Arguments[0].Value);
-            Assert.Equal(2, (NumberLiteralSyntax)call.Arguments[1].Value);
-            Assert.Equal(3, (NumberLiteralSyntax)call.Arguments[2].Value);
+            Assert.Equal(1, (NumberLiteralSyntax)syntax.Arguments[0].Value);
+            Assert.Equal(2, (NumberLiteralSyntax)syntax.Arguments[1].Value);
+            Assert.Equal(3, (NumberLiteralSyntax)syntax.Arguments[2].Value);
 
-            var args = call.Arguments.ToArray();
+            var args = syntax.Arguments.ToArray();
 
             Assert.Equal(1, (NumberLiteralSyntax)args[0].Value);
             Assert.Equal(2, (NumberLiteralSyntax)args[1].Value);
@@ -78,18 +78,16 @@ namespace D.Parsing.Tests
             Assert.Equal("x", args[0].Name);
             Assert.Equal("y", args[1].Name);
             Assert.Equal("z", args[2].Name);
-        }
 
-        [Fact]
-        public void IndexAccess()
-        {
-            var call = Parse<CallExpressionSyntax>("move(x: 1, y: 2, z: 3)");
+            var complier = new D.Compilation.Compiler();
 
-            // Assert.Equal(1, (NumberLiteral)call.Arguments["x"]);
-            // Assert.Equal(2, (NumberLiteral)call.Arguments["y"]);
-            // Assert.Equal(3, (NumberLiteral)call.Arguments["z"]);
+            var call = complier.VisitCall(syntax);
 
-            // Assert.Throws<Exception>(() => call.Arguments["a"]);
+            Assert.Equal(1, (Integer)call.Arguments["x"]);
+            Assert.Equal(2, (Integer)call.Arguments["y"]);
+            Assert.Equal(3, (Integer)call.Arguments["z"]);
+
+            Assert.Throws<Exception>(() => call.Arguments["a"]);
         }
     }
 }
