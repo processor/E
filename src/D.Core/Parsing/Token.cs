@@ -168,7 +168,6 @@ namespace D.Parsing
         Let,
         Observe,
         On,
-        Primitive,
         To,
         Type,
         Unit,

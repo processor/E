@@ -762,7 +762,7 @@ namespace D.Parsing
         }
 
         // Float : Number @size(32) { 
-        // Int32 primitive @size(32)
+        // Int32 type @size(32)
         // Point type <T:Number> : Vector3 { 
         public TypeDeclarationSyntax ReadTypeDeclaration(Symbol typeName)
         {
@@ -770,7 +770,6 @@ namespace D.Parsing
 
             var flags = ConsumeIf("event") ? TypeFlags.Event : TypeFlags.None;
 
-            if (ConsumeIf(Primitive)) flags |= TypeFlags.Primitive;
             if (ConsumeIf(Record))    flags |= TypeFlags.Record;
 
             // <T: Number>
@@ -1801,10 +1800,10 @@ namespace D.Parsing
             return MaybeRange();
         }
 
-        // a...z
-        // A...z
-        // 1...3
-        // 1...100
+        // a..z
+        // A..z
+        // 1..3
+        // 1..100
         // i..<10
         // i..i32.max
         public SyntaxNode MaybeRange()
@@ -1870,7 +1869,6 @@ namespace D.Parsing
 
                     case TokenKind.Unit: return ReadUnitDeclaration(name);
 
-                    case Primitive:
                     case Type:
                     case Event:
                     case Record:
@@ -1879,7 +1877,6 @@ namespace D.Parsing
                             : ReadTypeDeclaration(name);  // type : hello
 
                     case Implementation : return ReadImplementation(name);
-
                     case Protocal       : return ReadProtocal(name);
                     case Function       : return ReadFunctionDeclaration(name);
                 }

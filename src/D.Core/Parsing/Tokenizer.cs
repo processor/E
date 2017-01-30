@@ -341,7 +341,6 @@ namespace D.Parsing
             { "on"               , On },
             { "observe"          , Observe },
             { "orderby"          , Orderby },
-            { "primitive"        , Primitive },
             { "return"           , Return },
             { "select"           , Select },
             { "this"             , This },
