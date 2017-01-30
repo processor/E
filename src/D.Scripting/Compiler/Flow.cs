@@ -62,9 +62,7 @@ namespace D.Inference
                 return any;
             }
 
-            IType type;
-
-            if (!env.TryGetValue(kind.Name, out type))
+            if (!env.TryGetValue(kind.Name, out IType type))
             {
                 type = system.NewType(kind.Name);
 

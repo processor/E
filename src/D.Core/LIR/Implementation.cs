@@ -8,20 +8,10 @@ namespace D
     {
         public Implementation(Protocal protocal, Type type, VariableDeclaration[] variables, Function[] members)
         {
-            #region Preconditions
-
-            if (type == null)
-                throw new ArgumentNullException(nameof(type));
-
-            if (members == null)
-                throw new ArgumentNullException(nameof(members));
-
-            #endregion
-
             Protocal = protocal;
-            Type = type;
+            Type = type ?? throw new ArgumentNullException(nameof(type));
             Variables = variables;
-            Methods = members;
+            Methods = members ?? throw new ArgumentNullException(nameof(members));
         }
 
         public Type Type { get; }

@@ -29,28 +29,28 @@ namespace D.Syntax
 
         public void Visit(IObject expression)
         {
-            if (expression is UnaryExpressionSyntax)
+            if (expression is UnaryExpressionSyntax unary)
             {
-                VisitUnary((UnaryExpressionSyntax)expression);
+                VisitUnary(unary);
 
                 return;
             }
-            else if (expression is BinaryExpressionSyntax)
+            else if (expression is BinaryExpressionSyntax binary)
             {
-                VisitBinary((BinaryExpressionSyntax)expression);
+                VisitBinary(binary);
 
                 return;
             }
-            else if (expression is TernaryExpressionSyntax)
+            else if (expression is TernaryExpressionSyntax ternary)
             {
-                VisitTernary((TernaryExpressionSyntax)expression);
+                VisitTernary(ternary);
 
                 return;
             }
 
-            if (expression is BlockExpressionSyntax)
+            if (expression is BlockExpressionSyntax block)
             {
-                VisitBlock((BlockExpressionSyntax)expression);
+                VisitBlock(block);
 
                 return;
             }

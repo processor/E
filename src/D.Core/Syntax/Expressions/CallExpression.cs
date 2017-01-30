@@ -79,15 +79,8 @@ namespace D.Syntax
     {
         public IndexAccessExpressionSyntax(SyntaxNode left, ArgumentSyntax[] arguments)
         {
-            #region Preconditions
-
-            if (arguments == null)
-                throw new ArgumentNullException(nameof(arguments));
-
-            #endregion
-
             Left = left;
-            Arguments = arguments;
+            Arguments = arguments ?? throw new ArgumentNullException(nameof(arguments));
         }
 
         public SyntaxNode Left { get; set; }

@@ -16,9 +16,7 @@ namespace D.Collections
         {
             get
             {
-                T value;
-
-                if (!TryGetValue(key, out value))
+                if (!TryGetValue(key, out T value))
                 {
                     throw new KeyNotFoundException($"Key '{key}' not found.");
                 }
@@ -28,9 +26,7 @@ namespace D.Collections
 
             set
             {
-                Node node;
-
-                if (TryGetNode(key, out node))
+                if (TryGetNode(key, out Node node))
                 {
                     node.Value = value;
                 }
@@ -64,11 +60,7 @@ namespace D.Collections
         }
 
         public bool ContainsKey(string key)
-        {
-            T value;
-
-            return TryGetValue(key, out value);
-        }
+            => TryGetValue(key, out T value);
 
         public IEnumerable<KeyValuePair<string, T>> Scan(string prefix)
         {
@@ -94,9 +86,7 @@ namespace D.Collections
 
             #endregion
 
-            Node node;
-
-            if (!TryGetNode(key, out node))
+            if (!TryGetNode(key, out Node node))
             {
                 return false;
             }
@@ -119,9 +109,7 @@ namespace D.Collections
 
             #endregion
 
-            Node node;
-
-            if (!TryGetNode(key, out node) || !node.IsLeaf)
+            if (!TryGetNode(key, out Node node) || !node.IsLeaf)
             {
                 value = default(T);
 
@@ -207,9 +195,7 @@ namespace D.Collections
 
             internal Node Add(char key)
             {
-                Node childNode;
-
-                if (!Children.TryGetValue(key, out childNode))
+                if (!Children.TryGetValue(key, out Node childNode))
                 {
                     childNode = new Node(key, parent: this);
 

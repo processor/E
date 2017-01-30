@@ -10,7 +10,7 @@ namespace D.Expressions
         public virtual IExpression VisitBlock(BlockExpression block)                                { throw new NotImplementedException(); }
         public virtual IExpression VisitCall(CallExpression call)                                   { throw new NotImplementedException(); }
         public virtual IExpression VisitVariableDeclaration(VariableDeclaration declaration)        { throw new NotImplementedException(); }
-        public virtual IExpression VisitTypeInitializer(TypeInitializer a)                          { throw new NotImplementedException(); }
+        public virtual IExpression VisitTypeInitializer(NewObjectExpression a)                          { throw new NotImplementedException(); }
         public virtual IExpression VisitDestructuringAssignment(DestructuringAssignment assignment) { throw new NotImplementedException(); }
         public virtual IExpression VisitIndexAccess(IndexAccessExpression expression)               { throw new NotImplementedException(); }
         public virtual IExpression VisitMemberAccess(MemberAccessExpression expression)             { throw new NotImplementedException(); }  
@@ -30,21 +30,21 @@ namespace D.Expressions
 
         public IExpression Visit(IObject expression)
         {
-            if (expression is UnaryExpression)
+            if (expression is UnaryExpression unary)
             {
-                return VisitUnary((UnaryExpression)expression);
+                return VisitUnary(unary);
             }
-            else if (expression is BinaryExpression)
+            else if (expression is BinaryExpression binary)
             {
-                return VisitBinary((BinaryExpression)expression);
+                return VisitBinary(binary);
             }
-            else if (expression is TernaryExpression)
+            else if (expression is TernaryExpression ternary)
             {
-                return VisitTernary((TernaryExpression)expression);
+                return VisitTernary(ternary);
             }
-            else if (expression is BlockExpression)
+            else if (expression is BlockExpression block)
             {
-                return VisitBlock((BlockExpression)expression);
+                return VisitBlock(block);
             }
 
             switch (expression.Kind)
@@ -52,7 +52,7 @@ namespace D.Expressions
                 // Declarations
                 case Kind.VariableDeclaration       : return VisitVariableDeclaration((VariableDeclaration)expression);
                     
-                case Kind.NewObjectExpression           : return VisitTypeInitializer((TypeInitializer)expression);
+                case Kind.NewObjectExpression       : return VisitTypeInitializer((NewObjectExpression)expression);
                 case Kind.DestructuringAssignment   : return VisitDestructuringAssignment((DestructuringAssignment)expression);
 
                 case Kind.CallExpression            : return VisitCall((CallExpression)expression);

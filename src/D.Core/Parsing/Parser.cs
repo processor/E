@@ -1664,11 +1664,9 @@ namespace D.Parsing
 
                 default:
                     var value = MaybeTuple();
-                    
-                    if (value is RangeExpression)
-                    {
-                        var range = (RangeExpression)value;
 
+                    if (value is RangeExpression range)
+                    {
                         return new RangePatternSyntax(range.Start, range.End);
                     }
 
@@ -1834,10 +1832,8 @@ namespace D.Parsing
         {
             var left = MaybeMemberAccess();
 
-            if (left is Symbol)
+            if (left is Symbol name)
             {
-                var name = (Symbol)left;
-
                 if (IsKind(Comma) && InMode(Mode.Root))                     // ? ,
                 {
                     symbolList.Add(name);
@@ -1845,9 +1841,9 @@ namespace D.Parsing
                     while (ConsumeIf(Comma))
                     {
                         symbolList.Add(ReadSymbol(SymbolFlags.Type));
-                    }                 
+                    }
                 }
-              
+
                 switch (Current.Kind)
                 {
                     case BraceOpen:
@@ -1876,9 +1872,9 @@ namespace D.Parsing
                             ? (SyntaxNode)ReadCompoundTypeDeclaration(symbolList.Extract())
                             : ReadTypeDeclaration(name);  // type : hello
 
-                    case Implementation : return ReadImplementation(name);
-                    case Protocal       : return ReadProtocal(name);
-                    case Function       : return ReadFunctionDeclaration(name);
+                    case Implementation: return ReadImplementation(name);
+                    case Protocal: return ReadProtocal(name);
+                    case Function: return ReadFunctionDeclaration(name);
                 }
             }
 

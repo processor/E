@@ -262,9 +262,7 @@ namespace D.Parsing
             // Operators 
             if (!char.IsLetter(reader.Current))
             {
-                Trie<Operator>.Node node;
-
-                if (env.Operators.Maybe(OperatorType.Infix, reader.Current, out node))
+                if (env.Operators.Maybe(OperatorType.Infix, reader.Current, out Trie<Operator>.Node node))
                 {
                     var start = reader.Location;
 
@@ -301,9 +299,7 @@ namespace D.Parsing
 
             var text = sb.Extract();
 
-            TokenKind kind;
-
-            if (keywords.TryGetValue(text, out kind))
+            if (keywords.TryGetValue(text, out TokenKind kind))
             {
                 return new Token(kind, start, text);
             }

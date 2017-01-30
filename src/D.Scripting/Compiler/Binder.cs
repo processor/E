@@ -10,10 +10,8 @@ namespace D.Compilation
         {
             foreach (var x in block.Statements)
             {
-                if (x is ReturnStatement)
+                if (x is ReturnStatement returnStatement)
                 {
-                    var returnStatement = (ReturnStatement)x;
-
                     return GetType(returnStatement.Expression);
                 }
             }
@@ -23,14 +21,9 @@ namespace D.Compilation
 
         public Type GetType(IExpression expression)
         {
-            if (expression is Symbol)
+            if (expression is Symbol name && scope.TryGet(name, out IObject obj))
             {
-                IObject obj;
-
-                if (scope.TryGet((Symbol)expression, out obj))
-                {
-                    return (Type)obj;
-                }
+                return (Type)obj;
             }
 
             switch (expression.Kind)
@@ -51,7 +44,7 @@ namespace D.Compilation
 
             if (expression.Kind == Kind.NewObjectExpression)
             {
-                var initializer = (TypeInitializer)expression;
+                var initializer = (NewObjectExpression)expression;
 
                 return scope.Get<Type>(initializer.Type);
             }

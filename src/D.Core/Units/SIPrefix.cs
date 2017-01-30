@@ -142,9 +142,7 @@ namespace D.Units
 
         public static bool TryParseName(string name, out SIPrefix prefix)
         {
-            double val;
-
-            if (scales.TryGetValue(name, out val))
+            if (scales.TryGetValue(name, out double val))
             {
                 prefix = new SIPrefix(name, val);
 

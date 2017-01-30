@@ -1,11 +1,13 @@
-﻿namespace D.Expressions
+﻿using System;
+
+namespace D.Expressions
 {
-    public class TypeInitializer : IExpression
+    public class NewObjectExpression : IExpression
     {
-        public TypeInitializer(Symbol type, RecordMember[] members)
+        public NewObjectExpression(Symbol type, RecordMember[] members)
         {
-            Type = type;
-            Members = members;
+            Type = type ?? throw new ArgumentNullException(nameof(type));
+            Members = members ?? throw new ArgumentNullException(nameof(members));
         }
 
         public Symbol Type { get; }

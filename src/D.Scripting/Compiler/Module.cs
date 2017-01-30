@@ -9,14 +9,7 @@ namespace D
 
         public Module(string name)
         {
-            #region Preconditions
-
-            if (name == null)
-                throw new ArgumentNullException(nameof(name));
-
-            #endregion
-
-            Name = name;
+            Name = name ?? throw new ArgumentNullException(nameof(name));
         }
 
         public string Name { get; }

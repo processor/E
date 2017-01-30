@@ -119,7 +119,7 @@ namespace D.Inference
                 @out = system.NewGeneric();
                 args.Add(@out);
             }
-            system.Unify(system.NewType(ctor == null ? TypeSystem.Function : ctor, ctor == null ? TypeSystem.Function.Name : ctor.Name, args.ToArray()), type);
+            system.Unify(system.NewType(ctor ?? TypeSystem.Function, ctor == null ? TypeSystem.Function.Name : ctor.Name, args.ToArray()), type);
             return ctor == null ? @out : type;
         }
     }
@@ -322,9 +322,7 @@ namespace D.Inference
 
         private static IType Prune(IType type)
         {
-            var var = type as Generic;
-
-            if (var != null && var.Instance != null)
+            if (type is Generic var && var.Instance != null)
             {
                 var.Instance = Prune(var.Instance);
 

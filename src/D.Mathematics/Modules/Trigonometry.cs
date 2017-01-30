@@ -72,7 +72,7 @@ namespace D.Mathematics
         { 
             var arg0 = (INumber)args[0];
 
-            return new Float(func.Invoke(arg0.Real));
+            return new Number(func.Invoke(arg0.Real));
         }
     }
 }

@@ -22,9 +22,9 @@ namespace D.Compilation
             
             foreach (var node in nodes)
             {
-                if (node is FunctionDeclarationSyntax)
+                if (node is FunctionDeclarationSyntax func)
                 {
-                    var function = VisitFunctionDeclaration((FunctionDeclarationSyntax)node);
+                    var function = VisitFunctionDeclaration(func);
 
                     unit.Functions.Add(function);
 
@@ -33,29 +33,27 @@ namespace D.Compilation
                         scope.Add(function.Name, function);
                     }
                 }
-                else if (node is TypeDeclarationSyntax)
+                else if (node is TypeDeclarationSyntax typeDeclaration)
                 {
-                    var type = VisitType((TypeDeclarationSyntax)node);
+                    var type = VisitType(typeDeclaration);
 
-                    unit.Types.Add(VisitType((TypeDeclarationSyntax)node));
+                    unit.Types.Add(type);
 
                     scope.Add(type.Name, type);
                 }
-                else if (node is ProtocalDeclarationSyntax)
+                else if (node is ProtocalDeclarationSyntax protocalDeclaration)
                 {
-                    var protocal = VisitProtocal((ProtocalDeclarationSyntax)node);
+                    var protocal = VisitProtocal(protocalDeclaration);
 
                     unit.Protocals.Add(protocal);
 
                     scope.Add(protocal.Name, protocal);
                 }
-                else if (node is ImplementationDeclarationSyntax)
+                else if (node is ImplementationDeclarationSyntax implDeclaration)
                 {
-                    var impl = VisitImplementation((ImplementationDeclarationSyntax)node);
+                    var impl = VisitImplementation(implDeclaration);
 
-                    List<Implementation> list;
-
-                    if (!unit.Implementations.TryGetValue(impl.Type, out list))
+                    if (!unit.Implementations.TryGetValue(impl.Type, out List<Implementation> list))
                     {
                         list = new List<Implementation>();
 
@@ -322,7 +320,7 @@ namespace D.Compilation
         {
             if (expression.Text.Contains("."))
             {
-                return new Float(double.Parse(expression.Text));
+                return new Number(double.Parse(expression.Text));
             }
             else
             {
@@ -369,7 +367,7 @@ namespace D.Compilation
             return new VariableDeclaration(syntax.Name, type, syntax.IsMutable, value);
         }
 
-        public virtual TypeInitializer VisitNewObject(NewObjectExpressionSyntax syntax)
+        public virtual NewObjectExpression VisitNewObject(NewObjectExpressionSyntax syntax)
         {
             var members = new RecordMember[syntax.Members.Length];
 
@@ -380,7 +378,7 @@ namespace D.Compilation
                 members[i] = new RecordMember(m.Name, Visit(m.Value)); 
             }
 
-            return new TypeInitializer(syntax.Type, members);
+            return new NewObjectExpression(syntax.Type, members);
         }
 
         public virtual DestructuringAssignment VisitDestructuringAssignment(DestructuringAssignmentSyntax syntax)
