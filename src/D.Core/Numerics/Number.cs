@@ -4,14 +4,10 @@ namespace D
 {
     public struct Number : INumeric<double>
     {
-        #region Constructors
-
         public Number(double value)
         {
             Value = value;
         }
-
-        #endregion
 
         public double Value { get; }
 

@@ -1,11 +1,9 @@
-﻿using System.Collections.Generic;
-using System;
+﻿using System;
+using System.Collections.Generic;
 using System.Text;
 
 namespace D.Parsing
 {
-    using Collections;
-
     using static TokenKind;
 
     public class Tokenizer : IDisposable
@@ -13,7 +11,7 @@ namespace D.Parsing
         private readonly SourceReader reader;
         private readonly Env env;
 
-        private Stack<Mode> modes = new Stack<Mode>();
+        private readonly Stack<Mode> modes = new Stack<Mode>();
 
         public Tokenizer(string text)
             : this(new SourceReader(text), new Env()) { }
@@ -262,7 +260,7 @@ namespace D.Parsing
             // Operators 
             if (!char.IsLetter(reader.Current))
             {
-                if (env.Operators.Maybe(OperatorType.Infix, reader.Current, out Trie<Operator>.Node node))
+                if (env.Operators.Maybe(OperatorType.Infix, reader.Current, out var node))
                 {
                     var start = reader.Location;
 
