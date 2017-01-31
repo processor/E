@@ -51,9 +51,7 @@ namespace D.Inference
         }
 
         private IType GetType(Kind kind)
-        {
-            return GetType(new Type(kind));
-        }
+            => GetType(new Type(kind));
 
         private IType GetType(IType kind)
         {
@@ -62,9 +60,7 @@ namespace D.Inference
                 return any;
             }
 
-            IType type;
-
-            if (!env.TryGetValue(kind.Name, out type))
+            if (!env.TryGetValue(kind.Name, out IType type))
             {
                 type = system.NewType(kind.Name);
 

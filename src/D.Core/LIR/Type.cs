@@ -75,9 +75,7 @@ namespace D
 
         public static Type Get(Kind kind)
         {
-            Type type;
-
-            if (!cache.TryGetValue(kind, out type))
+            if (!cache.TryGetValue(kind, out Type type))
             {
                 type = new Type(kind);
 

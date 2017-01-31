@@ -60,7 +60,7 @@
 
                 if (statement is ReturnStatement)
                 {
-                    var type = (TypeInitializer)((ReturnStatement)statement).Expression;
+                    var type = (NewObjectExpression)((ReturnStatement)statement).Expression;
 
                     WriteTypeInitializerBody(type, level);
                 }
@@ -79,7 +79,7 @@
             Emit("}", level);
         }
 
-        private void WriteTypeInitializerBody(TypeInitializer type, int level)
+        private void WriteTypeInitializerBody(NewObjectExpression type, int level)
         {
             var i = 0;
 

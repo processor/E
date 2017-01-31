@@ -1,26 +1,18 @@
 ﻿using System;
-using System.Collections.Generic;
 
 namespace D.Syntax
 {
     public class MatchExpressionSyntax : SyntaxNode
     {
-        public MatchExpressionSyntax(SyntaxNode expression, IList<MatchCaseSyntax> cases)
+        public MatchExpressionSyntax(SyntaxNode expression, MatchCaseSyntax[] cases)
         {
-            #region Preconditions
-
-            if (cases == null)
-                throw new ArgumentNullException(nameof(cases));
-
-            #endregion
-
             Expression = expression;
-            Cases = cases;
+            Cases = cases ?? throw new ArgumentNullException(nameof(cases));
         }
 
         public SyntaxNode Expression { get; }
 
-        public IList<MatchCaseSyntax> Cases { get; }
+        public MatchCaseSyntax[] Cases { get; }
 
         Kind IObject.Kind => Kind.MatchExpression;
     }

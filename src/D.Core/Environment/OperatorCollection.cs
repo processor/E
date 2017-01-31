@@ -20,7 +20,8 @@
             }
         }
 
-        public Operator this[OperatorType type, string name] => trie[AsSymbol(type) + name];
+        public Operator this[OperatorType type, string name] 
+            => trie[AsSymbol(type) + name];
 
         public bool Maybe(OperatorType type, char ch, out Trie<Operator>.Node node)
         {

@@ -23,7 +23,7 @@ for (x, y) in points {
             var sumVar       = statements.Next() as VariableDeclarationSyntax;
             var forStatement = (ForStatement)statements.Next();
 
-            var pattern = forStatement.VariableExpression as TuplePattern;
+            var pattern = forStatement.VariableExpression as TuplePatternSyntax;
 
             Assert.Equal("x",   pattern.Variables[0].Name);
             Assert.Equal("y",   pattern.Variables[1].Name);

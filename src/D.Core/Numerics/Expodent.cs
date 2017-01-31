@@ -59,12 +59,11 @@ namespace D
         }
 
         public static char GetChar(int exponent)
-        {
-            if (exponent > 9) throw new Exception("Must be < 9");
+            => exponent >= 0 && exponent <= 9
+                ? digits[exponent]
+                : throw new ArgumentOutOfRangeException(nameof(exponent), exponent, "Must be >= 0 && <= 9");
 
-            return digits[exponent];
+        // TODO: divide by 100 and append if greater then 10
 
-            // TODO: divide by 100 and append if greater then 10
-        }
     }
 }

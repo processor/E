@@ -1,10 +1,12 @@
-﻿namespace D.Syntax
+﻿using System;
+
+namespace D.Syntax
 {
     // e.g. on bank Account'Opened opening { }
 
-    public class ObserveStatement : SyntaxNode
+    public class ObserveStatementSyntax : SyntaxNode
     {
-        public ObserveStatement(SyntaxNode observable, Symbol eventType, string eventName, SyntaxNode body, UntilExpression until)
+        public ObserveStatementSyntax(SyntaxNode observable, Symbol eventType, string eventName, SyntaxNode body, UntilConditionSyntax until)
         {
             Observable = observable;
             EventType = eventType;
@@ -26,21 +28,21 @@
         public SyntaxNode Body { get; }
 
         // until gallary Detached
-        public UntilExpression UntilExpression { get; set; }
+        public UntilConditionSyntax UntilExpression { get; set; }
 
         Kind IObject.Kind => Kind.ObserveStatement;
     }
 
-    public class UntilExpression
+    public class UntilConditionSyntax
     {
-        public UntilExpression(SyntaxNode observable, Symbol eventType)
+        public UntilConditionSyntax(SyntaxNode observable, Symbol @event)
         {
             Observable = observable;
-            EventType = eventType;
+            Event = @event ?? throw new ArgumentNullException(nameof(@event));
         }
 
         public SyntaxNode Observable { get; }
 
-        public Symbol EventType { get; }
+        public Symbol Event { get; }
     }
 }

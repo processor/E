@@ -187,18 +187,15 @@ namespace D.Units
         public static bool TryParse<T1>(string text, out Unit<T1> unit)
             where T1 : struct, IComparable<T1>, IEquatable<T1>
         {
-            UnitType type;
-            SIPrefix prefix;
-
             // Strip off any exponent...
 
-            if (UnitType.TryParse(text, out type))
+            if (UnitType.TryParse(text, out UnitType type))
             {
                 unit = new Unit<T1>(SIPrefix.None, type);
 
                 return true; // Simple unit
             }
-            else if (SIPrefix.TryParseSymbol(text, out prefix))
+            else if (SIPrefix.TryParseSymbol(text, out SIPrefix prefix))
             {
                 var unitName = text.Substring(prefix.Length);
 
@@ -218,14 +215,11 @@ namespace D.Units
         public static Unit<T1> Parse<T1>(string text)
             where T1 : struct, IComparable<T1>, IEquatable<T1>
         {
-            UnitType type;
-            SIPrefix prefix;
-
-            if (UnitType.TryParse(text, out type))
+            if (UnitType.TryParse(text, out UnitType type))
             {
                 return new Unit<T1>(SIPrefix.None, type);
             }
-            else if (SIPrefix.TryParseSymbol(text, out prefix))
+            else if (SIPrefix.TryParseSymbol(text, out SIPrefix prefix))
             {
                 var unitName = text.Substring(prefix.Length);
 

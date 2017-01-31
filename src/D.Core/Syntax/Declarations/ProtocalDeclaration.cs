@@ -10,20 +10,18 @@ namespace D.Syntax
 
     public class ProtocalDeclarationSyntax : SyntaxNode
     {
-        public ProtocalDeclarationSyntax(Symbol name, IList<IProtocalMessage> messages, FunctionDeclarationSyntax[] members)
+        public ProtocalDeclarationSyntax(Symbol name, IProtocalMessage[] messages, FunctionDeclarationSyntax[] members)
         {
             Name    = name;
-            Channel = messages;
+            Messages = messages;
             Members = members;
         }
 
         public Symbol Name { get; }
 
-        // AKA a state machine...
+        public IProtocalMessage[] Messages { get; } 
 
-        public IList<IProtocalMessage> Channel { get; set; } 
-
-        public FunctionDeclarationSyntax[] Members { get; set; }
+        public FunctionDeclarationSyntax[] Members { get; }
 
         Kind IObject.Kind => Kind.ProtocalDeclaration;
     }
@@ -46,17 +44,17 @@ namespace D.Syntax
 
     public class MessageChoice : IProtocalMessage
     {
-        public MessageChoice(IList<ProtocalMessage> options, MessageFlags flags)
+        public MessageChoice(ProtocalMessage[] options, MessageFlags flags)
         {
             Options = options;
             Flags = flags;
         }
 
-        public IList<ProtocalMessage> Options { get; set; }
+        public ProtocalMessage[] Options { get; }
 
         public ProtocalMessage this[int index] => Options[index];
 
-        public int Count => Options.Count;
+        public int Count => Options.Length;
 
         public MessageFlags Flags { get; }
 

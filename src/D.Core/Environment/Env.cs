@@ -31,13 +31,13 @@ namespace D
 
         public void AddModule(IModule module)
         {
-            foreach (var member in module)
+            foreach (var (key, value) in module)
             {
-                objects.TryAdd(member.Key, member.Value);
+                objects.TryAdd(key, value);
 
-                if (member.Value is Operator)
+                if (value is Operator op)
                 {
-                    operators.Add((Operator)member.Value);
+                    operators.Add(op);
                 }
             }
         }
@@ -49,9 +49,7 @@ namespace D
 
         public bool TryGet<T>(string name, out T value)
         {
-            IObject r;
-
-            if (!TryGet(name, out r))
+            if (!TryGet(name, out IObject r))
             {
                 value = default(T);
 
@@ -79,15 +77,12 @@ namespace D
 
         public bool TryGetType(Symbol symbol, out Type type)
         {
-            IObject t;
-
-            if (TryGet(symbol.Name, out t))
+            if (TryGet(symbol.Name, out IObject t))
             {
                 type = (Type)t;
 
                 return true;
             }
-     
 
             type = null;
 
@@ -103,9 +98,7 @@ namespace D
 
             #endregion
 
-            Type type;
-
-            if (TryGetType(symbol, out type))
+            if (TryGetType(symbol, out Type type))
             {
                 return type;
             }

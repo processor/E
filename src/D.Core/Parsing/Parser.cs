@@ -343,7 +343,7 @@ namespace D.Parsing
         }
 
         // on instance Event'Type e { }
-        private ObserveStatement ReadObserveStatement()
+        private ObserveStatementSyntax ReadObserveStatement()
         {
             reader.Consume(); // ! on | observe
 
@@ -360,17 +360,17 @@ namespace D.Parsing
                 ? ReadUntilExpression()
                 : null;
 
-            return new ObserveStatement(observable, eventType, varName, body, until);
+            return new ObserveStatementSyntax(observable, eventType, varName, body, until);
         }
 
-        private UntilExpression ReadUntilExpression()
+        private UntilConditionSyntax ReadUntilExpression()
         {
             Consume(Until); // ! until
 
             var untilObservable = ReadExpression();
             var untilEventType  = ReadSymbol();
 
-            return new UntilExpression(untilObservable, untilEventType);
+            return new UntilConditionSyntax(untilObservable, untilEventType);
         }
 
         public BlockExpressionSyntax ReadBlock()
@@ -393,11 +393,11 @@ namespace D.Parsing
             return new BlockExpressionSyntax(statements.ToArray());
         }
 
-        public SpreadExpression ReadSpread()
+        public SpreadExpressionSyntax ReadSpread()
         {
             Consume(DotDotDot); // ! ...
 
-            return new SpreadExpression(ReadPrimary());
+            return new SpreadExpressionSyntax(ReadPrimary());
         }
 
         #endregion
@@ -912,7 +912,9 @@ namespace D.Parsing
 
         public List<IProtocalMessage> ReadProtocalChannel()
         {
+
             var messages = new List<IProtocalMessage>();
+            var options = new List<ProtocalMessage>();
 
             while (ConsumeIf("*"))  // ! ∙
             {
@@ -923,8 +925,6 @@ namespace D.Parsing
                 if (message.Fallthrough)
                 {
                     var flags = MessageFlags.None;
-
-                    var options = new List<ProtocalMessage>();
 
                     options.Add(message);
 
@@ -948,7 +948,7 @@ namespace D.Parsing
                         flags |= MessageFlags.End;
                     }
 
-                    var oneof = new MessageChoice(options, flags);
+                    var oneof = new MessageChoice(options.Extract(), flags);
 
                     messages.Add(oneof);
                 }
@@ -1095,7 +1095,6 @@ namespace D.Parsing
 
             return Symbol.Variable("$" + number.Text);
         }
-
 
         /*
         Point
@@ -1472,10 +1471,8 @@ namespace D.Parsing
 
                 #region Check for uniformity
 
-                if (uniform && element is NewArrayExpressionSyntax)
+                if (uniform && element is NewArrayExpressionSyntax nestedArray)
                 {
-                    var nestedArray = (NewArrayExpressionSyntax)element;
-
                     if (rows == 0)
                     {
                         elementKind = nestedArray.Elements[0].Kind;
@@ -1629,7 +1626,7 @@ namespace D.Parsing
 
             LeaveMode(Mode.Statement);
 
-            return new MatchExpressionSyntax(expression, cases);
+            return new MatchExpressionSyntax(expression, cases.Extract());
         }
 
         #endregion
@@ -1660,15 +1657,13 @@ namespace D.Parsing
                         return new TypePatternSyntax(element.Type, Symbol.Variable(element.Name));
                     }
 
-                    return new TuplePattern(tuple);
+                    return new TuplePatternSyntax(tuple);
 
                 default:
                     var value = MaybeTuple();
-                    
-                    if (value is RangeExpression)
-                    {
-                        var range = (RangeExpression)value;
 
+                    if (value is RangeExpression range)
+                    {
                         return new RangePatternSyntax(range.Start, range.End);
                     }
 
@@ -1823,7 +1818,6 @@ namespace D.Parsing
                     return new HalfOpenRangeExpression(left, ReadExpression());
             }
 
-
             return left;
         }
 
@@ -1834,10 +1828,8 @@ namespace D.Parsing
         {
             var left = MaybeMemberAccess();
 
-            if (left is Symbol)
+            if (left is Symbol name)
             {
-                var name = (Symbol)left;
-
                 if (IsKind(Comma) && InMode(Mode.Root))                     // ? ,
                 {
                     symbolList.Add(name);
@@ -1845,9 +1837,9 @@ namespace D.Parsing
                     while (ConsumeIf(Comma))
                     {
                         symbolList.Add(ReadSymbol(SymbolFlags.Type));
-                    }                 
+                    }
                 }
-              
+
                 switch (Current.Kind)
                 {
                     case BraceOpen:
@@ -1876,9 +1868,9 @@ namespace D.Parsing
                             ? (SyntaxNode)ReadCompoundTypeDeclaration(symbolList.Extract())
                             : ReadTypeDeclaration(name);  // type : hello
 
-                    case Implementation : return ReadImplementation(name);
-                    case Protocal       : return ReadProtocal(name);
-                    case Function       : return ReadFunctionDeclaration(name);
+                    case Implementation: return ReadImplementation(name);
+                    case Protocal: return ReadProtocal(name);
+                    case Function: return ReadFunctionDeclaration(name);
                 }
             }
 
@@ -2091,9 +2083,7 @@ namespace D.Parsing
         }
 
         public CallExpressionSyntax ReadCall(SyntaxNode callee)
-        {
-            return ReadCall(callee, ReadSymbol(SymbolFlags.Function));
-        }
+            => ReadCall(callee, ReadSymbol(SymbolFlags.Function));
 
         // Question: Scope read if arg count is fixed ?
 

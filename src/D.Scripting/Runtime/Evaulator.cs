@@ -35,8 +35,8 @@ namespace D
 
         public IObject This
         {
-            get { return scope.This; }
-            set { scope.This = value; }
+            get => scope.This;
+            set => scope.This = value;
         }
 
         public Scope Scope => scope;
@@ -104,22 +104,19 @@ namespace D
         {
             // Pull out the value
 
-
             return (IObject)expression.Value; 
         }
 
         public IObject EvaluateUnit(UnitLiteral expression)
         {
-            var number = (INumber)expression.Expression;
-
-            Unit<double> unit;
-
-            if (!Unit<double>.TryParse(expression.UnitName, out unit))
+            if (Unit<double>.TryParse(expression.UnitName, out Unit<double> unit))
             {
-                throw new Exception("no unit found for:" + expression.UnitName);
+                var number = (INumber)expression.Expression;
+
+                return unit.With(number.Real, expression.UnitPower);
             }
 
-            return unit.With(number.Real, expression.UnitPower);
+            throw new Exception("no unit found for:" + expression.UnitName);
         }
 
         public IObject EvaluateSymbol(Symbol expression)
@@ -131,7 +128,6 @@ namespace D
             if (value == null) return expression;
 
             var v = value;
-
             
             if ((long)v.Kind < 255) return v;
 
@@ -168,13 +164,10 @@ namespace D
                 return new Function(parameters.ToArray(), new LambdaExpression(expression));
             }
 
-            IObject func;
-
-            if (env.TryGet(expression.FunctionName, out func))
+            if (env.TryGet(expression.FunctionName, out IObject func))
             {
                 return ((IFunction)func).Invoke(args);
             }
-            
 
             throw new Exception($"function {expression.FunctionName} not found");
         }
@@ -246,10 +239,8 @@ namespace D
                 {
                     args.Add(Expression.Parameter(l.ToString()));
                 }
-                else if (l is Function)
+                else if (l is Function lf)
                 {
-                    var lf = (Function)l;
-
                     args.AddRange(lf.Parameters);
 
                     l = lf.Body;
@@ -259,10 +250,8 @@ namespace D
                 {
                     args.Add(Expression.Parameter(r.ToString()));
                 }
-                else if (r is Function)
+                else if (r is Function rf)
                 {
-                    var rf = (Function)r;
-
                     args.AddRange(rf.Parameters);
 
                     r = rf.Body;
@@ -292,9 +281,7 @@ namespace D
 
             #endregion
 
-            IFunction func;
-
-            if (env.TryGet(expression.Operator.Name, out func))
+            if (env.TryGet(expression.Operator.Name, out IFunction func))
             {
                 return func.Invoke(Arguments.Create(l, r));
             }

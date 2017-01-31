@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+﻿using System;
 
 namespace D.Expressions
 {
@@ -6,13 +6,13 @@ namespace D.Expressions
     {
         public MatchExpression(IExpression expression, MatchCase[] cases)
         {
-            Expression = expression;
-            Cases = cases;
+            Expression = expression ?? throw new ArgumentNullException(nameof(expression));
+            Cases      = cases      ?? throw new ArgumentNullException(nameof(cases)); ;
         }
 
         public IExpression Expression { get; }
 
-        public IList<MatchCase> Cases { get; }
+        public MatchCase[] Cases { get; }
 
         Kind IObject.Kind => Kind.MatchExpression;
     }

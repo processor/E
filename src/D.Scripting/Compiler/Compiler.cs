@@ -22,9 +22,9 @@ namespace D.Compilation
             
             foreach (var node in nodes)
             {
-                if (node is FunctionDeclarationSyntax)
+                if (node is FunctionDeclarationSyntax func)
                 {
-                    var function = VisitFunctionDeclaration((FunctionDeclarationSyntax)node);
+                    var function = VisitFunctionDeclaration(func);
 
                     unit.Functions.Add(function);
 
@@ -33,29 +33,27 @@ namespace D.Compilation
                         scope.Add(function.Name, function);
                     }
                 }
-                else if (node is TypeDeclarationSyntax)
+                else if (node is TypeDeclarationSyntax typeDeclaration)
                 {
-                    var type = VisitType((TypeDeclarationSyntax)node);
+                    var type = VisitTypeDeclaration(typeDeclaration);
 
-                    unit.Types.Add(VisitType((TypeDeclarationSyntax)node));
+                    unit.Types.Add(type);
 
                     scope.Add(type.Name, type);
                 }
-                else if (node is ProtocalDeclarationSyntax)
+                else if (node is ProtocalDeclarationSyntax protocalDeclaration)
                 {
-                    var protocal = VisitProtocal((ProtocalDeclarationSyntax)node);
+                    var protocal = VisitProtocal(protocalDeclaration);
 
                     unit.Protocals.Add(protocal);
 
                     scope.Add(protocal.Name, protocal);
                 }
-                else if (node is ImplementationDeclarationSyntax)
+                else if (node is ImplementationDeclarationSyntax implDeclaration)
                 {
-                    var impl = VisitImplementation((ImplementationDeclarationSyntax)node);
+                    var impl = VisitImplementation(implDeclaration);
 
-                    List<Implementation> list;
-
-                    if (!unit.Implementations.TryGetValue(impl.Type, out list))
+                    if (!unit.Implementations.TryGetValue(impl.Type, out List<Implementation> list))
                     {
                         list = new List<Implementation>();
 
@@ -104,13 +102,13 @@ namespace D.Compilation
             {
                 body = null; // Protocal functions do not define a body.
             }
-            else if (f.Body is BlockExpressionSyntax)
+            else if (f.Body is BlockExpressionSyntax blockSyntax)
             {
-                body = VisitBlock((BlockExpressionSyntax)f.Body);
+                body = VisitBlock(blockSyntax);
             }
-            else if (f.Body is LambdaExpressionSyntax)
+            else if (f.Body is LambdaExpressionSyntax lambdaSyntax)
             {
-                var lambda = VisitLambda((LambdaExpressionSyntax)f.Body);
+                var lambda = VisitLambda(lambdaSyntax);
 
                 body = new BlockExpression(new ReturnStatement(lambda.Expression));
             }
@@ -171,7 +169,7 @@ namespace D.Compilation
             return new Implementation(protocal, type, variables.ToArray(), methods.ToArray());
         }
 
-        public Type VisitType(TypeDeclarationSyntax type)
+        public Type VisitTypeDeclaration(TypeDeclarationSyntax type)
         {
             var genericParameters = new Parameter[type.GenericParameters.Length];
 
@@ -200,20 +198,17 @@ namespace D.Compilation
             return new Type(type.Name, baseType, properties, genericParameters);
         }
 
-        #region Binding
 
         public BlockExpression VisitBlock(BlockExpressionSyntax syntax)
         {
-            var statements = new List<IExpression>();
+            var statements = new IExpression[syntax.Statements.Length];
 
-            foreach(var s in syntax.Statements)
-            {
-                var expression = Visit(s);
-              
-                statements.Add(expression);
+            for(var i = 0; i < statements.Length; i++)
+            { 
+                statements[i] = Visit(syntax.Statements[i]);
             }
 
-            return new BlockExpression(statements.ToArray());
+            return new BlockExpression(statements);
         }
 
         int i = 0;
@@ -226,22 +221,12 @@ namespace D.Compilation
 
             if (syntax == null) return null;
 
-            if (syntax is UnaryExpressionSyntax)
+            switch (syntax)
             {
-                return VisitUnary((UnaryExpressionSyntax)syntax);
-            }
-            else if (syntax is BinaryExpressionSyntax)
-            {
-                return VisitBinary((BinaryExpressionSyntax)syntax);
-            }
-            else if (syntax is TernaryExpressionSyntax)
-            {
-                return VisitTernary((TernaryExpressionSyntax)syntax);
-            }
-
-            if (syntax is BlockExpressionSyntax)
-            {
-                return VisitBlock((BlockExpressionSyntax)syntax);
+                case UnaryExpressionSyntax unary      : return VisitUnary(unary);
+                case BinaryExpressionSyntax binary    : return VisitBinary(binary);
+                case TernaryExpressionSyntax ternary  : return VisitTernary(ternary);
+                case BlockExpressionSyntax block      : return VisitBlock(block);
             }
 
             switch (syntax.Kind)
@@ -253,7 +238,7 @@ namespace D.Compilation
 
                 // Declarations
                 case Kind.VariableDeclaration     : return VisitVariableDeclaration((VariableDeclarationSyntax)syntax);
-                case Kind.NewObjectExpression         : return VisitNewObject((NewObjectExpressionSyntax)syntax);
+                case Kind.NewObjectExpression     : return VisitNewObject((NewObjectExpressionSyntax)syntax);
                 case Kind.DestructuringAssignment : return VisitDestructuringAssignment((DestructuringAssignmentSyntax)syntax);
                 case Kind.MemberAccessExpression  : return VisitMemberAccess((MemberAccessExpressionSyntax)syntax);
                 case Kind.IndexAccessExpression   : return VisitIndexAccess((IndexAccessExpressionSyntax)syntax);
@@ -322,7 +307,7 @@ namespace D.Compilation
         {
             if (expression.Text.Contains("."))
             {
-                return new Float(double.Parse(expression.Text));
+                return new Number(double.Parse(expression.Text));
             }
             else
             {
@@ -369,18 +354,18 @@ namespace D.Compilation
             return new VariableDeclaration(syntax.Name, type, syntax.IsMutable, value);
         }
 
-        public virtual TypeInitializer VisitNewObject(NewObjectExpressionSyntax syntax)
+        public virtual NewObjectExpression VisitNewObject(NewObjectExpressionSyntax syntax)
         {
-            var members = new RecordMember[syntax.Members.Length];
+            var members = new ObjectMember[syntax.Members.Length];
 
             for (var i = 0; i < members.Length; i++)
             {
                 var m = syntax.Members[i];
 
-                members[i] = new RecordMember(m.Name, Visit(m.Value)); 
+                members[i] = new ObjectMember(m.Name, Visit(m.Value)); 
             }
 
-            return new TypeInitializer(syntax.Type, members);
+            return new NewObjectExpression(syntax.Type, members);
         }
 
         public virtual DestructuringAssignment VisitDestructuringAssignment(DestructuringAssignmentSyntax syntax)
@@ -409,7 +394,7 @@ namespace D.Compilation
 
         public virtual MatchExpression VisitMatch(MatchExpressionSyntax syntax)
         {
-            var cases = new MatchCase[syntax.Cases.Count];
+            var cases = new MatchCase[syntax.Cases.Length];
 
             for (var i = 0; i < cases.Length; i++)
             {
@@ -464,13 +449,5 @@ namespace D.Compilation
 
             return result;
         }
-
-        #endregion
-
-        #region Inference
-
-       
-
-        #endregion
     }
 }

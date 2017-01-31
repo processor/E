@@ -8,12 +8,10 @@ namespace D.Compilation
     {
         public Type GetReturnType(BlockExpression block)
         {
-            foreach (var x in block.Statements)
+            foreach (var expression in block.Statements)
             {
-                if (x is ReturnStatement)
+                if (expression is ReturnStatement returnStatement)
                 {
-                    var returnStatement = (ReturnStatement)x;
-
                     return GetType(returnStatement.Expression);
                 }
             }
@@ -23,14 +21,9 @@ namespace D.Compilation
 
         public Type GetType(IExpression expression)
         {
-            if (expression is Symbol)
+            if (expression is Symbol name && scope.TryGet(name, out IObject obj))
             {
-                IObject obj;
-
-                if (scope.TryGet((Symbol)expression, out obj))
-                {
-                    return (Type)obj;
-                }
+                return (Type)obj;
             }
 
             switch (expression.Kind)
@@ -43,31 +36,31 @@ namespace D.Compilation
                 case Kind.InterpolatedStringExpression : return Type.Get(Kind.String);
             }
 
-            if (expression is BinaryExpression || expression is Symbol || expression is CallExpression || expression is UnaryExpression)
+            switch (expression)
             {
-                // TODO: Infer
-                return Type.Get(Kind.Any);
+                case BinaryExpression _:
+                case Symbol _:
+                case CallExpression _:
+                case UnaryExpression _:
+                case IndexAccessExpression _:
+                case MatchExpression _:
+                case NewArrayExpression _:
+                    // TODO: Infer
+                    return Type.Get(Kind.Any);
             }
 
             if (expression.Kind == Kind.NewObjectExpression)
             {
-                var initializer = (TypeInitializer)expression;
+                var initializer = (NewObjectExpression)expression;
 
                 return scope.Get<Type>(initializer.Type);
             }
 
-            // Any
-            if (expression is IndexAccessExpression || expression is MatchExpression)
-            {
-                return Type.Get(Kind.Any);
-            }
-
+          
             throw new Exception("Unexpected expression:" + expression.Kind + "/" + expression.ToString());
         }
 
         public Type GetType(LambdaExpression lambda)
-        {
-            return GetType(lambda.Expression);
-        }
+            =>  GetType(lambda.Expression);
     }
 }

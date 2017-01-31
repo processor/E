@@ -27,7 +27,7 @@ match x >> 4 {
                 }
             ");
 
-            Assert.Equal(1, match.Cases.Count);
+            Assert.Equal(1, match.Cases.Length);
             Assert.Equal("image", ((TypePatternSyntax)match.Cases[0].Pattern).VariableName);
 
         }
@@ -51,7 +51,7 @@ match x >> 4 {
 
             var match = (MatchExpressionSyntax)((PipeStatementSyntax)pipe.Callee).Expression;
 
-            Assert.Equal(3, match.Cases.Count);
+            Assert.Equal(3, match.Cases.Length);
 
             var pattern1 = (TypePatternSyntax)match.Cases[0].Pattern;
 
@@ -80,7 +80,7 @@ match x >> 4 {
             Assert.Equal("i", a.Name.ToString());
             Assert.Equal("debug", b.Name.ToString());
 
-            Assert.Equal(2, c.Cases.Count);
+            Assert.Equal(2, c.Cases.Length);
 
             var pattern1 = (RangePatternSyntax)c.Cases[0].Pattern;
 

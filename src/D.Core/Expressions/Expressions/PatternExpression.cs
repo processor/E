@@ -37,9 +37,9 @@
     }
 
     // { a, b }
-    public class RecordPattern : IExpression
+    public class ObjectPattern : IExpression
     {
-        Kind IObject.Kind => Kind.RecordPattern;
+        Kind IObject.Kind => Kind.ObjectPattern;
     }
 
     // (a, b, c)
@@ -53,17 +53,13 @@
             {
                 var element = tuple.Elements[i];
 
-                if (element is NamedElement)
+                if (element is NamedElement v)
                 {
-                    var v = (NamedElement)element;
-
                     Variables[i] = new NamedType(v.Name, (Symbol)v.Value);
                 }
-                else if (element is Symbol)
+                else if (element is Symbol symbol)
                 {
-                    var v = (Symbol)element;
-
-                    Variables[i] = new NamedType(v, null);
+                    Variables[i] = new NamedType(symbol, null);
                 }
             }
         }

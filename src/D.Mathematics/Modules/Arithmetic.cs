@@ -76,7 +76,7 @@ namespace D.Mathematics
 
         public static IArithmetic<T> GetProvider<T>()
         {
-            if (typeof(T) == typeof(Float))  return (IArithmetic<T>)new RealArithmetic();
+            if (typeof(T) == typeof(Number))  return (IArithmetic<T>)new RealArithmetic();
             if (typeof(T) == typeof(int))   return (IArithmetic<T>)new Int32Arithmetic();
             if (typeof(T) == typeof(long))  return (IArithmetic<T>)new Int64Arithmetic();
 
@@ -90,7 +90,7 @@ namespace D.Mathematics
 
             if (!(x is IUnit) && !(y is IUnit))
             {
-                return new Float(x.Real * y.Real);
+                return new Number(x.Real * y.Real);
             }
 
             var l = (x as IUnit);
@@ -109,7 +109,7 @@ namespace D.Mathematics
         {
             if (!(x is IUnit) && !(y is IUnit))
             {
-                return new Float(x.Real + y.Real);
+                return new Number(x.Real + y.Real);
             }
 
             var l = (x as IUnit);
@@ -123,7 +123,7 @@ namespace D.Mathematics
         {
             if (!(x is IUnit) && !(y is IUnit))
             {
-                return new Float(x.Real - y.Real);
+                return new Number(x.Real - y.Real);
             }
 
             var l = x as IUnit;
@@ -136,7 +136,7 @@ namespace D.Mathematics
         {
             if (!(x is IUnit) && !(y is IUnit))
             {
-                return new Float(x.Real / y.Real);
+                return new Number(x.Real / y.Real);
             }
 
             var l = (x as IUnit);
@@ -151,7 +151,7 @@ namespace D.Mathematics
 
             if (!(x is IUnit) && !(y is IUnit))
             {
-                return new Float(result);
+                return new Number(result);
             }
             else
             {
@@ -167,7 +167,7 @@ namespace D.Mathematics
         }
 
         public static INumber Modulus(INumber x, INumber y)
-            => new Float(x.Real % y.Real);
+            => new Number(x.Real % y.Real);
         
     }
 }

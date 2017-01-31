@@ -6,14 +6,7 @@ namespace D.Expressions
     {
         public TupleExpression(IExpression[] elements)
         {
-            #region Preconditions
-
-            if (elements == null)
-                throw new ArgumentNullException(nameof(elements));
-
-            #endregion
-
-            Elements = elements;
+            Elements = elements ?? throw new ArgumentNullException(nameof(elements));
         }
 
         public int Size => Elements.Length;

@@ -16,9 +16,7 @@ namespace D.Collections
         {
             get
             {
-                T value;
-
-                if (!TryGetValue(key, out value))
+                if (!TryGetValue(key, out T value))
                 {
                     throw new KeyNotFoundException($"Key '{key}' not found.");
                 }
@@ -28,9 +26,7 @@ namespace D.Collections
 
             set
             {
-                Node node;
-
-                if (TryGetNode(key, out node))
+                if (TryGetNode(key, out Node node))
                 {
                     node.Value = value;
                 }
@@ -64,13 +60,9 @@ namespace D.Collections
         }
 
         public bool ContainsKey(string key)
-        {
-            T value;
+            => TryGetValue(key, out T value);
 
-            return TryGetValue(key, out value);
-        }
-
-        public IEnumerable<KeyValuePair<string, T>> Scan(string prefix)
+        public IEnumerable<(string, T)> Scan(string prefix)
         {
             var node = Root;
 
@@ -78,7 +70,7 @@ namespace D.Collections
             {
                 if (!node.TryGetNode(item, out node))
                 {
-                    return Enumerable.Empty<KeyValuePair<string, T>>();
+                    return Enumerable.Empty<(string, T)>();
                 }
             }
 
@@ -94,9 +86,7 @@ namespace D.Collections
 
             #endregion
 
-            Node node;
-
-            if (!TryGetNode(key, out node))
+            if (!TryGetNode(key, out Node node))
             {
                 return false;
             }
@@ -119,9 +109,7 @@ namespace D.Collections
 
             #endregion
 
-            Node node;
-
-            if (!TryGetNode(key, out node) || !node.IsLeaf)
+            if (!TryGetNode(key, out Node node) || !node.IsLeaf)
             {
                 value = default(T);
 
@@ -192,7 +180,7 @@ namespace D.Collections
 
             public T Value
             {
-                get { return value; }
+                get => value;
                 set
                 {
                     this.value = value;
@@ -207,9 +195,7 @@ namespace D.Collections
 
             internal Node Add(char key)
             {
-                Node childNode;
-
-                if (!Children.TryGetValue(key, out childNode))
+                if (!Children.TryGetValue(key, out Node childNode))
                 {
                     childNode = new Node(key, parent: this);
 
@@ -245,11 +231,11 @@ namespace D.Collections
                 }
             }
 
-            internal IEnumerable<KeyValuePair<string, T>> Enumerator()
+            internal IEnumerable<(string, T)> Enumerator()
             {
                 if (IsLeaf)
                 {
-                    yield return new KeyValuePair<string, T>(Key, Value);
+                    yield return (Key, Value);
                 }
 
                 foreach (var item in Children)

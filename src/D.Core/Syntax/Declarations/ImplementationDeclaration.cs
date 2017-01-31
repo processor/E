@@ -3,8 +3,6 @@ using System.Linq;
 
 namespace D.Syntax
 {
-    // TODO: Module
-
     // Curve implementation for Bezier { }
     // Matrix4 implementation 
     // Int32 implementation : Addable, Subtractable, ...
@@ -23,7 +21,7 @@ namespace D.Syntax
         public Symbol Type { get; }
 
         // Protocals
-        public SyntaxNode[] Members { get; set; }
+        public SyntaxNode[] Members { get; }
 
         public SyntaxNode this[int index] => Members[index];
 

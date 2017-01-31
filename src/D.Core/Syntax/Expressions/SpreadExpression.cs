@@ -1,8 +1,8 @@
 ﻿namespace D.Syntax
 {
-    public class SpreadExpression : SyntaxNode
+    public class SpreadExpressionSyntax : SyntaxNode
     {
-        public SpreadExpression(SyntaxNode symbol)
+        public SpreadExpressionSyntax(SyntaxNode symbol)
         {
             Expression = symbol;
         }

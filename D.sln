@@ -1,25 +1,25 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.26127.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{9C0AC9FD-05EC-4A1F-9F61-B1C377A987FD}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "D.Scripting.Tests", "src\D.Scripting.Tests\D.Scripting.Tests.xproj", "{6B10A5BB-6192-4937-BAD8-11D19F12060A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "D.Scripting.Tests", "src\D.Scripting.Tests\D.Scripting.Tests.csproj", "{6B10A5BB-6192-4937-BAD8-11D19F12060A}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "D.Core", "src\D.Core\D.Core.xproj", "{2DCA1E62-E07B-4D2B-9DC4-511520F8501F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "D.Core", "src\D.Core\D.Core.csproj", "{2DCA1E62-E07B-4D2B-9DC4-511520F8501F}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "D.Mathematics", "src\D.Mathematics\D.Mathematics.xproj", "{025D40D2-1EAD-4DE1-9970-380CE706722A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "D.Mathematics", "src\D.Mathematics\D.Mathematics.csproj", "{025D40D2-1EAD-4DE1-9970-380CE706722A}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "D.Scripting", "src\D.Scripting\D.Scripting.xproj", "{5E63F600-3832-4379-A790-F08688AA6467}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "D.Scripting", "src\D.Scripting\D.Scripting.csproj", "{5E63F600-3832-4379-A790-F08688AA6467}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "D.Tests", "src\D.Tests\D.Tests.xproj", "{D4F068E8-FC64-4F61-BC01-9D841E5AA5F7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "D.Tests", "src\D.Tests\D.Tests.csproj", "{D4F068E8-FC64-4F61-BC01-9D841E5AA5F7}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "D.Compiler.Tests", "src\D.Compiler.Tests\D.Compiler.Tests.xproj", "{5A28DC7D-1FFC-482C-8819-0FDBE60573A5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "D.Compiler.Tests", "src\D.Compiler.Tests\D.Compiler.Tests.csproj", "{5A28DC7D-1FFC-482C-8819-0FDBE60573A5}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "D.Sharp", "src\D.Sharp\D.Sharp.xproj", "{9EB5BCE2-2475-499E-B012-4E9DEEEBF7D2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "D.Sharp", "src\D.Sharp\D.Sharp.csproj", "{9EB5BCE2-2475-499E-B012-4E9DEEEBF7D2}"
 EndProject
-Project("{8BB2217D-0F2D-49D1-97BC-3654ED321F3B}") = "D.TypeSystem.Tests", "src\D.TypeSystem.Tests\D.TypeSystem.Tests.xproj", "{27C83423-5162-4ABC-BFE1-94EEB19604E3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "D.TypeSystem.Tests", "src\D.TypeSystem.Tests\D.TypeSystem.Tests.csproj", "{27C83423-5162-4ABC-BFE1-94EEB19604E3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

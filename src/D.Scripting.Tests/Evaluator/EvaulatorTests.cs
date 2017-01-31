@@ -199,7 +199,7 @@ namespace D.Tests
         [Fact]
         public void FunctionCall()
         {
-            Assert.Equal(-0.54402111088937d, (Float)Script.Evaluate("sin(10)", env), precision: 10);
+            Assert.Equal(-0.54402111088937d, (Number)Script.Evaluate("sin(10)", env), precision: 10);
 
             Assert.Equal("2", Script.Evaluate("sqrt(4)", env).ToString());
         }

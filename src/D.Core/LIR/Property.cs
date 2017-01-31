@@ -6,18 +6,8 @@ namespace D
     {
         public Property(string name, IType type, bool isMutable = false)
         {
-            #region Preconditions
-
-            if (name == null)
-                throw new ArgumentNullException(nameof(name));
-
-            if (type == null)
-                throw new ArgumentNullException(nameof(type));
-
-            #endregion
-
-            Name = name;
-            Type = type;
+            Name = name ?? throw new ArgumentNullException(nameof(name));
+            Type = type ?? throw new ArgumentNullException(nameof(type));
             IsMutable = isMutable;
         }
 

@@ -1,0 +1,12 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <VersionPrefix>0.0.1-alpha2</VersionPrefix>
+    <TargetFramework>netstandard1.6</TargetFramework>
+    <AssemblyName>D.Sharp</AssemblyName>
+    <PackageId>D.Sharp</PackageId>
+    <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\D.Core\D.Core.csproj" />
+  </ItemGroup>
+</Project>

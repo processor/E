@@ -37,15 +37,15 @@
     }
 
     // { a, b }
-    public class RecordPattern : SyntaxNode
+    public class ObjectPatternSyntax : SyntaxNode
     {
-        Kind IObject.Kind => Kind.RecordPattern;
+        Kind IObject.Kind => Kind.ObjectPattern;
     }
 
     // (a, b, c)
-    public class TuplePattern : SyntaxNode
+    public class TuplePatternSyntax : SyntaxNode
     {
-        public TuplePattern(TupleExpressionSyntax tuple)
+        public TuplePatternSyntax(TupleExpressionSyntax tuple)
         {
             Variables = new NamedType[tuple.Elements.Length];
 
@@ -53,17 +53,13 @@
             {
                 var element = tuple.Elements[i];
 
-                if (element is NamedElement)
+                if (element is NamedElement namedElement)
                 {
-                    var v = (NamedElement)element;
-
-                    Variables[i] = new NamedType(v.Name, (Symbol)v.Value);
+                    Variables[i] = new NamedType(namedElement.Name, (Symbol)namedElement.Value);
                 }
-                else if (element is Symbol)
+                else if (element is Symbol name)
                 {
-                    var v = (Symbol)element;
-
-                    Variables[i] = new NamedType(v, null);
+                    Variables[i] = new NamedType(name, null);
                 }
             }
         }

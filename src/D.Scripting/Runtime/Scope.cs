@@ -34,9 +34,7 @@ namespace D
 
         public IObject Get(string name)
         {
-            IObject var;
-
-            if (!items.TryGetValue(name, out var) && parent != null)
+            if (!items.TryGetValue(name, out IObject var) && parent != null)
             {
                 var = parent.Get(name); // check parent
             }

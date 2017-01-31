@@ -97,6 +97,6 @@ namespace D.Parsing
             reader.Dispose();
         }
 
-        public bool IsEof { get; set; }
+        public bool IsEof { get; private set; }
     }
 }

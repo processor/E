@@ -6,14 +6,7 @@ namespace D.Syntax
     {
         public TupleExpressionSyntax(SyntaxNode[] elements)
         {
-            #region Preconditions
-
-            if (elements == null)
-                throw new ArgumentNullException(nameof(elements));
-
-            #endregion
-
-            Elements = elements;
+            Elements = elements ?? throw new ArgumentNullException(nameof(elements));
         }
 
         public int Size => Elements.Length;
@@ -54,7 +47,6 @@ namespace D.Syntax
         public Symbol Type { get; }
 
         Kind IObject.Kind => Kind.NamedType;
-
     }
 
     // 1: i32
