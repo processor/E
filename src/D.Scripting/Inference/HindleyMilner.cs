@@ -276,7 +276,7 @@ namespace D.Inference
 
             public override string Name
             {
-                get { return GetName(); }
+                get => GetName(); 
 
                 protected set { }
             }

@@ -35,8 +35,8 @@ namespace D
 
         public IObject This
         {
-            get { return scope.This; }
-            set { scope.This = value; }
+            get => scope.This;
+            set => scope.This = value;
         }
 
         public Scope Scope => scope;

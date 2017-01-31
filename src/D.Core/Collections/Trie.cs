@@ -180,7 +180,7 @@ namespace D.Collections
 
             public T Value
             {
-                get { return value; }
+                get => value;
                 set
                 {
                     this.value = value;

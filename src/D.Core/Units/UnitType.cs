@@ -177,9 +177,7 @@ namespace D.Units
         private UnitFlags Flags { get; }
 
         public IExpression Expand()
-        {
-            throw new Exception("Not yet implemented");
-        }
+            => throw new Exception("Not yet implemented");
 
         public override string ToString() => Name;
 

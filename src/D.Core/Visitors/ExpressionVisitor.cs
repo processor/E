@@ -4,27 +4,27 @@ namespace D.Expressions
 {
     public abstract class ExpressionVisitor
     {
-        public virtual IExpression VisitBinary(BinaryExpression expression)                         { throw new NotImplementedException(); }
-        public virtual IExpression VisitUnary(UnaryExpression expression)                           { throw new NotImplementedException(); }
-        public virtual IExpression VisitTernary(TernaryExpression expression)                       { throw new NotImplementedException(); }
-        public virtual IExpression VisitBlock(BlockExpression block)                                { throw new NotImplementedException(); }
-        public virtual IExpression VisitCall(CallExpression call)                                   { throw new NotImplementedException(); }
-        public virtual IExpression VisitVariableDeclaration(VariableDeclaration declaration)        { throw new NotImplementedException(); }
-        public virtual IExpression VisitTypeInitializer(NewObjectExpression expression)             { throw new NotImplementedException(); }
-        public virtual IExpression VisitDestructuringAssignment(DestructuringAssignment assignment) { throw new NotImplementedException(); }
-        public virtual IExpression VisitIndexAccess(IndexAccessExpression expression)               { throw new NotImplementedException(); }
-        public virtual IExpression VisitMemberAccess(MemberAccessExpression expression)             { throw new NotImplementedException(); }  
-        public virtual IExpression VisitLambda(LambdaExpression expression)                         { throw new NotImplementedException(); }
-        public virtual IExpression VisitPipe(PipeStatement pipe)                                    { throw new NotImplementedException(); }
-        public virtual IExpression VisitMatch(MatchExpression expression)                           { throw new NotImplementedException(); }
-        public virtual IExpression VisitIf(IfStatement expression)                                  { throw new NotImplementedException(); }
-        public virtual IExpression VisitElse(ElseStatement expression)                              { throw new NotImplementedException(); }
-        public virtual IExpression VisitElseIf(ElseIfStatement expression)                          { throw new NotImplementedException(); }
-        public virtual IExpression VisitReturn(ReturnStatement expression)                          { throw new NotImplementedException(); }
-        public virtual IExpression VisitTypePattern(TypePattern pattern)                            { throw new NotImplementedException(); }
-        public virtual IExpression VisitConstantPattern(ConstantPattern pattern)                    { throw new NotImplementedException(); }
-        public virtual IExpression VisitSymbol(Symbol symbol)                                       { throw new NotImplementedException(); }
-        public virtual IExpression VisitConstant(IExpression expression)                            { throw new NotImplementedException(); }
+        public virtual IExpression VisitBinary(BinaryExpression expression)                         => throw new NotImplementedException();
+        public virtual IExpression VisitUnary(UnaryExpression expression)                           => throw new NotImplementedException();
+        public virtual IExpression VisitTernary(TernaryExpression expression)                       => throw new NotImplementedException();
+        public virtual IExpression VisitBlock(BlockExpression block)                                => throw new NotImplementedException();
+        public virtual IExpression VisitCall(CallExpression call)                                   => throw new NotImplementedException();
+        public virtual IExpression VisitVariableDeclaration(VariableDeclaration declaration)        => throw new NotImplementedException();
+        public virtual IExpression VisitTypeInitializer(NewObjectExpression expression)             => throw new NotImplementedException();
+        public virtual IExpression VisitDestructuringAssignment(DestructuringAssignment assignment) => throw new NotImplementedException();
+        public virtual IExpression VisitIndexAccess(IndexAccessExpression expression)               => throw new NotImplementedException();
+        public virtual IExpression VisitMemberAccess(MemberAccessExpression expression)             => throw new NotImplementedException();
+        public virtual IExpression VisitLambda(LambdaExpression expression)                         => throw new NotImplementedException();
+        public virtual IExpression VisitPipe(PipeStatement pipe)                                    => throw new NotImplementedException();
+        public virtual IExpression VisitMatch(MatchExpression expression)                           => throw new NotImplementedException();
+        public virtual IExpression VisitIf(IfStatement expression)                                  => throw new NotImplementedException();
+        public virtual IExpression VisitElse(ElseStatement expression)                              => throw new NotImplementedException();
+        public virtual IExpression VisitElseIf(ElseIfStatement expression)                          => throw new NotImplementedException();
+        public virtual IExpression VisitReturn(ReturnStatement expression)                          => throw new NotImplementedException();
+        public virtual IExpression VisitTypePattern(TypePattern pattern)                            => throw new NotImplementedException();
+        public virtual IExpression VisitConstantPattern(ConstantPattern pattern)                    => throw new NotImplementedException();
+        public virtual IExpression VisitSymbol(Symbol symbol)                                       => throw new NotImplementedException();
+        public virtual IExpression VisitConstant(IExpression expression)                            => throw new NotImplementedException();
 
         public IExpression Visit(IObject expression)
         {

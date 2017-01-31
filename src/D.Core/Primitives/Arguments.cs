@@ -66,7 +66,7 @@ namespace D
         public IObject Value { get; }
 
         public IObject this[int i]
-            => i >= 0 ? Value : throw new Exception("Out of range");
+            => i >= 0 ? Value : throw new ArgumentOutOfRangeException("Out of range");
 
         public IObject this[string name]
             => Name == name ? Value: throw new Exception("not found");

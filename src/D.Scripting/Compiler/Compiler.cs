@@ -35,7 +35,7 @@ namespace D.Compilation
                 }
                 else if (node is TypeDeclarationSyntax typeDeclaration)
                 {
-                    var type = VisitType(typeDeclaration);
+                    var type = VisitTypeDeclaration(typeDeclaration);
 
                     unit.Types.Add(type);
 
@@ -169,7 +169,7 @@ namespace D.Compilation
             return new Implementation(protocal, type, variables.ToArray(), methods.ToArray());
         }
 
-        public Type VisitType(TypeDeclarationSyntax type)
+        public Type VisitTypeDeclaration(TypeDeclarationSyntax type)
         {
             var genericParameters = new Parameter[type.GenericParameters.Length];
 
@@ -198,20 +198,17 @@ namespace D.Compilation
             return new Type(type.Name, baseType, properties, genericParameters);
         }
 
-        #region Binding
 
         public BlockExpression VisitBlock(BlockExpressionSyntax syntax)
         {
-            var statements = new List<IExpression>();
+            var statements = new IExpression[syntax.Statements.Length];
 
-            foreach(var s in syntax.Statements)
-            {
-                var expression = Visit(s);
-              
-                statements.Add(expression);
+            for(var i = 0; i < statements.Length; i++)
+            { 
+                statements[i] = Visit(syntax.Statements[i]);
             }
 
-            return new BlockExpression(statements.ToArray());
+            return new BlockExpression(statements);
         }
 
         int i = 0;
@@ -226,10 +223,10 @@ namespace D.Compilation
 
             switch (syntax)
             {
-                case UnaryExpressionSyntax unary        : return VisitUnary(unary);
-                case BinaryExpressionSyntax binary      : return VisitBinary(binary);
-                case TernaryExpressionSyntax ternary    : return VisitTernary(ternary);
-                case BlockExpressionSyntax block        : return VisitBlock(block);
+                case UnaryExpressionSyntax unary      : return VisitUnary(unary);
+                case BinaryExpressionSyntax binary    : return VisitBinary(binary);
+                case TernaryExpressionSyntax ternary  : return VisitTernary(ternary);
+                case BlockExpressionSyntax block      : return VisitBlock(block);
             }
 
             switch (syntax.Kind)
@@ -241,7 +238,7 @@ namespace D.Compilation
 
                 // Declarations
                 case Kind.VariableDeclaration     : return VisitVariableDeclaration((VariableDeclarationSyntax)syntax);
-                case Kind.NewObjectExpression         : return VisitNewObject((NewObjectExpressionSyntax)syntax);
+                case Kind.NewObjectExpression     : return VisitNewObject((NewObjectExpressionSyntax)syntax);
                 case Kind.DestructuringAssignment : return VisitDestructuringAssignment((DestructuringAssignmentSyntax)syntax);
                 case Kind.MemberAccessExpression  : return VisitMemberAccess((MemberAccessExpressionSyntax)syntax);
                 case Kind.IndexAccessExpression   : return VisitIndexAccess((IndexAccessExpressionSyntax)syntax);
@@ -452,13 +449,5 @@ namespace D.Compilation
 
             return result;
         }
-
-        #endregion
-
-        #region Inference
-
-       
-
-        #endregion
     }
 }
