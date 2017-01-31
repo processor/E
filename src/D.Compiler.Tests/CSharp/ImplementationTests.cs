@@ -227,7 +227,7 @@ Matrix4 type <T> {
 }
 
 Matrix4 impl {
-  [index: Integer] => this.elements[index]
+  [index: Int64] => this.elements[index]
 
   m11 => this[0]  // 1, 1
   m12 => this[4]  // 1, 2

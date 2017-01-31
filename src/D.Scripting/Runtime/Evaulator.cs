@@ -161,7 +161,7 @@ namespace D
                     }
                 }
 
-                return new Function(parameters.ToArray(), new LambdaExpression(expression));
+                return new FunctionExpression(parameters.ToArray(), new LambdaExpression(expression));
             }
 
             if (env.TryGet(expression.FunctionName, out IObject func))
@@ -231,7 +231,7 @@ namespace D
 
             // Simplify logic here?
 
-            if (l is Symbol || l is Function || r is Symbol || r is Function)
+            if (l is Symbol || l is FunctionExpression || r is Symbol || r is FunctionExpression)
             {
                 var args = new List<Parameter>();
 
@@ -239,7 +239,7 @@ namespace D
                 {
                     args.Add(Expression.Parameter(l.ToString()));
                 }
-                else if (l is Function lf)
+                else if (l is FunctionExpression lf)
                 {
                     args.AddRange(lf.Parameters);
 
@@ -250,7 +250,7 @@ namespace D
                 {
                     args.Add(Expression.Parameter(r.ToString()));
                 }
-                else if (r is Function rf)
+                else if (r is FunctionExpression rf)
                 {
                     args.AddRange(rf.Parameters);
 
@@ -276,7 +276,7 @@ namespace D
 
                 // i > 10
 
-                return new Function(args.ToArray(), new BinaryExpression(expression.Operator, l, r));
+                return new FunctionExpression(args.ToArray(), new BinaryExpression(expression.Operator, l, r));
             }
 
             #endregion

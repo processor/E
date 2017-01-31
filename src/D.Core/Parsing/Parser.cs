@@ -100,9 +100,9 @@ namespace D.Parsing
 
             switch (reader.Current.Kind)
             {
-                case Null                   : reader.Consume(); return NullLiteral.Instance;
-                case True                   : reader.Consume(); return BooleanLiteral.True;
-                case False                  : reader.Consume(); return BooleanLiteral.False;
+                case Null                   : reader.Consume(); return NullLiteralSyntax.Instance;
+                case True                   : reader.Consume(); return BooleanLiteralSyntax.True;
+                case False                  : reader.Consume(); return BooleanLiteralSyntax.False;
 
                 case Quote                  : return ReadStringLiteral();               // "string"
                 case Apostrophe             : return ReadCharacterLiteral();            // 'c'
@@ -1255,9 +1255,9 @@ namespace D.Parsing
 
         // { a: 1, b: 2 }
         // { a, b }
-        public NewObjectExpressionSyntax ReadNewObject(Symbol type)
+        public ObjectInitializerSyntax ReadNewObject(Symbol type)
         {
-            var members = new List<ObjectMemberSyntax>();
+            var members = new List<ObjectPropertySyntax>();
 
             // EnterMode(Mode.Block); // ! {
 
@@ -1268,8 +1268,8 @@ namespace D.Parsing
                 var name = ReadSymbol(SymbolFlags.Member);
 
                 var member = ConsumeIf(Colon)
-                    ? new ObjectMemberSyntax(name, value: ReadExpression())
-                    : new ObjectMemberSyntax(name);
+                    ? new ObjectPropertySyntax(name, value: ReadExpression())
+                    : new ObjectPropertySyntax(name);
 
                 members.Add(member);
 
@@ -1280,7 +1280,7 @@ namespace D.Parsing
 
             // LeaveMode(Mode.Block);
 
-            return new NewObjectExpressionSyntax(type, members.ToArray());
+            return new ObjectInitializerSyntax(type, members.ToArray());
         }
         
         // 1
@@ -1462,7 +1462,7 @@ namespace D.Parsing
 
             var elements = new List<SyntaxNode>();
 
-            var elementKind = Kind.Any;
+            var elementKind = Kind.Object;
             var uniform = true;
 
             while (!IsEof && !IsKind(BracketClose))
@@ -1471,7 +1471,7 @@ namespace D.Parsing
 
                 #region Check for uniformity
 
-                if (uniform && element is NewArrayExpressionSyntax nestedArray)
+                if (uniform && element is ArrayInitializerSyntax nestedArray)
                 {
                     if (rows == 0)
                     {
@@ -1528,7 +1528,7 @@ namespace D.Parsing
                 s = stride;
             }
 
-            return new NewArrayExpressionSyntax(elements.Extract(), stride: s);
+            return new ArrayInitializerSyntax(elements.Extract(), stride: s);
         }
 
         // (a, b, c)
@@ -1805,19 +1805,15 @@ namespace D.Parsing
         {
             var left = MaybeType();
 
-            switch (reader.Current.Kind)
+            if (ConsumeIf(DotDotDot))   // ? ...
             {
-                case DotDotDot:                         // ? ...
-                    Consume(DotDotDot);
-
-                    return new RangeExpression(left, ReadExpression());
-
-                case HalfOpenRange:                     // ? ..<
-                    Consume(HalfOpenRange);
-
-                    return new HalfOpenRangeExpression(left, ReadExpression());
+                return new RangeExpression(left, ReadExpression(), RangeFlags.Inclusive);
             }
-
+            else if (ConsumeIf(HalfOpenRange)) // ..<
+            {
+                return new RangeExpression(left, ReadExpression(), RangeFlags.HalfOpen);
+            }
+            
             return left;
         }
 

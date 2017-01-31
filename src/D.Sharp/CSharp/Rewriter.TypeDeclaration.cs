@@ -79,7 +79,7 @@ namespace D.Compiler
             Emit("}", level);
         }
        
-        public override IExpression VisitTypeInitializer(NewObjectExpression type)
+        public override IExpression VisitTypeInitializer(ObjectInitializer type)
         {
             Emit("new ");
 
@@ -89,7 +89,7 @@ namespace D.Compiler
             
             var i = 0;
 
-            foreach (var member in type.Members)
+            foreach (var member in type.Properties)
             {
                 if (++i != 1) Emit(", ");
 

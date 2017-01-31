@@ -66,7 +66,7 @@ namespace D.Mathematics
 
         public Parameter[] Parameters { get; }
 
-        Kind IObject.Kind => Kind.Function;
+        Kind IObject.Kind => Kind.FunctionExpression;
 
         public IObject Invoke(IArguments args)
         { 

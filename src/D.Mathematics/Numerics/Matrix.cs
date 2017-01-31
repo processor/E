@@ -129,7 +129,7 @@ namespace D.Numerics
           [ 4, 5, 6] 
         ] 
         */
-        public static Matrix<T> Create(NewArrayExpression expression)
+        public static Matrix<T> Create(ArrayInitializer expression)
         {
             #region Preconditions
 
@@ -147,7 +147,7 @@ namespace D.Numerics
 
             foreach (var row in expression.Elements)
             {
-                var r = ((NewArrayExpression)row);
+                var r = ((ArrayInitializer)row);
 
                 if (r.Elements.Length != stride) throw new Exception("invalid row lenth");
 

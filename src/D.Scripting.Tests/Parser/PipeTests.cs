@@ -76,12 +76,12 @@ f |> plot {
 
             var call = (CallExpressionSyntax)pipe.Expression;
 
-            var record = (NewObjectExpressionSyntax)call.Arguments[0].Value;
+            var record = (ObjectInitializerSyntax)call.Arguments[0].Value;
 
             Assert.Equal(null, record.Type);
-            Assert.Equal("x", record.Members[0].Name);
-            Assert.Equal("y", record.Members[1].Name);
-            Assert.Equal("z", record.Members[2].Name);
+            Assert.Equal("x", record.Properties[0].Name);
+            Assert.Equal("y", record.Properties[1].Name);
+            Assert.Equal("z", record.Properties[2].Name);
         }
     }
 }

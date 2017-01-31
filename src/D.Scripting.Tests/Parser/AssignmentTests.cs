@@ -13,7 +13,7 @@ namespace D.Parsing.Tests
 
             Assert.Equal("i",                           (Symbol)assignment.Left);
             Assert.Equal(Kind.AssignmentExpression,     assignment.Kind);
-            // Assert.Equal(1,                             (Integer)assignment.Right);
+            // Assert.Equal(1,                          (Integer)assignment.Right);
         }
 
         [Fact]

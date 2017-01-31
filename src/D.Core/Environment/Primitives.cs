@@ -4,11 +4,10 @@
     {
         public Primitives()
         {
-            Add(Type.Get(Kind.Any));
+            Add(Type.Get(Kind.Object));
             Add(Type.Get(Kind.Void));
             Add(Type.Get(Kind.Decimal));
             Add(Type.Get(Kind.String));
-            Add(Type.Get(Kind.Integer));
             Add(Type.Get(Kind.Number));
             Add(Type.Get(Kind.Float32));
             Add(Type.Get(Kind.Float64));

@@ -2,14 +2,12 @@
 
 namespace D.Expressions
 {
-    // type | record | event
-
     public class TypeDeclarationBase : IExpression
     {
-        public TypeDeclarationBase(Symbol baseType, Property[] properties, TypeFlags flags = TypeFlags.None)
+        public TypeDeclarationBase(Symbol baseType, Property[] members, TypeFlags flags = TypeFlags.None)
         {
             BaseType = baseType;
-            Members = properties;
+            Members = members ?? throw new ArgumentNullException(nameof(members));
             Flags = flags;
         }
 

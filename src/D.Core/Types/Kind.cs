@@ -2,27 +2,26 @@
 {
     public enum Kind
     {
-        None            = 0, // Null
+        Null            = 0, // Null
         Boolean         = 1, // boolean
-        Any             = 2, // * | Any type
-        Integer         = 3, // {…, -2, -1, 0, 1, 2,…}     // 64 bit
+        Number          = 2, // Alias Float64: IEEE-754 encoded. Matches JavaScript
+        Object          = 3, // * | Any type
 
-        String          = 4,
-        Symbol          = 5,
-        Type            = 6,         
-        Function        = 7,  // functions can be standalone // ƒ
-        Number          = 15, // Alias Float64: IEEE-754 encoded. Matches JavaScript
+        String          = 5,
+        Symbol          = 6,
+        Type            = 7,         
+        FunctionExpression        = 8,  // ƒ
 
         // 9-15
         Pointer        = 9,
         Expression     = 10,
-        UnitLiteral           = 11, // A currency is a unit?
+        UnitLiteral    = 11, // A currency is a unit?
         Currency       = 12,
         Entity         = 13,
         Timestamp      = 14,
 
         Protocal       = 17,
-        Implementation = 18,
+        ImplementationExpression = 18,
         // Variable       = 19,
         Void           = 20, // static instance = nothing
         Character      = 21,
@@ -39,6 +38,7 @@
         Complex        = 115,
         Matrix         = 116,
 
+        // Integers {…, -2, -1, 0, 1, 2,…}  
         Int16           = 119,
         Int32           = 120,
         Int64           = 121,
@@ -95,10 +95,9 @@
         // Literal Expressions
       
         RangeLiteral     = 2007,
-        HalfOpenRange    = 2008,
-        NumberLiteral    = 2009,
-        StringLiteral    = 2010,
-        Equation         = 2011,
+        NumberLiteral    = 2008,
+        StringLiteral    = 2009,
+        Equation         = 2010,
        
         Predicate        = 2100,
 
@@ -167,8 +166,8 @@
         MatchExpression          = 5008,
         QueryExpression          = 5009,
 
-        NewArrayExpression       = 5020,
-        NewObjectExpression      = 5021,
+        ArrayInitializer       = 5020,
+        ObjectInitializer      = 5021,
 
         // Unary                 
         LogicalNotExpression     = 6000, // ! prefix

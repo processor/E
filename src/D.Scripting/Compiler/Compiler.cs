@@ -53,9 +53,9 @@ namespace D.Compilation
                 {
                     var impl = VisitImplementation(implDeclaration);
 
-                    if (!unit.Implementations.TryGetValue(impl.Type, out List<Implementation> list))
+                    if (!unit.Implementations.TryGetValue(impl.Type, out List<ImplementationExpression> list))
                     {
-                        list = new List<Implementation>();
+                        list = new List<ImplementationExpression>();
 
                         unit.Implementations[impl.Type] = list;
                     }
@@ -69,7 +69,7 @@ namespace D.Compilation
 
         public Protocal VisitProtocal(ProtocalDeclarationSyntax protocal)
         {
-            var functions = new Function[protocal.Members.Length];
+            var functions = new FunctionExpression[protocal.Members.Length];
 
             for (var i = 0; i < functions.Length; i++)
             {
@@ -79,7 +79,7 @@ namespace D.Compilation
             return new Protocal(protocal.Name, functions);
         }
 
-        public Function VisitFunctionDeclaration(FunctionDeclarationSyntax f, IType declaringType = null)
+        public FunctionExpression VisitFunctionDeclaration(FunctionDeclarationSyntax f, IType declaringType = null)
         {
             var b = Visit(f.Body);
 
@@ -117,7 +117,7 @@ namespace D.Compilation
                 throw new Exception("unexpected function body type:" + f.Body.Kind);
             }
 
-            return new Function(f.Name, returnType, paramaters) {
+            return new FunctionExpression(f.Name, returnType, paramaters) {
                 GenericParameters = ResolveParameters(f.GenericParameters),
                 Flags = f.Flags,
                 Body = body,
@@ -125,7 +125,7 @@ namespace D.Compilation
             };
         }
 
-        public Implementation VisitImplementation(ImplementationDeclarationSyntax impl)
+        public ImplementationExpression VisitImplementation(ImplementationDeclarationSyntax impl)
         {
             scope = scope.Nested();
 
@@ -146,7 +146,7 @@ namespace D.Compilation
 
             #endregion
 
-            var methods    = new List<Function>();
+            var methods    = new List<FunctionExpression>();
             var variables  = new List<VariableDeclaration>();
 
             foreach(var member in impl.Members)
@@ -166,7 +166,7 @@ namespace D.Compilation
 
             scope = scope.Parent;
 
-            return new Implementation(protocal, type, variables.ToArray(), methods.ToArray());
+            return new ImplementationExpression(protocal, type, variables.ToArray(), methods.ToArray());
         }
 
         public Type VisitTypeDeclaration(TypeDeclarationSyntax type)
@@ -238,7 +238,7 @@ namespace D.Compilation
 
                 // Declarations
                 case Kind.VariableDeclaration     : return VisitVariableDeclaration((VariableDeclarationSyntax)syntax);
-                case Kind.NewObjectExpression     : return VisitNewObject((NewObjectExpressionSyntax)syntax);
+                case Kind.ObjectInitializer     : return VisitNewObject((Syntax.ObjectInitializerSyntax)syntax);
                 case Kind.DestructuringAssignment : return VisitDestructuringAssignment((DestructuringAssignmentSyntax)syntax);
                 case Kind.MemberAccessExpression  : return VisitMemberAccess((MemberAccessExpressionSyntax)syntax);
                 case Kind.IndexAccessExpression   : return VisitIndexAccess((IndexAccessExpressionSyntax)syntax);
@@ -261,14 +261,14 @@ namespace D.Compilation
                 case Kind.NumberLiteral           : return VisitNumber((NumberLiteralSyntax)syntax);
                 case Kind.UnitLiteral             : return VisitUnit((UnitLiteralSyntax)syntax);
                 
-                case Kind.NewArrayExpression      : return VisitNewArray((NewArrayExpressionSyntax)syntax);
+                case Kind.ArrayInitializer      : return VisitNewArray((ArrayInitializerSyntax)syntax);
                 case Kind.StringLiteral           : return new StringLiteral(syntax.ToString());
             }
 
             throw new Exception("Unexpected node:" + syntax.Kind + "/" + syntax.GetType().ToString());
         }
 
-        public NewArrayExpression VisitNewArray(NewArrayExpressionSyntax syntax)
+        public ArrayInitializer VisitNewArray(ArrayInitializerSyntax syntax)
         {
             var elements = new IExpression[syntax.Elements.Length];
 
@@ -277,7 +277,7 @@ namespace D.Compilation
                 elements[i] = Visit(syntax.Elements[i]);
             }
 
-            return new NewArrayExpression(elements, syntax.Stride);
+            return new ArrayInitializer(elements, syntax.Stride);
         }
 
         public IExpression VisitInterpolatedStringExpression(InterpolatedStringExpressionSyntax syntax)
@@ -354,18 +354,18 @@ namespace D.Compilation
             return new VariableDeclaration(syntax.Name, type, syntax.IsMutable, value);
         }
 
-        public virtual NewObjectExpression VisitNewObject(NewObjectExpressionSyntax syntax)
+        public virtual ObjectInitializer VisitNewObject(ObjectInitializerSyntax syntax)
         {
-            var members = new ObjectMember[syntax.Members.Length];
+            var members = new ObjectMember[syntax.Properties.Length];
 
             for (var i = 0; i < members.Length; i++)
             {
-                var m = syntax.Members[i];
+                var m = syntax.Properties[i];
 
                 members[i] = new ObjectMember(m.Name, Visit(m.Value)); 
             }
 
-            return new NewObjectExpression(syntax.Type, members);
+            return new ObjectInitializer(syntax.Type, members);
         }
 
         public virtual DestructuringAssignment VisitDestructuringAssignment(DestructuringAssignmentSyntax syntax)
@@ -376,7 +376,7 @@ namespace D.Compilation
             {
                 var m = syntax.Variables[i];
 
-                elements[i] = new AssignmentElement(m.Name, Type.Get(Kind.Any));
+                elements[i] = new AssignmentElement(m.Name, Type.Get(Kind.Object));
             }
 
             return new DestructuringAssignment(elements, Visit(syntax.Instance));
@@ -440,7 +440,7 @@ namespace D.Compilation
 
                 var type = parameter.Type != null
                     ? scope.Get<Type>(parameter.Type)
-                    : new Type(Kind.Any);                 // TODO: Introduce generic or infer from body?
+                    : new Type(Kind.Object);                 // TODO: Introduce generic or infer from body?
 
                 // Any
 

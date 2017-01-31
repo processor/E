@@ -2,7 +2,7 @@
 {
     public class Protocal : IObject
     {  
-        public Protocal(Symbol name, Function[] members)
+        public Protocal(Symbol name, FunctionExpression[] members)
         {
             Name = name;
             Members = members;
@@ -10,7 +10,7 @@
 
         public Symbol Name { get; set; }
 
-        public Function[] Members { get; }
+        public FunctionExpression[] Members { get; }
 
         // public IMessageDeclaration[] Channel { get; set; }
 

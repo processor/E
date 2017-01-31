@@ -42,34 +42,34 @@ namespace D.Functions
 
     #endregion
 
-    public class Min : Function
+    public class Min : FunctionExpression
     {
         public Min()
-            : base("min", new Type(Kind.Any)) { }
+            : base("min", new Type(Kind.Object)) { }
 
       
     }
 
-    public class Max : Function
+    public class Max : FunctionExpression
     {
         public Max()
-            : base("max", new Type(Kind.Any)) { }
+            : base("max", new Type(Kind.Object)) { }
 
     
     }
 
-    public class Percentile : Function
+    public class Percentile : FunctionExpression
     {
         public Percentile()
-            : base("percentile", new Type(Kind.Any)) { }
+            : base("percentile", new Type(Kind.Object)) { }
 
        
     } // range = 0-1
 
-    public class Quartile : Function
+    public class Quartile : FunctionExpression
     {
         public Quartile()
-            : base("quartile", new Type(Kind.Any)) { }
+            : base("quartile", new Type(Kind.Object)) { }
 
     
     } // range = 0-1
@@ -100,10 +100,10 @@ namespace D.Functions
     }    // regular, deviation
     */
 
-    public class Forcast : Function
+    public class Forcast : FunctionExpression
     {
         public Forcast()
-            : base("forcast", new Type(Kind.Any)) { }
+            : base("forcast", new Type(Kind.Object)) { }
     }
   
 }

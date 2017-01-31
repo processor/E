@@ -10,7 +10,7 @@ namespace D.Expressions
         public virtual IExpression VisitBlock(BlockExpression block)                                => throw new NotImplementedException();
         public virtual IExpression VisitCall(CallExpression call)                                   => throw new NotImplementedException();
         public virtual IExpression VisitVariableDeclaration(VariableDeclaration declaration)        => throw new NotImplementedException();
-        public virtual IExpression VisitTypeInitializer(NewObjectExpression expression)             => throw new NotImplementedException();
+        public virtual IExpression VisitTypeInitializer(ObjectInitializer initializer)              => throw new NotImplementedException();
         public virtual IExpression VisitDestructuringAssignment(DestructuringAssignment assignment) => throw new NotImplementedException();
         public virtual IExpression VisitIndexAccess(IndexAccessExpression expression)               => throw new NotImplementedException();
         public virtual IExpression VisitMemberAccess(MemberAccessExpression expression)             => throw new NotImplementedException();
@@ -41,7 +41,7 @@ namespace D.Expressions
                 // Declarations
                 case Kind.VariableDeclaration       : return VisitVariableDeclaration((VariableDeclaration)expression);
                     
-                case Kind.NewObjectExpression       : return VisitTypeInitializer((NewObjectExpression)expression);
+                case Kind.ObjectInitializer         : return VisitTypeInitializer((ObjectInitializer)expression);
                 case Kind.DestructuringAssignment   : return VisitDestructuringAssignment((DestructuringAssignment)expression);
 
                 case Kind.CallExpression            : return VisitCall((CallExpression)expression);
@@ -64,8 +64,8 @@ namespace D.Expressions
 
                 case Kind.Symbol                    : return VisitSymbol((Symbol)expression);
 
-                case Kind.Integer:
                 case Kind.Number:
+                case Kind.Int64:
                 case Kind.String                    : return VisitConstant((IExpression)expression);
 
                 default                             : throw new Exception("unexpected expression:" + expression.GetType().Name);

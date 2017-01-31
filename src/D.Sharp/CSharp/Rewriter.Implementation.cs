@@ -4,7 +4,7 @@ namespace D.Compiler
 {
     public partial class CSharpTranspiler
     {        
-        public void WriteImplementation(Type type, List<Implementation> implementations)
+        public void WriteImplementation(Type type, List<ImplementationExpression> implementations)
         {
             Indent(level);
             Emit($"public class {type.Name}");

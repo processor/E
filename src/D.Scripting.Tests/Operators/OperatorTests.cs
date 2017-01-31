@@ -58,7 +58,7 @@ namespace D.Operators.Tests
 
         public class Func : IFunction
         {
-            public Kind Kind => Kind.Function;
+            public Kind Kind => Kind.FunctionExpression;
 
             public string Name => "hi";
 
@@ -73,7 +73,7 @@ namespace D.Operators.Tests
         {
             var env = new Env();
 
-            var op = Operator.Infix(Kind.Function, "#", 0);
+            var op = Operator.Infix(Kind.FunctionExpression, "#", 0);
 
             env.Add("#", new Func());
 

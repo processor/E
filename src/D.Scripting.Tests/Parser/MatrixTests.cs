@@ -13,9 +13,9 @@ namespace D.Parsing.Tests
     {
         public Matrix<double> FromText(string text)
         {
-            var syntax = Parse<NewArrayExpressionSyntax>(text);
+            var syntax = Parse<ArrayInitializerSyntax>(text);
 
-            var arrayExpression = (NewArrayExpression)new Compiler().Visit(syntax);
+            var arrayExpression = (ArrayInitializer)new Compiler().Visit(syntax);
 
             return Matrix<double>.Create(arrayExpression);
         }

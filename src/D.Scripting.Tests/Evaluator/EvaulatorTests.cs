@@ -175,7 +175,7 @@ namespace D.Tests
         // [InlineData("5 * x * y * sin(z)", new[] { "x", "y", "z" })]
         public void Functions(string text, string[] argNames)
         {
-            var ƒ = (Function)Script.Evaluate(text, env);
+            var ƒ = (FunctionExpression)Script.Evaluate(text, env);
 
             Assert.Equal(argNames, ƒ.Parameters.Select(p => p.Name).ToArray());
         }

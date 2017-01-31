@@ -19,7 +19,6 @@ namespace D.Syntax
         Kind IObject.Kind => Kind.DestructuringAssignment;
     }
 
-
     public struct AssignmentElementSyntax
     {
         public AssignmentElementSyntax(string name, Symbol type)
