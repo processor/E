@@ -37,9 +37,9 @@
     }
 
     // { a, b }
-    public class RecordPattern : IExpression
+    public class ObjectPattern : IExpression
     {
-        Kind IObject.Kind => Kind.RecordPattern;
+        Kind IObject.Kind => Kind.ObjectPattern;
     }
 
     // (a, b, c)

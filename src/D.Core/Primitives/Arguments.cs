@@ -66,24 +66,10 @@ namespace D
         public IObject Value { get; }
 
         public IObject this[int i]
-        {
-            get
-            {
-                if (i > 0) throw new Exception("Out of range");
-
-                return Value;
-            }
-        }
+            => i >= 0 ? Value : throw new Exception("Out of range");
 
         public IObject this[string name]
-        {
-            get
-            {
-                if (Name != name) throw new Exception("not found");
-
-                return Value;
-            }
-        }
+            => Name == name ? Value: throw new Exception("not found");
 
         public int Count => 1;
 

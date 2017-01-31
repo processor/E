@@ -4,7 +4,7 @@ namespace D.Expressions
 {
     public class NewObjectExpression : IExpression
     {
-        public NewObjectExpression(Symbol type, RecordMember[] members)
+        public NewObjectExpression(Symbol type, ObjectMember[] members)
         {
             Type = type ?? throw new ArgumentNullException(nameof(type));
             Members = members ?? throw new ArgumentNullException(nameof(members));
@@ -12,9 +12,9 @@ namespace D.Expressions
 
         public Symbol Type { get; }
 
-        public RecordMember[] Members { get; }
+        public ObjectMember[] Members { get; }
 
-        public RecordMember this[int index] => Members[index];
+        public ObjectMember this[int index] => Members[index];
 
         public int Count => Members.Length;
 
@@ -24,16 +24,16 @@ namespace D.Expressions
     // { a: 1, b: 2 }
     // { a, b, c }
 
-    public struct RecordMember
+    public struct ObjectMember
     {
-        public RecordMember(Symbol auto)
+        public ObjectMember(Symbol auto)
         {
             Name = auto;
             Value = auto;
             Implict = true;
         }
 
-        public RecordMember(Symbol name, IExpression value)
+        public ObjectMember(Symbol name, IExpression value)
         {
             Name = name;
             Value = value;

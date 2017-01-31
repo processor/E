@@ -104,20 +104,19 @@ namespace D
         {
             // Pull out the value
 
-
             return (IObject)expression.Value; 
         }
 
         public IObject EvaluateUnit(UnitLiteral expression)
         {
-            var number = (INumber)expression.Expression;
-
-            if (!Unit<double>.TryParse(expression.UnitName, out Unit<double> unit))
+            if (Unit<double>.TryParse(expression.UnitName, out Unit<double> unit))
             {
-                throw new Exception("no unit found for:" + expression.UnitName);
+                var number = (INumber)expression.Expression;
+
+                return unit.With(number.Real, expression.UnitPower);
             }
 
-            return unit.With(number.Real, expression.UnitPower);
+            throw new Exception("no unit found for:" + expression.UnitName);
         }
 
         public IObject EvaluateSymbol(Symbol expression)
@@ -129,7 +128,6 @@ namespace D
             if (value == null) return expression;
 
             var v = value;
-
             
             if ((long)v.Kind < 255) return v;
 

@@ -37,7 +37,7 @@ namespace D.Inference
     {
         public override string ToString() => Id;
 
-        public abstract IType Infer(ITypeSystem system, IDictionary<string, IType> env, IList<IType> types);
+        public abstract IType Infer(ITypeSystem system, IDictionary<string, IType> env, List<IType> types);
 
         public Node(string id = null, Node[] args = null, Node body = null, object type = null)
         {
@@ -64,7 +64,7 @@ namespace D.Inference
         public Constant(IType type)
             : base(type: type) { }
 
-        public override IType Infer(ITypeSystem system, IDictionary<string, IType> env, IList<IType> types)
+        public override IType Infer(ITypeSystem system, IDictionary<string, IType> env, List<IType> types)
         {
             if (Type is IType)
             {
@@ -83,7 +83,7 @@ namespace D.Inference
         public Variable(string name, object type)
             : base(id: name, type: type) { }
 
-        public override IType Infer(ITypeSystem system, IDictionary<string, IType> env, IList<IType> types)
+        public override IType Infer(ITypeSystem system, IDictionary<string, IType> env, List<IType> types)
         {
             if (!env.ContainsKey(Id))
             {
@@ -102,7 +102,7 @@ namespace D.Inference
         public Call(string id, Node[] args, object ctor)
             : base(id: id, args: args, type: ctor) { }
         
-        public override IType Infer(ITypeSystem system, IDictionary<string, IType> env, IList<IType> types)
+        public override IType Infer(ITypeSystem system, IDictionary<string, IType> env, List<IType> types)
         {
             var args = Args.Select(arg => system.Infer(env, arg, types)).ToList();
             var name = Id;
@@ -132,7 +132,7 @@ namespace D.Inference
         public FuncNode(Node[] parameters, object type, Node body)
             : base(args: parameters, body: body, type: type) { }
 
-        public override IType Infer(ITypeSystem system, IDictionary<string, IType> env, IList<IType> types)
+        public override IType Infer(ITypeSystem system, IDictionary<string, IType> env, List<IType> types)
         {
             var known = new List<IType>(types);
             var args = new List<IType>();
@@ -169,7 +169,7 @@ namespace D.Inference
         public Let(string name, Node body)
             : base(id: name, body: body) { }
 
-        public override IType Infer(ITypeSystem system, IDictionary<string, IType> env, IList<IType> types)
+        public override IType Infer(ITypeSystem system, IDictionary<string, IType> env, List<IType> types)
         {
             var scope = new Dictionary<string, IType>(env);
 
@@ -211,7 +211,7 @@ namespace D.Inference
 
         IType Infer(IDictionary<string, IType> env, Node node);
 
-        IType Infer(IDictionary<string, IType> env, Node node, IList<IType> types);
+        IType Infer(IDictionary<string, IType> env, Node node, List<IType> types);
 
         IType[] Infer(IDictionary<string, IType> env, Node[] nodes);
     }
@@ -322,11 +322,11 @@ namespace D.Inference
 
         private static IType Prune(IType type)
         {
-            if (type is Generic var && var.Instance != null)
+            if (type is Generic generic && generic.Instance != null)
             {
-                var.Instance = Prune(var.Instance);
+                generic.Instance = Prune(generic.Instance);
 
-                return var.Instance;
+                return generic.Instance;
             }
 
 
@@ -343,17 +343,17 @@ namespace D.Inference
         {
             vars = vars ?? new Dictionary<int, IType>();
             t = Prune(t);
-            var var = t as Generic;
             var type = t as Type;
-            if (var != null)
+
+            if (t is Generic generic)
             {
                 if (!OccursIn(t, types))
                 {
-                    if (!vars.ContainsKey(var.Uid))
+                    if (!vars.ContainsKey(generic.Uid))
                     {
-                        vars[var.Uid] = NewGeneric();
+                        vars[generic.Uid] = NewGeneric();
                     }
-                    return vars[var.Uid];
+                    return vars[generic.Uid];
                 }
                 else
                 {
@@ -416,7 +416,8 @@ namespace D.Inference
         {
             t = Prune(t);
             s = Prune(s);
-            if (t is Generic)
+
+            if (t is Generic generic)
             {
                 if (t != s)
                 {
@@ -425,17 +426,15 @@ namespace D.Inference
                         throw new InvalidOperationException("recursive unification");
                     }
 
-                    ((Generic)t).Instance = s;
+                    generic.Instance = s;
                 }
             }
             else if ((t is Type) && (s is Generic))
             {
                 Unify(s, t);
             }
-            else if ((t is Type) && (s is Type))
+            else if ((t is Type t_type) && (s is Type s_type))
             {
-                var t_type = (Type)t;
-                var s_type = (Type)s;
                 if ((t_type.Constructor.Name != s_type.Constructor.Name) || (t_type.Arguments.Length != s_type.Arguments.Length))
                 {
                     throw new InvalidOperationException(string.Concat(t_type, " incompatible with ", s_type));
@@ -454,7 +453,7 @@ namespace D.Inference
         public IType Infer(IDictionary<string, IType> env, Node node) 
             => Infer(env, node, null);
 
-        public IType Infer(IDictionary<string, IType> env, Node node, IList<IType> types) 
+        public IType Infer(IDictionary<string, IType> env, Node node, List<IType> types) 
             => node.Infer(this, env, types ?? new List<IType>());
 
         public IType[] Infer(IDictionary<string, IType> env, Node[] nodes)

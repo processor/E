@@ -102,9 +102,9 @@ Point impl {
 }");
             var f  = (FunctionDeclarationSyntax)  bank.Members[0];
             var b  = (BlockExpressionSyntax)       f.Body;
-            var o  = (ObserveStatement)     b.Statements[1];
-            var o2 = (ObserveStatement)     b.Statements[2];
-            var o3 = (ObserveStatement)     b.Statements[3];
+            var o  = (ObserveStatementSyntax)     b.Statements[1];
+            var o2 = (ObserveStatementSyntax)     b.Statements[2];
+            var o3 = (ObserveStatementSyntax)     b.Statements[3];
 
             Assert.Equal("point", (Symbol)o.Observable);
             Assert.Equal("Changed", o.EventType.Name);
@@ -112,7 +112,7 @@ Point impl {
             Assert.Null(o.UntilExpression);
 
             Assert.Equal("point", o2.UntilExpression.Observable.ToString());
-            Assert.Equal("Destroyed", o2.UntilExpression.EventType.ToString());
+            Assert.Equal("Destroyed", o2.UntilExpression.Event.ToString());
         }
 
         [Fact]

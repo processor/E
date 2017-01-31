@@ -62,7 +62,6 @@
         // Bitwise
         public static readonly Operator BitwiseXor         = Infix(Kind.XorExpression,                 "^",  precedence: 9);
 
-
         public static readonly Operator Coalesce           = Infix(Kind.CoalesceExpression,           "??", precedence: 1);
                                                            
         public static readonly Operator LogicalAnd         = Infix(Kind.LogicalAndExpression,         "&&",  precedence: 6);

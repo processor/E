@@ -31,13 +31,13 @@ namespace D
 
         public void AddModule(IModule module)
         {
-            foreach (var member in module)
+            foreach (var (key, value) in module)
             {
-                objects.TryAdd(member.Key, member.Value);
+                objects.TryAdd(key, value);
 
-                if (member.Value is Operator)
+                if (value is Operator op)
                 {
-                    operators.Add((Operator)member.Value);
+                    operators.Add(op);
                 }
             }
         }

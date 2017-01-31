@@ -84,9 +84,9 @@ Bank protocal {
   refuse  `Transaction (Transaction) -> Transaction`Refusal
   reverse `Transaction (Transaction) -> Transaction`Reversed
 }");
-            Assert.Equal(2, protocal.Channel.Count);
+            Assert.Equal(2, protocal.Messages.Length);
             
-            Assert.Equal(6, ((MessageChoice)protocal.Channel[0]).Count);
+            Assert.Equal(6, ((MessageChoice)protocal.Messages[0]).Count);
 
             var member = protocal.Members[0];
 
@@ -121,10 +121,10 @@ Bank protocal {
 
             Assert.Equal("Bank", protocal.Name.ToString());
 
-            Assert.Equal(2, protocal.Channel.Count);
+            Assert.Equal(2, protocal.Messages.Length);
 
-            var a = (MessageChoice)protocal.Channel[0];
-            var b = (ProtocalMessage)protocal.Channel[1];
+            var a = (MessageChoice)protocal.Messages[0];
+            var b = (ProtocalMessage)protocal.Messages[1];
 
             Assert.Equal(6, a.Count);
             Assert.True(a.Repeats);

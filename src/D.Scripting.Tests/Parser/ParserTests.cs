@@ -76,7 +76,7 @@ c ");
         [Fact]
         public void SpreadTests()
         {
-            var spread = Parse<SpreadExpression>(@"...r");
+            var spread = Parse<SpreadExpressionSyntax>(@"...r");
 
             Assert.Equal("r", spread.Expression.ToString());
         }

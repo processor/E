@@ -7,9 +7,7 @@ namespace D.Units.Tests
         [Fact]
         public void X()
         {
-            Unit<int> unit;
-
-            Unit<int>.TryParse("g", out unit);
+            Unit<int>.TryParse("g", out Unit<int> unit);
 
             Assert.Equal("g", unit.Type.Name);
             Assert.Equal(1, unit.Type.BaseFactor);
@@ -75,9 +73,7 @@ namespace D.Units.Tests
         [InlineData("%")]
         public void Randoms(string text)
         {
-            UnitType type;
-
-            var result = UnitType.TryParse(text, out type);
+            var result = UnitType.TryParse(text, out UnitType type);
 
             Assert.True(result);
             Assert.Equal(text, type.Name);
@@ -129,12 +125,9 @@ namespace D.Units.Tests
         [InlineData(UnitId.ElectricPotentialDifference, "V")]
         [InlineData(UnitId.Capacitance, "F")]
         [InlineData(UnitId.ElectricConductance, "S")]
-
         public void DerivedTypes(UnitId id, string text)
         {
-            UnitType type;
-
-            UnitType.TryParse(text, out type);
+            UnitType.TryParse(text, out UnitType type);
 
             Assert.Equal(id, type.BaseUnit);
             Assert.Equal(1, type.BaseFactor);
@@ -151,9 +144,7 @@ namespace D.Units.Tests
         [InlineData(UnitId.LuminousIntensity, "cd", "candela")]
         public void BaseTypes(UnitId id, string text, string text2)
         {
-            UnitType type;
-
-            UnitType.TryParse(text, out type);
+            UnitType.TryParse(text, out UnitType type);
 
             Assert.Equal(id, type.BaseUnit);
             Assert.Equal(true, type.IsBaseUnit);

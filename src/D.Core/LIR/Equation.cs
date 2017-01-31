@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace D.Expressions
+﻿namespace D.Expressions
 {
     // a + 5    =  a → a + 5
     // a + 5^2  =  a → a^2
@@ -16,7 +14,7 @@ namespace D.Expressions
 
     public class Equation : IExpression
     {
-        public Equation(IObject left, IObject right, IList<string> symbols)
+        public Equation(IObject left, IObject right, string[] symbols)
         {
             Left = left;
             Right = right;
@@ -27,7 +25,7 @@ namespace D.Expressions
 
         public IObject Right { get; }
 
-        public IList<string> Symbols { get; }
+        public string[] Symbols { get; }
 
         // TODO: Invariants
         // x > 10

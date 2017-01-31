@@ -102,13 +102,13 @@ namespace D.Compilation
             {
                 body = null; // Protocal functions do not define a body.
             }
-            else if (f.Body is BlockExpressionSyntax)
+            else if (f.Body is BlockExpressionSyntax blockSyntax)
             {
-                body = VisitBlock((BlockExpressionSyntax)f.Body);
+                body = VisitBlock(blockSyntax);
             }
-            else if (f.Body is LambdaExpressionSyntax)
+            else if (f.Body is LambdaExpressionSyntax lambdaSyntax)
             {
-                var lambda = VisitLambda((LambdaExpressionSyntax)f.Body);
+                var lambda = VisitLambda(lambdaSyntax);
 
                 body = new BlockExpression(new ReturnStatement(lambda.Expression));
             }
@@ -224,22 +224,12 @@ namespace D.Compilation
 
             if (syntax == null) return null;
 
-            if (syntax is UnaryExpressionSyntax)
+            switch (syntax)
             {
-                return VisitUnary((UnaryExpressionSyntax)syntax);
-            }
-            else if (syntax is BinaryExpressionSyntax)
-            {
-                return VisitBinary((BinaryExpressionSyntax)syntax);
-            }
-            else if (syntax is TernaryExpressionSyntax)
-            {
-                return VisitTernary((TernaryExpressionSyntax)syntax);
-            }
-
-            if (syntax is BlockExpressionSyntax)
-            {
-                return VisitBlock((BlockExpressionSyntax)syntax);
+                case UnaryExpressionSyntax unary        : return VisitUnary(unary);
+                case BinaryExpressionSyntax binary      : return VisitBinary(binary);
+                case TernaryExpressionSyntax ternary    : return VisitTernary(ternary);
+                case BlockExpressionSyntax block        : return VisitBlock(block);
             }
 
             switch (syntax.Kind)
@@ -369,13 +359,13 @@ namespace D.Compilation
 
         public virtual NewObjectExpression VisitNewObject(NewObjectExpressionSyntax syntax)
         {
-            var members = new RecordMember[syntax.Members.Length];
+            var members = new ObjectMember[syntax.Members.Length];
 
             for (var i = 0; i < members.Length; i++)
             {
                 var m = syntax.Members[i];
 
-                members[i] = new RecordMember(m.Name, Visit(m.Value)); 
+                members[i] = new ObjectMember(m.Name, Visit(m.Value)); 
             }
 
             return new NewObjectExpression(syntax.Type, members);
@@ -407,7 +397,7 @@ namespace D.Compilation
 
         public virtual MatchExpression VisitMatch(MatchExpressionSyntax syntax)
         {
-            var cases = new MatchCase[syntax.Cases.Count];
+            var cases = new MatchCase[syntax.Cases.Length];
 
             for (var i = 0; i < cases.Length; i++)
             {

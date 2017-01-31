@@ -25,17 +25,17 @@ namespace D.Expressions
 
     public class MessageChoice : IMessageDeclaration
     {
-        public MessageChoice(IList<ProtocalMessage> options, MessageFlags flags)
+        public MessageChoice(ProtocalMessage[] options, MessageFlags flags)
         {
             Options = options;
             Flags = flags;
         }
 
-        public IList<ProtocalMessage> Options { get; set; }
+        public ProtocalMessage[] Options { get; set; }
 
         public ProtocalMessage this[int index] => Options[index];
 
-        public int Count => Options.Count;
+        public int Count => Options.Length;
 
         public MessageFlags Flags { get; }
 

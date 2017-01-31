@@ -51,9 +51,7 @@ namespace D.Inference
         }
 
         private IType GetType(Kind kind)
-        {
-            return GetType(new Type(kind));
-        }
+            => GetType(new Type(kind));
 
         private IType GetType(IType kind)
         {

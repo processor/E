@@ -1,10 +1,12 @@
-﻿namespace D.Expressions
+﻿using System;
+
+namespace D.Expressions
 {
     public struct StringLiteral : IExpression
     { 
         public StringLiteral(string text)
         {
-            Value = text;
+            Value = text ?? throw new ArgumentNullException(nameof(text));
         }
 
         public string Value { get; }

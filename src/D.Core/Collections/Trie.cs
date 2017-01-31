@@ -62,7 +62,7 @@ namespace D.Collections
         public bool ContainsKey(string key)
             => TryGetValue(key, out T value);
 
-        public IEnumerable<KeyValuePair<string, T>> Scan(string prefix)
+        public IEnumerable<(string, T)> Scan(string prefix)
         {
             var node = Root;
 
@@ -70,7 +70,7 @@ namespace D.Collections
             {
                 if (!node.TryGetNode(item, out node))
                 {
-                    return Enumerable.Empty<KeyValuePair<string, T>>();
+                    return Enumerable.Empty<(string, T)>();
                 }
             }
 
@@ -231,11 +231,11 @@ namespace D.Collections
                 }
             }
 
-            internal IEnumerable<KeyValuePair<string, T>> Enumerator()
+            internal IEnumerable<(string, T)> Enumerator()
             {
                 if (IsLeaf)
                 {
-                    yield return new KeyValuePair<string, T>(Key, Value);
+                    yield return (Key, Value);
                 }
 
                 foreach (var item in Children)

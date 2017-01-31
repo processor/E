@@ -14,9 +14,9 @@ namespace D.Compilation
         {
             this.parent = parent;
 
-            foreach(var primitive in new Modules.Primitives())
+            foreach(var (key, value) in new Modules.Primitives())
             {
-                objects.TryAdd(primitive.Key, primitive.Value);
+                objects.TryAdd(key, value);
             }
         }
 
@@ -43,9 +43,7 @@ namespace D.Compilation
 
         public bool TryGet<T>(Symbol symbol, out T value)
         {
-            IObject v;
-
-            if (_TryGet(symbol, out v))
+            if (_TryGet(symbol, out IObject v))
             {
                 value = (T)v;
 
@@ -59,11 +57,8 @@ namespace D.Compilation
 
         public T Get<T>(Symbol symbol)
         {
-            T value;
-
-            if (!TryGet<T>(symbol, out value))
+            if (!TryGet<T>(symbol, out T value))
             {
-
                 if (typeof(T) == typeof(Type))
                 {
                     return (T)(object)new Env().GetType(symbol);
@@ -86,8 +81,6 @@ namespace D.Compilation
         }
 
         public Scope Nested()
-        {
-            return new Scope(this);
-        }
+            =>  new Scope(this);
     }
 }

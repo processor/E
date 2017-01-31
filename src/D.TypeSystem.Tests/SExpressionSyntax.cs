@@ -56,7 +56,7 @@ namespace TypeSystem
                 var found = null as Match;
                 var sofar = input;
                 var tuple = Lexicon.FirstOrDefault(current => (found = current.Item2.Regex.Match(sofar)).Success && (found.Length > 0));
-                var token = tuple != null ? tuple.Item2 : null;
+                var token = tuple?.Item2;
                 var match = token != null ? found.Value : null;
                 input = match != null ? input.Substring(match.Length) : input;
                 return token != null ? Tuple.Create(token, match, token.ValueOf(token, match)) : null;
@@ -111,7 +111,7 @@ namespace TypeSystem
         protected Token TokenOf(Acceptor acceptor)
         {
             var found = Lexicon.FirstOrDefault(pair => pair.Item2.ValueOf == acceptor);
-            var token = found != null ? found.Item2 : null;
+            var token = found?.Item2;
             if ((token == null) && (acceptor != Commenting))
             {
                 // throw Error("missing required token definition: {0}", acceptor.Method.Name);
@@ -140,7 +140,7 @@ namespace TypeSystem
             => value as Symbol;
 
         public static string Moniker(object value)
-            => Symbol(value) != null ? Symbol(value).Id : null;
+            => Symbol(value)?.Id;
 
         public static string ToString(object value)
         {

@@ -15,13 +15,10 @@ namespace D
         public string Name { get; }
 
         public Symbol Get(string name)
-        {
-            return symbols[name];
-        }
+            => symbols[name];
+        
 
         public void Add(Symbol symbol)
-        {
-            symbols[symbol.Name] = symbol;
-        }
+            => symbols[symbol.Name] = symbol;
     }
 }

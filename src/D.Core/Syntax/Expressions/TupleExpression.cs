@@ -47,7 +47,6 @@ namespace D.Syntax
         public Symbol Type { get; }
 
         Kind IObject.Kind => Kind.NamedType;
-
     }
 
     // 1: i32

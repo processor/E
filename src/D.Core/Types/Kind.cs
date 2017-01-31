@@ -139,7 +139,7 @@
         ArrayPattern    = 4001,
         ConstantPattern = 4002,
         RangePattern    = 4003,
-        RecordPattern   = 4004,
+        ObjectPattern   = 4004,
         TuplePattern    = 4005,
         TypePattern     = 4006,
 
