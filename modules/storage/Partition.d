@@ -1,4 +1,4 @@
 Partition<T> record { 
-  allocated  : Integer > 0
-  reserved   : Integer > 0
+  allocated  : Int64 > 0
+  reserved   : Int64 > 0
 }

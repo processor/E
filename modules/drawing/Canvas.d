@@ -1,6 +1,6 @@
 ﻿Canvas type { 
-  width  : Integer > 0
-  height : Integer > 0
+  width  : Number > 0
+  height : Number > 0
   pixels : [ ] Pixel
 }
 

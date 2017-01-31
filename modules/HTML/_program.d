@@ -4,7 +4,7 @@ Gallery type : Block {
 }
 
 Slide type {
-  index            : Integer
+  index            : Int32
   mutable previous : Gallary_Slide
   mutable next     : Gallary_Slide
 }
@@ -41,7 +41,7 @@ Gallery impl {
     return Gallery { slides, current: slides[0] }
   }
   
-  view (index: Integer) {
+  view (index: Int64) {
 
   }
 

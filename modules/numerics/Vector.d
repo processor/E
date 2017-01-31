@@ -1,7 +1,7 @@
 Vector<T> protocal{ 
-  count -> Integer
+  count -> Int64
   
-  [index: Integer] -> T
+  [index: Int64] -> T
 
   clone -> V
 }

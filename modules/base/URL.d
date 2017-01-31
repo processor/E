@@ -1,7 +1,7 @@
 URL type {
   protocal : String
   host     : String
-  port     : Integer
+  port     : Int16
   path     : String
 }
 

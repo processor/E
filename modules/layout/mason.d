@@ -4,7 +4,7 @@ Masonary'Layout type {
 }
 
 Masonary'Layout impl {
-  from (columnCount: Integer, columnWidth: Integer, gap = 10) {
+  from (columnCount: Int32, columnWidth: Int32, gap = 10) {
     var left = 0
     
     var columns = [ ] Column;

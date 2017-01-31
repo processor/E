@@ -1,4 +1,3 @@
 Dictionary<T> protocal { 
-  count -> Integer
-  
+  count -> Int64
 }

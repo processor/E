@@ -7,7 +7,7 @@ Vector3 impl  {
   from (x, y: Number)    => Vector3 { x, y, z: 0 }
   from (value: T)        => Vector3 { x: value, y: value, z: value }
 
-  [index: Integer] => match index { 
+  [index: Int64] => match index { 
     0 => x
     1 => y
     2 => z

@@ -1,5 +1,5 @@
 Keyboard `Key type { 
-  code: Integer
+  code: Int32
 }
 
 Keyboard protocal {

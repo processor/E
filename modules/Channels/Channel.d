@@ -4,7 +4,7 @@
 
 Channel protocal { 
   status   -> Channel`Status
-  unread   -> Integer ≥ 0
+  unread   -> Int64 ≥ 0
 
   read () -> 
     | * 
@@ -19,10 +19,10 @@ Channel protocal {
 
 
 Seekable protocal { 
-  position : Integer ≥ 0
-  length   : Integer > 0
+  position : Int64 ≥ 0
+  length   : Int64 > 0
 
-  seek (Integer ≥ 0) -> 
+  seek (Int64 ≥ 0) -> 
    | Seeked
    | OutsideRange	
 }
@@ -32,7 +32,7 @@ Seekable_Channel = Channel & Seekable
 Channel `Status type = Closed | Connected | Terminated | ∎;
 
 ReadableChannel protocal {
-  available : Integer ≥ 0
+  available : Int64 ≥ 0
   read ƒ    -> Message | Backpressure
 }
 

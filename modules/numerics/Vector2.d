@@ -9,7 +9,7 @@ Vector2 impl {
 Vector2 impl for Vector {
   count => 2
 
-  [index: Integer] => match index { 
+  [index: Int64] => match index { 
     | 0 => x
     | 1 => y
   }

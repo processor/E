@@ -3,8 +3,8 @@ Matrix4x4<T> type {
 }
 
 Matrix4x4<T> impl {
-  [index: Integer] => elements[index]
-  [row: Integer, column: Integer] => elements[((row - 1) * 4) + (index - 1)]
+  [index: Int64] => elements[index]
+  [row: Int64, column: Int64] => elements[((row - 1) * 4) + (index - 1)]
 
   m11	=> this[0]  // 1, 1
   m12	=> this[4]  // 1, 2

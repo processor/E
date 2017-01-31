@@ -1,4 +1,4 @@
 Rational type { 
-  top    : Integer
-  bottom : Integer
+  top    : Int64
+  bottom : Int64
 }

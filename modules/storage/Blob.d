@@ -5,7 +5,7 @@ Blob record {
 Blob protocal {
   store  ()                                -> * Storage_Transaction
   open   ()                                -> * byte ↺     | Error    ∎ | End ∎
-  slice  (offset: Integer, count: Integer) -> * byte ↺     | Error    ∎ | End ∎
+  slice  (offset: Int64, count: Int64)     -> * byte ↺     | Error    ∎ | End ∎
   link   (record: Record)                  -> * Linked   ∎ | Failed   ∎
   unlink (record: Record)                  -> * Unlinked ∎ | Failed   ∎
 

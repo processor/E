@@ -1,6 +1,6 @@
 ﻿Matrix<T> protocal { 
-  [ index: Integer ] -> T;
-  [ row: Integer, column: Integer ] -> T;
+  [ index: Int64 ] -> T;
+  [ row: Int64, column: Int64 ] -> T;
 }
 
 
