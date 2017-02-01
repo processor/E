@@ -81,11 +81,13 @@ namespace D.Parsing
         Boolean             = 1, // true, false
         
         Null                = 2, // null
-        Number              = 3, // 1, 1.1
+        
+        Number              = 3, // 1, 1.1, 1.1e+10
+
         String              = 4, // hi
-        True                = 6,
-        False               = 7,
-        Identifier          = 8,
+        True                = 5,
+        False               = 6,
+        Identifier          = 7,
 
         DecimalPoint        = 9,
 

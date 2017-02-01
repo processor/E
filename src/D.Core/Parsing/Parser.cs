@@ -482,7 +482,7 @@ namespace D.Parsing
 
                     foreach (var var in variableList)
                     {
-                        l.Add(new VariableDeclarationSyntax(var.Name, k, var.IsMutable));
+                        l.Add(new VariableDeclarationSyntax(var.Name, k, var.Flags));
                     }
 
                     variableList.Clear();
@@ -507,6 +507,8 @@ namespace D.Parsing
 
             ConsumeIf(ParenthesisOpen);     // ? (
 
+            var flags = mutable ? VariableFlags.Mutable : VariableFlags.None;
+
             var name = ReadSymbol(SymbolFlags.Variable | SymbolFlags.Local);
 
             ConsumeIf(ParenthesisClose);    // ? )
@@ -519,7 +521,7 @@ namespace D.Parsing
                 ? IsKind(Function) ? ReadFunctionDeclaration(name) : ReadExpression()
                 : null;
 
-            return new VariableDeclarationSyntax(name.ToString(), type, mutable, value);
+            return new VariableDeclarationSyntax(name.ToString(), type, flags, value);
 
         }
 
@@ -849,7 +851,9 @@ namespace D.Parsing
             {
                 // mutable name: Type | Type,
 
-                bool isMutable = ConsumeIf(Mutable);
+                var flags = VariableFlags.None;
+
+                if (ConsumeIf(Mutable)) flags |= VariableFlags.Mutable;
 
                 do
                 {
@@ -865,7 +869,7 @@ namespace D.Parsing
 
                 foreach (var n in names.Extract())
                 {
-                    yield return new PropertyDeclarationSyntax(n, type, isMutable);
+                    yield return new PropertyDeclarationSyntax(n, type, flags);
                 }
             }
         }
@@ -1282,14 +1286,15 @@ namespace D.Parsing
 
             return new ObjectInitializerSyntax(type, members.ToArray());
         }
-        
+
         // 1
         // 1_000
         // 1e100
         // 1.1
         // 1.1 Pa
-                    
-        public SyntaxNode ReadNumeric()
+
+
+        public SyntaxNode ReadNumber()
         {
             // precision & scale...
 
@@ -1297,36 +1302,22 @@ namespace D.Parsing
 
             var line = Current.Start.Line;
 
-            var wholeText = ReadNumberText();
+            var literal = reader.Current;
 
-            // right hand side of the decimal
-            var mantissaText = ConsumeIf(DecimalPoint)
-                ? ReadNumberText()
-                : null;
+            reader.Next();
 
-            string number;
-
-            if (mantissaText == null)
+            var text = literal.Text.Contains('_') ? literal.Text.Replace("_", "") : literal.Text;
+            
+            if (text.Contains("e"))
             {
-                if (wholeText.Contains("e"))
-                {
-                    var parts = wholeText.Split('e');
+                var parts = text.Split('e');
 
-                    var a = double.Parse(parts[0]);
-                    var b = double.Parse(parts[1]);
+                var a = double.Parse(parts[0]);
+                var b = double.Parse(parts[1]);
 
-                    var result = a * Math.Pow(10, b);
+                var result = a * Math.Pow(10, b);
 
-                    number = b > 0 ? result.ToString() : result.ToString();
-                }
-                else
-                {
-                    number = wholeText;
-                }
-            }
-            else
-            {
-                number = wholeText + "." + mantissaText;
+                text = b > 0 ? result.ToString() : result.ToString();
             }
 
             // Read any immediately preceding unit prefixes, types, and expondents on the same line
@@ -1341,37 +1332,12 @@ namespace D.Parsing
                     pow = D.Superscript.Parse(reader.Consume().Text);
                 }
 
-                var num = new NumberLiteralSyntax(number);
+                var num = new NumberLiteralSyntax(text);
 
                 return new UnitLiteralSyntax(num, unitName, pow);
             }
-
-            // return number;
-
-            return new NumberLiteralSyntax(number);
-        }
-
-        private string ReadNumberText()
-        {
-            var text = Consume(Number);
-
-            if (IsKind(Underscore))
-            {
-                var sb = new StringBuilder();
-
-                sb.Append(text);
-
-                while (ConsumeIf(Underscore))
-                {
-                    if (IsKind(Underscore)) continue; // Read subsequent underscores
-
-                    sb.Append(reader.Consume(Number));
-                }
-
-                return sb.ToString();
-            }
-
-            return text;
+          
+            return new NumberLiteralSyntax(text);
         }
 
         public readonly List<SyntaxNode> children = new List<SyntaxNode>();
@@ -1964,7 +1930,7 @@ namespace D.Parsing
 
                     return symbol;
 
-                case Number          : depth = 0; return ReadNumeric();
+                case Number          : depth = 0; return ReadNumber();
                 case BracketOpen     : depth = 0; return ReadNewArray();
 
                 case Dollar          : depth = 0; return ReadDollarSymbol();
