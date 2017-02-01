@@ -12,6 +12,6 @@
 
         public BlockExpressionSyntax Body { get; }
 
-        Kind IObject.Kind => Kind.LoopExpression;
+        Kind IObject.Kind => Kind.WhileStatement;
     }
 }

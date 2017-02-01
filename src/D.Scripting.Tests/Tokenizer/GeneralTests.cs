@@ -114,6 +114,20 @@ namespace D.Parsing.Tests
         }
 
         [Fact]
+        public void ReadNumbers()
+        {
+            var tokens = new Tokenizer("1 1.1 1.1e100 1.1e+100 1.1e-100");
+
+            Assert.Equal("1",        tokens.Read(Number));
+            Assert.Equal("1.1",      tokens.Read(Number));
+            Assert.Equal("1.1e100",  tokens.Read(Number));
+            Assert.Equal("1.1e+100", tokens.Read(Number));
+            Assert.Equal("1.1e-100", tokens.Read(Number));
+
+            Assert.Equal(EOF, tokens.Next().Kind);
+        }
+
+        [Fact]
         public void Read()
         {
             var tokens = new Tokenizer("image |> resize 100 100");

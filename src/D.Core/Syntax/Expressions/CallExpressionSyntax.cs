@@ -55,7 +55,7 @@ namespace D.Syntax
         // Type: Array | Property
         public SyntaxNode Left { get; }
 
-        // The member
+        // Property | Function
         public Symbol MemberName { get; }
 
         public override string ToString()

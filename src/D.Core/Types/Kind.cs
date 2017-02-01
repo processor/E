@@ -122,16 +122,6 @@
         SpreadStatement = 2305,
 
 
-        // Statements
-        ReturnStatement   = 3001,
-        LoopExpression    = 3002,
-        ForExpression      = 3003,
-        IfStatement       = 3004,
-        ElseIfStatement   = 3005,
-        ElseStatement     = 3006,
-        UsingStatement    = 3007,
-        ObserveStatement  = 3008,
-        EmitStatement     = 3009,
 
         // Patterns
         AnyPattern = 4000,
@@ -152,9 +142,23 @@
 
         #endregion
 
-        #region Expressions
+        #region Expressions & Statements
 
-        BlockExpression          = 5000, // { ... }
+
+        // Statements
+        BlockStatement          = 3000, // { ... }
+        ReturnStatement         = 3001,
+        ForExpression           = 3003,
+        IfStatement             = 3004,
+        ElseIfStatement         = 3005,
+        ElseStatement           = 3006,
+        UsingStatement          = 3007,
+        ObserveStatement        = 3008,
+        EmitStatement           = 3009,
+        WhileStatement          = 3002,
+
+
+
         CoalesceExpression       = 5001, // ??
 
         

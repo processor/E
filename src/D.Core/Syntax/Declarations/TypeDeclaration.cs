@@ -72,16 +72,16 @@
 
     public class PropertyDeclarationSyntax : SyntaxNode
     {
-        public PropertyDeclarationSyntax(string name, Symbol type, bool mutable = false)
+        public PropertyDeclarationSyntax(string name, Symbol type, VariableFlags flags)
         {
             Name = name;
             Type = type;
-            IsMutable = mutable;
+            Flags = flags;
         }
 
         public string Name { get; }
 
-        public bool IsMutable { get; }
+        public VariableFlags Flags { get; }
 
         // String
         // String | Number

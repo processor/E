@@ -22,6 +22,6 @@ namespace D.Syntax
 
         public int Count => Statements.Length;
 
-        Kind IObject.Kind => Kind.BlockExpression;
+        Kind IObject.Kind => Kind.BlockStatement;
     }
 }

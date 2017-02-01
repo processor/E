@@ -188,7 +188,7 @@ namespace D.Compilation
             {
                 var member = type.Members[i];
 
-                properties[i] = new Property(member.Name, scope.Get<Type>(member.Type), member.IsMutable);
+                properties[i] = new Property(member.Name, scope.Get<Type>(member.Type), member.Flags);
             }
 
             var baseType = type.BaseType != null
@@ -238,7 +238,7 @@ namespace D.Compilation
 
                 // Declarations
                 case Kind.VariableDeclaration     : return VisitVariableDeclaration((VariableDeclarationSyntax)syntax);
-                case Kind.ObjectInitializer     : return VisitNewObject((Syntax.ObjectInitializerSyntax)syntax);
+                case Kind.ObjectInitializer       : return VisitObjectInitializer((ObjectInitializerSyntax)syntax);
                 case Kind.DestructuringAssignment : return VisitDestructuringAssignment((DestructuringAssignmentSyntax)syntax);
                 case Kind.MemberAccessExpression  : return VisitMemberAccess((MemberAccessExpressionSyntax)syntax);
                 case Kind.IndexAccessExpression   : return VisitIndexAccess((IndexAccessExpressionSyntax)syntax);
@@ -351,10 +351,10 @@ namespace D.Compilation
             var value = Visit(syntax.Value);
             var type = GetType(syntax.Type ?? value);
 
-            return new VariableDeclaration(syntax.Name, type, syntax.IsMutable, value);
+            return new VariableDeclaration(syntax.Name, type, syntax.Flags, value);
         }
 
-        public virtual ObjectInitializer VisitNewObject(ObjectInitializerSyntax syntax)
+        public virtual ObjectInitializer VisitObjectInitializer(ObjectInitializerSyntax syntax)
         {
             var members = new ObjectMember[syntax.Properties.Length];
 
