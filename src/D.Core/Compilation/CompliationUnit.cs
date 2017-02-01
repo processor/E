@@ -10,7 +10,6 @@ namespace D.Compilation
 
         public List<FunctionExpression> Functions { get; } = new List<FunctionExpression>();
 
-        public Dictionary<Type, List<ImplementationExpression>> Implementations { get; } = new Dictionary<Type, List<ImplementationExpression>>();
 
         public List<Protocal> Protocals { get; } = new List<Protocal>();
 

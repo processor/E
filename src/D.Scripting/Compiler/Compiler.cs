@@ -53,14 +53,7 @@ namespace D.Compilation
                 {
                     var impl = VisitImplementation(implDeclaration);
 
-                    if (!unit.Implementations.TryGetValue(impl.Type, out List<ImplementationExpression> list))
-                    {
-                        list = new List<ImplementationExpression>();
-
-                        unit.Implementations[impl.Type] = list;
-                    }
-
-                    list.Add(impl);
+                    impl.Type.Implementations.Add(impl);
                 }
             }
 

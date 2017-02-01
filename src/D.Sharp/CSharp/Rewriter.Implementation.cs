@@ -4,7 +4,7 @@ namespace D.Compiler
 {
     public partial class CSharpTranspiler
     {        
-        public void WriteImplementation(Type type, List<ImplementationExpression> implementations)
+        public void WriteImplementation(Type type)
         {
             Indent(level);
             Emit($"public class {type.Name}");
@@ -39,7 +39,7 @@ namespace D.Compiler
                 a++;
             }
 
-            foreach (var impl in implementations)
+            foreach (var impl in type.Implementations)
             {
                 if (impl.Protocal != null)
                 {
@@ -87,7 +87,7 @@ namespace D.Compiler
                 i++;
             }
 
-            foreach (var impl in implementations)
+            foreach (var impl in type.Implementations)
             {
                 foreach (var method in impl.Methods)
                 {
@@ -107,7 +107,7 @@ namespace D.Compiler
                 i++;
             }
 
-            foreach (var impl in implementations)
+            foreach (var impl in type.Implementations)
             {
                 /*
                 foreach (var method in impl.Variables)

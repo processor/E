@@ -35,7 +35,7 @@
                 VisitProtocal(protocal);
             }
 
-            foreach (var impl in unit.Implementations)
+            foreach (var type in unit.Types)
             {
                 if (++i > 1)
                 {
@@ -43,7 +43,7 @@
                     EmitLine();
                 }
 
-                WriteImplementation(impl.Key, impl.Value);
+                WriteImplementation(type);
 
                 // Write(statement.Key, statement.Value, 0);
             }
