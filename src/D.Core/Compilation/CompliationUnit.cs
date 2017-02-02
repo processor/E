@@ -2,6 +2,8 @@
 
 namespace D.Compilation
 {
+    using Expressions;
+
     public class CompliationUnit
     {
         public List<Type> Types { get; } = new List<Type>();

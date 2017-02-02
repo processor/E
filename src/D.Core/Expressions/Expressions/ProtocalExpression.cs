@@ -1,4 +1,4 @@
-﻿namespace D
+﻿namespace D.Expressions
 {
     public class ProtocalExpression : IObject
     {  

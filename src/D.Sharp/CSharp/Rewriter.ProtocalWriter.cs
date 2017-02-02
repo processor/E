@@ -1,8 +1,10 @@
 ﻿namespace D.Compiler
 {
+    using Expressions;
+
     public partial class CSharpTranspiler
     {
-        public void VisitProtocal(Protocal protocal)
+        public void VisitProtocal(ProtocalExpression protocal)
         {
             EmitLine($"public interface {protocal.Name}", level);
             EmitLine("{", level);
