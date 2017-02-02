@@ -112,7 +112,7 @@
             WriteFunctionBody((BlockExpression)func.Body);
         }
 
-        public void WriteProtocalFunction(Protocal protocal, FunctionExpression func)
+        public void WriteProtocalFunction(ProtocalExpression protocal, FunctionExpression func)
         {
             Indent(level);
             

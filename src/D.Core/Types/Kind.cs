@@ -148,7 +148,7 @@
         // Statements
         BlockStatement          = 3000, // { ... }
         ReturnStatement         = 3001,
-        ForExpression           = 3003,
+        ForStatement           = 3003,
         IfStatement             = 3004,
         ElseIfStatement         = 3005,
         ElseStatement           = 3006,

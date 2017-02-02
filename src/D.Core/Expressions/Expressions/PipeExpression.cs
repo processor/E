@@ -1,5 +1,6 @@
 ﻿namespace D.Expressions
 {
+    // Applies a function to the preceding argument. 
     public class PipeStatement : IExpression
     {
         public PipeStatement(IExpression callee, IExpression expression)

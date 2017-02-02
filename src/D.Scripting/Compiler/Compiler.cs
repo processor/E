@@ -60,7 +60,7 @@ namespace D.Compilation
             return unit;
         }
 
-        public Protocal VisitProtocal(ProtocalDeclarationSyntax protocal)
+        public ProtocalExpression VisitProtocal(ProtocalDeclarationSyntax protocal)
         {
             var functions = new FunctionExpression[protocal.Members.Length];
 
@@ -69,7 +69,7 @@ namespace D.Compilation
                 functions[i] = VisitFunctionDeclaration(protocal.Members[i]);
             }
 
-            return new Protocal(protocal.Name, functions);
+            return new ProtocalExpression(protocal.Name, functions);
         }
 
         public FunctionExpression VisitFunctionDeclaration(FunctionDeclarationSyntax f, IType declaringType = null)
@@ -123,7 +123,7 @@ namespace D.Compilation
             scope = scope.Nested();
 
             var type = scope.Get<Type>(impl.Type);
-            var protocal = impl.Protocal != null ? scope.Get<Protocal>(impl.Protocal) : null;
+            var protocal = impl.Protocal != null ? scope.Get<ProtocalExpression>(impl.Protocal) : null;
 
             #region Setup environment
 

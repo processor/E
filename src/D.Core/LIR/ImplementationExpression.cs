@@ -6,7 +6,7 @@ namespace D
 
     public class ImplementationExpression : IObject
     {
-        public ImplementationExpression(Protocal protocal, Type type, VariableDeclaration[] variables, FunctionExpression[] members)
+        public ImplementationExpression(ProtocalExpression protocal, Type type, VariableDeclaration[] variables, FunctionExpression[] members)
         {
             Protocal = protocal;
             Type = type ?? throw new ArgumentNullException(nameof(type));
@@ -16,7 +16,7 @@ namespace D
 
         public Type Type { get; }
 
-        public Protocal Protocal { get; }
+        public ProtocalExpression Protocal { get; }
 
         public VariableDeclaration[] Variables { get; }
 
