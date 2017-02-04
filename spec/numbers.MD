@@ -7,6 +7,8 @@ let a = 1      # Float64
 let b: i32 = 1 # Int32
 ```
 
+TODO: Define // hexal, octal, binary
+
 ### Integers
 
 i8  Int8
