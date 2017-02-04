@@ -4,7 +4,7 @@
 ## Literals
 
 ```
-(1, 2, 3) # (Number, Number, Number)
+(1, 2, 3) // Tuple<Number, Number, Number>
 
 
 ## Deconstruction
