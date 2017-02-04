@@ -57,6 +57,8 @@ ui64 UInt64
 
 ## Floats
 
+Floats contain a decimal point or exponent.
+
 ```
 f16 Float16
 f32 Float32
