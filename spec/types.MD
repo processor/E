@@ -1,5 +1,9 @@
 # Types
 
+By default, all types are immutable structured -- passed by reference.
+
+TODO: Transfer ownership vs borrow. Define who's responsible for disposal.
+
 ### Declarations
 
 ```
@@ -7,6 +11,11 @@ Point type @size(24) {
    x, y, z: Number
    
    from (vector: Vector3) => Point { x: vector.x, y: vector.y, z: vector.z }   
+}
+
+Bank type {
+  id   : Integer,
+  name : String
 }
 
 ```
