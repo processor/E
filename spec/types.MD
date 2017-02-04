@@ -5,6 +5,8 @@
 ```
 Point type @size(24) { 
    x, y, z: Number
+   
+   from (vector: Vector3) => Point { x: vector.x, y: vector.y, z: vector.z }   
 }
 
 ```
@@ -15,12 +17,11 @@ A type may implement any number of protocals.
 
 ```
 
-From<Vector3> impl for Point {
-   from (vector: Vector3) => Point(vector.x, vector.y, vector.z)
+Geometry impl for Point {
+   center => Point(vector.x, vector.y, vector.z)
 }
 
 
-Point.from(Vector3(1,2,3))
 
  
 ```
