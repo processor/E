@@ -2,15 +2,22 @@
 
 By default, all types are immutable structured -- passed by reference.
 
+A type consistants or one or more generic parameters, properties, and instance functions.
+
 TODO: Transfer ownership vs borrow. Define who's responsible for disposal.
 
 ### Declarations
 
 ```
+
+Vector3<T> type {
+  x, y, z: T
+}
+
 Point type @size(24) { 
    x, y, z: Number
    
-   from (vector: Vector3) => Point { x: vector.x, y: vector.y, z: vector.z }   
+   from (vector: Vector3<Number>) => Point { x: vector.x, y: vector.y, z: vector.z }   
 }
 
 Bank type {
@@ -31,8 +38,6 @@ Geometry impl for Point {
 }
 
 
-
- 
 ```
 
 
