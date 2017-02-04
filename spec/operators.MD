@@ -3,17 +3,18 @@
 
 ## Declarations
 
-
 prefix
 infix
 postfix
 
-associativity & precedence
+associativity: left | right
+precedence: 0 - 100
 
 ```
 
-* operator {
-  
+* infix operator {
+  associativity: left
+  precedence: 50
 }
 
 ```
@@ -30,5 +31,11 @@ a * b
 ## Builtins
 
 ```
+*
+/
+-
++
+is
+as
 
 ```
