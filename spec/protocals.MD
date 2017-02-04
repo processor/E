@@ -4,16 +4,20 @@ Protocals define the behavior and may be implemented by ANY type.
 
 ### Declarations
 
-Name followed by the protocal keyword. 
+Syntax: A Name followed by *protocal* and block body. 
 
 
 ```
 A protocal {
-   a function() -> Number
+  a() -> Number
+}
+
+Convert <T, R> protocol {
+
 }
 
 ```
 
-Open: Should protocals support inhertance?
+*Open*: Should protocals support inhertance?
 
 
