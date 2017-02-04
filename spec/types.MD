@@ -3,7 +3,7 @@
 ### Declarations
 
 ```
-Point type { 
+Point type @size(24) { 
    x, y, z: Number
 }
 
