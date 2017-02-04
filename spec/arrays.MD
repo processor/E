@@ -1,7 +1,9 @@
 # Arrays
 
+
 ## Literals
 
+A sequence of expressions defined between an opening and closing bracket. [  ] 
 ```
 1x3
 
