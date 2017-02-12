@@ -4,11 +4,12 @@ namespace D.Expressions
 {
     public class CallExpression : IExpression
     {
-        public CallExpression(IExpression callee, Symbol functionName, IArguments arguments)
+        public CallExpression(IExpression callee, Symbol functionName, IArguments arguments, bool piped)
         {
             Callee = callee;
             FunctionName = functionName;
             Arguments = arguments;
+            IsPiped = piped;
         }
 
         // Nullable
@@ -17,6 +18,8 @@ namespace D.Expressions
         public Symbol FunctionName { get; }
 
         public IArguments Arguments { get; }
+
+        public bool IsPiped { get; }
 
         Kind IObject.Kind => Kind.CallExpression;
     }

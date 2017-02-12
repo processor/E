@@ -237,7 +237,6 @@ namespace D.Compilation
                 case Kind.IndexAccessExpression   : return VisitIndexAccess((IndexAccessExpressionSyntax)syntax);
 
                 // Statements
-                case Kind.PipeStatement           : return VisitPipe((PipeStatementSyntax)syntax);
                 case Kind.CallExpression          : return VisitCall((CallExpressionSyntax)syntax);
                 case Kind.MatchExpression         : return VisitMatch((MatchExpressionSyntax)syntax);
                 case Kind.IfStatement             : return VisitIf((IfStatementSyntax)syntax);
@@ -308,9 +307,6 @@ namespace D.Compilation
             }
         }
 
-        public virtual PipeStatement VisitPipe(PipeStatementSyntax syntax)
-            => new PipeStatement(Visit(syntax.Callee), Visit(syntax.Expression));
-
         public virtual BinaryExpression VisitBinary(BinaryExpressionSyntax syntax)
             => new BinaryExpression(syntax.Operator, Visit(syntax.Left), Visit(syntax.Right)) { Grouped = syntax.Grouped };
       
@@ -321,7 +317,7 @@ namespace D.Compilation
             => new TernaryExpression(Visit(syntax.Condition), Visit(syntax.Left), Visit(syntax.Right));
 
         public virtual CallExpression VisitCall(CallExpressionSyntax syntax)
-            => new CallExpression(Visit(syntax.Callee), syntax.FunctionName, VisitArguments(syntax.Arguments));
+            => new CallExpression(Visit(syntax.Callee), syntax.Name, VisitArguments(syntax.Arguments), syntax.IsPiped);
 
         private IArguments VisitArguments(ArgumentSyntax[] arguments)
         {
@@ -380,7 +376,7 @@ namespace D.Compilation
             => new IndexAccessExpression(Visit(syntax.Left), VisitArguments(syntax.Arguments));
 
         public virtual MemberAccessExpression VisitMemberAccess(MemberAccessExpressionSyntax syntax)
-            => new MemberAccessExpression(Visit(syntax.Left), syntax.MemberName);
+            => new MemberAccessExpression(Visit(syntax.Left), syntax.Name);
 
         public virtual LambdaExpression VisitLambda(LambdaExpressionSyntax syntax)
             => new LambdaExpression(Visit(syntax.Expression));

@@ -15,7 +15,6 @@ namespace D.Syntax
         public virtual SyntaxNode VisitIndexAccess(IndexAccessExpressionSyntax syntax)               => throw new NotImplementedException(); 
         public virtual SyntaxNode VisitMemberAccess(MemberAccessExpressionSyntax syntax)             => throw new NotImplementedException(); 
         public virtual SyntaxNode VisitLambda(LambdaExpressionSyntax syntax)                         => throw new NotImplementedException(); 
-        public virtual SyntaxNode VisitPipe(PipeStatementSyntax syntax)                              => throw new NotImplementedException(); 
         public virtual SyntaxNode VisitMatch(MatchExpressionSyntax syntax)                           => throw new NotImplementedException(); 
         public virtual SyntaxNode VisitIf(IfStatementSyntax syntax)                                  => throw new NotImplementedException(); 
         public virtual SyntaxNode VisitElse(ElseStatementSyntax syntax)                              => throw new NotImplementedException(); 
@@ -49,7 +48,6 @@ namespace D.Syntax
                     
                 case Kind.CallExpression            : return VisitCall((CallExpressionSyntax)syntax);
                     
-                case Kind.PipeStatement             : return VisitPipe((PipeStatementSyntax)syntax);
                 case Kind.MatchExpression           : return VisitMatch((MatchExpressionSyntax)syntax);
                 case Kind.IfStatement               : return VisitIf((IfStatementSyntax)syntax);
                 case Kind.ElseIfStatement           : return VisitElseIf((ElseIfStatementSyntax)syntax);

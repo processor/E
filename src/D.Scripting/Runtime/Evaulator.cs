@@ -81,7 +81,6 @@ namespace D
                 switch (expression.Kind)
                 {
                     case Kind.ConstantExpression : result = EvaluateConstant((ConstantExpression)expression); break;
-                    case Kind.PipeStatement      : result = EvaluatePipe((PipeStatement)expression);          break;
                     case Kind.Symbol             : result = EvaluateSymbol((Symbol)expression);               break;
                     case Kind.CallExpression     : result = EvaluateCall((CallExpression)expression);         break;
                     case Kind.UnitLiteral        : result = EvaluateUnit((UnitLiteral)expression);            break;
@@ -135,18 +134,10 @@ namespace D
         }
         
 
-        public IObject EvaluatePipe(PipeStatement expression)
+      
+        public IObject EvaluateCall(CallExpression expression)
         {
-            var call = (CallExpression)expression.Expression;
-
-            // TODO: Handle match
-
-            return EvaluateCall(call, piped: true);
-        }
-
-        public IObject EvaluateCall(CallExpression expression, bool piped = false)
-        {
-            var argList = EvaluateArguments(expression.Arguments, piped);
+            var argList = EvaluateArguments(expression.Arguments, expression.IsPiped);
             var args = argList.Arguments;
 
             if (argList.ContainsUnresolvedSymbols)

@@ -32,7 +32,7 @@ var quant = Color[255]");
         {
             var a = Parse<CallExpressionSyntax>("tree[500].bananas.pick()");
 
-            Assert.Equal("pick", a.FunctionName);
+            Assert.Equal("pick", a.Name);
             Assert.Equal(0, a.Arguments.Length);
         }
 
@@ -44,7 +44,7 @@ var quant = Color[255]");
 
             Assert.Equal("tree",    b.Left.ToString());
             Assert.Equal(500,       (NumberLiteralSyntax)b.Arguments[0].Value);
-            Assert.Equal("bananas", a.MemberName);
+            Assert.Equal("bananas", a.Name);
         }
 
         [Fact]
@@ -90,7 +90,7 @@ var quant = Color[255]");
 
                 var a = (MemberAccessExpressionSyntax)left.Left;
 
-                Assert.Equal(alphabet[i], a.MemberName);
+                Assert.Equal(alphabet[i], a.Name);
 
                 left = (IndexAccessExpressionSyntax)a.Left;
             }

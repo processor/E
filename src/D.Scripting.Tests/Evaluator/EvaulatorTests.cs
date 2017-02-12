@@ -72,8 +72,8 @@ namespace D.Tests
 
             Assert.Equal("11", evaulator.Scope.Get("a").ToString());
 
-            var pipe = (PipeStatementSyntax)parser.Next(); // left: (a |> add 50) |> multiply 10
-            var left = (PipeStatementSyntax)pipe.Callee;   // a |> add 50
+            var pipe = (CallExpressionSyntax)parser.Next(); // left: (a |> add 50) |> multiply 10
+            var left = (CallExpressionSyntax)pipe.Callee;   // a |> add 50
 
             Assert.Equal("a", left.Callee.ToString());
 

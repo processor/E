@@ -32,6 +32,7 @@ match x >> 4 {
 
         }
 
+        /*
         [Fact]
         public void Match()
         {
@@ -58,7 +59,7 @@ match x >> 4 {
             Assert.Equal("Audio", pattern1.TypeExpression.ToString());
             Assert.Equal("a",    pattern1.VariableName);
         }
-
+        */
         [Fact]
         public void MatchWhen()
         {

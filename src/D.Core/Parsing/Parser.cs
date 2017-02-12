@@ -482,7 +482,7 @@ namespace D.Parsing
 
                     foreach (var var in variableList)
                     {
-                        l.Add(new VariableDeclarationSyntax(var.Name, k, var.Flags));
+                        l.Add(new VariableDeclarationSyntax(var.Name, k, null, var.Flags));
                     }
 
                     variableList.Clear();
@@ -521,7 +521,7 @@ namespace D.Parsing
                 ? IsKind(Function) ? ReadFunctionDeclaration(name) : ReadExpression()
                 : null;
 
-            return new VariableDeclarationSyntax(name.ToString(), type, flags, value);
+            return new VariableDeclarationSyntax(name.ToString(), type, value, flags);
 
         }
 
@@ -1842,6 +1842,8 @@ namespace D.Parsing
         int depth = 0;
         int count = 0;
 
+        // A |> B   A.Call
+        // A.B
         public SyntaxNode MaybeMemberAccess()
         {
             var left = ReadPrimary();
@@ -1852,7 +1854,13 @@ namespace D.Parsing
             {
                 if (IsKind(PipeForward))
                 {
-                    left = ReadPipe(left);
+                    Consume(PipeForward); // |>
+
+                    var call = ReadCall(left);
+
+                    call.IsPiped = true;
+
+                    left = call;
                 }
                 else if (IsKind(ParenthesisOpen))
                 {
@@ -1943,23 +1951,9 @@ namespace D.Parsing
 
         #endregion
 
-        #region Pipes & Calls
+        #region Calls
 
-        private PipeStatementSyntax ReadPipe(SyntaxNode callee)
-        {
-            Consume(PipeForward); // |>
-
-            SyntaxNode body;
-
-            switch (reader.Current.Kind)
-            {
-                case Match : body = ReadMatch();    break; // match
-                default    : body = ReadCall(null); break; // otherwise call
-            }
-
-            return new PipeStatementSyntax(callee, body);
-        }
-
+  
         // a =>
         // (arg1, arg2, arg3)
         // (a: 1, a: 2, a: 3)

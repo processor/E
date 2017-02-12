@@ -3,7 +3,7 @@
     public static class Expression
     {
         public static CallExpression Call(Symbol name, IArguments arguments)
-           => new CallExpression(null, name, arguments);
+           => new CallExpression(null, name, arguments, false);
 
         public static Parameter Parameter(string name)
             => new Parameter(name);

@@ -3,25 +3,31 @@ using System.Text;
 
 namespace D.Syntax
 {
+    // |>  pipe
+    // [ ] indexAccess
+    // .   memberAccess
+    // ()  invoke
+
     public class CallExpressionSyntax : SyntaxNode
     {
-        public CallExpressionSyntax(SyntaxNode callee, Symbol functionName, ArgumentSyntax[] arguments)
+        public CallExpressionSyntax(SyntaxNode callee, Symbol name, ArgumentSyntax[] arguments)
         {
             Callee = callee;
-            FunctionName = functionName;
+            Name = name;
             Arguments = arguments;
         }
 
         // Nullable 
         public SyntaxNode Callee { get; }  // Piper
-
-        public Symbol FunctionName { get; }
+        
+        public Symbol Name { get; }
 
         public ArgumentSyntax[] Arguments { get; }
 
+        public bool IsPiped { get; set; }
+
         Kind IObject.Kind => Kind.CallExpression;
     }
-
 
     public class ArgumentSyntax : SyntaxNode
     {
@@ -46,17 +52,16 @@ namespace D.Syntax
     // .member
     public class MemberAccessExpressionSyntax : SyntaxNode
     {
-        public MemberAccessExpressionSyntax(SyntaxNode left, Symbol memberName)
+        public MemberAccessExpressionSyntax(SyntaxNode left, Symbol name)
         {
-            Left = left;
-            MemberName = memberName;
+            Left = left ?? throw new ArgumentNullException(nameof(left));
+            Name = name ?? throw new ArgumentNullException(nameof(name));
         }
 
-        // Type: Array | Property
         public SyntaxNode Left { get; }
 
         // Property | Function
-        public Symbol MemberName { get; }
+        public Symbol Name { get; }
 
         public override string ToString()
         {
@@ -65,7 +70,7 @@ namespace D.Syntax
             sb.Append(Left.ToString());
 
             sb.Append(".");
-            sb.Append(MemberName);
+            sb.Append(Name);
 
             return sb.ToString();
         }

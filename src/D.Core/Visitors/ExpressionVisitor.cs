@@ -15,7 +15,6 @@ namespace D.Expressions
         public virtual IExpression VisitIndexAccess(IndexAccessExpression expression)               => throw new NotImplementedException();
         public virtual IExpression VisitMemberAccess(MemberAccessExpression expression)             => throw new NotImplementedException();
         public virtual IExpression VisitLambda(LambdaExpression expression)                         => throw new NotImplementedException();
-        public virtual IExpression VisitPipe(PipeStatement pipe)                                    => throw new NotImplementedException();
         public virtual IExpression VisitMatch(MatchExpression expression)                           => throw new NotImplementedException();
         public virtual IExpression VisitIf(IfStatement expression)                                  => throw new NotImplementedException();
         public virtual IExpression VisitElse(ElseStatement expression)                              => throw new NotImplementedException();
@@ -51,7 +50,6 @@ namespace D.Expressions
 
                 // Statements
                 case Kind.BlockStatement          : return VisitBlock((BlockExpression)expression);
-                case Kind.PipeStatement           : return VisitPipe((PipeStatement)expression);
                 case Kind.IfStatement             : return VisitIf((IfStatement)expression);
                 case Kind.ElseIfStatement         : return VisitElseIf((ElseIfStatement)expression);
                 case Kind.ElseStatement           : return VisitElse((ElseStatement)expression);
