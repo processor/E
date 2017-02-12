@@ -23,14 +23,7 @@ namespace D.Syntax
     {
         public AssignmentElementSyntax(string name, Symbol type)
         {
-            #region Preconditions
-
-            if (name == null)
-                throw new ArgumentNullException(nameof(name));
-
-            #endregion
-
-            Name = name;
+            Name = name ?? throw new ArgumentNullException(nameof(name));
             Type = type;
         }
 

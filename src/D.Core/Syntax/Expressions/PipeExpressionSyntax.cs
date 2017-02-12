@@ -1,7 +1,6 @@
 ﻿namespace D.Syntax
 {
-    // TODO: Merge with call operator...
-
+    // Applies a function to the preceding argument.
     public class PipeStatementSyntax : SyntaxNode
     {
         public PipeStatementSyntax(SyntaxNode callee, SyntaxNode expression)

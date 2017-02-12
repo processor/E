@@ -6,14 +6,7 @@ namespace D.Syntax
     {
         public BlockExpressionSyntax(params SyntaxNode[] statements)
         {
-            #region Preconditions
-
-            if (statements == null)
-                throw new ArgumentNullException(nameof(statements));
-
-            #endregion
-
-            Statements = statements;
+            Statements = statements ?? throw new ArgumentNullException(nameof(statements));
         }
 
         public SyntaxNode[] Statements { get; }
