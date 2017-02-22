@@ -5,14 +5,14 @@ namespace D.Units
     public class SIPrefixTests
     {
         [Fact]
-        public void k()
+        public void KPrefixTest()
         {
             Assert.Equal("k", SIPrefix.k.Name);
             Assert.Equal(1000d, SIPrefix.k.Value);
         }
 
         [Fact]
-        public void Scales()
+        public void ScaleTests()
         {
             Assert.Equal(1000000000000000000000000d, SIPrefix.Y.Value);
             Assert.Equal(1000000000000000000000d, SIPrefix.Z.Value);
