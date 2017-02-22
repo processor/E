@@ -148,15 +148,15 @@
         // Statements
         BlockStatement          = 3000, // { ... }
         ReturnStatement         = 3001,
-        ForStatement           = 3003,
+        ForStatement            = 3003,
         IfStatement             = 3004,
         ElseIfStatement         = 3005,
         ElseStatement           = 3006,
         UsingStatement          = 3007,
         ObserveStatement        = 3008,
         EmitStatement           = 3009,
-        WhileStatement          = 3002,
-
+        WhileStatement          = 3010,
+        ModuleStatement         = 3012,
 
 
         CoalesceExpression       = 5001, // ??

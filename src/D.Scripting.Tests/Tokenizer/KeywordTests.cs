@@ -7,6 +7,8 @@ namespace D.Parsing.Tests
     public class KeywordTests
     {
         [Theory]
+        [InlineData("module",   Module)]
+
         [InlineData("protocal", Protocal)]
         [InlineData("from",     From)]
         [InlineData("for",      For)]

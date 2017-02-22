@@ -254,10 +254,9 @@ Matrix4<T> implementation {
         public void ModulePrefixedProtocalImplementation()
         {
             var declaration = Parse<ImplementationDeclarationSyntax>(@"
-HTML::Element implementation for CustomElement {
+HTML::Element impl for CustomElement {
     align: String 
 }");
-
 
             Assert.Equal("HTML", declaration.Protocal.Module);
             Assert.Equal("Element", declaration.Protocal.Name);

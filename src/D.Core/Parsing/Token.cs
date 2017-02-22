@@ -181,6 +181,7 @@ namespace D.Parsing
 
         Record,
         Protocal,
+        Module,
 
         Ascending,
         Descending,

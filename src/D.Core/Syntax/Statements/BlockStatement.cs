@@ -13,8 +13,6 @@ namespace D.Syntax
 
         public SyntaxNode this[int index] => Statements[index];
 
-        public int Count => Statements.Length;
-
         Kind IObject.Kind => Kind.BlockStatement;
     }
 }

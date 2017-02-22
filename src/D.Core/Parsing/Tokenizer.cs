@@ -324,6 +324,7 @@ namespace D.Parsing
             { "function"         , Function },
             { "let"              , Let },
             { "match"            , Match },
+            { "module"           , Module },
             { "if"               , If },
             { "impl"             , Implementation },
             { "implementation"   , Implementation },
@@ -385,11 +386,6 @@ namespace D.Parsing
         {
             var start = reader.Location;
 
-            if (reader.Current == '-')
-            {
-                sb.Append(reader.Consume());
-            }
-
             ReadDigits();
 
             if (reader.Current == 'e')
@@ -426,6 +422,11 @@ namespace D.Parsing
 
         private void ReadDigits()
         {
+            if (reader.Current == '-')
+            {
+                sb.Append(reader.Consume());
+            }
+
             while (!reader.IsEof && (char.IsDigit(reader.Current) || reader.Current == '_'))
             {
                 sb.Append(reader.Consume());

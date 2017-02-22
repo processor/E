@@ -1028,13 +1028,26 @@ namespace D.Parsing
 
         #endregion
 
+
+        #region Modules
+
+        public ModuleSyntax ReadModule(Symbol name)
+        {
+
+            var block = ReadBlock();
+
+            return new ModuleSyntax(name, block.Statements);
+        }
+
+        #endregion
+
         #region Class / Implementation
 
         // Curve implemention for Bezier {
 
         public ImplementationDeclarationSyntax ReadImplementation(Symbol name)
         {
-            Consume(Implementation);            // !implementation  
+            Consume(Implementation);  // ! implementation  
 
             Symbol protocal = null;
             Symbol type;
@@ -1785,7 +1798,8 @@ namespace D.Parsing
 
         private List<Symbol> symbolList = new List<Symbol>(20);
 
-        // {Symbol} (type|event|record|protocal)
+        // {name} {type|event|record|protocal|module}
+        // {name} { Object }
         public SyntaxNode MaybeType()
         {
             var left = MaybeMemberAccess();
@@ -1822,6 +1836,8 @@ namespace D.Parsing
                         break;
 
                     case TokenKind.Unit: return ReadUnitDeclaration(name);
+
+                    case Module: return ReadModule(name);
 
                     case Type:
                     case Event:
