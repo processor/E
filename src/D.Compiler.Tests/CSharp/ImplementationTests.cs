@@ -1,12 +1,10 @@
 ﻿using System.IO;
-using System.Linq;
 using System.Text;
 
 using Xunit;
 
 namespace D.Compilation.Tests
 {
-    using D.Compiler;
     using Parsing;
 
     public class ImplementationTests
@@ -26,7 +24,7 @@ public class Cuboid
 }
 ".Trim(),
 
-            Rewrite(@"
+            Transpile(@"
 Cuboid type {
   polygons: [ ] Polygon
 }
@@ -56,7 +54,7 @@ public static string A(Point<T> point)
     var z = point.Z;
 }".Trim(),
 
-Rewrite(@"
+Transpile(@"
 a ƒ(point: Point<T>) -> String {
   let (x, y, z) = point
 }
@@ -78,7 +76,7 @@ public static object SinIn(double x) => Math.Sin(x * Math.PI * 0.5);
 public static object SinOut(double x) => -Math.Cos(Math.PI * x) / 2 + 0.5;
 ".Trim(),
 
-            Rewrite(@"
+            Transpile(@"
 cubicIn  ƒ(x: Number) => x * x * x;
 cubicOut ƒ(x: Number) => (x - 1) ** 3 + 1;
 linear   ƒ(x: Number) => x;
@@ -96,7 +94,7 @@ public static Point<T> Clamp<T>(Point<T> p, Point<T> min, Point<T> max) => new P
 
 ".Trim(),
 
-Rewrite(@"
+Transpile(@"
 clamp ƒ <T> (p: Point<T>, min: Point<T>, max: Point<T>) => Point<T> {
   x: max(min.x, min(max.x, p.x)),
   y: max(min.y, min(max.y, p.y)),
@@ -126,7 +124,7 @@ namespace Banking
 }
 ".Trim(),
 
-Rewrite(@"
+Transpile(@"
 Bank type { 
   name: String
 }
@@ -159,7 +157,7 @@ public class Account
 
 ".Trim(),
 
-Rewrite(@"
+Transpile(@"
 
 Account record { 
   mutable balance : Decimal
@@ -221,7 +219,7 @@ public class Matrix4<T>
 }
 
 ".Trim(),
-Rewrite(@"
+Transpile(@"
 Matrix4 type <T> {
   elements: [] T 
 }
@@ -277,7 +275,7 @@ public class Point
 }
 ".Trim(),
 
-Rewrite(@"
+Transpile(@"
 Point type { x, y, z: Number }
 
 Point impl {
@@ -305,7 +303,7 @@ public class Point
 }
 ".Trim(),
 
-Rewrite(@"
+Transpile(@"
 Point type { }
 
 Point impl {
@@ -340,7 +338,7 @@ public class Point<T>
 }
 ".Trim(),
 
-Rewrite(@"
+Transpile(@"
 Point type <T> { 
   x, y, z: T
 }
@@ -360,7 +358,7 @@ public interface Curve
 }
 ".Trim(),
 
-Rewrite(@"
+Transpile(@"
 Curve protocal { 
   getPoint (t: Number) -> Point
 }
@@ -381,7 +379,7 @@ public interface Observer
 }
 ".Trim(),
 
-Rewrite(@"
+Transpile(@"
 Observer protocal { 
   next -> (A, B, C) -> D
   next -> A -> B
@@ -402,7 +400,7 @@ public interface Node
 }
 ".Trim(),
 
-Rewrite(@"
+Transpile(@"
 Node protocal { 
   kind -> Kind
   children -> [ ] Node
@@ -457,7 +455,7 @@ public class Point : Geometry
 ".Trim(),
 
 
-Rewrite(@"
+Transpile(@"
 Geometry protocal {
   center -> Point
 }
@@ -483,7 +481,7 @@ Geometry impl for Point {
         [Fact]
         public void Unit()
         {
-            var unit = GetUnit(@"
+            var unit = CompileModule(@"
 Point type { 
   x, y, z: Number
 }
@@ -494,10 +492,12 @@ Point impl {
 }
 ");
 
-            Assert.Equal(1, unit.Types.Count);
+            var type = unit.Members[0].Item2 as Type;
 
-            Assert.Equal("Point", unit.Types[0].Name);
-            Assert.Equal(3, unit.Types[0].Properties.Length);
+            Assert.Equal(1, unit.Members.Count);
+
+            Assert.Equal("Point",type.Name);
+            Assert.Equal(3, type.Properties.Length);
 
             // Assert.Equal(1, unit.Implementations[unit.Types[0]].Count);
             // Assert.Equal(2, unit.Implementations.First()[0].Members.Length);
@@ -508,7 +508,7 @@ Point impl {
         {
             Assert.Equal(
 @"public static Point<T> Negate<T>(Point<T> _0) => new Point<T>(x: -_0.X, y: -_0.Y, z: -_0.Z);",
-Rewrite(
+Transpile(
 @"negate ƒ <T> (Point<T>) => Point<T> { 
   x: - $0.x, 
   y: - $0.y, 
@@ -516,45 +516,36 @@ Rewrite(
 }"));
         }
 
-        public static CompliationUnit GetUnit(string source)
+        public static Module CompileModule(string source)
         {
             var compilier = new Compiler();
 
             using (var parser = new Parser(source))
             {
-                var nodes = parser.Enumerate().ToArray();
-
-                return compilier.Compile(nodes);
+                return compilier.Compile(parser.Enumerate());
             }
         }
 
-        public static string Rewrite(string source)
+        public static string Transpile(string source, string moduleName = null)
         {
             var sb = new StringBuilder();
 
-            var unit = GetUnit(source);
+            var module = CompileModule(source);
 
             using (var writer = new StringWriter(sb))
             {
                 var csharp = new CSharpTranspiler(writer);
 
-                csharp.WriteCompliationUnit(unit);
-            }
+                if (moduleName != null)
+                {
+                    module.Name = moduleName;
 
-            return sb.ToString();
-        }
-
-        public static string Rewrite(string source, string module)
-        {
-            var sb = new StringBuilder();
-
-            var unit = GetUnit(source);
-
-            using (var writer = new StringWriter(sb))
-            {
-                var csharp = new CSharpTranspiler(writer);
-
-                csharp.WriteCompliationUnit(module, unit);
+                    csharp.WriteModule(module);
+                }
+                else
+                {
+                    csharp.WriteModuleMembers(module);
+                }
             }
 
             return sb.ToString();

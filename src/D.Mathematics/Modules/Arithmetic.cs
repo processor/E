@@ -77,8 +77,8 @@ namespace D.Mathematics
         public static IArithmetic<T> GetProvider<T>()
         {
             if (typeof(T) == typeof(Number))  return (IArithmetic<T>)new RealArithmetic();
-            if (typeof(T) == typeof(int))   return (IArithmetic<T>)new Int32Arithmetic();
-            if (typeof(T) == typeof(long))  return (IArithmetic<T>)new Int64Arithmetic();
+            if (typeof(T) == typeof(int))     return (IArithmetic<T>)new Int32Arithmetic();
+            if (typeof(T) == typeof(long))    return (IArithmetic<T>)new Int64Arithmetic();
 
             throw new Exception("No arithmethic provider for:" + typeof(T).Name);
         }

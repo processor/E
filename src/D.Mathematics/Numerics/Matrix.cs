@@ -9,11 +9,9 @@ namespace D.Numerics
     {
         private MathNet.Numerics.LinearAlgebra.Matrix<T> impl;
 
-        public Matrix(T[] elements, int stride)
+        public Matrix(T[][] rows)
         {
-            int rows = elements.Length / stride;
-
-            impl = MathNet.Numerics.LinearAlgebra.Matrix<T>.Build.Dense(rows, stride, elements);
+            impl = MathNet.Numerics.LinearAlgebra.Matrix<T>.Build.SparseOfRowArrays(rows);
         }
 
         private Matrix(MathNet.Numerics.LinearAlgebra.Matrix<T> impl)
@@ -138,28 +136,35 @@ namespace D.Numerics
 
             #endregion
 
-            var rows = expression.Elements.Length;
             var stride = expression.Stride.Value;
             
-            var elements = new T[rows * stride];
+            var rows = new T[expression.Elements.Length][];
 
-            var i = 0;
-
+            var rI = 0;
+            
             foreach (var row in expression.Elements)
             {
-                var r = ((ArrayInitializer)row);
+                var i = 0;
 
-                if (r.Elements.Length != stride) throw new Exception("invalid row lenth");
+                var a = ((ArrayInitializer)row);
 
-                foreach (var column in r.Elements)
+                if (a.Elements.Length != stride) throw new Exception("invalid row lenth");
+
+                var b = new T[a.Elements.Length];
+
+                foreach (var column in a.Elements)
                 {
-                    elements[i] = ((INumber)column).As<T>();
+                    b[i] = ((INumber)column).As<T>();
 
                     i++;
                 }
+
+                rows[rI] = b;
+
+                rI++;
             }
 
-            return new Matrix<T>(elements, stride);
+            return new Matrix<T>(rows);
         }
 
         Kind IObject.Kind => Kind.Matrix;

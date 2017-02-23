@@ -1,6 +1,8 @@
-﻿namespace D.Expressions
+﻿using System;
+
+namespace D.Expressions
 {
-    public class ProtocalExpression : IObject
+    public class ProtocalExpression : INamedObject
     {  
         public ProtocalExpression(Symbol name, FunctionExpression[] members)
         {
@@ -15,5 +17,7 @@
         // public IMessageDeclaration[] Channel { get; set; }
 
         Kind IObject.Kind => Kind.Protocal;
+
+        string INamedObject.Name => Name;
     }
 }

@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace D.Collections
 {
-    public class Trie<T>
+    public sealed class Trie<T>
     {
         private int count;
 
@@ -264,11 +264,11 @@ namespace D.Collections
                 }
             }
 
-            public bool Contains(char key)
-                => Children.ContainsKey(key);
+            public bool Contains(char key) => 
+                Children.ContainsKey(key);
 
-            public bool TryGetNode(char key, out Node node)
-                => Children.TryGetValue(key, out node);
+            public bool TryGetNode(char key, out Node node) =>
+                Children.TryGetValue(key, out node);
         }
 
         #endregion

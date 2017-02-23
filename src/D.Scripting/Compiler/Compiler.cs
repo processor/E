@@ -16,9 +16,9 @@ namespace D.Compilation
 
         private Scope scope = new Scope();
 
-        public CompliationUnit Compile(SyntaxNode[] nodes)
+        public Module Compile(IEnumerable<SyntaxNode> nodes)
         {
-            var unit = new CompliationUnit();
+            var module = new Module();
             
             foreach (var node in nodes)
             {
@@ -26,7 +26,7 @@ namespace D.Compilation
                 {
                     var function = VisitFunctionDeclaration(func);
 
-                    unit.Functions.Add(function);
+                    module.Add(function);
 
                     if (function.Name != null)
                     {
@@ -37,7 +37,7 @@ namespace D.Compilation
                 {
                     var type = VisitTypeDeclaration(typeDeclaration);
 
-                    unit.Types.Add(type);
+                    module.Add(type);
 
                     scope.Add(type.Name, type);
                 }
@@ -45,7 +45,7 @@ namespace D.Compilation
                 {
                     var protocal = VisitProtocal(protocalDeclaration);
 
-                    unit.Protocals.Add(protocal);
+                    module.Add(protocal);
 
                     scope.Add(protocal.Name, protocal);
                 }
@@ -57,7 +57,7 @@ namespace D.Compilation
                 }
             }
 
-            return unit;
+            return module;
         }
 
         public ProtocalExpression VisitProtocal(ProtocalDeclarationSyntax protocal)

@@ -21,9 +21,12 @@ namespace D.Parsing.Tests
         }
 
         [Fact]
-        public void Matrix1x4()
+        public void Matrix2x4()
         {
-            var matrix = FromText(@"[ [ 0, 1, 2, 3 ] ]");
+            var matrix = FromText(@"[ 
+            [ 0, 1, 2, 3 ],
+            [ 4, 5, 6, 7 ]
+            ]");
 
             Assert.Equal(0d, matrix[0, 0]);
             Assert.Equal(1d, matrix[0, 1]);
@@ -42,6 +45,7 @@ namespace D.Parsing.Tests
 
             Assert.Equal(4, matrix.ColumnCount);
             Assert.Equal(4, matrix.RowCount);
+
 
             Assert.Equal(0d,  matrix[0, 0]);
             Assert.Equal(1d,  matrix[0, 1]);

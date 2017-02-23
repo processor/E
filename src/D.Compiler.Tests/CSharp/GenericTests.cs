@@ -4,11 +4,10 @@ using D.Syntax;
 
 using Xunit;
 
-namespace D.Compilier.Tests
+namespace D.Compilation.Tests
 {
     public class GenericTests
     {
-
         [Fact]
         public void X()
         {
@@ -26,7 +25,7 @@ let matrix = [
 
             Assert.Equal("matrix", def.Name);
 
-            var compiler = new Compilation.Compiler();
+            var compiler = new Compiler();
 
             var declaration = (VariableDeclaration)compiler.Visit(def);
 

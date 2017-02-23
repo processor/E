@@ -255,14 +255,13 @@ Matrix4<T> implementation {
         {
             var declaration = Parse<ImplementationDeclarationSyntax>(@"
 HTML::Element impl for CustomElement {
-    align: String 
+
 }");
 
             Assert.Equal("HTML", declaration.Protocal.Module);
             Assert.Equal("Element", declaration.Protocal.Name);
             Assert.Equal("CustomElement", declaration.Type.Name);
         }
-        
 
         [Fact]
         public void Z()

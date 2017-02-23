@@ -1,4 +1,4 @@
-﻿namespace D.Compiler
+﻿namespace D.Compilation
 { 
     using Expressions;
 

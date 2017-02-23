@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace D.Compiler
+namespace D.Compilation
 {
     using Expressions;
 

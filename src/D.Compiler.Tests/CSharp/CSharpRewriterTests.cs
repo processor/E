@@ -6,7 +6,6 @@ using Xunit;
 
 namespace D.Compilation.Tests
 {
-    using D.Compiler;
     using Expressions;
     using Parsing;
 

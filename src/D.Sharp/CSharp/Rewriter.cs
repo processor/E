@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 
-namespace D.Compiler
+namespace D.Compilation
 {
     using Expressions;
 
