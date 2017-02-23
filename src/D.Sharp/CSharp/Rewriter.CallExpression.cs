@@ -22,20 +22,48 @@ namespace D.Compiler
             { "sqrt"    , "Math.Sqrt" }
         };
 
+
+
+        // a |> b |> c
+
+        // a |> b(100) |> c(100, 18)
+
+        // c(b(a, 100), 100, 18))
+
         public override IExpression VisitCall(CallExpression call)
         {
             Emit(GetFunctionName(call.FunctionName));
 
-            WriteArguments(null, call.Arguments);
+
+            if (call.IsPiped)
+            {
+                Emit("(");
+                
+                // if piped?
+
+                Visit(call.Callee);
+
+                foreach (var arg in call.Arguments)
+                {
+                    Emit(", ");
+
+                    Visit(arg.Value);
+                }
+
+                writer.Write(")");
+            }
+            else
+            {
+                WriteArguments(null, call.Arguments);
+            }
 
             return call;
         }
 
+
         private string GetFunctionName(string name)
         {
-            string result;
-
-            if (functionMap.TryGetValue(name, out result))
+            if (functionMap.TryGetValue(name, out string result))
             {
                 return result;
             }

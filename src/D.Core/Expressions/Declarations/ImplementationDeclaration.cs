@@ -3,10 +3,6 @@ using System.Linq;
 
 namespace D.Expressions
 {
-    // Curve implementation for Bezier { }
-    // Matrix4 implementation 
-    // Int32 implementation : Addable, Subtractable, ...
-
     public class ImplementationDeclaration : IExpression
     {
         public ImplementationDeclaration(Symbol protocal, Symbol type, IExpression[] members)
@@ -27,11 +23,11 @@ namespace D.Expressions
 
         #region Helpers
 
-        public IEnumerable<Function> Constructors
+        public IEnumerable<FunctionExpression> Constructors
         {
             get
             {
-                foreach (var method in Members.OfType<Function>())
+                foreach (var method in Members.OfType<FunctionExpression>())
                 {
                     if (method.IsInitializer)
                     {
@@ -41,11 +37,11 @@ namespace D.Expressions
             }
         }
 
-        public IEnumerable<Function> Methods
+        public IEnumerable<FunctionExpression> Methods
         {
             get
             {
-                foreach (var method in Members.OfType<Function>())
+                foreach (var method in Members.OfType<FunctionExpression>())
                 {
                     if (!method.IsInitializer)
                     {
@@ -55,11 +51,11 @@ namespace D.Expressions
             }
         }
 
-        public IEnumerable<Function> Properties
+        public IEnumerable<FunctionExpression> Properties
         {
             get
             {
-                foreach (var method in Members.OfType<Function>())
+                foreach (var method in Members.OfType<FunctionExpression>())
                 {
                     if (method.IsProperty)
                     {

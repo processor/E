@@ -122,10 +122,7 @@ namespace TypeSystem
 
         protected IList<Tuple<string, Token>> Lexicon { get; private set; }
 
-        protected Token Comment
-        {
-            get { return comment = comment ?? TokenOf(Commenting); }
-        }
+        protected Token Comment => (comment = comment ?? TokenOf(Commenting));
 
         public static Token Token(string pattern, Acceptor acceptor)
             => new Token(pattern, acceptor);

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Concurrent;
+using System.Collections.Generic;
 using System.Text;
 using System.Threading;
 
@@ -72,6 +73,9 @@ namespace D
         public string FullName => ToString();
 
         Kind IObject.Kind => Kind.Type;
+
+        // Implementations
+        public List<ImplementationExpression> Implementations { get; } = new List<ImplementationExpression>();
 
         public static Type Get(Kind kind)
         {

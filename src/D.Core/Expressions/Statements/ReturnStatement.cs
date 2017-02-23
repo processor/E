@@ -6,12 +6,7 @@ namespace D.Expressions
     {
         public ReturnStatement(IExpression expression)
         {
-            if (expression == null)
-            {
-                throw new ArgumentNullException(nameof(expression));
-            }
-
-            Expression = expression;
+            Expression = expression ?? throw new ArgumentNullException(nameof(expression));
         }
 
         public IExpression Expression { get; }

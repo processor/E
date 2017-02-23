@@ -9,7 +9,7 @@ namespace D.Parsing.Tests
         [Fact]
         public void Array1x4()
         {
-            var statement = Parse<NewArrayExpressionSyntax>(@"[ 0, 1, 2, 3 ]");
+            var statement = Parse<ArrayInitializerSyntax>(@"[ 0, 1, 2, 3 ]");
 
             var elements = statement.Elements;
 
@@ -34,7 +34,7 @@ namespace D.Parsing.Tests
         [Fact]
         public void OfTuples()
         {
-            var array = Parse<NewArrayExpressionSyntax>("[(0, 1), (2, 3)]");
+            var array = Parse<ArrayInitializerSyntax>("[(0, 1), (2, 3)]");
 
             Assert.Equal(2, array.Elements.Length);
         }
@@ -43,7 +43,7 @@ namespace D.Parsing.Tests
         [Fact]
         public void UniformArray()
         {
-            var statement = Parse<NewArrayExpressionSyntax>(@"[ 
+            var statement = Parse<ArrayInitializerSyntax>(@"[ 
                 [ 0, 1, 2 ], 
                 [ 3, 4, 5 ],
                 [ 6, 7, 8 ]
@@ -56,7 +56,7 @@ namespace D.Parsing.Tests
 
             foreach (var row in statement.Elements)
             {
-                foreach(var column in ((NewArrayExpressionSyntax)row).Elements)
+                foreach(var column in ((ArrayInitializerSyntax)row).Elements)
                 {
                     Assert.Equal(i, (NumberLiteralSyntax)column);
 
@@ -68,7 +68,7 @@ namespace D.Parsing.Tests
         [Fact]
         public void JaggedArray()
         {
-            var statement = Parse<NewArrayExpressionSyntax>(@"[ 
+            var statement = Parse<ArrayInitializerSyntax>(@"[ 
                 [ 0, 1, 2, 3 ], 
                 [ 4, 5, 6, 7 ],
                 [ 8, 9, 10, 11 ],
@@ -77,7 +77,7 @@ namespace D.Parsing.Tests
 
             Assert.Equal(4, statement.Elements.Length);
 
-            var row1 = (NewArrayExpressionSyntax)(statement.Elements[0]);
+            var row1 = (ArrayInitializerSyntax)(statement.Elements[0]);
 
             Assert.Equal(0, (NumberLiteralSyntax)row1.Elements[0]);
             Assert.Equal(1, (NumberLiteralSyntax)row1.Elements[1]);
@@ -87,7 +87,7 @@ namespace D.Parsing.Tests
         [Fact]
         public void OfNumbers()
         {
-            var array = Parse<NewArrayExpressionSyntax>(@"
+            var array = Parse<ArrayInitializerSyntax>(@"
 [
   0, 1, 8, 16, 9, 2, 3, 10, 17, 24, 32, 25, 18, 11, 4, 5, 12, 19, 26,
   33, 40, 48, 41, 34, 27, 20, 13, 6, 7, 14, 21, 28, 35, 42, 49, 56, 57,

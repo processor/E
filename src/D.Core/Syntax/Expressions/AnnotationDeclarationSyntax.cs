@@ -6,18 +6,8 @@ namespace D.Syntax
     {
         public AnnotationExpressionSyntax(Symbol name, ArgumentSyntax[] arguments)
         {
-            #region Preconditions
-
-            if (name == null)
-                throw new ArgumentNullException(nameof(name));
-
-            if (arguments == null)
-                throw new ArgumentNullException(nameof(arguments));
-
-            #endregion
-
-            Name = name;
-            Arguments = arguments;
+            Name = name ?? throw new ArgumentNullException(nameof(name));
+            Arguments = arguments ?? throw new ArgumentNullException(nameof(arguments));
         }
 
         public Symbol Name { get; }

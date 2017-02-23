@@ -376,6 +376,11 @@ namespace D.Parsing
             return new Token(String, start, sb.Extract());
         }
 
+        // 1
+        // 1.1
+        // 1.2e-03
+        // 1_000
+        // 1__000.1__00000___0_0
         public Token ReadNumber()
         {
             var start = reader.Location;
@@ -385,27 +390,46 @@ namespace D.Parsing
                 sb.Append(reader.Consume());
             }
 
-            while (!reader.IsEof && char.IsDigit(reader.Current))
+            ReadDigits();
+
+            if (reader.Current == 'e')
             {
-                sb.Append(reader.Consume());
+                ReadExponent();
+            }
+
+            if (reader.Current == '.' && char.IsDigit(reader.Peek()))
+            {
+                sb.Append(reader.Consume()); // .
+
+                ReadDigits();
 
                 if (reader.Current == 'e')
                 {
-                    sb.Append(reader.Consume());
-
-                    if (reader.Current == '-')
-                    {
-                        sb.Append(reader.Consume());
-                    }
+                    ReadExponent();
                 }
             }
 
-            // if decimal, we'll yield two more tokens (consumed by parser)
-            // yield .
-            // yield number
-            // this simplifies building integer & rational numbers
-
             return new Token(Number, start, sb.Extract(), ReadTrivia());
+        }
+
+        private void ReadExponent()
+        {
+            sb.Append(reader.Consume()); // ! e
+
+            if (reader.Current == '-' || reader.Current == '+')
+            {
+                sb.Append(reader.Consume());
+            }
+
+            ReadDigits();
+        }
+
+        private void ReadDigits()
+        {
+            while (!reader.IsEof && (char.IsDigit(reader.Current) || reader.Current == '_'))
+            {
+                sb.Append(reader.Consume());
+            }
         }
 
         public Token ReadSuperscript()

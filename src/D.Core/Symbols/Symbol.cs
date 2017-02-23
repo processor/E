@@ -139,13 +139,13 @@ namespace D
         Function    = 1 << 4,  // instance vs global?
         Module      = 1 << 5,
         Label       = 1 << 6,
+        Operator    = 1 << 7,
 
-        Types = Variable | Member | Type | Function | Module | Label,
+        Types = Variable | Member | Type | Function | Module | Label | Operator,
 
         // Variables
-        Property    = 1 << 7, // type member
+        Property    = 1 << 9, // type member
   
-        Operator    = 1 << 8,
 
         Infix       = 1 << 9,
         Postfix     = 1 << 10,

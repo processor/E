@@ -29,7 +29,7 @@ namespace D.Parsing.Tests
         {
             var let = Parse<VariableDeclarationSyntax>("let hi = \"fox\"");
 
-            Assert.False(let.IsMutable);
+            Assert.False(let.Flags.HasFlag(VariableFlags.Mutable));
             Assert.Equal("fox", (StringLiteralSyntax)let.Value);
         }
 

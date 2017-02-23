@@ -9,7 +9,7 @@ namespace D.Parsing.Tests
         [Fact]
         public void Nested()
         {
-            var type = Parse<NewObjectExpressionSyntax>(@"
+            var type = Parse<ObjectInitializerSyntax>(@"
 Account {
   balance : 100,
   owner   : ""me"",
@@ -18,23 +18,23 @@ Account {
 ");
 
             Assert.Equal("Account", type.Type);
-            Assert.Equal(3, type.Members.Length);
+            Assert.Equal(3, type.Properties.Length);
 
-            var dateObject = (NewObjectExpressionSyntax)type.Members[2].Value;
+            var dateObject = (ObjectInitializerSyntax)type.Properties[2].Value;
 
             Assert.Equal("Date", dateObject.Type);
         }
         [Fact]
         public void RootScoped()
         {
-            var type = Parse<NewObjectExpressionSyntax>(@"
+            var type = Parse<ObjectInitializerSyntax>(@"
 Point {
   x: 1,
   y: 2,
   z: 3
 }");
             Assert.Equal("Point", type.Type.Name);
-            Assert.Equal(3, type.Members.Length);
+            Assert.Equal(3, type.Properties.Length);
         }
 
         [Fact]
@@ -42,7 +42,7 @@ Point {
         {
             var let = Parse<VariableDeclarationSyntax>("let zero = Point { x: 0, y: 0, z: 0 };");
 
-            var value = (NewObjectExpressionSyntax)let.Value;
+            var value = (ObjectInitializerSyntax)let.Value;
 
             Assert.Equal("Point", value.Type.Name);
         }
@@ -61,15 +61,15 @@ if 1 + 1 == 3 {
 
             var r = (ReturnStatementSyntax)ifS.Body.Statements[0];
 
-            var type = (NewObjectExpressionSyntax)r.Expression;
+            var type = (ObjectInitializerSyntax)r.Expression;
 
             Assert.Equal("Point", type.Type.Name);
 
-            Assert.Equal(3, type.Members.Length);
+            Assert.Equal(3, type.Properties.Length);
 
-            Assert.Equal("x", type.Members[0].Name);
-            Assert.Equal("y", type.Members[1].Name);
-            Assert.Equal("z", type.Members[2].Name);
+            Assert.Equal("x", type.Properties[0].Name);
+            Assert.Equal("y", type.Properties[1].Name);
+            Assert.Equal("z", type.Properties[2].Name);
         }
     }
 }

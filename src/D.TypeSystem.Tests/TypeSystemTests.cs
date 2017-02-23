@@ -24,7 +24,7 @@ namespace D.Inference
         {
             var flow = new Flow();
 
-            flow.AddVariable("a", Kind.Integer);
+            flow.AddVariable("a", Kind.Int64);
             flow.AddVariable("b", Kind.Number);
             flow.AddVariable("c", Kind.Number);
             flow.AddVariable("name", Kind.String);

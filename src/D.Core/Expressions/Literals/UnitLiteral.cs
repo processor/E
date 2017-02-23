@@ -6,18 +6,8 @@ namespace D.Expressions
     { 
         public UnitLiteral(IExpression expression, string unitName, int power = 1)
         {
-            #region Preconditions
-
-            if (expression == null)
-                throw new ArgumentNullException(nameof(expression));
-
-            if (unitName == null)
-                throw new ArgumentNullException(nameof(unitName));
-
-            #endregion
-
-            Expression = expression;
-            UnitName = unitName;
+            Expression = expression ?? throw new ArgumentNullException(nameof(expression));
+            UnitName = unitName ?? throw new ArgumentNullException(nameof(unitName));
             UnitPower = power;
         }
 

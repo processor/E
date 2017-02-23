@@ -17,15 +17,15 @@ namespace D.Parsing.Tests
             var left = (BinaryExpressionSyntax)a.Callee;
 
             Assert.Equal(Operator.Subtraction , left.Operator);
-            Assert.Equal("negate"             , a.FunctionName);
+            Assert.Equal("negate"             , a.Name);
             Assert.Equal(1                    , (NumberLiteralSyntax)a.Arguments[0].Value);
         }
 
         [Fact]
         public void CeilingAndFloor()
         {
-            Assert.Equal("ceiling", Parse<CallExpressionSyntax>("ceiling(5.5)").FunctionName);
-            Assert.Equal("floor",   Parse<CallExpressionSyntax>("floor(5.9)").FunctionName);
+            Assert.Equal("ceiling", Parse<CallExpressionSyntax>("ceiling(5.5)").Name);
+            Assert.Equal("floor",   Parse<CallExpressionSyntax>("floor(5.9)").Name);
 
         }
         [Fact]
@@ -47,7 +47,7 @@ namespace D.Parsing.Tests
         {
             var call = Parse<CallExpressionSyntax>("run(x, y, z)");
 
-            Assert.Equal("run", call.FunctionName);
+            Assert.Equal("run", call.Name);
 
             Assert.Equal(3, call.Arguments.Length);
 
@@ -61,7 +61,7 @@ namespace D.Parsing.Tests
         {
             var syntax = Parse<CallExpressionSyntax>("move(x: 1, y: 2, z: 3)");
 
-            Assert.Equal("move", syntax.FunctionName);
+            Assert.Equal("move", syntax.Name);
 
             Assert.Equal(3, syntax.Arguments.Length);
 

@@ -37,7 +37,7 @@
             Emit(end);
         }
  
-        public void WriteConstructor(Function func)
+        public void WriteConstructor(FunctionExpression func)
         {
             Indent(level);
             Emit("public ");
@@ -60,7 +60,7 @@
 
                 if (statement is ReturnStatement)
                 {
-                    var type = (NewObjectExpression)((ReturnStatement)statement).Expression;
+                    var type = (ObjectInitializer)((ReturnStatement)statement).Expression;
 
                     WriteTypeInitializerBody(type, level);
                 }
@@ -79,11 +79,11 @@
             Emit("}", level);
         }
 
-        private void WriteTypeInitializerBody(NewObjectExpression type, int level)
+        private void WriteTypeInitializerBody(ObjectInitializer type, int level)
         {
             var i = 0;
 
-            foreach (var member in type.Members)
+            foreach (var member in type.Properties)
             {
                 if (++i != 1) EmitLine();
 
@@ -97,7 +97,7 @@
 
         // public double this[int integer] => this.elements[index];
 
-        public void WriteIndexer(Function func)
+        public void WriteIndexer(FunctionExpression func)
         {
             Indent(level);
 
@@ -112,7 +112,7 @@
             WriteFunctionBody((BlockExpression)func.Body);
         }
 
-        public void WriteProtocalFunction(Protocal protocal, Function func)
+        public void WriteProtocalFunction(ProtocalExpression protocal, FunctionExpression func)
         {
             Indent(level);
             
@@ -141,7 +141,7 @@
             WriteFunctionBody((BlockExpression)func.Body);
         }
 
-        public void VisitFunction(Function func)
+        public void VisitFunction(FunctionExpression func)
         {
             if (func.IsAnonymous)
             {

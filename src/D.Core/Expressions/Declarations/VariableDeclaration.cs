@@ -4,11 +4,11 @@
     // let a of type Integer equal 5
     public class VariableDeclaration : IExpression
     {
-        public VariableDeclaration(string name, IType type, bool mutable, IExpression value = null)
+        public VariableDeclaration(string name, IType type, VariableFlags flags, IExpression value = null)
         {
             Name = name;
             Type = type;
-            IsMutable = mutable;
+            Flags = flags;
             Value = value;
         }
 
@@ -16,9 +16,11 @@
 
         public IType Type { get; }
 
-        public bool IsMutable { get; }
+        public VariableFlags Flags { get; }
 
         public IExpression Value { get; }
+
+        public bool IsMutable => Flags.HasFlag(VariableFlags.Mutable);
 
         Kind IObject.Kind => Kind.VariableDeclaration;
     }

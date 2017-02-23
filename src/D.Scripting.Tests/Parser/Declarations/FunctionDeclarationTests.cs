@@ -53,8 +53,8 @@ fromTranslation ƒ <T: Number>(x: T, y: T, z: T) => Matrix4<T> {
             
             // Assert.Equal("Matrix4", func.ReturnType.Name);
 
-            var elements = ((NewObjectExpressionSyntax)((LambdaExpressionSyntax)func.Body).Expression).Members[0];
-            var array    = (NewArrayExpressionSyntax)elements.Value;
+            var elements = ((ObjectInitializerSyntax)((LambdaExpressionSyntax)func.Body).Expression).Properties[0];
+            var array    = (ArrayInitializerSyntax)elements.Value;
 
             Assert.Equal(16  , array.Elements.Length);
             Assert.Equal(1   , (NumberLiteralSyntax)array.Elements[0]);
@@ -82,16 +82,16 @@ fromTranslation ƒ <T: Number>(x: T, y: T, z: T) => Matrix4<T> {
             Assert.Equal("T",     func.Parameters[2].Type);
 
             var lambda    = (LambdaExpressionSyntax)func.Body;
-            var newObject = (NewObjectExpressionSyntax)lambda.Expression;
+            var newObject = (ObjectInitializerSyntax)lambda.Expression;
 
             Assert.Equal("Point", newObject.Type.Name);
             Assert.Equal("T",     newObject.Type.Arguments[0].Name);
 
-            Assert.Equal("x", newObject.Members[0].Name);
-            Assert.Equal("y", newObject.Members[1].Name);
-            Assert.Equal("z", newObject.Members[2].Name);
+            Assert.Equal("x", newObject.Properties[0].Name);
+            Assert.Equal("y", newObject.Properties[1].Name);
+            Assert.Equal("z", newObject.Properties[2].Name);
 
-            foreach (var member in newObject.Members)
+            foreach (var member in newObject.Properties)
             {
                 Assert.True(member.Implict);
             }

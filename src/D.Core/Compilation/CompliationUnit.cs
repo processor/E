@@ -2,20 +2,14 @@
 
 namespace D.Compilation
 {
+    using Expressions;
+
     public class CompliationUnit
     {
         public List<Type> Types { get; } = new List<Type>();
+        
+        public List<FunctionExpression> Functions { get; } = new List<FunctionExpression>();
 
-        // LooseFunctions
-
-        public List<Function> Functions { get; } = new List<Function>();
-
-        public Dictionary<Type, List<Implementation>> Implementations { get; } = new Dictionary<Type, List<Implementation>>();
-
-        public List<Protocal> Protocals { get; } = new List<Protocal>();
-
-        // GetTypeMembers
-
-        // Statements
+        public List<ProtocalExpression> Protocals { get; } = new List<ProtocalExpression>();
     }
 }

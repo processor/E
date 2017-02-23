@@ -19,6 +19,6 @@
 
         public BlockExpressionSyntax Body { get; }
 
-        Kind IObject.Kind => Kind.ForExpression;
+        Kind IObject.Kind => Kind.ForStatement;
     }
 }

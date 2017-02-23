@@ -29,7 +29,6 @@ namespace D.Compilation
             switch (expression.Kind)
             {
                 case Kind.Number                       : return Type.Get(Kind.Number); // Double
-                case Kind.Integer                      : return Type.Get(Kind.Integer);
                 case Kind.Decimal                      : return Type.Get(Kind.Decimal);
                 case Kind.String                       : return Type.Get(Kind.String);
                 case Kind.Matrix                       : return Type.Get(Kind.Matrix);
@@ -44,14 +43,14 @@ namespace D.Compilation
                 case UnaryExpression _:
                 case IndexAccessExpression _:
                 case MatchExpression _:
-                case NewArrayExpression _:
+                case ArrayInitializer _:
                     // TODO: Infer
-                    return Type.Get(Kind.Any);
+                    return Type.Get(Kind.Object);
             }
 
-            if (expression.Kind == Kind.NewObjectExpression)
+            if (expression.Kind == Kind.ObjectInitializer)
             {
-                var initializer = (NewObjectExpression)expression;
+                var initializer = (ObjectInitializer)expression;
 
                 return scope.Get<Type>(initializer.Type);
             }

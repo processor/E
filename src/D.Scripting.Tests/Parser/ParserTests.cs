@@ -24,7 +24,7 @@ d.v = 15
             var l = (MemberAccessExpressionSyntax)s5.Left;
 
             Assert.Equal("d", l.Left.ToString());
-            Assert.Equal("v", l.MemberName);
+            Assert.Equal("v", l.Name);
 
             // Assert.Equal(15L, (Integer)s5.Right);
 

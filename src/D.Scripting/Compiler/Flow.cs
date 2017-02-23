@@ -10,9 +10,9 @@ namespace D.Inference
         
         public static long kindId = 1000000;
 
-        private IType any;
-        private IType listType;
-        private IType itemType;
+        private readonly IType any;
+        private readonly IType listType;
+        private readonly IType itemType;
 
         public Flow()
         {

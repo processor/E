@@ -4,21 +4,21 @@
     // let a of type Integer equal 5
     public class VariableDeclarationSyntax : SyntaxNode
     {
-        public VariableDeclarationSyntax(string name, Symbol type, bool mutable, SyntaxNode value = null)
+        public VariableDeclarationSyntax(string name, Symbol type, SyntaxNode value = null, VariableFlags flags = VariableFlags.None)
         {
             Name = name;
             Type = type;
-            IsMutable = mutable;
             Value = value;
+            Flags = flags;
         }
 
         public string Name { get; }
 
         public Symbol Type { get; }
 
-        public bool IsMutable { get; }
-
         public SyntaxNode Value { get; }
+
+        public VariableFlags Flags { get; }
 
         Kind IObject.Kind => Kind.VariableDeclaration;
     }
@@ -39,6 +39,6 @@
 /*
 let a: Integer = 1;
 let a: Integer > 1 = 5;
-let mutable a = 1;
+let a = 1;
 var a = 1
 */

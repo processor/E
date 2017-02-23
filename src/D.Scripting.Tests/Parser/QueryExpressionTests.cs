@@ -19,12 +19,12 @@ take 100
 
             Assert.Equal("Accounts", query.Collection.ToString());
 
-            var map = (NewObjectExpressionSyntax)query.Map;
+            var map = (ObjectInitializerSyntax)query.Map;
 
-            Assert.Equal(2, map.Members.Length);
+            Assert.Equal(2, map.Properties.Length);
 
-            Assert.Equal("id",      map.Members[0].Name);
-            Assert.Equal("balance", map.Members[1].Name);
+            Assert.Equal("id",      map.Properties[0].Name);
+            Assert.Equal("balance", map.Properties[1].Name);
 
             Assert.Equal("id", query.OrderBy.Member.ToString());
             
@@ -59,7 +59,7 @@ skip 25
 take 50
 ");
 
-            Assert.Equal(3, ((NewObjectExpressionSyntax)query.Map).Members.Length);
+            Assert.Equal(3, ((ObjectInitializerSyntax)query.Map).Properties.Length);
 
             Assert.Equal(25, query.Skip);
             Assert.Equal(50, query.Take);

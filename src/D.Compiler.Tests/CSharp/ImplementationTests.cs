@@ -227,7 +227,7 @@ Matrix4 type <T> {
 }
 
 Matrix4 impl {
-  [index: Integer] => this.elements[index]
+  [index: Int64] => this.elements[index]
 
   m11 => this[0]  // 1, 1
   m12 => this[4]  // 1, 2
@@ -495,7 +495,6 @@ Point impl {
 ");
 
             Assert.Equal(1, unit.Types.Count);
-            Assert.Equal(1, unit.Implementations.Count);
 
             Assert.Equal("Point", unit.Types[0].Name);
             Assert.Equal(3, unit.Types[0].Properties.Length);
