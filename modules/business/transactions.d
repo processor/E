@@ -2,9 +2,9 @@
 , Charge
 , Refund
 : Monetary `Transaction record {
-  from  account : Account
-  to    account	: Account
-  amount		      : Money
+  from    : Account
+  to      : Account
+  amount	: Money
 } 
 
 Monetary `Transaction protocal {

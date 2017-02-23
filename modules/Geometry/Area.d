@@ -2,7 +2,7 @@ Area protocal : Number @dimensions(2) { }
 
 Acre    unit : Area
 Are     unit : Area // 100 square metres
-Hectare unit : Area // 100 ares        
+Hectare unit : Area // 100 ares                  // ha
 
 Barn unit : Area    //  10^−28 square meters.
 

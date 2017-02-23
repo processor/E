@@ -10,7 +10,7 @@ Arc type {
 
 Curve impl for Arc {
   getPoint(t: Number) {
-    var deltaAngle = endAngle - startAngle
+    let mutable deltaAngle = endAngle - startAngle
 
     let samePoints = abs(deltaAngle) < T.epsilon
 

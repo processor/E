@@ -1,6 +1,6 @@
-﻿+ infix operator @precedence(1) @associativity(Left) @name("add")
+﻿+ operator @infix @precedence(1) @associativity(Left) @name("add")
 
-≡ aliases ===
+≡ alias ===
 
 - infix operator { 
   name: "subtract"

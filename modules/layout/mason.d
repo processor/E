@@ -5,9 +5,9 @@ Masonary'Layout type {
 
 Masonary'Layout impl {
   from (columnCount: Int32, columnWidth: Int32, gap = 10) {
-    var left = 0
+    let mutable left = 0
     
-    var columns = [ ] Column;
+    let mutable columns = [ ] Column;
 
     for i in 0..<columnCount {
       columns.add {

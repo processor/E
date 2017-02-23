@@ -4,11 +4,11 @@ Chairman {
 
 
   President,
-, Operating      _Director,      // Managing director?
-, Finance        _Director 
-, Marketing      _Director,
-, Manufacturing  _Director,
-, Human_Resource_Director,
+, Operating       `Director,      // Managing director?
+, Finance         `Director 
+, Marketing       `Director,
+, Manufacturing   `Director,
+, Human `Resource `Director,
 : Director { 
 
 }

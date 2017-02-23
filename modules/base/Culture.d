@@ -1,3 +1,5 @@
-Culture record { 
-  code: string
+Culture type { 
+
 }
+
+en`US : Culture { }

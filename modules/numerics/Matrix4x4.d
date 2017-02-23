@@ -94,7 +94,7 @@ Matrix4x4<T> impl {
 
   // inplace
   scale (v: Vector3) {
-    var els = Number[16]
+    let mutable els = Number[16]
 
 		els[0] *= v.x; els[4] *= v.y; els[8]  *= v.z;
 		els[1] *= v.x; els[5] *= v.y; els[9]  *= v.z;

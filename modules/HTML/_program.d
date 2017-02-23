@@ -13,8 +13,8 @@ Gallery impl {
   from (medias: [ ] Media) {
     let slides = [ ] Slide
     
-    var last : Slide
-    var index = 0
+    let mutable last : Slide
+    let mutable index = 0
 
     for medias {
       // Create a viewer for the media
