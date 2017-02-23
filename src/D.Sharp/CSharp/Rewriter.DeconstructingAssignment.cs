@@ -8,7 +8,7 @@
         {
             var i = 0;
 
-            foreach(var a in expression.Variables)
+            foreach (var a in expression.Variables)
             {
                 if (i != 0) EmitLine();
 

@@ -211,17 +211,17 @@ namespace D.Compilation
 
             switch (type.Name)
             {
-                case "Object"   : Emit("object");     break;
-                case "Decimal"  : Emit("decimal");    break;
-                case "Int16"    : Emit("short");      break;
-                case "Int32"    : Emit("int");        break;
-                case "Int64"    : Emit("long");       break;
-                case "Float"    : Emit("double");     break;
-                case "Float32"  : Emit("float");      break;
-                case "Float64"  : Emit("double");     break;
-                case "String"   : Emit("string");     break;
-                case "Number"   : Emit("double");     break;
-                default         : Emit(type.Name);    break;
+                case "Object"  : Emit("object");     break;
+                case "Decimal" : Emit("decimal");    break;
+                case "Int16"   : Emit("short");      break;
+                case "Int32"   : Emit("int");        break;
+                case "Int64"   : Emit("long");       break;
+                case "Float"   : Emit("double");     break;
+                case "Float32" : Emit("float");      break;
+                case "Float64" : Emit("double");     break;
+                case "String"  : Emit("string");     break;
+                case "Number"  : Emit("double");     break;
+                default        : Emit(type.Name);    break;
             }
         }
               

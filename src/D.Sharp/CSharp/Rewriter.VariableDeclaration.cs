@@ -26,7 +26,6 @@
             return declaration;
         }
 
-
         private void WriteVariableDeclarationWithMatch(VariableDeclaration expression)
         {
             WriteTypeSymbol(expression.Type ?? Type.Get(Kind.Object));
@@ -40,7 +39,7 @@
             var match = (MatchExpression)expression.Value;
           
             Emit("switch (");
-            Emit(match.Expression.ToString());
+            Visit(match.Expression);
             writer.WriteLine(")");
             writer.WriteLine("{");
 

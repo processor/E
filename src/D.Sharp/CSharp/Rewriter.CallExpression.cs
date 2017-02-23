@@ -7,7 +7,7 @@ namespace D.Compilation
     public partial class CSharpTranspiler
     {
         // Fully qualify
-        private static readonly Dictionary<string, string> functionMap = new Dictionary<string, string> {
+        private static readonly Dictionary<string, string> funcMap = new Dictionary<string, string> {
             { "abs"     , "Math.Abs" },
             { "acos"    , "Math.Acos" },
             { "asin"    , "Math.Asin" },
@@ -22,8 +22,6 @@ namespace D.Compilation
             { "sqrt"    , "Math.Sqrt" }
         };
 
-
-
         // a |> b |> c
 
         // a |> b(100) |> c(100, 18)
@@ -33,7 +31,6 @@ namespace D.Compilation
         public override IExpression VisitCall(CallExpression call)
         {
             Emit(GetFunctionName(call.FunctionName));
-
 
             if (call.IsPiped)
             {
@@ -63,7 +60,7 @@ namespace D.Compilation
 
         private string GetFunctionName(string name)
         {
-            if (functionMap.TryGetValue(name, out string result))
+            if (funcMap.TryGetValue(name, out string result))
             {
                 return result;
             }
@@ -93,15 +90,15 @@ namespace D.Compilation
             }
         }
 
-        public void WriteArguments(IExpression _this, IArguments args)
+        public void WriteArguments(IExpression @this, IArguments args)
         {
             var i = 0;
 
             Emit("(");
 
-            if (_this != null)
+            if (@this != null)
             {
-                Visit(_this);
+                Visit(@this);
 
                 i++;
             }
