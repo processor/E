@@ -888,7 +888,6 @@ namespace D.Parsing
                 ? ReadSymbol()
                 : null;
 
-
             var annotations = ReadAnnotations().ToArray();
 
             Consume(BraceOpen);     // ! {
@@ -1028,11 +1027,11 @@ namespace D.Parsing
 
         #endregion
 
-
         #region Modules
 
         public ModuleSyntax ReadModule(Symbol name)
         {
+            Consume(Module);  // ! module  
 
             var block = ReadBlock();
 
@@ -1043,11 +1042,11 @@ namespace D.Parsing
 
         #region Class / Implementation
 
-        // Curve implemention for Bezier {
+        // Curve impl for BezierCurve {
 
         public ImplementationDeclarationSyntax ReadImplementation(Symbol name)
         {
-            Consume(Implementation);  // ! implementation  
+            Consume(Implementation); // ! implementation  
 
             Symbol protocal = null;
             Symbol type;
@@ -1124,8 +1123,6 @@ namespace D.Parsing
         A & B                           | Intersection<A, B>
         A?                              | Optional<A>
         */
-
-        // Symbol...
 
         private Symbol ReadSymbol(SymbolFlags flags = SymbolFlags.Type)
         {
@@ -1846,9 +1843,9 @@ namespace D.Parsing
                             ? (SyntaxNode)ReadCompoundTypeDeclaration(symbolList.Extract())
                             : ReadTypeDeclaration(name);  // type : hello
 
-                    case Implementation: return ReadImplementation(name);
-                    case Protocal: return ReadProtocal(name);
-                    case Function: return ReadFunctionDeclaration(name);
+                    case Implementation : return ReadImplementation(name);
+                    case Protocal       : return ReadProtocal(name);
+                    case Function       : return ReadFunctionDeclaration(name);
                 }
             }
 
