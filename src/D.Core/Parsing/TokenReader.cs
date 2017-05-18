@@ -65,7 +65,7 @@ namespace D.Parsing
         {
             if (Current.Kind != kind)
             {
-                throw new UnexpectedTokenException($"Expected {kind}. Was {Current} @{Current.Start.Line}");
+                throw new UnexpectedTokenException($"Expected {kind}. Was {Current} @{Current.Start.Line}:{Current.Start.Column}");
             }
 
             var c = Current;

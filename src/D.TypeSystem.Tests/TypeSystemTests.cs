@@ -15,7 +15,7 @@ namespace D.Inference
             var listOfFloat  = flow.GetListTypeOf(Kind.Number);
 
             Assert.Equal("String",  flow.Infer(new Call("head",     new[] { new Constant(listOfString) })).Name);
-            Assert.Equal("Float",   flow.Infer(new Call("head",     new[] { new Constant(listOfFloat) })).Name);
+            Assert.Equal("Number",   flow.Infer(new Call("head",     new[] { new Constant(listOfFloat) })).Name);
             Assert.Equal("Boolean", flow.Infer(new Call("contains", new[] { new Constant(listOfFloat) })).Name);
         }
 

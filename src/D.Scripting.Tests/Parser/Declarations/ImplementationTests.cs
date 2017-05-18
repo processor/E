@@ -268,7 +268,7 @@ HTML::Element impl for CustomElement {
         {
             var declaration = Parse<ImplementationDeclarationSyntax>(@"
 Curve <T> implementation for Arc<T> {
-  getPoint(Arc<T>, t: Number) {
+  getPoint(this, t: Number) {
     var deltaAngle = endAngle - startAngle
     let samePoints = abs(deltaAngle) < ε
 

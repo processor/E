@@ -507,12 +507,12 @@ Point impl {
         public void Y()
         {
             Assert.Equal(
-@"public static Point<T> Negate<T>(Point<T> _0) => new Point<T>(x: -_0.X, y: -_0.Y, z: -_0.Z);",
+@"public static Point<T> Negate<T>(Point<T> value) => new Point<T>(x: -value.X, y: -value.Y, z: -value.Z);",
 Transpile(
-@"negate ƒ <T> (Point<T>) => Point<T> { 
-  x: - $0.x, 
-  y: - $0.y, 
-  z: - $0.z 
+@"negate ƒ <T> (value: Point<T>) => Point<T> { 
+  x: - value.x, 
+  y: - value.y, 
+  z: - value.z 
 }"));
         }
 

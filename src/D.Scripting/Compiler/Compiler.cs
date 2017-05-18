@@ -170,7 +170,7 @@ namespace D.Compilation
             {
                 var member = type.GenericParameters[i];
 
-                genericParameters[i] = new Parameter(member.Name, scope.Get<Type>(member.Type ?? Symbol.Any));
+                genericParameters[i] = new Parameter(member.Name, scope.Get<Type>(member.Type ?? TypeSymbol.Any));
 
                 // context.Add(member.Name, (Type)genericParameters[i].Type);
             }

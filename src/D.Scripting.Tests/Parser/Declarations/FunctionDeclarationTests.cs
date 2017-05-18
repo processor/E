@@ -138,7 +138,7 @@ clamp ƒ <T> (p: Point<T>, min: Point<T>, max: Point<T>) => Point<T> {
         public void Generic2()
         {
             var func = Parse<FunctionDeclarationSyntax>(
-"dot ƒ <T: Number> (Point<T>, Point<T>) => $0.x * $1.x + $0.y * $1.y + $0.z * $1.z");
+"dot ƒ <T: Number> (lhs: Point<T>, rhs: Point<T>) => lhs.x * lhs.x + rhs.y * rhs.y + lsh.z * rhs.z");
 
             // 'T / Generic arg
 

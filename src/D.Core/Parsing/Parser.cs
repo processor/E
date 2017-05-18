@@ -132,7 +132,6 @@ namespace D.Parsing
                 case Using                  : return ReadUsingStatement();
             }
 
-
             return TopExpression(); // functionName args, 5px * 5
         }
 
@@ -212,7 +211,7 @@ namespace D.Parsing
 
             do
             {
-                domains.Add(ReadSymbol(SymbolFlags.Module));
+                domains.Add(ReadModuleSymbol());
             }
             while (!IsEof && ConsumeIf(Comma)); // ? , 
 
@@ -349,9 +348,10 @@ namespace D.Parsing
 
             var observable  = ReadExpression(); // TODO: handle member access
 
-            var eventType = ReadSymbol();
+            var eventType = ReadTypeSymbol();
+
             var varName = (! (IsKind(BraceOpen) | IsKind(LambdaOperator)))
-                ? ReadSymbol(SymbolFlags.Function).Name
+                ? ReadFunctionSymbol().Name
                 : null;
 
             var body = ReadBody();
@@ -368,7 +368,7 @@ namespace D.Parsing
             Consume(Until); // ! until
 
             var untilObservable = ReadExpression();
-            var untilEventType  = ReadSymbol();
+            var untilEventType  = ReadTypeSymbol();
 
             return new UntilConditionSyntax(untilObservable, untilEventType);
         }
@@ -432,10 +432,10 @@ namespace D.Parsing
 
                 do
                 {
-                    var name = ReadSymbol();
+                    var name = ReadTypeSymbol();
 
                     var type = (ConsumeIf(Colon))
-                        ? ReadSymbol()
+                        ? ReadTypeSymbol()
                         : null;
 
                     list.Add(new AssignmentElementSyntax(name, type));
@@ -509,12 +509,12 @@ namespace D.Parsing
 
             var flags = mutable ? VariableFlags.Mutable : VariableFlags.None;
 
-            var name = ReadSymbol(SymbolFlags.Variable | SymbolFlags.Local);
+            var name = ReadVariableSymbol(SymbolFlags.Local);
 
             ConsumeIf(ParenthesisClose);    // ? )
 
             var type = ConsumeIf(Colon)     // ? :
-                ? ReadSymbol()
+                ? ReadTypeSymbol()
                 : null;
 
             var value = ConsumeIf("=")       // ? =
@@ -531,7 +531,7 @@ namespace D.Parsing
 
             Consume(From); // ! from
 
-            return ReadFunctionDeclaration(new Symbol("initializer", SymbolFlags.Function), flags);
+            return ReadFunctionDeclaration(new FunctionSymbol("initializer"), flags);
         }
 
         // to String =>
@@ -541,7 +541,7 @@ namespace D.Parsing
 
             Consume(To); // ! to
 
-            var returnType = ReadSymbol();
+            var returnType = ReadTypeSymbol();
 
             var body = ReadBody();
 
@@ -562,7 +562,7 @@ namespace D.Parsing
             Consume(BracketClose);
 
             var returnType = ConsumeIf(ReturnArrow)
-                   ? ReadSymbol(SymbolFlags.Argument)
+                   ? ReadArgumentSymbol()
                    : null;
 
             var body = ReadBody();
@@ -578,11 +578,12 @@ namespace D.Parsing
 
             if (isOperator) flags |= FunctionFlags.Operator;
 
-            var name = isOperator ? new Symbol(reader.Consume(), SymbolFlags.Function) : ReadSymbol(SymbolFlags.Function);
+            var name = isOperator ? new FunctionSymbol(reader.Consume()) : ReadFunctionSymbol();
 
             return ReadFunctionDeclaration(name, flags);
         }
 
+        // clamp ƒ <T> (p: Point<T>, min: Point<T>, max: Point<T>) => Point<T> { }
         private FunctionDeclarationSyntax ReadFunctionDeclaration(Symbol name, FunctionFlags flags = FunctionFlags.None)
         {
             ConsumeIf(Function);        // ? ƒ | function
@@ -607,12 +608,9 @@ namespace D.Parsing
             {
                 var varName = reader.Consume();
 
-                bool isType = (char.IsUpper(varName.Text[0]));
+                // parameters MUST not begin with an uppercase letter.
 
-                parameters = new[] { isType 
-                    ? ParameterSyntax.Ordinal(0, Symbol.Argument(varName)) 
-                    : new ParameterSyntax(varName)
-                };
+                parameters = new[] { new ParameterSyntax(varName) };
             }
             else
             {
@@ -620,9 +618,9 @@ namespace D.Parsing
 
                 parameters = Array.Empty<ParameterSyntax>();
             }
-
+            
             var returnType = ConsumeIf(ReturnArrow)
-                ? ReadSymbol(SymbolFlags.Argument)
+                ? ReadTypeSymbol()
                 : null;
 
             SyntaxNode body;
@@ -653,10 +651,10 @@ namespace D.Parsing
 
                 do
                 {
-                    var genericName = ReadSymbol();
+                    var genericName = ReadTypeSymbol();
 
                     var genericType = ConsumeIf(Colon)         // ? : {type}
-                        ? ReadSymbol()
+                        ? ReadTypeSymbol()
                         : null;
 
                     list.Add(new ParameterSyntax(genericName, genericType));
@@ -713,31 +711,23 @@ namespace D.Parsing
             }
             while (reader.ConsumeIf(Comma));
         }
-
-        // Integer,
-        // Integer)
-        // i: Integer
-        // this Type
+        
+        // this, a, i: Integer
         public ParameterSyntax ReadParameter(int index)
         {
-            var name = ReadSymbol(SymbolFlags.Argument); // name
+            var name = ReadArgumentSymbol(); // name
 
-            var type = ConsumeIf(Colon)         // ? : {type}
-                ? ReadSymbol()
+            var type = ConsumeIf(Colon) // ? : {type}
+                ? ReadTypeSymbol()
                 : null;
 
             var predicate = (IsKind(Op) && Current.Text != "=") // ? op
                 ? MaybeBinary(name, 0)
                 : null;
            
-            var defaultValue = ConsumeIf("=")   // ? = {defaultValue}
+            var defaultValue = ConsumeIf("=") // ? = {defaultValue}
                 ? ReadExpression()
                 : null;
-
-            if (type == null && IsOneOf(Comma, ParenthesisClose) && char.IsUpper(name.Name[0]))
-            {
-                return ParameterSyntax.Ordinal(index, type: name);
-            }
 
             return new ParameterSyntax(name, type, defaultValue, predicate, index: index);
         }
@@ -752,8 +742,8 @@ namespace D.Parsing
 
             if (ConsumeIf(Record)) flags |= TypeFlags.Record;
 
-            var baseTypes = ConsumeIf(Colon)      // ? :
-                ? ReadSymbol(SymbolFlags.Type)     // baseType
+            var baseTypes = ConsumeIf(Colon) // ? :
+                ? ReadTypeSymbol()           // baseType
                 : null;
 
             var members = ReadTypeDeclarationBody();
@@ -777,8 +767,8 @@ namespace D.Parsing
             // <T: Number>
             var genericParameters = ReadGenericParameters();
 
-            var baseType = ConsumeIf(Colon)    // ? :
-                ? ReadSymbol(SymbolFlags.Type)  // baseType
+            var baseType = ConsumeIf(Colon) // ? :
+                ? ReadTypeSymbol()          // baseType
                 : null;
 
             var annotations = ReadAnnotations().ToArray();
@@ -799,8 +789,8 @@ namespace D.Parsing
 
             ConsumeIf(TokenKind.Unit);
 
-            var baseType = ConsumeIf(Colon)    // ? :
-                ? ReadSymbol(SymbolFlags.Type)  // baseType
+            var baseType = ConsumeIf(Colon) // ? :
+                ? ReadTypeSymbol()          // baseType
                 : null;
 
             var annotations = ReadAnnotations().ToArray();
@@ -837,7 +827,7 @@ namespace D.Parsing
 
             while (ConsumeIf(At))
             {
-                var name = ReadSymbol(); // !{name}
+                var name = ReadTypeSymbol(); // !{name}
 
                 var args = IsKind(ParenthesisOpen) ? ReadArguments() : Array.Empty<ArgumentSyntax>();
 
@@ -857,13 +847,13 @@ namespace D.Parsing
 
                 do
                 {
-                    names.Add(ReadSymbol(SymbolFlags.Property));
+                    names.Add(ReadMemberSymbol());
                 }
                 while (ConsumeIf(Comma));
 
                 Consume(Colon); // ! :
 
-                var type = ReadSymbol(SymbolFlags.Type);
+                var type = ReadTypeSymbol();
 
                 ConsumeIf(Semicolon); // ? ;
 
@@ -885,7 +875,7 @@ namespace D.Parsing
             Consume(Protocal);      // ! protocal
 
             Symbol baseProtocal = ConsumeIf(Colon)
-                ? ReadSymbol()
+                ? ReadTypeSymbol()
                 : null;
 
             var annotations = ReadAnnotations().ToArray();
@@ -942,7 +932,7 @@ namespace D.Parsing
 
                         if (ConsumeIf(Colon))
                         {
-                            var label = ReadSymbol(SymbolFlags.Label);
+                            var label = ReadLabelSymbol();
                         }
                     }
 
@@ -968,7 +958,7 @@ namespace D.Parsing
 
         public FunctionDeclarationSyntax ReadProtocalMember()
         {
-            var name = ReadSymbol(SymbolFlags.Label);
+            var name = ReadLabelSymbol();
             
             ConsumeIf(Function);                             // ? ƒ
 
@@ -990,8 +980,8 @@ namespace D.Parsing
             }
 
             var returnType = ConsumeIf(ReturnArrow)
-                ? ReadSymbol()
-                : Symbol.Void;
+                ? ReadTypeSymbol()
+                : TypeSymbol.Void;
 
             ConsumeIf(Semicolon);
 
@@ -1006,7 +996,7 @@ namespace D.Parsing
                 ? MessageFlags.Optional 
                 : MessageFlags.None;
 
-            var name = ReadSymbol(SymbolFlags.Function);
+            var name = ReadFunctionSymbol();
 
             if (ConsumeIf(End)) // ? ∎
             {
@@ -1019,7 +1009,7 @@ namespace D.Parsing
             }
 
             var label = ConsumeIf(Colon)    // ? :
-                ? ReadSymbol(SymbolFlags.Label).Name
+                ? ReadLabelSymbol().Name
                 : null;
 
             return new ProtocalMessage(name.Name, label, flags);
@@ -1054,7 +1044,7 @@ namespace D.Parsing
             if (ConsumeIf(For)) // ? for
             {
                 protocal = name;
-                type = ReadSymbol(SymbolFlags.Type);
+                type     = ReadTypeSymbol();
             }
             else
             {
@@ -1109,7 +1099,67 @@ namespace D.Parsing
 
             var number = reader.Consume(Number);
 
-            return Symbol.Variable("$" + number.Text);
+            return new VariableSymbol("$" + number.Text);
+        }
+
+        public LabelSymbol ReadLabelSymbol()
+        {
+            return new LabelSymbol(ReadName());
+        }
+
+
+        // e.g. i
+
+        public VariableSymbol ReadVariableSymbol(SymbolFlags flags)
+        {
+            return new VariableSymbol(ReadName(), flags);
+
+        }
+
+        public FunctionSymbol ReadFunctionSymbol()
+        {
+            return new FunctionSymbol(ReadName());
+        }
+
+        public ArgumentSymbol ReadArgumentSymbol()
+        {
+            return new ArgumentSymbol(ReadName());
+        }
+
+        public MemberSymbol ReadMemberSymbol()
+        {
+            return new MemberSymbol(ReadName());
+        }
+
+        public ModuleSymbol ReadModuleSymbol()
+        {
+            return new ModuleSymbol(ReadName());
+        }
+
+        // chains the name if it finds a backtick
+        // e.g. setting `Transaction
+        private Token ReadName()
+        {
+            var name = reader.Consume();
+
+            if (IsKind(Backtick))
+            {
+                var sb = new StringBuilder();
+
+                sb.Append(name);
+
+                while (ConsumeIf(Backtick))
+                {
+                    name = reader.Consume();
+
+                    sb.Append(name);
+                }
+
+                name = new Token(name.Kind, name.Start, sb.ToString(), name.Trailing);
+            }
+
+            return name;
+
         }
 
         /*
@@ -1124,15 +1174,15 @@ namespace D.Parsing
         A?                              | Optional<A>
         */
 
-        private Symbol ReadSymbol(SymbolFlags flags = SymbolFlags.Type)
+        private TypeSymbol ReadTypeSymbol()
         {
-            if (flags == SymbolFlags.Type && ConsumeIf(ParenthesisOpen))
+            if (ConsumeIf(ParenthesisOpen))
             {
                 var args = new List<Symbol>();
 
                 do
                 {
-                    args.Add(ReadSymbol());
+                    args.Add(ReadTypeSymbol());
                 }
                 while (ConsumeIf(Comma));
 
@@ -1142,10 +1192,10 @@ namespace D.Parsing
 
                 if ((wasFunction = ConsumeIf(ReturnArrow)))
                 {
-                    args.Add(ReadSymbol());
+                    args.Add(ReadTypeSymbol());
                 }
 
-                return new Symbol(wasFunction ? "Function" : "Tuple", flags, args.ToArray());
+                return new TypeSymbol(wasFunction ? "Function" : "Tuple", args.ToArray());
             }
 
 
@@ -1153,33 +1203,18 @@ namespace D.Parsing
             {
                 Consume(BracketClose); // ]
 
-                return new Symbol("List", flags, arguments: ReadSymbol(flags));
+                return new TypeSymbol("List", arguments: ReadTypeSymbol());
             }
 
             if (ConsumeIf("*"))
             {
-                return new Symbol("Channel", flags, arguments: ReadSymbol());
+                return new TypeSymbol("Channel",  arguments: ReadTypeSymbol());
             }
 
-            var name = reader.Consume(); // Identifer | This | Operator
 
             string domain = null;
 
-            if (IsKind(Backtick))
-            {
-                var sb = new StringBuilder();
-
-                sb.Append(name);
-
-                while (ConsumeIf(Backtick))
-                {
-                    name = reader.Consume();
-                    
-                    sb.Append(name);
-                }
-
-                name = new Token(name.Kind, name.Start, sb.ToString(), name.Trailing);
-            }
+            var name = ReadName(); // Identifer | This | Operator
 
             if (ConsumeIf(ColonColon))
             {
@@ -1196,7 +1231,7 @@ namespace D.Parsing
 
                 do
                 {
-                    list.Add(ReadSymbol());
+                    list.Add(ReadTypeSymbol());
                 }
                 while (ConsumeIf(Comma));
 
@@ -1209,12 +1244,13 @@ namespace D.Parsing
                 arguments = Array.Empty<Symbol>();
             }
 
-            var result = new Symbol(domain, name, flags, arguments);
+            var result = new TypeSymbol(domain, name, arguments);
 
+            
             // Variant      :  A | B 
             // Intersection : A & B
 
-            if (flags == SymbolFlags.Type && IsKind(Bar))
+            if (IsKind(Bar))
             {
                 var list = new List<Symbol>();
 
@@ -1222,12 +1258,12 @@ namespace D.Parsing
 
                 while (ConsumeIf(Bar))
                 {
-                    list.Add(ReadSymbol());
+                    list.Add(ReadTypeSymbol());
                 }
 
-                return new Symbol("Variant", flags, list.ToArray());
+                return new TypeSymbol("Variant", list.ToArray());
             }
-            else if (flags == SymbolFlags.Type && reader.Current == "&")
+            else if (reader.Current == "&")
             {
                 var list = new List<Symbol>();
 
@@ -1235,13 +1271,13 @@ namespace D.Parsing
 
                 while (ConsumeIf("&"))
                 {
-                    list.Add(ReadSymbol());
+                    list.Add(ReadTypeSymbol());
                 }
 
-                return new Symbol("Intersection", flags, list.ToArray());
+                return new TypeSymbol("Intersection", list.ToArray());
             }
 
-            else if (flags == SymbolFlags.Type && IsKind(ReturnArrow))
+            else if (IsKind(ReturnArrow))
             {
                 var list = new List<Symbol>();
 
@@ -1249,15 +1285,16 @@ namespace D.Parsing
 
                 Consume(ReturnArrow);
 
-                list.Add(ReadSymbol());
+                list.Add(ReadTypeSymbol());
 
-                return new Symbol("Function", flags, list.ToArray());
+                return new TypeSymbol("Function", list.ToArray());
             }
+            
 
             // Optional ?
             if (name.Trailing == null && ConsumeIf("?")) // ? 
             {
-                return new Symbol("Optional", flags, arguments: result);
+                return new TypeSymbol("Optional", arguments: result);
             }
 
             return result;
@@ -1279,7 +1316,7 @@ namespace D.Parsing
 
             while (!IsEof && !IsKind(BraceClose))
             {
-                var name = ReadSymbol(SymbolFlags.Member);
+                var name = ReadMemberSymbol();
 
                 var member = ConsumeIf(Colon)
                     ? new ObjectPropertySyntax(name, value: ReadExpression())
@@ -1430,7 +1467,7 @@ namespace D.Parsing
             // Maybe symbol?
             if (ConsumeIf(BracketClose))
             {
-                return Symbol.Type("List", ReadSymbol());
+                return Symbol.Type("List", ReadTypeSymbol());
             }
 
             var rows = 0;
@@ -1544,7 +1581,7 @@ namespace D.Parsing
             {
                 if (first is Symbol)
                 {
-                    var type = ReadSymbol(SymbolFlags.Type);
+                    var type = ReadTypeSymbol();
 
                     return new NamedType(first.ToString(), type);
                 }
@@ -1630,7 +1667,7 @@ namespace D.Parsing
                     {
                         var element = (NamedType)tuple.Elements[0];
 
-                        return new TypePatternSyntax(element.Type, Symbol.Variable(element.Name));
+                        return new TypePatternSyntax(element.Type, new VariableSymbol(element.Name));
                     }
 
                     return new TuplePatternSyntax(tuple);
@@ -1753,7 +1790,7 @@ namespace D.Parsing
 
                 if (ConsumeIf(Colon)) // :
                 {
-                    var right = ReadSymbol();
+                    var right = ReadTypeSymbol();
 
                     var element = new NamedType(left.ToString(), right);
 
@@ -1809,13 +1846,13 @@ namespace D.Parsing
 
                     while (ConsumeIf(Comma))
                     {
-                        symbolList.Add(ReadSymbol(SymbolFlags.Type));
+                        symbolList.Add(ReadTypeSymbol());
                     }
                 }
 
                 switch (Current.Kind)
                 {
-                    case BraceOpen:
+                    case BraceOpen: // {
                         if (InMode(Mode.Root) || InMode(Mode.Block))
                         {
                             return ReadNewObject(name);
@@ -1889,7 +1926,7 @@ namespace D.Parsing
                 }
                 else if (ConsumeIf(Dot))         // ? .
                 {
-                    var name = ReadSymbol(SymbolFlags.Member);
+                    var name = ReadMemberSymbol();
 
                     left = IsKind(ParenthesisOpen)  // ? (
                         ? (SyntaxNode)new CallExpressionSyntax(left, name, arguments: ReadArguments())
@@ -1942,7 +1979,18 @@ namespace D.Parsing
                 case Identifier:
                     depth = 0;
 
-                    var symbol = ReadSymbol(SymbolFlags.Member);
+                    Symbol symbol;
+
+                    // read member or type...
+
+                    if (char.IsUpper(reader.Current.Text[0]))
+                    {
+                        symbol = ReadTypeSymbol();
+                    }
+                    else
+                    {
+                        symbol = ReadMemberSymbol();
+                    }
 
                     if (InMode(Mode.Arguments) && IsKind(LambdaOperator))  // ? =>
                     {
@@ -2052,7 +2100,7 @@ namespace D.Parsing
         }
 
         public CallExpressionSyntax ReadCall(SyntaxNode callee)
-            => ReadCall(callee, ReadSymbol(SymbolFlags.Function));
+            => ReadCall(callee, ReadFunctionSymbol());
 
         // Question: Scope read if arg count is fixed ?
 
@@ -2068,20 +2116,18 @@ namespace D.Parsing
 
         #region Helpers
 
-        public bool IsEof
-            => reader.IsEof;
+        public bool IsEof => reader.IsEof;
 
-        public Token Current
-            => reader.Current;
+        public Token Current => reader.Current;
 
-        Token Consume(TokenKind kind)
-            => reader.Consume(kind);
+        Token Consume(TokenKind kind) => 
+            reader.Consume(kind);
 
-        Token Consume(string text)
-           => reader.Consume(text);
+        Token Consume(string text) =>
+            reader.Consume(text);
 
-        bool ConsumeIf(TokenKind kind)
-            => reader.ConsumeIf(kind);
+        bool ConsumeIf(TokenKind kind) => 
+            reader.ConsumeIf(kind);
 
         bool ConsumeIf(string text)
         {
