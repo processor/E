@@ -32,8 +32,9 @@ when did blue die?
 
 Entities partioned by kind thenby registar;
 
-reserve 1000000000000 records for Organisms;
-reserve 1000000000	  records for Humans;
-reserve 1000000000000 records for Organizations;
-reserve 1000000000    records ∀ Birth.registrar;
-reserve 1000000000    records ∀ Incorporation.registrar;
+reserve 1_000_000_000_000 records for Organizations;      (0 - 1T)
+reserve 1_000_000_000_000 records for Organisms;          (1T - 2T)
+reserve 1_000_000_000_000 records for Humans;            
+
+reserve 1_000_000_000     records ∀ Birth.registrar;
+reserve 1_000_000_000     records ∀ Incorporation.registrar;
