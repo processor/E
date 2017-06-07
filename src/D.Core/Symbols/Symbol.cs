@@ -3,34 +3,19 @@ using System.Text;
 
 namespace D
 {
-    using Expressions; 
+    using Expressions;
+    using Syntax;
 
-    // Array        [ ] Type
-    // Dictionary   [ key`Type: value`Type ]
-    // Function     (parameter`Type) -> return`Type 
-    // Tuple        ()
-    // Optional     Type?       Optional<T>
-    // Any
-
-    // physics::Momentum
-    // Array<String>
-    // Array<physics::Momentum>
-
-    public class Symbol : IExpression, Syntax.SyntaxNode
+    public abstract class Symbol : IExpression, SyntaxNode
     {
-        public static readonly Symbol Any    = Symbol.Type("Any");
-        public static readonly Symbol String = Symbol.Type("String");
-        public static readonly Symbol Number = Symbol.Type("Number");
-        public static readonly Symbol Void   = Symbol.Type("Void");         // unit '()' in rust. Void in Swift / C#, ...
-
-        public Symbol(string name, SymbolFlags flags)
+        public Symbol(string name, SymbolFlags flags = SymbolFlags.None)
         {
             Name = name;
             Flags = flags;
             Arguments = Array.Empty<Symbol>();
         }
 
-        public Symbol(string module, string name, SymbolFlags flags, Symbol[] arguments)
+        public Symbol(string module, string name, Symbol[] arguments, SymbolFlags flags = SymbolFlags.None)
         {
             Module      = module;
             Name        = name;
@@ -38,13 +23,14 @@ namespace D
             Flags       = flags;
         }
 
-        public Symbol(string name, SymbolFlags flags, params Symbol[] arguments)
+        public Symbol(string name, Symbol[] arguments, SymbolFlags flags = SymbolFlags.None)
         {
             Name        = name;
             Arguments   = arguments;
             Flags       = flags;
         }
 
+        // AKA namespace
         public string Module { get; }
 
         public string Name { get; }
@@ -55,7 +41,7 @@ namespace D
 
         public SymbolFlags Flags { get; }
 
-        public SymbolFlags SymbolKind => Flags & SymbolFlags.Types;
+        public abstract SymbolType SymbolType { get; }
 
         #region Initializization
 
@@ -110,55 +96,22 @@ namespace D
             return sb.ToString();
         }
 
-        public static Symbol Label(string name)
-           => new Symbol(name, SymbolFlags.Label);
+        public static LabelSymbol Label(string name) =>
+            new LabelSymbol(name);
 
-        public static Symbol Argument(string name)
-            => new Symbol(name, SymbolFlags.Argument);
+        public static VariableSymbol Variable(string name) =>
+            new VariableSymbol(name);
 
-        public static Symbol Variable(string name)
-            => new Symbol(name, SymbolFlags.Variable);
+        public static Symbol Argument(string name) => 
+            new ArgumentSymbol(name);
 
-        public static Symbol Type(string name)
-         => new Symbol(name, SymbolFlags.Type);
+        public static TypeSymbol Type(string name) =>
+            new TypeSymbol(name);
 
-        public static Symbol Type(string name, params Symbol[] arguments)
-         => new Symbol(name, SymbolFlags.Type, arguments);
+        public static Symbol Type(string name, params Symbol[] arguments) =>
+            new TypeSymbol(name, arguments);
 
-        public static implicit operator string(Symbol symbol)
-            => symbol?.ToString();
-    }
-
-    public enum SymbolFlags
-    {
-        None        = 0,
-        Variable    = 1 << 0,
-        Argument    = 1 << 1,  // function scope
-        Member      = 1 << 2,
-        Type        = 1 << 3,       
-        Function    = 1 << 4,  // instance vs global?
-        Module      = 1 << 5,
-        Label       = 1 << 6,
-        Operator    = 1 << 7,
-
-        Types = Variable | Member | Type | Function | Module | Label | Operator,
-
-        // Variables
-        Property    = 1 << 9, // type member
-  
-
-        Infix       = 1 << 9,
-        Postfix     = 1 << 10,
-
-        // Variable Scope...
-        BlockScoped = 1 << 11,
-        Local       = 1 << 12
-    }
-
-    public enum SymbolStatus
-    {
-        Unresolved = 0,
-        Resoliving = 1,
-        Resolved   = 2
+        public static implicit operator string(Symbol symbol) =>
+            symbol?.ToString();
     }
 }

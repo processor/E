@@ -86,14 +86,14 @@ for crime in Crimes {
         public void ForCollection()
         {
             var f = Parse<ForStatement>(@"
-for criminology::Crimes {
+for criminology.Crimes {
   a = a + 1
 }");
 
-            var generator = (Symbol)f.GeneratorExpression;
+            var generator = (MemberAccessExpressionSyntax)f.GeneratorExpression;
 
-            Assert.Equal("criminology", generator.Module);
-            Assert.Equal("Crimes",      generator.Name);
+            Assert.Equal("criminology", generator.Left.ToString());
+            Assert.Equal("Crimes", generator.Name);
         }
     }
 }

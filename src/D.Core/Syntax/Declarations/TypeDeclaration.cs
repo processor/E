@@ -1,4 +1,6 @@
-﻿namespace D.Syntax
+﻿using System;
+
+namespace D.Syntax
 {
     // type | record | event
 
@@ -64,7 +66,7 @@
         public CompoundTypeDeclarationSyntax(Symbol[] names, TypeFlags flags, Symbol baseType, PropertyDeclarationSyntax[] properties)
              : base(baseType, properties, flags)
         {
-            Names = names;
+            Names = names ?? throw new ArgumentNullException(nameof(names));
         }
 
         public Symbol[] Names { get; }
@@ -72,10 +74,10 @@
 
     public class PropertyDeclarationSyntax : SyntaxNode
     {
-        public PropertyDeclarationSyntax(string name, Symbol type, VariableFlags flags)
+        public PropertyDeclarationSyntax(string name, TypeSymbol type, VariableFlags flags)
         {
-            Name = name;
-            Type = type;
+            Name  = name ?? throw new ArgumentNullException(nameof(name));
+            Type  = type;
             Flags = flags;
         }
 
@@ -86,16 +88,13 @@
         // String
         // String | Number
         // A & B
-        public Symbol Type { get; }
+        public TypeSymbol Type { get; }
 
         Kind IObject.Kind => Kind.Property;
     }
 
     // MAP = * -> *
-
-  
 }
-
 
 /*
 type Person = {
