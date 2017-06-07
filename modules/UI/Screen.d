@@ -1,3 +1,3 @@
-import { Canvas } from Drawing
+using Drawing
 
 Screen : Canvas { }

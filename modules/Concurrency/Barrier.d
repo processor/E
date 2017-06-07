@@ -1,5 +1,3 @@
 Barrier protocal { 
-
-  
-  
+  destroy()
 }

@@ -1,3 +1,0 @@
-﻿XMLDocument type :  Document {
-
-}

@@ -1,8 +1,3 @@
-Project `Collaborator type { 
-
-}
-
-
 Project impl { 
    add (Document)  -> Workspace`Object
    add (Section)   -> Workspace`Section

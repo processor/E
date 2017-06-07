@@ -30,7 +30,7 @@ Masonary'Layout impl {
 
 Layout impl for Masonary'Layout {
   doLayout (elements) { 
-    for elements {
+    for el in elements {
       let column = shortestColumn()
                 
       // Add bottom gutter
@@ -38,11 +38,11 @@ Layout impl for Masonary'Layout {
         column.height += columnGap
       }
 
-      $0.left = column.left
-      $0.top  = column.height
+      el.left = column.left
+      el.top  = column.height
 
       // Add the item height to the column
-      column.height += $0.height
+      column.height += el.height
     }
     
     return Size {
@@ -50,11 +50,6 @@ Layout impl for Masonary'Layout {
       height : columns |> map(c => c.height) |> max
     }
   }
-}
-
-Size type {
-  width  : Number
-  height : Number
 }
 
 Box type { 

@@ -1,5 +1,5 @@
 Bitmap<T:Color> type {
-  pixels : [ ] Color
-  height : Number
-  width  : Number
+  pixels : [ ] Pixel
+  height : i32
+  width  : i32
 }

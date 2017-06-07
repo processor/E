@@ -8,7 +8,6 @@
 ℙ => Probability
 ∅ => EmptySet
 
-
 ⨯ operator
 ∑ operator 
 

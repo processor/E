@@ -1,3 +1,3 @@
 Record protocal { 
-  id : i64 > 0
+  id : Identity
 }

@@ -1,13 +1,5 @@
 ﻿using symptoms, diseases, syndromes, drugs
 
-Medical `Diagnosis record { }
-
-  Disease
-, Disorder,
-, Syndrome
-: Medical `Diagnosis { 
-  
-}
 
 // rule for unmasking? i.e. until 50 years after Death
 
@@ -21,11 +13,6 @@ Medical `Diagnosis protocal {
 }
 
 // masked Organism   // rule for unmasking? i.e. until 50 years after Death
-
-
-Practitioner protocal { 
-  displines -> [ ] Displine
-}
 
 Practitioner record { 
   person: Entity

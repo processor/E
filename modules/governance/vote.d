@@ -3,3 +3,6 @@ Vote record {
   // issue
   // yay, nay
 }
+
+Yay : Vote { }
+Nay : Vote { }

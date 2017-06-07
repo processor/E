@@ -557,12 +557,12 @@ copyBlocksGray ƒ(source: &[u8],
                  width : u32,
                  bpp   : u32,
                  gb    : mutable [u8; 64]) {
-    for y in 0 ..< 8 {
-        let ystride = (y0 + y) * bpp * width;
+  for y in 0 ..< 8 {
+    let ystride = (y0 + y) * bpp * width;
 
-        for x in 0 .. <8 {
-            let xstride = x0 * bpp + x * bpp;
-            gb[y * 8 + x] = valueAt(source, ystride + xstride + 1);
-        }
+    for x in 0 .. <8 {
+      let xstride = x0 * bpp + x * bpp;
+        gb[y * 8 + x] = valueAt(source, ystride + xstride + 1);
+      }
     }
 }

@@ -1,7 +1,6 @@
 ﻿// Channels replace sequences, streams,
 // * byte.. :≡ Readable`Channel of zero or more_byte'
 
-
 Channel protocal { 
   status   -> Channel`Status
   unread   -> Int64 ≥ 0
@@ -17,15 +16,6 @@ Channel protocal {
 	  | NotConnectedError
 }
 
-
-Seekable protocal { 
-  position : Int64 ≥ 0
-  length   : Int64 > 0
-
-  seek (Int64 ≥ 0) -> 
-   | Seeked
-   | OutsideRange	
-}
 
 Seekable_Channel = Channel & Seekable
 
@@ -55,17 +45,6 @@ Channel`Awaiter protocal for T {
 Observerable<T> protocal {
   subscriptions : [ ] Subscription<T>
   subscribe(ƒ(Message|∎)) -> Subscription<T>
-}  
-
-Connection protocal : Channel { 
-  * connect   : connecting   // send packet 
-  * ack       : connected    // acknowledged. GTG 
-  * send      : sending
-  * receive   : receiving
-  * close   ∎ : closed
-
-  open   () -> * Connected | Error
-  close  () -> * Disconnected | Error
 }
 
 

@@ -1,4 +1,3 @@
-
 Policy protocal { 
   allow ( 
     entity   : Entity, 

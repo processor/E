@@ -15,7 +15,6 @@ Employment protocal {
   dismiss   () -> Employment `Termination
 }
 
-
 Employment record {
   employer : Entity
   employee : Human

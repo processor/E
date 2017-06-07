@@ -1,9 +1,8 @@
 Sphere type { 
-  center: Point
-  radius: Number
+  center : Point
+  radius : Number
 }
 
 Sphere impl {
-
 
 }
