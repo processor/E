@@ -1,9 +1,9 @@
-Surface protocal {
+Surface protocol {
   * touch ↺ : touching
   * stop  ∎ 
 }
 
-Touch protocal {
+Touch protocol {
   * attach     : observing
   * | move     : moving
     | touch    : touching
@@ -19,7 +19,7 @@ Touch protocal {
 // pinch
 // drag
 
-Touching protocal {
+Touching protocol {
   * ? pinch ↺ : pinching
   * ? drag  ↺ : dragging
   * release ∎ 
@@ -34,7 +34,7 @@ while touching, read touch into touches {
 }
 
   
-Pinch protocal : Touch { 
+Pinch protocol : Touch { 
   let distance => √( ($0.x - $1.x) * ($0.y - $1.y])) + 
                   √( ($0.x - $1.x) * ($0.y - $1.y]))
 }

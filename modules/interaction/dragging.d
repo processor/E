@@ -17,7 +17,7 @@ Drop event {
   position : Vector2
 }
 
-Drag protocal { 
+Drag protocol { 
    * start
    * drop
 }

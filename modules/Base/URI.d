@@ -2,12 +2,12 @@
 // URL: Uniform Resource Locator
 
 URI type {
-  protocal : String
+  protocol : String
   host     : String
   port     : Int16
   path     : String
 }
 
 URI impl { 
-  to String => $"{protocal}://{host}/{path}"
+  to String => $"{protocol}://{host}/{path}"
 }

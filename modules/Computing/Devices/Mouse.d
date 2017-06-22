@@ -1,4 +1,4 @@
-Mouse protocal {
+Mouse protocol {
   * attach   : watching
   * | move   : moving  
     | click  : clicking  

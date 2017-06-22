@@ -1,3 +1,3 @@
-Iterable<T> protocal {
+Iterable<T> protocol {
   next() -> Some<T> | None
 }

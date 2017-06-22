@@ -4,7 +4,7 @@
   pixels : [ ] Pixel
 }
 
-Canvas protocal { 
+Canvas protocol { 
   draw (buffer: Image, position: Vector2) -> *Done
   draw (Circle,    at: Vector3)
   draw (Rectangle, at: Vector3)

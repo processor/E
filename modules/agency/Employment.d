@@ -1,4 +1,4 @@
-Employment protocal {
+Employment protocol {
   * employ            : employed
   * work             
   * vacate

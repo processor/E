@@ -1,4 +1,4 @@
-﻿Interactive protocal { 
+﻿Interactive pprotocol{ 
   * attach     : watching
   * | click    : clicking
     | touch    : touching

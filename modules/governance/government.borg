@@ -7,6 +7,6 @@ Government `Official record {
   role   : String
 }
 
-Government `Official protocal {
+Government `Official protocol {
   name = this.person.name
 }

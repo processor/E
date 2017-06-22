@@ -1,4 +1,4 @@
-Layout protocal { 
+Layout protocol { 
 
 
   doLayout (node: [] Node) {

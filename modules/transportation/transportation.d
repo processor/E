@@ -11,7 +11,7 @@
   place: Place
 }
 
-Route protocal {
+Route protocol {
   * Departure
   * (Maneuver, Navigable) ↺ |
   * Arrival ∎

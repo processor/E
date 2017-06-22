@@ -3,7 +3,7 @@
   contractor: Entity
 )
 
-Contract protocal { 
+Contract protocol { 
   terms    -> [ ] law::Legal`Term  
   invoices -> [ ] Invoice 
 }

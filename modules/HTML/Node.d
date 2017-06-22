@@ -1,3 +1,3 @@
-Node protocal {
+Node protocol {
   children: Node [ ]
 }

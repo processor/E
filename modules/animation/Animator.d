@@ -1,4 +1,4 @@
-Animator protocal {
+Animator protocol {
   start  (Animation)
   pause  (Animation)
   resume (Animation) 

@@ -2,7 +2,7 @@
   addresses: IP'Address [ ]
 }
 
-Machine protocal { 
+Machine protocol { 
   processes          -> [ ] Process 
   processors         -> [ ] Processor
   network`Interfaces -> [ ] Network'Interface

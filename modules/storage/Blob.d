@@ -2,7 +2,7 @@ Blob record {
   size: i64 > 0
 }
 
-Blob protocal {
+Blob protocol {
   store  ()                                -> * Storage_Transaction
   open   ()                                -> * byte ↺     | Error    ∎ | End ∎
   slice  (offset: Int64, count: Int64)     -> * byte ↺     | Error    ∎ | End ∎

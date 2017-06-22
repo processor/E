@@ -1,3 +1,3 @@
-Client protocal {
+Client protocol {
   send(Request) -> Response
 }

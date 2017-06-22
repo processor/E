@@ -1,8 +1,8 @@
-Addable protocal { 
+Addable protocol { 
   add (lhs: T, rhs: T) -> T
 }
 
-Subtractable protocal { 
+Subtractable protocol { 
   subtract (lhs: T, rhs: T) -> T
 }
 

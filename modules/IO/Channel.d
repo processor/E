@@ -1,7 +1,7 @@
 ﻿// Channels replace sequences, streams,
 // * byte.. :≡ Readable`Channel of zero or more_byte'
 
-Channel protocal { 
+Channel protocol { 
   status   -> Channel`Status
   unread   -> Int64 ≥ 0
 
@@ -21,7 +21,7 @@ Seekable_Channel = Channel & Seekable
 
 Channel `Status type = Closed | Connected | Terminated | ∎;
 
-ReadableChannel protocal {
+ReadableChannel protocol {
   available : Int64 ≥ 0
   read ƒ    -> Message | Backpressure
 }
@@ -29,11 +29,11 @@ ReadableChannel protocal {
 // * T = Alias for Channel of T
 
 
-WriteableChannel protocal {
+WriteableChannel protocol {
   async write ƒ(message: Message) -> OK | Awaiter | Closed
 }
 
-Channel`Awaiter protocal for T { 
+Channel`Awaiter protocol for T { 
   reason : NoMessages | Throttled
   result : T
   ready  : event
@@ -42,7 +42,7 @@ Channel`Awaiter protocal for T {
 
 // Create a multicast wrapper around a channel
 
-Observerable<T> protocal {
+Observerable<T> protocol {
   subscriptions : [ ] Subscription<T>
   subscribe(ƒ(Message|∎)) -> Subscription<T>
 }

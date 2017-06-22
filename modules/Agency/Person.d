@@ -1,4 +1,4 @@
-Person protocal { 
+Person protocol { 
   contract  (contractor : Person,                          terms  : [ ] terms) -> Contract       
   employee  (employee   : Human,                           terms  : [ ] terms) -> Employment 
   purchase  (asset      : Asset | Product,                 terms  : [ ] terms) -> Purchase 

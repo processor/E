@@ -21,6 +21,6 @@ Node = Element | Content;
 , Detached<T> 
 : Document'Mutation event { }
 
-Document protocal : Interactive { 
+Document protocol : Interactive { 
   add`Child (Node) -> Added
 }

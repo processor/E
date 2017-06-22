@@ -1,3 +1,3 @@
-Acidity protocal {
+Acidity protocol {
   
 }

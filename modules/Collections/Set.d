@@ -1,4 +1,4 @@
-Set<T> protocal { 
+Set<T> protocol { 
   count     -> Count
   insert(T) -> Boolean
 

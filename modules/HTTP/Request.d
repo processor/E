@@ -1,4 +1,4 @@
-Request protocal {
+Request protocol {
   * HttpHeader : head
   * byte       : body
   ∎

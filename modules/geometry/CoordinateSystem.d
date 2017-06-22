@@ -1,4 +1,4 @@
-Coordinate `System protocal { }
+Coordinate `System protocol { }
 
 
 Number `Line                  type { } 

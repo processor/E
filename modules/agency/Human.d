@@ -2,7 +2,7 @@ Human type : Organism {
 
 }
 
-Human protocal { 
+Human protocol { 
   name -> Name  // current legal name
 }
 

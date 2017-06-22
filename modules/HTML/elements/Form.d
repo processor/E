@@ -26,7 +26,7 @@ Form impl : Element {
   fields (this Form) -> [ ] Field => children
 }
 
-Field protocal {
+Field protocol {
   * | Focused
     | Blured
 

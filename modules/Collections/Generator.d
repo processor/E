@@ -1,3 +1,3 @@
-Generator<T> protocal {
+Generator<T> protocol {
   next(): T?
 }

@@ -3,7 +3,7 @@ Corporation type : Organization;   // e.g. Microsoft, Inc
 Institution type : Organization;
 Partnership type : Organization;
 
-Organization protocal {
+Organization protocol {
   * incorporate : incorporated
   * action    ↺ : acting 
   * bankrupt    ↑ acting        // backto acting

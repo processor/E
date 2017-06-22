@@ -3,7 +3,7 @@
   jurisdiction	: Entity
 }
 
-Building protocal { 
+Building protocol { 
   geometry -> [ ] Geometry
   units    -> [ ] Unit
 }
@@ -19,7 +19,7 @@ Building protocal {
   name     : String
 }
 
-Land `Lot protocal { 
+Land `Lot protocol { 
   zone      -> [ ] Building'Zone
   geometry  -> [ ] Geometry
   buildings -> [ ] Building

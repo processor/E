@@ -1,4 +1,4 @@
-Policy protocal { 
+Policy protocol { 
   allow ( 
     entity   : Entity, 
     actions  : [ ] Verb, 

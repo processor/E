@@ -3,7 +3,7 @@ Bank record {
   code   : String
 }
 
-Bank protocal { 
+Bank protocol { 
   * | open      `Account       
     | close     `Account     
     | settle    `Transaction

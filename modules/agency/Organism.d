@@ -2,7 +2,7 @@
 Organism type : Entity { }
 
 
-Organism protocal {
+Organism protocol {
   * born
   * action ↺ : acting
   * die    ∎ : dead

@@ -1,4 +1,4 @@
-Element protocal : Interactive { 
+Element protocol : Interactive { 
   matches     (Selector)           -> Boolean
   closest     (Selector)           -> Node
   adjacent    (Node)               -> Node          // find the node following the current Node -- need previous
