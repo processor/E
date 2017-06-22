@@ -23,12 +23,23 @@ namespace D.Inference
             itemType = system.NewGeneric();
             listType = system.NewType("List", new[] { itemType });
 
-            system.Infer(env, new Let("<", new FuncNode(new[] { new Variable("left", binary), new Variable("right", binary) }, b, new Constant(b))));
-            system.Infer(env, new Let(">", new FuncNode(new[] { new Variable("left", binary), new Variable("right", binary) }, b, new Constant(b))));
+            system.Infer(env, new Let("<", new FuncNode(new[] {
+                new Variable("lhs", binary),
+                new Variable("rhs", binary)
+            }, b, new Constant(b))));
 
-            system.Infer(env, new Let("contains", new FuncNode(new[] { new Variable("list", listType) }, new Constant(b))));
+            system.Infer(env, new Let(">", new FuncNode(new[] {
+                new Variable("lhs", binary),
+                new Variable("rhs", binary)
+            }, b, new Constant(b))));
 
-            system.Infer(env, new Let("head", new FuncNode(new[] { new Variable("list", listType) }, itemType, new Constant(itemType))));
+            system.Infer(env, new Let("contains", new FuncNode(new[] {
+                new Variable("list", listType)
+            }, new Constant(b))));
+
+            system.Infer(env, new Let("head", new FuncNode(new[] {
+                new Variable("list", listType)
+            }, itemType, new Constant(itemType))));
 
             // A ternary if-then-else will come in handy too
             var ifThenElse = system.NewGeneric();

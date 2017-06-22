@@ -1,4 +1,6 @@
-﻿namespace D
+﻿using System;
+
+namespace D
 {
     public class Parameter
     {
@@ -31,7 +33,7 @@
 
         public Parameter(IType type)
         {
-            Type = type;
+            Type = type ?? throw new ArgumentNullException(nameof(type));
         }
 
         public string Name { get; }

@@ -8,6 +8,7 @@
     NO WARRANTY EXPRESSED OR IMPLIED.  USE AT YOUR OWN RISK.
  */
 
+// http://www.cjandia.com/2012/06/x-calc/dhm/lib/?algoW.cs.js
 // REF: https://brianmckenna.org/files/js-type-inference/docs/typeinference.html
 
 
@@ -435,7 +436,8 @@ namespace D.Inference
             }
             else if ((t is Type t_type) && (s is Type s_type))
             {
-                if ((t_type.Constructor.Name != s_type.Constructor.Name) || (t_type.Arguments.Length != s_type.Arguments.Length))
+                if ((t_type.Constructor.Name != s_type.Constructor.Name)
+                    || (t_type.Arguments.Length != s_type.Arguments.Length))
                 {
                     throw new InvalidOperationException(string.Concat(t_type, " incompatible with ", s_type));
                 }

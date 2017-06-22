@@ -265,13 +265,13 @@ public class Point
 
     public double Z { get; }
 
-    public static Point operator *(Point _0, double _1) => new Point(x: _0.X * _1, y: _0.Y * _1, z: _0.Z * _1);
+    public static Point operator *(Point a, double b) => new Point(x: a.X * b, y: a.Y * b, z: a.Z * b);
 
-    public static Point operator /(Point _0, double _1) => new Point(x: _0.X / _1, y: _0.Y / _1, z: _0.Z / _1);
+    public static Point operator /(Point a, double b) => new Point(x: a.X / b, y: a.Y / b, z: a.Z / b);
 
-    public static Point operator +(Point _0, Point _1) => new Point(x: _0.X + _1.X, y: _0.Y + _1.Y, z: _0.Z + _1.Z);
+    public static Point operator +(Point a, Point b) => new Point(x: a.X + b.X, y: a.Y + b.Y, z: a.Z + b.Z);
 
-    public static Point operator -(Point _0, Point _1) => new Point(x: _0.X - _1.X, y: _0.Y - _1.Y, z: _0.Z - _1.Z);
+    public static Point operator -(Point a, Point b) => new Point(x: a.X - b.X, y: a.Y - b.Y, z: a.Z - b.Z);
 }
 ".Trim(),
 
@@ -279,10 +279,10 @@ Transpile(@"
 Point type { x, y, z: Number }
 
 Point impl {
-  * (Point, Number) => Point { x: $0.x * $1,   y: $0.y * $1,   z: $0.z * $1 };
-  / (Point, Number) => Point { x: $0.x / $1,   y: $0.y / $1,   z: $0.z / $1 };
-  + (Point, Point)  => Point { x: $0.x + $1.x, y: $0.y + $1.y, z: $0.z + $1.z };
-  - (Point, Point)  => Point { x: $0.x - $1.x, y: $0.y - $1.y, z: $0.z - $1.z };
+  * (a: Point, b: Number) => Point { x: a.x * b,   y: a.y * b,   z: a.z * b };
+  / (a: Point, b: Number) => Point { x: a.x / b,   y: a.y / b,   z: a.z / b };
+  + (a: Point, b: Point)  => Point { x: a.x + b.x, y: a.y + b.y, z: a.z + b.z };
+  - (a: Point, b: Point)  => Point { x: a.x - b.x, y: a.y - b.y, z: a.z - b.z };
 }
 "));
         }
@@ -293,9 +293,9 @@ Point impl {
             Assert.Equal(@"
 public class Point
 {
-    public static Point operator *(Point _0, double _1) => new Point(x: _0.X * _1, y: _0.Y * _1, z: _0.Z * _1);
+    public static Point operator *(Point a, double b) => new Point(x: a.X * b, y: a.Y * b, z: a.Z * b);
 
-    public static Point operator /(Point _0, double _1) => new Point(x: _0.X / _1, y: _0.Y / _1, z: _0.Z / _1);
+    public static Point operator /(Point a, double b) => new Point(x: a.X / b, y: a.Y / b, z: a.Z / b);
 
     public static Point operator +(Point p1, Point p2) => new Point(x: p1.X + p2.X, y: p1.Y + p2.Y, z: p1.Z + p2.Z);
 
@@ -307,8 +307,8 @@ Transpile(@"
 Point type { }
 
 Point impl {
-  * (Point, Number)        => Point { x: $0.x * $1, y: $0.y * $1, z: $0.z * $1 };
-  / (Point, Number)        => Point { x: $0.x / $1, y: $0.y / $1, z: $0.z / $1 };
+  * (a: Point, b: Number)  => Point { x: a.x * b, y: a.y * b, z: a.z * b };
+  / (a: Point, b: Number)  => Point { x: a.x / b, y: a.y / b, z: a.z / b };
   + (p1: Point, p2: Point) => Point { x: p1.x + p2.x, y: p1.y + p2.y, z: p1.z + p2.z };
   - (p1: Point, p2: Point) => Point { x: p1.x - p2.x, y: p1.y - p2.y, z: p1.z - p2.z };
 }
