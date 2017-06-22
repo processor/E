@@ -1,23 +1,24 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace D.Expressions
 {
     public class ImplementationDeclaration : IExpression
     {
-        public ImplementationDeclaration(Symbol protocal, Symbol type, IExpression[] members)
+        public ImplementationDeclaration(Symbol protocol, TypeSymbol type, IExpression[] members)
         {
-            Protocal = protocal;
-            Type     = type;
-            Members  = members;
+            Protocol = protocol ?? throw new ArgumentNullException(nameof(protocol));
+            Type     = type     ?? throw new ArgumentNullException(nameof(type));
+            Members  = members  ?? throw new ArgumentNullException(nameof(members));
         }
 
-        public Symbol Protocal { get; }
+        public Symbol Protocol { get; }
 
-        public Symbol Type { get; }
+        public TypeSymbol Type { get; }
 
-        // Protocals
-        public IExpression[] Members { get; set; }
+        // Protocols
+        public IExpression[] Members { get; }
 
         public IExpression this[int index] => Members[index];
 

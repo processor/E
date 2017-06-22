@@ -1,12 +1,7 @@
-﻿using System.Collections.Generic;
-
-namespace D.Expressions
+﻿namespace D.Expressions
 {
-    // A protocal { }
+    // A protocol { }
 
-    // mutable name -> String
-
-   
     /*
     ∙ | open       `Account       
       | close      `Account     
@@ -25,15 +20,15 @@ namespace D.Expressions
 
     public class MessageChoice : IMessageDeclaration
     {
-        public MessageChoice(ProtocalMessage[] options, MessageFlags flags)
+        public MessageChoice(ProtocolMessage[] options, MessageFlags flags)
         {
             Options = options;
-            Flags = flags;
+            Flags   = flags;
         }
 
-        public ProtocalMessage[] Options { get; set; }
+        public ProtocolMessage[] Options { get; }
 
-        public ProtocalMessage this[int index] => Options[index];
+        public ProtocolMessage this[int index] => Options[index];
 
         public int Count => Options.Length;
 
@@ -43,14 +38,14 @@ namespace D.Expressions
             => Flags.HasFlag(MessageFlags.Fallthrough);
 
         public bool Repeats
-         => Flags.HasFlag(MessageFlags.Repeats);
+            => Flags.HasFlag(MessageFlags.Repeats);
 
         public bool IsEnd 
             => Flags.HasFlag(MessageFlags.End);
 
     }
 
-    public class ProtocalMessage : IMessageDeclaration
+    public class ProtocolMessage : IMessageDeclaration
     {
         // name
         // label
@@ -58,7 +53,7 @@ namespace D.Expressions
         // Fallsthrough?
         // Repeats
 
-        public ProtocalMessage(string name, string label, MessageFlags flags)
+        public ProtocolMessage(string name, string label, MessageFlags flags)
         {
             Name = name;
             Label = label;

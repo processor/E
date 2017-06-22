@@ -41,13 +41,13 @@ namespace D.Compilation
 
                     scope.Add(type.Name, type);
                 }
-                else if (node is ProtocalDeclarationSyntax protocalDeclaration)
+                else if (node is ProtocolDeclarationSyntax protocolDeclaration)
                 {
-                    var protocal = VisitProtocal(protocalDeclaration);
+                    var protocol = VisitProtocol(protocolDeclaration);
 
-                    module.Add(protocal);
+                    module.Add(protocol);
 
-                    scope.Add(protocal.Name, protocal);
+                    scope.Add(protocol.Name, protocol);
                 }
                 else if (node is ImplementationDeclarationSyntax implDeclaration)
                 {
@@ -60,16 +60,16 @@ namespace D.Compilation
             return module;
         }
 
-        public ProtocalExpression VisitProtocal(ProtocalDeclarationSyntax protocal)
+        public ProtocolExpression VisitProtocol(ProtocolDeclarationSyntax protocol)
         {
-            var functions = new FunctionExpression[protocal.Members.Length];
+            var functions = new FunctionExpression[protocol.Members.Length];
 
             for (var i = 0; i < functions.Length; i++)
             {
-                functions[i] = VisitFunctionDeclaration(protocal.Members[i]);
+                functions[i] = VisitFunctionDeclaration(protocol.Members[i]);
             }
 
-            return new ProtocalExpression(protocal.Name, functions);
+            return new ProtocolExpression(protocol.Name, functions);
         }
 
         public FunctionExpression VisitFunctionDeclaration(FunctionDeclarationSyntax f, IType declaringType = null)
@@ -93,7 +93,7 @@ namespace D.Compilation
 
             if (f.Body == null)
             {
-                body = null; // Protocal functions do not define a body.
+                body = null; // protocol functions are abstract and do not define a body
             }
             else if (f.Body is BlockExpressionSyntax blockSyntax)
             {
@@ -123,7 +123,7 @@ namespace D.Compilation
             scope = scope.Nested();
 
             var type = scope.Get<Type>(impl.Type);
-            var protocal = impl.Protocal != null ? scope.Get<ProtocalExpression>(impl.Protocal) : null;
+            var protocol = impl.Protocol != null ? scope.Get<ProtocolExpression>(impl.Protocol) : null;
 
             #region Setup environment
 
@@ -144,10 +144,15 @@ namespace D.Compilation
 
             foreach(var member in impl.Members)
             {
-                switch (member.Kind)
+                switch (member)
                 {
-                    case Kind.FunctionDeclaration: methods.Add(VisitFunctionDeclaration((FunctionDeclarationSyntax)member, type));  break;
-                    case Kind.VariableDeclaration: variables.Add(VisitVariableDeclaration((VariableDeclarationSyntax)member));      break;
+                    case FunctionDeclarationSyntax functionDeclaration:
+                        methods.Add(VisitFunctionDeclaration(functionDeclaration, type));
+                        break;
+
+                    case VariableDeclarationSyntax variableDeclaration:
+                        variables.Add(VisitVariableDeclaration(variableDeclaration));
+                        break;
                 }
 
                 // Property       a =>
@@ -159,7 +164,7 @@ namespace D.Compilation
 
             scope = scope.Parent;
 
-            return new ImplementationExpression(protocal, type, variables.ToArray(), methods.ToArray());
+            return new ImplementationExpression(protocol, type, variables.ToArray(), methods.ToArray());
         }
 
         public Type VisitTypeDeclaration(TypeDeclarationSyntax type)
@@ -216,10 +221,10 @@ namespace D.Compilation
 
             switch (syntax)
             {
-                case UnaryExpressionSyntax unary      : return VisitUnary(unary);
-                case BinaryExpressionSyntax binary    : return VisitBinary(binary);
-                case TernaryExpressionSyntax ternary  : return VisitTernary(ternary);
-                case BlockExpressionSyntax block      : return VisitBlock(block);
+                case UnaryExpressionSyntax unary     : return VisitUnary(unary);
+                case BinaryExpressionSyntax binary   : return VisitBinary(binary);
+                case TernaryExpressionSyntax ternary : return VisitTernary(ternary);
+                case BlockExpressionSyntax block     : return VisitBlock(block);
             }
 
             switch (syntax.Kind)

@@ -6,17 +6,17 @@ namespace D
 
     public class ImplementationExpression : IObject
     {
-        public ImplementationExpression(ProtocalExpression protocal, Type type, VariableDeclaration[] variables, FunctionExpression[] members)
+        public ImplementationExpression(ProtocolExpression protocol, Type type, VariableDeclaration[] variables, FunctionExpression[] members)
         {
-            Protocal = protocal;
-            Type = type ?? throw new ArgumentNullException(nameof(type));
+            Protocol  = protocol;
+            Type      = type ?? throw new ArgumentNullException(nameof(type));
             Variables = variables;
-            Methods = members ?? throw new ArgumentNullException(nameof(members));
+            Methods   = members ?? throw new ArgumentNullException(nameof(members));
         }
 
         public Type Type { get; }
 
-        public ProtocalExpression Protocal { get; }
+        public ProtocolExpression Protocol { get; }
 
         public VariableDeclaration[] Variables { get; }
 

@@ -2,13 +2,13 @@
 {
     public class ObjectInitializerSyntax : SyntaxNode
     {
-        public ObjectInitializerSyntax(Symbol type, ObjectPropertySyntax[] properties)
+        public ObjectInitializerSyntax(TypeSymbol type, ObjectPropertySyntax[] properties)
         {
             Type = type;
             Properties = properties;
         }
 
-        public Symbol Type { get; }
+        public TypeSymbol Type { get; }
 
         public ObjectPropertySyntax[] Properties { get; }
 

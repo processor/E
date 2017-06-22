@@ -41,11 +41,11 @@ namespace D.Compilation
 
             foreach (var impl in type.Implementations)
             {
-                if (impl.Protocal != null)
+                if (impl.Protocol != null)
                 {
                     Emit(a == 0 ? " : " : ",");
 
-                    Emit(impl.Protocal.Name);
+                    Emit(impl.Protocol.Name);
 
                     a++;
                 }
@@ -130,9 +130,9 @@ namespace D.Compilation
                         EmitLine();
                     }
 
-                    if (impl.Protocal != null)
+                    if (impl.Protocol != null)
                     {
-                        WriteProtocalFunction(impl.Protocal, method);
+                        WriteProtocolFunction(impl.Protocol, method);
                     }
                     else
                     {

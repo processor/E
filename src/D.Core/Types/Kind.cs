@@ -20,7 +20,7 @@
         Entity         = 13,
         Timestamp      = 14,
 
-        Protocal       = 17,
+        Protocol       = 17,
         ImplementationExpression = 18,
         // Variable       = 19,
         Void           = 20, // static instance = nothing
@@ -107,7 +107,7 @@
         ObserverDeclaration             = 2203,
         VariableDeclaration             = 2204, // Let ?
         CompoundVariableDeclaration     = 2205,
-        ProtocalDeclaration             = 2206,
+        ProtocolDeclaration             = 2206,
         ChannelDeclaration              = 2207,
         ImplementationDeclaration       = 2208,
         UnitDeclaration                 = 2209,

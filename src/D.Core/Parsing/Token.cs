@@ -180,7 +180,7 @@ namespace D.Parsing
         End,       // ∎
 
         Record,
-        Protocal,
+        Protocol,
         Module,
 
         Ascending,

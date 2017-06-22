@@ -34,9 +34,9 @@
 
                 switch (member)
                 {
-                    case ProtocalExpression protocal : VisitProtocal(protocal); break;
+                    case ProtocolExpression protocol : VisitProtocal(protocol);   break;
                     case Type type                   : WriteImplementation(type); break;
-                    case FunctionExpression func     : VisitFunction(func); break;
+                    case FunctionExpression func     : VisitFunction(func);       break;
                 }
             }
         }        

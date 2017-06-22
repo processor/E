@@ -55,7 +55,7 @@
 
                 if (element is NamedElement v)
                 {
-                    Variables[i] = new NamedType(v.Name, (Symbol)v.Value);
+                    Variables[i] = new NamedType(v.Name, (TypeSymbol)v.Value);
                 }
                 else if (element is Symbol symbol)
                 {

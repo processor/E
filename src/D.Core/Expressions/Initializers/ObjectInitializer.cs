@@ -4,13 +4,13 @@ namespace D.Expressions
 {
     public class ObjectInitializer : IExpression
     {
-        public ObjectInitializer(Symbol type, ObjectMember[] properties)
+        public ObjectInitializer(TypeSymbol type, ObjectMember[] properties)
         {
             Type = type ?? throw new ArgumentNullException(nameof(type));
             Properties = properties ?? throw new ArgumentNullException(nameof(properties));
         }
 
-        public Symbol Type { get; }
+        public TypeSymbol Type { get; }
 
         public ObjectMember[] Properties { get; }
 

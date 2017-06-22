@@ -112,7 +112,7 @@
             WriteFunctionBody((BlockExpression)func.Body);
         }
 
-        public void WriteProtocalFunction(ProtocalExpression protocal, FunctionExpression func)
+        public void WriteProtocolFunction(ProtocolExpression protocol, FunctionExpression func)
         {
             Indent(level);
             
@@ -120,7 +120,7 @@
 
             Emit(" ");
 
-            Emit(protocal.Name);
+            Emit(protocol.Name);
             Emit(".");
             Emit(ToPascalCase(func.Name));
 

@@ -10,20 +10,20 @@ namespace D.Syntax
     public class ImplementationDeclarationSyntax : SyntaxNode
     {
         public ImplementationDeclarationSyntax(
-            Symbol protocal,
+            Symbol protocol,
             Symbol type, 
             SyntaxNode[] members)
         {
-            Protocal = protocal;
+            Protocol = protocol;
             Type     = type;
             Members  = members;
         }
 
-        public Symbol Protocal { get; }
+        public Symbol Protocol { get; }
 
         public Symbol Type { get; }
 
-        // Protocals
+        // Protocols
         public SyntaxNode[] Members { get; }
 
         public SyntaxNode this[int index] => Members[index];

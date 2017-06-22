@@ -9,7 +9,7 @@ namespace D.Parsing.Tests
         [Theory]
         [InlineData("module",   Module)]
 
-        [InlineData("protocal", Protocal)]
+        [InlineData("protocol", Protocol)]
         [InlineData("from",     From)]
         [InlineData("for",      For)]
         [InlineData("using",    Using)]

@@ -36,7 +36,7 @@ namespace D.Expressions
     // a: [ ] byte
     public class NamedType : IExpression
     {
-        public NamedType(string name, Symbol type)
+        public NamedType(string name, TypeSymbol type)
         {
             Name = name;
             Type = type;
@@ -44,7 +44,7 @@ namespace D.Expressions
 
         public string Name { get; }
 
-        public Symbol Type { get; }
+        public TypeSymbol Type { get; }
 
         Kind IObject.Kind => Kind.NamedType;
 

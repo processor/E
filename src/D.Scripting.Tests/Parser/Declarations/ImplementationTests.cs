@@ -230,7 +230,7 @@ Matrix4<T> implementation {
 }");
 
             Assert.Equal("Matrix4<T>", declaration.Type);
-            Assert.Equal(null, declaration.Protocal);
+            Assert.Equal(null, declaration.Protocol);
             Assert.Equal(17, declaration.Members.Length);
 
             var indexer = (FunctionDeclarationSyntax)declaration[0];
@@ -251,15 +251,15 @@ Matrix4<T> implementation {
         }
 
         [Fact]
-        public void ModulePrefixedProtocalImplementation()
+        public void ModulePrefixedProtocolImplementation()
         {
             var declaration = Parse<ImplementationDeclarationSyntax>(@"
 HTML::Element impl for CustomElement {
 
 }");
 
-            Assert.Equal("HTML", declaration.Protocal.Module);
-            Assert.Equal("Element", declaration.Protocal.Name);
+            Assert.Equal("HTML", declaration.Protocol.Module);
+            Assert.Equal("Element", declaration.Protocol.Name);
             Assert.Equal("CustomElement", declaration.Type.Name);
         }
 
@@ -294,7 +294,7 @@ Curve <T> implementation for Arc<T> {
   }
 }");
 
-            Assert.Equal("Curve<T>", declaration.Protocal);
+            Assert.Equal("Curve<T>", declaration.Protocol);
             Assert.Equal("Arc<T>",   declaration.Type);
 
             var f = (FunctionDeclarationSyntax)declaration.Members[0];

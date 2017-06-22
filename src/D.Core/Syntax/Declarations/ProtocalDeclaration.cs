@@ -4,13 +4,13 @@ namespace D.Syntax
 {
     // TODO: Module
 
-    // A protocal { }
+    // A protocol { }
 
     // mutable name -> String
 
-    public class ProtocalDeclarationSyntax : SyntaxNode
+    public class ProtocolDeclarationSyntax : SyntaxNode
     {
-        public ProtocalDeclarationSyntax(Symbol name, IProtocalMessage[] messages, FunctionDeclarationSyntax[] members)
+        public ProtocolDeclarationSyntax(Symbol name, IProtocolMessage[] messages, FunctionDeclarationSyntax[] members)
         {
             Name    = name;
             Messages = messages;
@@ -19,11 +19,11 @@ namespace D.Syntax
 
         public Symbol Name { get; }
 
-        public IProtocalMessage[] Messages { get; } 
+        public IProtocolMessage[] Messages { get; } 
 
         public FunctionDeclarationSyntax[] Members { get; }
 
-        Kind IObject.Kind => Kind.ProtocalDeclaration;
+        Kind IObject.Kind => Kind.ProtocolDeclaration;
     }
 
     /*
@@ -37,22 +37,22 @@ namespace D.Syntax
     ∙ dissolve ∎   : dissolved
     */
 
-    public interface IProtocalMessage
+    public interface IProtocolMessage
     {
         bool Fallthrough { get; }
     }
 
-    public class MessageChoice : IProtocalMessage
+    public class MessageChoice : IProtocolMessage
     {
-        public MessageChoice(ProtocalMessage[] options, MessageFlags flags)
+        public MessageChoice(ProtocolMessage[] options, MessageFlags flags)
         {
             Options = options;
             Flags = flags;
         }
 
-        public ProtocalMessage[] Options { get; }
+        public ProtocolMessage[] Options { get; }
 
-        public ProtocalMessage this[int index] => Options[index];
+        public ProtocolMessage this[int index] => Options[index];
 
         public int Count => Options.Length;
 
@@ -69,7 +69,7 @@ namespace D.Syntax
 
     }
 
-    public class ProtocalMessage : IProtocalMessage
+    public class ProtocolMessage : IProtocolMessage
     {
         // name
         // label
@@ -77,7 +77,7 @@ namespace D.Syntax
         // Fallsthrough?
         // Repeats
 
-        public ProtocalMessage(string name, string label, MessageFlags flags)
+        public ProtocolMessage(string name, string label, MessageFlags flags)
         {
             Name = name;
             Label = label;

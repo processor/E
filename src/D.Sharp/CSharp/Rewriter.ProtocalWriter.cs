@@ -4,14 +4,14 @@
 
     public partial class CSharpTranspiler
     {
-        public void VisitProtocal(ProtocalExpression protocal)
+        public void VisitProtocal(ProtocolExpression protocol)
         {
-            EmitLine($"public interface {protocal.Name}", level);
+            EmitLine($"public interface {protocol.Name}", level);
             EmitLine("{", level);
 
             level++;
 
-            foreach (var member in protocal.Members)
+            foreach (var member in protocol.Members)
             {
                 Indent(level);
 

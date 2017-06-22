@@ -6,7 +6,7 @@ namespace D
     // A module may contain:
     // - types
     // - functions
-    // - protocals
+    // - protocols
     // - constants
 
     public class Module : IModule

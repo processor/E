@@ -349,7 +349,7 @@ Point impl { }
 
 
         [Fact]
-        public void WriteProtocal()
+        public void WriteProtocol()
         {
             Assert.Equal(@"
 public interface Curve
@@ -359,7 +359,7 @@ public interface Curve
 ".Trim(),
 
 Transpile(@"
-Curve protocal { 
+Curve protocol { 
   getPoint (t: Number) -> Point
 }
 "));
@@ -368,7 +368,7 @@ Curve protocal {
 
 
         [Fact]
-        public void WriteProtocal3()
+        public void WriteProtocol3()
         {
             Assert.Equal(@"
 public interface Observer
@@ -380,7 +380,7 @@ public interface Observer
 ".Trim(),
 
 Transpile(@"
-Observer protocal { 
+Observer protocol { 
   next -> (A, B, C) -> D
   next -> A -> B
   next -> A -> B -> C
@@ -390,7 +390,7 @@ Observer protocal {
         }
 
         [Fact]
-        public void WriteProtocal2()
+        public void WriteProtocol2()
         {
             Assert.Equal(@"
 public interface Node
@@ -401,7 +401,7 @@ public interface Node
 ".Trim(),
 
 Transpile(@"
-Node protocal { 
+Node protocol { 
   kind -> Kind
   children -> [ ] Node
 }
@@ -456,7 +456,7 @@ public class Point : Geometry
 
 
 Transpile(@"
-Geometry protocal {
+Geometry protocol {
   center -> Point
 }
 

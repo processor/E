@@ -2,12 +2,12 @@
 
 namespace D.Expressions
 {
-    public class ProtocalExpression : INamedObject
+    public class ProtocolExpression : INamedObject
     {  
-        public ProtocalExpression(Symbol name, FunctionExpression[] members)
+        public ProtocolExpression(Symbol name, FunctionExpression[] members)
         {
-            Name = name;
-            Members = members;
+            Name    = name    ?? throw new ArgumentNullException(nameof(name));
+            Members = members ?? throw new ArgumentNullException(nameof(members));
         }
 
         public Symbol Name { get; set; }
@@ -16,7 +16,7 @@ namespace D.Expressions
 
         // public IMessageDeclaration[] Channel { get; set; }
 
-        Kind IObject.Kind => Kind.Protocal;
+        Kind IObject.Kind => Kind.Protocol;
 
         string INamedObject.Name => Name;
     }

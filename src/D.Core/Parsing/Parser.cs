@@ -867,14 +867,14 @@ namespace D.Parsing
         private readonly List<SyntaxNode> members = new List<SyntaxNode>();
         private readonly List<FunctionDeclarationSyntax> methods = new List<FunctionDeclarationSyntax>();
 
-        // Account protocal { }
-        // Point protocal : Vector3 { } 
+        // Account protocol { }
+        // Point protocol : Vector3 { } 
 
-        public ProtocalDeclarationSyntax ReadProtocal(Symbol name)
+        public ProtocolDeclarationSyntax ReadProtocol(Symbol name)
         {
-            Consume(Protocal);      // ! protocal
+            Consume(Protocol);      // ! protocol
 
-            Symbol baseProtocal = ConsumeIf(Colon)
+            Symbol baseProtocol = ConsumeIf(Colon)
                 ? ReadTypeSymbol()
                 : null;
 
@@ -882,17 +882,17 @@ namespace D.Parsing
 
             Consume(BraceOpen);     // ! {
 
-            var channelProtocal = Array.Empty<IProtocalMessage>();
+            var channelProtocol = Array.Empty<IProtocolMessage>();
 
             if (!IsKind(BraceClose))
             {
-                channelProtocal = reader.Current.Text == "*"
-                    ? ReadProtocalChannel().ToArray()
-                    : Array.Empty<IProtocalMessage>();
+                channelProtocol = reader.Current.Text == "*"
+                    ? ReadProtocolChannel().ToArray()
+                    : Array.Empty<IProtocolMessage>();
 
                 while (!IsEof && !IsKind(BraceClose))
                 {
-                    methods.Add(ReadProtocalMember());
+                    methods.Add(ReadProtocolMember());
                 }
             }
 
@@ -900,20 +900,19 @@ namespace D.Parsing
             Consume(BraceClose);  // ! }
             ConsumeIf(Semicolon); // ? ;
 
-            return new ProtocalDeclarationSyntax(name, channelProtocal, methods.Extract());
+            return new ProtocolDeclarationSyntax(name, channelProtocol, methods.Extract());
         }
 
-        public List<IProtocalMessage> ReadProtocalChannel()
+        public List<IProtocolMessage> ReadProtocolChannel()
         {
-
-            var messages = new List<IProtocalMessage>();
-            var options = new List<ProtocalMessage>();
+            var messages = new List<IProtocolMessage>();
+            var options = new List<ProtocolMessage>();
 
             while (ConsumeIf("*"))  // ! ∙
             {
                 ConsumeIf(Bar);         // ? |  // Optional leading bar in a oneof set
 
-                var message = ReadProtocalMessage();
+                var message = ReadProtocolMessage();
 
                 if (message.Fallthrough)
                 {
@@ -923,7 +922,7 @@ namespace D.Parsing
 
                     while (message.Fallthrough && !IsKind(Repeats) && reader.Current.Text != "*")
                     {
-                        options.Add(ReadProtocalMessage());
+                        options.Add(ReadProtocolMessage());
                     }
 
                     if (ConsumeIf(Repeats))
@@ -956,7 +955,7 @@ namespace D.Parsing
 
         //  settle  'Transaction  ƒ (Transaction) -> Transaction' Settlement
 
-        public FunctionDeclarationSyntax ReadProtocalMember()
+        public FunctionDeclarationSyntax ReadProtocolMember()
         {
             var name = ReadLabelSymbol();
             
@@ -990,7 +989,7 @@ namespace D.Parsing
 
         // dissolve ∎   : dissolved
         // settling 'Transaction  |
-        public ProtocalMessage ReadProtocalMessage()
+        public ProtocolMessage ReadProtocolMessage()
         {
             var flags = ConsumeIf(Question)   // ? ?
                 ? MessageFlags.Optional 
@@ -1012,7 +1011,7 @@ namespace D.Parsing
                 ? ReadLabelSymbol().Name
                 : null;
 
-            return new ProtocalMessage(name.Name, label, flags);
+            return new ProtocolMessage(name.Name, label, flags);
         }
 
         #endregion
@@ -1038,12 +1037,12 @@ namespace D.Parsing
         {
             Consume(Implementation); // ! implementation  
 
-            Symbol protocal = null;
+            Symbol protocol = null;
             Symbol type;
 
             if (ConsumeIf(For)) // ? for
             {
-                protocal = name;
+                protocol = name;
                 type     = ReadTypeSymbol();
             }
             else
@@ -1064,7 +1063,7 @@ namespace D.Parsing
 
             Consume(BraceClose); // ! }
 
-            return new ImplementationDeclarationSyntax(protocal, type, members.Extract());
+            return new ImplementationDeclarationSyntax(protocol, type, members.Extract());
         }
 
         private SyntaxNode ReadImplMember()
@@ -1306,7 +1305,7 @@ namespace D.Parsing
 
         // { a: 1, b: 2 }
         // { a, b }
-        public ObjectInitializerSyntax ReadNewObject(Symbol type)
+        public ObjectInitializerSyntax ReadNewObject(TypeSymbol type)
         {
             var members = new List<ObjectPropertySyntax>();
 
@@ -1832,7 +1831,7 @@ namespace D.Parsing
 
         private List<Symbol> symbolList = new List<Symbol>(20);
 
-        // {name} {type|event|record|protocal|module}
+        // {name} {type|event|record|protocol|module}
         // {name} { Object }
         public SyntaxNode MaybeType()
         {
@@ -1855,7 +1854,7 @@ namespace D.Parsing
                     case BraceOpen: // {
                         if (InMode(Mode.Root) || InMode(Mode.Block))
                         {
-                            return ReadNewObject(name);
+                            return ReadNewObject((TypeSymbol)name);
                         }
 
                         break;
@@ -1881,7 +1880,7 @@ namespace D.Parsing
                             : ReadTypeDeclaration(name);  // type : hello
 
                     case Implementation : return ReadImplementation(name);
-                    case Protocal       : return ReadProtocal(name);
+                    case Protocol       : return ReadProtocol(name);
                     case Function       : return ReadFunctionDeclaration(name);
                 }
             }

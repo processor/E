@@ -4,7 +4,11 @@
     // let a of type Integer equal 5
     public class VariableDeclarationSyntax : SyntaxNode
     {
-        public VariableDeclarationSyntax(string name, Symbol type, SyntaxNode value = null, VariableFlags flags = VariableFlags.None)
+        public VariableDeclarationSyntax(
+            string name, 
+            TypeSymbol type, 
+            SyntaxNode value = null, 
+            VariableFlags flags = VariableFlags.None)
         {
             Name = name;
             Type = type;
@@ -14,7 +18,7 @@
 
         public string Name { get; }
 
-        public Symbol Type { get; }
+        public TypeSymbol Type { get; }
 
         public SyntaxNode Value { get; }
 
