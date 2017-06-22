@@ -6,7 +6,7 @@
 
 
 
-Transit `Provider protocal {
+Transit `Provider protocol {
   routes = Transit `Routes(provider)
 
 }

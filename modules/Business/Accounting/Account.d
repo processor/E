@@ -3,7 +3,7 @@ Account record {
   creation	: DateTime 
 }
 
-Account protocal {
+Account protocol {
   * open           : opened
   * | deposit
     | dispute

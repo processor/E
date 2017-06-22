@@ -1,3 +1,3 @@
-Practitioner protocal { 
+Practitioner protocol { 
   displines -> [ ] Displine
 }

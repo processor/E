@@ -18,7 +18,7 @@ AmericanExpress`Card : Payment_Card
 
 Check : Payment_Method
 
-Payment `Card protocal { 
+Payment `Card protocol { 
   issuer   : Entity
   network  : Payment'Network
   chip?    : Card`Chip
@@ -26,7 +26,7 @@ Payment `Card protocal {
 }
 
 
-Check protocal {
+Check protocol {
   signature -> Signature
   deposit   -> Deposit
 }

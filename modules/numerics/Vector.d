@@ -1,4 +1,4 @@
-Vector<T> protocal{ 
+Vector<T> protocol{ 
   count -> Int64
   
   [index: Int64] -> T

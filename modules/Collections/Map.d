@@ -1,3 +1,3 @@
-Map<A,B> protocal { 
+Map<A,B> protocol { 
   count -> Int64
 }

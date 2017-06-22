@@ -3,7 +3,7 @@
   name   : String
 }
 
-File protocal {
+File protocol {
   delete  () -> Deleted
   mutate  () -> Channel'Writer of byte
   
@@ -20,7 +20,7 @@ File'Mutation event {
   mutator : Entity
 }
 
-Bucket protocal {
+Bucket protocol {
   scan   (prefix : String) -> * File ↺  | Error ∎ | End ∎ 
   get    (name   : String) -> * File    | Error ∎ 
   open   (name   : String) -> * byte ↺  | Error ∎ 
@@ -28,14 +28,14 @@ Bucket protocal {
   delete (name   : String) -> * Deleted | Error ∎ 
 }
 
-Storage'Transaction protocal  {
+Storage'Transaction protocol  {
   * Accepted   ∎ | Error ∎            // Transfered, may still be lost if the node fails before commit
   * Committed  ∎ | Error ∎            // Durably stored
   * Propagated ∎                      // Globally propogated / accessable
 }
 
 
-Record protocal {
+Record protocol {
   store () -> * Transaction;
 }
 
@@ -60,7 +60,7 @@ Volume record {
   available_bytes : i64 ≥ 0 | ∞
 }
 
-Volume protocal {
+Volume protocol {
   scan   (prefix : String)           -> * File ↺     | Error ∎ | End ∎ 
   get    (name   : String)           -> * File     ∎ | Error ∎
   put    (file   : File)             -> * Put      ∎ | Error ∎
@@ -77,7 +77,7 @@ Locator type {
    id    : Identity
 }
 
-Identity `Sequence protocal : Readable'Channel {
+Identity `Sequence protocol : Readable'Channel {
   * Identity ↺ | 
   * End ∎
   

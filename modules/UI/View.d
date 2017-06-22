@@ -1,6 +1,6 @@
 import { Rectangle } from Geometry
 
-View protocal { 
+View protocol { 
   width  : Int32
   height : Int32
 

@@ -46,7 +46,7 @@
 Neighborhood : Place, Inhabitable 
 
 
-Inhabitable protocal {
+Inhabitable protocol {
   inhabitants -> [ ] Inhabitants
 }
 

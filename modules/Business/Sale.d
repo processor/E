@@ -1,4 +1,4 @@
-Sale protocal {
+Sale protocol {
   * | tax               
   * | complete ∎ : completed
 

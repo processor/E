@@ -2,7 +2,7 @@ Media<T> : Inline {
   blob: T
 }
 
-Media<T: Audio | Video> protocal { 
+Media<T: Audio | Video> protocol { 
   * | load & loaded : loading
     | buffer        : buffering  
     | play          : playing

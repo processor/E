@@ -2,6 +2,6 @@ Rectangle type {
   height : T
 }
 
-Square protocal {
+Square protocol {
   width = height
 }

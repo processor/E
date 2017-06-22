@@ -54,7 +54,7 @@
 : Corporation;
 
 
-Corporation protocal {  
+Corporation protocol {  
   * | resolve 
     | issue `Stock
 

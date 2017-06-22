@@ -4,7 +4,7 @@ Seed,
 Series `A,
 Series `B type : Offering { }
 
-Offering protocal { 
+Offering protocol { 
   instruments -> [ ] finance::Instrument
 }
 

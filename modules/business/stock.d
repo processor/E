@@ -5,7 +5,7 @@ Stock : Finance_Instrument {
   issued   : DateTime
 }
 
-Stock protocal { 
+Stock protocol { 
   * aquire    : held
   * | split ∎ : split
     | sell  ∎ : sold
@@ -32,7 +32,7 @@ Stock_Sale event {
 
 
 
-Shareholder protocal { 
+Shareholder protocol { 
     // quanity
     // stock
     // ..

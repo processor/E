@@ -1,4 +1,4 @@
-Connection protocal : Channel { 
+Connection protocol : Channel { 
   * connect   : connecting   // send packet 
   * ack       : connected    // acknowledged. GTG 
   * send      : sending

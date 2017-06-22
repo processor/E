@@ -8,7 +8,7 @@ Animation type {
   interpolator : Interpolator
 }
 
-Animation protocal { 
+Animation protocol { 
   * started
   * ended | canceled
 

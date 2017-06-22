@@ -1,6 +1,6 @@
 using diagnostics
 
-App protocal { 
+App protocol { 
   network     : Network
   environment : ?
   diagnostics : [ ] Diagnostic
@@ -12,10 +12,10 @@ App protocal {
   devices     : [ ] Devices       // e.g. keyboard, mouse, pen
 }
 
-Network protocal {
+Network protocol {
   requests: [ ] Requests  // inflight
 }
 
-UI protocal { 
+UI protocol { 
   views: [ ] View
 }

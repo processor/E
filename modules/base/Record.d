@@ -1,3 +1,3 @@
-Record protocal { 
+Record protocol { 
   id : Identity
 }

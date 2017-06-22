@@ -1,4 +1,4 @@
-Loan protocal {
+Loan protocol {
   * created
   * payment ↺
   * paidoff ∎

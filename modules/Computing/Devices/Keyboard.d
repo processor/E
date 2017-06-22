@@ -2,7 +2,7 @@ Keyboard `Key type {
   code: Int32
 }
 
-Keyboard protocal {
+Keyboard protocol {
   * attach    : attached
   * | press  
     | release 

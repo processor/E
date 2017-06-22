@@ -8,7 +8,7 @@ Mouse type : Pointer { }
 Pen   type : Pointer { }
 Touch type : Pointer { }
 
-Pointer protocal {
+Pointer protocol {
   * move ↺ : moving
   * stop   ∎ 
 }

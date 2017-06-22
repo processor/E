@@ -1,4 +1,4 @@
-Bond protocal {
+Bond protocol {
   owner  -> Entity
   amount -> price * quantity
 }

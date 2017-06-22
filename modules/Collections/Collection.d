@@ -1,4 +1,4 @@
-Collection<T> protocal : Generator<T> {
+Collection<T> protocol : Generator<T> {
   count : T
   // first : T  // head
   // last  : T  // tail

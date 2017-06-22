@@ -1,4 +1,4 @@
-Seekable protocal { 
+Seekable protocol { 
   position : Int64 ≥ 0
   length   : Int64 > 0
 

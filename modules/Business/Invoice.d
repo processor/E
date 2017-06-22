@@ -13,7 +13,7 @@ Receipt  := Invoice	when closed  // friendly name for a paid invoice
 
 
 
-Invoice protocal {
+Invoice protocol {
   * created     : created
   * | bill      : billed
     | pay       : paying 

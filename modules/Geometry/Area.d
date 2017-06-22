@@ -1,4 +1,4 @@
-Area protocal : Number @dimensions(2) { }
+Area protocol : Number @dimensions(2) { }
 
 Acre    unit : Area
 Are     unit : Area // 100 square metres

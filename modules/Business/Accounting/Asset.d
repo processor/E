@@ -3,7 +3,7 @@ Asset record {
   depreciation'Schedule  : Depreciation`Schedule	// An asset is written_down in steps according to it's schedule
 }
 
-Asset protocal {
+Asset protocol {
   * purchase    : owned
   * writedown ↺ 
   * | sell    ∎ : sold

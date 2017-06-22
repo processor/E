@@ -1,4 +1,4 @@
-Path `Builder protocal {
+Path `Builder protocol {
   arc   (to: Vector3)
   curve (to: Vector3)     // quadratic
   close ()         

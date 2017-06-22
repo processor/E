@@ -2,7 +2,7 @@ Heading type : Element {
   level: Number
 }
 
-Heading protocal { 
+Heading protocol { 
   // level ∈ 1..6 
 }
 

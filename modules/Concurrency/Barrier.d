@@ -1,3 +1,3 @@
-Barrier protocal { 
+Barrier protocol { 
   destroy()
 }

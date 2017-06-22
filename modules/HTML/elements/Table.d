@@ -4,14 +4,14 @@ Row type : Block { }      // <row />
 
 Column type : Flex { }    // <column />
 
-Table protocal { 
+Table protocol { 
   rows -> [ ] Row
 }
 
-Row protocal { 
+Row protocol { 
   mutable columns = [ ] columns
 }
 
-Column protocal { 
+Column protocol { 
 
 }

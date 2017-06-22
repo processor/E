@@ -3,7 +3,7 @@ Dataset record {
   kind  : Kind
 }
 
-Dataset<T> protocal {
+Dataset<T> protocol {
   create      ()                    -> * Created
   get         static (Identity<T>)  -> * Dataset<T>
   lookup      static (name: String) -> * Record`Locator<T>
@@ -14,12 +14,12 @@ Dataset<T> protocal {
 
 // A registry is a subset of a dataset 
 
-Registry<T> protocal {
+Registry<T> protocol {
   
 }
 
 
-Dataset<T> protocal {
+Dataset<T> protocol {
   get    (Identity<T>)				      -> * T
   insert (T)						            -> * Transaction
   update (Identity<T>, [ ] Change)	-> * Transaction

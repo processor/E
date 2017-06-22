@@ -1,7 +1,7 @@
-Resolution protocal {
+Resolution protocol {
   
 }
 
-Resolution 'Signature protocal { 
+Resolution 'Signature protocol { 
   actor: Actor
 }

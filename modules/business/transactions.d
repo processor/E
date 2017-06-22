@@ -7,7 +7,7 @@
   amount	: Money
 } 
 
-Monetary `Transaction protocal {
+Monetary `Transaction protocol {
   * initiate    : pending
   * ? authorize : authorized 
   * | settle    : settled
