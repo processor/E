@@ -18,10 +18,9 @@ Curve impl for Bezier {
 }
 
 // Usage
-
-canvas |> draw Bezier { 
-  c1: Vector3(50, 50),
-  c2: Vector3(300, 50),
-  c3: Vector3(50, 300),
-  c4: Vector3(300, 300)
-}
+// canvas |> draw Bezier { 
+//   c1: Vector3(50, 50),
+//   c2: Vector3(300, 50),
+//   c3: Vector3(50, 300),
+//   c4: Vector3(300, 300)
+// }
