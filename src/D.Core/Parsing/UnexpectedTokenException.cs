@@ -5,7 +5,7 @@ namespace D.Parsing
     internal class UnexpectedTokenException : Exception
     {
         public UnexpectedTokenException(string message, Token token)
-           : base(message + $". Was {token} @ {token.Start.Line}:{token.Start.Column}")
+           : base(message + $". Was {token} @ {{ line: {token.Start.Line}:, column: {token.Start.Column} }}")
         {
         }
 

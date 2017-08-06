@@ -30,11 +30,11 @@ namespace D.Compilation
 
             var a = 0;
 
-            if (type.Constructor != null)
+            if (type.BaseType != null)
             {
                 Emit(" : ");
 
-                Emit(type.Constructor.Name);
+                Emit(type.BaseType.Name);
 
                 a++;
             }

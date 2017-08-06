@@ -33,27 +33,27 @@ namespace D.Operators.Tests
             var env = new Env();
 
             // Unary Operators
-            Assert.Equal(Operator.UnaryPlus,            env.Operators[Prefix, "+"]);
-            Assert.Equal(Operator.BitwiseNot,           env.Operators[Prefix, "~"]);
-            Assert.Equal(Operator.Negation,             env.Operators[Prefix, "-"]);
-            Assert.Equal(Operator.Not,                  env.Operators[Prefix, "!"]);
-
-            // Binary Operators
-            Assert.Equal(Operator.Multiplication,       env.Operators[Infix, "*"]);
-            Assert.Equal(Operator.Power,                env.Operators[Infix, "**"]);
-            Assert.Equal(Operator.Division,             env.Operators[Infix, "/"]);
-            Assert.Equal(Operator.Addition,             env.Operators[Infix, "+"]);
-            Assert.Equal(Operator.Subtraction,          env.Operators[Infix, "-"]);
-            Assert.Equal(Operator.Remainder,            env.Operators[Infix, "%"]);
-
-            Assert.Equal(Operator.Is,                   env.Operators[Infix, "is"]);
-            Assert.Equal(Operator.As,                   env.Operators[Infix, "as"]);
-
-            // Bitwise operators
-            Assert.Equal(Operator.BitwiseAnd,           env.Operators[Infix, "&"]);
-            Assert.Equal(Operator.LeftShift,            env.Operators[Infix, "<<"]);
-            Assert.Equal(Operator.SignedRightShift,     env.Operators[Infix, ">>"]);
-            Assert.Equal(Operator.UnsignedRightShift,   env.Operators[Infix, ">>>"]);
+            Assert.Equal(Operator.UnaryPlus,          env.Operators[Prefix, "+"]);
+            Assert.Equal(Operator.BitwiseNot,         env.Operators[Prefix, "~"]);
+            Assert.Equal(Operator.Negation,           env.Operators[Prefix, "-"]);
+            Assert.Equal(Operator.Not,                env.Operators[Prefix, "!"]);
+                                                      
+            // Binary Operators                       
+            Assert.Equal(Operator.Multiplication,     env.Operators[Infix, "*"]);
+            Assert.Equal(Operator.Power,              env.Operators[Infix, "**"]);
+            Assert.Equal(Operator.Division,           env.Operators[Infix, "/"]);
+            Assert.Equal(Operator.Addition,           env.Operators[Infix, "+"]);
+            Assert.Equal(Operator.Subtraction,        env.Operators[Infix, "-"]);
+            Assert.Equal(Operator.Remainder,          env.Operators[Infix, "%"]);
+                                                      
+            Assert.Equal(Operator.Is,                 env.Operators[Infix, "is"]);
+            Assert.Equal(Operator.As,                 env.Operators[Infix, "as"]);
+                                                      
+            // Bitwise operators                      
+            Assert.Equal(Operator.BitwiseAnd,         env.Operators[Infix, "&"]);
+            Assert.Equal(Operator.LeftShift,          env.Operators[Infix, "<<"]);
+            Assert.Equal(Operator.SignedRightShift,   env.Operators[Infix, ">>"]);
+            Assert.Equal(Operator.UnsignedRightShift, env.Operators[Infix, ">>>"]);
         }
 
         public class Func : IFunction

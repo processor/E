@@ -521,7 +521,7 @@ namespace D.Parsing
                 ? IsKind(Function) ? ReadFunctionDeclaration(name) : ReadExpression()
                 : null;
 
-            return new VariableDeclarationSyntax(name.ToString(), type, value, flags);
+            return new VariableDeclarationSyntax(name, type, value, flags);
 
         }
 
@@ -1946,7 +1946,7 @@ namespace D.Parsing
         {
             if (depth > 1)
             {
-                throw new UnexpectedTokenException($"token not read. current mode {modes.Peek()}", Current);
+                throw new UnexpectedTokenException($"token not read. current mode {modes.Peek()}. depth: {depth}", Current);
             }
 
             // Operators
@@ -2005,6 +2005,8 @@ namespace D.Parsing
 
                 case Number          : depth = 0; return ReadNumber();
                 case BracketOpen     : depth = 0; return ReadNewArray();
+
+                case Quote           : depth = 0; return ReadStringLiteral();
 
                 case Dollar          : depth = 0; return ReadDollarSymbol();
             }

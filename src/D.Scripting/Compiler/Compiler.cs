@@ -74,13 +74,7 @@ namespace D.Compilation
 
         public FunctionExpression VisitFunctionDeclaration(FunctionDeclarationSyntax f, IType declaringType = null)
         {
-            var b = Visit(f.Body);
-
-            var returnType = f.ReturnType != null
-                ? scope.Get<Type>(f.ReturnType)
-                : b.Kind == Kind.LambdaExpression
-                    ? GetType((LambdaExpression)b)
-                    : GetReturnType((BlockExpression)b);
+            scope = scope.Nested(); // Create a nested scope...
 
             var paramaters = ResolveParameters(f.Parameters);
 
@@ -88,6 +82,14 @@ namespace D.Compilation
             {
                 scope.Add(p.Name, (Type)p.Type);
             }
+
+            var b = Visit(f.Body);
+
+            var returnType = f.ReturnType != null
+                ? scope.Get<Type>(f.ReturnType)
+                : b.Kind == Kind.LambdaExpression
+                    ? GetType((LambdaExpression)b)
+                    : GetReturnType((BlockExpression)b);
 
             BlockExpression body;
 
@@ -110,12 +112,16 @@ namespace D.Compilation
                 throw new Exception("unexpected function body type:" + f.Body.Kind);
             }
 
-            return new FunctionExpression(f.Name, returnType, paramaters) {
+            var result = new FunctionExpression(f.Name, returnType, paramaters) {
                 GenericParameters = ResolveParameters(f.GenericParameters),
-                Flags = f.Flags,
-                Body = body,
-                DeclaringType = declaringType
+                Flags             = f.Flags,
+                Body              = body,
+                DeclaringType     = declaringType
             };
+
+            scope = scope.Parent;
+
+            return result;
         }
 
         public ImplementationExpression VisitImplementation(ImplementationDeclarationSyntax impl)
@@ -269,12 +275,38 @@ namespace D.Compilation
         {
             var elements = new IExpression[syntax.Elements.Length];
 
+            Type bestElementType = null;
+
             for (var i = 0; i < elements.Length; i++)
             {
-                elements[i] = Visit(syntax.Elements[i]);
+                var element = Visit(syntax.Elements[i]);
+
+                elements[i] = element;
+
+                var type = GetType(element);
+                
+                if (bestElementType == null)
+                {
+                    bestElementType = type;
+                }
+                else if (bestElementType != type)
+                {
+                    // TODO: Find the best common base type...
+
+                    if (bestElementType.BaseType == type.BaseType)
+                    {
+                        bestElementType = type.BaseType;
+                    }
+
+                    // throw new Exception($"array initialized with different types... {bestElementType} + {type}");
+                }
+
             }
 
-            return new ArrayInitializer(elements, syntax.Stride);
+            return new ArrayInitializer(elements, 
+                stride      : syntax.Stride, 
+                elementType : bestElementType
+            );
         }
 
         public IExpression VisitInterpolatedStringExpression(InterpolatedStringExpressionSyntax syntax)
@@ -340,12 +372,14 @@ namespace D.Compilation
             return Arguments.Create(items);
         }
 
-        public virtual VariableDeclaration VisitVariableDeclaration(VariableDeclarationSyntax syntax)
+        public virtual VariableDeclaration VisitVariableDeclaration(VariableDeclarationSyntax variable)
         {
-            var value = Visit(syntax.Value);
-            var type = GetType(syntax.Type ?? value);
+            var value = Visit(variable.Value);
+            var type  = GetType(variable.Type ?? value);
+            
+            scope.Add(variable.Name, type);
 
-            return new VariableDeclaration(syntax.Name, type, syntax.Flags, value);
+            return new VariableDeclaration(variable.Name, type, variable.Flags, value);
         }
 
         public virtual ObjectInitializer VisitObjectInitializer(ObjectInitializerSyntax syntax)
@@ -420,7 +454,19 @@ namespace D.Compilation
             => new ConstantPattern(Visit(pattern.Constant));
 
         public virtual Symbol VisitSymbol(Symbol symbol)
-            => symbol;
+        {
+            if (symbol.Status == SymbolStatus.Unresolved)
+            {
+                if (scope.TryGet<IType>(symbol, out var value))
+                {
+                    symbol.Initialize(value);
+                }
+            }
+
+            // Bind... 
+
+            return symbol;
+        }
 
         public Parameter[] ResolveParameters(ParameterSyntax[] parameters)
         {

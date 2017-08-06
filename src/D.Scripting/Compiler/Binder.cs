@@ -26,26 +26,23 @@ namespace D.Compilation
                 return (Type)obj;
             }
 
-            switch (expression.Kind)
-            {
-                case Kind.Number                       : return Type.Get(Kind.Number); // Double
-                case Kind.Decimal                      : return Type.Get(Kind.Decimal);
-                case Kind.String                       : return Type.Get(Kind.String);
-                case Kind.Matrix                       : return Type.Get(Kind.Matrix);
-                case Kind.InterpolatedStringExpression : return Type.Get(Kind.String);
-            }
+           
 
             switch (expression)
             {
+                case InterpolatedStringExpression _:
+                    return Type.Get(Kind.String);
+
                 case BinaryExpression _:
                 case Symbol _:
                 case CallExpression _:
                 case UnaryExpression _:
                 case IndexAccessExpression _:
                 case MatchExpression _:
-                case ArrayInitializer _:
-                    // TODO: Infer
                     return Type.Get(Kind.Object);
+
+                case ArrayInitializer array:
+                    return new Type(Kind.List, (Type)array.ElementType);
             }
 
             if (expression.Kind == Kind.ObjectInitializer)
@@ -54,12 +51,16 @@ namespace D.Compilation
 
                 return scope.Get<Type>(initializer.Type);
             }
+            
 
-          
+            if (expression.Kind != Kind.Object)
+            {
+                return Type.Get(expression.Kind);
+            }
+
             throw new Exception("Unexpected expression:" + expression.Kind + "/" + expression.ToString());
         }
 
-        public Type GetType(LambdaExpression lambda)
-            =>  GetType(lambda.Expression);
+        public Type GetType(LambdaExpression lambda) =>  GetType(lambda.Expression);
     }
 }

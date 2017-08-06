@@ -28,8 +28,6 @@ namespace D.Parsing.Tests
 Unit type {{ 
     a: {text}
 }}").Members[0].Type;
-
-
         }
 
         [Fact]

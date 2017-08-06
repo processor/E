@@ -14,9 +14,9 @@ namespace D.Inference
             var listOfString = flow.GetListTypeOf(Kind.String);
             var listOfFloat  = flow.GetListTypeOf(Kind.Number);
 
-            Assert.Equal("String",  flow.Infer(new Call("head",     new[] { new Constant(listOfString) })).Name);
+            Assert.Equal("String",   flow.Infer(new Call("head",     new[] { new Constant(listOfString) })).Name);
             Assert.Equal("Number",   flow.Infer(new Call("head",     new[] { new Constant(listOfFloat) })).Name);
-            Assert.Equal("Boolean", flow.Infer(new Call("contains", new[] { new Constant(listOfFloat) })).Name);
+            Assert.Equal("Boolean",  flow.Infer(new Call("contains", new[] { new Constant(listOfFloat) })).Name);
         }
 
         [Fact]
@@ -49,11 +49,13 @@ namespace D.Inference
                 returns: new Call("+", new[] { new Variable("lhs"), new Variable("rhs") }
              ));
 
+            /*
             flow.AddFunction("test3",
-              new[] {
-                new Parameter("a1"),
-                new Parameter("b2"),
-             }, new Call("concat", new[] { new Variable("a1"), new Variable("b2") }));
+                new[] {
+                    new Parameter("a1"),
+                    new Parameter("b2"),
+            }, new Call("concat", new[] { new Variable("a1"), new Variable("b2") }));
+            */
 
 
             Assert.Equal("Integer", flow.Infer(new Variable("a")).Name);
