@@ -26,20 +26,23 @@ namespace D.Compilation
                 return (Type)obj;
             }
 
-           
-
             switch (expression)
             {
                 case InterpolatedStringExpression _:
                     return Type.Get(Kind.String);
 
+                case TypeSymbol symbol:
+                    return new Type(symbol.Name, Type.Get(Kind.Object), null, null);
+
                 case BinaryExpression _:
-                case Symbol _:
                 case CallExpression _:
                 case UnaryExpression _:
                 case IndexAccessExpression _:
+                case Symbol _:
                 case MatchExpression _:
                     return Type.Get(Kind.Object);
+
+              
 
                 case ArrayInitializer array:
                     return new Type(Kind.List, (Type)array.ElementType);
@@ -51,7 +54,6 @@ namespace D.Compilation
 
                 return scope.Get<Type>(initializer.Type);
             }
-            
 
             if (expression.Kind != Kind.Object)
             {
