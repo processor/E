@@ -1,6 +1,6 @@
 Style type {
-  width		   : Number,		// with padding
-  height	   : Number,
+  width		   : f32,		// with padding
+  height	   : f32,
   padding	   : Box,
   margin     : Box,
   background : Color | Gradiant,

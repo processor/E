@@ -17,7 +17,7 @@ reserve 1_000_000_000_000 records for Organizations
 
 // { relator: Entity, relatee: Entity }
 
-type Bylaw = law:Rule | law:Regulation | law:Term:
+type Bylaw = law::Rule | law::Regulation | law::Term:
 
 // Organization 
 
