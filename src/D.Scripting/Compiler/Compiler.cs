@@ -293,7 +293,11 @@ namespace D.Compilation
                 {
                     // TODO: Find the best common base type...
 
-                    if (bestElementType.BaseType == type.BaseType)
+                    if (type.BaseType == null)
+                    {
+                        bestElementType = Type.Get(Kind.Object);
+                    }
+                    else if (bestElementType.BaseType == type.BaseType)
                     {
                         bestElementType = type.BaseType;
                     }

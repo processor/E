@@ -3,8 +3,6 @@
     <VersionPrefix>0.0.1-alpha3</VersionPrefix>
     <TargetFramework>netstandard1.6</TargetFramework>
     <AssemblyName>D.Core</AssemblyName>
-    <PackageId>D.Core</PackageId>
-    <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="System.ValueTuple" Version="4.3.0" />
