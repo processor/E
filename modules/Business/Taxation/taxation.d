@@ -1,4 +1,6 @@
-﻿using commerce
+﻿module "Taxation"
+
+using commerce
 
   Income      `Tax	 
 , Payroll     `Tax 
@@ -9,23 +11,16 @@
   amount    : Money
 }
 
-Tax `Payment record { 
-  authority : Entity
-  amount    : Money
-}
-
-
-Tax `Rule {
+Rule : record {
 
 }
-
 
 Tax `Deduction record {
-   rules: [ ] Tax'Rule
+   rules: [ Rule ]
+}
+
+Authority record { 
+
 }
 
 // Juristriction?
-
-Tax `Authority record { 
-
-}

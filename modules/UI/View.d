@@ -1,4 +1,4 @@
-import { Rectangle } from Geometry
+use { Rectangle } from Geometry
 
 View protocol { 
   width  : Int32

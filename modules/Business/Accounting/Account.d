@@ -16,10 +16,10 @@ Account protocol {
   deposit (Check)               -> Deposit
   dispute (Transaction, Reason) -> Dispute    // if ruled in your favor, results in a reversal
 
-  balance      ->     Money
-  transactions -> [ ] Transaction
-  signers      -> [ ] Signers
-  trustee      -> [ ] Trustee
+  balance      ->   Money
+  transactions -> [ Transaction ]
+  signers      -> [ Signers ]
+  trustee      -> [ Trustee ]
 }
 
 // beneficiaries

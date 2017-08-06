@@ -11,7 +11,7 @@
 , Spectroscopy          // interaction between matter & electromagnetic radiation
 , Theromodynamics
 , Robitics 
-, Geophysics  : Physical' Science 
+, Geophysics  : Physical` Science 
 
 
 

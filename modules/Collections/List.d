@@ -3,6 +3,6 @@ List<T> protocol {
   
   contains (element: T)   -> Boolean
   remove   (at: Int64)  -> Removed | OutOfRange
-  insert   (element: T, at: Int64);
+  insert   (element: T, at: i64);
   append   (element: T);
 }

@@ -1,13 +1,13 @@
-Masonary'Layout type {
-  gap     : Number
-  columns : Box [ ]
+Masonary `Layout type {
+  gap     :   f32
+  columns : [ Box ]
 }
 
-Masonary'Layout impl {
-  from (columnCount: Int32, columnWidth: Int32, gap = 10) {
+Masonary `Layout impl {
+  from (columnCount: i32, columnWidth: f32, gap: f32 = 10) {
     let mutable left = 0
     
-    let mutable columns = [ ] Column;
+    let mutable columns = [ Column ];
 
     for i in 0..<columnCount {
       columns.add {
@@ -20,7 +20,7 @@ Masonary'Layout impl {
       left += columnWidth + gap
     }
 
-    return Masonary'Layout { gap, columns }
+    return Masonary `Layout { gap, columns }
   }
 
   shortestColumn ƒ() => 
@@ -28,7 +28,7 @@ Masonary'Layout impl {
     orderby $0.height descending |> first
 }
 
-Layout impl for Masonary'Layout {
+Layout impl for Masonary `Layout {
   doLayout (elements) { 
     for el in elements {
       let column = shortestColumn()
@@ -53,8 +53,8 @@ Layout impl for Masonary'Layout {
 }
 
 Box type { 
-  width          : Number  
-  mutable height : Number  
-  top            : Number 
-  left           : Number
+  width          : f32  
+  mutable height : f32  
+  top            : f32 
+  left           : f32
 }

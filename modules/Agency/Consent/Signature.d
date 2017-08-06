@@ -1,0 +1,3 @@
+Signature protocal {
+  actor: Actor
+}

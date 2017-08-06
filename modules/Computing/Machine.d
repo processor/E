@@ -1,15 +1,15 @@
 ﻿Machine : Entity {
-  addresses: IP'Address [ ]
+  addresses: [ IP `Address ]
 }
 
 Machine protocol { 
-  processes          -> [ ] Process 
-  processors         -> [ ] Processor
-  network`Interfaces -> [ ] Network'Interface
-  drives             -> [ ] Drive
-  mounts             -> [ ] Mount
+  processes          -> [ Process ]
+  processors         -> [ Processor ]
+  network`Interfaces -> [ Network `Interface ]
+  drives             -> [ Drive ]
+  mounts             -> [ Mount ]
 }
 
-Machine'Termination event { 
+Machine `Termination event { 
   machine: Machine
 }

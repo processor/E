@@ -1,6 +1,6 @@
 Gallery type : Block {
   current : Slide
-  slides  : [ ] Slide
+  slides  : [ Slide ]
 }
 
 Slide type {
@@ -10,8 +10,8 @@ Slide type {
 }
 
 Gallery impl {
-  from (medias: [ ] Media) {
-    let slides = [ ] Slide
+  from (medias: [ Media ]) {
+    let slides = [ Slide ]
     
     let mutable last : Slide
     let mutable index = 0
@@ -20,9 +20,9 @@ Gallery impl {
       // Create a viewer for the media
       
       let element = match $ {
-        | Image _ => Image`Element $
-        | Video _ => Video`Element $
-        | Audio _ => Audio`Element $
+        | Image _ => Image `Element $
+        | Video _ => Video `Element $
+        | Audio _ => Audio `Element $
       }
 
       let slide = Slide { element, index: index, previous: last }
@@ -58,12 +58,11 @@ Gallery impl {
 
   }
 
-  on Pointer'pressed press {
+  on Pointer `pressed press {
     observe gallary Pointer_move {
-
       // Drag the slide
 
-    } until gallary.Root Pointer'released
+    } until gallary.Root Pointer `released
   }
 
   on Attached => log "attached"

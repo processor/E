@@ -6,10 +6,10 @@
 Medical `Diagnosis protocol { 
   organism    -> Organism | Masked<Organism> 
 
-  symptoms    -> [ ] Symptoms
-  diagonstics -> [ ] Diagonstic
-  treatments  -> [ ] Treatment
-  procedures  -> [ ] Procedure
+  symptoms    -> [ Symptoms ]
+  diagonstics -> [ Diagonstic ]
+  treatments  -> [ Treatment ]
+  procedures  -> [ Procedure ]
 }
 
 // masked Organism   // rule for unmasking? i.e. until 50 years after Death
@@ -22,9 +22,9 @@ Practitioner protocol {
   exam     (Human)          -> Exam                                  // Uncovers symptoms
   diagnose (Human)          -> Medical `Diagnosis | Inconclusive     // still need diagnosis event --- can get second opinions
 
-  perscribe (Human, drug: Drug, for: Medical `Diagnosis)   -> Perscription
+  perscribe (Human, drug: Drug, for: Medical `Diagnosis)  -> Perscription
   perform   (Procedure)                                   -> Procedure
-  treat     (Organism, Treatment)                            -> Treatment
+  treat     (Organism, Treatment)                         -> Treatment
 }
 
 Medical `Exam record { }

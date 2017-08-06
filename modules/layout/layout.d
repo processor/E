@@ -1,8 +1,5 @@
 Layout protocol { 
-
-
-  doLayout (node: [] Node) {
-
+  doLayout (node: [Node]) {
     
   }
 }

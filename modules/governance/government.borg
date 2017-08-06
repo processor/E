@@ -1,12 +1,3 @@
 ﻿Citizen record { 
   place: Country
 }
-
-Government `Official record {
-  person : Human,
-  role   : String
-}
-
-Government `Official protocol {
-  name = this.person.name
-}

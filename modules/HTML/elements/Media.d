@@ -3,16 +3,16 @@ Media<T> : Inline {
 }
 
 Media<T: Audio | Video> protocol { 
-  * | load & loaded : loading
-    | buffer        : buffering  
-    | play          : playing
-    | seek & seeked : seeking
-    | volume'change : adjusting_Volume
+  * | load & loaded  : loading
+    | buffer         : buffering  
+    | play           : playing
+    | seek & seeked  : seeking
+    | volume `Change : adjusting `Volume
     | mute
-    | pause         : paused
+    | pause          : paused
     ↺ 
-  | stall           : stalled
-  | end ∎           : ended
+  | stall            : stalled
+  | end ∎            : ended
 
   blob   -> T
   volume -> Percent

@@ -1,8 +1,7 @@
 // Experiment based on 
 // https://github.com/PistonDevelopers/image/blob/master/src/jpeg/encoder.rs
 
-import Math::*
-
+use math:*
 
 // Markers ----------------------------------------------------
 let SOF0 : u8 = 0xC0 // Baseline DCT
@@ -226,20 +225,20 @@ BitWriter impl for JPEGEncoder {
         w.writeAll(&[marker])
 
         if let Some(b) = data {
-            w.write_u16::<BigEndian>(b.len() as u16 + 2)
+            w.write_u16:<BigEndian>(b.len() as u16 + 2)
             w.writeAll(&b)
         }
     }
 }
 
 JPEGEncoder type {
-    writer         : BitWriter,
-    components     : [ ] JPEGComponent,
-    tables         : [ ] u8,
-    luma_dctable   : [ ] (u8, u16),
-    luma_actable   : [ ] (u8, u16),
-    chroma_dctable : [ ] (u8, u16),
-    chroma_actable : [ ] (u8, u16)
+    writer         : BitWriter
+    components     : [ JPEGComponent ]
+    tables         : [ u8 ],
+    luma_dctable   : [ (u8, u16) ]
+    luma_actable   : [ (u8, u16) ] 
+    chroma_dctable : [ (u8, u16) ] 
+    chroma_actable : [ (u8, u16) ]
 }
 
 JPEGEncoder impl {
@@ -260,19 +259,19 @@ JPEGEncoder impl {
         let scale = clamp(quality, 1, 100) as u32
         let scale = scale < 50 ? 5000 / scale : 200 - scale * 2
 
-        let mutable tables = [ ] u32
+        let mutable tables = [ u32 ]
 
         let scaleValue = ƒ(v: u8) {
             let value = (v as u32 * scale + 50) / 100
 
-            return clamp(value, 1, u8::maxValue) as u32) as u8
+            return clamp(value, 1, u8:maxValue) as u32) as u8
         }
 
         tables.extend(LUMA_QTABLE.map(scaleValue))
         tables.extend(CHROMA_QTABLE.map(scaleValue))
 
         return JPEGEncoder {
-            writer : BitWriter::new(w),
+            writer : BitWriter:new(w),
             components,
             tables,
             luma_dctable,
@@ -285,14 +284,14 @@ JPEGEncoder impl {
     encode(bitmap: &[u8],
            width: u32,
            height: u32,
-           c: color::ColorType) -> IO::Pipe {
+           c: color:ColorType) -> IO:Pipe {
 
-        let n = color::num_components(c)
+        let n = color:num_components(c)
         let componentCount = n == 1 || n == 2 ? 1 : 3
 
         writer.writeSegment(SOI, None)
 
-        let mutable buf = [ ] byte
+        let mutable buf = [ byte ]
 
         buildJfifHeader(&mut buf)
         writer.writeSegment(APP0, Some(&buf))
@@ -326,11 +325,11 @@ JPEGEncoder impl {
         writer.writeSegment(SOS, Some(&buf))
 
         match c {
-            Color::RGB(8)   => encodeRGB  (bitmap, width, height, 3);
-            Color::RGBA(8)  => encodeRGB  (bitmap, width, height, 4);
-            Color::Gray(8)  => encodeGray (bitmap, width, height, 1);
-            Color::GrayA(8) => encodeGray (bitmap, width, height, 2);
-            _               => throw Error($"Unsupported color type {c}")
+            Color:RGB(8)   => encodeRGB  (bitmap, width, height, 3);
+            Color:RGBA(8)  => encodeRGB  (bitmap, width, height, 4);
+            Color:Gray(8)  => encodeGray (bitmap, width, height, 1);
+            Color:GrayA(8) => encodeGray (bitmap, width, height, 2);
+            _              => throw Error($"Unsupported color type {c}")
         }
 
         writer.padByte()
@@ -349,7 +348,7 @@ JPEGEncoder impl {
 
                 // Level shift and fdct
                 // Coeffs are scaled by 8
-                transform::fdct(&yblock, mutable dct_yblock)
+                transform:fdct(&yblock, mutable dct_yblock)
 
                 // Quantization
                 for i in 0 ..< 64 {
@@ -414,8 +413,8 @@ buildJfifHeader ƒ(m: mutable Array<u8>) {
     m.writeAll(&[0x01]);
     m.writeAll(&[0x02]);
     m.writeAll(&[0]);
-    m.write_u16::<BigEndian>(1);
-    m.write_u16::<BigEndian>(1);
+    m.write_u16:<BigEndian>(1);
+    m.write_u16:<BigEndian>(1);
     m.writeAll(&[0]);
     m.writeAll(&[0]);
 }
@@ -424,12 +423,12 @@ buildFrameHeader ƒ(m          : mutable Array<u8>,
                    precision  : u8,
                    width      : u16,
                    height     : u16,
-                   components : [ ] JPEGComponent) {
+                   components : [ JPEGComponent ]) {
     m.clear()
 
     m.writeAll(&[precision])
-    m.write_u16BE::(height as u16)
-    m.write_u16BE::(width as u16)
+    m.write_u16BE:(height as u16)
+    m.write_u16BE:(width as u16)
     m.writeAll(&[components.count as u8])
 
     for & comp in components {
@@ -460,7 +459,7 @@ fn buildScanHeader(m: mutable Array<u8>, components: &[Component]) {
     m.writeAll(&[0])
 }
 
-buildHuffmanSegment(m: mutable [ ] u8,
+buildHuffmanSegment(m: mutable [ u8 ],
                     class: u8,
                     destination: u8,
                     numcodes: &[u8],
@@ -487,7 +486,7 @@ buildHuffmanSegment(m: mutable [ ] u8,
     }
 }
 
-buildQuantizationSegment ƒ(m: mutable [ ]u8, precision: u8, identifier: u8, qtable: [ ]u8) {
+buildQuantizationSegment ƒ(m: mutable [ u8 ] , precision: u8, identifier: u8, qtable: [ u8 ]) {
     m.clear()
 
     let p = precision == 8 ? 0 : 1
@@ -542,7 +541,7 @@ copyBlocksYCbRr ƒ(source: &[u8],
             let g = valueAt(source, ystride + xstride + 1)
             let b = valueAt(source, ystride + xstride + 2)
 
-            let (yc, cb, cr) = Color::RGB(r, g, b) to Color::YCbCr
+            let (yc, cb, cr) = Color:RGB(r, g, b) to Color:YCbCr
 
             yb[y * 8 + x]  = yc
             cbb[y * 8 + x] = cb

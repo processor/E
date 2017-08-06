@@ -1,7 +1,7 @@
 Form type : Block {
   status : Unknown | Validated | Sending | Sent
   action : Function
-  fields : [ ] Fields;
+  fields : [ Field ]
 }
 
 Field type : Block {
@@ -21,9 +21,9 @@ Input<T> type : Inline {
 }
 
 Form impl : Element {
-  from ([ ] Field fields) => Form { children: fields }
+  from (fields: [ Field ]) => Form { children: fields }
 
-  fields (this Form) -> [ ] Field => children
+  fields (this Form) -> [ Field ] => children
 }
 
 Field protocol {

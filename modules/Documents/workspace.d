@@ -1,9 +1,9 @@
 Project impl { 
-   add (Document)  -> Workspace`Object
-   add (Section)   -> Workspace`Section
-   add (Artboard)  -> Workspace`Object
-   add (Object)    -> Workspace`Object
-   add (Dataset)   -> Workspace`Object
+   add (Document)  -> Workspace `Object
+   add (Section)   -> Workspace `Section
+   add (Artboard)  -> Workspace `Object
+   add (Object)    -> Workspace `Object
+   add (Dataset)   -> Workspace `Object
 }
 
 Artboard type { 
@@ -11,5 +11,5 @@ Artboard type {
    height    : Length
    
    position  : Position, 
-   objects   : [ ] (Position, Object)
+   objects   : [ (Position, Object) ]
 }

@@ -3,15 +3,13 @@
 type Line = Sale | Adjustment | Fee | Service
 
 Invoice record {
-  amount : Money
-  issuer : Entity
-  terms  : [ ] Invoice`Term
-  lines  : [ ] Line
+  amount :   Money
+  issuer :   Entity
+  terms  : [ Invoice `Term ]
+  lines  : [ Line ]
 }
 
-Receipt  := Invoice	when closed  // friendly name for a paid invoice
-
-
+Receipt := Invoice when closed  // friendly name for a paid invoice
 
 Invoice protocol {
   * created     : created
@@ -22,13 +20,13 @@ Invoice protocol {
     | abandon ∎ : abandoned
 
   create  ()                              -> Invoice
-  pay     (Payment'Method, amount: Money) -> Payment
+  pay     (Payment `Method, amount: Money) -> Payment
   bill    (recipient: Entity)             -> Bill
   close   ()                              -> Closure
   abandon ()                              -> Abandonment
 
-  bills    -> [ ] Bill          // an invoice may be billed mutiple times 
-  payments -> [ ] Transaction 
+  bills    -> [ Bill ]           // an invoice may be billed mutiple times 
+  payments -> [ Transaction ] 
 }
 
 Bill event { 

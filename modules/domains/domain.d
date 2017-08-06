@@ -8,21 +8,21 @@
 
 }
 
-Pysical 'Science : Natural 'Science;
+Pysical `Science : Natural `Science;
 
-, // Base Libraries
-, Base                   // Types, Records, Tuples, Arrays, Implementations       
+// Base Libraries
+  Base                   // Types, Records, Tuples, Arrays, Implementations       
 , Graphics                                        
 : Library
 
-, // Formal, Physical, & Life 
-, Chemistry   : Pysical 'Science 
-, Biology     : Natural 'Science   
-, Mathematics : Formal  'Science
-, Physics     : Natural 'Science
+ // Formal, Physical, & Life 
+, Chemistry   : Pysical `Science 
+, Biology     : Natural `Science   
+, Mathematics : Formal  `Science
+, Physics     : Natural `Science
 
-, // Social Sciences (Business, being, law, history, etc)
-, Antropology           
+// Social Sciences (Business, being, law, history, etc)
+  Antropology           
 , Archaeology           
 , Business              
 , Communication         
@@ -37,10 +37,10 @@ Pysical 'Science : Natural 'Science;
 , Linguistics           
 , Sociology             
 , Law                   
-: Social 'Science; 
+: Social `Science; 
 
-, // Applied Sciences
-, Agriculture             // Crops & livestock, includes Agrochemistry
+// Applied Sciences
+  Agriculture             // Crops & livestock, includes Agrochemistry
 , Architechure          
 , Astronautics‎         
 , Bioengineering        
@@ -54,9 +54,7 @@ Pysical 'Science : Natural 'Science;
 , Psychology            
 , Robotics              
 , Transportation      
-: Applied 'Science  
-
-
+: Applied `Science  
 
 
 // Disipline          // e.g. neurology

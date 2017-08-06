@@ -5,7 +5,7 @@ Content type {
 }
 
 Parentable type of T  { 
-  children : [ ] T
+  children : [ T ]
 }
 
 Document type : Parentable<Element> {
@@ -14,12 +14,11 @@ Document type : Parentable<Element> {
 
 Node = Element | Content;
 
-
   Added<T>
 , Wrapped<T>
 , Unwrapped<T>
 , Detached<T> 
-: Document'Mutation event { }
+: Document `Mutation event { }
 
 Document protocol : Interactive { 
   add`Child (Node) -> Added

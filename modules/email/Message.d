@@ -1,8 +1,8 @@
 ﻿Email `Message record {
-  to   : [ ] Email` Address
-  from :     Email` Address
-  cc   : [ ] Email` Address
-  body :     Email` Body
+  to   : [ Email` Address ]
+  from :   Email` Address
+  cc   : [ Email` Address ]
+  body :   Email` Body
 }
 
 Email `Message impl { 

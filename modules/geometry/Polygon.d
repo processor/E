@@ -1,5 +1,5 @@
 Polygon type { 
-  vertices: [ ] Vertex
+  vertices: [ Vertex ]
 }
 
 Polygon impl {

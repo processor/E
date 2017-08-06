@@ -1,5 +1,5 @@
 Multimedia `Container type { 
-  streams: [ ] Stream
+  streams: [ Multimedia `Stream ]
 }
 
 Multimedia `Stream type {
@@ -7,7 +7,7 @@ Multimedia `Stream type {
 }
 
 Audio `Stream type { 
-  channels: [ ] ?
+  channels: [ any ]
 } 
 
 Video `Stream type { } 

@@ -1,8 +1,3 @@
-Partnership type : Organization;
-Corporation type : Organization;   // e.g. Microsoft, Inc
-Institution type : Organization;
-Partnership type : Organization;
-
 Organization protocol {
   * incorporate : incorporated
   * action    ↺ : acting 
@@ -12,10 +7,10 @@ Organization protocol {
  
   incorporate   ()                     -> Incorporation   // established
   dissolve      ()                     -> Dissolution
-  merge         (Organization: target) -> Corporate'Merger
+  merge         (Organization: target) -> Merger
 
-  directors    -> [ ] Director      // including managing & officers
-  jurisdiction -> Jurisdiction      // via Incorporation.jurisdiction
+  directors    -> [ Director ]   // including managing & officers
+  jurisdiction ->   Jurisdiction // via Incorporation.jurisdiction
 
   has Bylaws
     of Rules, Regulations, and Terms through Corporate_Bylaws(entity);
@@ -25,3 +20,8 @@ Organization protocol {
      // logic that triggers when dissolved
   }
 }
+
+  Partnership type,   
+  Corporation type,     // e.g. Microsoft, Inc
+  Institution type,   
+: Organization;

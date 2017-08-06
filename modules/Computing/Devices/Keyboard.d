@@ -12,8 +12,8 @@ Keyboard protocol {
   press   (key: Keyboard `Key) -> Key `Press
   release (key: Keyboard `Key) -> Key `Release
 
-  depressed -> [ ] Keyboard `Key
-  capturing -> Element
+  depressed -> [ Keyboard `Key ]
+  capturing ->   Element
 }
 
 Key `Down event { 

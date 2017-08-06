@@ -18,16 +18,7 @@ await insert(a)
 
 Blob.locate 100 |> open
 
-
-
-a Blob has blocks via Blob'Blocks(blob) 
-≡ Blob.blocks -> Blob'Blocks($0)
-≡ sql(select block from Blob'Blocks where blob = $0)
-//   hashes     ƒ (this Blob) ≡ Blob'Hashes($0)      // select hash      from hash Blob'Hashes   where blob = $0
-
 /// block.blocks.sql ≡ select block from Blob'Blocks where blob = $0 // true
-
-
 
 /*
 for block in blob blocks {
@@ -49,12 +40,11 @@ for block in blob blocks {
 
 until delete “animating.gif” // a Deleted or Error event sometime in the future
 
-
-
-create [ Dog("Blue",  age: 7)
-         Dog("Bozer", age: 4)
-         Dog("Bozer", age: 4)
-       ] and wait until Propagated
+create [ 
+  Dog("Blue",  age: 7)
+  Dog("Bozer", age: 4)
+  Dog("Bozer", age: 4)
+] and wait until Propagated
 
 let bob    = create Human("Bob")
 let linda  = create Human("Linda")

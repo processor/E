@@ -1,7 +1,3 @@
 Resolution protocol {
-  
-}
-
-Resolution 'Signature protocol { 
-  actor: Actor
+  votes: Vote  
 }

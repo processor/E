@@ -5,11 +5,11 @@ Row type : Block { }      // <row />
 Column type : Flex { }    // <column />
 
 Table protocol { 
-  rows -> [ ] Row
+  rows -> [ Row ]
 }
 
 Row protocol { 
-  mutable columns = [ ] columns
+  columns : [ Column ]
 }
 
 Column protocol { 
