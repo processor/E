@@ -23,7 +23,7 @@ Money type {
 , USD                       // United States Dollar
 , THB                       // Taiwan, New Dollars 
 , TWD                       // Venezuela, Bolivares
-, VEB obsolete, 
+, VEB @obsolete, 
 , VEF                       // Venezuela, Bolivar Fuerte 
 
 // -- Cryptocurrencies --

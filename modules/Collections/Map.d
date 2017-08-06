@@ -1,3 +1,3 @@
 Map<A,B> protocol { 
-  count -> Int64
+  count -> i64
 }

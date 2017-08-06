@@ -45,19 +45,16 @@
 // Neighborhood
 Neighborhood : Place, Inhabitable 
 
-
 Inhabitable protocol {
-  inhabitants -> [ ] Inhabitants
+  inhabitants -> [ Inhabitant ]
 }
 
-
-Inhabitant record { 
+Inhabitant : Entity { 
  place   : Place
- entity  : Entity
 }
 
 State record : Place { 
-  code: ISO::"3166-2"
+  code: ISO:"3166-2"
 }
 
 Providence record : Place { 
@@ -65,7 +62,7 @@ Providence record : Place {
 }
 
 Country record : Place { 
-  code: ISO::3166-2,
+  code: ISO:3166-2,
 }
 
 Park record : Place

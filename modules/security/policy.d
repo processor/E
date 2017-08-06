@@ -1,16 +1,16 @@
 Policy protocol { 
   allow ( 
-    entity   : Entity, 
-    actions  : [ ] Verb, 
-    resource : Resource,
-    when     : Predicate
+    entity   :   Entity, 
+    actions  : [ Verb ], 
+    resource :   Resource,
+    when     :   Predicate
   ) -> * Rule 
 
   forbid (
-    entity   : Entity, 
-    actions  : [ ] Verb, 
-    resource : Resource,
-    when     : Predicate
+    entity   :   Entity, 
+    actions  : [ Verb ], 
+    resource :   Resource,
+    when     :   Predicate
   ) -> * Rule
 }
 

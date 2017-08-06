@@ -1,4 +1,6 @@
-Insurance `Claim record {
+module "Insurance"
+
+Claim record {
 
 }
 

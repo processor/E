@@ -1,2 +1,2 @@
-NASDAQ `Stock `Exchange,
+NASDAQ,
 New`York`Stock Exchange : Stock`Exchange

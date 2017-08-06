@@ -6,10 +6,7 @@ Vector<T> protocol{
   clone -> V
 }
 
-
 sum       (Vector)
-
-
 
 /*
 length      (Vector, Vector)

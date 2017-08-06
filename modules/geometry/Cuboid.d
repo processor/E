@@ -1,5 +1,5 @@
 Cuboid type {
-  polygons: [ ] Polygon
+  polygons: [ Polygon ]
 }
 
 Cuboid impl {   

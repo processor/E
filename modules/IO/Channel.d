@@ -1,5 +1,5 @@
 ﻿// Channels replace sequences, streams,
-// * byte.. :≡ Readable`Channel of zero or more_byte'
+// * byte.. :≡ Readable`Channel of zero or more bytes
 
 Channel protocol { 
   status   -> Channel`Status
@@ -43,7 +43,8 @@ Channel`Awaiter protocol for T {
 // Create a multicast wrapper around a channel
 
 Observerable<T> protocol {
-  subscriptions : [ ] Subscription<T>
+  subscriptions           : [ Subscription<T> ]
+
   subscribe(ƒ(Message|∎)) -> Subscription<T>
 }
 

@@ -3,5 +3,5 @@ Content type {
 }
 
 Content impl for Node {  
-  children => [0] Node
+  children => [Node] { }
 }

@@ -3,7 +3,7 @@ Animation type {
   duration     : Duration
   from         : Number | Color
   to           : Number | Color
-  properties   : [ ] Tweenable
+  properties   : [ Tweenable ]
   direction    : Forwards | Backwards
   interpolator : Interpolator
 }
@@ -14,7 +14,7 @@ Animation protocol {
 
 }
 Animation `Sequence { 
-   animations: [ ] Animation
+   animations: [ Animation ]
 }
 
 transition x from 0 to 1 over 1s using algorithm while condition

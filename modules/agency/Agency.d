@@ -7,9 +7,9 @@
 
 Purchase ≡ Asset
 
-// via invoicing::Invoices(owner);						// bill an Entity				
+// via invoicing:Invoices(owner);						// bill an Entity				
 
-// via finance::Stock(owner);							// own shares of an Entity
+// via finance:Stock(owner);							// own shares of an Entity
 // via Assets(owner);
 
 reserve 1_000_000_000_000 records for Humans
@@ -17,7 +17,7 @@ reserve 1_000_000_000_000 records for Organizations
 
 // { relator: Entity, relatee: Entity }
 
-type Bylaw = law::Rule | law::Regulation | law::Term:
+type Bylaw = law:Rule | law:Regulation | law:Term:
 
 // Organization 
 

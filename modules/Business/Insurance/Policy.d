@@ -1,3 +1,5 @@
-Insurance `Policy record {
+module "Insurance"
+
+Policy record {
 
 }

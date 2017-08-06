@@ -1,5 +1,5 @@
 Keyframe type { 
-  properties: [ ] Property
+  properties: [ Property ]
 }
 
 // element.opacity 0 1

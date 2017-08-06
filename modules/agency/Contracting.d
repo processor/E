@@ -4,8 +4,8 @@
 )
 
 Contract protocol { 
-  terms    -> [ ] law::Legal`Term  
-  invoices -> [ ] Invoice 
+  terms    -> [ law:Legal`Term ]
+  invoices -> [ Invoice ] 
 }
 
 Service `Contract : Contract {

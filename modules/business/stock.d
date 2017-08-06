@@ -1,25 +1,10 @@
-Stock : Finance_Instrument {
-  entity   : Entity
-  holder   : Entity
-  shares   : Decimal
-  issued   : DateTime
-}
+using financing
 
-Stock protocol { 
-  * aquire    : held
-  * | split ∎ : split
-    | sell  ∎ : sold
-
-  // aquire
-  // split            split to be able to sell a smaller part
-  // sell
-}
-
-Stock_Acquisition event {
+Stock `Acquisition event {
 
 }
 
-Stock_Sale event {
+Stock `Sale event {
 
 }
 
@@ -33,20 +18,16 @@ Stock_Sale event {
 
 
 Shareholder protocol { 
-    // quanity
-    // stock
-    // ..
+  stock    : Stock;
+  quantity : decimal;
 }
 
 
 // take a single note, and split it into two
-Stock_Split event { 
+Stock `Split event { 
 
 }
 
-
-Stock.owner := Stockholder
-
-Stock_Exchange record { 
+Stock `Exchange record { 
 
 }

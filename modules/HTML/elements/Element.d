@@ -6,9 +6,9 @@ Element protocol : Interactive { 
   add `Child    (child   : Node)   -> Added
   add `Adjacent (sibling : Node)   -> Added
 
-  wrap       (parent: Node)     -> Wrapped<T>                        // wraps child with parent
-  unwrap     ()                 -> Unwrapped | Must'Be'Only'Child  // replaces parent with child
-  detach     ()                 -> Detached                        // detaches the node
+  wrap       (parent: Node)     -> Wrapped<T>                         // wraps child with parent
+  unwrap     ()                 -> Unwrapped | Must `Be `Only `Child  // replaces parent with child
+  detach     ()                 -> Detached                           // detaches the node
   
   focus () -> Focused
   blur  () -> Blured
@@ -20,12 +20,11 @@ Element protocol : Interactive { 
 }
 
 Element type { 
-  parent   : Node?
-  children : Node [ ]
+  parent   :   Node?
+  children : [ Node ]
 }
 
 Element impl for Node { 
-
   
 }
 

@@ -21,7 +21,7 @@ Mouse protocol {
 Mouse`Clicked event {
   // start
   // end
-  button   : Mouse'Button
+  button   : Mouse `Button
   position : Point
 }
 

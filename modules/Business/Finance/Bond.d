@@ -3,14 +3,14 @@ Bond protocol {
   amount -> price * quantity
 }
 
-Bond : Finance` Instrument {
+Bond : finance:Instrument {
   quantity  : Decimal
   price	    : Money.
   interest  : Percent,
   maturity  : DateTime?  
 }
 
-Bond `Conversion { 
+Conversion { 
    price      : Money,
    ratio      : Rational,
    cap        : Money,          //  actual ration based based on cap

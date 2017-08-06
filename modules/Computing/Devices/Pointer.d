@@ -16,9 +16,9 @@ Pointer protocol {
 Pointer `Pressed : Pointer `Event { 
   geometry: Geometry            // the geometry 
   position : Vector2            // the center of the contact
-  pressure : physics::Pressure
-  rotation : geometry::Angle
-  tilt     : geometry::Ray
+  pressure : physics:Pressure
+  rotation : geometry:Angle
+  tilt     : geometry:Ray
 }
 
 // Out
@@ -31,7 +31,7 @@ Pointer `Pressed : Pointer `Event {
 
 
 Pointer `Pressure event { 
-  pressure : physics::Pressure
+  pressure : physics:Pressure
   position : Vector2
 }
 

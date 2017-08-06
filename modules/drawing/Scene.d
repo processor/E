@@ -1,5 +1,5 @@
 Scene type {
-  elements : [ ] Element
-  lights   : [ ] Light
-  camea    : Camera
+  elements : [ Element ]
+  lights   : [ Light ]
+  camea    :   Camera
 }

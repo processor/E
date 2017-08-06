@@ -1,9 +1,11 @@
-Person protocol { 
-  contract  (contractor : Person,                          terms  : [ ] terms) -> Contract       
-  employee  (employee   : Human,                           terms  : [ ] terms) -> Employment 
-  purchase  (asset      : Asset | Product,                 terms  : [ ] terms) -> Purchase 
-  bill      (entity     : Person, lines: [ ] Invoice`Line, terms? : [ ] terms) -> Invoice
+use law:*
 
-  contracts    -> [ ] Contract      // Contracts(contractee).contractor
-  employments  -> [ ] Employment    // Employments(employer).employee
+Person protocol { 
+  contract  (contractor : Person,                          terms  : [ Term ]) -> Contract       
+  employee  (employee   : Human,                           terms  : [ Term ]) -> Employment 
+  purchase  (asset      : Asset | Product,                 terms  : [ Term ]) -> Purchase 
+  bill      (entity     : Person, lines: [ Invoice`Line ], terms? : [ Term ]) -> Invoice
+
+  contracts    -> [ Contract]    // Contracts(contractee).contractor
+  employments  -> [ Employment ] // Employments(employer).employee
 }

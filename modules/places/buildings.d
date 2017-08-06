@@ -1,11 +1,11 @@
 ﻿Building : Place { 
-  lot		      	: Land'Lot,
+  lot		      	: Land `Lot,
   jurisdiction	: Entity
 }
 
 Building protocol { 
-  geometry -> [ ] Geometry
-  units    -> [ ] Unit
+  geometry -> [ Geometry ]
+  units    -> [ Unit ]
 }
 
   Apartment
@@ -14,15 +14,15 @@ Building protocol {
 , Suite
 , Room,
 , Lobby	
-: Building'Unit record {
+: Building `Unit record {
   building : Building 
   name     : String
 }
 
 Land `Lot protocol { 
-  zone      -> [ ] Building'Zone
-  geometry  -> [ ] Geometry
-  buildings -> [ ] Building
+  zone      -> [ Building` Zone ]
+  geometry  -> [ Geometry ]
+  buildings -> [ Building ]
 }
 
 Building `Permit record { 

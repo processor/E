@@ -1,5 +1,5 @@
 Employment protocol {
-  * employ            : employed
+  * employ : employed
   * work             
   * vacate
   * sick
@@ -7,8 +7,8 @@ Employment protocol {
   
   level     -> Employment `Level
   position  -> Employment `Position
-  sallary   -> (Money, Interval)  
-  terms     -> [ ] law::Legal`Terms              // * Employment'Terms */ CREATE TABLE k100452345 (m1 key long, m2 key long);
+  sallary   -> (amount: Money, interval: Interval)  
+  terms     -> [ law:Legal`Terms ] // * Employment Terms */ CREATE TABLE k100452345 (m1 key long, m2 key long);
 
   retire    () -> Retirement
   leave     () -> Employment `Termination
@@ -17,9 +17,8 @@ Employment protocol {
 
 Employment record {
   employer : Entity
-  employee : Human
+  employee : Entity
 }
-
 
 Employment `Termination event { 
   // quit

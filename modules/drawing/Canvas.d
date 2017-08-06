@@ -1,7 +1,7 @@
 ﻿Canvas type { 
-  width  : Number > 0
-  height : Number > 0
-  pixels : [ ] Pixel
+  width  :   Number > 0
+  height :   Number > 0
+  pixels : [ Pixel ]
 }
 
 Canvas protocol { 

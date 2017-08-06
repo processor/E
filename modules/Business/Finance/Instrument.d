@@ -1,14 +1,13 @@
-﻿using commerce
+﻿module "Finance"
 
-Finance 'Instrument record { 
+use commerce:Money
+
+Instrument record { 
   holder: Entity
 }
 
 // should allow 
 // Stockholders of Entity / owner of shares
-
-
-
 
 CreditLine record {
   balance : Money
@@ -16,7 +15,3 @@ CreditLine record {
   issuer  : Entity
   owner   : Entity
 }
-
-
-
-

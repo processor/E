@@ -4,5 +4,5 @@ Style type {
   padding	   : Box,
   margin     : Box,
   background : Color | Gradiant,
-  font		   : Font					            // size, color, variation, line'height, ...
+  font		   : Font					            // size, color, variation, line height, ...
 }

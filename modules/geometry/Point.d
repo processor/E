@@ -1,7 +1,7 @@
 let Point = Vector3  // type alias
 
 parse ƒ String -> Point { 
-  let parts = split($0, ',')
+  let parts = split(this, ',')
 
   return Point {
     x: Number.parse(parts[0])

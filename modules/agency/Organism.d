@@ -1,6 +1,4 @@
-
 Organism type : Entity { }
-
 
 Organism protocol {
   * born
@@ -12,7 +10,7 @@ Organism protocol {
 
   die (Reason) -> Death
 
-  relations -> [ ] Relation
+  relations -> [ Relation ]
   
   registar => birth.registar
 
@@ -22,7 +20,5 @@ Organism protocol {
 	  // some code that runs at death
   }
 }
-
-
 
 Dog => Canine
