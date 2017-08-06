@@ -4,10 +4,9 @@ using Xunit;
 
 namespace D.Tests
 {
-    using Units;
     using Expressions;
-    using Parsing;
     using Mathematics;
+    using Parsing;
     using Syntax;
 
     public class EvaulatorTests
@@ -44,7 +43,6 @@ namespace D.Tests
         {
             Assert.Equal("1",   Script.Evaluate("0 + 1", env).ToString());
             Assert.Equal("2",   Script.Evaluate("1 + 1", env).ToString());
-           
         }
 
         [Fact]
