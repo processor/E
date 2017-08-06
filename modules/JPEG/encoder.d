@@ -1,8 +1,6 @@
 // Experiment based on 
 // https://github.com/PistonDevelopers/image/blob/master/src/jpeg/encoder.rs
 
-use math:*
-
 // Markers ----------------------------------------------------
 let SOF0 : u8 = 0xC0 // Baseline DCT
 let DHT  : u8 = 0xC4 // Huffman Tables
@@ -284,7 +282,7 @@ JPEGEncoder impl {
     encode(bitmap: &[u8],
            width: u32,
            height: u32,
-           c: color:ColorType) -> IO:Pipe {
+           c: color::ColorType) -> IO:Pipe {
 
         let n = color:num_components(c)
         let componentCount = n == 1 || n == 2 ? 1 : 3
@@ -325,11 +323,11 @@ JPEGEncoder impl {
         writer.writeSegment(SOS, Some(&buf))
 
         match c {
-            Color:RGB(8)   => encodeRGB  (bitmap, width, height, 3);
-            Color:RGBA(8)  => encodeRGB  (bitmap, width, height, 4);
-            Color:Gray(8)  => encodeGray (bitmap, width, height, 1);
-            Color:GrayA(8) => encodeGray (bitmap, width, height, 2);
-            _              => throw Error($"Unsupported color type {c}")
+            Color::RGB(8)   => encodeRGB  (bitmap, width, height, 3);
+            Color::RGBA(8)  => encodeRGB  (bitmap, width, height, 4);
+            Color::Gray(8)  => encodeGray (bitmap, width, height, 1);
+            Color::GrayA(8) => encodeGray (bitmap, width, height, 2);
+            _               => throw Error($"Unsupported color type {c}")
         }
 
         writer.padByte()
