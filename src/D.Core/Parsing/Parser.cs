@@ -1070,13 +1070,13 @@ namespace D.Parsing
         {
             switch (Current.Kind)
             {
-                case Let            : return ReadLet(Let);
-                case BracketOpen    : return ReadIndexerDeclaration();    // [name: String] -> Point { 
-                case To             : return ReadConverter();             // to Type
-                case From           : return ReadInitializer();           // from pattern                                
+                case Let         : return ReadLet(Let);
+                case BracketOpen : return ReadIndexerDeclaration();    // [name: String] -> Point { 
+                case To          : return ReadConverter();             // to Type
+                case From        : return ReadInitializer();           // from pattern                                
 
-                case Op             : 
-                case Identifier     : return ReadFunctionDeclaration(FunctionFlags.Instance);   // function         |  * | + | ..
+                case Op          : 
+                case Identifier  : return ReadFunctionDeclaration(FunctionFlags.Instance);   // function         |  * | + | ..
             }
 
             throw new UnexpectedTokenException("Unexpected token reading member", Current);
@@ -1164,9 +1164,9 @@ namespace D.Parsing
         /*
         Point
         * Point
-        [ ] Point
-        [ ] Point<T>
-        [ ] geometry::Point<Number>
+        [ Point ]
+        [ Point<T> ]
+        [ geometry::Point<Number> ]
         (A, B) -> C                     | Function<A, B, C>
         A | B                           | Variant<A, B, C>
         A & B                           | Intersection<A, B>
@@ -1200,16 +1200,21 @@ namespace D.Parsing
 
             if ((ConsumeIf(BracketOpen))) // [
             {
+                var type = ReadTypeSymbol();
+                
+                // TODO: Support size constructor (RUST)
+
+                // ; size
+
                 Consume(BracketClose); // ]
 
-                return new TypeSymbol("List", arguments: ReadTypeSymbol());
+                return new TypeSymbol("List", arguments: type);
             }
 
             if (ConsumeIf("*"))
             {
                 return new TypeSymbol("Channel",  arguments: ReadTypeSymbol());
             }
-
 
             string domain = null;
 

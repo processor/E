@@ -35,7 +35,7 @@ Unit type {{
         [Fact]
         public void ArrayWithDomain()
         {
-            var symbol = GetTypeSymbol("[ ] physics::Momentum");
+            var symbol = GetTypeSymbol("[ physics::Momentum ]");
      
             Assert.Equal("List", symbol.Name);
 

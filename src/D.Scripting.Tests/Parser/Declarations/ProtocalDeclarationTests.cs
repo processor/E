@@ -20,7 +20,7 @@ namespace D.Parsing.Tests
             var protocol = Parse<ProtocolDeclarationSyntax>(@"
 Node protocol { 
   kind     -> Kind
-  children -> [ ] Node
+  children -> [ Node ]
 }");
 
             var a = protocol.Members[0];
@@ -78,11 +78,11 @@ Bank protocol {
     ↺            : acting
   * dissolve ∎   : dissolved
  
-  open    `Account     (Account)     -> Account
-  close   `Account     (Account)     -> Account`Closure
-  settle  `Transaction (Transaction) -> Transaction`Settlement
-  refuse  `Transaction (Transaction) -> Transaction`Refusal
-  reverse `Transaction (Transaction) -> Transaction`Reversed
+  open    `Account     (account: Account) -> Account
+  close   `Account     (account: Account) -> Account`Closure
+  settle  `Transaction (Transaction)      -> Transaction`Settlement
+  refuse  `Transaction (Transaction)      -> Transaction`Refusal
+  reverse `Transaction (Transaction)      -> Transaction`Reversed
 }");
             Assert.Equal(2, protocol.Messages.Length);
             
@@ -92,6 +92,7 @@ Bank protocol {
 
             Assert.Equal("openAccount",     member.Name);
             Assert.Equal(1,                 member.Parameters.Length);
+            Assert.Equal("account",         member.Parameters[0].Name);
             Assert.Equal("Account",         member.Parameters[0].Type);
             Assert.Equal("Account",         member.ReturnType);
 
@@ -106,7 +107,6 @@ Bank protocol {
         [Fact]
         public void B()
         {
-
             var protocol = Parse<ProtocolDeclarationSyntax>(@"
 Bank protocol { 
   * | open       `Account

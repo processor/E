@@ -60,7 +60,7 @@ using layout
 Masonary`Layout type {
   columnWidth : Number
   columnGap   : Number
-  columns     : [ ] Column
+  columns     : [ Column ]
 }
 
 Masonary`Layout implementation {

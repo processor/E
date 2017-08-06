@@ -134,9 +134,9 @@ T record {
   d: A | B
   e: (A, B, C)
   f: (A, B, C) -> D
-  g: [ ] physics::Momentum<T>
+  g: [ physics::Momentum<T> ]
   h: Integer?
-  i : [ ] Collision `Course?
+  i : [ Collision `Course? ]
 };");
 
 
@@ -167,11 +167,11 @@ T record {
         {
             var type = Parse<TypeDeclarationSyntax>(@"
 Account record {
-   mutable balance : Decimal
-   owner           : Entity
-   provider        : Organization
-   transactions    : [ ] Transaction
-   currencyCode    : List<Character>
+   mutable balance :   Decimal
+   owner           :   Entity
+   provider        :   Organization
+   transactions    : [ Transaction ]
+   currencyCode    :   List<Character>
 };");
 
             var members = type.Members;

@@ -26,7 +26,7 @@ public class Cuboid
 
             Transpile(@"
 Cuboid type {
-  polygons: [ ] Polygon
+  polygons: [ Polygon ]
 }
 
 Cuboid impl
@@ -221,7 +221,7 @@ public class Matrix4<T>
 ".Trim(),
 Transpile(@"
 Matrix4 type <T> {
-  elements: [] T 
+  elements: [T] 
 }
 
 Matrix4 impl {
@@ -403,7 +403,7 @@ public interface Node
 Transpile(@"
 Node protocol { 
   kind -> Kind
-  children -> [ ] Node
+  children -> [ Node ]
 }
 "));
         }
