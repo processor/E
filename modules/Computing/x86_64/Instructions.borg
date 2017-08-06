@@ -631,63 +631,63 @@ type Instructions =
 | VFNMSUB231PS		// Fused Negative Multiply-Subtract of Packed Single-Precision Floating-Point Values
 | VFNMSUB231SD		// Fused Negative Multiply-Subtract of Scalar Double-Precision Floating-Point Values
 | VFNMSUB231SS		// Fused Negative Multiply-Subtract of Scalar Single-Precision Floating-Point Values
-| VGATHERDPD		// Gather Packed DP FP Values Using Signed Dword/Qword Indices
-| VGATHERDPS		// Gather Packed SP FP values Using Signed Dword/Qword Indices
-| VGATHERQPD		// Gather Packed DP FP Values Using Signed Dword/Qword Indices
-| VGATHERQPS		// Gather Packed SP FP values Using Signed Dword/Qword Indices
-| VINSERTF128		// Insert Packed Floating-Point Values
-| VINSERTI128		// Insert Packed Integer Values
-| VMASKMOV			// Conditional SIMD Packed Loads and Stores
-| VPBLENDD			// Blend Packed Dwords
-| VPBROADCAST		// Broadcast Integer Data
-| VPERM2F128		// Permute Floating-Point Values
-| VPERM2I128		// Permute Integer Values
-| VPERMD			// Full Doublewords Element Permutation
-| VPERMILPD			// Permute Double-Precision Floating-Point Values
-| VPERMILPS			// Permute Single-Precision Floating-Point Values
-| VPERMPD			// Permute Double-Precision Floating-Point Elements
-| VPERMPS			// Permute Single-Precision Floating-Point Elements
-| VPERMQ			// Qwords Element Permutation
-| VPGATHERDD		// Gather Packed Dword Values Using Signed Dword/Qword Indices
-| VPGATHERDQ		// Gather Packed Qword Values Using Signed Dword/Qword Indices
-| VPGATHERQD		// Gather Packed Dword Values Using Signed Dword/Qword Indices
-| VPGATHERQQ		// Gather Packed Qword Values Using Signed Dword/Qword Indices
-| VPMASKMOV			// Conditional SIMD Integer Packed Loads and Stores
-| VPSLLVD			// Variable Bit Shift Left Logical
-| VPSLLVQ			// Variable Bit Shift Left Logical
-| VPSRAVD			// Variable Bit Shift Right Arithmetic
-| VPSRLVD			// Variable Bit Shift Right Logical
-| VPSRLVQ			// Variable Bit Shift Right Logical
-| VTESTPD			// Packed Bit Test
-| VTESTPS			// Packed Bit Test
-| VZEROALL			// Zero All YMM Registers
-| VZEROUPPER		// Zero Upper Bits of YMM Registers
-| WAIT				// Wait
-| WBINVD			// Write Back and Invalidate Cache
-| WRFSBASE			// Write FS/GS Segment Base
-| WRGSBASE			// Write FS/GS Segment Base
-| WRMSR				// Write to Model Specific Register
-| XABORT			// Transactional Abort
-| XACQUIRE			// Hardware Lock Elision Prefix Hints
-| XADD				// Exchange and Add
-| XBEGIN			// Transactional Begin
-| XCHG				// Exchange Register/Memory with Register
-| XEND				// Transactional End
-| XGETBV			// Get Value of Extended Control Register
-| XLAT				// Table Look-up Translation
-| XLATB				// Table Look-up Translation
-| XOR				// Logical Exclusive OR
-| XORPD				// Bitwise Logical XOR for Double-Precision Floating-Point Values
-| XORPS				// Bitwise Logical XOR for Single-Precision Floating-Point Values
-| XRELEASE			// Hardware Lock Elision Prefix Hints
-| XRSTOR			// Restore Processor Extended States
-| XRSTORS			// Restore Processor Extended States Supervisor
-| XSAVE				// Save Processor Extended States
-| XSAVEC			// Save Processor Extended States with Compaction
-| XSAVEOPT			// Save Processor Extended States Optimized
-| XSAVES			// Save Processor Extended States Supervisor
-| XSETBV			// Set Extended Control Register
-| XTEST			// Test If In Transactional Execution
+| VGATHERDPD		  // Gather Packed DP FP Values Using Signed Dword/Qword Indices
+| VGATHERDPS		  // Gather Packed SP FP values Using Signed Dword/Qword Indices
+| VGATHERQPD		  // Gather Packed DP FP Values Using Signed Dword/Qword Indices
+| VGATHERQPS		  // Gather Packed SP FP values Using Signed Dword/Qword Indices
+| VINSERTF128		  // Insert Packed Floating-Point Values
+| VINSERTI128		  // Insert Packed Integer Values
+| VMASKMOV			  // Conditional SIMD Packed Loads and Stores
+| VPBLENDD			  // Blend Packed Dwords
+| VPBROADCAST		  // Broadcast Integer Data
+| VPERM2F128		  // Permute Floating-Point Values
+| VPERM2I128		  // Permute Integer Values
+| VPERMD			    // Full Doublewords Element Permutation
+| VPERMILPD			  // Permute Double-Precision Floating-Point Values
+| VPERMILPS			  // Permute Single-Precision Floating-Point Values
+| VPERMPD			    // Permute Double-Precision Floating-Point Elements
+| VPERMPS			    // Permute Single-Precision Floating-Point Elements
+| VPERMQ			    // Qwords Element Permutation
+| VPGATHERDD		  // Gather Packed Dword Values Using Signed Dword/Qword Indices
+| VPGATHERDQ		  // Gather Packed Qword Values Using Signed Dword/Qword Indices
+| VPGATHERQD		  // Gather Packed Dword Values Using Signed Dword/Qword Indices
+| VPGATHERQQ		  // Gather Packed Qword Values Using Signed Dword/Qword Indices
+| VPMASKMOV			  // Conditional SIMD Integer Packed Loads and Stores
+| VPSLLVD			    // Variable Bit Shift Left Logical
+| VPSLLVQ			    // Variable Bit Shift Left Logical
+| VPSRAVD			    // Variable Bit Shift Right Arithmetic
+| VPSRLVD			    // Variable Bit Shift Right Logical
+| VPSRLVQ			    // Variable Bit Shift Right Logical
+| VTESTPD			    // Packed Bit Test
+| VTESTPS			    // Packed Bit Test
+| VZEROALL			  // Zero All YMM Registers
+| VZEROUPPER		  // Zero Upper Bits of YMM Registers
+| WAIT				    // Wait
+| WBINVD			    // Write Back and Invalidate Cache
+| WRFSBASE			  // Write FS/GS Segment Base
+| WRGSBASE			  // Write FS/GS Segment Base
+| WRMSR				    // Write to Model Specific Register
+| XABORT			    // Transactional Abort
+| XACQUIRE			  // Hardware Lock Elision Prefix Hints
+| XADD				    // Exchange and Add
+| XBEGIN			    // Transactional Begin
+| XCHG				    // Exchange Register/Memory with Register
+| XEND				    // Transactional End
+| XGETBV			    // Get Value of Extended Control Register
+| XLAT				    // Table Look-up Translation
+| XLATB				    // Table Look-up Translation
+| XOR				      // Logical Exclusive OR
+| XORPD				    // Bitwise Logical XOR for Double-Precision Floating-Point Values
+| XORPS				    // Bitwise Logical XOR for Single-Precision Floating-Point Values
+| XRELEASE			  // Hardware Lock Elision Prefix Hints
+| XRSTOR			    // Restore Processor Extended States
+| XRSTORS			    // Restore Processor Extended States Supervisor
+| XSAVE				    // Save Processor Extended States
+| XSAVEC			    // Save Processor Extended States with Compaction
+| XSAVEOPT			  // Save Processor Extended States Optimized
+| XSAVES			    // Save Processor Extended States Supervisor
+| XSETBV		  	  // Set Extended Control Register
+| XTEST			      // Test If In Transactional Execution
 
 // ref: http://www.felixcloutier.com/x86/
 // ref: http://flatassembler.net/docs.php?article=manual

@@ -1,11 +1,11 @@
 Animation type {
-  delay        : Duration
-  duration     : Duration
-  from         : Number | Color
-  to           : Number | Color
+  delay        :   Duration
+  duration     :   Duration
+  from         :   Number | Color
+  to           :   Number | Color
   properties   : [ Tweenable ]
-  direction    : Forwards | Backwards
-  interpolator : Interpolator
+  direction    :   Forwards | Backwards
+  interpolator :   Interpolator
 }
 
 Animation protocol { 

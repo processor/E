@@ -7,7 +7,7 @@ Corporation protocol {
 
   jurisdiction ->   Place
   officers     -> [ Corporate `Officer ]
-  shares       -> [ finance:Share ]
+  shares       -> [ finance::Share ]
 }
 
 Corporate `Resolution record { 
@@ -17,7 +17,7 @@ Corporate `Resolution record {
 
 Incorporation event {
   entity	   	  : Organization
-  regitar	   	  : Incorporation_Registrar
+  regitar	   	  : Incorporation `Registrar
   jurisitrction : Entity
 )
 

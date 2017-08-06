@@ -1,4 +1,4 @@
 Canvas type {
-  width  : Integer > 0
-  Height : Integer > 0
+  width  : f32 > 0
+  Height : f32 > 0
 }
