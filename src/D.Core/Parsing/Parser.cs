@@ -521,7 +521,7 @@ namespace D.Parsing
                 ? IsKind(Function) ? ReadFunctionDeclaration(name) : ReadExpression()
                 : null;
 
-            return new VariableDeclarationSyntax(name.ToString(), type, value, flags);
+            return new VariableDeclarationSyntax(name, type, value, flags);
 
         }
 
@@ -1070,13 +1070,13 @@ namespace D.Parsing
         {
             switch (Current.Kind)
             {
-                case Let            : return ReadLet(Let);
-                case BracketOpen    : return ReadIndexerDeclaration();    // [name: String] -> Point { 
-                case To             : return ReadConverter();             // to Type
-                case From           : return ReadInitializer();           // from pattern                                
+                case Let         : return ReadLet(Let);
+                case BracketOpen : return ReadIndexerDeclaration();    // [name: String] -> Point { 
+                case To          : return ReadConverter();             // to Type
+                case From        : return ReadInitializer();           // from pattern                                
 
-                case Op             : 
-                case Identifier     : return ReadFunctionDeclaration(FunctionFlags.Instance);   // function         |  * | + | ..
+                case Op          : 
+                case Identifier  : return ReadFunctionDeclaration(FunctionFlags.Instance);   // function         |  * | + | ..
             }
 
             throw new UnexpectedTokenException("Unexpected token reading member", Current);
@@ -1164,9 +1164,9 @@ namespace D.Parsing
         /*
         Point
         * Point
-        [ ] Point
-        [ ] Point<T>
-        [ ] geometry::Point<Number>
+        [ Point ]
+        [ Point<T> ]
+        [ geometry::Point<Number> ]
         (A, B) -> C                     | Function<A, B, C>
         A | B                           | Variant<A, B, C>
         A & B                           | Intersection<A, B>
@@ -1200,16 +1200,21 @@ namespace D.Parsing
 
             if ((ConsumeIf(BracketOpen))) // [
             {
+                var type = ReadTypeSymbol();
+                
+                // TODO: Support size constructor (RUST)
+
+                // ; size
+
                 Consume(BracketClose); // ]
 
-                return new TypeSymbol("List", arguments: ReadTypeSymbol());
+                return new TypeSymbol("List", arguments: type);
             }
 
             if (ConsumeIf("*"))
             {
                 return new TypeSymbol("Channel",  arguments: ReadTypeSymbol());
             }
-
 
             string domain = null;
 
@@ -1941,7 +1946,7 @@ namespace D.Parsing
         {
             if (depth > 1)
             {
-                throw new UnexpectedTokenException($"token not read. current mode {modes.Peek()}", Current);
+                throw new UnexpectedTokenException($"token not read. current mode {modes.Peek()}. depth: {depth}", Current);
             }
 
             // Operators
@@ -2000,6 +2005,8 @@ namespace D.Parsing
 
                 case Number          : depth = 0; return ReadNumber();
                 case BracketOpen     : depth = 0; return ReadNewArray();
+
+                case Quote           : depth = 0; return ReadStringLiteral();
 
                 case Dollar          : depth = 0; return ReadDollarSymbol();
             }

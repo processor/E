@@ -2,7 +2,6 @@
 {
     public class VariableSymbol : Symbol
     {
-
         public VariableSymbol(string name, SymbolFlags flags = SymbolFlags.None)
             : base(name, flags) { }
 

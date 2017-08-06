@@ -28,14 +28,12 @@ namespace D.Parsing.Tests
 Unit type {{ 
     a: {text}
 }}").Members[0].Type;
-
-
         }
 
         [Fact]
         public void ArrayWithDomain()
         {
-            var symbol = GetTypeSymbol("[ ] physics::Momentum");
+            var symbol = GetTypeSymbol("[ physics::Momentum ]");
      
             Assert.Equal("List", symbol.Name);
 

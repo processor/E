@@ -11,7 +11,7 @@ namespace D.Inference
 {
     public class STests
     {
-        [Fact]
+        // [Fact]
         public void ABC()
         {
             var syntax = new SExpressionSyntax().Include(

@@ -41,15 +41,17 @@ namespace D
 
         public Type(string name, Type baseType, Property[] properties, Parameter[] genericParameters)
         {
-            Id = Interlocked.Increment(ref id);
-            Name = name;
-            Arguments = Array.Empty<IType>();
-            Constructor = baseType;
-            Properties = properties;
+            Id                = Interlocked.Increment(ref id);
+            Name              = name;
+            Arguments         = Array.Empty<IType>();
+            BaseType          = baseType;
+            Properties        = properties;
             GenericParameters = genericParameters;
         }
 
-        public IType Constructor { get; }
+        // Constructor?
+
+        public Type BaseType { get; }
 
         public IType Instance { get; }
 
@@ -123,6 +125,8 @@ namespace D
         }
 
         #endregion
+
+        IType IType.Constructor => BaseType;
     }
 
     public interface IType
@@ -131,7 +135,7 @@ namespace D
 
         string Name { get; }
 
-        IType Constructor { get; }  // Parent?
+        IType Constructor { get; } 
 
         IType[] Arguments { get; }  // args, parameters, or properties
 

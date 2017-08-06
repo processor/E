@@ -14,7 +14,7 @@ namespace D.Parsing.Tests
             var impl = Parse<ImplementationDeclarationSyntax>(@"
 Point impl { 
   to String    => $""{x},{y},{z}""
-  to [ ] T     => [ x, y, z ]
+  to [ T ]     => [ x, y, z ]
   to (T, T, T) => (x, y, z) 
 }
 ");

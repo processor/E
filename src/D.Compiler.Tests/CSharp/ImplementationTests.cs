@@ -26,7 +26,7 @@ public class Cuboid
 
             Transpile(@"
 Cuboid type {
-  polygons: [ ] Polygon
+  polygons: [ Polygon ]
 }
 
 Cuboid impl
@@ -102,6 +102,47 @@ clamp ƒ <T> (p: Point<T>, min: Point<T>, max: Point<T>) => Point<T> {
 }
 
 "));
+        }
+
+
+
+
+        [Fact]
+        public void SimpleProperties()
+        {
+            Assert.Equal(@"
+
+namespace Namespaced
+{
+    public class Class
+    {
+        public long A => 1;
+
+        public string B => ""b"";
+
+        public long C() => 1;
+
+        public int D(int x) => x;
+
+        public Vector3 E(Vector3 point) => point;
+    }
+}
+".Trim(),
+
+Transpile(@"
+Class type { 
+
+}
+
+Class impl { 
+  a => 1
+  b => ""b""
+  c () => 1
+  d (x: Int32) => x
+  e (point: Vector3) => point
+}
+
+", "Namespaced"));
         }
 
 
@@ -221,7 +262,7 @@ public class Matrix4<T>
 ".Trim(),
 Transpile(@"
 Matrix4 type <T> {
-  elements: [] T 
+  elements: [T] 
 }
 
 Matrix4 impl {
@@ -403,7 +444,7 @@ public interface Node
 Transpile(@"
 Node protocol { 
   kind -> Kind
-  children -> [ ] Node
+  children -> [ Node ]
 }
 "));
         }

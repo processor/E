@@ -81,6 +81,6 @@ namespace D.Compilation
         }
 
         public Scope Nested()
-            =>  new Scope(this);
+            => new Scope(this);
     }
 }

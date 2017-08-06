@@ -43,18 +43,18 @@ namespace D
 
         public abstract SymbolType SymbolType { get; }
 
-        #region Initializization
+        #region Initializization / Binding
 
         public void Initialize(IType type)
         {
-            ResolvedTyped = type;
+            ResolvedType = type;
 
             Status = SymbolStatus.Resolved;
         }
 
         public SymbolStatus Status { get; set; } = SymbolStatus.Unresolved;
 
-        public IType ResolvedTyped { get; set; }
+        public IType ResolvedType { get; set; }
 
         #endregion
 

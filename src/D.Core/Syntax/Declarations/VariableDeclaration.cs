@@ -5,7 +5,7 @@
     public class VariableDeclarationSyntax : SyntaxNode
     {
         public VariableDeclarationSyntax(
-            string name, 
+            Symbol name, 
             TypeSymbol type, 
             SyntaxNode value = null, 
             VariableFlags flags = VariableFlags.None)
@@ -16,7 +16,7 @@
             Flags = flags;
         }
 
-        public string Name { get; }
+        public Symbol Name { get; }
 
         public TypeSymbol Type { get; }
 
