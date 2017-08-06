@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Numerics;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -1374,21 +1373,29 @@ namespace D.Parsing
             // Read any immediately preceding unit prefixes, types, and expondents on the same line
             if (IsKind(Identifier) && Current.Start.Line == line) 
             {
-                var unitName = Consume(Identifier); // read the unit identifier
-
-                int pow = 1;
-
-                if (IsKind(Superscript))
-                {
-                    pow = D.Superscript.Parse(reader.Consume().Text);
-                }
+                var unit = ReadUnitSymbol();
 
                 var num = new NumberLiteralSyntax(text);
 
-                return new UnitLiteralSyntax(num, unitName, pow);
+                return new UnitLiteralSyntax(num, unit.name, unit.power);
             }
           
             return new NumberLiteralSyntax(text);
+        }
+
+
+        private (string name, int power) ReadUnitSymbol()
+        {
+            var name = Consume(Identifier);
+
+            int pow = 1;
+
+            if (IsKind(Superscript))
+            {
+                pow = D.Superscript.Parse(reader.Consume().Text);
+            }
+
+            return (name, pow);
         }
 
         public readonly List<SyntaxNode> children = new List<SyntaxNode>();
@@ -1972,6 +1979,16 @@ namespace D.Parsing
                 if (ConsumeIf(ParenthesisClose))  // ? )
                 {
                     LeaveMode(Mode.Parenthesis);
+
+                    // Check if there's a unit 
+                    // e.g. (5 / 5) m
+
+                    if (reader.Current.Kind == Identifier)
+                    {
+                        var unit = ReadUnitSymbol();
+
+                        return new UnitLiteralSyntax(left, unit.name, unit.power);
+                    }
                 }
 
                 return left;
