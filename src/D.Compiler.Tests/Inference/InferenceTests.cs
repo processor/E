@@ -1,8 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+
 using D.Expressions;
 using D.Parsing;
 using D.Syntax;
+
 using Xunit;
 
 namespace D.Compilation.Inference.Tests
@@ -14,9 +16,7 @@ namespace D.Compilation.Inference.Tests
         {
             var script = "same function(a: Number) { return a }";
 
-            var node = new Compiler().VisitFunctionDeclaration(
-                f: Parse(script).First() as FunctionDeclarationSyntax
-            ) as FunctionExpression;
+            var node = ParseFunction(script);
 
             Assert.Equal("same",   node.Name);
             Assert.Equal("a",      node.Parameters[0].Name);
@@ -34,6 +34,16 @@ namespace D.Compilation.Inference.Tests
 
             Assert.Equal("one", node.Name);
             Assert.Equal("Int64", node.ReturnType.Name);
+        }
+
+        [Fact]
+        public void InlineVariableFlow2()
+        {
+            var script = "one ƒ() { var one: f32 = 1; let x = one; let y = x; return y; }";
+
+            var node = ParseFunction(script);
+
+            Assert.Equal("f32", node.ReturnType.Name);
         }
 
         [Fact]
@@ -67,7 +77,6 @@ namespace D.Compilation.Inference.Tests
 
                 }
             }
-
         }
     }
 }

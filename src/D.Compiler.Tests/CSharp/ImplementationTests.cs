@@ -105,6 +105,47 @@ clamp ƒ <T> (p: Point<T>, min: Point<T>, max: Point<T>) => Point<T> {
         }
 
 
+
+
+        [Fact]
+        public void SimpleProperties()
+        {
+            Assert.Equal(@"
+
+namespace Namespaced
+{
+    public class Class
+    {
+        public long A => 1;
+
+        public string B => ""b"";
+
+        public long C() => 1;
+
+        public int D(int x) => x;
+
+        public Vector3 E(Vector3 point) => point;
+    }
+}
+".Trim(),
+
+Transpile(@"
+Class type { 
+
+}
+
+Class impl { 
+  a => 1
+  b => ""b""
+  c () => 1
+  d (x: Int32) => x
+  e (point: Vector3) => point
+}
+
+", "Namespaced"));
+        }
+
+
         [Fact]
         public void WriteModule()
         {
