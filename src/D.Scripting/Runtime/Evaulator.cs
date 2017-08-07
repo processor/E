@@ -4,7 +4,6 @@ using System.Collections.Generic;
 namespace D
 {
     using Syntax;
-    using Compilation;
     using Expressions;
     using Parsing;
     using Units;
@@ -14,19 +13,19 @@ namespace D
         private Scope scope = new Scope();
         private Compiler compiler = new Compiler();
 
-        private Env env;
+        private Node env;
 
         int count = 0;
 
         public Evaulator()
-            : this(new Env()) { }
+            : this(new Node()) { }
 
-        public Evaulator(Env env)
+        public Evaulator(Node env)
         {
             this.env = env;
         }
 
-        public Evaulator(IObject start, Env env)
+        public Evaulator(IObject start, Node env)
         {
             scope.This = start;
 
@@ -75,9 +74,8 @@ namespace D
             {
                 result = EvaluateBinaryExpression((BinaryExpression)expression);
             }
-
             else
-            { 
+            {
                 switch (expression.Kind)
                 {
                     case Kind.ConstantExpression : result = EvaluateConstant((ConstantExpression)expression); break;

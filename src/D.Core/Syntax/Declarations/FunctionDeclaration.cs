@@ -11,14 +11,14 @@ namespace D.Syntax
         public FunctionDeclarationSyntax(
             ParameterSyntax[] parameters,
             SyntaxNode body,
-            FunctionFlags flags = FunctionFlags.None)
+            ObjectFlags flags = ObjectFlags.None)
             : this(parameters, body, null, flags) { }
 
         public FunctionDeclarationSyntax(
            ParameterSyntax[] parameters,
            SyntaxNode body,
            Symbol returnType,
-           FunctionFlags flags = FunctionFlags.None)
+           ObjectFlags flags = ObjectFlags.None)
         {
             Parameters = parameters;
             GenericParameters = Array.Empty<ParameterSyntax>();
@@ -33,7 +33,7 @@ namespace D.Syntax
             ParameterSyntax[] parameters,
             Symbol returnType,
             SyntaxNode body,
-            FunctionFlags flags = FunctionFlags.None)
+            ObjectFlags flags = ObjectFlags.None)
         {
             Name              = name;
             GenericParameters = genericParameters;
@@ -87,20 +87,20 @@ namespace D.Syntax
 
         #region Flags
 
-        public FunctionFlags Flags { get; }
+        public ObjectFlags Flags { get; }
 
         // Mutating?
 
         public bool IsStatic
-            => IsOperator || !Flags.HasFlag(FunctionFlags.Instance);
+            => IsOperator || !Flags.HasFlag(ObjectFlags.Instance);
 
-        public bool IsAbstract      => Flags.HasFlag(FunctionFlags.Abstract);
-        public bool IsOperator      => Flags.HasFlag(FunctionFlags.Operator);
-        public bool IsAnonymous     => Flags.HasFlag(FunctionFlags.Anonymous);
-        public bool IsInitializer   => Flags.HasFlag(FunctionFlags.Initializer);
-        public bool IsProperty      => Flags.HasFlag(FunctionFlags.Property);
-        public bool IsIndexer       => Flags.HasFlag(FunctionFlags.Indexer);
-        public bool IsConverter     => Flags.HasFlag(FunctionFlags.Converter);
+        public bool IsAbstract      => Flags.HasFlag(ObjectFlags.Abstract);
+        public bool IsOperator      => Flags.HasFlag(ObjectFlags.Operator);
+        public bool IsAnonymous     => Flags.HasFlag(ObjectFlags.Anonymous);
+        public bool IsInitializer   => Flags.HasFlag(ObjectFlags.Initializer);
+        public bool IsProperty      => Flags.HasFlag(ObjectFlags.Property);
+        public bool IsIndexer       => Flags.HasFlag(ObjectFlags.Indexer);
+        public bool IsConverter     => Flags.HasFlag(ObjectFlags.Converter);
 
         #endregion
 

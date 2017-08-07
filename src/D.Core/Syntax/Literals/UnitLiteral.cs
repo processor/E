@@ -1,4 +1,6 @@
-﻿namespace D.Syntax
+﻿using System;
+
+namespace D.Syntax
 {
     // 5 m^2
     
@@ -6,7 +8,7 @@
     {
         public UnitLiteralSyntax(SyntaxNode expression, string unitName, int unitPower)
         {
-            Expression = expression;
+            Expression = expression ?? throw new ArgumentNullException(nameof(expression));
             UnitName = unitName;
             UnitPower = unitPower;
         }
@@ -19,7 +21,7 @@
 
         Kind IObject.Kind => Kind.UnitLiteral;
 
-        public override string ToString()
-            => Expression.ToString() + " " + UnitName;
+        public override string ToString() => 
+            Expression.ToString() + " " + UnitName;
     }
 }

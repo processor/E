@@ -3,7 +3,6 @@
 namespace D.Parsing.Tests
 {
     using Numerics;
-    using Compilation;
     using Syntax;
     using Expressions;
 

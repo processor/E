@@ -12,6 +12,24 @@ namespace D.Compilation.Inference.Tests
     public class InferenceTests
     {
         [Fact]
+        public void Mutiple()
+        {
+            var script = "b1 function(t: Number) => t * t * t;";
+
+            var node = ParseFunction(script);
+
+            Assert.Equal("b1", node.Name);
+            Assert.Equal("t", node.Parameters[0].Name);
+            Assert.Equal("Number", node.Parameters[0].Type.Name);
+
+            var block           = node.Body as BlockExpression;
+            var returnStatement = block.Statements[0] as ReturnStatement;
+            var binary          = returnStatement.Expression as BinaryExpression;
+            
+            Assert.Equal("Object", node.ReturnType.Name);
+        }
+
+        [Fact]
         public void ParameterFlow()
         {
             var script = "same function(a: Number) { return a }";

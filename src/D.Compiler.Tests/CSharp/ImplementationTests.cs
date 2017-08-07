@@ -9,6 +9,79 @@ namespace D.Compilation.Tests
 
     public class ImplementationTests
     {
+
+        [Fact]
+        public void BezierType()
+        {
+            var r  = Transpile(@"
+Curve protocol {
+  getPoint (position: Number) -> Vector2
+}
+
+Bezier type { 
+  c1: Vector3 // anchor point coordinates
+  c2: Vector3 // first control point
+  c3: Vector3 // second control point
+  c4: Vector3 // second anchor point 
+}
+
+Curve impl for Bezier {
+  getPoint (t: Number) => Vector2 (
+    x: c1.x * b1(t) + c2.x * b2(t) + c3.x * b3(t) + c4.x * c4(t),
+    y: c1.y * b1(t) + c2.y * b2(t) + c3.y * b3(t) + c4.y * b4(t)
+  )
+
+  private b1 (t: Number) => t * t * t
+  private b2 (t: Number) => 3 * t * t * (1-t)
+  private b3 (t: Number) => 3 * t * (1-t) * (1-t)
+  private b4 (t: Number) => (1 - t) * (1 - t) * (1 - t)
+}
+");
+
+            // throw new System.Exception(r);
+
+            Assert.Equal(@"
+public interface Curve
+{
+    Vector2 GetPoint(double position);
+}
+
+public class Bezier : Curve
+{
+    public Bezier(Vector3 c1, Vector3 c2, Vector3 c3, Vector3 c4)
+    {
+        C1 = c1;
+        C2 = c2;
+        C3 = c3;
+        C4 = c4;
+    }
+
+    public Vector3 C1 { get; }
+
+    public Vector3 C2 { get; }
+
+    public Vector3 C3 { get; }
+
+    public Vector3 C4 { get; }
+
+    Vector2 Curve.GetPoint(double t) => Vector2(c1.X * b1(t) + c2.X * b2(t) + c3.X * b3(t) + c4.X * c4(t), c1.Y * b1(t) + c2.Y * b2(t) + c3.Y * b3(t) + c4.Y * b4(t));
+
+    private object B1(double t) => t * t * t;
+
+    private object B2(double t) => 3 * t * t * (1 - t);
+
+    private object B3(double t) => 3 * t * (1 - t) * (1 - t);
+
+    private object B4(double t) => (1 - t) * (1 - t) * (1 - t);
+}
+
+
+
+".Trim(), r);
+        }
+
+
+
         [Fact]
         public void Var()
         {

@@ -45,7 +45,7 @@ namespace D
 
         #region Initializization / Binding
 
-        public void Initialize(IType type)
+        public void Initialize(Type type)
         {
             ResolvedType = type;
 
@@ -54,7 +54,7 @@ namespace D
 
         public SymbolStatus Status { get; set; } = SymbolStatus.Unresolved;
 
-        public IType ResolvedType { get; set; }
+        public Type ResolvedType { get; set; }
 
         #endregion
 

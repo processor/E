@@ -53,7 +53,7 @@ namespace D.Expressions
     // 1: i32
     public class TypedValue : IObject
     {
-        public TypedValue(IExpression value, IType type)
+        public TypedValue(IExpression value, Type type)
         {
             Value = value;
             Type = type;
@@ -62,7 +62,7 @@ namespace D.Expressions
         public IExpression Value { get; }
 
         // type or constant
-        public IType Type { get; }
+        public Type Type { get; }
 
         Kind IObject.Kind => Kind.TypedValue;
     }

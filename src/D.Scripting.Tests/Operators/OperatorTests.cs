@@ -12,7 +12,7 @@ namespace D.Operators.Tests
         [Fact]
         public void BinarySearch()
         {
-            var env = new Env();
+            var env = new Node();
 
             Trie<Operator>.Node node;
 
@@ -30,7 +30,7 @@ namespace D.Operators.Tests
         [Fact]
         public void Registered()
         {
-            var env = new Env();
+            var env = new Node();
 
             // Unary Operators
             Assert.Equal(Operator.UnaryPlus,          env.Operators[Prefix, "+"]);
@@ -71,7 +71,7 @@ namespace D.Operators.Tests
         [Fact]
         public void CustomOperator()
         {
-            var env = new Env();
+            var env = new Node();
 
             var op = Operator.Infix(Kind.FunctionExpression, "#", 0);
 

@@ -3,9 +3,11 @@
     public class Script
     {
         public static IObject Evaluate(string text)
-            => Evaluate(text, new Env());
+        {
+            return Evaluate(text, new Node());
+        }
 
-        public static IObject Evaluate(string text, Env env)
+        public static IObject Evaluate(string text, Node env)
         {
             var evaulator = new Evaulator(env);
 

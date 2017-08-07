@@ -95,42 +95,33 @@
             }
         }
 
-        // public double this[int integer] => this.elements[index];
-
-        public void WriteIndexer(FunctionExpression func)
-        {
-            Indent(level);
-
-            Emit("public ");
-
-            WriteTypeSymbol(func.ReturnType);
-
-            Emit(" this");
-            
-            WriteParameters(func.Parameters, "[", "]");
-
-            WriteFunctionBody((BlockExpression)func.Body);
-        }
 
         public void WriteProtocolFunction(ProtocolExpression protocol, FunctionExpression func)
         {
             Indent(level);
-            
+
+            if (func.Visibility == Visibility.Private)
+            {
+                Emit("private ");
+            }
+
             WriteTypeSymbol(func.ReturnType);
 
             Emit(" ");
 
-            Emit(protocol.Name);
-            Emit(".");
+            // Protocols may contain helper functions...
+
+            if (protocol.Contains(func.Name))
+            {
+                Emit(protocol.Name);
+                Emit(".");
+            }
+
             Emit(ToPascalCase(func.Name));
 
             if (func.GenericParameters.Length > 0)
             {
-                Emit("<");
-
-                Emit(func.GenericParameters[0].Name);
-
-                Emit(">");
+                WriteGenericParameters(func.GenericParameters);
             }
 
             if (!func.IsProperty)
@@ -152,16 +143,24 @@
                 return;
             }
 
+            Indent(level);
+
+            Emit(func.Visibility == Visibility.Private ? "private " : "public ");
+
             if (func.IsIndexer)
             {
-                WriteIndexer(func);
+                // public double this[int integer] => this.elements[index];
+
+                WriteTypeSymbol(func.ReturnType);
+
+                Emit(" this");
+
+                WriteParameters(func.Parameters, "[", "]");
+
+                WriteFunctionBody((BlockExpression)func.Body);
 
                 return;
             }
-
-            Indent(level);
-
-            Emit("public ");
 
             if (func.IsStatic && !func.IsProperty)
             {
@@ -181,11 +180,7 @@
 
             if (func.GenericParameters.Length > 0)
             {
-                Emit("<");
-
-                Emit(func.GenericParameters[0].Name);
-
-                Emit(">");
+                WriteGenericParameters(func.GenericParameters);
             }
 
             if (!func.IsProperty)
@@ -194,6 +189,21 @@
             }
 
             WriteFunctionBody((BlockExpression)func.Body);
+        }
+
+
+        private void WriteGenericParameters(Parameter[] parameters)
+        {
+            Emit("<");
+
+            for (var i = 0; i < parameters.Length; i++)
+            {
+                if (i > 0) Emit(",");
+
+                Emit(parameters[i].Name);
+            }
+
+            Emit(">");
         }
 
         private void WriteFunctionBody(BlockExpression body)

@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace D.Compilation
+﻿namespace D.Compilation
 {
     public partial class CSharpTranspiler
     {        
