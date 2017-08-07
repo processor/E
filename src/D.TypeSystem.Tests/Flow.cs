@@ -1,56 +1,61 @@
-﻿using System.Collections.Generic;
+﻿using System;
 
 namespace D.Inference
 {    
     public class Flow
     {
-        private readonly ITypeSystem system = TypeSystem.Default;
-       
-        private readonly Dictionary<string, IType> env = new Dictionary<string, IType>();
-        
+        private readonly ITypeSystem system = new TypeSystem();
+
+        private readonly IEnvironment scope = new Environment();
+
         public static long kindId = 1000000;
 
-        private readonly IType any;
         private readonly IType listType;
         private readonly IType itemType;
+        private readonly IType any;
 
         public Flow()
         {
-            any = system.NewGeneric();
-            var binary = system.NewGeneric();
-            var b = GetType(Kind.Boolean);
 
+            var binary   = system.NewGeneric();
+            var boolType = GetType(Kind.Boolean);
+
+            any = system.NewType(id: "Object");
+            
             itemType = system.NewGeneric();
             listType = system.NewType("List", new[] { itemType });
 
-            system.Infer(env, new Let("<", new FuncNode(new[] {
-                new Variable("lhs", binary),
-                new Variable("rhs", binary)
-            }, b, new Constant(b))));
+        
+            system.Infer(scope, Node.Define(Node.Var("<"), Node.Abstract(new[] {
+                Node.Var("lhs", binary),
+                Node.Var("rhs", binary)
+            }, boolType, Node.Const(boolType))));
 
-            system.Infer(env, new Let(">", new FuncNode(new[] {
-                new Variable("lhs", binary),
-                new Variable("rhs", binary)
-            }, b, new Constant(b))));
+            system.Infer(scope, Node.Define(Node.Var(">"), Node.Abstract(new[] {
+                Node.Var("lhs", binary),
+                Node.Var("rhs", binary)
+            }, boolType, Node.Const(boolType))));
 
-            system.Infer(env, new Let("contains", new FuncNode(new[] {
-                new Variable("list", listType)
-            }, new Constant(b))));
+            system.Infer(scope, Node.Define(Node.Var("contains"), Node.Abstract(new[] {
+                Node.Var("list", listType)
+            }, Node.Const(boolType))));
 
-            system.Infer(env, new Let("head", new FuncNode(new[] {
-                new Variable("list", listType)
-            }, itemType, new Constant(itemType))));
+            system.Infer(scope, Node.Define(Node.Var("head"), Node.Abstract(new[] {
+                Node.Var("list", listType)
+            }, itemType, Node.Const(itemType))));
 
-            // A ternary if-then-else will come in handy too
+         
             var ifThenElse = system.NewGeneric();
 
-            system.Infer(env, new Let("if",
-                new FuncNode(new[] {
-                    new Variable("condition", b),
-                    new Variable("then", ifThenElse),
-                    new Variable("else", ifThenElse) }, 
-                ifThenElse, new Variable("then"))));
+            system.Infer(scope, Node.Define(Node.Var("if"), Node.Abstract(new[] {
+                Node.Var("condition", boolType),
+                Node.Var("then", ifThenElse),
+                Node.Var("else", ifThenElse) }, 
+            ifThenElse, Node.Var("then"))));
+            
         }
+
+        public IType NewGeneric() => system.NewGeneric();
 
         public ITypeSystem System => system;
 
@@ -61,21 +66,42 @@ namespace D.Inference
             return system.NewType(listType, new[] { item });
         }
 
-        private IType GetType(Kind kind)
-            => GetType(new Type(kind));
-
-        private IType GetType(IType kind)
+        public IType GetType(Kind kind)
         {
-            if (kind.Name == "Any")
+            return GetType(new Type(kind));
+        }
+
+        private IType GetType(Type kind)
+        {
+            #region Preconditions
+
+            if (kind == null)
+                throw new ArgumentNullException(nameof(kind));
+
+            #endregion
+            
+            if (kind.Name == "Object")
             {
                 return any;
             }
 
-            if (!env.TryGetValue(kind.Name, out IType type))
+            if (!scope.TryGetValue(kind.Name, out IType type))
             {
-                type = system.NewType(kind.Name);
+                if (kind.BaseType != null)
+                {
+                    type = system.NewType(
+                        constructor : GetType(kind.BaseType), 
+                        id          : kind.Name,
+                        args: null,
+                        meta: null
+                    );
+                }
+                else
+                {
+                    type = system.NewType(id: kind.Name);
+                }
 
-                env[kind.Name] = type;
+                scope[kind.Name] = type;
             }
 
             return type;
@@ -89,19 +115,19 @@ namespace D.Inference
             {
                 var parameter = parameters[i];
 
-                nodes[i] = parameter.Type.Name != "Any"
-                    ? new Variable(parameter.Name, GetType(parameter.Type))
-                    : new Variable(parameter.Name);
+                nodes[i] = Node.Var(parameter.Name, GetType(parameter.Type));
             }
 
-            //  Variable("left", numberType),
+            var type = GetType(new Type(returnKind));
 
-            var func = new FuncNode(nodes, new Constant(GetType(new Type(returnKind))));
-
-            system.Infer(env, new Let(name, func));
+            system.Infer(scope, Node.Define(Node.Var(name), Node.Abstract(
+                nodes, 
+                type: type, 
+                body: Node.Const(type))
+           ));
         }
 
-        public void AddFunction(string name, Parameter[] parameters, Node returns)
+        public void AddFunction(string name, Parameter[] parameters, Node body)
         {
             var nodes = new Node[parameters.Length];
 
@@ -109,30 +135,31 @@ namespace D.Inference
             {
                 var parameter = parameters[i];
 
-                nodes[i] = parameter.Type.Name != "Any"
-                    ? new Variable(parameter.Name, GetType(parameter.Type))
-                    : new Variable(parameter.Name);
+                nodes[i] = Node.Var(parameter.Name, GetType(parameter.Type));
             }
 
-            //  Variable("left", numberType),
+            AddFunction(name, nodes, body);
+        }
 
-            var func = new FuncNode(nodes, returns);
-
-            system.Infer(env, new Let(name, func));
+        public void AddFunction(string name, Node[] args, Node body)
+        {
+            system.Infer(scope, Node.Define(Node.Var(name), Node.Abstract(args, body)));
         }
 
         public void AddVariable(string name, Kind kind)
         {
-            var type = GetType(new Type(kind));
+            var type = GetType(kind);
 
-            var node = new Let(name, new Constant(type));
-            
-            system.Infer(env, node);
+            // system.Infer(scope, Node.Var(name, type));
+
+            system.Infer(scope, Node.Define(Node.Var(name), Node.Const(type)));
 
             // nodes.Add(new Let(variable.Name, Node.Constant(variable.Type)));
         }
 
         public IType Infer(Node node)
-            => system.Infer(env, node);
+        {
+            return system.Infer(scope, node);
+        }
     }
 }
