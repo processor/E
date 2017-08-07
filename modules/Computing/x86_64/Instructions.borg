@@ -1,4 +1,4 @@
-﻿type Words = 
+﻿type Words =
 | byte		// 1
 | word   	// 2
 | dword		// 4
@@ -12,21 +12,21 @@
 | qqword	// 32
 | yword	  // 32
 
-type Registers = 
-| al | cl | dl | bl | ah | ch | dh | bh					        // 8bit
-| ax | cx | dx | bx | sp | bp | si | di					        // 16bit
-| eax | ecx | edx | ebx | esp | ebp | esi | edi			    // 32bit
-| es  | cs | ss | ds | fs | gs	 						            // segement 32
-| cr0 | cr2 | cr3 | cr4				 					                // control 32
-| dr0 | dr1 | dr2 | dr3	| dr6 | dr7						          // debug 32
-| st0 | st1 | st2 | st3 | st4 | st5 | st6 | st7			    // fpu 80bit	
-| mm0 | mm1 | mm2 | mm3 | mm4 | mm5 | mm6 |	mm7			    // mmx 64bit
-| xmm0 | xmm1 | xmm2 | xmm3	| xmm4 | xmm5 | xmm6 | xmm7 // SSE	128	
-| ymm0 | ymm1 | ymm2 | ymm3 | ymm4 | ymm5 | ymm6 | ymm7 // AVX	256	
+type Registers =
+| al | cl | dl | bl | ah | ch | dh | bh					          // 8bit
+| ax | cx | dx | bx | sp | bp | si | di					          // 16bit
+| eax | ecx | edx | ebx | esp | ebp | esi | edi			      // 32bit
+| es  | cs | ss | ds | fs | gs	 						              // segement 32
+| cr0 | cr2 | cr3 | cr4				 					                  // control 32
+| dr0 | dr1 | dr2 | dr3	| dr6 | dr7						            // debug 32
+| st0 | st1 | st2 | st3 | st4 | st5 | st6 | st7			      // fpu 80bit
+| mm0 | mm1 | mm2 | mm3 | mm4 | mm5 | mm6 |	mm7			      // mmx 64bit
+| xmm0 | xmm1 | xmm2 | xmm3	| xmm4 | xmm5 | xmm6 | xmm7   // SSE 128
+| ymm0 | ymm1 | ymm2 | ymm3 | ymm4 | ymm5 | ymm6 | ymm7   // AVX 256
 
-type Instructions = 
-| AAA				      // ASCII Adjust After Addition
-| AAD				      // ASCII Adjust AX Before Division
+type Instructions =
+| AAA             // ASCII Adjust After Addition
+| AAD             // ASCII Adjust AX Before Division
 | AAM				      // ASCII Adjust AX After Multiply
 | AAS				      // ASCII Adjust AL After Subtraction
 | ADC				      // Add with Carry
@@ -45,18 +45,18 @@ type Instructions =
 | AESENCLAST      // Perform Last Round of an AES Encryption Flow
 | AESIMC		      // Perform the AES InvMixColumn Transformation
 | AESKEYGENASSIST	// AES Round Key Generation Assist
-| AND				      // Logical AND
-| ANDN				    // Logical AND NOT
-| ANDNPD			    // Bitwise Logical AND NOT of Packed Double-Precision Floating-Point Values
-| ANDNPS			    // Bitwise Logical AND NOT of Packed Single-Precision Floating-Point Values
-| ANDPD				    // Bitwise Logical AND of Packed Double-Precision Floating-Point Values
-| ANDPS				    // Bitwise Logical AND of Packed Single-Precision Floating-Point Values
-| ARPL				    // Adjust RPL Field of Segment Selector
-| BEXTR				    // Bit Field Extract
-| BLENDPD			    // Blend Packed Double Precision Floating-Point Values
-| BLENDPS			    // Blend Packed Single Precision Floating-Point Values
-| BLENDVPD			  // Variable Blend Packed Double Precision Floating-Point Values
-| BLENDVPS			  // Variable Blend Packed Single Precision Floating-Point Values
+| AND			        // Logical AND
+| ANDN		        // Logical AND NOT
+| ANDNPD	        // Bitwise Logical AND NOT of Packed Double-Precision Floating-Point Values
+| ANDNPS	        // Bitwise Logical AND NOT of Packed Single-Precision Floating-Point Values
+| ANDPD		        // Bitwise Logical AND of Packed Double-Precision Floating-Point Values
+| ANDPS		        // Bitwise Logical AND of Packed Single-Precision Floating-Point Values
+| ARPL		        // Adjust RPL Field of Segment Selector
+| BEXTR		        // Bit Field Extract
+| BLENDPD	        // Blend Packed Double Precision Floating-Point Values
+| BLENDPS	        // Blend Packed Single Precision Floating-Point Values
+| BLENDVPD        // Variable Blend Packed Double Precision Floating-Point Values
+| BLENDVPS        // Variable Blend Packed Single Precision Floating-Point Values
 | BLSI		        // Extract Lowest Set Isolated Bit
 | BLSMSK	        // Get Mask Up to Lowest Set Bit
 | BLSR		        // Reset Lowest Set Bit
@@ -77,21 +77,21 @@ type Instructions =
 | CLC			        // Clear Carry Flag
 | CLD			        // Clear Direction Flag
 | CLFLUSH	        // Flush Cache Line
-| CLI			       	// Clear Interrupt Flag
-| CLTS		  	  	// Clear Task-Switched Flag in CR0
-| CMC			   	    // Complement Carry Flag
-| CMOVcc		      // Conditional Move
-| CMP				      // Compare Two Operands
-| CMPPD			 	    // Compare Packed Double-Precision Floating-Point Values
-| CMPPS				    // Compare Packed Single-Precision Floating-Point Values
-| CMPS				    // Compare String Operands
-| CMPSB				    // Compare String Operands
-| CMPSD				    // Compare String Operands
-| CMPSD				    // Compare Scalar Double-Precision Floating-Point Values
-| CMPSQ				    // Compare String Operands
-| CMPSS				    // Compare Scalar Single-Precision Floating-Point Values
-| CMPSW				    // Compare String Operands
-| CMPXCHG			    // Compare and Exchange
+| CLI			        // Clear Interrupt Flag
+| CLTS		        // Clear Task-Switched Flag in CR0
+| CMC			        // Complement Carry Flag
+| CMOVcc	        // Conditional Move
+| CMP			        // Compare Two Operands
+| CMPPD		        // Compare Packed Double-Precision Floating-Point Values
+| CMPPS		        // Compare Packed Single-Precision Floating-Point Values
+| CMPS		        // Compare String Operands
+| CMPSB		        // Compare String Operands
+| CMPSD		        // Compare String Operands
+| CMPSD		        // Compare Scalar Double-Precision Floating-Point Values
+| CMPSQ		        // Compare String Operands
+| CMPSS		        // Compare Scalar Single-Precision Floating-Point Values
+| CMPSW		        // Compare String Operands
+| CMPXCHG	        // Compare and Exchange
 | CMPXCHG16B		  // Compare and Exchange Bytes
 | CMPXCHG8B			  // Compare and Exchange Bytes
 | COMISD			    // Compare Scalar Ordered Double-Precision Floating-Point Values and Set EFLAGS
@@ -291,60 +291,60 @@ type Instructions =
 | MOV			        // Move to/from Control Registers
 | MOV			        // Move to/from Debug Registers
 | MOVAPD	     	  // Move Aligned Packed Double-Precision Floating-Point Values
-| MOVAPS			    // Move Aligned Packed Single-Precision Floating-Point Values
-| MOVBE				    // Move Data After Swapping Bytes
-| MOVD				    // Move Doubleword/Move Quadword
-| MOVDDUP			    // Move One Double-FP and Duplicate
-| MOVDQ2Q			    // Move Quadword from XMM to MMX Technology Register
-| MOVDQA			    // Move Aligned Double Quadword
-| MOVDQU			    // Move Unaligned Double Quadword
-| MOVHLPS			    // Move Packed Single-Precision Floating-Point Values High to Low
-| MOVHPD			    // Move High Packed Double-Precision Floating-Point Value
-| MOVHPS			    // Move High Packed Single-Precision Floating-Point Values
-| MOVLHPS			    // Move Packed Single-Precision Floating-Point Values Low to High
-| MOVLPD			    // Move Low Packed Double-Precision Floating-Point Value
-| MOVLPS			    // Move Low Packed Single-Precision Floating-Point Values
-| MOVMSKPD			  // Extract Packed Double-Precision Floating-Point Sign Mask
-| MOVMSKPS			  // Extract Packed Single-Precision Floating-Point Sign Mask
-| MOVNTDQ			    // Store Double Quadword Using Non-Temporal Hint
-| MOVNTDQA			  // Load Double Quadword Non-Temporal Aligned Hint
-| MOVNTI			    // Store Doubleword Using Non-Temporal Hint
-| MOVNTPD			    // Store Packed Double-Precision Floating-Point Values Using Non-Temporal Hint
-| MOVNTPS			    // Store Packed Single-Precision Floating-Point Values Using Non-Temporal Hint
-| MOVNTQ			    // Store of Quadword Using Non-Temporal Hint
-| MOVQ				    // Move Doubleword/Move Quadword
-| MOVQ				    // Move Quadword
-| MOVQ2DQ			    // Move Quadword from MMX Technology to XMM Register
-| MOVS				    // Move Data from String to String
-| MOVSB				    // Move Data from String to String
-| MOVSD				    // Move Data from String to String
-| MOVSD				    // Move Scalar Double-Precision Floating-Point Value
-| MOVSHDUP			  // Move Packed Single-FP High and Duplicate
-| MOVSLDUP			  // Move Packed Single-FP Low and Duplicate
-| MOVSQ				    // Move Data from String to String
-| MOVSS				    // Move Scalar Single-Precision Floating-Point Values
-| MOVSW				    // Move Data from String to String
-| MOVSX				    // Move with Sign-Extension
-| MOVSXD			    // Move with Sign-Extension
-| MOVUPD			    // Move Unaligned Packed Double-Precision Floating-Point Values
-| MOVUPS			    // Move Unaligned Packed Single-Precision Floating-Point Values
-| MOVZX				    // Move with Zero-Extend
-| MPSADBW			    // Compute Multiple Packed Sums of Absolute Difference
-| MUL			    	  // Unsigned Multiply
-| MULPD				    // Multiply Packed Double-Precision Floating-Point Values
-| MULPS				    // Multiply Packed Single-Precision Floating-Point Values
-| MULSD				    // Multiply Scalar Double-Precision Floating-Point Values
-| MULSS				    // Multiply Scalar Single-Precision Floating-Point Values
-| MWAIT				    // Monitor Wait
-| MULX				    // Unsigned Multiply Without Affecting Flags
-| MWAIT				    // Monitor Wait
-| NEG				      // Two's Complement Negation
-| NOP				      // No Operation
-| NOT				      // One's Complement Negation
-| OR				      // Logical Inclusive OR
-| ORPD			      // Bitwise Logical OR of Double-Precision Floating-Point Values
-| ORPS				    // Bitwise Logical OR of Single-Precision Floating-Point Values
-| OUT			  	    // Output to Port
+| MOVAPS	        // Move Aligned Packed Single-Precision Floating-Point Values
+| MOVBE		        // Move Data After Swapping Bytes
+| MOVD		        // Move Doubleword/Move Quadword
+| MOVDDUP	        // Move One Double-FP and Duplicate
+| MOVDQ2Q	        // Move Quadword from XMM to MMX Technology Register
+| MOVDQA	        // Move Aligned Double Quadword
+| MOVDQU	        // Move Unaligned Double Quadword
+| MOVHLPS	        // Move Packed Single-Precision Floating-Point Values High to Low
+| MOVHPD	        // Move High Packed Double-Precision Floating-Point Value
+| MOVHPS	        // Move High Packed Single-Precision Floating-Point Values
+| MOVLHPS	        // Move Packed Single-Precision Floating-Point Values Low to High
+| MOVLPD          // Move Low Packed Double-Precision Floating-Point Value
+| MOVLPS	        // Move Low Packed Single-Precision Floating-Point Values
+| MOVMSKPD        // Extract Packed Double-Precision Floating-Point Sign Mask
+| MOVMSKPS        // Extract Packed Single-Precision Floating-Point Sign Mask
+| MOVNTDQ	        // Store Double Quadword Using Non-Temporal Hint
+| MOVNTDQA        // Load Double Quadword Non-Temporal Aligned Hint
+| MOVNTI	        // Store Doubleword Using Non-Temporal Hint
+| MOVNTPD	        // Store Packed Double-Precision Floating-Point Values Using Non-Temporal Hint
+| MOVNTPS	        // Store Packed Single-Precision Floating-Point Values Using Non-Temporal Hint
+| MOVNTQ	        // Store of Quadword Using Non-Temporal Hint
+| MOVQ		        // Move Doubleword/Move Quadword
+| MOVQ		        // Move Quadword
+| MOVQ2DQ	        // Move Quadword from MMX Technology to XMM Register
+| MOVS		        // Move Data from String to String
+| MOVSB		        // Move Data from String to String
+| MOVSD		        // Move Data from String to String
+| MOVSD		        // Move Scalar Double-Precision Floating-Point Value
+| MOVSHDUP        // Move Packed Single-FP High and Duplicate
+| MOVSLDUP        // Move Packed Single-FP Low and Duplicate
+| MOVSQ		        // Move Data from String to String
+| MOVSS		        // Move Scalar Single-Precision Floating-Point Values
+| MOVSW		        // Move Data from String to String
+| MOVSX		        // Move with Sign-Extension
+| MOVSXD	        // Move with Sign-Extension
+| MOVUPD	        // Move Unaligned Packed Double-Precision Floating-Point Values
+| MOVUPS	        // Move Unaligned Packed Single-Precision Floating-Point Values
+| MOVZX		        // Move with Zero-Extend
+| MPSADBW	        // Compute Multiple Packed Sums of Absolute Difference
+| MUL			        // Unsigned Multiply
+| MULPD		        // Multiply Packed Double-Precision Floating-Point Values
+| MULPS		        // Multiply Packed Single-Precision Floating-Point Values
+| MULSD		        // Multiply Scalar Double-Precision Floating-Point Values
+| MULSS		        // Multiply Scalar Single-Precision Floating-Point Values
+| MWAIT		        // Monitor Wait
+| MULX		        // Unsigned Multiply Without Affecting Flags
+| MWAIT		        // Monitor Wait
+| NEG			        // Two's Complement Negation
+| NOP			        // No Operation
+| NOT			        // One's Complement Negation
+| OR			        // Logical Inclusive OR
+| ORPD		        // Bitwise Logical OR of Double-Precision Floating-Point Values
+| ORPS		        // Bitwise Logical OR of Single-Precision Floating-Point Values
+| OUT			        // Output to Port
 | OUTS				    // Output String to Port
 | OUTSB				    // Output String to Port
 | OUTSD				    // Output String to Port
@@ -646,7 +646,7 @@ type Instructions =
 | VPERMILPD	      // Permute Double-Precision Floating-Point Values
 | VPERMILPS	      // Permute Single-Precision Floating-Point Values
 | VPERMPD		      // Permute Double-Precision Floating-Point Elements
-| VPERMPS		      // Permute Single-Precision Floating-Point Elements
+| VPERMPS         // Permute Single-Precision Floating-Point Elements
 | VPERMQ		      // Qwords Element Permutation
 | VPGATHERDD      // Gather Packed Dword Values Using Signed Dword/Qword Indices
 | VPGATHERDQ      // Gather Packed Qword Values Using Signed Dword/Qword Indices
