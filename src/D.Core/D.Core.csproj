@@ -4,6 +4,7 @@
     <TargetFramework>netstandard1.6</TargetFramework>
     <AssemblyName>D.Core</AssemblyName>
   </PropertyGroup>
+ 
   <ItemGroup>
     <PackageReference Include="System.ValueTuple" Version="4.3.0" />
   </ItemGroup>

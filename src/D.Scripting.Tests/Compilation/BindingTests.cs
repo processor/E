@@ -3,8 +3,6 @@
 namespace D.Scripting.Tests
 {
     using Syntax;
-    using Compilation;
-    using Expressions;
     using Parsing.Tests;
 
     public class BindingTests : TestBase
