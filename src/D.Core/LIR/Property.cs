@@ -4,7 +4,7 @@ namespace D
 {
     public class Property : IObject
     {
-        public Property(string name, IType type, VariableFlags flags = VariableFlags.None)
+        public Property(string name, Type type, VariableFlags flags = VariableFlags.None)
         {
             Name = name ?? throw new ArgumentNullException(nameof(name));
             Type = type ?? throw new ArgumentNullException(nameof(type));
@@ -16,7 +16,7 @@ namespace D
         // String
         // String | Number
         // A & B
-        public IType Type { get; }
+        public Type Type { get; }
 
         public VariableFlags Flags { get; }
 
@@ -26,7 +26,7 @@ namespace D
 
         #region ITypeMember
 
-        public IType DeclaringType { get; set; }
+        public Type DeclaringType { get; set; }
 
         #endregion
     }

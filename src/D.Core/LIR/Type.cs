@@ -6,7 +6,7 @@ using System.Threading;
 
 namespace D
 {
-    public class Type : INamedObject, IType
+    public class Type : INamedObject, IEquatable<Type>
     {
         private static readonly ConcurrentDictionary<Kind, Type> cache = new ConcurrentDictionary<Kind, Type>();
 
@@ -22,38 +22,39 @@ namespace D
         {
             Id = (long)kind;
             Name = kind.ToString();
+
+            if (kind != Kind.Object)
+            {
+                BaseType = Get(Kind.Object);
+            }
         }
 
         public Type(Kind kind, params Type[] args)
         {
-            Id = (long)kind;
-            Name = kind.ToString();
+            Id        = (long)kind;
+            Name      = kind.ToString();
             Arguments = args;
         }
 
-        public Type(string @namespace, string name, IType[] args = null)
+        public Type(string @namespace, string name, Type[] args = null)
         {
             Id         = Interlocked.Increment(ref id);
             Namespace  = @namespace;
             Name       = name;
-            Arguments  = args ?? Array.Empty<IType>();
+            Arguments  = args ?? Array.Empty<Type>();
         }
 
         public Type(string name, Type baseType, Property[] properties, Parameter[] genericParameters)
         {
             Id                = Interlocked.Increment(ref id);
             Name              = name;
-            Arguments         = Array.Empty<IType>();
+            Arguments         = Array.Empty<Type>();
             BaseType          = baseType;
             Properties        = properties;
             GenericParameters = genericParameters;
         }
-
-        // Constructor?
-
-        public Type BaseType { get; }
-
-        public IType Instance { get; }
+        
+        public Type BaseType { get; } // aka constructor
 
         // Universal
         public long Id { get; set; }
@@ -64,7 +65,7 @@ namespace D
         // unique within domain
         public string Name { get; }
 
-        public IType[] Arguments { get; }
+        public Type[] Arguments { get; }
 
         public Property[] Properties { get; }
 
@@ -126,19 +127,20 @@ namespace D
 
         #endregion
 
-        IType IType.Constructor => BaseType;
-    }
 
-    public interface IType
-    {
-        // long Id { get; }
+        #region Equality
 
-        string Name { get; }
+        public bool Equals(Type other)
+        {
+            return this.Id == other.Id;
+        }
 
-        IType Constructor { get; } 
+        public override int GetHashCode()
+        {
+            return id.GetHashCode();
+        }
 
-        IType[] Arguments { get; }  // args, parameters, or properties
+        #endregion
 
-        IType Instance { get; }     // Used for inference
     }
 }

@@ -4,7 +4,7 @@
     // let a of type Integer equal 5
     public class VariableDeclaration : IExpression
     {
-        public VariableDeclaration(string name, IType type, VariableFlags flags, IExpression value = null)
+        public VariableDeclaration(string name, Type type, VariableFlags flags, IExpression value = null)
         {
             Name = name;
             Type = type;
@@ -14,7 +14,7 @@
 
         public string Name { get; }
 
-        public IType Type { get; }
+        public Type Type { get; }
 
         public VariableFlags Flags { get; }
 

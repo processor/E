@@ -183,7 +183,7 @@ namespace D.Compilation
             WriteTypeSymbol(graph.GetType(symbol));
         }
 
-        public void WriteTypeSymbol(IType type)
+        public void WriteTypeSymbol(Type type)
         {
             // Determine if the domain is being used
 

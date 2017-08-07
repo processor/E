@@ -8,7 +8,7 @@ namespace D
 
     public class FunctionExpression : INamedObject, INode
     {
-        public FunctionExpression(string name, IType returnType, params Parameter[] parameters)
+        public FunctionExpression(string name, Type returnType, params Parameter[] parameters)
         {
             Name = name;
             Parameters = parameters;
@@ -24,7 +24,7 @@ namespace D
         public FunctionExpression(
            Parameter[] parameters,
            IExpression body,
-           IType returnType,
+           Type returnType,
            ObjectFlags flags = ObjectFlags.None)
         {
             Parameters = parameters;
@@ -38,7 +38,7 @@ namespace D
             Symbol name,
             Parameter[] genericParameters,
             Parameter[] parameters,
-            IType returnType,
+            Type returnType,
             IExpression body,
             ObjectFlags flags = ObjectFlags.None)
         {
@@ -54,7 +54,7 @@ namespace D
 
         public Parameter[] Parameters { get; }
 
-        public IType ReturnType { get; }
+        public Type ReturnType { get; }
         
         public override string ToString()
         {
@@ -75,7 +75,7 @@ namespace D
 
         #region Implementation
 
-        public IType DeclaringType { get; set; }
+        public Type DeclaringType { get; set; }
 
         public Parameter[] GenericParameters { get; set; }
 

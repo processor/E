@@ -7,7 +7,7 @@ namespace D
 
     public partial class Compiler
     {
-        public FunctionExpression VisitFunctionDeclaration(FunctionDeclarationSyntax f, IType declaringType = null)
+        public FunctionExpression VisitFunctionDeclaration(FunctionDeclarationSyntax f, Type declaringType = null)
         {
             scope = scope.Nested(f.Name); // Create a nested scope...
 

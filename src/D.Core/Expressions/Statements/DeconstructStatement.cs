@@ -33,7 +33,7 @@ namespace D.Expressions
 
     public struct AssignmentElement
     {
-        public AssignmentElement(string name, IType type)
+        public AssignmentElement(string name, Type type)
         {
             Name = name ?? throw new ArgumentNullException(nameof(name));
             Type = type;
@@ -41,6 +41,6 @@ namespace D.Expressions
 
         public string Name { get; }
 
-        public IType Type { get; }
+        public Type Type { get; }
     }
 }

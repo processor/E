@@ -23,7 +23,7 @@ namespace D
             Type = new Type(kind);
         }
 
-        public Parameter(string name, IType type, bool optional = false, object defaultValue = null)
+        public Parameter(string name, Type type, bool optional = false, object defaultValue = null)
         {
             Name = name;
             Type = type;
@@ -31,7 +31,7 @@ namespace D
             DefaultValue = defaultValue;
         }
 
-        public Parameter(IType type)
+        public Parameter(Type type)
         {
             Type = type ?? throw new ArgumentNullException(nameof(type));
         }
@@ -42,7 +42,7 @@ namespace D
 
         public object DefaultValue { get; }
 
-        public IType Type { get; }
+        public Type Type { get; }
 
         public Predicate[] Conditions { get; set; }
 

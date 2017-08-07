@@ -4,7 +4,7 @@ namespace D.Expressions
 {
     public sealed class ArrayInitializer : IExpression
     {
-        public ArrayInitializer(IExpression[] elements, int? stride = null, IType elementType = null)
+        public ArrayInitializer(IExpression[] elements, int? stride = null, Type elementType = null)
         {
             Elements = elements ?? throw new ArgumentNullException(nameof(elements));
             Stride   = stride;
@@ -15,7 +15,7 @@ namespace D.Expressions
 
         public int? Stride { get; }
 
-        public IType ElementType { get; }
+        public Type ElementType { get; }
 
         // ElementKind
 

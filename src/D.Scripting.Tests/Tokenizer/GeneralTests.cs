@@ -88,7 +88,7 @@ namespace D.Parsing.Tests
         [Fact]
         public void ReadTuple()
         {
-            var tokens = new Tokenizer("b = (10, 10) * 5kg // comment!", graph);
+            var tokens = new Tokenizer("b = (10, 10) * 5 kg // comment!", graph);
 
             Assert.Equal("b",  tokens.Read(Identifier));
 

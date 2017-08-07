@@ -339,7 +339,7 @@ namespace D
         {
             if (symbol.Status == SymbolStatus.Unresolved)
             {
-                if (scope.TryGet<IType>(symbol, out var value))
+                if (scope.TryGet<Type>(symbol, out var value))
                 {
                     symbol.Initialize(value);
                 }
