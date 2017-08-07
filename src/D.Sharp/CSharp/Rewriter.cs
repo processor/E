@@ -173,14 +173,14 @@ namespace D.Compilation
             return value;
         }
 
-        private static readonly Env _env = new Env();
+        private static readonly Node graph = new Node();
 
         public void WriteTypeSymbol(Symbol symbol)
         {
             if (symbol == null)
                 throw new ArgumentNullException(nameof(symbol));
 
-            WriteTypeSymbol(_env.GetType(symbol));
+            WriteTypeSymbol(graph.GetType(symbol));
         }
 
         public void WriteTypeSymbol(IType type)

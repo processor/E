@@ -9,17 +9,17 @@ namespace D.Parsing
     public class Tokenizer : IDisposable
     {
         private readonly SourceReader reader;
-        private readonly Env env;
+        private readonly Node env;
 
         private readonly Stack<Mode> modes = new Stack<Mode>();
 
         public Tokenizer(string text)
-            : this(new SourceReader(text), new Env()) { }
+            : this(new SourceReader(text), new Node()) { }
 
-        public Tokenizer(string text, Env env)
+        public Tokenizer(string text, Node env)
             : this(new SourceReader(text), env) { }
 
-        private Tokenizer(SourceReader reader, Env env)
+        private Tokenizer(SourceReader reader, Node env)
         {
             this.reader = reader;
             this.env = env;
@@ -355,7 +355,11 @@ namespace D.Parsing
             { "yield"          , Yield },             
             { "event"          , Event },
             { "protocol"       , Protocol },
-            { "record"         , Record }
+            { "record"         , Record },
+
+            { "public"         , Public },
+            { "private"        , Private },
+            { "internal"       , Internal }
         };
 
         public Token ReadQuotedString()
