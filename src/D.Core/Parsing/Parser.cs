@@ -1267,28 +1267,40 @@ namespace D.Parsing
                 name = reader.Consume(Identifier);
             }
 
-            Symbol[] arguments;
+            Symbol[] parameters;
+
+            // <generic parameter list>
 
             if (ConsumeIf(TagOpen)) // <
             {
                 var list = new List<Symbol>();
 
+                // T
+                // T:Number
+
                 do
                 {
-                    list.Add(ReadTypeSymbol());
+                    var genericName = ReadTypeSymbol();
+
+                    if (ConsumeIf(Colon))
+                    {
+                        var genericType = ReadTypeSymbol();
+                    }
+
+                    list.Add(genericName);
                 }
                 while (ConsumeIf(Comma));
 
                 Consume(TagClose); // >                
 
-                arguments = list.ToArray();
+                parameters = list.ToArray();
             }
             else
             {
-                arguments = Array.Empty<Symbol>();
+                parameters = Array.Empty<Symbol>();
             }
 
-            var result = new TypeSymbol(domain, name, arguments);
+            var result = new TypeSymbol(domain, name, parameters);
 
             
             // Variant      :  A | B 

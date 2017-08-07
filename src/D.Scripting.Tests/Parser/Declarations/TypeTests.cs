@@ -58,6 +58,26 @@ Point type {
             Assert.Equal("T", a.Members[2].Type);
         }
 
+
+        [Fact]
+        public void ConstrainedGeneric()
+        {
+            var a = Parse<TypeDeclarationSyntax>(@"
+Size<T:Number> type {
+  width  : Number
+  height : Number
+}
+");
+            Assert.Equal(2, a.Members.Length);
+
+            Assert.Equal("T", a.Name.Arguments[0].Name);
+            Assert.Equal("width", a.Members[0].Name);
+            Assert.Equal("height", a.Members[1].Name);
+
+            Assert.Equal("Number", a.Members[0].Type);
+            Assert.Equal("Number", a.Members[1].Type);
+        }
+
         [Fact]
         public void Multidefination()
         {
