@@ -1,5 +1,5 @@
 ml   unit<Volume> Milliliter = 0.001 L
-L    unit<Volume> Liter      = 1;
+L    unit<Volume> Liter      = 1
   
 // Imperial
 oz   unit<Volume> Ounce      = 0.0295735 L
@@ -10,13 +10,8 @@ gal  unit<Volume> Gallon     = 4 qt
 tsp  unit<Volume> Teaspoon   = (1/6) oz
 tbsp unit<Volume> Tablespoon = 3 tsp
 
-
-
-CubicFoot,
-CubicInch,
+// CubicFoot,
+// CubicInch,
        
 // Fluids
-FluidPint,
-
-
-λ
+// FluidPint
