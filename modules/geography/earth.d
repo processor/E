@@ -14,5 +14,4 @@ Ellipsoid impl for Earth {
 
 Earth impl { 
 
-  
 }
