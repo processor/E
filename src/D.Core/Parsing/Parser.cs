@@ -14,15 +14,15 @@ namespace D.Parsing
     public class Parser : IDisposable
     {
         private readonly TokenReader reader;
-        private readonly Env env;
+        private readonly Node graph;
 
         public Parser(string text)
-            : this(text, new Env()) { }
+            : this(text, new Node()) { }
 
-        public Parser(string text, Env env)
+        public Parser(string text, Node graph)
         {
-            this.reader = new TokenReader(new Tokenizer(text, env));
-            this.env = env;
+            this.reader = new TokenReader(new Tokenizer(text, graph));
+            this.graph = graph;
 
             modes.Push(Mode.Root);
         }
@@ -526,7 +526,7 @@ namespace D.Parsing
 
         private FunctionDeclarationSyntax ReadInitializer()
         {
-            var flags = FunctionFlags.Initializer;
+            var flags = ObjectFlags.Initializer;
 
             Consume(From); // ! from
 
@@ -536,7 +536,7 @@ namespace D.Parsing
         // to String =>
         private FunctionDeclarationSyntax ReadConverter()
         {
-            var flags = FunctionFlags.Converter;
+            var flags = ObjectFlags.Converter;
 
             Consume(To); // ! to
 
@@ -552,7 +552,7 @@ namespace D.Parsing
         // [index: Integer] -> T { ..
         private FunctionDeclarationSyntax ReadIndexerDeclaration()
         {
-            var flags = FunctionFlags.Indexer;
+            var flags = ObjectFlags.Indexer;
 
             Consume(BracketOpen);
 
@@ -571,11 +571,11 @@ namespace D.Parsing
             return new FunctionDeclarationSyntax(parameters, body, returnType, flags);
         }
 
-        private FunctionDeclarationSyntax ReadFunctionDeclaration(FunctionFlags flags = FunctionFlags.None)
+        private FunctionDeclarationSyntax ReadFunctionDeclaration(ObjectFlags flags = ObjectFlags.None)
         {
             var isOperator = IsKind(Op);
 
-            if (isOperator) flags |= FunctionFlags.Operator;
+            if (isOperator) flags |= ObjectFlags.Operator;
 
             var name = isOperator ? new FunctionSymbol(reader.Consume()) : ReadFunctionSymbol();
 
@@ -583,13 +583,13 @@ namespace D.Parsing
         }
 
         // clamp ƒ <T> (p: Point<T>, min: Point<T>, max: Point<T>) => Point<T> { }
-        private FunctionDeclarationSyntax ReadFunctionDeclaration(Symbol name, FunctionFlags flags = FunctionFlags.None)
+        private FunctionDeclarationSyntax ReadFunctionDeclaration(Symbol name, ObjectFlags flags = ObjectFlags.None)
         {
             ConsumeIf(Function);        // ? ƒ | function
 
             if (name != null && char.IsUpper(name.Name[0]))
             {
-                flags |= FunctionFlags.Initializer;
+                flags |= ObjectFlags.Initializer;
             }
 
             // generic parameters <T: Number> 
@@ -613,7 +613,7 @@ namespace D.Parsing
             }
             else
             {
-                flags |= FunctionFlags.Property | FunctionFlags.Instance;
+                flags |= ObjectFlags.Property | ObjectFlags.Instance;
 
                 parameters = Array.Empty<ParameterSyntax>();
             }
@@ -628,7 +628,7 @@ namespace D.Parsing
             {
                 body = null;
 
-                flags |= FunctionFlags.Abstract;
+                flags |= ObjectFlags.Abstract;
             }
             else
             {
@@ -692,7 +692,7 @@ namespace D.Parsing
             return new FunctionDeclarationSyntax(
                 parameters  : new[] { new ParameterSyntax(variableName) },
                 body        : lambda.Expression, 
-                flags       : FunctionFlags.Anonymous
+                flags       : ObjectFlags.Anonymous
             );
         }
 
@@ -960,7 +960,7 @@ namespace D.Parsing
             
             ConsumeIf(Function);                             // ? ƒ
 
-            var flags = FunctionFlags.Abstract;
+            var flags = ObjectFlags.Abstract;
 
             ParameterSyntax[] parameters;
 
@@ -972,7 +972,7 @@ namespace D.Parsing
             }
             else
             {
-                flags |= FunctionFlags.Property;
+                flags |= ObjectFlags.Property;
 
                 parameters = Array.Empty<ParameterSyntax>(); 
             }
@@ -1067,6 +1067,10 @@ namespace D.Parsing
 
         private SyntaxNode ReadImplMember()
         {
+            // Read modifiers
+
+            var modifiers = ReadModifiers();
+
             switch (Current.Kind)
             {
                 case Let         : return ReadLet(Let);
@@ -1075,10 +1079,47 @@ namespace D.Parsing
                 case From        : return ReadInitializer();           // from pattern                                
 
                 case Op          : 
-                case Identifier  : return ReadFunctionDeclaration(FunctionFlags.Instance);   // function         |  * | + | ..
+                case Identifier  :
+                    modifiers |= ObjectFlags.Instance;
+
+                    return ReadFunctionDeclaration(flags: modifiers);  // function |  * | + | ..
             }
 
             throw new UnexpectedTokenException("Unexpected token reading member", Current);
+        }
+
+
+        private ObjectFlags ReadModifiers()
+        {
+            var flags = ObjectFlags.None;
+
+            while (true)
+            {
+                switch (Current.Kind)
+                {
+                    case Public:
+                        reader.Next();
+
+                        flags |= ObjectFlags.Public;
+
+                        continue;
+                    case Private:
+                        reader.Next();
+
+                        flags |= ObjectFlags.Private;
+
+                        continue;
+
+                    case Internal:
+                        reader.Next();
+
+                        flags |= ObjectFlags.Internal;
+
+                        continue;
+                }
+
+                return flags;
+            }
         }
 
         #endregion
@@ -1723,7 +1764,7 @@ namespace D.Parsing
         {
             // x = a || b && c
 
-            while (IsKind(Op) && (op = env.Operators[Infix, reader.Current]).Precedence >= minPrecedence) // ??
+            while (IsKind(Op) && (op = graph.Operators[Infix, reader.Current]).Precedence >= minPrecedence) // ??
             {
                 reader.Consume(Op);
 
@@ -1739,7 +1780,7 @@ namespace D.Parsing
 
                 var right = MaybeMemberAccess();
 
-                while (IsKind(Op) && (op = env.Operators[Infix, reader.Current]).Precedence >= o.Precedence)
+                while (IsKind(Op) && (op = graph.Operators[Infix, reader.Current]).Precedence >= o.Precedence)
                 {
                     right = MaybeBinary(right, o.Precedence);
                 }
@@ -1764,7 +1805,7 @@ namespace D.Parsing
         {
             // maybe postfix?
 
-            var op = env.Operators[Prefix, opToken];
+            var op = graph.Operators[Prefix, opToken];
 
             if (op == null)
             { 
@@ -1961,7 +2002,7 @@ namespace D.Parsing
             {
                 var op = Consume(Op);
 
-                if (env.Operators[Prefix, op] != null)
+                if (graph.Operators[Prefix, op] != null)
                 {
                     return ReadUnary(op);
                 }
@@ -1974,6 +2015,8 @@ namespace D.Parsing
             {
                 EnterMode(Mode.Parenthesis);
 
+                var position = Current.Start;
+
                 var left = ReadExpression();
 
                 if (ConsumeIf(ParenthesisClose))  // ? )
@@ -1983,7 +2026,7 @@ namespace D.Parsing
                     // Check if there's a unit 
                     // e.g. (5 / 5) m
 
-                    if (reader.Current.Kind == Identifier)
+                    if (reader.Current.Kind == Identifier && reader.Current.Start.Line == position.Line)
                     {
                         var unit = ReadUnitSymbol();
 

@@ -6,7 +6,7 @@ namespace D
 {
     using Expressions;
 
-    public class FunctionExpression : INamedObject
+    public class FunctionExpression : INamedObject, INode
     {
         public FunctionExpression(string name, IType returnType, params Parameter[] parameters)
         {
@@ -18,14 +18,14 @@ namespace D
         public FunctionExpression(
            Parameter[] parameters,
            IExpression body,
-           FunctionFlags flags = FunctionFlags.None)
+           ObjectFlags flags = ObjectFlags.None)
             : this(parameters, body, null, flags) { }
 
         public FunctionExpression(
            Parameter[] parameters,
            IExpression body,
            IType returnType,
-           FunctionFlags flags = FunctionFlags.None)
+           ObjectFlags flags = ObjectFlags.None)
         {
             Parameters = parameters;
             GenericParameters = Array.Empty<Parameter>();
@@ -40,7 +40,7 @@ namespace D
             Parameter[] parameters,
             IType returnType,
             IExpression body,
-            FunctionFlags flags = FunctionFlags.None)
+            ObjectFlags flags = ObjectFlags.None)
         {
             Name = name;
             GenericParameters = genericParameters;
@@ -55,7 +55,7 @@ namespace D
         public Parameter[] Parameters { get; }
 
         public IType ReturnType { get; }
-
+        
         public override string ToString()
         {
             var sb = new StringBuilder();
@@ -82,36 +82,43 @@ namespace D
         // Block or lambda
         public IExpression Body { get; set; }
 
-        public FunctionFlags Flags { get; set; }
+        public ObjectFlags Flags { get; set; }
 
         #endregion
 
         #region Flags
 
         public bool IsStatic
-           => IsOperator || !Flags.HasFlag(FunctionFlags.Instance);
+           => IsOperator || !Flags.HasFlag(ObjectFlags.Instance);
 
-        public bool IsAbstract
-            => Flags.HasFlag(FunctionFlags.Abstract);
+        public bool IsAbstract    => (Flags & ObjectFlags.Abstract) != 0;
+        public bool IsOperator    => (Flags & ObjectFlags.Operator) != 0;
+        public bool IsAnonymous   => (Flags & ObjectFlags.Anonymous) != 0;
+        public bool IsInitializer => (Flags & ObjectFlags.Initializer) != 0;
+        public bool IsProperty    => (Flags & ObjectFlags.Property) != 0;
+        public bool IsIndexer     => (Flags & ObjectFlags.Indexer) != 0;
+        public bool IsConverter   => (Flags & ObjectFlags.Converter) != 0;
 
-        public bool IsOperator
-            => Flags.HasFlag(FunctionFlags.Operator);
+        public Visibility Visibility
+        {
+            get
+            {
+                if ((Flags & ObjectFlags.Private) != 0)
+                {
+                    return Visibility.Private;
+                }
 
-        public bool IsAnonymous
-            => Flags.HasFlag(FunctionFlags.Anonymous);
+                return Visibility.Public;
+            }
+        }
 
-        public bool IsInitializer
-            => Flags.HasFlag(FunctionFlags.Initializer);
+        #endregion
 
-        public bool IsProperty
-            => Flags.HasFlag(FunctionFlags.Property);
 
-        public bool IsIndexer
-            => Flags.HasFlag(FunctionFlags.Indexer);
+        #region INode
 
-        public bool IsConverter
-            => Flags.HasFlag(FunctionFlags.Converter);
-
+        // INode Parent { get; }
+        
         #endregion
 
         public void WriteTo(TextWriter writer)

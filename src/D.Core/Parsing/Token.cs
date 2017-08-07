@@ -200,6 +200,11 @@ namespace D.Parsing
        
         While,
         With,
-        Yield
+        Yield,
+
+        // Visibility
+        Public,
+        Private,
+        Internal
     }
 }
