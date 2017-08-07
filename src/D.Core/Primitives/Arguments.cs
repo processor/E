@@ -55,13 +55,13 @@ namespace D
             Value = value;
         }
 
-        public Argument(string name, IObject value)
+        public Argument(Symbol name, IObject value)
         {
             Name = name;
             Value = value;
         }
 
-        public string Name { get; }
+        public Symbol Name { get; }
 
         public IObject Value { get; }
 
