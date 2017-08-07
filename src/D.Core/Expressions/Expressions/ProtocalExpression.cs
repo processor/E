@@ -19,5 +19,19 @@ namespace D.Expressions
         Kind IObject.Kind => Kind.Protocol;
 
         string INamedObject.Name => Name;
+
+        #region Helpers
+
+        public bool Contains(string name)
+        {
+            foreach (var member in Members)
+            {
+                if (member.Name == name) return true;
+            }
+
+            return false;
+        }
+
+        #endregion
     }
 }

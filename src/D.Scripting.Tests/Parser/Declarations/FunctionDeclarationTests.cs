@@ -2,7 +2,6 @@
 
 namespace D.Parsing.Tests
 {
-    using Compilation;
     using Syntax;
 
     public class FunctionDeclarationTests : TestBase

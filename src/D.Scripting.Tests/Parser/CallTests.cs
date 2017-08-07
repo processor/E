@@ -79,7 +79,7 @@ namespace D.Parsing.Tests
             Assert.Equal("y", args[1].Name);
             Assert.Equal("z", args[2].Name);
 
-            var complier = new D.Compilation.Compiler();
+            var complier = new D.Compiler();
 
             var call = complier.VisitCall(syntax);
 

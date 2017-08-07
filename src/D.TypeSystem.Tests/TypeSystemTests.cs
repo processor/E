@@ -58,7 +58,7 @@ namespace D.Inference
             */
 
 
-            Assert.Equal("Integer", flow.Infer(new Variable("a")).Name);
+            Assert.Equal("Int64",   flow.Infer(new Variable("a")).Name);
             Assert.Equal("String",  flow.Infer(new Variable("name")).Name);
             Assert.Equal("Integer", flow.Infer(new Call("+",       new[] { new Variable("a"),    new Variable("a") })).Name);
             Assert.Equal("String",  flow.Infer(new Call("concat",  new[] { new Variable("name"), new Variable("name") })).Name);

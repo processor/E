@@ -11,7 +11,7 @@ namespace D.Tests
 
     public class EvaulatorTests
     {
-        private static readonly Env env = new Env(
+        private static readonly Node env = new Node(
             new ArithmeticModule(), 
             new TrigonometryModule()
         );

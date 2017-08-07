@@ -1,19 +1,18 @@
-﻿using System.Text;
-
-namespace D.Expressions
+﻿namespace D.Expressions
 {
     public class CallExpression : IExpression
     {
         public CallExpression(IExpression callee, Symbol functionName, IArguments arguments, bool piped)
         {
-            Callee = callee;
+            Callee       = callee;
             FunctionName = functionName;
-            Arguments = arguments;
-            IsPiped = piped;
+            Arguments    = arguments;
+            IsPiped      = piped;
         }
+        
+        // is constructor?
 
-        // Nullable
-        public IExpression Callee { get; }
+        public IExpression /*?*/ Callee { get; }
 
         public Symbol FunctionName { get; }
 
@@ -22,54 +21,7 @@ namespace D.Expressions
         public bool IsPiped { get; }
 
         Kind IObject.Kind => Kind.CallExpression;
-    }
 
-    
-    // .member
-    public class MemberAccessExpression : IExpression
-    {
-        public MemberAccessExpression(IExpression left, Symbol memberName)
-        {
-            Left = left;
-            MemberName = memberName;
-        }
-
-        // Type: Array | Property
-        public IExpression Left { get; }
-
-        // The member
-        public Symbol MemberName { get; }
-
-        public override string ToString()
-        {
-            var sb = new StringBuilder();
-
-            sb.Append(Left.ToString());
-
-            sb.Append(".");
-            sb.Append(MemberName);
-
-            return sb.ToString();
-        }
-
-        Kind IObject.Kind => Kind.MemberAccessExpression;
-    }
-
-    // [index]
-    public class IndexAccessExpression : IExpression
-    {
-        public IndexAccessExpression(IExpression left, IArguments arguments)
-        {
-            Left = left;
-            Arguments = arguments;
-        }
-
-        public IExpression Left { get; set; }
-
-        // [1]
-        // [1, 2]
-        public IArguments Arguments { get; set; }
-
-        Kind IObject.Kind => Kind.IndexAccessExpression;
+        public Type ReturnType { get; set; }
     }
 }
