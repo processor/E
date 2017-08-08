@@ -778,13 +778,13 @@ namespace D.Parsing
             return new TypeDeclarationSyntax(typeName, genericParameters, baseType, annotations, properties, flags: flags);
         }
 
-        // Pa unit : Pressure @name("Pascal") = 1
+        // Pascal unit : Pressure { symbol: "Pa";   value: 1 }
+        // Radian unit : Angle    { symbol: "rad";  value: 1 }
+        // Degree unit : Angle    { symbol: "deg";  value: (π/180) rad }
+
 
         public UnitDeclarationSyntax ReadUnitDeclaration(Symbol name)
         {
-            var flags = UnitFlags.None;
-
-            if (ConsumeIf("SI")) flags |= UnitFlags.SI;
 
             ConsumeIf(TokenKind.Unit);
 
@@ -792,15 +792,40 @@ namespace D.Parsing
                 ? ReadTypeSymbol()          // baseType
                 : null;
 
-            var annotations = ReadAnnotations().ToArray();
 
-            SyntaxNode expression = ConsumeIf("=")
-                ? Next()
-                : null;
+            var properties = ReadUnitDeclarationProperties();
 
-            ConsumeIf(Semicolon); // ? ;
+            return new UnitDeclarationSyntax(name, baseType, properties);
+        }
 
-            return new UnitDeclarationSyntax(name, baseType, annotations, expression);
+        public ArgumentSyntax[] ReadUnitDeclarationProperties()
+        {
+            Consume(BraceOpen);
+
+            var properties = new List<ArgumentSyntax>();
+
+            while (!IsKind(BraceClose))
+            {
+                properties.Add(ReadUnitDeclarationProperty());
+
+                ConsumeIf(Semicolon);
+            }
+
+            Consume(BraceClose);
+
+            return properties.ToArray();
+        }
+
+        public ArgumentSyntax ReadUnitDeclarationProperty()
+        {
+            var name = Symbol.Label(ReadName());
+
+            reader.Read(Colon);
+
+            var value = ReadExpression();
+
+            return new ArgumentSyntax(name, value);
+
         }
 
         private PropertyDeclarationSyntax[] ReadTypeDeclarationBody()
@@ -2091,7 +2116,6 @@ namespace D.Parsing
         #endregion
 
         #region Calls
-
   
         // a =>
         // (arg1, arg2, arg3)

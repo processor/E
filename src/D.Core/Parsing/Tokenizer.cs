@@ -250,7 +250,17 @@ namespace D.Parsing
                 case '⁷': 
                 case '⁸': 
                 case '⁹': return ReadSuperscript();
-               
+
+                case '/':
+                    if (reader.Peek() == '/') // // 
+                    {
+                        ReadComment();
+
+                        goto start;
+                    }
+
+                    break;
+
                 case '\n':
                 case '\r':
                 case '\t':

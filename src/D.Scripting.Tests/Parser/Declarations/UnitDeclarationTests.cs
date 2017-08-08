@@ -7,44 +7,40 @@ namespace D.Parsing.Tests
     public class UnitDeclarationTests : TestBase
     {
         [Fact]
-        public void A()
-        {
-            var unit = Parse<UnitDeclarationSyntax>("Pascal unit");
-
-            Assert.Equal("Pascal", unit.Name);
-        }
-
-        [Fact]
         public void B()
         {
-            var unit = Parse<UnitDeclarationSyntax>("Pa unit : Pressure");
+            var unit = Parse<UnitDeclarationSyntax>(@"Pascal unit { symbol: ""Pa"" }");
 
-            Assert.Equal("Pa", unit.Name);
-            Assert.Equal("Pressure", unit.BaseType);
+            Assert.Equal("Pascal", unit.Name);
+            Assert.Equal("Pa",     unit.Symbol.ToString());
+
         }
 
         [Fact]
         public void C()
         {
-            var unit = Parse<UnitDeclarationSyntax>("Pa unit : Pressure @name(\"Pascal\") @SI");
+            var unit = Parse<UnitDeclarationSyntax>("Pascal unit : Pressure { symbol: \"Pa\"; value: 1 }");
 
-            Assert.Equal("Pa", unit.Name);
+            Assert.Equal("Pascal", unit.Name);
             Assert.Equal("Pressure", unit.BaseType);
-            Assert.Equal("name", unit.Annotations[0].Name);
-            Assert.Equal("Pascal", (StringLiteralSyntax)unit.Annotations[0].Arguments[0].Value);
-            Assert.Equal("SI", unit.Annotations[1].Name);
+            Assert.Equal("Pa", unit.Symbol.ToString());
+            Assert.Equal(1, (unit.Value as NumberLiteralSyntax));
         }
 
         [Fact]
-        public void D()
+        public void UnitDeclarationWithUnitValue()
         {
-            var unit = Parse<UnitDeclarationSyntax>("Pa unit : Pressure @name(\"Pascal\") @SI = 1");
+            var unit = Parse<UnitDeclarationSyntax>(@"Degree unit: Angle { 
+                symbol: ""deg""
+                value: (π/180) rad 
+            }");
 
-            Assert.Equal("Pa", unit.Name);
-            Assert.Equal("Pressure", unit.BaseType);
-            Assert.Equal("name", unit.Annotations[0].Name);
-            Assert.Equal("Pascal", (StringLiteralSyntax)unit.Annotations[0].Arguments[0].Value);
-            Assert.Equal(1, (NumberLiteralSyntax)unit.Expression);
+            var value = unit.Value as UnitLiteralSyntax;
+
+            Assert.Equal("Degree", unit.Name);
+            Assert.Equal("Angle",  unit.BaseType);
+            Assert.Equal("deg",    unit.Symbol.ToString());
+            Assert.Equal("rad",    value.UnitName);
         }
     }
 }

@@ -72,6 +72,7 @@ namespace D.Syntax
         public Symbol[] Names { get; }
     }
 
+
     public class PropertyDeclarationSyntax : SyntaxNode
     {
         public PropertyDeclarationSyntax(string name, TypeSymbol type, VariableFlags flags)
