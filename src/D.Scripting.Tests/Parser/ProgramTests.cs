@@ -25,7 +25,6 @@ namespace D.Parsing.Tests
             }
         }
 
-
         [Fact]
         public void Math()
         {
@@ -130,7 +129,6 @@ Masonary`Layout implementation {
   }
 }");
 
-
             var statements = program.Enumerate().ToArray();
 
             Assert.Equal(3, statements.Length);
@@ -142,10 +140,10 @@ Masonary`Layout implementation {
 import imaging
 
 Image type { 
-  width      : Integer
-  height     : Integer
-  pixels     : [] Color
-  colorspace : Colorspace
+  width      :  i32
+  height     :  i32
+  pixels     : [ Color ]
+  colorspace :  Colorspace
 }
 
 let unzig = [
@@ -157,25 +155,20 @@ let unzig = [
 
 let blockSize: i32 = 4096
 
-// -> Image
-
 resize ƒ (
   image     : Image, 
   size      : Size, 
   resampler : Resampler = Lanzos
-) { 
+) -> Image { 
 
 }
 
-// -> Block
 readBlock ƒ (
   data: Binary,
-  size: i32 > 0 = blockSize) {
+  size: i32 > 0 = blockSize) -> Block {
 }
 
-// -> Image
-
-decode ƒ (data: JPEG) {
+decode ƒ (data: JPEG) -> Image {
   var n = data.length
   let quant = Color[255]
 
@@ -203,9 +196,7 @@ decode ƒ (data: JPEG) {
 }
 ");
 
-
             var statements = program.Enumerate().ToArray();
-
         }
     }
 
