@@ -14,12 +14,13 @@ namespace D.Parsing.Tests
             var statements = new Parser(@"
 let a = 3;
 let b = (a, b);
-let c = (100: Integer, ""fox"": String);
+let c = (100, ""fox"");
 let d = { a: 1, b: 2, c: 3 };
+let e = (a: 100, b: ""fox"");
 d.v = 15
 ").Enumerate().ToArray();
 
-            var s5 = (BinaryExpressionSyntax)statements[4];
+            var s5 = (BinaryExpressionSyntax)statements[5];
 
             var l = (MemberAccessExpressionSyntax)s5.Left;
 
@@ -28,7 +29,7 @@ d.v = 15
 
             // Assert.Equal(15L, (Integer)s5.Right);
 
-            Assert.Equal(5, statements.Length);
+            Assert.Equal(6, statements.Length);
         }       
 
         /*

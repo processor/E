@@ -13,9 +13,9 @@ namespace D.Parsing.Tests
 
             Assert.Equal(3, tuple.Size);
 
-            // Assert.Equal(0L,   (Integer)tuple.Elements[0]);
-            // Assert.Equal(100L, (Integer)tuple.Elements[1]);
-            Assert.Equal("a", (StringLiteralSyntax)tuple.Elements[2]);
+            Assert.Equal(0L,   (NumberLiteralSyntax)tuple.Elements[0]);
+            Assert.Equal(100L, (NumberLiteralSyntax)tuple.Elements[1]);
+            Assert.Equal("a",  (StringLiteralSyntax)tuple.Elements[2]);
         }
 
         [Fact]
@@ -38,13 +38,13 @@ namespace D.Parsing.Tests
 
             Assert.Equal(2, tuple.Elements.Length);
 
-            var x = (NamedType)tuple.Elements[0];
-            var y = (NamedType)tuple.Elements[1];
+            var x = (NamedElementSyntax)tuple.Elements[0];
+            var y = (NamedElementSyntax)tuple.Elements[1];
 
-            Assert.Equal("x", x.Name);
-            Assert.Equal("y", y.Name);
-            Assert.Equal("i32", x.Type.ToString());
-            Assert.Equal("i64", y.Type.ToString());
+            Assert.Equal("x",   x.Name);
+            Assert.Equal("y",   y.Name);
+            Assert.Equal("i32", x.Value.ToString());
+            Assert.Equal("i64", y.Value.ToString());
 
             Assert.Equal(2, tuple.Elements.Length);
         }

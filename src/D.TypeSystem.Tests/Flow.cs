@@ -16,16 +16,14 @@ namespace D.Inference
 
         public Flow()
         {
-
             var binary   = system.NewGeneric();
             var boolType = GetType(Kind.Boolean);
 
             any = system.NewType(id: "Object");
             
             itemType = system.NewGeneric();
-            listType = system.NewType("List", new[] { itemType });
-
-        
+            listType = system.NewType("List", args: new[] { itemType });
+       
             system.Infer(scope, Node.Define(Node.Var("<"), Node.Abstract(new[] {
                 Node.Var("lhs", binary),
                 Node.Var("rhs", binary)
@@ -43,8 +41,7 @@ namespace D.Inference
             system.Infer(scope, Node.Define(Node.Var("head"), Node.Abstract(new[] {
                 Node.Var("list", listType)
             }, itemType, Node.Const(itemType))));
-
-         
+            
             var ifThenElse = system.NewGeneric();
 
             system.Infer(scope, Node.Define(Node.Var("if"), Node.Abstract(new[] {
@@ -52,7 +49,6 @@ namespace D.Inference
                 Node.Var("then", ifThenElse),
                 Node.Var("else", ifThenElse) }, 
             ifThenElse, Node.Var("then"))));
-            
         }
 
         public IType NewGeneric() => system.NewGeneric();

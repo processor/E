@@ -11,60 +11,33 @@ namespace D.Expressions
 
         public int Size => Elements.Length;
 
+        // {expression} | {name}:{expression}
+
         public IExpression[] Elements { get; }
 
-        public Kind Kind => Kind.TupleExpression;
+        Kind IObject.Kind => Kind.TupleExpression;
     }
 
     // a: 100
     public class NamedElement : IExpression
     {
-        public NamedElement(string name, IExpression value)
+        public NamedElement(Symbol name, IExpression value)
         {
             Name = name;
             Value = value;
         }
 
-        public string Name { get; }
+        public Symbol Name { get; }
 
         // type or constant
         public IExpression Value { get; }
+        
+        public void Deconstruct(out Symbol name, out IExpression value)
+        {
+            name = Name;
+            value = Value;
+        }
 
         Kind IObject.Kind => Kind.NamedValue;
     }
-
-    // a: [ ] byte
-    public class NamedType : IExpression
-    {
-        public NamedType(string name, TypeSymbol type)
-        {
-            Name = name;
-            Type = type;
-        }
-
-        public string Name { get; }
-
-        public TypeSymbol Type { get; }
-
-        Kind IObject.Kind => Kind.NamedType;
-
-    }
-
-    // 1: i32
-    public class TypedValue : IObject
-    {
-        public TypedValue(IExpression value, Type type)
-        {
-            Value = value;
-            Type = type;
-        }
-
-        public IExpression Value { get; }
-
-        // type or constant
-        public Type Type { get; }
-
-        Kind IObject.Kind => Kind.TypedValue;
-    }
 }
- 

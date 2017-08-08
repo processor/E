@@ -1680,23 +1680,23 @@ namespace D.Parsing
             return new TupleExpressionSyntax(elements.Extract());
         }
 
+        // {expression} | {name}:{expression}
+
         public SyntaxNode ReadTupleElement()
         {
             var first = ReadPrimary();
 
             if (ConsumeIf(Colon))
             {
-                if (first is Symbol)
+                if (first is Symbol name)
                 {
-                    var type = ReadTypeSymbol();
+                    var value = ReadPrimary();
 
-                    return new NamedType(first.ToString(), type);
+                    return new NamedElementSyntax(name, value);
                 }
                 else
                 {
-                    var second = Consume(Identifier);
-
-                    return new NamedElement(first.ToString(), Symbol.Label(second));
+                    throw new Exception("unexpected tuple:" + first.ToString());
                 }
             }
           
@@ -1772,9 +1772,9 @@ namespace D.Parsing
 
                     if (tuple.Size == 1)
                     {
-                        var element = (NamedType)tuple.Elements[0];
+                        var element = (NamedElementSyntax)tuple.Elements[0];
 
-                        return new TypePatternSyntax(element.Type, new VariableSymbol(element.Name));
+                        return new TypePatternSyntax((Symbol)element.Value, new VariableSymbol(element.Name));
                     }
 
                     return new TuplePatternSyntax(tuple);
@@ -1897,9 +1897,9 @@ namespace D.Parsing
 
                 if (ConsumeIf(Colon)) // :
                 {
-                    var right = ReadTypeSymbol();
+                    var value = ReadTypeSymbol();
 
-                    var element = new NamedType(left.ToString(), right);
+                    var element = new NamedElementSyntax((Symbol)left, value);
 
                     return FinishReadingTuple(element);
                 }
@@ -1925,7 +1925,7 @@ namespace D.Parsing
         {
             var left = MaybeType();
 
-            if (ConsumeIf(DotDotDot))   // ? ...
+            if (ConsumeIf(DotDotDot)) // ? ...
             {
                 return new RangeExpression(left, ReadExpression(), RangeFlags.Inclusive);
             }
@@ -1937,7 +1937,7 @@ namespace D.Parsing
             return left;
         }
 
-        private List<Symbol> symbolList = new List<Symbol>(20);
+        private readonly List<Symbol> symbolList = new List<Symbol>(20);
 
         // {name} {type|event|record|protocol|module}
         // {name} { Object }
@@ -2065,7 +2065,6 @@ namespace D.Parsing
                 throw new Exception("unexpected operator:" + op.ToString());
             }
 
-
             if (ConsumeIf(ParenthesisOpen))       // ? (
             {
                 EnterMode(Mode.Parenthesis);
@@ -2078,7 +2077,7 @@ namespace D.Parsing
                 {
                     LeaveMode(Mode.Parenthesis);
 
-                    // Check if there's a unit 
+                    // Check if there's a unit
                     // e.g. (5 / 5) m
 
                     if (reader.Current.Kind == Identifier && reader.Current.Start.Line == position.Line)
