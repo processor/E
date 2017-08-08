@@ -1,15 +1,14 @@
-using diagnostics
+import Diagnostic from Diagnostics
 
 Application protocol { 
   network     :   Network
   environment :   Environment
-  diagnostics : [ Diagnostic ]
   services    : [ Service ]
   ui          :   UI
   screen      :   Screen
   reactor     :   Reactor
   user        :   User
-  devices     : [ Devices ] // e.g. keyboard, mouse, pen
+  devices     : [ Device ] // e.g. keyboard, mouse, pen
 }
 
 Network protocol {

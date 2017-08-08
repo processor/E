@@ -1,6 +1,0 @@
-Medical `Procedure event { 
-
-}
-
-
-

@@ -2,8 +2,8 @@
 // * byte.. :≡ Readable`Channel of zero or more bytes
 
 Channel protocol { 
-  status   -> Channel`Status
-  unread   -> i64 >= 0
+  status -> Channel`Status
+  unread -> i64 >= 0
 
   read () -> 
     | * 

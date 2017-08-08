@@ -1,0 +1,3 @@
+Buffer<T> type {
+
+}

@@ -1,11 +1,14 @@
-﻿Contract record {
+﻿import * from Legal
+import [ Invoice ] from Commerce
+
+Contract record {
   contractee: Entity
   contractor: Entity
 )
 
 Contract protocol { 
-  terms    -> [ law::Term ]
-  invoices -> [ commerce::Invoice ] 
+  terms    -> [ Term ]
+  invoices -> [ Invoice ] 
 }
 
 Service `Contract : Contract {

@@ -1,11 +1,11 @@
 Arc type { 
-  x                : Number            // circle center x
-  y                : Number            // circle center y
-  x`Radius         : Number            // circle radius x
-  y`Radius         : Number            // circle radius y
-  start`Angle      : Number<Angle>
-  end`Angle        : Number<Angle>
-  clockwise        : Boolean
+  x            : Number            // circle center x
+  y            : Number            // circle center y
+  x `Radius    : Number            // circle radius x
+  y `Radius    : Number            // circle radius y
+  start `Angle : Number<Angle>
+  end   `Angle : Number<Angle>
+  clockwise    : Boolean
 }
 
 Curve impl for Arc {

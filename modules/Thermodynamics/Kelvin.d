@@ -1,1 +1,0 @@
-Kelvin unit { symbol: "K", value = 1 }

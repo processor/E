@@ -7,4 +7,3 @@ Keyframe type {
 Property type  {
   name: String
 }
-

@@ -5,7 +5,7 @@ Bezier type {
   c4: Vector3 // second anchor point 
 }
 
-Curve impl for Bezier {
+Curve impl for Bezier impl {
   getPoint (t: Number) => Vector2 (
     x: c1.x * b1(t) + c2.x * b2(t) + c3.x * b3(t) + c4.x * c4(t),
     y: c1.y * b1(t) + c2.y * b2(t) + c3.y * b3(t) + c4.y * b4(t)
