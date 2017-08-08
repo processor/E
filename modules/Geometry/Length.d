@@ -1,9 +1,9 @@
 // metric units
-cm unit : Length @name("Centimeter") @SI = 0.001 m   
-m  unit : Length @name("Meter")      @SI = 1
-km unit : Length @name("Kilometer")  @SI = 1000 m
+Centimeter unit : Length { symbol: "cm"; value: 0.001 m }
+Meter      unit : Length { symbol: "m";  value: 1       }
+Kilometer  unit : Length { symbol: "km"; value: 1000 m  }
 
 // imperial units
-inch unit : Length @name("Inch") @imperial = 0.025400 m
-ft   unit : Length @name("Foot") @imperial = 12 inch
-mi   unit : Length @name("Mile") @imperial = 5280 ft
+Inch unit : Length { symbol: "inch"; value: 0.025400 m }
+Foot unit : Length { symbol: "ft";   value: 12 inch }
+Mile unit : Length { symbol: "mi";   value: 5280 ft }

@@ -1,7 +1,6 @@
 Vertex type { 
   position : Vector3
-  normal   : Vector3    // i.e. direction
-  // color    : Color
+  normal   : Vector3 // aka direction
 }
 
 Vertex impl {

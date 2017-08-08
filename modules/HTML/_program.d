@@ -41,7 +41,7 @@ Gallery impl {
     return Gallery { slides, current: slides[0] }
   }
   
-  view (index: Int64) {
+  view (index: i64) {
 
   }
 

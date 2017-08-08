@@ -1,2 +1,2 @@
- °F unit : Temperature @name("Fahrenheit")
- °R unit : Temperature @name("Rankine") 
+Fahrenheit unit : Temperature { symbol: "°F" }
+Rankine    unit : Temperature { symbol: "°R" }

@@ -1,7 +1,7 @@
 Vector<T> protocol{ 
-  count -> Int64
+  count -> i64
   
-  [index: Int64] -> T
+  [index: i64] -> T
 
   clone -> V
 }

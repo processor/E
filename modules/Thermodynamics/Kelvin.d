@@ -1,1 +1,1 @@
-K unit : Temperature @name("Kelvin") @SI = 1
+Kelvin unit { symbol: "K", value = 1 }

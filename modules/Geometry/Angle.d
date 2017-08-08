@@ -1,10 +1,11 @@
-rad  unit : Angle @name("Radian") @SI = 1;
-deg  unit : Angle @name("Degree")     = (π/180) rad;
-turn unit : Angle @name("Turn")       = 360 deg;               
-grad unit : Angle @name("Gradian")    = (1/400) turn;
-arcs unit : Angle @name("Arcsecond")  = (1/3600) deg;            
-arcm unit : Angle @name("Arcminute")  = (1/60) deg;
+Radian    unit : Angle { symbol: "rad";  value: 1 }
+Degree    unit : Angle { symbol: "deg";  value: (π/180) rad }
+Turn      unit : Angle { symbol: "turn"; value: 360 deg }     
+Radian    unit : Angle { symbol: "grad"; value: (1/400) turn }
+Arcsecond unit : Angle { symbol: "arcs"; value: (1/3600) deg }
+Arcminute unit : Angle { symbol: "arcm"; value: (1/60) deg }
 
+// examples: 
 // 1 grad
 // 90 deg
 // 5 rad
