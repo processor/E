@@ -5,7 +5,6 @@
 
 }
 
-Purchase ≡ Asset
 
 // via invoicing:Invoices(owner);						// bill an Entity				
 

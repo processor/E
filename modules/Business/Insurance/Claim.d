@@ -1,5 +1,3 @@
-module "Insurance"
-
 Claim record {
 
 }

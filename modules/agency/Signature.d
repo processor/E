@@ -1,3 +1,0 @@
-Signature event {
-  entity: Entity
-}

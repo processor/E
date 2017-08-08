@@ -1,18 +1,11 @@
-﻿+ operator @infix @precedence(1) @associativity(Left) @name("add")
+﻿"+" operator {
+  type          : "infix",
+  name          : "Add"
+  precedence    : 1
+  associativity : Left
+} 
 
-≡ alias ===
-
-- infix operator { 
-  name: "subtract"
+"-" operator { 
+  type : "infix"
+  name : "Subtract"
 }
-
-
-
-≠
-≡
-≢
-≤
-≥
-φ
-γ
-π

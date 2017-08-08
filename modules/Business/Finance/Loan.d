@@ -16,7 +16,7 @@ Loan protocol {
   }
 }
 
-Loan : Finance `Instrument { 
+Loan : Instrument { 
   owner	   : Entity
   issued   : DateTime
   issuer   : Entity

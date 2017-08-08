@@ -3,7 +3,7 @@ Employment protocol {
   * work             
   * vacate
   * sick
-  * leave | dismiss | retire : ended end
+  * leave | dismiss | retire : ended ∎
   
   level     -> Employment `Level
   position  -> Employment `Position
@@ -27,7 +27,7 @@ Employment `Termination event {
 
 /* .e.g. -----------------------------------
 Expected        `Work (40h,       Weekly)
-Payment         `Term (USD(5000), Monthly) 
+Payment         `Term (5000 usd,  Monthly) 
 Vacation`Leave  `Term (days: 1,   Weekly)
 Sick`Leave      `Term (days: 1,   Weekly)
 Maternity`Leave `Term (days: 60,  Yearly)

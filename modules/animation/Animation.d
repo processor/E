@@ -18,5 +18,3 @@ Animation `Sequence {
 }
 
 transition x from 0 to 1 over 1s using algorithm while condition
-
-Elastic { }

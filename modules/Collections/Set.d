@@ -1,5 +1,5 @@
 Set<T> protocol { 
-  count     -> Count
+  count     -> i64
   insert(T) -> Boolean
 
   intersection (Set<T>) -> Set<T>   // ∩
