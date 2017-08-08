@@ -1,6 +1,6 @@
 ﻿Matrix<T> pprotocol{ 
-  [ index: Int64 ] -> T;
-  [ row: Int64, column: Int64 ] -> T;
+  [ index: i64 ] -> T
+  [ row: i64, column: i64 ] -> T
 }
 
 
@@ -9,5 +9,3 @@ determinant -> Number
 inverse
 outerProduct
 componentWiseMultiply
-
-

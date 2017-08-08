@@ -1,27 +1,27 @@
 abs      ƒ (x: Number) -> Number;                   // Absolute value
-abs      ƒ (x: Int64)  -> Int64;                   
+abs      ƒ (x: i64)  -> i64;                   
 
 // Rounding
-round    ƒ(x: Number)                           -> Number;
-round    ƒ(x: Number, digits: Int64)          -> Number;
-round    ƒ(x: Number, digits: Int64, Midway)  -> Number;
+round    ƒ(x: Number)                      -> Number;
+round    ƒ(x: Number, digits: i64)         -> Number;
+round    ƒ(x: Number, digits: i64, Midway) -> Number;
 ceiling  ƒ(x: Number) -> Number;                                                    // ceil in JS
 floor    ƒ(x: Number) -> Number;
 truncate ƒ(x: Number) -> Number;
 
 // Clamping
-clamp ƒ(x: Number  , min: Number  , max: Number)   -> Number;
-clamp ƒ(x: Int64, min: Int64, max: Int64) -> Int64;
+clamp ƒ(x: Number , min: Number , max: Number) -> Number;
+clamp ƒ(x: i64    , min: i64    , max: i64)    -> i64;
 
 // Signs
 sign ƒ(x: Number) -> Number;       // 1 when positive, 0 when 0, - 1 when negitive
-sign ƒ(x: Int64)  -> Int64;
+sign ƒ(x: i64)  -> i64;
 
 // Min / max
 min  ƒ(x: Number  , y: Number) -> Number;
-min  ƒ(x: Int64   , y: Int64) -> Int64;
+min  ƒ(x: i64     , y: i64)    -> i64;
 max  ƒ(x: Number  , y: Number) -> Number;
-max  ƒ(x: Int64   , y: Int64) -> Int64;
+max  ƒ(x: i64     , y: i64)    -> i64;
 
 // Logarithmic functions
 log    ƒ(x) -> Number;    // the power to which the constant e has to be raised to produce x.

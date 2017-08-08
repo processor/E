@@ -1,12 +1,11 @@
-mg unit : Mass @name("Milligram") @SI = 0.0001g
-cg unit : Mass @name("Centigram") @SI = 0.001g
-g  unit : Mass @name("Gram")      @SI = 1
-kg unit : Mass @name("Kilogram")  @SI = 1000g      // SI base...
+Milligram unit : Mass { symbol: "mg", value: 0.0001g }
+Centigram unit : Mass { symbol: "cg", value: 0.001g }
+Gram      unit : Mass { symbol: "g",  value: 1 }
+Kilogram  unit : Mass { symbol: "kg", value: 1000g }     // SI base...
 
-// Kilograms(5)
-// 5kg
+// Kilograms(5) | 5 kg
 
-Pound    unit : Mass = ?
-Stone    unit : Mass = ?
-ton unit : Mass @name("ShortTon") = 2000 lb
-LongTon  unit : Mass = 2240 lb
+Pound    unit : Mass { symbol: "lb", value: 0.453592 kg } 
+Stone    unit : Mass { } 
+ShortTon unit : Mass { value: 2000 lb }
+LongTon  unit : Mass { value: 2240 lb }

@@ -1,4 +1,6 @@
-Coordinate `System protocol { }
+Coordinate `System protocol { 
+
+}
 
 Number `Line                  type { } 
 Cartesian `Coordinate `System type { }

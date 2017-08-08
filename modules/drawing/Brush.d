@@ -1,4 +1,4 @@
 Brush type { 
-  thickness : Number     // in units  
+  thickness : Number
   color     : Color
 }
