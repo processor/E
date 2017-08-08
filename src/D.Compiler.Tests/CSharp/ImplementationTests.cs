@@ -9,7 +9,6 @@ namespace D.Compilation.Tests
 
     public class ImplementationTests
     {
-
         [Fact]
         public void BezierType()
         {
@@ -74,9 +73,6 @@ public class Bezier : Curve
 
     private object B4(double t) => (1 - t) * (1 - t) * (1 - t);
 }
-
-
-
 ".Trim(), r);
         }
 

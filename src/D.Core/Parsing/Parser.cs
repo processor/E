@@ -6,7 +6,6 @@ using System.Text;
 namespace D.Parsing
 {
     using Syntax;
-    using Units;
 
     using static OperatorType;
     using static TokenKind;
@@ -499,7 +498,7 @@ namespace D.Parsing
                 return declaration;
             }
         }
-
+        
         private VariableDeclarationSyntax ReadVariableDeclaration(bool mutable)
         {
             mutable = ConsumeIf(Mutable) || mutable;
@@ -549,7 +548,7 @@ namespace D.Parsing
             return new FunctionDeclarationSyntax(Array.Empty<ParameterSyntax>(), body, returnType, flags);
         }
 
-        // [index: Integer] -> T { ..
+        // [index: i32] -> T { ..
         private FunctionDeclarationSyntax ReadIndexerDeclaration()
         {
             var flags = ObjectFlags.Indexer;
@@ -585,7 +584,7 @@ namespace D.Parsing
         // clamp ƒ <T> (p: Point<T>, min: Point<T>, max: Point<T>) => Point<T> { }
         private FunctionDeclarationSyntax ReadFunctionDeclaration(Symbol name, ObjectFlags flags = ObjectFlags.None)
         {
-            ConsumeIf(Function);        // ? ƒ | function
+            ConsumeIf(Function); // ? ƒ | function
 
             if (name != null && char.IsUpper(name.Name[0]))
             {
@@ -640,7 +639,7 @@ namespace D.Parsing
             return new FunctionDeclarationSyntax(name, genericParameters, parameters, returnType, body, flags);
         }
 
-        public ParameterSyntax[] ReadGenericParameters()
+        private ParameterSyntax[] ReadGenericParameters()
         {
             if (ConsumeIf(TagOpen))
             {
@@ -674,7 +673,7 @@ namespace D.Parsing
         {
             switch (Current.Kind)
             {
-                case LambdaOperator : return ReadLambda();      // expression bodied?
+                case LambdaOperator : return ReadLambda(); // expression bodied?
                 case BraceOpen      : return ReadBlock(); 
             }
 
@@ -782,11 +781,9 @@ namespace D.Parsing
         // Radian unit : Angle    { symbol: "rad";  value: 1 }
         // Degree unit : Angle    { symbol: "deg";  value: (π/180) rad }
 
-
         public UnitDeclarationSyntax ReadUnitDeclaration(Symbol name)
         {
-
-            ConsumeIf(TokenKind.Unit);
+            ConsumeIf(Unit);
 
             var baseType = ConsumeIf(Colon) // ? :
                 ? ReadTypeSymbol()          // baseType
@@ -796,6 +793,16 @@ namespace D.Parsing
             var properties = ReadUnitDeclarationProperties();
 
             return new UnitDeclarationSyntax(name, baseType, properties);
+        }
+
+        // _ "+" _ operator { precedence: 1, associativity: left }
+        public OperatorDeclarationSyntax ReadOperatorDeclaration(Symbol name)
+        {
+            ConsumeIf(Operator);
+
+            var properties = ReadUnitDeclarationProperties();
+
+            return new OperatorDeclarationSyntax(name, properties);
         }
 
         public ArgumentSyntax[] ReadUnitDeclarationProperties()
@@ -919,9 +926,9 @@ namespace D.Parsing
                     methods.Add(ReadProtocolMember());
                 }
             }
-
             
             Consume(BraceClose);  // ! }
+
             ConsumeIf(Semicolon); // ? ;
 
             return new ProtocolDeclarationSyntax(name, channelProtocol, methods.Extract());
@@ -934,7 +941,7 @@ namespace D.Parsing
 
             while (ConsumeIf("*"))  // ! ∙
             {
-                ConsumeIf(Bar);         // ? |  // Optional leading bar in a oneof set
+                ConsumeIf(Bar);     // ? |  // Optional leading bar in a oneof set
 
                 var message = ReadProtocolMessage();
 
@@ -1112,8 +1119,7 @@ namespace D.Parsing
 
             throw new UnexpectedTokenException("Unexpected token reading member", Current);
         }
-
-
+        
         private ObjectFlags ReadModifiers()
         {
             var flags = ObjectFlags.None;
@@ -1122,6 +1128,18 @@ namespace D.Parsing
             {
                 switch (Current.Kind)
                 {
+                    case Mutable:
+                        reader.Next();
+
+                        flags |= ObjectFlags.Mutable;
+                        break;
+
+                    case Mutating:
+                        reader.Next();
+
+                        flags |= ObjectFlags.Mutating;
+                        break;
+
                     case Public:
                         reader.Next();
 
@@ -1151,12 +1169,13 @@ namespace D.Parsing
 
         #region Symbols
 
-        // A, B type { }
-        // A type { 
-        // A type : B {
+        /*
+        A, B type { }
+        A type { }
+        A type : B {
 
-        // }
-
+        }
+        */
         public Symbol ReadDollarSymbol()
         {
             reader.Consume(Dollar); // !$
@@ -1170,7 +1189,6 @@ namespace D.Parsing
         {
             return new LabelSymbol(ReadName());
         }
-
 
         // e.g. i
 
@@ -1810,7 +1828,7 @@ namespace D.Parsing
                 {
                     var r = new BinaryExpressionSyntax(op, left, right: ReadExpression());
 
-                    return new BinaryExpressionSyntax(Operator.Assign, left, r);
+                    return new BinaryExpressionSyntax(D.Operator.Assign, left, r);
                 }
 
                 var o = op;
@@ -2201,13 +2219,12 @@ namespace D.Parsing
             }
         }
 
-        public CallExpressionSyntax ReadCall(SyntaxNode callee)
-            => ReadCall(callee, ReadFunctionSymbol());
+        public CallExpressionSyntax ReadCall(SyntaxNode callee) => 
+            ReadCall(callee, ReadFunctionSymbol());
 
         // Question: Scope read if arg count is fixed ?
 
-        public CallExpressionSyntax ReadCall(SyntaxNode callee, Symbol functionName)
-            => new CallExpressionSyntax(callee, functionName, ReadArguments());
+        public CallExpressionSyntax ReadCall(SyntaxNode callee, Symbol functionName) => new CallExpressionSyntax(callee, functionName, ReadArguments());
 
         public void Dispose()
         {
@@ -2222,14 +2239,11 @@ namespace D.Parsing
 
         public Token Current => reader.Current;
 
-        Token Consume(TokenKind kind) => 
-            reader.Consume(kind);
+        Token Consume(TokenKind kind) => reader.Consume(kind);
 
-        Token Consume(string text) =>
-            reader.Consume(text);
+        Token Consume(string text) => reader.Consume(text);
 
-        bool ConsumeIf(TokenKind kind) => 
-            reader.ConsumeIf(kind);
+        bool ConsumeIf(TokenKind kind) => reader.ConsumeIf(kind);
 
         bool ConsumeIf(string text)
         {
@@ -2243,17 +2257,16 @@ namespace D.Parsing
             return false;
         }
 
-        bool IsOneOf(TokenKind a, TokenKind b)
-            => reader.Current.Kind == a
+        bool IsOneOf(TokenKind a, TokenKind b) => 
+               reader.Current.Kind == a
             || reader.Current.Kind == b;
 
-        bool IsOneOf(TokenKind a, TokenKind b, TokenKind c)
-           =>  reader.Current.Kind == a 
+        bool IsOneOf(TokenKind a, TokenKind b, TokenKind c) =>
+               reader.Current.Kind == a 
             || reader.Current.Kind == b 
             || reader.Current.Kind == c;
 
-        bool IsKind(TokenKind kind)
-            => reader.Current.Kind == kind;
+        bool IsKind(TokenKind kind) => reader.Current.Kind == kind;
 
         #endregion
     }
