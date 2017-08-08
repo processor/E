@@ -1,5 +1,7 @@
-Corporate `Merger event { 
+import Resolution from Governance
+
+Merger event { 
   aquirer    : Entity
   aquiree    : Entity
-  resolution : Corporate` Resolution 
+  resolution : Resolution 
 }

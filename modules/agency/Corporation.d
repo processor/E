@@ -1,19 +1,17 @@
+import [ Resolution, Officer ] from Governance
+import [ Stock, Stockholder ] from Finance
+
 Corporation protocol {  
-  * | resolve 
+  * | resolve
     | issue `Stock
 
-  resolve     ()                   -> Corporate `Resolution
-  issue`Stock (quantity: Decimal)  -> Stock
+  resolve      (motion: Motion)    -> Resolution
+  issue `Stock (quantity: Decimal) -> Stock
 
-  jurisdiction ->   Place
-  officers     -> [ Corporate `Officer ]
-  shares       -> [ finance::Share ]
+  jurisdiction ->   geography::Place
+  officers     -> [ Officer ]
+  stockholders -> [ Stockholder ]
 }
-
-Corporate `Resolution record { 
-
-}
-
 
 Incorporation event {
   entity	   	  : Organization

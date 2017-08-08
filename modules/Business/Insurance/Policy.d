@@ -1,5 +1,3 @@
-module "Insurance"
-
 Policy record {
 
 }

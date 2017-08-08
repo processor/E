@@ -8,7 +8,7 @@ Organism protocol {
   birth -> Birth
   death -> Death?
 
-  die (Reason) -> Death
+  die (reason: Reason) -> Death
 
   relations -> [ Relation ]
   
