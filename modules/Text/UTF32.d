@@ -1,0 +1,1 @@
+UTF32 protocol { * Character ↺ | * End }
