@@ -1959,30 +1959,20 @@ namespace D.Parsing
 
                 switch (Current.Kind)
                 {
-                    case BraceOpen: // {
-                        if (InMode(Mode.Root) || InMode(Mode.Block))
-                        {
-                            return ReadNewObject((TypeSymbol)name);
-                        }
+                    case BraceOpen when InMode(Mode.Root) || InMode(Mode.Block): // {
+                        return ReadNewObject((TypeSymbol)name);
+      
+                    case Colon when InMode(Mode.Root):
+                        return symbolList.Count > 0
+                            ? (SyntaxNode)ReadCompoundTypeDeclaration(symbolList.Extract())
+                            : ReadTypeDeclaration(name);
+                       
+                    case Unit   : return ReadUnitDeclaration(name);
+                    case Module : return ReadModule(name);
 
-                        break;
-                    case Colon:
-                        if (InMode(Mode.Root))
-                        {
-                            return symbolList.Count > 0
-                                ? (SyntaxNode)ReadCompoundTypeDeclaration(symbolList.Extract())
-                                : ReadTypeDeclaration(name);
-                        }
-
-                        break;
-
-                    case TokenKind.Unit: return ReadUnitDeclaration(name);
-
-                    case Module: return ReadModule(name);
-
-                    case Type:
-                    case Event:
-                    case Record:
+                    case Type   :
+                    case Event  :
+                    case Record :
                         return symbolList.Count > 0
                             ? (SyntaxNode)ReadCompoundTypeDeclaration(symbolList.Extract())
                             : ReadTypeDeclaration(name);  // type : hello
