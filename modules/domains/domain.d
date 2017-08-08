@@ -1,7 +1,7 @@
 , Natural  `Science // the study of natural phenomena (including fundamental forces and biological life)
 , Formal   `Science // the study of mathematics and logic, which use an a priori, as opposed to factual, methodology)
 , Social   `Science // the study of human behavior and societies[1]
-, Applie   `Science // apply existing scientific knowledge to develop more practical applications (like healthcare, technology or inventions).
+, Applied  `Science // apply existing scientific knowledge to develop more practical applications (like healthcare, technology or inventions).
 , Informal `Science // ?
 , Humanity          // things produced for human experience
 : Domain type { 

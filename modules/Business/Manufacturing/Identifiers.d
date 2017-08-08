@@ -1,6 +1,5 @@
 Product `Identifier { }
 
-
   ASIN,
   UPC,
   IBSN,  // 

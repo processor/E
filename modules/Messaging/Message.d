@@ -1,4 +1,4 @@
-﻿Email `Message record {
+﻿Message record {
   to   : [ Address ]
   from :   Address
   cc   : [ Address ]
