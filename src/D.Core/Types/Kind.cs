@@ -112,6 +112,10 @@
         ImplementationDeclaration       = 2208,
         UnitDeclaration                 = 2209,
         OperatorDeclaration             = 2010,
+        ImportDeclaration               = 2011,
+
+
+
         DestructuringAssignment         = 2220,
 
         InterpolatedStringExpression    = 2221,
@@ -133,8 +137,6 @@
         TypePattern     = 4006,
 
         NamedValue,
-        NamedType,
-        TypedValue,
 
         Argument,
         Parameter,

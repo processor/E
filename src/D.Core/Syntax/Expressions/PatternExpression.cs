@@ -43,28 +43,29 @@
     }
 
     // (a, b, c)
+    // (a: 1, b: 2, c: 3 }
     public class TuplePatternSyntax : SyntaxNode
     {
         public TuplePatternSyntax(TupleExpressionSyntax tuple)
         {
-            Variables = new NamedType[tuple.Elements.Length];
+            Variables = new NamedElementSyntax[tuple.Elements.Length];
 
             for (var i = 0; i < tuple.Elements.Length; i++)
             {
                 var element = tuple.Elements[i];
 
-                if (element is NamedElement namedElement)
+                if (element is NamedElementSyntax namedElement)
                 {
-                    Variables[i] = new NamedType(namedElement.Name, (Symbol)namedElement.Value);
+                    Variables[i] = new NamedElementSyntax(namedElement.Name, (Symbol)namedElement.Value);
                 }
                 else if (element is Symbol name)
                 {
-                    Variables[i] = new NamedType(name, null);
+                    Variables[i] = new NamedElementSyntax(name, null);
                 }
             }
         }
 
-        public NamedType[] Variables { get; }
+        public NamedElementSyntax[] Variables { get; }
 
         Kind IObject.Kind => Kind.TuplePattern;
     }

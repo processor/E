@@ -42,12 +42,13 @@
         Kind IObject.Kind => Kind.ObjectPattern;
     }
 
-    // (a, b, c)
+    // (i32, i32)
+    // (a: 1, b: 2, c: 3)
     public class TuplePattern : IExpression
     {
         public TuplePattern(TupleExpression tuple)
         {
-            Variables = new NamedType[tuple.Elements.Length];
+            Variables = new NamedElement[tuple.Elements.Length];
 
             for (var i = 0; i < tuple.Elements.Length; i++)
             {
@@ -55,16 +56,16 @@
 
                 if (element is NamedElement v)
                 {
-                    Variables[i] = new NamedType(v.Name, (TypeSymbol)v.Value);
+                    Variables[i] = new NamedElement(v.Name, v.Value);
                 }
                 else if (element is Symbol symbol)
                 {
-                    Variables[i] = new NamedType(symbol, null);
+                    Variables[i] = new NamedElement(symbol, null);
                 }
             }
         }
 
-        public NamedType[] Variables { get; }
+        public NamedElement[] Variables { get; }
 
         Kind IObject.Kind => Kind.TuplePattern;
     }

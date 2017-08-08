@@ -89,7 +89,7 @@ namespace D.Parsing.Tests
         [Fact]
         public void Complex()
         {
-            var b = Parse<VariableDeclarationSyntax>("let x = (5: Integer)");
+            var b = Parse<VariableDeclarationSyntax>("let x = (5)");
             var c = Parse<VariableDeclarationSyntax>("let x: Integer | None = None");
             var d = Parse<VariableDeclarationSyntax>("let x: A & B = c");
             var e = Parse<VariableDeclarationSyntax>("let x: Integer > 10 = c;");

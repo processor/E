@@ -76,8 +76,6 @@ public class Bezier : Curve
 ".Trim(), r);
         }
 
-
-
         [Fact]
         public void Var()
         {
