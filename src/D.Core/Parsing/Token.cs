@@ -170,6 +170,7 @@ namespace D.Parsing
         Let,
         Observe,
         On,
+        Operator,
         To,
         Type,
         Unit,

@@ -111,7 +111,7 @@
         ChannelDeclaration              = 2207,
         ImplementationDeclaration       = 2208,
         UnitDeclaration                 = 2209,
-
+        OperatorDeclaration             = 2010,
         DestructuringAssignment         = 2220,
 
         InterpolatedStringExpression    = 2221,

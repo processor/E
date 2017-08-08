@@ -4,15 +4,16 @@
 
     public class Operator : INamedObject
     {
-        public Operator(Kind kind, 
+        public Operator(
+            Kind kind, 
             string name, 
             OperatorType type, 
             int precedence = 1000,
             Associativity associativity = Left)
         {
-            OpKind = kind;
-            Name = name;
-            Type = type;
+            OpKind     = kind;
+            Name       = name;
+            Type       = type;
             Precedence = precedence;
         }
 
@@ -26,11 +27,11 @@
 
         public OperatorType Type { get; }
 
-        public static Operator Prefix(Kind kind, string name, int precedence, Associativity associativity = Left)
-           => new Operator(kind, name, OperatorType.Prefix, precedence, associativity);
+        public static Operator Prefix(Kind kind, string name, int precedence, Associativity associativity = Left) => 
+            new Operator(kind, name, OperatorType.Prefix, precedence, associativity);
 
-        public static Operator Infix(Kind kind, string name, int precedence, Associativity associativity = Left)
-            => new Operator(kind, name, OperatorType.Infix, precedence, associativity);
+        public static Operator Infix(Kind kind, string name, int precedence, Associativity associativity = Left) =>
+            new Operator(kind, name, OperatorType.Infix, precedence, associativity);
 
         // highest
         public static readonly Operator Not                = Prefix(Kind.LogicalNotExpression,        "!",   precedence: 15, associativity: Right);
@@ -39,12 +40,12 @@
         public static readonly Operator BitwiseNot         = Prefix(Kind.BitwiseNotExpression,        "~",   precedence: 15, associativity: Right);
 
         public static readonly Operator Power              = Infix(Kind.ExponentiationExpression,     "**",  precedence: 14, associativity: Right);  
-        public static readonly Operator Multiplication     = Infix(Kind.MultiplyExpression,           "*",   precedence: 14);                        
-        public static readonly Operator Division           = Infix(Kind.DivideExpression,             "/",   precedence: 14);                        
+        public static readonly Operator Multiply     = Infix(Kind.MultiplyExpression,           "*",   precedence: 14);                        
+        public static readonly Operator Divide           = Infix(Kind.DivideExpression,             "/",   precedence: 14);                        
         public static readonly Operator Remainder          = Infix(Kind.ModuloExpression,             "%",   precedence: 14);                       
 
-        public static readonly Operator Addition           = Infix(Kind.AddExpression,                "+",   precedence: 13);
-        public static readonly Operator Subtraction        = Infix(Kind.SubtractExpression,           "-",   precedence: 13);
+        public static readonly Operator Add                = Infix(Kind.AddExpression,                "+",   precedence: 13);
+        public static readonly Operator Subtract           = Infix(Kind.SubtractExpression,           "-",   precedence: 13);
         public static readonly Operator LeftShift          = Infix(Kind.LeftShiftExpression,          "<<",  precedence: 12);
         public static readonly Operator SignedRightShift   = Infix(Kind.RightShiftExpression,         ">>",  precedence: 12);
         public static readonly Operator UnsignedRightShift = Infix(Kind.UnsignedRightShiftExpression, ">>>", precedence: 12);
@@ -84,17 +85,17 @@
         public static readonly Operator[] DefaultList = new[] {
             // Unary
             Not,              // !
-            Negation,           // -
+            Negation,         // -
             UnaryPlus,        // +
 
             Equal,            // ==
             Identical,        // ===
 
             // Arithmetic
-            Addition,              // +
-            Subtraction,         // -
-            Multiplication,         // *
-            Division,           // /
+            Add,              // +
+            Subtract,         // -
+            Multiply,         // *
+            Divide,           // /
             Remainder,        // %
             Power,            // **
                                          
@@ -121,7 +122,7 @@
             LeftShift,          // <<
             SignedRightShift,   // >>
             UnsignedRightShift, // >>>
-            BitwiseXor,                // ^
+            BitwiseXor,         // ^
             BitwiseAnd          // &
                                 // ~
         };
@@ -135,7 +136,6 @@
         Logical,
         Assignment
     }
-
     
     // Determines the order in which operators with the same precedence are processed
     public enum Associativity

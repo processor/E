@@ -11,7 +11,7 @@ namespace D.Parsing.Tests
         {
             var declaration = Parse<VariableDeclarationSyntax>(@"
 let mutable n = data.length
-let quant = Color[255]");
+let quant = Array<Color>.fill(255)");
 
             Assert.True(declaration.Flags.HasFlag(VariableFlags.Mutable));
 
@@ -23,6 +23,8 @@ let quant = Color[255]");
         {
             var declaration = Parse<VariableDeclarationSyntax>(@"
 var quant = Color[255]");
+
+            Assert.Equal("quant", declaration.Name.ToString());
 
             Assert.True(declaration.Flags.HasFlag(VariableFlags.Mutable));
         }

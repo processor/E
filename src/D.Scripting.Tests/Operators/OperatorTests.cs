@@ -39,11 +39,11 @@ namespace D.Operators.Tests
             Assert.Equal(Operator.Not,                env.Operators[Prefix, "!"]);
                                                       
             // Binary Operators                       
-            Assert.Equal(Operator.Multiplication,     env.Operators[Infix, "*"]);
+            Assert.Equal(Operator.Multiply,     env.Operators[Infix, "*"]);
             Assert.Equal(Operator.Power,              env.Operators[Infix, "**"]);
-            Assert.Equal(Operator.Division,           env.Operators[Infix, "/"]);
-            Assert.Equal(Operator.Addition,           env.Operators[Infix, "+"]);
-            Assert.Equal(Operator.Subtraction,        env.Operators[Infix, "-"]);
+            Assert.Equal(Operator.Divide,           env.Operators[Infix, "/"]);
+            Assert.Equal(Operator.Add,           env.Operators[Infix, "+"]);
+            Assert.Equal(Operator.Subtract,        env.Operators[Infix, "-"]);
             Assert.Equal(Operator.Remainder,          env.Operators[Infix, "%"]);
                                                       
             Assert.Equal(Operator.Is,                 env.Operators[Infix, "is"]);

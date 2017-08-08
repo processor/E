@@ -16,7 +16,7 @@ namespace D.Parsing.Tests
 
             var left = (BinaryExpressionSyntax)a.Callee;
 
-            Assert.Equal(Operator.Subtraction , left.Operator);
+            Assert.Equal(Operator.Subtract , left.Operator);
             Assert.Equal("negate"             , a.Name);
             Assert.Equal(1                    , (NumberLiteralSyntax)a.Arguments[0].Value);
         }

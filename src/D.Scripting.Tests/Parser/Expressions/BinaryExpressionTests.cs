@@ -38,10 +38,10 @@ namespace D.Parsing.Tests
         {
             get
             {
-                yield return new object[] { "+"  , Addition };
-                yield return new object[] { "-"  , Subtraction };
-                yield return new object[] { "*"  , Multiplication };
-                yield return new object[] { "/"  , Division };
+                yield return new object[] { "+"  , Add };
+                yield return new object[] { "-"  , Subtract };
+                yield return new object[] { "*"  , Multiply };
+                yield return new object[] { "/"  , Divide };
                 yield return new object[] { "**" , Power };
                 yield return new object[] { "%"  , Remainder };
             }
@@ -217,13 +217,13 @@ namespace D.Parsing.Tests
         {
             Assert.True(GreaterThan.Precedence > LogicalAnd.Precedence);
 
-            Assert.True(Multiplication.Precedence > Addition.Precedence);
+            Assert.True(Multiply.Precedence > Add.Precedence);
 
-            Assert.True(Power.Precedence > Addition.Precedence);
+            Assert.True(Power.Precedence > Add.Precedence);
 
-            Assert.True(Division.Precedence == Multiplication.Precedence);
+            Assert.True(Divide.Precedence == Multiply.Precedence);
 
-            Assert.True(Addition.Precedence == Subtraction.Precedence);
+            Assert.True(Add.Precedence == Subtract.Precedence);
         }
 
         [Fact]
@@ -297,12 +297,12 @@ namespace D.Parsing.Tests
 
             //Assert.Equal(3L, (Integer)l);
 
-            Assert.Equal(Multiplication, b.Operator);
+            Assert.Equal(Multiply, b.Operator);
 
             var rr = (BinaryExpressionSyntax)b.Right;
 
             //Assert.Equal(5L,        (Integer)rr.Left);
-            Assert.Equal(Addition,  rr.Operator);
+            Assert.Equal(Add,  rr.Operator);
             //Assert.Equal(5L,        (Integer)rr.Right);
             
             Assert.Equal("3 * (5 + 5)", b.ToString());
@@ -313,7 +313,7 @@ namespace D.Parsing.Tests
         {
             var statement = Parse<BinaryExpressionSyntax>(@"5 * 10px");
 
-            Assert.Equal(Multiplication, statement.Operator);
+            Assert.Equal(Multiply, statement.Operator);
 
             Assert.Equal("5", statement.Left.ToString());
 
@@ -328,7 +328,7 @@ namespace D.Parsing.Tests
         {
             var statement = Parse<BinaryExpressionSyntax>(@"(10, 10) * 5kg");
 
-            Assert.Equal(Multiplication, statement.Operator);
+            Assert.Equal(Multiply, statement.Operator);
 
             var left = (TupleExpressionSyntax)statement.Left;
             var right = (UnitLiteralSyntax)statement.Right;

@@ -26,7 +26,7 @@ namespace D.Parsing.Tests
 
             var arg = (BinaryExpressionSyntax)expression.Argument;
 
-            Assert.Equal(Operator.Subtraction, arg.Operator);
+            Assert.Equal(Operator.Subtract, arg.Operator);
         }
 
         [Fact]

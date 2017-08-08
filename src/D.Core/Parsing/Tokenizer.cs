@@ -345,6 +345,7 @@ namespace D.Parsing
             { "mutating"       , Mutating },
             { "on"             , On },
             { "observe"        , Observe },
+            { "operator"       , Operator },
             { "orderby"        , Orderby },
             { "return"         , Return },
             { "select"         , Select },

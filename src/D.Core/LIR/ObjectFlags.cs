@@ -7,8 +7,8 @@ namespace D
     {
         None        = 0,
         Public      = 1 << 0, // default? 
-        Private     = 1 << 1,
-        Internal    = 1 << 2,
+        Internal    = 1 << 1,
+        Private     = 1 << 2,
         Protected   = 1 << 3,
         Abstract    = 1 << 4,
         Instance    = 1 << 5,
@@ -17,10 +17,14 @@ namespace D
         Initializer = 1 << 8,
         Converter   = 1 << 9,
         Indexer     = 1 << 10,
-        Property    = 1 << 11
+        Property    = 1 << 11,
+
+        Mutable     = 1 << 12,
+        Mutating    = 1 << 13,
+        Lazy        = 1 << 14
 
         // Lambda = 1 << 3
     }
 
-    // Modifer Flags?
+    // Declaration Modifiers?
 }
