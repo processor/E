@@ -21,7 +21,9 @@ namespace D.Parsing
         public Token Read(TokenKind kind)
         {
             if (Current.Kind != kind)
-                throw new Exception("unexpected token kind: " + kind);
+            {
+                throw new Exception($"Expected {kind}. Was {Current.Kind}");
+            }
 
             return Next();
         }
