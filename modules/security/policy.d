@@ -19,7 +19,7 @@ allow (
   entity   : Carbonmade, 
   action   : open | link, 
   resource : Blob#1000,
-  where    : time in Toyko > 5pm
+  where    : time in "jp/toyko" > 5pm
 }
 
 // get, read, write:  verb;

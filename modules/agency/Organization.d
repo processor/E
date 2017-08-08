@@ -1,3 +1,5 @@
+import [ Bylaw ] from Legal
+
 Organization protocol {
   * incorporate : incorporated
   * action    ↺ : acting 
@@ -7,14 +9,12 @@ Organization protocol {
  
   incorporate   ()                     -> Incorporation   // established
   dissolve      ()                     -> Dissolution
-  merge         (Organization: target) -> Merger
+  merge         (target: Organization) -> Merger
 
   directors    -> [ Director ]   // including managing & officers
   jurisdiction ->   Jurisdiction // via Incorporation.jurisdiction
 
-  has Bylaws
-    of Rules, Regulations, and Terms through Corporate_Bylaws(entity);
-    formatted into a Document;
+  bylaws       -> [ Bylaw ]
 
   when dissolved {
      // logic that triggers when dissolved

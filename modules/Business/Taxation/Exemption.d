@@ -1,3 +1,3 @@
-Tax `Exemption record {
+Exemption record {
 
 }

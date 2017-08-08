@@ -1,5 +1,3 @@
-using math
-
 Earth type : Planet {
 
 }

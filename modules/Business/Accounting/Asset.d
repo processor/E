@@ -1,8 +1,3 @@
-Asset record {
-  purchase	             : Purchase
-  depreciation `Schedule  : Depreciation `Schedule	// An asset is written_down in steps according to it's schedule
-}
-
 Asset protocol {
   * purchase    : owned
   * writedown ↺ 
@@ -23,17 +18,17 @@ Asset protocol {
     terms? : [ Terms ]
   ) -> Sale
 
-  dispose () -> Disposal
+  dispose () -> Asset `Disposal
   
   book `value	->   Money	
   writedowns  -> [ Writedown ]
 
-  price       => purchase.price
+  price => purchase.price
 }
 
-Writedown event {
-  asset  : Asset
-  amount : Money
+Asset record {
+  purchase	             : Purchase
+  depreciation `Schedule  : Depreciation `Schedule	// An asset is written_down in steps according to it's schedule
 }
 
 Depreciation `Schedule record {

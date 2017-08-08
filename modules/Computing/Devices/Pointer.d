@@ -1,4 +1,4 @@
-using Geometry
+import * from Geometry
 
 Pointer type { 
 

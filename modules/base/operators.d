@@ -1,11 +1,10 @@
-﻿"+" operator {
-  type          : "infix",
+﻿_ "+" _ operator {
   name          : "Add"
   precedence    : 1
   associativity : Left
-} 
+}
 
-"-" operator { 
-  type : "infix"
-  name : "Subtract"
+_ "-" _ operator { 
+  name       : "Subtract"
+  precedence : 1
 }

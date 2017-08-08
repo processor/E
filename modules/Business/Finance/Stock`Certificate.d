@@ -6,4 +6,7 @@ Stock `Certificate : record {
 Stock `Certificate protocol { 
   * aquire    : held
     | sell  ∎ : sold
+
+  purchase() -> Stock`Purchase
+  sell()     -> Stock`Sale
 }

@@ -1,8 +1,4 @@
-﻿module "Taxation"
-
-using commerce
-
-  Income      `Tax	 
+﻿  Income      `Tax	 
 , Payroll     `Tax 
 , Property    `Tax 
 , Unemployment`Tax 
@@ -11,16 +7,8 @@ using commerce
   amount    : Money
 }
 
-Rule : record {
-
-}
-
 Tax `Deduction record {
    rules: [ Rule ]
-}
-
-Authority record { 
-
 }
 
 // Juristriction?

@@ -1,5 +1,6 @@
 import [ Resolution, Officer ] from Governance
 import [ Stock, Stockholder ] from Finance
+import [ Place ] from Geography
 
 Corporation protocol {  
   * | resolve
@@ -8,7 +9,7 @@ Corporation protocol {
   resolve      (motion: Motion)    -> Resolution
   issue `Stock (quantity: Decimal) -> Stock
 
-  jurisdiction ->   geography::Place
+  jurisdiction ->   Place
   officers     -> [ Officer ]
   stockholders -> [ Stockholder ]
 }

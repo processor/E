@@ -1,3 +1,0 @@
-export process(request: Request) {
-  
-}

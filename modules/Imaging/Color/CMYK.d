@@ -1,3 +1,3 @@
 CMYK impl { 
-  c, m, y, k: Number
+  c, m, y, k: f32
 }

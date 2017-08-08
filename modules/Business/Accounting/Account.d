@@ -1,7 +1,4 @@
-Account record {
-  provider	: Entity
-  creation	: DateTime 
-}
+import [ Money ] from Commerce 
 
 Account protocol {
   * open           : opened
@@ -11,15 +8,21 @@ Account protocol {
   * close ∎ : closed
 
   open    ()       -> Account
-  close   (Reason) -> Closure
+  close   (Reason) -> Account `Closure
 
-  deposit (Check)               -> Deposit
-  dispute (Transaction, Reason) -> Dispute    // if ruled in your favor, results in a reversal
+  deposit (check: Check)                     -> Deposit
+  dispute (transaction: Transaction, Reason) -> Dispute    // if ruled in your favor, results in a reversal
 
   balance      ->   Money
   transactions -> [ Transaction ]
-  signers      -> [ Signers ]
+  signers      -> [ Signer ]
   trustee      -> [ Trustee ]
 }
+
+Account record {
+  provider : Entity
+  creation : Timestamp 
+}
+
 
 // beneficiaries

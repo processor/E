@@ -10,9 +10,9 @@ Animation type {
 
 Animation protocol { 
   * started
-  * ended | canceled
-
+  * ended | canceled ∎
 }
+
 Animation `Sequence { 
    animations: [ Animation ]
 }

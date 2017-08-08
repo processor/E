@@ -1,9 +1,8 @@
 ﻿Algorithm protocol { 
-  
-  sign -> null
-  verify -> null
-  encrypt -> null
-  decrypt -> null
+  sign    (data       : [byte]) -> [byte]
+  verify  (data       : [byte]) -> Boolean
+  encrypt (plaintext  : [byte]) -> [byte]
+  decrypt (ciphertext : [byte]) -> [byte]
 
   // derive
 }
