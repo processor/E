@@ -206,6 +206,9 @@ namespace D.Parsing
         // Visibility
         Public,
         Private,
-        Internal
+        Internal,
+
+        Class,
+        Struct
     }
 }

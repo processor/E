@@ -370,7 +370,9 @@ namespace D.Parsing
 
             { "public"         , Public },
             { "private"        , Private },
-            { "internal"       , Internal }
+            { "internal"       , Internal },
+            { "class"          , Class },
+            { "struct"         , Struct }
         };
 
         public Token ReadQuotedString()
