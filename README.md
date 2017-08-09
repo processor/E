@@ -25,7 +25,7 @@ COMPLETED
 
 TODO
 
-[ ] Developing CoreCRL & JavaScript transpilers
-[ ]  Finalizing ML based type system & autocompletion
-[ ] Testing
-[ ] Developing base Library shape and aquisition methods
+[ ] Developing CoreCRL & JavaScript transpilers  
+[ ]  Finalizing ML based type system & autocompletion  
+[ ] Testing  
+[ ] Developing base Library shape and aquisition methods  
