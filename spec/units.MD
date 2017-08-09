@@ -4,8 +4,8 @@
 
 ```
 Pound unit : Weight {
-  symbol: "lb",
-  value: 0.453592 kg
+  symbol : "lb",
+  value  : 0.453592 kg
 }
 ```
 
@@ -24,5 +24,5 @@ Package {
   weight: Number<kg>
 }
 
-Package { weight: 5lb } # Package(2.26796)
+Package(weight: 5 lb) # Package(2.26796)
 ```
