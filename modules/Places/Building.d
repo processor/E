@@ -1,11 +1,11 @@
-﻿Building : Place { 
-  lot		      	: Land `Lot,
-  jurisdiction	: Entity
-}
-
-Building protocol { 
+﻿Building protocol {
   geometry -> [ Geometry ]
   units    -> [ Unit ]
+}
+
+Building class : Place {
+  lot		      	: Land `Lot,
+  jurisdiction	: Entity
 }
 
   Apartment
@@ -19,13 +19,13 @@ Building protocol {
   name     : String
 }
 
-Land `Lot protocol { 
+Land `Lot protocol {
   zone      -> [ Building` Zone ]
   geometry  -> [ Geometry ]
   buildings -> [ Building ]
 }
 
-Building `Permit record { 
+Building `Permit record {
   code   : String
   bounds : Polygon
 }

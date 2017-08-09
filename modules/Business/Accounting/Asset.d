@@ -28,7 +28,7 @@ Asset protocol {
 
 Asset record {
   purchase	             : Purchase
-  depreciation `Schedule  : Depreciation `Schedule	// An asset is written_down in steps according to it's schedule
+  depreciation `Schedule : Depreciation `Schedule	// An asset is written_down in steps according to it's schedule
 }
 
 Depreciation `Schedule record {

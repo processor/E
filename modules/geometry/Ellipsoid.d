@@ -4,7 +4,7 @@ Ellipsoid protocol {
   eccentricity : Number
 }
 
-Ellipsoid struct { 
+Ellipsoid struct {
   majorAxis    : Number
   minorAxis    : Number
   eccentricity : Number

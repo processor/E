@@ -1,4 +1,4 @@
-Canvas class : Inline { 
+Canvas class : Inline {
 
 
 }

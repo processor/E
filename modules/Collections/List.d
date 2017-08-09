@@ -1,4 +1,4 @@
-List<T> protocol { 
+List<T> protocol {
   count -> i64
   
   contains (element: T)          -> Boolean

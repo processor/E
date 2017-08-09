@@ -19,12 +19,12 @@ Element protocol : Interactive { 
   let childless => count children == 0
 }
 
-Element class : Node { 
+Element class : Node {
   parent   :   Node?
   children : [ Node ]
 }
 
-Element impl for Parentable<Element> { 
+Element impl for Parentable<Element> 
 
 
 }

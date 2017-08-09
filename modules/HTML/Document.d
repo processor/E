@@ -1,10 +1,10 @@
 ﻿Root, Barren term; 
 
-Content class { 
+Content class {
   text: String 
 }
 
-Parentable<T> protocol  { 
+Parentable<T> protocol {
   children : [ T ]
 }
 
@@ -20,6 +20,6 @@ Node enum = Element | Content;
 , Detached<T> 
 : Document `Mutation event { }
 
-Document protocol : Interactive { 
+Document protocol : Interactive {
   add`Child (Node) -> Added
 }

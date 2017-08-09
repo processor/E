@@ -1,8 +1,8 @@
-Media<T> : Inline { 
+Media<T> : Inline {
   stream: T
 }
 
-Media<T: Audio | Video> protocol { 
+Media<T: Audio | Video> protocol {
   * | load & loaded  : loading
     | buffer         : buffering  
     | play           : playing

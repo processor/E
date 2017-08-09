@@ -6,7 +6,7 @@ Payment `Card protocol {
 }
 
 
-Payment `Card record : Payment `Method {  
+Payment `Card record : Payment `Method {
 
 }
 

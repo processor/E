@@ -15,7 +15,7 @@ File protocol {
   // last mutation
 }
 
-File `Mutation event { 
+File `Mutation event {
   file    : File,
   mutator : Entity
 }

@@ -49,19 +49,19 @@ Inhabitable protocol {
   inhabitants -> [ Inhabitant ]
 }
 
-Inhabitant : Entity { 
+Inhabitant : Entity {
  place   : Place
 }
 
-State record : Place { 
+State record : Place {
   code: ISO:"3166-2"
 }
 
-Providence record : Place { 
+Providence record : Place {
   code: string
 }
 
-Country record : Place { 
+Country record : Place {
   code: ISO:3166-2,
 }
 

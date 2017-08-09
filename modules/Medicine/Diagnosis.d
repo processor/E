@@ -1,4 +1,4 @@
-Diagnosis protocol { 
+Diagnosis protocol {
   organism    -> Organism | Protected<Organism> 
 
   symptoms    -> [ Symptoms ]
@@ -7,14 +7,12 @@ Diagnosis protocol {
   procedures  -> [ Procedure ]
 }
 
-
 Diagnosis record { }
-
 
   Disease
 , Disorder,
 , Syndrome
-: Diagnosis { 
+: Diagnosis {
   
 }
 

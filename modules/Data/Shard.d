@@ -4,7 +4,7 @@ Shard record {
   flags     :   Shard `Flags
 }
 
-Shard `Flags enum { 
+Shard `Flags enum {
   Master  = 1
   Replica = 2 
 }

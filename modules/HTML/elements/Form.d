@@ -16,7 +16,7 @@ Label class : Block {
   text => children[0] as Content
 }
 
-Input<T> class : Inline { 
+Input<T> class : Inline {
   value: T
 }
 
@@ -25,7 +25,7 @@ Form class : Element {
   action : Function
   fields : [ Field ]
 
-  from (fields: [ Field ]) => Form { children: fields }
+  from (fields: [ Field ]) => Form(children: fields)
 
   fields (this Form) -> [ Field ] => children
 }

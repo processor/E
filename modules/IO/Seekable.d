@@ -1,4 +1,4 @@
-Seekable protocol { 
+Seekable protocol {
   position : i64 >= 0
   length   : i64 >= 0
 

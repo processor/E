@@ -1,4 +1,4 @@
-﻿Manufacturer record { 
+﻿Manufacturer record {
   entity: Entity
 }
 

@@ -27,7 +27,7 @@ Invoice protocol {
   payments -> [ Transaction ] 
 }
 
-Bill event { 
+Bill event {
   invoice   : Invoice
   recipient : Person      // e.g. Sue in accounting @ Google
 }

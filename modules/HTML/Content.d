@@ -1,7 +1,7 @@
-Content type { 
+Content type {
   text: String
 }
 
-Node impl for Content {  
+Node impl for Content {
   children => Array<Node>.Empty
 }

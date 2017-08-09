@@ -1,4 +1,4 @@
-Volume record { 
+Volume record {
   total     `Bytes : i64 > 0,
   available `Bytes : i64 ≥ 0 | ∞
 }

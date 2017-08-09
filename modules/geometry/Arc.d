@@ -28,11 +28,11 @@ Curve impl for Arc {
 
     let angle = startAngle + t * deltaAngle
 
-    return Vector3 {
+    return Vector3(
       x: x + xRadius * cos(angle)
       y: y + yRadius * sin(angle),
       z: 0
-    }
+    )
   }
 }
 

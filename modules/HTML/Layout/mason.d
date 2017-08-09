@@ -8,17 +8,17 @@ Masonary `Layout class {
     let mutable columns = [ Column ];
 
     for i in 0..<columnCount {
-      columns.add {
+      columns.add(Column(
         width  : columnWidth,
         height : 0,
         top    : 0,
         left   : left
-      }
+      ))
 
       left += columnWidth + gap
     }
 
-    return Masonary `Layout { gap, columns }
+    return Masonary `Layout(gap, columns)
   }
 
   shortestColumn ƒ() => 
@@ -27,7 +27,7 @@ Masonary `Layout class {
 }
 
 Layout impl for Masonary `Layout {
-  doLayout (elements) { 
+  doLayout (elements: [ Node ]) { 
     for el in elements {
       let column = shortestColumn()
                 
@@ -50,7 +50,7 @@ Layout impl for Masonary `Layout {
   }
 }
 
-Box type { 
+Box struct {
   width          : f32  
   mutable height : f32  
   top            : f32 

@@ -1,3 +1,3 @@
-Barrier protocol { 
+Barrier protocol {
   destroy()
 }

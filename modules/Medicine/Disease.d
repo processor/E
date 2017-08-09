@@ -1,7 +1,5 @@
 domain medicine
 
-
-
 /*
  *  Disease, // IDC-10 (14,400 codes)
 

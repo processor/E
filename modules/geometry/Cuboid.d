@@ -1,4 +1,4 @@
-Cuboid struct {   
+Cuboid struct { 
   polygons: [ Polygon ]
 
   let definition = [
@@ -18,11 +18,11 @@ Cuboid struct {
     select Polygon(
       from i in row[0]
       select Vertex {
-        position: Point {
+        position: Point(
           x: center.x + dimensions.width  * (2 * !!(i & 1) - 1)
           y: center.y + dimensions.height * (2 * !!(i & 2) - 1)
           z: center.z + dimensions.depth  * (2 * !!(i & 4) - 1)
-        }
+        )
         normal: row[1]
       }
     )

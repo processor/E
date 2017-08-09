@@ -1,8 +1,11 @@
-Table protocol { 
+Table protocol {
   rows -> [ Row ]
 }
 
-Table class : Block { }    // <table />  
+// <table />  
+Table class : Block {
+
+}
 
  // <row />
 Row class : Block {

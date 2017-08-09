@@ -1,12 +1,14 @@
-﻿Language type { name: String; }
+﻿Language struct {
+  name: String
+}
 
-, Verb			    
+, Verb
 , Noun `Phrase  
 , Article	       	  	
 , Predicate  	
 , Verb `Phrase	
 , Morpheme		  
 , Stem 
-: Object record { 
+: Object record {
   name: String 
 }

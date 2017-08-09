@@ -2,7 +2,7 @@ import [ Resolution, Officer ] from Governance
 import [ Stock, Stockholder ] from Finance
 import [ Place ] from Geography
 
-Corporation protocol {  
+Corporation protocol {
   * | resolve
     | issue `Stock
 
@@ -16,7 +16,7 @@ Corporation protocol {
 
 Incorporation event {
   entity	   	  : Organization
-  regitar	   	  : Incorporation `Registrar
+  regitar	   	  : Registrar
   jurisitrction : Entity
 )
 

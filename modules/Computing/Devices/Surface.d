@@ -34,7 +34,7 @@ while touching, read touch into touches {
 }
 
   
-Pinch protocol : Touch { 
+Pinch protocol : Touch {
   let distance => √( ($0.x - $1.x) * ($0.y - $1.y])) + 
                   √( ($0.x - $1.x) * ($0.y - $1.y]))
 }

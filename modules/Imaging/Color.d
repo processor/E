@@ -1,10 +1,10 @@
-module Color { 
+module Color {
   YCbCr struct { y, cB, cR : byte }
 
-  RGB struct { 
+  RGB struct {
     r, g, b : byte
 
-    to YCbCr { 
+    to YCbCr {
       let r = r as f32;
       let g = g as f32;
       let b = b as f32;

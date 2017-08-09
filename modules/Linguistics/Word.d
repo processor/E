@@ -1,4 +1,4 @@
-Word record	{ 
+Word record	{
   language: Language, 
   name: String
 } 
