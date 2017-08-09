@@ -11,7 +11,7 @@ namespace D.Scripting.Tests
         public void Constructor() 
         {
             var func = Parse<FunctionDeclarationSyntax>(@"
-                Point ƒ <T: Number>(x: T, y: T, z: T) => Point<T> { x, y, z }
+                Point ƒ <T: Number>(x: T, y: T, z: T) => Point<T>(x, y, z)
             ");
 
             Assert.Equal(null, func.ReturnType);

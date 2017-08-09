@@ -55,11 +55,9 @@ namespace D.Parsing.Tests
             // implementation
 
             var program = new Parser(@"
-using layout
-
 Masonary`Layout type {
-  columnWidth : Number
-  columnGap   : Number
+  columnWidth :   Number
+  columnGap   :   Number
   columns     : [ Column ]
 }
 
@@ -67,22 +65,22 @@ Masonary`Layout implementation {
   from (columnCount: Number, columnWidth: Number, columnGap = 0) {
     var left = 0
 
-    var columns = [ ] Columns;
+    var columns = [ Column ]
 
     for i in 0..<columnCount {
-      let column = {
+      let column = Column(
         width  : columnWidth,
         height : 0,
         top    : 0,
         left   : left
-      }
+      )
 
       left += columnWidth + columnGap
       
       columns.append(column)
     }
 
-    return Masonary`Layout { columnWidth, columnGap, columns }
+    return Masonary`Layout(columnWidth, columnGap, columns)
   }
 
   getSmallestColumn() {
@@ -122,16 +120,16 @@ Masonary`Layout implementation {
       }
     }
 
-    return {
+    return (
       width  : (columnGap * (columnCount - 1)) + (columnWidth * columnCount),
       height : height
-    }
+    )
   }
 }");
 
             var statements = program.Enumerate().ToArray();
 
-            Assert.Equal(3, statements.Length);
+            Assert.Equal(2, statements.Length);
         }
         [Fact]
         public void JpegDecoder()

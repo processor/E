@@ -12,19 +12,19 @@ namespace D.Parsing.Tests
             var query = Parse<QueryExpression>(@"
 from Accounts
 where balance > 1000000
-select { id, balance }
+select (id, balance)
 orderby id ascending
 take 100
 ");
 
             Assert.Equal("Accounts", query.Collection.ToString());
 
-            var map = (ObjectInitializerSyntax)query.Map;
+            var map = (TupleExpressionSyntax)query.Map;
 
-            Assert.Equal(2, map.Properties.Length);
+            Assert.Equal(2, map.Size);
 
-            Assert.Equal("id",      map.Properties[0].Name);
-            Assert.Equal("balance", map.Properties[1].Name);
+            Assert.Equal("id",      ((Symbol)map.Elements[0]).Name);
+            Assert.Equal("balance", ((Symbol)map.Elements[1]).Name);
 
             Assert.Equal("id", query.OrderBy.Member.ToString());
             
@@ -54,12 +54,12 @@ orderby id descending
             var query = Parse<QueryExpression>(@"
 from place in Places
 where population > 1000 && kind == 3
-select { id, kind, population }
+select (id, kind, population)
 skip 25
 take 50
 ");
 
-            Assert.Equal(3, ((ObjectInitializerSyntax)query.Map).Properties.Length);
+            Assert.Equal(3, ((TupleExpressionSyntax)query.Map).Size);
 
             Assert.Equal(25, query.Skip);
             Assert.Equal(50, query.Take);
@@ -71,7 +71,7 @@ take 50
             var query = Parse<QueryExpression>(@"
 from city in Places
 where city is City && city.population > 1000
-select { id: city.id, population: city.population }
+select (id: city.id, population: city.population)
 ");
 
 

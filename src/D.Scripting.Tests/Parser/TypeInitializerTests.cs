@@ -10,17 +10,17 @@ namespace D.Parsing.Tests
         public void Nested()
         {
             var type = Parse<ObjectInitializerSyntax>(@"
-Account {
+Account(
   balance : 100,
   owner   : ""me"",
-  created : Date { year: 2000, month: 01, day: 01 }
-}
+  created : Date(year: 2000, month: 01, day: 01)
+)
 ");
 
             Assert.Equal("Account", type.Type);
-            Assert.Equal(3, type.Properties.Length);
+            Assert.Equal(3, type.Arguments.Length);
 
-            var dateObject = (ObjectInitializerSyntax)type.Properties[2].Value;
+            var dateObject = (ObjectInitializerSyntax)type.Arguments[2].Value;
 
             Assert.Equal("Date", dateObject.Type);
         }
@@ -28,19 +28,19 @@ Account {
         public void RootScoped()
         {
             var type = Parse<ObjectInitializerSyntax>(@"
-Point {
+Point(
   x: 1,
   y: 2,
   z: 3
-}");
+)");
             Assert.Equal("Point", type.Type.Name);
-            Assert.Equal(3, type.Properties.Length);
+            Assert.Equal(3, type.Arguments.Length);
         }
 
         [Fact]
         public void Let()
         {
-            var let = Parse<VariableDeclarationSyntax>("let zero = Point { x: 0, y: 0, z: 0 };");
+            var let = Parse<VariableDeclarationSyntax>("let zero = Point(x: 0, y: 0, z: 0);");
 
             var value = (ObjectInitializerSyntax)let.Value;
 
@@ -52,11 +52,11 @@ Point {
         {
             var ifS = Parse<IfStatementSyntax>(@"
 if 1 + 1 == 3 {
-  return Point {
+  return Point(
     x: 1 + 1,
     y: 2 * 1,
-    z: 3 / 1,
-  }
+    z: 3 / 1
+  )
 }");
 
             var r = (ReturnStatementSyntax)ifS.Body.Statements[0];
@@ -65,11 +65,11 @@ if 1 + 1 == 3 {
 
             Assert.Equal("Point", type.Type.Name);
 
-            Assert.Equal(3, type.Properties.Length);
+            Assert.Equal(3, type.Arguments.Length);
 
-            Assert.Equal("x", type.Properties[0].Name);
-            Assert.Equal("y", type.Properties[1].Name);
-            Assert.Equal("z", type.Properties[2].Name);
+            Assert.Equal("x", type.Arguments[0].Name);
+            Assert.Equal("y", type.Arguments[1].Name);
+            Assert.Equal("z", type.Arguments[2].Name);
         }
     }
 }

@@ -14,7 +14,7 @@
             
             var i = 0;
 
-            foreach (var member in type.Properties)
+            foreach (var member in type.Arguments)
             {
                 if (++i != 1) Emit(", ");
 

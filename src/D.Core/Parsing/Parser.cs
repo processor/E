@@ -121,8 +121,7 @@ namespace D.Parsing
                 case On                     : return ReadObserveStatement();            // on | observe
                 case From                   : return ReadQuery();                       // from x in Collection
 
-                case BracketOpen            : return ReadNewArray();                    // [
-                case BraceOpen              : return ReadNewObject(null);               // { 
+                case BracketOpen            : return ReadArrayInitializer();            // [
                 case DotDotDot              : return ReadSpread();                      // ... 
 
                 // case Exclamation         : return ReadUnary(Consume(Exclamation));   // !{expression}
@@ -175,7 +174,7 @@ namespace D.Parsing
 
             var map = ConsumeIf(Select)             // ? select
                 ? IsKind(BraceOpen)
-                    ? ReadNewObject(null)     // ? { record }
+                    ? ReadObjectInitializer(null)     // ? { record }
                     : ReadExpression()              // ? variable
                 : null;
 
@@ -760,7 +759,9 @@ namespace D.Parsing
 
             var flags = ConsumeIf("event") ? TypeFlags.Event : TypeFlags.None;
 
-            if (ConsumeIf(Record))    flags |= TypeFlags.Record;
+            if (ConsumeIf(Record)) flags |= TypeFlags.Record;
+            if (ConsumeIf(Struct)) flags |= TypeFlags.Struct;
+            if (ConsumeIf(Class))  flags |= TypeFlags.Class;
 
             // <T: Number>
             var genericParameters = ReadGenericParameters();
@@ -1401,44 +1402,111 @@ namespace D.Parsing
 
         #endregion
 
-        #region Literals
+        #region Initializers
 
-        // { a: 1, b: 2 }
-        // { a, b }
-        public ObjectInitializerSyntax ReadNewObject(TypeSymbol type)
+        // (a: 1, b: 2)
+        // (a, b)
+        public ObjectInitializerSyntax ReadObjectInitializer(TypeSymbol type)
         {
-            var members = new List<ObjectPropertySyntax>();
+            var args = ReadArguments();
+            
+            return new ObjectInitializerSyntax(type, args);
+        }
 
-            // EnterMode(Mode.Block); // ! {
+        public SyntaxNode ReadArrayInitializer()
+        {
+            Consume(BracketOpen); // [
 
-            Consume(BraceOpen);
-
-            while (!IsEof && !IsKind(BraceClose))
+            // Maybe symbol?
+            if (ConsumeIf(BracketClose))
             {
-                var name = ReadMemberSymbol();
-
-                var member = ConsumeIf(Colon)
-                    ? new ObjectPropertySyntax(name, value: ReadExpression())
-                    : new ObjectPropertySyntax(name);
-
-                members.Add(member);
-
-                ConsumeIf(Comma); // Allow trailing comma
+                return Symbol.Type("List", ReadTypeSymbol());
             }
 
-            Consume(BraceClose); // ! }
+            var rows = 0;
+            var stride = 0;
 
-            // LeaveMode(Mode.Block);
+            var elements = new List<SyntaxNode>();
 
-            return new ObjectInitializerSyntax(type, members.ToArray());
+            var elementKind = Kind.Object;
+            var uniform = true;
+
+            while (!IsEof && !IsKind(BracketClose))
+            {
+                var element = ReadPrimary();
+
+                #region Check for uniformity
+
+                if (uniform && element is ArrayInitializerSyntax nestedArray)
+                {
+                    if (rows == 0)
+                    {
+                        elementKind = nestedArray.Elements[0].Kind;
+                        stride = nestedArray.Elements.Length;
+                    }
+
+                    if (nestedArray.Elements.Length != stride)
+                    {
+                        uniform = false; // jagged
+                    }
+                    else
+                    {
+                        foreach (var a in nestedArray.Elements)
+                        {
+                            if (a.Kind != elementKind)
+                            {
+                                uniform = false;
+
+                                break;
+                            }
+                        }
+                    }
+
+                    rows++;
+                }
+
+                #endregion
+
+                elements.Add(element);
+
+                if (!ConsumeIf(Comma)) break;
+            }
+            // Note: Allows trailing comma
+
+            Consume(BracketClose); // ! ]
+
+            // [5] Type -> new List(capacity: 5)
+
+            /*
+            if (elements.Count == 1 && elements[0].Kind == Kind.NumberLiteral && IsKind(Identifier) && char.IsUpper(reader.Current.Text[0]))
+            {
+                var name = Symbol.Type("List", ReadSymbol(SymbolKind.Type));
+
+                return new CallExpressionSyntax(null, name, new[] { new ArgumentSyntax(elements[0]) });
+            }
+            */
+
+
+            int? s = null;
+
+            if (uniform && rows > 0)
+            {
+                s = stride;
+            }
+
+            return new ArrayInitializerSyntax(elements.Extract(), stride: s);
         }
+
+
+        #endregion
+
+        #region Literals
 
         // 1
         // 1_000
         // 1e100
         // 1.1
         // 1.1 Pa
-
 
         public SyntaxNode ReadNumber()
         {
@@ -1567,90 +1635,6 @@ namespace D.Parsing
             return new CharacterLiteralSyntax(text.Text[0]);
         }
 
-        public SyntaxNode ReadNewArray()
-        {
-            Consume(BracketOpen); // [
-
-            // Maybe symbol?
-            if (ConsumeIf(BracketClose))
-            {
-                return Symbol.Type("List", ReadTypeSymbol());
-            }
-
-            var rows = 0;
-            var stride = 0;
-
-            var elements = new List<SyntaxNode>();
-
-            var elementKind = Kind.Object;
-            var uniform = true;
-
-            while (!IsEof && !IsKind(BracketClose))
-            {
-                var element = ReadPrimary();
-
-                #region Check for uniformity
-
-                if (uniform && element is ArrayInitializerSyntax nestedArray)
-                {
-                    if (rows == 0)
-                    {
-                        elementKind = nestedArray.Elements[0].Kind;
-                        stride = nestedArray.Elements.Length;
-                    }
-
-                    if (nestedArray.Elements.Length != stride)
-                    {
-                        uniform = false; // jagged
-                    }
-                    else
-                    {
-                        foreach (var a in nestedArray.Elements)
-                        {
-                            if (a.Kind != elementKind)
-                            {
-                                uniform = false;
-
-                                break;
-                            }
-                        }
-                    }
-
-                    rows++;
-                }
-
-                #endregion
-
-                elements.Add(element);
-
-                if (!ConsumeIf(Comma)) break;
-            }            
-            // Note: Allows trailing comma
-
-            Consume(BracketClose); // ! ]
-
-            // [5] Type -> new List(capacity: 5)
-
-            /*
-            if (elements.Count == 1 && elements[0].Kind == Kind.NumberLiteral && IsKind(Identifier) && char.IsUpper(reader.Current.Text[0]))
-            {
-                var name = Symbol.Type("List", ReadSymbol(SymbolKind.Type));
-
-                return new CallExpressionSyntax(null, name, new[] { new ArgumentSyntax(elements[0]) });
-            }
-            */
-
-
-            int? s = null;
-
-            if (uniform && rows > 0)
-            {
-                s = stride;
-            }
-
-            return new ArrayInitializerSyntax(elements.Extract(), stride: s);
-        }
-
         // (a, b, c)
         // (a: Integer, b: String)
         public TupleExpressionSyntax ReadTuple()
@@ -1659,10 +1643,14 @@ namespace D.Parsing
 
             EnterMode(Mode.Parenthesis);
 
-            return FinishReadingTuple(ReadTupleElement());
+            var result = FinishReadingTuple(ReadTupleElement());
+
+            LeaveMode(Mode.Parenthesis);
+
+            return result;
         }
 
-        public TupleExpressionSyntax FinishReadingTuple(SyntaxNode first)
+        private TupleExpressionSyntax FinishReadingTuple(SyntaxNode first)
         {
             var elements = new List<SyntaxNode>();
 
@@ -1674,8 +1662,6 @@ namespace D.Parsing
             }
 
             Consume(ParenthesisClose); // ! )
-
-            LeaveMode(Mode.Parenthesis);
 
             return new TupleExpressionSyntax(elements.Extract());
         }
@@ -1690,7 +1676,7 @@ namespace D.Parsing
             {
                 if (first is Symbol name)
                 {
-                    var value = ReadPrimary();
+                    var value = ReadExpression();
 
                     return new NamedElementSyntax(name, value);
                 }
@@ -1897,16 +1883,26 @@ namespace D.Parsing
 
                 if (ConsumeIf(Colon)) // :
                 {
-                    var value = ReadTypeSymbol();
+                    EnterMode(Mode.Arguments);
+
+                    var value = ReadExpression();
 
                     var element = new NamedElementSyntax((Symbol)left, value);
 
-                    return FinishReadingTuple(element);
+                    var result = FinishReadingTuple(element);
+
+                    LeaveMode(Mode.Arguments);
+
+                    LeaveMode(Mode.Parenthesis);
+
+                    return result;
                 }
 
-                if (IsKind(Comma))
+                else if (IsKind(Comma))
                 {
                     left = FinishReadingTuple(left);
+
+                    LeaveMode(Mode.Parenthesis);
                 }
 
                 return left;
@@ -1947,7 +1943,7 @@ namespace D.Parsing
 
             if (left is Symbol name)
             {
-                if (IsKind(Comma) && InMode(Mode.Root))                     // ? ,
+                if (IsKind(Comma) && InMode(Mode.Root)) // ? ,
                 {
                     symbolList.Add(name);
 
@@ -1958,10 +1954,7 @@ namespace D.Parsing
                 }
 
                 switch (Current.Kind)
-                {
-                    case BraceOpen when InMode(Mode.Root) || InMode(Mode.Block): // {
-                        return ReadNewObject((TypeSymbol)name);
-      
+                {      
                     case Colon when InMode(Mode.Root):
                         return symbolList.Count > 0
                             ? (SyntaxNode)ReadCompoundTypeDeclaration(symbolList.Extract())
@@ -1973,6 +1966,8 @@ namespace D.Parsing
                     case Type   :
                     case Event  :
                     case Record :
+                    case Struct :
+                    case Class  :
                         return symbolList.Count > 0
                             ? (SyntaxNode)ReadCompoundTypeDeclaration(symbolList.Extract())
                             : ReadTypeDeclaration(name);  // type : hello
@@ -1996,8 +1991,8 @@ namespace D.Parsing
             var left = ReadPrimary();
 
             // Maybe member access
-            while (IsOneOf(Dot, BracketOpen, ParenthesisOpen)                         // . | [
-                || (IsKind(PipeForward) && !InMode(Mode.Arguments))) // |> 
+            while (IsOneOf(Dot, BracketOpen, ParenthesisOpen)       // . | [
+               || (IsKind(PipeForward) && !InMode(Mode.Arguments))) // |> 
             {
                 if (IsKind(PipeForward))
                 {
@@ -2011,7 +2006,14 @@ namespace D.Parsing
                 }
                 else if (IsKind(ParenthesisOpen))
                 {
-                    left = ReadCall(null, (Symbol)left);
+                    if (left is TypeSymbol type)
+                    {
+                        left = ReadObjectInitializer(type);
+                    }
+                    else
+                    {
+                        left = ReadCall(null, (Symbol)left);
+                    }
                 }
                 else if (ConsumeIf(BracketOpen)) // ? [
                 {
@@ -2100,7 +2102,7 @@ namespace D.Parsing
                         symbol = ReadMemberSymbol();
                     }
 
-                    if (InMode(Mode.Arguments) && IsKind(LambdaOperator))  // ? =>
+                    if (IsKind(LambdaOperator) && InMode(Mode.Arguments))  // ? =>
                     {
                         return ReadAnonymousFunctionDeclaration(symbol);
                     }
@@ -2108,7 +2110,7 @@ namespace D.Parsing
                     return symbol;
 
                 case Number          : depth = 0; return ReadNumber();
-                case BracketOpen     : depth = 0; return ReadNewArray();
+                case BracketOpen     : depth = 0; return ReadArrayInitializer();
 
                 case Quote           : depth = 0; return ReadStringLiteral();
 
@@ -2208,12 +2210,17 @@ namespace D.Parsing
             }
         }
 
-        public CallExpressionSyntax ReadCall(SyntaxNode callee) => 
-            ReadCall(callee, ReadFunctionSymbol());
+        public CallExpressionSyntax ReadCall(SyntaxNode callee)
+        {
+            return ReadCall(callee, ReadFunctionSymbol());
+        }
 
         // Question: Scope read if arg count is fixed ?
 
-        public CallExpressionSyntax ReadCall(SyntaxNode callee, Symbol functionName) => new CallExpressionSyntax(callee, functionName, ReadArguments());
+        public CallExpressionSyntax ReadCall(SyntaxNode callee, Symbol functionName)
+        {
+            return new CallExpressionSyntax(callee, functionName, ReadArguments());
+        }
 
         public void Dispose()
         {

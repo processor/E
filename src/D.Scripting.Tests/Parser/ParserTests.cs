@@ -15,7 +15,7 @@ namespace D.Parsing.Tests
 let a = 3;
 let b = (a, b);
 let c = (100, ""fox"");
-let d = { a: 1, b: 2, c: 3 };
+let d = (a: 1, b: 2, c: 3);
 let e = (a: 100, b: ""fox"");
 d.v = 15
 ").Enumerate().ToArray();

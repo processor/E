@@ -7,6 +7,43 @@ namespace D.Parsing.Tests
     public class TupleTests : TestBase
     {
         [Fact]
+        public void Complicated()
+        {
+            var tuple = Parse<TupleExpressionSyntax>(@"(
+                width: (columnGap * (columnCount - 1)) + (columnWidth * columnCount),
+                height: height
+            )");
+
+            var a = tuple.Elements[0] as NamedElementSyntax;
+            
+            var binary = a.Value as BinaryExpressionSyntax;
+
+            Assert.Equal("(columnGap * (columnCount - 1)) + (columnWidth * columnCount)", binary.ToString());
+        }
+
+        [Fact]
+        public void NestedParenthesis()
+        {
+            var tuple = Parse<TupleExpressionSyntax>(@"(
+                width  : (1 * 2),
+                height : height
+            )");
+
+            var a = tuple.Elements[0] as NamedElementSyntax;
+        }
+
+        [Fact]
+        public void NestedTuple()
+        {
+            var tuple = Parse<TupleExpressionSyntax>(@"(
+                width: (1, 2),
+                height: height
+            )");
+
+            var a = tuple.Elements[0] as NamedElementSyntax;
+        }
+
+        [Fact]
         public void ValueTuple()
         {
             var tuple = Parse<TupleExpressionSyntax>(@"(0, 100, ""a"")");

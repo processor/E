@@ -40,35 +40,35 @@ Point type {
 }
 
 Point<T> impl { 
-  from (x, y, z: T) => Point<T> { x, y, z }
-  from (x, y: T)    => Point<T> { x, y, z: 0 }
-  from (T)          => Point<T> { x: $0, y: $0, z: $0 }
+  from (x, y, z: T) => Point<T>(x, y, z)
+  from (x, y: T)    => Point<T>(x, y, z: 0)
+  from (T)          => Point<T>(x: $0, y: $0, z: $0)
     
   to String => $""{x},{y},{z}"";
 
-  negate () => Point<T> { 
-    x: -x
-    y: -y
-    z: -z 
-  }
+  negate () => Point<T>(
+    x: -x,
+    y: -y,
+    z: -z
+  )
 
-  floor () => Point<T> {
-    x: floor(x)
-    y: floor(y)
+  floor () => Point<T>(
+    x: floor(x),
+    y: floor(y),
     z: floor(z)
-  }
+  )
 
-  ceiling () => Point<T> {
-    x: ceiling(x)
-    y: ceiling(y)
+  ceiling () => Point<T>(
+    x: ceiling(x),
+    y: ceiling(y),
     z: ceiling(z)
-  }
+  )
 
-  round () => Point {
-    x: round(x)
-    y: round(y)
+  round () => Point(
+    x: round(x),
+    y: round(y),
     z: round(z)
-  }
+  )
 }
 ";
 
@@ -85,7 +85,7 @@ Point<T> impl {
             var bank = Parse<ImplementationDeclarationSyntax>(@"
 Point impl { 
   from (x: Number, y: Number, z: Number) {
-    let point = Point { x, y, z }
+    let point = Point(x, y, z)
     
     on point Changed change {
       log ""changed""
@@ -123,7 +123,7 @@ Bank impl {
   openAccount (account: Account) {
     log ""neat""
 
-    emit Account`Opened { name: ""fancy"" }
+    emit Account`Opened(name: ""fancy"")
   }
 
   close`Account (account: Account) {
@@ -143,17 +143,17 @@ Bank impl {
         {
             var a = Parse<ImplementationDeclarationSyntax>(@"
 Point impl { 
-  * (p: Point, v: Number)  => Point { x: p.x * v, y: p.y * v, z: p.z * v };
-  / (p: Point, v: Number)  => Point { x: p.x / v, y: p.y / v, z: p.z / v };
-  + (p1: Point, p2: Point) => Point { x: p1.x + p2.x, y: p1.y + p2.y, z: p1.z + p2.z };
-  - (p1: Point, p2: Point) => Point { x: p1.x - p2.x, y: p1.y - p2.y, z: p1.z - p2.z };
+  * (p: Point, v: Number)  => Point(x: p.x * v, y: p.y * v, z: p.z * v);
+  / (p: Point, v: Number)  => Point(x: p.x / v, y: p.y / v, z: p.z / v);
+  + (p1: Point, p2: Point) => Point(x: p1.x + p2.x, y: p1.y + p2.y, z: p1.z + p2.z);
+  - (p1: Point, p2: Point) => Point(x: p1.x - p2.x, y: p1.y - p2.y, z: p1.z - p2.z);
 }");
 
             Assert.Equal(4, a.Members.Length);
 
             var l = (LambdaExpressionSyntax)((FunctionDeclarationSyntax)a.Members[0]).Body;
 
-            Assert.Equal(3, ((ObjectInitializerSyntax)l.Expression).Properties.Length);
+            Assert.Equal(3, ((ObjectInitializerSyntax)l.Expression).Arguments.Length);
 
             foreach (var member in a.Members.OfType<FunctionDeclarationSyntax>())
             {
@@ -167,7 +167,7 @@ Point impl {
         {
             var a = Parse<ImplementationDeclarationSyntax>(@"
 A impl { 
-  zero   => Point { x: 1, y: 1, z: 1 }
+  zero   => Point(x: 1, y: 1, z: 1)
   string => ""neat""
   tuple  => (1, 1, 1)
 }");
@@ -191,7 +191,7 @@ A impl {
         {
             var i = Parse<ImplementationDeclarationSyntax>(@"
 A implementation { 
-   a => Point { x: p.x * v, y: p.y * v, z: p.z * v }
+   a => Point(x: p.x * v, y: p.y * v, z: p.z * v)
 }
 ");
 
@@ -201,7 +201,7 @@ A implementation {
 
             Assert.Equal("Point", t.Type.Name);
             Assert.True(f.IsProperty);
-            Assert.Equal(3, t.Properties.Length);
+            Assert.Equal(3, t.Arguments.Length);
         }
 
         [Fact]
@@ -286,11 +286,11 @@ Curve <T> implementation for Arc<T> {
 
     let angle = startAngle + t * deltaAngle
 
-    return Point<T> {
+    return Point<T>(
       x: x + xRadius * cos(angle),
       y: y + yRadius * sin(angle),
       z: 0
-    }
+    )
   }
 }");
 
