@@ -115,11 +115,11 @@ new Account(balance: 100, owner: ""me"", created: new Date(year: 2000, month: 1,
 
 Rewrite(@"
 
-Account {
+Account(
   balance : 100,
   owner   : ""me"",
-  created : Date { year: 2000, month: 01, day: 01 }
-}
+  created : Date(year: 2000, month: 01, day: 01)
+)
 
 "));
         }

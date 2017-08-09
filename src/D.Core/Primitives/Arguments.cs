@@ -64,6 +64,8 @@ namespace D
         public Symbol Name { get; }
 
         public IObject Value { get; }
+        
+        // NameIsImplict?
 
         public IObject this[int i]
             => i >= 0 ? Value : throw new ArgumentOutOfRangeException("Out of range");

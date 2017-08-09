@@ -63,7 +63,7 @@ public class Bezier : Curve
 
     public Vector3 C4 { get; }
 
-    Vector2 Curve.GetPoint(double t) => Vector2(c1.X * b1(t) + c2.X * b2(t) + c3.X * b3(t) + c4.X * c4(t), c1.Y * b1(t) + c2.Y * b2(t) + c3.Y * b3(t) + c4.Y * b4(t));
+    Vector2 Curve.GetPoint(double t) => new Vector2(x: c1.X * b1(t) + c2.X * b2(t) + c3.X * b3(t) + c4.X * c4(t), y: c1.Y * b1(t) + c2.Y * b2(t) + c3.Y * b3(t) + c4.Y * b4(t));
 
     private object B1(double t) => t * t * t;
 
@@ -162,11 +162,11 @@ public static Point<T> Clamp<T>(Point<T> p, Point<T> min, Point<T> max) => new P
 ".Trim(),
 
 Transpile(@"
-clamp ƒ <T> (p: Point<T>, min: Point<T>, max: Point<T>) => Point<T> {
+clamp ƒ <T> (p: Point<T>, min: Point<T>, max: Point<T>) => Point<T>(
   x: max(min.x, min(max.x, p.x)),
   y: max(min.y, min(max.y, p.y)),
   z: max(min.z, min(max.z, p.z))
-}
+)
 
 "));
         }
@@ -387,10 +387,10 @@ Transpile(@"
 Point type { x, y, z: Number }
 
 Point impl {
-  * (a: Point, b: Number) => Point { x: a.x * b,   y: a.y * b,   z: a.z * b };
-  / (a: Point, b: Number) => Point { x: a.x / b,   y: a.y / b,   z: a.z / b };
-  + (a: Point, b: Point)  => Point { x: a.x + b.x, y: a.y + b.y, z: a.z + b.z };
-  - (a: Point, b: Point)  => Point { x: a.x - b.x, y: a.y - b.y, z: a.z - b.z };
+  * (a: Point, b: Number) => Point(x: a.x * b,   y: a.y * b,   z: a.z * b);
+  / (a: Point, b: Number) => Point(x: a.x / b,   y: a.y / b,   z: a.z / b);
+  + (a: Point, b: Point)  => Point(x: a.x + b.x, y: a.y + b.y, z: a.z + b.z);
+  - (a: Point, b: Point)  => Point(x: a.x - b.x, y: a.y - b.y, z: a.z - b.z);
 }
 "));
         }
@@ -415,10 +415,10 @@ Transpile(@"
 Point type { }
 
 Point impl {
-  * (a: Point, b: Number)  => Point { x: a.x * b, y: a.y * b, z: a.z * b };
-  / (a: Point, b: Number)  => Point { x: a.x / b, y: a.y / b, z: a.z / b };
-  + (p1: Point, p2: Point) => Point { x: p1.x + p2.x, y: p1.y + p2.y, z: p1.z + p2.z };
-  - (p1: Point, p2: Point) => Point { x: p1.x - p2.x, y: p1.y - p2.y, z: p1.z - p2.z };
+  * (a: Point, b: Number)  => Point(x: a.x * b, y: a.y * b, z: a.z * b);
+  / (a: Point, b: Number)  => Point(x: a.x / b, y: a.y / b, z: a.z / b);
+  + (p1: Point, p2: Point) => Point(x: p1.x + p2.x, y: p1.y + p2.y, z: p1.z + p2.z);
+  - (p1: Point, p2: Point) => Point(x: p1.x - p2.x, y: p1.y - p2.y, z: p1.z - p2.z);
 }
 
 "));
@@ -573,8 +573,8 @@ Point type {
 }
 
 Point impl {
-  from (x: Float, y: Float) => Point { x, y, z: 0 };
-  from (v: Float)           => Point { x: v, y: v, z: v };
+  from (x: Float, y: Float) => Point(x, y, z: 0)
+  from (v: Float)           => Point(x: v, y: v, z: v)
  
   length => x + y + z;
 }
@@ -595,8 +595,8 @@ Point type {
 }
 
 Point impl {
-  from (x, y) => Point { x, y, z: 0 };
-  from v      => Point { x: v, y: v, z: v };
+  from (x, y) => Point(x, y, z: 0);
+  from v      => Point(x: v, y: v, z: v);
 }
 ");
 
@@ -617,11 +617,11 @@ Point impl {
             Assert.Equal(
 @"public static Point<T> Negate<T>(Point<T> value) => new Point<T>(x: -value.X, y: -value.Y, z: -value.Z);",
 Transpile(
-@"negate ƒ <T> (value: Point<T>) => Point<T> { 
+@"negate ƒ <T> (value: Point<T>) => Point<T>(
   x: - value.x, 
   y: - value.y, 
   z: - value.z 
-}"));
+)"));
         }
 
         public static Module CompileModule(string source)

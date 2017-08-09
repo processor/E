@@ -33,14 +33,14 @@ inverse ƒ -> Matrix<T> {
         public void Elements()
         {
             var func = Parse<FunctionDeclarationSyntax>(@"
-fromTranslation ƒ <T: Number>(x: T, y: T, z: T) => Matrix4<T> {
+fromTranslation ƒ <T: Number>(x: T, y: T, z: T) => Matrix4<T>(
   elements: [
     1, 0, 0, x,
     0, 1, 0, y,
     0, 0, 1, z,
     0, 0, 0, 1
   ]
-}");
+)");
 
             // var f = compiler.VisitFunction(func);
 
@@ -52,7 +52,7 @@ fromTranslation ƒ <T: Number>(x: T, y: T, z: T) => Matrix4<T> {
             
             // Assert.Equal("Matrix4", func.ReturnType.Name);
 
-            var elements = ((ObjectInitializerSyntax)((LambdaExpressionSyntax)func.Body).Expression).Properties[0];
+            var elements = ((ObjectInitializerSyntax)((LambdaExpressionSyntax)func.Body).Expression).Arguments[0];
             var array    = (ArrayInitializerSyntax)elements.Value;
 
             Assert.Equal(16  , array.Elements.Length);
@@ -63,7 +63,7 @@ fromTranslation ƒ <T: Number>(x: T, y: T, z: T) => Matrix4<T> {
         [Fact]
         public void Constructor()
         {
-            var func = Parse<FunctionDeclarationSyntax>("Point ƒ <T: Number>(x: T, y: T, z: T) => Point<T> { x, y, z }");
+            var func = Parse<FunctionDeclarationSyntax>("Point ƒ <T: Number>(x: T, y: T, z: T) => Point<T>(x, y, z)");
 
             Assert.Equal("Point", func.Name);
 
@@ -86,13 +86,9 @@ fromTranslation ƒ <T: Number>(x: T, y: T, z: T) => Matrix4<T> {
             Assert.Equal("Point", newObject.Type.Name);
             Assert.Equal("T",     newObject.Type.Arguments[0].Name);
 
-            Assert.Equal("x", newObject.Properties[0].Name);
-            Assert.Equal("y", newObject.Properties[1].Name);
-            Assert.Equal("z", newObject.Properties[2].Name);
-
-            foreach (var member in newObject.Properties)
+            foreach (var member in newObject.Arguments)
             {
-                Assert.True(member.Implict);
+                Assert.True(member.Value != null);
             }
         }
 

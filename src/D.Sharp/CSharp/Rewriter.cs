@@ -57,8 +57,8 @@ namespace D.Compilation
             }
         }
 
-        public static string ToPascalCase(string text)
-            => text.Substring(0, 1).ToUpper() + text.Substring(1);
+        public static string ToPascalCase(string text) => 
+            text.Substring(0, 1).ToUpper() + text.Substring(1);
 
         public override IExpression VisitSymbol(Symbol symbol)
         {

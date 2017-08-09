@@ -266,13 +266,21 @@ namespace D
 
         public virtual ObjectInitializer VisitObjectInitializer(ObjectInitializerSyntax syntax)
         {
-            var members = new ObjectMember[syntax.Properties.Length];
+            var members = new Argument[syntax.Arguments.Length];
 
             for (var i = 0; i < members.Length; i++)
             {
-                var m = syntax.Properties[i];
+                var m = syntax.Arguments[i];
 
-                members[i] = new ObjectMember(m.Name, Visit(m.Value)); 
+                Symbol name = m.Name;
+
+                // Infer the name from the value symbol
+                if (name == null && m.Value is Symbol valueName)
+                {
+                    name = valueName;
+                }
+
+                members[i] = new Argument(name, Visit(m.Value)); 
             }
 
             return new ObjectInitializer(syntax.Type, members);
