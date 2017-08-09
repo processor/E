@@ -11,12 +11,10 @@ Mouse protocol {
   press (Button)   -> Mouse `Pressed 
 }
 
-  Left   `Button,
-, Middle `Button,
+  Left   `Button
+, Middle `Button :
 , Right  `Button :
-: Mouse  `Button type {
-
-}
+: Mouse  `Button : Mouse `Button class { }
 
 Mouse`Clicked event {
   // start

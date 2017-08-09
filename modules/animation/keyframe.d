@@ -1,9 +1,9 @@
-Keyframe type { 
+Keyframe struct { 
   properties: [ Property ]
 }
 
 // element.opacity 0 1
 
-Property type  {
+Property struct  {
   name: String
 }

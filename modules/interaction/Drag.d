@@ -1,4 +1,4 @@
-Drag type { 
+Drag struct { 
   element  : Element
   position : Vector2
 }

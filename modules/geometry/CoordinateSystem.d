@@ -2,7 +2,7 @@ Coordinate `System protocol {
 
 }
 
-Number `Line                  type { } 
-Cartesian `Coordinate `System type { }
-Polar `Coordinate `System     type { }
-Coordinate `System            type { }
+Number `Line                  class : Coordinate `System { } 
+Cartesian `Coordinate `System class : Coordinate `System { }
+Polar `Coordinate `System     class : Coordinate `System { }
+Coordinate `System            class : Coordinate `System { }

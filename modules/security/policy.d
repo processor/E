@@ -22,9 +22,9 @@ allow (
   where    : time in "jp/toyko" > 5pm
 }
 
-// get, read, write:  verb;
+// get, read, write: verb
 
-type Permissions = read | write
+Permissions enum = read | write
 
 // Time as a Channel
 */

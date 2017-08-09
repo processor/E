@@ -1,13 +1,5 @@
-Heading type : Element { 
-  level: Number
-}
+Heading class : Element {  
+  level: i32 // ∈ 1..6 
 
-Heading protocol { 
-  // level ∈ 1..6 
-}
-
-Heading impl {
   from (String) => ...
-  
-  level => level
 }

@@ -1,4 +1,4 @@
-Network `Interface type {
+Network `Interface class {
 
   
 }

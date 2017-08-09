@@ -1,6 +1,6 @@
 ﻿module "Finance"
 
-use commerce:Money
+import Money from Commerce
 
 Instrument record { 
   holder: Entity

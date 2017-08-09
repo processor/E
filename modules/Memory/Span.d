@@ -1,3 +1,3 @@
-Span<T> type {
+Span<T> struct {
   
 }

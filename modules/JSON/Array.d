@@ -1,3 +1,3 @@
-JSON` Array type {
+JSON` Array class {
 
 }

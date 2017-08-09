@@ -1,4 +1,4 @@
-Response type {
+Response class {
 
   
 }

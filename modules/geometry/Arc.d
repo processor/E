@@ -1,4 +1,4 @@
-Arc type { 
+Arc struct { 
   x            : Number            // circle center x
   y            : Number            // circle center y
   x `Radius    : Number            // circle radius x

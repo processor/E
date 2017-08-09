@@ -1,9 +1,9 @@
-Element type {
+Element class {
   atomic `Number : i16
   block          : Element` Block
   phase          : String
 }
 
-Element` Block type {
+Element` Block class {
   name: string
 }

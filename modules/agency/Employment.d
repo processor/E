@@ -8,7 +8,7 @@ Employment protocol {
   level     -> Employment `Level
   position  -> Employment `Position
   sallary   -> (amount: Money, interval: Interval)  
-  terms     -> [ Legal::Term ] // * Employment Terms */ CREATE TABLE k100452345 (m1 key long, m2 key long);
+  terms     -> [ Legal::Term ] // * Employment Terms */ CREATE TABLE k100452345 (m1 key long, m2 key long)
 
   retire    () -> Retirement
   leave     () -> Employment `Termination

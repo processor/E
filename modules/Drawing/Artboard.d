@@ -1,4 +1,4 @@
-Artboard type {   
+Artboard class {   
   width     : Length
   height    : Length
    

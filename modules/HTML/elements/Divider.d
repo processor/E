@@ -1,4 +1,4 @@
-Divider type : Block {
+Divider class : Block {
 
   
 }

@@ -1,3 +1,3 @@
-Font type { 
+Font struct { 
 
 }

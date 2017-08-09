@@ -1,20 +1,16 @@
 import * from Geometry
 
-Pointer type { 
-
-}
-
-Mouse type : Pointer { }
-Pen   type : Pointer { }
-Touch type : Pointer { }
-
-Pointer protocol {
+Pointer protocol { 
   * move ↺ : moving
   * stop   ∎ 
 }
 
-Pointer `Pressed : Pointer `Event { 
-  geometry: Geometry            // the geometry 
+Mouse class : Pointer { }
+Pen   class : Pointer { }
+Touch class : Pointer { }
+
+Pointer `Pressed class : Pointer `Event { 
+  geometry : Geometry            // the geometry 
   position : Vector2            // the center of the contact
   pressure : physics:Pressure
   rotation : geometry:Angle
@@ -38,7 +34,6 @@ Pointer `Pressure event {
 Pointer `Released event {
 
 }
-
 
 Pointer `Moved event {
   position : Vector2

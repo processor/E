@@ -1,3 +1,3 @@
-Identity type {
+Identity struct {
   
 }

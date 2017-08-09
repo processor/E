@@ -1,3 +1,3 @@
-Polyhedron type { 
+Polyhedron struct { 
   
 }

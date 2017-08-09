@@ -1,3 +1,3 @@
-Path type { 
+Path struct { 
   // rules...
 }

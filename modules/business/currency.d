@@ -1,4 +1,4 @@
-Money type { 
+Money struct { 
   amount: Decimal
 }
 

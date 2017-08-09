@@ -1,4 +1,4 @@
-Header type : Block { 
+Header class : Block { 
  
 
 }

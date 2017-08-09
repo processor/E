@@ -1,6 +1,6 @@
 Volume record { 
-  total    _bytes : i64 > 0,
-  available_bytes : i64 ≥ 0 | ∞
+  total     `Bytes : i64 > 0,
+  available `Bytes : i64 ≥ 0 | ∞
 }
 
 Volume protocol {

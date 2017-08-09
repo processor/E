@@ -1,8 +1,6 @@
-Matrix4x4<T> type {
+Matrix4x4<T> struct {
   elements: [ Number ] // 4x4 = 16 elements
-}
 
-Matrix4x4<T> impl {
   [ index: i64 ] => elements[index]
   [ row: i64, column: i64 ] => elements[((row - 1) * 4) + (index - 1)]
 
@@ -57,7 +55,7 @@ Matrix4x4<T> impl {
     els[14] = (m14 * m22 * m31 - m12 * m24 * m31 - m14 * m21 * m32 + m11 * m24 * m32 + m12 * m21 * m34 - m11 * m22 * m34) * detInv
     els[15] = (m12 * m23 * m31 - m13 * m22 * m31 + m13 * m21 * m32 - m11 * m23 * m32 - m12 * m21 * m33 + m11 * m22 * m33) * detInv
 
-    return Matrix4<T> { elements: els }
+    return Matrix4<T>(elements: els)
   }
 
   fromScale (x: T, y: T, z: Number) => Matrix4<T> {

@@ -1,6 +1,4 @@
-﻿using commerce
-
-type Line = Sale | Adjustment | Fee | Service
+﻿Line enum = Sale | Adjustment | Fee | Service
 
 Invoice record {
   amount :   Money
@@ -39,7 +37,7 @@ Bill event {
 Invoice `Closure event { } 
 Invoice `Abandonment event { } 
 
-Invoice `Adjustment type {
+Invoice `Adjustment struct {
   description : String
   amount      : Money
 }

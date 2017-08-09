@@ -1,4 +1,4 @@
-Figure type : Inline { 
+Figure class : Inline { 
  
 
 }

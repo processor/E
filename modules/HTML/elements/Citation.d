@@ -1,3 +1,3 @@
-Citation type : Element { 
+Citation class : Element { 
 
 }

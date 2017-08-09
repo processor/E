@@ -1,15 +1,13 @@
-Gallery type : Block {
-  current : Slide
-  slides  : [ Slide ]
-}
-
-Slide type {
+Slide class {
   index            : Int32
-  mutable previous : Gallary_Slide
-  mutable next     : Gallary_Slide
+  mutable previous : Slide
+  mutable next     : Slide
 }
 
-Gallery impl {
+Gallery class : Block {
+  current :   Slide
+  slides  : [ Slide ]
+
   from (medias: [ Media ]) {
     let slides = [ Slide ]
     
@@ -38,7 +36,7 @@ Gallery impl {
       index += 1
     }
 
-    return Gallery { slides, current: slides[0] }
+    return Gallery(slides, current: slides[0])
   }
   
   view (index: i64) {

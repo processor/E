@@ -1,8 +1,6 @@
-Quaternion type {
+Quaternion struct {
   w, x, y, z: Number
-}
 
-Quaternion impl {
   dot (v: Quaternion) => x * v.x + y * v.y + z * v.z + w * v.w
   
   length => sqrt(x * x + y * y + z * z + w * w)
@@ -14,12 +12,12 @@ Quaternion impl {
 
     let inN = 1.0 / sqrt(ls)
 
-    return Quaternion { 
+    return Quaternion(
       x: x * inN
       y: y * inN
       z: z * inN
       w: w * inN
-    }
+    )
   }
 
   dot (rhs: Quaternion<T> rhs) => 
@@ -32,28 +30,28 @@ Quaternion impl {
     let ls = x * x + y * y + z * z + w * w
     let invNorm = 1.0 / ls
 
-    return Quaternion { 
+    return Quaternion(
       x: -x * invNorm;
       y: -y * invNorm;
       z: -z * invNorm;
       w: w * invNorm;
-    }
+    )
   }
 
-  conjugate => Quaternion { 
+  conjugate => Quaternion(
     x: -x
     y: -y
     z: -z
     w: w
-  }
+  )
 
   // *
-  multiplyBy (b: Quaternion) => Quaternion { 
+  multiplyBy (b: Quaternion) => Quaternion(
     x: this.x * b.w + this.w * b.x + this.y * b.z - this.z * b.y,
 		y: this.y * b.w + this.w * b.y + this.z * b.x - this.x * b.z,
 		z: this.z * b.w + this.w * b.z + this.x * b.y - this.y * b.x,
 		w: this.w * b.w - this.x * b.x - this.y * b.y - this.z * b.z
-  }
+  )
 
 
   // spherical linear interpolation
@@ -87,12 +85,11 @@ Quaternion impl {
         :   sin(t * omega) * invSinOmega
     }
 
-    return Quaternion {
+    return Quaternion(
       x: s1 * this.x + s2 * rhs.x
       y: s1 * this.y + s2 * rhs.y
       z: s1 * this.z + s2 * rhs.z
       w: s1 * this.w + s2 * rhs.w
-    }
-
+    )
   }
 }

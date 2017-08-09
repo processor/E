@@ -1,9 +1,7 @@
-Masonary `Layout type {
+Masonary `Layout class {
   gap     :   f32
   columns : [ Box ]
-}
 
-Masonary `Layout impl {
   from (columnCount: i32, columnWidth: f32, gap: f32 = 10) {
     let mutable left = 0
     

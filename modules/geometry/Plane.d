@@ -1,10 +1,7 @@
-Plane type {
+Plane struct : Clonable {
   normal : Vector3
   d      : Number  // sometimes known as w
-}
 
-// : Clonable
-Plane impl {
   from(normal: Vector3, d: Number) => Plane { normal, d }
 
   // from Points

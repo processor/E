@@ -1,4 +1,4 @@
-Size<T:Number> type {
+Size struct {
   width  : Number
   height : Number
 }

@@ -1,4 +1,4 @@
-Trademark type {
+Trademark class {
   term   : String
   issued : DateTime
 }

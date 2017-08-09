@@ -1,13 +1,11 @@
 // URI: Uniform Resource Identifier
 // URL: Uniform Resource Locator
 
-URI type {
+URI struct {
   protocol : String
   host     : String
   port     : Int16
   path     : String
-}
 
-URI impl { 
   to String => $"{protocol}://{host}/{path}"
 }

@@ -19,7 +19,7 @@ Channel protocol {
 
 Seekable_Channel = Channel & Seekable
 
-Channel `Status type = Closed | Connected | Terminated | ∎;
+Channel `Status enum = Closed | Connected | Terminated | ∎
 
 ReadableChannel protocol {
   available : i64 >= 0
@@ -33,7 +33,7 @@ WriteableChannel protocol {
   async write ƒ(message: Message) -> OK | Awaiter | Closed
 }
 
-Channel`Awaiter protocol for T { 
+Channel`Awaiter<T> protocol { 
   reason : NoMessages | Throttled
   result : T
   ready  : event

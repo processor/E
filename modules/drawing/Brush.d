@@ -1,4 +1,4 @@
-Brush type { 
+Brush class { 
   thickness : Number
   color     : Color
 }

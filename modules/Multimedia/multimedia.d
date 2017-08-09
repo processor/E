@@ -1,13 +1,13 @@
-Multimedia `Container type { 
+Multimedia `Container class { 
   streams: [ Multimedia `Stream ]
 }
 
-Multimedia `Stream type {
+Multimedia `Stream class {
   
 }
 
-Audio `Stream type { 
+Audio `Stream class { 
   channels: [ any ]
 } 
 
-Video `Stream type { } 
+Video `Stream class { } 

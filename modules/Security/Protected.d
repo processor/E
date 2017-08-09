@@ -4,7 +4,7 @@ Protected<T> protocol {
 
 // An encrypted record...
 
-Protected<T> type {
+Protected<T> struct {
   value  : T 
   policy : Policy
 }

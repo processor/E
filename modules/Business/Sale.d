@@ -4,7 +4,7 @@ Sale protocol {
 
   amount = price * quantity
 
-  tax () -> Sales `Tax       // called by tax authority at the point of sale
+  tax () -> Sales `Tax  // called by tax authority at the point of sale
 }
 
 Sale event {

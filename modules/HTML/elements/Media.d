@@ -1,5 +1,5 @@
 Media<T> : Inline { 
-  blob: T
+  stream: T
 }
 
 Media<T: Audio | Video> protocol { 
@@ -23,6 +23,6 @@ Media<T: Audio | Video> protocol {
   end   () -> Ended
 }
 
-Audio type : Media<OPUS|MP3>                { }
-Video type : Media<WEBM | H264 | H265>      { }
-Image type : Media<JPEG | GIF | PNG | WEBP> { }
+Audio class : Media<T: OPUS | MP3>              { }
+Video class : Media<T: WEBM | H264 | H265>      { }
+Image class : Media<T: JPEG | GIF | PNG | WEBP> { }

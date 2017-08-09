@@ -1,4 +1,4 @@
-Complex type {
+Complex struct {
   real      : Number
   imaginary : Number
 }

@@ -1,7 +1,3 @@
-Keyboard `Key type { 
-  code: Int32
-}
-
 Keyboard protocol {
   * attach    : attached
   * | press  
@@ -14,6 +10,10 @@ Keyboard protocol {
 
   depressed -> [ Keyboard `Key ]
   capturing ->   Element
+}
+
+Keyboard `Key struct { 
+  code: Int32
 }
 
 Key `Down event { 

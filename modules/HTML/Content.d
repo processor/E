@@ -2,6 +2,6 @@ Content type {
   text: String
 }
 
-Content impl for Node {  
-  children => [Node] { }
+Node impl for Content {  
+  children => Array<Node>.Empty
 }

@@ -1,17 +1,13 @@
-Table type : Block { }    // <table />  
-
-Row type : Block { }      // <row />      
-
-Column type : Flex { }    // <column />
-
 Table protocol { 
   rows -> [ Row ]
 }
 
-Row protocol { 
+Table class : Block { }    // <table />  
+
+ // <row />
+Row class : Block {
   columns : [ Column ]
-}
+}           
 
-Column protocol { 
-
-}
+ // <column />
+Column class : Flex { }

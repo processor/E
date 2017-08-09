@@ -1,4 +1,4 @@
-Duration type {
+Duration struct {
   from (Milliseconds) {
 
   }

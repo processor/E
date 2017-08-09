@@ -1,3 +1,3 @@
-Year type { 
+Year struct { 
   value: Number
 }

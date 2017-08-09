@@ -4,7 +4,6 @@
 
 Check : Payment `Method
 
-
 Check protocol {
   signature -> Signature
   deposit   -> Deposit
@@ -23,16 +22,15 @@ Payment `Authorization event {
   expires   : DateTime
 }
 
-Digital`Signature record {
+Digital `Signature record {
   data   : Blob
   device : Payment`Device
 }
 
-Drawn`Signature record {
+Drawn `Signature record {
   image: Image
 }
 
-
 Card `Chip record : Signing`Device {
 
-};
+}

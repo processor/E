@@ -1,3 +1,3 @@
-Glyph type : Graphic { 
+Glyph class : Graphic { 
 
 }

@@ -1,7 +1,1 @@
-Paragraph type : Block { }
-
-
-Paragraph impl { 
-
-  
-}
+Paragraph class : Block { }

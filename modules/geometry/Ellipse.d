@@ -1,4 +1,4 @@
-Ellipse type { 
+Ellipse struct { 
 
 
 }

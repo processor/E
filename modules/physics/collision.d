@@ -1,3 +1,3 @@
-Collision type { 
+Collision struct { 
 
 }

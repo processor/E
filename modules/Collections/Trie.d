@@ -1,9 +1,5 @@
-Trie<T> type {
+Trie class {
   root: Node<T>
 
   contains(T) -> Boolean
-}
-
-Trie impl {
-
 }

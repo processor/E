@@ -6,8 +6,7 @@ Certificate protocol {
   revoke() : Revocation
 }
 
-Certificate type {
-
+Certificate class {
   issued  : DateTime
   revoked : DateTime
 }

@@ -1,6 +1,6 @@
-Diagnostic type {
+Diagnostic struct {
   message: String
 }
 
-Warning type : Diagnostic { }
-Error   type : Diagnostic { }
+Warning struct : Diagnostic { }
+Error   struct : Diagnostic { }

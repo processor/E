@@ -1,4 +1,4 @@
-Bezier type { 
+Bezier struct { 
   c1: Vector3 // anchor point coordinates
   c2: Vector3 // first control point
   c3: Vector3 // second control point

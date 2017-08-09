@@ -1,4 +1,4 @@
-Hash impl {
+Hash class {
 
 
 }

@@ -1,8 +1,8 @@
-Bucket type {
-   account : Amazon `Account
-   grants  : [ Grant ]
-}
-
 Bucket protocol {
   list(prefix: String) -> [ Object ]
+}
+
+Bucket record {
+   account : Amazon `Account
+   grants  : [ Grant ]
 }

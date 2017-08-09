@@ -1,3 +1,3 @@
-Tension type {
+Tension struct {
   
 }

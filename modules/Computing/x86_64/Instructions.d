@@ -1,4 +1,4 @@
-﻿type Words =
+﻿Words enum =
 | byte		// 1
 | word   	// 2
 | dword		// 4
@@ -12,7 +12,7 @@
 | qqword	// 32
 | yword	  // 32
 
-type Registers =
+Registers enum =
 | al | cl | dl | bl | ah | ch | dh | bh					          // 8bit
 | ax | cx | dx | bx | sp | bp | si | di					          // 16bit
 | eax | ecx | edx | ebx | esp | ebp | esi | edi			      // 32bit
@@ -24,7 +24,7 @@ type Registers =
 | xmm0 | xmm1 | xmm2 | xmm3	| xmm4 | xmm5 | xmm6 | xmm7   // SSE 128
 | ymm0 | ymm1 | ymm2 | ymm3 | ymm4 | ymm5 | ymm6 | ymm7   // AVX 256
 
-type Instructions =
+Instructions enum =
 | AAA             // ASCII Adjust After Addition
 | AAD             // ASCII Adjust AX Before Division
 | AAM				      // ASCII Adjust AX After Multiply

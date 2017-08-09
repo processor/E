@@ -1,4 +1,4 @@
-Processor type {
+Processor class {
   frequency    :   Number
   instructions : [ Instruction ]
 }

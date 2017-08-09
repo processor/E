@@ -1,8 +1,6 @@
-Cuboid type {
+Cuboid struct {   
   polygons: [ Polygon ]
-}
 
-Cuboid impl {   
   let definition = [
       // faces       normals (aka direction)
       [ [ 0, 4, 6, 2 ], [ -1,  0,  0 ] ],       
@@ -38,6 +36,6 @@ Cuboid impl {
 
 
 Cuboid impl for Geometry {
-  vertices { }
-  faces    { }
+  vertices -> null
+  faces    -> null
 }

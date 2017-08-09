@@ -1,9 +1,7 @@
-Vertex type { 
+Vertex struct {
   position : Vector3
   normal   : Vector3 // aka direction
-}
 
-Vertex impl {
   from (position: Vector3)                  => Vertex { position: normal: Vector3(0) }
   from (position: Vector3, normal: Vector3) => Vertex { position, normal }
 

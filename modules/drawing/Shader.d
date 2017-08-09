@@ -1,3 +1,5 @@
-  Geometry `Shader,
-  Vertex `Shader 
-: Shader type { }
+Shader class { }
+
+
+Geometry `Shader class : Shader
+Vertex   `Shader class : Shader

@@ -4,12 +4,10 @@ Ellipsoid protocol {
   eccentricity : Number
 }
 
-Ellipsoid type { 
+Ellipsoid struct { 
   majorAxis    : Number
   minorAxis    : Number
   eccentricity : Number
-}
 
-Ellipsoid impl {
   volume => 0
 }

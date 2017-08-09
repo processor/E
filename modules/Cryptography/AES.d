@@ -1,4 +1,4 @@
-AES implementation : Algorithm {
+AES class : Algorithm {
   encrypt() {
 
   }

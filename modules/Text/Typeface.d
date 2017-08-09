@@ -1,9 +1,5 @@
-Typeface type { }
+Typeface class { }
 
 
-Arial,
-Helvetica 
-type : Typeface {
-
-}
-
+Arial class     : Typeface
+Helvetica class : Typeface

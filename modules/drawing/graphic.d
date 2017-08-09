@@ -1,5 +1,5 @@
 ﻿// <graphic />
 
-Graphic type { 
+Graphic class { 
 
 }

@@ -11,7 +11,10 @@ let AtomicMassUnit    = 1.66053886e-27
 // ~ accelatte 1kg mass 1 m/s though 1m of space
 // ~ electricity required to light 1 watt LED for 1s
       
-Joule unit : Energy { symbol: "J", value: 1 }
+Joule unit : Energy { 
+  symbol : "J"
+  value  : 1 
+}
 
 Calorie unit : Energy {
 

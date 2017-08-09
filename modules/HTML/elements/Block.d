@@ -1,8 +1,8 @@
-Block type : Element {
+Block class : Element {
 
 }
 
-Inline type : Element {
+Inline class : Element {
 
   
 }

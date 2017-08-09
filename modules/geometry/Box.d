@@ -1,11 +1,9 @@
-Box type { 
+Box struct { 
   center : Point
   width  : Number
   height : Number
   length : Number 
-}
 
-Box impl { 
   from (width, height, length: Number) => Box { width, height, length }
 }
 

@@ -1,5 +1,3 @@
-Organism type : Entity { }
-
 Organism protocol {
   * born
   * action ↺ : acting
@@ -20,5 +18,7 @@ Organism protocol {
 	  // some code that runs at death
   }
 }
+
+Organism class : Entity { }
 
 Dog => Canine

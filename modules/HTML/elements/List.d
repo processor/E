@@ -1,4 +1,4 @@
-List type : Block {
+List class : Block {
 
   
 }

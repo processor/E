@@ -1,5 +1,5 @@
 // <Quote />
 
-Quote type : Element { 
+Quote class : Element { 
 
 }

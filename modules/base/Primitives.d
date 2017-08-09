@@ -30,3 +30,5 @@ Decimal128  type @primitive @size(16)
 Vector128   type @primitive @size(16)
 Vector256   type @primitive @size(32)
 Vector512   type @primitive @size(64)
+
+UUID        type @primitive @size(16)

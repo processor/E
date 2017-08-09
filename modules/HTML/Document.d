@@ -1,18 +1,18 @@
 ﻿Root, Barren term; 
 
-Content type { 
+Content class { 
   text: String 
 }
 
-Parentable type of T  { 
+Parentable<T> protocol  { 
   children : [ T ]
 }
 
-Document type : Parentable<Element> {
+Document class : Element, Parentable<Element> {
   title: String
 }
 
-Node = Element | Content;
+Node enum = Element | Content;
 
   Added<T>
 , Wrapped<T>

@@ -21,7 +21,6 @@ Organization protocol {
   }
 }
 
-  Partnership type,   
-  Corporation type,     // e.g. Microsoft, Inc
-  Institution type,   
-: Organization;
+Partnership class : Organization   
+Corporation class : Organization     // e.g. Microsoft, Inc
+Institution class : Organization

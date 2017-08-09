@@ -1,5 +1,5 @@
-Coordinates type {  
-  latitude	 : Latitude
-  longitude	 : Longitude
+Coordinates struct {  
+  latitude	 : Number
+  longitude	 : Number
   altitude	 : Altitude?
 }

@@ -1,7 +1,4 @@
-Rectangle type {
+Rectangle<T> struct {
   height : T
-}
-
-Square protocol {
-  width = height
+  width  : T
 }

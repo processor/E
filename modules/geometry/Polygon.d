@@ -1,10 +1,5 @@
-Polygon type { 
+Polygon struct {
   vertices: [ Vertex ]
-}
-
-Polygon impl {
-
-  
 }
 
 // must be coplanar & form a convex loop

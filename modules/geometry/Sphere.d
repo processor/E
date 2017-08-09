@@ -1,8 +1,4 @@
-Sphere type { 
+Sphere struct { 
   center : Point
   radius : Number
-}
-
-Sphere impl {
-
 }

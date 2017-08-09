@@ -1,3 +1,3 @@
-Buffer<T> type {
+Buffer<T> class {
 
 }

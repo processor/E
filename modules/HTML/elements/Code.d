@@ -1,4 +1,4 @@
-Code type : Block {
+Code class : Block {
 
   
 }

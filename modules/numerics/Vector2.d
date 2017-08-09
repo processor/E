@@ -1,9 +1,7 @@
-Vector2 type { 
+Vector2 struct {
   x, y: Number
-}
 
-Vector2 impl {
-  from (x, y) => Vector2 { x, y }
+  from (x, y) => Vector2(x, y)
 }
 
 Vector2 impl for Vector {

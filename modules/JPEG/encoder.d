@@ -117,7 +117,7 @@ let UNZIGZAG = Array<u8> {
     53, 60, 61, 54, 47, 55, 62, 63,
 }
 
-JPEGComponent type {
+JPEGComponent struct {
     id      : u8,
     h       : u8, // Horizontal sample factor
     v       : u8, // Vertical sample factor
@@ -133,11 +133,11 @@ BitWriter impl for JPEGEncoder {
             return Ok(())
         }
 
-        accumulator |= (bits as u32) << (32 - (nbits + size));
-        nbits += size;
+        accumulator |= (bits as u32) << (32 - (nbits + size))
+        nbits += size
 
         while nbits >= 8 {
-            let byte = (accumulator & (0xFFFFFFFFu32 << 24)) >> 24;
+            let byte = (accumulator & (0xFFFFFFFFu32 << 24)) >> 24
             
             w.writeAll(&[byte as u8])
 
@@ -229,7 +229,7 @@ BitWriter impl for JPEGEncoder {
     }
 }
 
-JPEGEncoder type {
+JPEGEncoder class {
     writer         : BitWriter
     components     : [ JPEGComponent ]
     tables         : [ u8 ],
@@ -248,9 +248,9 @@ JPEGEncoder impl {
         let chroma_actable = buildHuff_lut(CHROMA_AC_CODE_LENGTHS, CHROMA_AC_VALUES)
 
         let components = [
-            JPEGComponent { id: LUMAID,       h: 1, v: 1, tq: LUMADESTINATION,   dcTable: LUMADESTINATION,   acTable: LUMADESTINATION,   dcPred: 0 },
-            JPEGComponent { id: CHROMABLUEID, h: 1, v: 1, tq: CHROMADESTINATION, dcTable: CHROMADESTINATION, acTable: CHROMADESTINATION, dcPred: 0 },
-            JPEGComponent { id: CHROMAREDID,  h: 1, v: 1, tq: CHROMADESTINATION, dcTable: CHROMADESTINATION, acTable: CHROMADESTINATION, dcPred: 0 }
+            JPEGComponent(id: LUMAID,       h: 1, v: 1, tq: LUMADESTINATION,   dcTable: LUMADESTINATION,   acTable: LUMADESTINATION,   dcPred: 0),
+            JPEGComponent(id: CHROMABLUEID, h: 1, v: 1, tq: CHROMADESTINATION, dcTable: CHROMADESTINATION, acTable: CHROMADESTINATION, dcPred: 0),
+            JPEGComponent(id: CHROMAREDID,  h: 1, v: 1, tq: CHROMADESTINATION, dcTable: CHROMADESTINATION, acTable: CHROMADESTINATION, dcPred: 0)
         ]
 
         // Derive our quantization table scaling value using the libjpeg algorithm
@@ -406,15 +406,15 @@ JPEGEncoder impl {
 buildJfifHeader ƒ(m: mutable Array<u8>) {
     m.clear();
 
-    write!(m, "JFIF");
-    m.writeAll(&[0]);
-    m.writeAll(&[0x01]);
-    m.writeAll(&[0x02]);
-    m.writeAll(&[0]);
-    m.write_u16:<BigEndian>(1);
-    m.write_u16:<BigEndian>(1);
-    m.writeAll(&[0]);
-    m.writeAll(&[0]);
+    write!(m, "JFIF")
+    m.writeAll(&[0])
+    m.writeAll(&[0x01])
+    m.writeAll(&[0x02])
+    m.writeAll(&[0])
+    m.write_u16:<BigEndian>(1)
+    m.write_u16:<BigEndian>(1)
+    m.writeAll(&[0])
+    m.writeAll(&[0])
 }
 
 buildFrameHeader ƒ(m          : mutable Array<u8>,

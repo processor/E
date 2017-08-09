@@ -1,8 +1,3 @@
-Chairman { 
-
-} : record { }
-
-
   President,
 , Operating       `Director,      // Managing director?
 , Finance         `Director 
@@ -20,5 +15,6 @@ COO,  // Cheif Operating Officer
 CFO,  // Chief Finance Officer
 
 // Board
+// Chairman
 // Executivie Directors -- high level decisions
 // Managing Directors   -- move through the organization

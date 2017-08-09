@@ -1,4 +1,4 @@
-Gravity type : Number { 
+Gravity struct : Number { 
 
 }
 

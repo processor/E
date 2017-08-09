@@ -1,4 +1,4 @@
-Footer type : Block { 
+Footer class : Block { 
  
 
 }
