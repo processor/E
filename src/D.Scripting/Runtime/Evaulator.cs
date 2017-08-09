@@ -69,26 +69,21 @@ namespace D
             count++;
 
             IObject result = null;
-
-            if (expression is BinaryExpression)
+            
+            switch (expression)
             {
-                result = EvaluateBinaryExpression((BinaryExpression)expression);
-            }
-            else
-            {
-                switch (expression.Kind)
-                {
-                    case Kind.ConstantExpression : result = EvaluateConstant((ConstantExpression)expression); break;
-                    case Kind.Symbol             : result = EvaluateSymbol((Symbol)expression);               break;
-                    case Kind.CallExpression     : result = EvaluateCall((CallExpression)expression);         break;
-                    case Kind.UnitLiteral        : result = EvaluateUnit((UnitLiteral)expression);            break;
-                    default:
-                    
-                        if ((long)expression.Kind > 255) throw new Exception($"expected kind: was {expression.Kind}");
+                case BinaryExpression binary     : result = EvaluateBinary(binary);     break;
+                case ConstantExpression constant : result = EvaluateConstant(constant); break;
+                case Symbol symbol               : result = EvaluateSymbol(symbol);     break;
+                case CallExpression call         : result = EvaluateCall(call);         break;
+                case UnitLiteral unit            : result = EvaluateUnit(unit);         break;
+                default:
 
-                        result = expression;
-                            break;    
-                }
+                    if ((long)expression.Kind > 255) throw new Exception($"expected kind: was {expression.Kind}");
+
+                    result = expression;
+
+                    break;
             }
 
             scope.This = result;
@@ -130,8 +125,6 @@ namespace D
 
             return Evaluate((IExpression)value);
         }
-        
-
       
         public IObject EvaluateCall(CallExpression expression)
         {
@@ -144,9 +137,9 @@ namespace D
 
                 foreach (var arg in expression.Arguments)
                 {
-                    if (arg.Value is Symbol)
+                    if (arg.Value is Symbol name)
                     {
-                        parameters.Add(Expression.Parameter(arg.Value.ToString()));
+                        parameters.Add(Expression.Parameter(name.ToString()));
                     }
                 }
 
@@ -196,13 +189,12 @@ namespace D
                 if (arg is Symbol) unresolvedSymbolCount++;
             }
 
-
             return new ArgumentEvaluationResult(Arguments.Create(result), unresolvedSymbolCount > 0);
         }
         
         int q = 0;
 
-        public IObject EvaluateBinaryExpression(BinaryExpression expression)
+        public IObject EvaluateBinary(BinaryExpression expression)
         {
             var l = Evaluate(expression.Left);
             var r = Evaluate(expression.Right);
@@ -251,7 +243,7 @@ namespace D
                 // x > 5
                 // y < 100
 
-                if (l is Symbol)
+                if (l is Symbol name)
                 {
                     switch (expression.Operator.Name)
                     {
@@ -259,7 +251,7 @@ namespace D
                         case ">=":
                         case "<":
                         case "<=": 
-                            return new Predicate(expression.Operator, (Symbol)l, r);
+                            return new Predicate(expression.Operator, name, r);
                     }
                 }
 
