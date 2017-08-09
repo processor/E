@@ -3,7 +3,10 @@
 ### Declarations
 
 ```
-lb unit<Weight> @name("Pound") = 0.453592 kg
+Pound unit : Weight {
+  symbol : "lb",
+  value  : 0.453592 kg
+}
 ```
 
 ### Literals
@@ -17,9 +20,9 @@ lb unit<Weight> @name("Pound") = 0.453592 kg
 If a conversion can made, it will automatically be applied when provided to a call site or object constructor.
 
 ```
-Package {
+Package struct {
   weight: Number<kg>
 }
 
-Package { weight: 5lb } # Package(2.26796)
+Package(weight: 5 lb) # Package(2.26796)
 ```
