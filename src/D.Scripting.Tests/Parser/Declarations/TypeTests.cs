@@ -197,8 +197,8 @@ Account record {
             var members = type.Members;
 
             Assert.Equal("Account", type.Name.ToString());
-            Assert.Equal(true,      type.IsRecord);
-            Assert.Equal(true,      members[0].Flags.HasFlag(VariableFlags.Mutable));
+            Assert.True(type.IsRecord);
+            Assert.True(members[0].Flags.HasFlag(ObjectFlags.Mutable));
             Assert.Equal("balance", members[0].Name);
             Assert.Equal("Decimal", members[0].Type.ToString());
 

@@ -21,7 +21,6 @@ namespace D.Parsing.Tests
             var statements = Parse<VariableDeclarationSyntax>(@"
     let sum = ƒ(a: Integer, b: Integer) => a + b
     ");
-
         }
 
         [Fact]
@@ -29,7 +28,7 @@ namespace D.Parsing.Tests
         {
             var let = Parse<VariableDeclarationSyntax>("let hi = \"fox\"");
 
-            Assert.False(let.Flags.HasFlag(VariableFlags.Mutable));
+            Assert.False(let.Flags.HasFlag(ObjectFlags.Mutable));
             Assert.Equal("fox", (StringLiteralSyntax)let.Value);
         }
 

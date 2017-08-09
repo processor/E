@@ -10,7 +10,7 @@ namespace D.Expressions
         public virtual IExpression VisitBlock(BlockExpression block)                                => throw new NotImplementedException();
         public virtual IExpression VisitCall(CallExpression call)                                   => throw new NotImplementedException();
         public virtual IExpression VisitVariableDeclaration(VariableDeclaration declaration)        => throw new NotImplementedException();
-        public virtual IExpression VisitTypeInitializer(ObjectInitializer initializer)              => throw new NotImplementedException();
+        public virtual IExpression VisitTypeInitializer(TypeInitializer initializer)              => throw new NotImplementedException();
         public virtual IExpression VisitDestructuringAssignment(DestructuringAssignment assignment) => throw new NotImplementedException();
         public virtual IExpression VisitIndexAccess(IndexAccessExpression expression)               => throw new NotImplementedException();
         public virtual IExpression VisitMemberAccess(MemberAccessExpression expression)             => throw new NotImplementedException();
@@ -39,7 +39,7 @@ namespace D.Expressions
                 // Declarations
                 case Kind.VariableDeclaration     : return VisitVariableDeclaration((VariableDeclaration)expression);
                     
-                case Kind.ObjectInitializer       : return VisitTypeInitializer((ObjectInitializer)expression);
+                case Kind.TypeInitializer       : return VisitTypeInitializer((TypeInitializer)expression);
                 case Kind.DestructuringAssignment : return VisitDestructuringAssignment((DestructuringAssignment)expression);
 
                 case Kind.CallExpression          : return VisitCall((CallExpression)expression);

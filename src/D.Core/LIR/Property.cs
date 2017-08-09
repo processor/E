@@ -4,7 +4,7 @@ namespace D
 {
     public class Property : IObject
     {
-        public Property(string name, Type type, VariableFlags flags = VariableFlags.None)
+        public Property(string name, Type type, ObjectFlags flags = ObjectFlags.None)
         {
             Name = name ?? throw new ArgumentNullException(nameof(name));
             Type = type ?? throw new ArgumentNullException(nameof(type));
@@ -18,9 +18,10 @@ namespace D
         // A & B
         public Type Type { get; }
 
-        public VariableFlags Flags { get; }
+        // mutable
+        public ObjectFlags Flags { get; }
 
-        public bool IsMutable => Flags.HasFlag(VariableFlags.Mutable);
+        public bool IsMutable => Flags.HasFlag(ObjectFlags.Mutable);
 
         Kind IObject.Kind => Kind.Property;
 

@@ -49,7 +49,7 @@ namespace D
                 case MatchExpression _:
                     return Type.Get(Kind.Object);
 
-                case ObjectInitializer initializer:
+                case TypeInitializer initializer:
                     return scope.Get<Type>(initializer.Type);
 
                 case ArrayInitializer array:

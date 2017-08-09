@@ -75,7 +75,7 @@ namespace D.Syntax
 
     public class PropertyDeclarationSyntax : SyntaxNode
     {
-        public PropertyDeclarationSyntax(string name, TypeSymbol type, VariableFlags flags)
+        public PropertyDeclarationSyntax(string name, TypeSymbol type, ObjectFlags flags)
         {
             Name  = name ?? throw new ArgumentNullException(nameof(name));
             Type  = type;
@@ -84,7 +84,8 @@ namespace D.Syntax
 
         public string Name { get; }
 
-        public VariableFlags Flags { get; }
+        // mutable
+        public ObjectFlags Flags { get; }
 
         // String
         // String | Number
@@ -98,7 +99,7 @@ namespace D.Syntax
 }
 
 /*
-type Person = {
+Person type {
   name: String where length > 0
 }
 */
