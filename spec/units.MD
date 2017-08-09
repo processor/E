@@ -20,7 +20,7 @@ Pound unit : Weight {
 If a conversion can made, it will automatically be applied when provided to a call site or object constructor.
 
 ```
-Package {
+Package struct {
   weight: Number<kg>
 }
 
