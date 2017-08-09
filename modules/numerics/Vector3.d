@@ -82,7 +82,7 @@ Vector3 struct {
 
   to String => $"{x},{y},{z}";
 
-  from String -> Point { 
+  from String -> Vector3 {
     let parts = split(this, ',')
 
     return Vector3(
