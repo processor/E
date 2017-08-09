@@ -35,12 +35,12 @@ namespace D
             {
                 switch (member)
                 {
-                    case FunctionDeclarationSyntax functionDeclaration:
-                        methods.Add(VisitFunctionDeclaration(functionDeclaration, type));
+                    case FunctionDeclarationSyntax function:
+                        methods.Add(VisitFunctionDeclaration(function, type));
                         break;
 
-                    case VariableDeclarationSyntax variableDeclaration:
-                        variables.Add(VisitVariableDeclaration(variableDeclaration));
+                    case VariableDeclarationSyntax variable:
+                        variables.Add(VisitVariableDeclaration(variable));
                         break;
                 }
 
