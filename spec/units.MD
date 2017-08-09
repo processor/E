@@ -3,7 +3,10 @@
 ### Declarations
 
 ```
-lb unit<Weight> @name("Pound") = 0.453592 kg
+Pound unit : Weight {
+  symbol: "lb",
+  value: 0.453592 kg
+}
 ```
 
 ### Literals
