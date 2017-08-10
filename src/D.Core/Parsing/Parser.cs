@@ -729,25 +729,19 @@ namespace D.Parsing
             return new ParameterSyntax(name, type, defaultValue, predicate, index: index);
         }
 
-        // type | event (?record) | record
+        // event (?record) | record
+        // struct
+        // class
 
-        public CompoundTypeDeclarationSyntax ReadCompoundTypeDeclaration(Symbol[] names)
+        public TypeFlags ReadTypeModifiers()
         {
-            ConsumeIf(Type);
-
-            var flags = ConsumeIf("event") ? TypeFlags.Event : TypeFlags.None;
+            var flags = ConsumeIf(Event) ? TypeFlags.Event : TypeFlags.None;
 
             if (ConsumeIf(Record)) flags |= TypeFlags.Record;
+            if (ConsumeIf(Struct)) flags |= TypeFlags.Struct;
+            if (ConsumeIf(Class))  flags |= TypeFlags.Class;
 
-            var baseTypes = ConsumeIf(Colon) // ? :
-                ? ReadTypeSymbol()           // baseType
-                : null;
-
-            var members = ReadTypeDeclarationBody();
-
-            ConsumeIf(Semicolon); // ? ;
-
-            return new CompoundTypeDeclarationSyntax(names, flags, baseTypes, members);
+            return flags;
         }
 
         // Float : Number @size(32) { }
@@ -756,13 +750,7 @@ namespace D.Parsing
         // Point struct { } 
         public TypeDeclarationSyntax ReadTypeDeclaration(Symbol typeName)
         {
-            ConsumeIf(Type);
-
-            var flags = ConsumeIf("event") ? TypeFlags.Event : TypeFlags.None;
-
-            if (ConsumeIf(Record)) flags |= TypeFlags.Record;
-            if (ConsumeIf(Struct)) flags |= TypeFlags.Struct;
-            if (ConsumeIf(Class))  flags |= TypeFlags.Class;
+            var flags = ReadTypeModifiers();
 
             // <T: Number>
             var genericParameters = ReadGenericParameters();
@@ -777,6 +765,21 @@ namespace D.Parsing
             ConsumeIf(Semicolon); // ? ;
 
             return new TypeDeclarationSyntax(typeName, genericParameters, baseType, annotations, properties, flags: flags);
+        }
+
+        public CompoundTypeDeclarationSyntax ReadCompoundTypeDeclaration(Symbol[] names)
+        {
+            var flags = ReadTypeModifiers();
+
+            var baseTypes = ConsumeIf(Colon) // ? :
+                ? ReadTypeSymbol()           // baseType
+                : null;
+
+            var members = ReadTypeDeclarationBody();
+
+            ConsumeIf(Semicolon); // ? ;
+
+            return new CompoundTypeDeclarationSyntax(names, flags, baseTypes, members);
         }
 
         // Pascal unit : Pressure { symbol: "Pa";   value: 1 }
@@ -1248,15 +1251,15 @@ namespace D.Parsing
         }
 
         /*
-        Point
+          Point
         * Point
         [ Point ]
         [ Point<T> ]
         [ geometry::Point<Number> ]
-        (A, B) -> C                     | Function<A, B, C>
-        A | B                           | Variant<A, B, C>
-        A & B                           | Intersection<A, B>
-        A?                              | Optional<A>
+          (A, B) -> C                     | Function<A, B, C>
+          A | B                           | Variant<A, B, C>
+          A & B                           | Intersection<A, B>
+          A?                              | Optional<A>
         */
 
         private TypeSymbol ReadTypeSymbol()
@@ -1965,7 +1968,7 @@ namespace D.Parsing
                     case Unit   : return ReadUnitDeclaration(name);
                     case Module : return ReadModule(name);
 
-                    case Type   :
+                    // Types
                     case Event  :
                     case Record :
                     case Struct :

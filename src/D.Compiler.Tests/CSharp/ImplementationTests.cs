@@ -17,7 +17,7 @@ Curve protocol {
   getPoint (position: Number) -> Vector2
 }
 
-Bezier type { 
+Bezier struct { 
   c1: Vector3 // anchor point coordinates
   c2: Vector3 // first control point
   c3: Vector3 // second control point
@@ -92,7 +92,7 @@ public class Cuboid
 ".Trim(),
 
             Transpile(@"
-Cuboid type {
+Cuboid class {
   polygons: [ Polygon ]
 }
 
@@ -197,7 +197,7 @@ namespace Namespaced
 ".Trim(),
 
 Transpile(@"
-Class type { 
+Class class { 
 
 }
 
@@ -233,12 +233,9 @@ namespace Banking
 ".Trim(),
 
 Transpile(@"
-Bank type { 
+Bank struct { 
   name: String
-}
-Bank impl { }
-
-", "Banking"));
+}", "Banking"));
         }
 
         [Fact]
@@ -328,7 +325,7 @@ public class Matrix4<T>
 
 ".Trim(),
 Transpile(@"
-Matrix4 type <T> {
+Matrix4 struct <T> {
   elements: [T] 
 }
 
@@ -384,7 +381,7 @@ public class Point
 ".Trim(),
 
 Transpile(@"
-Point type { x, y, z: Number }
+Point struct { x, y, z: Number }
 
 Point impl {
   * (a: Point, b: Number) => Point(x: a.x * b,   y: a.y * b,   z: a.z * b);
@@ -412,7 +409,7 @@ public class Point
 ".Trim(),
 
 Transpile(@"
-Point type { }
+Point struct { }
 
 Point impl {
   * (a: Point, b: Number)  => Point(x: a.x * b, y: a.y * b, z: a.z * b);
@@ -447,11 +444,11 @@ public class Point<T>
 ".Trim(),
 
 Transpile(@"
-Point type <T> { 
+
+Point struct <T> { 
   x, y, z: T
 }
 
-Point impl { }
 "));
         }
 
@@ -568,7 +565,7 @@ Geometry protocol {
   center -> Point
 }
 
-Point type { 
+Point struct { 
   x, y, z: Float
 }
 
@@ -590,7 +587,7 @@ Geometry impl for Point {
         public void Unit()
         {
             var unit = CompileModule(@"
-Point type { 
+Point struct { 
   x, y, z: Number
 }
 

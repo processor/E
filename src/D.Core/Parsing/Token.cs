@@ -172,7 +172,6 @@ namespace D.Parsing
         On,
         Operator,
         To,
-        Type,
         Unit,
         Until,
         Using,
@@ -180,8 +179,6 @@ namespace D.Parsing
         Repeats,   // ↺
         End,       // ∎
 
-        Record,
-        Protocol,
         Module,
 
         Ascending,
@@ -208,7 +205,10 @@ namespace D.Parsing
         Private,
         Internal,
 
+        // Types
         Class,
-        Struct
+        Struct,
+        Record,
+        Protocol
     }
 }

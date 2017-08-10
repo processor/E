@@ -21,7 +21,7 @@ namespace D.Parsing.Tests
         [Fact]
         public void A()
         {
-            var a = Parse<TypeDeclarationSyntax>("Float32 type");
+            var a = Parse<TypeDeclarationSyntax>("Float32 struct");
 
             Assert.Equal("Float32", a.Name);
         }

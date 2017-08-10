@@ -55,7 +55,7 @@ namespace D.Parsing.Tests
             // implementation
 
             var program = new Parser(@"
-Masonary`Layout type {
+Masonary`Layout class {
   columnWidth :   Number
   columnGap   :   Number
   columns     : [ Column ]

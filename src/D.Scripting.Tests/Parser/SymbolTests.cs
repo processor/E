@@ -25,7 +25,7 @@ namespace D.Parsing.Tests
         private TypeSymbol GetTypeSymbol(string text)
         {
             return Parse<TypeDeclarationSyntax>($@"
-Unit type {{ 
+Unit struct {{ 
     a: {text}
 }}").Members[0].Type;
         }
