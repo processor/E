@@ -1,3 +1,3 @@
-Symptom type {
+Symptom class {
   
 }

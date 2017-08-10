@@ -1,4 +1,4 @@
-Locale type { 
+Locale struct { 
 
 }
 

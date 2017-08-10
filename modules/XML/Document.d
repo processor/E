@@ -1,3 +1,3 @@
-﻿Document type {
+﻿Document class {
 
 }

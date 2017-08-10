@@ -1,4 +1,3 @@
-Caption type : Element {
- 
+Caption class: Element {
 
 }
