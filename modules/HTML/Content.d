@@ -1,4 +1,4 @@
-Content type {
+Content struct {
   text: String
 }
 
