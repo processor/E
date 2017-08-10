@@ -14,14 +14,3 @@
         public override SymbolType SymbolType => SymbolType.Function;
     }
 }
-
-// Array        [ ] Type
-// Dictionary   [ key`Type: value`Type ]
-// Function     (parameter`Type) -> return`Type 
-// Tuple        ()
-// Optional     Type?       Optional<T>
-// Any
-
-// physics::Momentum
-// Array<String>
-// Array<physics::Momentum>

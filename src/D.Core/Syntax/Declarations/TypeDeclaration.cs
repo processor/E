@@ -72,17 +72,25 @@ namespace D.Syntax
         public Symbol[] Names { get; }
     }
 
+    /*
+    // a, b, c: Number
+    
+    public class CompoundPropertyDeclarationSyntax : SyntaxNode
+    {
+       
+    }
+    */
 
     public class PropertyDeclarationSyntax : SyntaxNode
     {
-        public PropertyDeclarationSyntax(string name, TypeSymbol type, ObjectFlags flags)
+        public PropertyDeclarationSyntax(Symbol name, TypeSymbol type, ObjectFlags flags)
         {
             Name  = name ?? throw new ArgumentNullException(nameof(name));
             Type  = type;
             Flags = flags;
         }
 
-        public string Name { get; }
+        public Symbol Name { get; }
 
         // mutable
         public ObjectFlags Flags { get; }

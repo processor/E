@@ -7,7 +7,7 @@ namespace D.Parsing.Tests
     public class TypeTests : TestBase
     { 
         [Theory]
-        [InlineData("Vehicle type               { name: String     }", TypeFlags.None)]
+        [InlineData("Vehicle struct             { name: String     }", TypeFlags.Struct)]
         [InlineData("Vehicle record             { name: String     }", TypeFlags.Record)]
         [InlineData("Vehicle`Crash event        { vehicle: Vehicle }", TypeFlags.Event)]
         [InlineData("Vehicle`Crash event record { vehicle: Vehicle }", TypeFlags.Event | TypeFlags.Record)]
@@ -15,11 +15,11 @@ namespace D.Parsing.Tests
         {
             var type = Parse<TypeDeclarationSyntax>(text);
 
-            Assert.Equal(type.Flags, flags);
+            Assert.Equal(flags, type.Flags);
         }
 
         [Theory]
-        [InlineData("SVG type : Graphic")]
+        [InlineData("SVG struct : Graphic")]
         [InlineData("SVG : Graphic")]         // Optional type
         [InlineData("SVG : Graphic;")]        // Optional semicolon
         public void ExtendsTest(string text)
@@ -43,7 +43,7 @@ namespace D.Parsing.Tests
         public void ShorthandFields()
         {
             var a = Parse<TypeDeclarationSyntax>(@"
-Point type {
+Point struct {
   x, y, z: T
 }
 ");
@@ -63,7 +63,7 @@ Point type {
         public void ConstrainedGeneric()
         {
             var a = Parse<TypeDeclarationSyntax>(@"
-Size<T:Number> type {
+Size<T:Number> struct {
   width  : Number
   height : Number
 }
@@ -96,7 +96,7 @@ A, B, C : D type {
         public void TypeDefination()
         {
             var declaration = Parse<TypeDeclarationSyntax>(@"
-Graphic type {
+Graphic class {
   text : String
   id   : Identity
 }");
@@ -113,7 +113,7 @@ Graphic type {
         public void GenericParams()
         {
             var declaration = Parse<TypeDeclarationSyntax>(@"
-Point type <T: Number> : Vector3<T> {
+Point struct <T: Number> : Vector3<T> {
   x: T
   y: T
   z: T

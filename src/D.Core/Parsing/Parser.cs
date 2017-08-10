@@ -378,7 +378,7 @@ namespace D.Parsing
 
             var statements = new List<SyntaxNode>();
 
-            while (!IsEof && !IsKind(BraceClose))
+            while (!IsKind(BraceClose))
             {
                 statements.Add(ReadExpression());
             }
@@ -729,39 +729,28 @@ namespace D.Parsing
             return new ParameterSyntax(name, type, defaultValue, predicate, index: index);
         }
 
-        // type | event (?record) | record
+        // event (?record) | record
+        // struct
+        // class
 
-        public CompoundTypeDeclarationSyntax ReadCompoundTypeDeclaration(Symbol[] names)
+        public TypeFlags ReadTypeModifiers()
         {
-            ConsumeIf(Type);
-
-            var flags = ConsumeIf("event") ? TypeFlags.Event : TypeFlags.None;
-
-            if (ConsumeIf(Record)) flags |= TypeFlags.Record;
-
-            var baseTypes = ConsumeIf(Colon) // ? :
-                ? ReadTypeSymbol()           // baseType
-                : null;
-
-            var members = ReadTypeDeclarationBody();
-
-            ConsumeIf(Semicolon); // ? ;
-
-            return new CompoundTypeDeclarationSyntax(names, flags, baseTypes, members);
-        }
-
-        // Float : Number @size(32) { 
-        // Int32 type @size(32)
-        // Point type <T:Number> : Vector3 { 
-        public TypeDeclarationSyntax ReadTypeDeclaration(Symbol typeName)
-        {
-            ConsumeIf(Type);
-
-            var flags = ConsumeIf("event") ? TypeFlags.Event : TypeFlags.None;
+            var flags = ConsumeIf(Event) ? TypeFlags.Event : TypeFlags.None;
 
             if (ConsumeIf(Record)) flags |= TypeFlags.Record;
             if (ConsumeIf(Struct)) flags |= TypeFlags.Struct;
             if (ConsumeIf(Class))  flags |= TypeFlags.Class;
+
+            return flags;
+        }
+
+        // Float : Number @size(32) { }
+        // Int32 type @size(32)
+        // Point type <T:Number> : Vector3 { }
+        // Point struct { } 
+        public TypeDeclarationSyntax ReadTypeDeclaration(Symbol typeName)
+        {
+            var flags = ReadTypeModifiers();
 
             // <T: Number>
             var genericParameters = ReadGenericParameters();
@@ -778,6 +767,21 @@ namespace D.Parsing
             return new TypeDeclarationSyntax(typeName, genericParameters, baseType, annotations, properties, flags: flags);
         }
 
+        public CompoundTypeDeclarationSyntax ReadCompoundTypeDeclaration(Symbol[] names)
+        {
+            var flags = ReadTypeModifiers();
+
+            var baseTypes = ConsumeIf(Colon) // ? :
+                ? ReadTypeSymbol()           // baseType
+                : null;
+
+            var members = ReadTypeDeclarationBody();
+
+            ConsumeIf(Semicolon); // ? ;
+
+            return new CompoundTypeDeclarationSyntax(names, flags, baseTypes, members);
+        }
+
         // Pascal unit : Pressure { symbol: "Pa";   value: 1 }
         // Radian unit : Angle    { symbol: "rad";  value: 1 }
         // Degree unit : Angle    { symbol: "deg";  value: (π/180) rad }
@@ -790,11 +794,12 @@ namespace D.Parsing
                 ? ReadTypeSymbol()          // baseType
                 : null;
 
-
             var properties = ReadUnitDeclarationProperties();
 
             return new UnitDeclarationSyntax(name, baseType, properties);
         }
+
+        // TODO
 
         // _ "+" _ operator { precedence: 1, associativity: left }
         public OperatorDeclarationSyntax ReadOperatorDeclaration(Symbol name)
@@ -873,9 +878,7 @@ namespace D.Parsing
             {
                 // mutable name: Type | Type,
 
-                var flags = ObjectFlags.None;
-
-                if (ConsumeIf(Mutable)) flags |= ObjectFlags.Mutable;
+                var flags = ReadModifiers(); 
 
                 do
                 {
@@ -922,7 +925,7 @@ namespace D.Parsing
                     ? ReadProtocolChannel().ToArray()
                     : Array.Empty<IProtocolMessage>();
 
-                while (!IsEof && !IsKind(BraceClose))
+                while (!IsKind(BraceClose))
                 {
                     methods.Add(ReadProtocolMember());
                 }
@@ -1086,9 +1089,9 @@ namespace D.Parsing
 
             EnterMode(Mode.Block);
 
-            while (!IsEof && !IsKind(BraceClose))
+            while (!IsKind(BraceClose))
             {
-                members.Add(ReadImplMember());
+                members.Add(ReadTypeMember());
             }
 
             LeaveMode(Mode.Block);
@@ -1098,7 +1101,7 @@ namespace D.Parsing
             return new ImplementationDeclarationSyntax(protocol, type, members.Extract());
         }
 
-        private SyntaxNode ReadImplMember()
+        private SyntaxNode ReadTypeMember()
         {
             // Read modifiers
 
@@ -1111,15 +1114,54 @@ namespace D.Parsing
                 case To          : return ReadConverter();             // to Type
                 case From        : return ReadInitializer();           // from pattern                                
 
-                case Op          : 
-                case Identifier  :
+                case Op          :
                     modifiers |= ObjectFlags.Instance;
 
                     return ReadFunctionDeclaration(flags: modifiers);  // function |  * | + | ..
+                case Identifier  :
+                    modifiers |= ObjectFlags.Instance;
+
+                    var name = ReadName();
+
+                    // a: b
+
+                    if (Current.Kind == Colon)
+                    {
+                        var type = ReadTypeSymbol();
+
+                        return new PropertyDeclarationSyntax(Symbol.Variable(name), type, modifiers);
+                    }
+
+                    return ReadFunctionDeclaration(new TypeSymbol(name), flags: modifiers);  // function |  * | + | ..
             }
 
             throw new UnexpectedTokenException("Unexpected token reading member", Current);
         }
+
+        /*
+        public SyntaxNode FinishReadindPropertyDecleration(Symbol name)
+        {
+            do
+            {
+                names.Add(ReadMemberSymbol());
+            }
+            while (ConsumeIf(Comma));
+
+            Consume(Colon); // ! :
+
+            var type = ReadTypeSymbol();
+
+            ConsumeIf(Semicolon); // ? ;
+
+            foreach (var n in names.Extract())
+            {
+                yield return new PropertyDeclarationSyntax(n, type, flags);
+            }
+        }
+        */
+
+        // CompoundPropertyDecleration
+
         
         private ObjectFlags ReadModifiers()
         {
@@ -1246,15 +1288,15 @@ namespace D.Parsing
         }
 
         /*
-        Point
+          Point
         * Point
         [ Point ]
         [ Point<T> ]
         [ geometry::Point<Number> ]
-        (A, B) -> C                     | Function<A, B, C>
-        A | B                           | Variant<A, B, C>
-        A & B                           | Intersection<A, B>
-        A?                              | Optional<A>
+          (A, B) -> C                     | Function<A, B, C>
+          A | B                           | Variant<A, B, C>
+          A & B                           | Intersection<A, B>
+          A?                              | Optional<A>
         */
 
         private TypeSymbol ReadTypeSymbol()
@@ -1431,7 +1473,7 @@ namespace D.Parsing
             var elementKind = Kind.Object;
             var uniform = true;
 
-            while (!IsEof && !IsKind(BracketClose))
+            while (!IsKind(BracketClose))
             {
                 var element = ReadPrimary();
 
@@ -1570,7 +1612,7 @@ namespace D.Parsing
 
             EnterMode(Mode.InterpolatedString);
 
-            while (!IsEof && !IsKind(Quote))
+            while (!IsKind(Quote))
             {
                 var expression = IsKind(BraceOpen)
                     ? ReadInterpolatedExpression()
@@ -1710,7 +1752,7 @@ namespace D.Parsing
             // pattern => action
             // ...
 
-            while (!IsEof && !IsKind(BraceClose))
+            while (!IsKind(BraceClose))
             {
                 var pattern = ReadPattern();
 
@@ -1963,7 +2005,7 @@ namespace D.Parsing
                     case Unit   : return ReadUnitDeclaration(name);
                     case Module : return ReadModule(name);
 
-                    case Type   :
+                    // Types
                     case Event  :
                     case Record :
                     case Struct :

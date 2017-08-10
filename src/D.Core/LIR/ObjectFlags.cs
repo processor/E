@@ -11,17 +11,18 @@ namespace D
         Private     = 1 << 2,
         Protected   = 1 << 3,
         Abstract    = 1 << 4,
-        Instance    = 1 << 5,
-        Operator    = 1 << 6,
-        Anonymous   = 1 << 7, // a => a + 1
-        Initializer = 1 << 8,
-        Converter   = 1 << 9,
-        Indexer     = 1 << 10,
-        Property    = 1 << 11,
+        Static      = 1 << 5,
+        Instance    = 1 << 6,
+        Operator    = 1 << 7,
+        Anonymous   = 1 << 8, // a => a + 1
+        Initializer = 1 << 9,
+        Converter   = 1 << 10,
+        Indexer     = 1 << 11,
+        Property    = 1 << 12,
 
-        Mutable     = 1 << 12,
-        Mutating    = 1 << 13,
-        Lazy        = 1 << 14
+        Mutable     = 1 << 13,
+        Mutating    = 1 << 14,
+        Lazy        = 1 << 15
 
         // Lambda = 1 << 3
     }

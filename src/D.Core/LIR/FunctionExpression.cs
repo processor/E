@@ -10,7 +10,7 @@ namespace D
     {
         public FunctionExpression(string name, Type returnType, params Parameter[] parameters)
         {
-            Name = name;
+            Name       = name;
             Parameters = parameters;
             ReturnType = returnType;
         }

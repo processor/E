@@ -352,7 +352,6 @@ namespace D.Parsing
             { "this"           , This },
             { "throw"          , Throw },
             { "to"             , To },
-            { "type"           , Type },
             { "true"           , True },
             { "try"            , Try },
             { "until"          , Until },
@@ -371,6 +370,8 @@ namespace D.Parsing
             { "public"         , Public },
             { "private"        , Private },
             { "internal"       , Internal },
+
+            // Types
             { "class"          , Class },
             { "struct"         , Struct }
         };

@@ -21,7 +21,7 @@ namespace D.Parsing.Tests
         [Fact]
         public void A()
         {
-            var a = Parse<TypeDeclarationSyntax>("Float32 type");
+            var a = Parse<TypeDeclarationSyntax>("Float32 struct");
 
             Assert.Equal("Float32", a.Name);
         }
@@ -29,7 +29,7 @@ namespace D.Parsing.Tests
         [Fact]
         public void B()
         {
-            var a = Parse<TypeDeclarationSyntax>("Int64 type @size(8)");
+            var a = Parse<TypeDeclarationSyntax>("Int64 struct @size(8)");
 
             Assert.Equal("Int64", a.Name);
             Assert.Equal(1, a.Annotations.Length);

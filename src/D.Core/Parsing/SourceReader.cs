@@ -20,18 +20,17 @@ namespace D.Parsing
 
         public SourceReader(TextReader reader)
         {
-            this.reader = reader;
+            this.reader = reader ?? throw new ArgumentNullException(nameof(reader));
         }
 
         public int Line => line;
 
-        public Location Location 
-            => new Location(line, column - 1, position - 1);
+        public Location Location => 
+            new Location(line, column - 1, position - 1);
 
         public char Current => current;
 
-        public char Peek()
-            => (char)reader.Peek();
+        public char Peek() => (char)reader.Peek();
 
         public bool PeekConsumeIf(char value)
         {
@@ -67,7 +66,10 @@ namespace D.Parsing
 
         public char Next()
         {
-            if (IsEof) throw new EndOfStreamException("Cannot read past EOF");
+            if (IsEof)
+            {
+                throw new EndOfStreamException("Cannot read past EOF");
+            }
 
             var value = reader.Read();
 

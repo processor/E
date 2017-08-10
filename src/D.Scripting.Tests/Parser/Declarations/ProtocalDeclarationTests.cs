@@ -78,11 +78,11 @@ Bank protocol {
     ↺            : acting
   * dissolve ∎   : dissolved
  
-  open    `Account     (account: Account) -> Account
-  close   `Account     (account: Account) -> Account`Closure
-  settle  `Transaction (Transaction)      -> Transaction`Settlement
-  refuse  `Transaction (Transaction)      -> Transaction`Refusal
-  reverse `Transaction (Transaction)      -> Transaction`Reversed
+  open    `Account     (account: Account)         -> Account
+  close   `Account     (account: Account)         -> Account`Closure
+  settle  `Transaction (transaction: Transaction) -> Transaction`Settlement
+  refuse  `Transaction (transaction: Transaction) -> Transaction`Refusal
+  reverse `Transaction (transaction: Transaction) -> Transaction`Reversed
 }");
             Assert.Equal(2, protocol.Messages.Length);
             
