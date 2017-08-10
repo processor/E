@@ -14,6 +14,8 @@ namespace D
             Methods   = members ?? throw new ArgumentNullException(nameof(members));
         }
 
+        // Struct | Class
+
         public Type Type { get; }
 
         public ProtocolExpression Protocol { get; }

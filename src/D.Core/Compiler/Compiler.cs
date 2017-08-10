@@ -109,7 +109,7 @@ namespace D
 
                 // Declarations
                 case Kind.VariableDeclaration     : return VisitVariableDeclaration((VariableDeclarationSyntax)syntax);
-                case Kind.ObjectInitializer       : return VisitObjectInitializer((ObjectInitializerSyntax)syntax);
+                case Kind.TypeInitializer       : return VisitObjectInitializer((ObjectInitializerSyntax)syntax);
                 case Kind.DestructuringAssignment : return VisitDestructuringAssignment((DestructuringAssignmentSyntax)syntax);
                 case Kind.MemberAccessExpression  : return VisitMemberAccess((MemberAccessExpressionSyntax)syntax);
                 case Kind.IndexAccessExpression   : return VisitIndexAccess((IndexAccessExpressionSyntax)syntax);
@@ -264,7 +264,7 @@ namespace D
             return new VariableDeclaration(variable.Name, type, variable.Flags, value);
         }
 
-        public virtual ObjectInitializer VisitObjectInitializer(ObjectInitializerSyntax syntax)
+        public virtual TypeInitializer VisitObjectInitializer(ObjectInitializerSyntax syntax)
         {
             var members = new Argument[syntax.Arguments.Length];
 
@@ -283,7 +283,7 @@ namespace D
                 members[i] = new Argument(name, Visit(m.Value)); 
             }
 
-            return new ObjectInitializer(syntax.Type, members);
+            return new TypeInitializer(syntax.Type, members);
         }
 
         public virtual DestructuringAssignment VisitDestructuringAssignment(DestructuringAssignmentSyntax syntax)

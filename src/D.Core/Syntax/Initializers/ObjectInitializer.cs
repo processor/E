@@ -14,7 +14,7 @@
 
         public ArgumentSyntax[] Arguments { get; }
 
-        Kind IObject.Kind => Kind.ObjectInitializer; 
+        Kind IObject.Kind => Kind.TypeInitializer; 
     }
 
     // { a: 1, b: 2 }

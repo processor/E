@@ -4,7 +4,7 @@
 
     public partial class CSharpTranspiler
     {       
-        public override IExpression VisitTypeInitializer(ObjectInitializer type)
+        public override IExpression VisitTypeInitializer(TypeInitializer type)
         {
             Emit("new ");
 

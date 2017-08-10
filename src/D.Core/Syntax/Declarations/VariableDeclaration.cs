@@ -1,17 +1,18 @@
 ﻿namespace D.Syntax
 {
     // let a: Integer = 5
-    // let a of type Integer equal 5
+    // let mutable y: i64
+
     public class VariableDeclarationSyntax : SyntaxNode
     {
         public VariableDeclarationSyntax(
             Symbol name, 
             TypeSymbol type, 
             SyntaxNode value = null, 
-            VariableFlags flags = VariableFlags.None)
+            ObjectFlags flags = ObjectFlags.None)
         {
-            Name = name;
-            Type = type;
+            Name  = name;
+            Type  = type;
             Value = value;
             Flags = flags;
         }
@@ -22,7 +23,7 @@
 
         public SyntaxNode Value { get; }
 
-        public VariableFlags Flags { get; }
+        public ObjectFlags Flags { get; }
 
         Kind IObject.Kind => Kind.VariableDeclaration;
     }

@@ -2,9 +2,9 @@
 
 namespace D.Expressions
 {
-    public class ObjectInitializer : IExpression
+    public class TypeInitializer : IExpression
     {
-        public ObjectInitializer(TypeSymbol type, Argument[] arguments)
+        public TypeInitializer(TypeSymbol type, Argument[] arguments)
         {
             Type      = type      ?? throw new ArgumentNullException(nameof(type));
             Arguments = arguments ?? throw new ArgumentNullException(nameof(arguments));
@@ -16,12 +16,13 @@ namespace D.Expressions
 
         public int Count => Arguments.Length;
 
-        Kind IObject.Kind => Kind.ObjectInitializer; 
+        Kind IObject.Kind => Kind.TypeInitializer; 
     }
-
-    // { a: 1, b: 2 }
-    // { a, b, c }
-
-    // // Point { x: 1, y: 2 }
-    // Rust Notes: There is exactly one way to create an instance of a user-defined type: name it, and initialize all its fields at once:
 }
+
+// Tuple Based Syntax
+// (x: 1, y: 2)
+// (x, y)
+
+// Rust uses a different syntax... and requires that all fields be initized at once
+// Point { x: 1, y: 2 }

@@ -504,7 +504,7 @@ namespace D.Parsing
 
             ConsumeIf(ParenthesisOpen);     // ? (
 
-            var flags = mutable ? VariableFlags.Mutable : VariableFlags.None;
+            var flags = mutable ? ObjectFlags.Mutable : ObjectFlags.None;
 
             var name = ReadVariableSymbol(SymbolFlags.Local);
 
@@ -873,9 +873,9 @@ namespace D.Parsing
             {
                 // mutable name: Type | Type,
 
-                var flags = VariableFlags.None;
+                var flags = ObjectFlags.None;
 
-                if (ConsumeIf(Mutable)) flags |= VariableFlags.Mutable;
+                if (ConsumeIf(Mutable)) flags |= ObjectFlags.Mutable;
 
                 do
                 {

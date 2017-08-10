@@ -173,7 +173,7 @@
         QueryExpression          = 5009,
 
         ArrayInitializer       = 5020,
-        ObjectInitializer      = 5021,
+        TypeInitializer      = 5021,
 
         // Unary                 
         LogicalNotExpression     = 6000, // ! prefix
