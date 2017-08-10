@@ -137,10 +137,10 @@ Masonary`Layout implementation {
             var program = new Parser(@"
 import imaging
 
-Image type { 
+Image class { 
   width      :  i32
   height     :  i32
-  pixels     : [ Color ]
+  pixels     : [ Pixel ]
   colorspace :  Colorspace
 }
 

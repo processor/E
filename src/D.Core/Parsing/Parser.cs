@@ -878,9 +878,7 @@ namespace D.Parsing
             {
                 // mutable name: Type | Type,
 
-                var flags = ObjectFlags.None;
-
-                if (ConsumeIf(Mutable)) flags |= ObjectFlags.Mutable;
+                var flags = ReadModifiers(); 
 
                 do
                 {
@@ -1093,7 +1091,7 @@ namespace D.Parsing
 
             while (!IsKind(BraceClose))
             {
-                members.Add(ReadImplMember());
+                members.Add(ReadTypeMember());
             }
 
             LeaveMode(Mode.Block);
@@ -1103,7 +1101,7 @@ namespace D.Parsing
             return new ImplementationDeclarationSyntax(protocol, type, members.Extract());
         }
 
-        private SyntaxNode ReadImplMember()
+        private SyntaxNode ReadTypeMember()
         {
             // Read modifiers
 
@@ -1116,15 +1114,54 @@ namespace D.Parsing
                 case To          : return ReadConverter();             // to Type
                 case From        : return ReadInitializer();           // from pattern                                
 
-                case Op          : 
-                case Identifier  :
+                case Op          :
                     modifiers |= ObjectFlags.Instance;
 
                     return ReadFunctionDeclaration(flags: modifiers);  // function |  * | + | ..
+                case Identifier  :
+                    modifiers |= ObjectFlags.Instance;
+
+                    var name = ReadName();
+
+                    // a: b
+
+                    if (Current.Kind == Colon)
+                    {
+                        var type = ReadTypeSymbol();
+
+                        return new PropertyDeclarationSyntax(Symbol.Variable(name), type, modifiers);
+                    }
+
+                    return ReadFunctionDeclaration(new TypeSymbol(name), flags: modifiers);  // function |  * | + | ..
             }
 
             throw new UnexpectedTokenException("Unexpected token reading member", Current);
         }
+
+        /*
+        public SyntaxNode FinishReadindPropertyDecleration(Symbol name)
+        {
+            do
+            {
+                names.Add(ReadMemberSymbol());
+            }
+            while (ConsumeIf(Comma));
+
+            Consume(Colon); // ! :
+
+            var type = ReadTypeSymbol();
+
+            ConsumeIf(Semicolon); // ? ;
+
+            foreach (var n in names.Extract())
+            {
+                yield return new PropertyDeclarationSyntax(n, type, flags);
+            }
+        }
+        */
+
+        // CompoundPropertyDecleration
+
         
         private ObjectFlags ReadModifiers()
         {

@@ -22,18 +22,15 @@ namespace D.Parsing
 
         public string Trailing { get; }
 
-        public bool Is(TokenKind kind)
-            => Kind == kind;
+        public bool Is(TokenKind kind) => Kind == kind;
 
         #region Casts
 
-        public static implicit operator string(Token token)
-            => token.Text;
+        public static implicit operator string(Token token) => token.Text;
 
         #endregion
 
-        public override string ToString()
-            => Kind.ToString() + ":" + Text;
+        public override string ToString() => Kind.ToString() + ":" + Text;
     }
 
     public struct Location : IEquatable<Location>
@@ -51,8 +48,7 @@ namespace D.Parsing
 
         public int Position { get; }
 
-        public override bool Equals(object obj)
-            => Equals((Location)obj);
+        public override bool Equals(object obj) => Equals((Location)obj);
 
         public bool Equals(Location other)
         {
@@ -70,8 +66,7 @@ namespace D.Parsing
         public override string ToString()
             => "(" + Line + "," + Column + "," + Position + ")";
 
-        public override int GetHashCode()
-            => Position.GetHashCode();
+        public override int GetHashCode() => Position.GetHashCode();
     }
 
     public enum TokenKind
