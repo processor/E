@@ -92,8 +92,8 @@ Matrix4x4<T> struct {
 
   // inplace
   scale (v: Vector3) {
-    let mutable els = Number[16]
-
+    var els = Array<Number>.fill(16, 0)
+    
 		els[0] *= v.x; els[4] *= v.y; els[8]  *= v.z;
 		els[1] *= v.x; els[5] *= v.y; els[9]  *= v.z;
 		els[2] *= v.x; els[6] *= v.y; els[10] *= v.z;

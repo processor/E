@@ -10,7 +10,7 @@ Arc struct {
 
 Curve impl for Arc {
   getPoint(t: Number) {
-    let mutable deltaAngle = endAngle - startAngle
+    var deltaAngle = endAngle - startAngle
 
     let samePoints = abs(deltaAngle) < T.epsilon
 

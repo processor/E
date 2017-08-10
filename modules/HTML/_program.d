@@ -1,18 +1,18 @@
 Slide class {
-  index            : Int32
-  mutable previous : Slide
-  mutable next     : Slide
+  var index    : Int32
+  var previous : Slide
+  var next     : Slide
 }
 
 Gallery class : Block {
-  current :   Slide
-  slides  : [ Slide ]
+  var current :   Slide
+  var slides  : [ Slide ]
 
   from (medias: [ Media ]) {
-    let slides = [ Slide ]
+    slides = [ Slide ]
     
-    let mutable last : Slide
-    let mutable index = 0
+    var last : Slide
+    var index = 0
 
     for medias {
       // Create a viewer for the media
@@ -36,7 +36,7 @@ Gallery class : Block {
       index += 1
     }
 
-    return Gallery(slides, current: slides[0])
+    current = slides[0]
   }
   
   view (index: i64) {
