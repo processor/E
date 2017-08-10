@@ -378,7 +378,7 @@ namespace D.Parsing
 
             var statements = new List<SyntaxNode>();
 
-            while (!IsEof && !IsKind(BraceClose))
+            while (!IsKind(BraceClose))
             {
                 statements.Add(ReadExpression());
             }
@@ -750,9 +750,10 @@ namespace D.Parsing
             return new CompoundTypeDeclarationSyntax(names, flags, baseTypes, members);
         }
 
-        // Float : Number @size(32) { 
+        // Float : Number @size(32) { }
         // Int32 type @size(32)
-        // Point type <T:Number> : Vector3 { 
+        // Point type <T:Number> : Vector3 { }
+        // Point struct { } 
         public TypeDeclarationSyntax ReadTypeDeclaration(Symbol typeName)
         {
             ConsumeIf(Type);
@@ -790,11 +791,12 @@ namespace D.Parsing
                 ? ReadTypeSymbol()          // baseType
                 : null;
 
-
             var properties = ReadUnitDeclarationProperties();
 
             return new UnitDeclarationSyntax(name, baseType, properties);
         }
+
+        // TODO
 
         // _ "+" _ operator { precedence: 1, associativity: left }
         public OperatorDeclarationSyntax ReadOperatorDeclaration(Symbol name)
@@ -922,7 +924,7 @@ namespace D.Parsing
                     ? ReadProtocolChannel().ToArray()
                     : Array.Empty<IProtocolMessage>();
 
-                while (!IsEof && !IsKind(BraceClose))
+                while (!IsKind(BraceClose))
                 {
                     methods.Add(ReadProtocolMember());
                 }
@@ -1086,7 +1088,7 @@ namespace D.Parsing
 
             EnterMode(Mode.Block);
 
-            while (!IsEof && !IsKind(BraceClose))
+            while (!IsKind(BraceClose))
             {
                 members.Add(ReadImplMember());
             }
@@ -1431,7 +1433,7 @@ namespace D.Parsing
             var elementKind = Kind.Object;
             var uniform = true;
 
-            while (!IsEof && !IsKind(BracketClose))
+            while (!IsKind(BracketClose))
             {
                 var element = ReadPrimary();
 
@@ -1570,7 +1572,7 @@ namespace D.Parsing
 
             EnterMode(Mode.InterpolatedString);
 
-            while (!IsEof && !IsKind(Quote))
+            while (!IsKind(Quote))
             {
                 var expression = IsKind(BraceOpen)
                     ? ReadInterpolatedExpression()
@@ -1710,7 +1712,7 @@ namespace D.Parsing
             // pattern => action
             // ...
 
-            while (!IsEof && !IsKind(BraceClose))
+            while (!IsKind(BraceClose))
             {
                 var pattern = ReadPattern();
 
