@@ -21,6 +21,11 @@ namespace D
         // mutable
         public ObjectFlags Flags { get; }
 
+        // IsComputed ?
+
+        // Getter
+        // Setter
+
         public bool IsMutable => Flags.HasFlag(ObjectFlags.Mutable);
 
         Kind IObject.Kind => Kind.Property;

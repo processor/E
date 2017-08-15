@@ -111,7 +111,7 @@ namespace D.Collections
 
             if (!TryGetNode(key, out Node node) || !node.IsLeaf)
             {
-                value = default(T);
+                value = default;
 
                 return false;
             }
@@ -249,7 +249,7 @@ namespace D.Collections
 
             internal void Remove()
             {
-                Value = default(T);
+                Value = default;
 
                 isLeaf = false;
 

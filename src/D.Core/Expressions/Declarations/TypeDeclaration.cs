@@ -18,11 +18,9 @@ namespace D.Expressions
 
         public Property[] Members { get; }
 
-        public bool IsRecord 
-            => Flags.HasFlag(TypeFlags.Record);
+        public bool IsRecord => Flags.HasFlag(TypeFlags.Record);
 
-        public bool IsEvent 
-            => Flags.HasFlag(TypeFlags.Event);
+        public bool IsEvent => Flags.HasFlag(TypeFlags.Event);
 
         Kind IObject.Kind => Kind.TypeDeclaration;
     }

@@ -162,7 +162,7 @@ namespace D.Parsing
         Match,
         Mutable,
         Mutating,
-        Let,
+        Let, // Constant
         Observe,
         On,
         Operator,

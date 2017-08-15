@@ -114,7 +114,8 @@
         OperatorDeclaration             = 2010,
         ImportDeclaration               = 2011,
 
-
+        PropertyDeclaration             = 2012,
+        CompoundPropertyDeclaration     = 2013,
 
         DestructuringAssignment         = 2220,
 
@@ -128,7 +129,7 @@
 
 
         // Patterns
-        AnyPattern = 4000,
+        AnyPattern      = 4000,
         ArrayPattern    = 4001,
         ConstantPattern = 4002,
         RangePattern    = 4003,
@@ -141,6 +142,7 @@
         Argument,
         Parameter,
         Property,
+
 
         #endregion
 

@@ -108,8 +108,8 @@ namespace D.Parsing
                 case InterpolatedStringOpen : return ReadInterpolatedString();          // $"{expression}"
                 case Match                  : return ReadMatch();                       // match expression with ...
 
-                case Var                    : return ReadLet(Var);                      // var
-                case Let                    : return ReadLet(Let);                      // let
+                case Var                    : return ReadVar();                         // var (mutable variable)
+                case Let                    : return ReadLet();                         // let (immutable constant)
 
                 case For                    : return ReadFor();                         // for 
                 case While                  : return ReadWhile();                       // while
@@ -417,11 +417,31 @@ namespace D.Parsing
         // Destructuring
         // let (a: Integer, b, c) = instance
 
+        // Modifiers
+        // let private | public | mutable
+
         private readonly List<VariableDeclarationSyntax> variableList = new List<VariableDeclarationSyntax>();
-        
-        public SyntaxNode ReadLet(TokenKind kind)
+
+        public SyntaxNode ReadLet()
+        {
+            return ReadLetOrVar(Let);
+        }
+
+        public SyntaxNode ReadVar()
+        {
+            return ReadLetOrVar(Var);
+        }
+
+        public SyntaxNode ReadLetOrVar(TokenKind kind)
         {
             Consume(kind); // ! let | var
+
+            var modifiers = ReadModifiers(); // mutable
+
+            if (kind == Var)
+            {
+                modifiers |= ObjectFlags.Mutable;
+            }
 
             if (ConsumeIf(ParenthesisOpen))
             {
@@ -450,7 +470,7 @@ namespace D.Parsing
                 return new DestructuringAssignmentSyntax(list.ToArray(), right);
             }
 
-            var declaration = ReadVariableDeclaration(kind == Var);
+            var declaration = ReadVariableDeclaration(modifiers);
 
             if (IsKind(Comma))
             {
@@ -458,7 +478,7 @@ namespace D.Parsing
 
                 while (ConsumeIf(Comma))
                 {
-                    variableList.Add(ReadVariableDeclaration(kind == Var));
+                    variableList.Add(ReadVariableDeclaration(modifiers));
                 }
 
                 bool inferedFromLast = false;
@@ -498,14 +518,10 @@ namespace D.Parsing
             }
         }
         
-        private VariableDeclarationSyntax ReadVariableDeclaration(bool mutable)
+        private VariableDeclarationSyntax ReadVariableDeclaration(ObjectFlags modifiers)
         {
-            mutable = ConsumeIf(Mutable) || mutable;
-
             ConsumeIf(ParenthesisOpen);     // ? (
-
-            var flags = mutable ? ObjectFlags.Mutable : ObjectFlags.None;
-
+            
             var name = ReadVariableSymbol(SymbolFlags.Local);
 
             ConsumeIf(ParenthesisClose);    // ? )
@@ -518,7 +534,7 @@ namespace D.Parsing
                 ? IsKind(Function) ? ReadFunctionDeclaration(name) : ReadExpression()
                 : null;
 
-            return new VariableDeclarationSyntax(name, type, value, flags);
+            return new VariableDeclarationSyntax(name, type, value, modifiers);
 
         }
 
@@ -1103,13 +1119,22 @@ namespace D.Parsing
 
         private SyntaxNode ReadTypeMember()
         {
-            // Read modifiers
+            // let private v = 1
+            // clone function() => Vector3(x, y, z) 
+
+            if (Current.Kind == Let)
+            {
+                return ReadLet();
+            }
+            else if (Current.Kind == Var)
+            {
+                return ReadVar();
+            }
 
             var modifiers = ReadModifiers();
 
             switch (Current.Kind)
             {
-                case Let         : return ReadLet(Let);
                 case BracketOpen : return ReadIndexerDeclaration();    // [name: String] -> Point { 
                 case To          : return ReadConverter();             // to Type
                 case From        : return ReadInitializer();           // from pattern                                
@@ -1123,42 +1148,30 @@ namespace D.Parsing
 
                     var name = ReadName();
 
-                    // a: b
-
-                    if (Current.Kind == Colon)
-                    {
-                        var type = ReadTypeSymbol();
-
-                        return new PropertyDeclarationSyntax(Symbol.Variable(name), type, modifiers);
-                    }
-
-                    return ReadFunctionDeclaration(new TypeSymbol(name), flags: modifiers);  // function |  * | + | ..
+                    return ConsumeIf(Colon)
+                        ? ReadTypeProperty(modifiers, Symbol.Variable(name))               // {name}: {type}
+                        : ReadFunctionDeclaration(new TypeSymbol(name), flags: modifiers); // function |  * | + | ..
             }
 
             throw new UnexpectedTokenException("Unexpected token reading member", Current);
         }
 
-        /*
-        public SyntaxNode FinishReadindPropertyDecleration(Symbol name)
+        // private 
+
+        public SyntaxNode ReadTypeProperty(ObjectFlags modifiers, Symbol name)
         {
-            do
-            {
-                names.Add(ReadMemberSymbol());
-            }
-            while (ConsumeIf(Comma));
-
-            Consume(Colon); // ! :
-
             var type = ReadTypeSymbol();
 
-            ConsumeIf(Semicolon); // ? ;
-
-            foreach (var n in names.Extract())
+            
+            if (reader.Current.Kind == Comma)
             {
-                yield return new PropertyDeclarationSyntax(n, type, flags);
+                // Compound
             }
+            
+
+            return new PropertyDeclarationSyntax(Symbol.Variable(name), type, modifiers);
         }
-        */
+        
 
         // CompoundPropertyDecleration
 
@@ -1394,9 +1407,9 @@ namespace D.Parsing
 
             if (IsKind(Bar))
             {
-                var list = new List<Symbol>();
-
-                list.Add(result);
+                var list = new List<Symbol> {
+                    result
+                };
 
                 while (ConsumeIf(Bar))
                 {
@@ -1407,9 +1420,9 @@ namespace D.Parsing
             }
             else if (reader.Current == "&")
             {
-                var list = new List<Symbol>();
-
-                list.Add(result);
+                var list = new List<Symbol> {
+                    result
+                };
 
                 while (ConsumeIf("&"))
                 {
@@ -1421,9 +1434,9 @@ namespace D.Parsing
 
             else if (IsKind(ReturnArrow))
             {
-                var list = new List<Symbol>();
-
-                list.Add(result);
+                var list = new List<Symbol> {
+                    result
+                };
 
                 Consume(ReturnArrow);
 
@@ -1694,9 +1707,9 @@ namespace D.Parsing
 
         private TupleExpressionSyntax FinishReadingTuple(SyntaxNode first)
         {
-            var elements = new List<SyntaxNode>();
-
-            elements.Add(first);
+            var elements = new List<SyntaxNode> {
+                first
+            };
 
             while (ConsumeIf(Comma)) // ? ,
             {
@@ -2191,9 +2204,9 @@ namespace D.Parsing
 
             if (IsKind(Comma))
             {
-                var arguments = new List<ArgumentSyntax>();
-
-                arguments.Add(arg);
+                var arguments = new List<ArgumentSyntax> {
+                    arg
+                };
 
                 while (ConsumeIf(Comma))
                 {
