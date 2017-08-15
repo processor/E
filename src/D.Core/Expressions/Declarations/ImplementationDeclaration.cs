@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace D.Expressions
 {
@@ -28,11 +27,11 @@ namespace D.Expressions
         {
             get
             {
-                foreach (var method in Members.OfType<FunctionExpression>())
+                foreach (var method in Members)
                 {
-                    if (method.IsInitializer)
+                    if (method is FunctionExpression func && func.IsInitializer)
                     {
-                        yield return method;
+                        yield return func;
                     }
                 }
             }
@@ -42,11 +41,11 @@ namespace D.Expressions
         {
             get
             {
-                foreach (var method in Members.OfType<FunctionExpression>())
+                foreach (var method in Members)
                 {
-                    if (!method.IsInitializer)
+                    if (method is FunctionExpression func && !func.IsInitializer)
                     {
-                        yield return method;
+                        yield return func;
                     }
                 }
             }
@@ -56,11 +55,11 @@ namespace D.Expressions
         {
             get
             {
-                foreach (var method in Members.OfType<FunctionExpression>())
+                foreach (var method in Members)
                 {
-                    if (method.IsProperty)
+                    if (method is FunctionExpression func && !func.IsProperty)
                     {
-                        yield return method;
+                        yield return func;
                     }
                 }
             }

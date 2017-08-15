@@ -264,8 +264,7 @@ namespace D.Collections
                 }
             }
 
-            public bool Contains(char key) => 
-                Children.ContainsKey(key);
+            public bool Contains(char key) =>  Children.ContainsKey(key);
 
             public bool TryGetNode(char key, out Node node) =>
                 Children.TryGetValue(key, out node);

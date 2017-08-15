@@ -19,7 +19,7 @@ Point impl {
 
             // properties @ top level...
 
-            var a = ((VariableDeclarationSyntax)type[0]);
+            var a = ((CompoundVariableDeclaration)type[0]);
         }
 
         [Fact]
