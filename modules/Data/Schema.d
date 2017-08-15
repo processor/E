@@ -4,9 +4,6 @@ Schema record {
   relationship : [ Schema `Relationship ]
 }
 
-Schema `Relationship {
-
-}
 
 Schema `Collection record {
   name      : String
@@ -14,4 +11,8 @@ Schema `Collection record {
   size      : i32?
   precision : i32?
   members   : Schema `Member
+}
+
+Schema `Relationship {
+
 }

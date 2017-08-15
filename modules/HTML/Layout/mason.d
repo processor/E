@@ -3,12 +3,12 @@ Masonary `Layout class {
   columns : [ Box ]
 
   from (columnCount: i32, columnWidth: f32, gap: f32 = 10) {
-    let mutable left = 0
+    var left = 0
     
-    let mutable columns = [ Column ];
+    columns = [ Box ];
 
     for i in 0..<columnCount {
-      columns.add(Column(
+      columns.add(Box(
         width  : columnWidth,
         height : 0,
         top    : 0,
@@ -51,8 +51,8 @@ Layout impl for Masonary `Layout {
 }
 
 Box struct {
-  width          : f32  
-  mutable height : f32  
-  top            : f32 
-  left           : f32
+  var width  = 0.0, 
+      height = 0.0,
+      top    = 0.0, 
+      left   = 0.0
 }

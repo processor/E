@@ -181,8 +181,8 @@ BitWriter impl for JPEGEncoder {
         writeBits(value, size)
 
         // Figure F.2
-        let mutable zeroRun = 0
-        let mutable k = 0
+        var zeroRun = 0
+        var k = 0
 
         while true {
             k += 1;
@@ -257,7 +257,7 @@ JPEGEncoder impl {
         let scale = clamp(quality, 1, 100) as u32
         let scale = scale < 50 ? 5000 / scale : 200 - scale * 2
 
-        let mutable tables = [ u32 ]
+        var tables = [ u32 ]
 
         let scaleValue = ƒ(v: u8) {
             let value = (v as u32 * scale + 50) / 100
@@ -289,7 +289,7 @@ JPEGEncoder impl {
 
         writer.writeSegment(SOI, None)
 
-        let mutable buf = [ byte ]
+        var buf = [ byte ]
 
         buildJfifHeader(&mut buf)
         writer.writeSegment(APP0, Some(&buf))
@@ -335,9 +335,9 @@ JPEGEncoder impl {
     }
 
     encodeGray ƒ(bitmap: &[u8], width: u32, height: u32, bpp: u32) {
-        let mutable yblock     = Array(0u8, 64)
-        let mutable ydcprev    = 0
-        let mutable dct_yblock = Array(0i32, 64)
+        var yblock     = Array(0u8, 64)
+        var ydcprev    = 0
+        var dct_yblock = Array(0i32, 64)
 
         for y in range_step(0, height, 8) {
             for x in range_step(0, width, 8) {
@@ -364,17 +364,17 @@ JPEGEncoder impl {
     }
 
     encodeRGB ƒ(bitmap: &[u8], width: u32, height: u32, bpp: u32) {
-        let mutable y_dcprev = 0
-        let mutable cb_dcprev = 0
-        let mutable cr_dcprev = 0
+        var y_dcprev = 0
+        var cb_dcprev = 0
+        var cr_dcprev = 0
 
-        let mutable dct_yblock   = Array(0i32, 64)
-        let mutable dct_cb_block = Array(0i32, 64)
-        let mutable dct_cr_block = Array(0i32, 64)
+        var dct_yblock   = Array(0i32, 64)
+        var dct_cb_block = Array(0i32, 64)
+        var dct_cr_block = Array(0i32, 64)
 
-        let mutable yblock   = Array(0u8, 64)
-        let mutable cb_block = Array(0u8, 64)
-        let mutable cr_block = Array(0u8, 64)
+        var yblock   = Array(0u8, 64)
+        var cb_block = Array(0u8, 64)
+        var cr_block = Array(0u8, 64)
         
         for y in rangeStep(0, height, 8) {
             for x in rangeStep(0, width, 8) {
@@ -470,7 +470,7 @@ buildHuffmanSegment(m: mutable [ u8 ],
 
     assert!(numcodes.len() == 16)
 
-    let mutable sum = 0
+    var sum = 0
 
     for & i in numcodes {
         m.writeAll(&[i])
@@ -499,8 +499,8 @@ buildQuantizationSegment ƒ(m: mutable [ u8 ] , precision: u8, identifier: u8, q
 }
 
 encodeCoefficient ƒ(coefficient: i32) -> (u8, u16) {
-    let mutable magnitude = abs(coefficient) as u16
-    let mutable bitCount  = 0u8
+    var magnitude = abs(coefficient) as u16
+    var bitCount  = 0u8
 
     while magnitude > 0 {
       magnitude >>= 1
