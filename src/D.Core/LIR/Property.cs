@@ -1,27 +1,14 @@
-﻿using System;
-
-namespace D
+﻿namespace D
 {
-    public class Property : IObject
+    public class Property : Member, IObject
     {
-        public Property(string name, Type type, ObjectFlags flags = ObjectFlags.None)
-        {
-            Name = name ?? throw new ArgumentNullException(nameof(name));
-            Type = type ?? throw new ArgumentNullException(nameof(type));
-            Flags = flags;
-        }
+        public Property(string name, Type type, ObjectFlags modifiers = ObjectFlags.None)
+            : base(name, type, modifiers) { }
 
-        public string Name { get; }
+        // IsComputed ?
 
-        // String
-        // String | Number
-        // A & B
-        public Type Type { get; }
-
-        // mutable
-        public ObjectFlags Flags { get; }
-
-        public bool IsMutable => Flags.HasFlag(ObjectFlags.Mutable);
+        // Getter
+        // Setter
 
         Kind IObject.Kind => Kind.Property;
 

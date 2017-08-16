@@ -111,7 +111,7 @@ namespace D.Collections
 
             if (!TryGetNode(key, out Node node) || !node.IsLeaf)
             {
-                value = default(T);
+                value = default;
 
                 return false;
             }
@@ -249,7 +249,7 @@ namespace D.Collections
 
             internal void Remove()
             {
-                Value = default(T);
+                Value = default;
 
                 isLeaf = false;
 
@@ -264,8 +264,7 @@ namespace D.Collections
                 }
             }
 
-            public bool Contains(char key) => 
-                Children.ContainsKey(key);
+            public bool Contains(char key) =>  Children.ContainsKey(key);
 
             public bool TryGetNode(char key, out Node node) =>
                 Children.TryGetValue(key, out node);

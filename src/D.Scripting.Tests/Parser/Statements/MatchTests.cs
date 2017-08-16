@@ -74,8 +74,8 @@ match x >> 4 {
                   }
                 ");
 
-            var a = (VariableDeclarationSyntax)parser.Next();
-            var b = (VariableDeclarationSyntax)parser.Next();
+            var a = (PropertyDeclarationSyntax)parser.Next();
+            var b = (PropertyDeclarationSyntax)parser.Next();
             var c = parser.ReadMatch();      // switch
 
             Assert.Equal("i", a.Name.ToString());

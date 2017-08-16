@@ -10,7 +10,7 @@
         String          = 5,
         Symbol          = 6,
         Type            = 7,         
-        FunctionExpression        = 8,  // ƒ
+        Function        = 8,  // ƒ
 
         // 9-15
         Pointer        = 9,
@@ -105,16 +105,14 @@
         TypeDeclaration                 = 2201,
         FunctionDeclaration             = 2202,
         ObserverDeclaration             = 2203,
-        VariableDeclaration             = 2204, // Let ?
-        CompoundVariableDeclaration     = 2205,
+        PropertyDeclaration             = 2204, // Let ?
+        CompoundPropertyDeclaration     = 2205,
         ProtocolDeclaration             = 2206,
         ChannelDeclaration              = 2207,
         ImplementationDeclaration       = 2208,
         UnitDeclaration                 = 2209,
         OperatorDeclaration             = 2010,
         ImportDeclaration               = 2011,
-
-
 
         DestructuringAssignment         = 2220,
 
@@ -128,7 +126,7 @@
 
 
         // Patterns
-        AnyPattern = 4000,
+        AnyPattern      = 4000,
         ArrayPattern    = 4001,
         ConstantPattern = 4002,
         RangePattern    = 4003,
@@ -141,6 +139,7 @@
         Argument,
         Parameter,
         Property,
+
 
         #endregion
 

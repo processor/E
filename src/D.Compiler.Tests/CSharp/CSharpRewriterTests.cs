@@ -100,11 +100,7 @@ Gallery impl {
   }
 }
 "));
-        }
-
-
-       
-       
+        }       
 
         [Fact]
         public void RewriteTypeInitiziation()
@@ -123,7 +119,6 @@ Account(
 
 "));
         }
-
 
         [Fact]
         public void Ternary()

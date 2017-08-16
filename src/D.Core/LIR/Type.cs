@@ -127,7 +127,6 @@ namespace D
 
         #endregion
 
-
         #region Equality
 
         public bool Equals(Type other)

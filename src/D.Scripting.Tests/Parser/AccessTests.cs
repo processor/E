@@ -9,7 +9,7 @@ namespace D.Parsing.Tests
         [Fact]
         public void Assignment()
         {
-            var declaration = Parse<VariableDeclarationSyntax>(@"
+            var declaration = Parse<PropertyDeclarationSyntax>(@"
 let mutable n = data.length
 let quant = Array<Color>.fill(255)");
 
@@ -21,7 +21,7 @@ let quant = Array<Color>.fill(255)");
         [Fact]
         public void Assignment2()
         {
-            var declaration = Parse<VariableDeclarationSyntax>(@"
+            var declaration = Parse<PropertyDeclarationSyntax>(@"
 var quant = Color[255]");
 
             Assert.Equal("quant", declaration.Name.ToString());

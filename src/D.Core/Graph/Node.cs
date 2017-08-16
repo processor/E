@@ -57,7 +57,7 @@ namespace D
         {
             if (!TryGet(name, out IObject r))
             {
-                value = default(T);
+                value = default;
 
                 return false;
             }

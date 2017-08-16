@@ -9,7 +9,7 @@ namespace D.Parsing.Tests
         [Fact]
         public void Z()
         {
-            var var = Parse<VariableDeclarationSyntax>("let parts = split($0)");
+            var var = Parse<PropertyDeclarationSyntax>("let parts = split($0)");
 
             Assert.Equal("parts", var.Name);
             Assert.Equal(Kind.CallExpression, var.Value.Kind);
@@ -18,7 +18,7 @@ namespace D.Parsing.Tests
         [Fact]
         public void FunctionVariable()
         {
-            var statements = Parse<VariableDeclarationSyntax>(@"
+            var statements = Parse<PropertyDeclarationSyntax>(@"
     let sum = ƒ(a: Integer, b: Integer) => a + b
     ");
         }
@@ -26,7 +26,7 @@ namespace D.Parsing.Tests
         [Fact]
         public void Strings()
         {
-            var let = Parse<VariableDeclarationSyntax>("let hi = \"fox\"");
+            var let = Parse<PropertyDeclarationSyntax>("let hi = \"fox\"");
 
             Assert.False(let.Flags.HasFlag(ObjectFlags.Mutable));
             Assert.Equal("fox", (StringLiteralSyntax)let.Value);
@@ -62,7 +62,7 @@ namespace D.Parsing.Tests
         // [InlineData("let (x: Integer) = (1)")] // ensure parenthsis have no effect
         public void ParseTests(string text)
         {
-            var var = Parse<VariableDeclarationSyntax>(text);
+            var var = Parse<PropertyDeclarationSyntax>(text);
 
             Assert.Equal("x", var.Name.ToString());
             Assert.Equal("1", var.Value.ToString());
@@ -71,7 +71,7 @@ namespace D.Parsing.Tests
         [Fact]
         public void TupleAssignment()
         {
-            var var = Parse<VariableDeclarationSyntax>("let points = [ (0, 1), (2, 3) ]");
+            var var = Parse<PropertyDeclarationSyntax>("let points = [ (0, 1), (2, 3) ]");
 
             Assert.Equal("points", var.Name.ToString());
         }
@@ -79,7 +79,7 @@ namespace D.Parsing.Tests
         [Fact]
         public void VarAssigns()
         {
-            var var = Parse<VariableDeclarationSyntax>("var i = 1");
+            var var = Parse<PropertyDeclarationSyntax>("var i = 1");
 
             Assert.Equal("i", var.Name.ToString());
             Assert.Equal("1", var.Value.ToString());
@@ -88,17 +88,17 @@ namespace D.Parsing.Tests
         [Fact]
         public void Complex()
         {
-            var b = Parse<VariableDeclarationSyntax>("let x = (5)");
-            var c = Parse<VariableDeclarationSyntax>("let x: Integer | None = None");
-            var d = Parse<VariableDeclarationSyntax>("let x: A & B = c");
-            var e = Parse<VariableDeclarationSyntax>("let x: Integer > 10 = c;");
+            var b = Parse<PropertyDeclarationSyntax>("let x = (5)");
+            var c = Parse<PropertyDeclarationSyntax>("let x: Integer | None = None");
+            var d = Parse<PropertyDeclarationSyntax>("let x: A & B = c");
+            var e = Parse<PropertyDeclarationSyntax>("let x: Integer > 10 = c;");
             // var f = Parse<VariableDeclaration>("let x: Integer between 0..1000 = c;");
         }
 
         [Fact]
         public void Compound()
         {
-            var b = Parse<CompoundVariableDeclaration>(@"
+            var b = Parse<CompoundPropertyDeclaration>(@"
 let a = 1, 
     b = 2, 
     c: i32, 

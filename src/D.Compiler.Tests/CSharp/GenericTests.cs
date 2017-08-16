@@ -21,7 +21,7 @@ let matrix = [
     [ [ 4, 5, 7, 6 ], [  0,  0, +1 ] ]
 ]";
 
-            var def = (VariableDeclarationSyntax)new Parser(text).Next();
+            var def = (PropertyDeclarationSyntax)new Parser(text).Next();
 
             Assert.Equal("matrix", def.Name);
 

@@ -9,7 +9,7 @@ namespace D.Syntax
         public virtual SyntaxNode VisitTernary(TernaryExpressionSyntax syntax)                       => throw new NotImplementedException(); 
         public virtual SyntaxNode VisitBlock(BlockExpressionSyntax syntax)                           => throw new NotImplementedException(); 
         public virtual SyntaxNode VisitCall(CallExpressionSyntax syntax)                             => throw new NotImplementedException(); 
-        public virtual SyntaxNode VisitVariableDeclaration(VariableDeclarationSyntax syntax)         => throw new NotImplementedException(); 
+        public virtual SyntaxNode VisitVariableDeclaration(PropertyDeclarationSyntax syntax)         => throw new NotImplementedException(); 
         public virtual SyntaxNode VisitTypeInitializer(ObjectInitializerSyntax syntax)               => throw new NotImplementedException(); 
         public virtual SyntaxNode VisitDestructuringAssignment(DestructuringAssignmentSyntax syntax) => throw new NotImplementedException(); 
         public virtual SyntaxNode VisitIndexAccess(IndexAccessExpressionSyntax syntax)               => throw new NotImplementedException(); 
@@ -39,7 +39,7 @@ namespace D.Syntax
             switch (syntax.Kind)
             {
                 // Declarations
-                case Kind.VariableDeclaration       : return VisitVariableDeclaration((VariableDeclarationSyntax)syntax);
+                case Kind.PropertyDeclaration       : return VisitVariableDeclaration((PropertyDeclarationSyntax)syntax);
                 case Kind.TypeInitializer         : return VisitTypeInitializer((ObjectInitializerSyntax)syntax);
                 case Kind.DestructuringAssignment   : return VisitDestructuringAssignment((DestructuringAssignmentSyntax)syntax);
                 case Kind.MemberAccessExpression    : return VisitMemberAccess((MemberAccessExpressionSyntax)syntax);

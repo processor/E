@@ -207,7 +207,7 @@ namespace D.Units
                 }
             }
 
-            unit = default(Unit<T1>);
+            unit = default;
 
             return false;
         }

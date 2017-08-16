@@ -40,7 +40,7 @@ Point(
         [Fact]
         public void Let()
         {
-            var let = Parse<VariableDeclarationSyntax>("let zero = Point(x: 0, y: 0, z: 0);");
+            var let = Parse<PropertyDeclarationSyntax>("let zero = Point(x: 0, y: 0, z: 0);");
 
             var value = (ObjectInitializerSyntax)let.Value;
 

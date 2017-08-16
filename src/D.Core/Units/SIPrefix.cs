@@ -132,7 +132,7 @@ namespace D.Units
                 case 'Y': prefix = Y; break;
 
                 default:
-                    prefix = default(SIPrefix);
+                    prefix = default;
 
                     return false;
             }
@@ -149,7 +149,7 @@ namespace D.Units
                 return true;
             }
 
-            prefix = default(SIPrefix);
+            prefix = default;
 
             return false;
         }

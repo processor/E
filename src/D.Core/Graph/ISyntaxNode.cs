@@ -1,10 +1,14 @@
 ﻿namespace D
 {
-    public interface INode
+    public interface ISyntaxNode
     {
-        string Name { get; }
+        Symbol Name { get; }
         
         // The type of the node value...
+
+        TypeSymbol Type { get; }
+
+        // Parent
     }
 }
 

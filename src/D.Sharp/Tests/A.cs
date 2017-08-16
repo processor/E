@@ -64,13 +64,13 @@ namespace D
 
         public CSharpCompilation Compile(string name, SyntaxTree root)
         {
-            var assemblyPath = Path.GetDirectoryName(typeof(object).GetTypeInfo().Assembly.Location);
+            var assemblyPath = Path.GetDirectoryName(typeof(object).Assembly.Location);
 
             var mscorelib = MetadataReference.CreateFromFile(Path.Combine(assemblyPath, "mscorlib.dll"));
             // var system    = MetadataReference.CreateFromFile(Path.Combine(assemblyPath, "System.dll"));
             //  var corelib   = MetadataReference.CreateFromFile(Path.Combine(assemblyPath, "System.Core.dll"));
-            var runtime = MetadataReference.CreateFromFile(typeof(string).GetTypeInfo().Assembly.Location);
-            var console = MetadataReference.CreateFromFile(typeof(System.Console).GetTypeInfo().Assembly.Location);
+            var runtime = MetadataReference.CreateFromFile(typeof(string).Assembly.Location);
+            var console = MetadataReference.CreateFromFile(typeof(System.Console).Assembly.Location);
 
 
             // var extensions = MetadataReference.CreateFromFile(Path.Combine(assemblyPath, "System.Runtime.Extensions.dll"));

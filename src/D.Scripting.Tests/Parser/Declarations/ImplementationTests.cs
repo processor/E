@@ -9,6 +9,48 @@ namespace D.Parsing.Tests
     public class ImplementationTests : TestBase
     {
         [Fact]
+        public void Type2_CompoundProperties()
+        {
+            var type = Parse<ImplementationDeclarationSyntax>(@"
+Point impl {
+  var x = 0, y = 0, z = 0
+}
+");
+
+            // properties @ top level...
+
+            var a = ((CompoundPropertyDeclaration)type[0]);
+        }
+
+        [Fact]
+        public void Type1()
+        {
+            var type = Parse<ImplementationDeclarationSyntax>(@"
+Point impl {
+  var public   x: Number = 0
+  var private  y: Number = 0
+  var internal z: Number = 0
+
+  to String    => $""{x},{y},{z}""
+  to [ T ]     => [ x, y, z ]
+  to (T, T, T) => (x, y, z) 
+}
+");
+            Assert.Equal("x",            ((PropertyDeclarationSyntax)type[0]).Name);
+            Assert.Equal("Number",       ((PropertyDeclarationSyntax)type[0]).Type);
+
+            Assert.Equal("String",       ((FunctionDeclarationSyntax)type[3]).ReturnType);
+            Assert.Equal("List<T>",      ((FunctionDeclarationSyntax)type[4]).ReturnType);
+            Assert.Equal("Tuple<T,T,T>", ((FunctionDeclarationSyntax)type[5]).ReturnType);
+
+            foreach (var member in type.Members.OfType<FunctionDeclarationSyntax>())
+            {
+                Assert.True(member.IsConverter);
+                Assert.True(member.Body is LambdaExpressionSyntax);
+            }
+        }
+
+        [Fact]
         public void Converter()
         {
             var impl = Parse<ImplementationDeclarationSyntax>(@"
