@@ -71,44 +71,7 @@ namespace D.Syntax
 
         public Symbol[] Names { get; }
     }
-
     
-    // a, b, c: Number
-    
-    public class CompoundPropertyDeclarationSyntax : SyntaxNode
-    {
-        public CompoundPropertyDeclarationSyntax(PropertyDeclarationSyntax[] properties)
-        {
-            Properties = properties;
-        }
-
-        public PropertyDeclarationSyntax[] Properties { get; }
-
-        Kind IObject.Kind => Kind.CompoundPropertyDeclaration;
-    }
-    
-
-    public class PropertyDeclarationSyntax : SyntaxNode
-    {
-        public PropertyDeclarationSyntax(Symbol name, TypeSymbol type, ObjectFlags flags)
-        {
-            Name  = name ?? throw new ArgumentNullException(nameof(name));
-            Type  = type;
-            Flags = flags;
-        }
-
-        public Symbol Name { get; }
-
-        // mutable
-        public ObjectFlags Flags { get; }
-
-        // String
-        // String | Number
-        // A & B
-        public TypeSymbol Type { get; }
-
-        Kind IObject.Kind => Kind.PropertyDeclaration;
-    }
 
     // MAP = * -> *
 }

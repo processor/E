@@ -19,7 +19,7 @@ Point impl {
 
             // properties @ top level...
 
-            var a = ((CompoundVariableDeclaration)type[0]);
+            var a = ((CompoundPropertyDeclaration)type[0]);
         }
 
         [Fact]
@@ -36,10 +36,10 @@ Point impl {
   to (T, T, T) => (x, y, z) 
 }
 ");
-            Assert.Equal("x",         ((VariableDeclarationSyntax)type[0]).Name);
-            Assert.Equal("Number",      ((VariableDeclarationSyntax)type[0]).Type);
+            Assert.Equal("x",            ((PropertyDeclarationSyntax)type[0]).Name);
+            Assert.Equal("Number",       ((PropertyDeclarationSyntax)type[0]).Type);
 
-            Assert.Equal("String",      ((FunctionDeclarationSyntax)type[3]).ReturnType);
+            Assert.Equal("String",       ((FunctionDeclarationSyntax)type[3]).ReturnType);
             Assert.Equal("List<T>",      ((FunctionDeclarationSyntax)type[4]).ReturnType);
             Assert.Equal("Tuple<T,T,T>", ((FunctionDeclarationSyntax)type[5]).ReturnType);
 

@@ -37,7 +37,7 @@ namespace D.Expressions
             switch (expression.Kind)
             {
                 // Declarations
-                case Kind.VariableDeclaration     : return VisitVariableDeclaration((VariableDeclaration)expression);
+                case Kind.PropertyDeclaration     : return VisitVariableDeclaration((VariableDeclaration)expression);
                     
                 case Kind.TypeInitializer       : return VisitTypeInitializer((TypeInitializer)expression);
                 case Kind.DestructuringAssignment : return VisitDestructuringAssignment((DestructuringAssignment)expression);

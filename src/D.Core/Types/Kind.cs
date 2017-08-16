@@ -105,17 +105,14 @@
         TypeDeclaration                 = 2201,
         FunctionDeclaration             = 2202,
         ObserverDeclaration             = 2203,
-        VariableDeclaration             = 2204, // Let ?
-        CompoundVariableDeclaration     = 2205,
+        PropertyDeclaration             = 2204, // Let ?
+        CompoundPropertyDeclaration     = 2205,
         ProtocolDeclaration             = 2206,
         ChannelDeclaration              = 2207,
         ImplementationDeclaration       = 2208,
         UnitDeclaration                 = 2209,
         OperatorDeclaration             = 2010,
         ImportDeclaration               = 2011,
-
-        PropertyDeclaration             = 2012,
-        CompoundPropertyDeclaration     = 2013,
 
         DestructuringAssignment         = 2220,
 

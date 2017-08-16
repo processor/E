@@ -420,7 +420,7 @@ namespace D.Parsing
         // Modifiers
         // let private | public | mutable
 
-        private readonly List<VariableDeclarationSyntax> variableList = new List<VariableDeclarationSyntax>();
+        private readonly List<PropertyDeclarationSyntax> variableList = new List<PropertyDeclarationSyntax>();
 
         public SyntaxNode ReadLet()
         {
@@ -493,13 +493,13 @@ namespace D.Parsing
 
                 if (inferedFromLast)
                 {
-                    var l = new List<VariableDeclarationSyntax>(variableList.Count);
+                    var l = new List<PropertyDeclarationSyntax>(variableList.Count);
 
                     var k = variableList[variableList.Count - 1].Type;
 
                     foreach (var var in variableList)
                     {
-                        l.Add(new VariableDeclarationSyntax(var.Name, k, null, var.Flags));
+                        l.Add(new PropertyDeclarationSyntax(var.Name, k, null, var.Flags));
                     }
 
                     variableList.Clear();
@@ -508,7 +508,7 @@ namespace D.Parsing
 
                 ConsumeIf(Semicolon); // ? ;
 
-                return new CompoundVariableDeclaration(variableList.Extract());
+                return new CompoundPropertyDeclaration(variableList.Extract());
             }
             else
             {
@@ -518,7 +518,7 @@ namespace D.Parsing
             }
         }
         
-        private VariableDeclarationSyntax ReadVariableDeclaration(ObjectFlags modifiers)
+        private PropertyDeclarationSyntax ReadVariableDeclaration(ObjectFlags modifiers)
         {
             ConsumeIf(ParenthesisOpen);     // ? (
             
@@ -534,7 +534,7 @@ namespace D.Parsing
                 ? IsKind(Function) ? ReadFunctionDeclaration(name) : ReadExpression()
                 : null;
 
-            return new VariableDeclarationSyntax(name, type, value, modifiers);
+            return new PropertyDeclarationSyntax(name, type, value, modifiers);
 
         }
 
@@ -910,7 +910,7 @@ namespace D.Parsing
 
                 foreach (var n in names.Extract())
                 {
-                    yield return new PropertyDeclarationSyntax(n, type, flags);
+                    yield return new PropertyDeclarationSyntax(n, type, null, flags);
                 }
             }
         }
@@ -1162,14 +1162,12 @@ namespace D.Parsing
         {
             var type = ReadTypeSymbol();
 
-            
             if (reader.Current.Kind == Comma)
             {
                 // Compound
-            }
-            
+            }  
 
-            return new PropertyDeclarationSyntax(Symbol.Variable(name), type, modifiers);
+            return new PropertyDeclarationSyntax(Symbol.Variable(name), type, null, modifiers);
         }
         
 

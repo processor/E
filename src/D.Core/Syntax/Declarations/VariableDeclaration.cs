@@ -3,9 +3,9 @@
     // let a: Integer = 5
     // let mutable y: i64
 
-    public class VariableDeclarationSyntax : SyntaxNode
+    public class PropertyDeclarationSyntax : SyntaxNode
     {
-        public VariableDeclarationSyntax(
+        public PropertyDeclarationSyntax(
             Symbol name, 
             TypeSymbol type, 
             SyntaxNode value = null, 
@@ -19,25 +19,30 @@
 
         public Symbol Name { get; }
 
+        // String
+        // String | Number
+        // A & B
         public TypeSymbol Type { get; }
 
         public SyntaxNode Value { get; }
 
         public ObjectFlags Flags { get; }
 
-        Kind IObject.Kind => Kind.VariableDeclaration;
+        Kind IObject.Kind => Kind.PropertyDeclaration;
     }
 
-    public class CompoundVariableDeclaration : SyntaxNode
+    // a, b, c: Number
+
+    public class CompoundPropertyDeclaration : SyntaxNode
     {
-        public CompoundVariableDeclaration(VariableDeclarationSyntax[] declarations)
+        public CompoundPropertyDeclaration(PropertyDeclarationSyntax[] declarations)
         {
             Declarations = declarations;
         }
 
-        public VariableDeclarationSyntax[] Declarations { get; }
+        public PropertyDeclarationSyntax[] Declarations { get; }
 
-        Kind IObject.Kind => Kind.CompoundVariableDeclaration;
+        Kind IObject.Kind => Kind.CompoundPropertyDeclaration;
     }
 }
 

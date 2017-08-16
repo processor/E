@@ -39,7 +39,7 @@ namespace D
                         methods.Add(VisitFunctionDeclaration(function, type));
                         break;
 
-                    case VariableDeclarationSyntax variable:
+                    case PropertyDeclarationSyntax variable:
                         variables.Add(VisitVariableDeclaration(variable));
                         break;
                 }

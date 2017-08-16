@@ -108,7 +108,7 @@ namespace D
                 case Kind.InterpolatedStringExpression:  return VisitInterpolatedStringExpression((InterpolatedStringExpressionSyntax)syntax);
 
                 // Declarations
-                case Kind.VariableDeclaration     : return VisitVariableDeclaration((VariableDeclarationSyntax)syntax);
+                case Kind.PropertyDeclaration     : return VisitVariableDeclaration((PropertyDeclarationSyntax)syntax);
                 case Kind.TypeInitializer       : return VisitObjectInitializer((ObjectInitializerSyntax)syntax);
                 case Kind.DestructuringAssignment : return VisitDestructuringAssignment((DestructuringAssignmentSyntax)syntax);
                 case Kind.MemberAccessExpression  : return VisitMemberAccess((MemberAccessExpressionSyntax)syntax);
@@ -254,7 +254,7 @@ namespace D
             return Arguments.Create(items);
         }
 
-        public virtual VariableDeclaration VisitVariableDeclaration(VariableDeclarationSyntax variable)
+        public virtual VariableDeclaration VisitVariableDeclaration(PropertyDeclarationSyntax variable)
         {
             var value = Visit(variable.Value);
             var type  = GetType(variable.Type ?? value);
