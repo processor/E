@@ -135,7 +135,7 @@ namespace D
             writer.Write(Body.ToString());
         }
 
-        Kind IObject.Kind => Kind.FunctionExpression;
+        Kind IObject.Kind => Kind.Function;
     }
 }
 

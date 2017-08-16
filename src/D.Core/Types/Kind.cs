@@ -10,7 +10,7 @@
         String          = 5,
         Symbol          = 6,
         Type            = 7,         
-        FunctionExpression        = 8,  // ƒ
+        Function        = 8,  // ƒ
 
         // 9-15
         Pointer        = 9,
