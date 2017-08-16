@@ -12,7 +12,7 @@ namespace D.Syntax
     */
     public class TypeDefinationBase : SyntaxNode
     {
-        public TypeDefinationBase(Symbol baseType, IMemberSyntax[] members, TypeFlags flags)
+        public TypeDefinationBase(Symbol baseType, ISyntaxNode[] members, TypeFlags flags)
         {
             BaseType = baseType;
             Members = members;
@@ -24,7 +24,7 @@ namespace D.Syntax
 
         public TypeFlags Flags { get; }
 
-        public IMemberSyntax[] Members { get; }
+        public ISyntaxNode[] Members { get; }
 
         public bool IsRecord => Flags.HasFlag(TypeFlags.Record);
 
@@ -40,7 +40,7 @@ namespace D.Syntax
             ParameterSyntax[] genericParameters,
             Symbol baseType,
             AnnotationExpressionSyntax[] annotations,
-            IMemberSyntax[] members,
+            ISyntaxNode[] members,
             TypeFlags flags = TypeFlags.None)
             : base(baseType, members, flags)
         {
@@ -64,7 +64,7 @@ namespace D.Syntax
 
     public class CompoundTypeDeclarationSyntax : TypeDefinationBase
     {
-        public CompoundTypeDeclarationSyntax(Symbol[] names, TypeFlags flags, Symbol baseType, IMemberSyntax[] members)
+        public CompoundTypeDeclarationSyntax(Symbol[] names, TypeFlags flags, Symbol baseType, ISyntaxNode[] members)
              : base(baseType, members, flags)
         {
             Names = names ?? throw new ArgumentNullException(nameof(names));

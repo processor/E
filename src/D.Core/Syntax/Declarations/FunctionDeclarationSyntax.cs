@@ -4,7 +4,7 @@ using System.Text;
 
 namespace D.Syntax
 {
-    public class FunctionDeclarationSyntax : IMemberSyntax, SyntaxNode
+    public class FunctionDeclarationSyntax : ISyntaxNode, SyntaxNode
     {
         // TODO: Module
 
@@ -20,11 +20,11 @@ namespace D.Syntax
            Symbol returnType,
            ObjectFlags flags = ObjectFlags.None)
         {
-            Parameters = parameters;
+            Parameters        = parameters;
             GenericParameters = Array.Empty<ParameterSyntax>();
-            Body = body;
-            ReturnType = returnType;
-            Flags = flags;
+            Body              = body;
+            ReturnType        = returnType;
+            Flags             = flags;
         }
 
         public FunctionDeclarationSyntax(
@@ -101,6 +101,26 @@ namespace D.Syntax
         public bool IsProperty      => Flags.HasFlag(ObjectFlags.Property);
         public bool IsIndexer       => Flags.HasFlag(ObjectFlags.Indexer);
         public bool IsConverter     => Flags.HasFlag(ObjectFlags.Converter);
+
+        #endregion
+
+
+        #region Helpers
+
+        TypeSymbol ISyntaxNode.Type => new TypeSymbol("Function", GetParameterTypeSymbols(this.Parameters));
+
+        private static Symbol[] GetParameterTypeSymbols(ParameterSyntax[] parameters)
+        {
+            var typeSymbols = new Symbol[parameters.Length];
+
+            for (var i = 0; i < parameters.Length; i++)
+            {
+                typeSymbols[i] = parameters[i].Type;
+            }
+
+            return typeSymbols;
+        }
+
 
         #endregion
 
