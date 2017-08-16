@@ -19,7 +19,11 @@ Channel protocol {
 
 Seekable_Channel = Channel & Seekable
 
-Channel `Status enum = Closed | Connected | Terminated | ∎
+Channel `Status enum {
+  Closed
+  Connected
+  Terminated
+}
 
 ReadableChannel protocol {
   available : i64 >= 0

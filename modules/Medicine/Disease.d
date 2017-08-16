@@ -32,7 +32,7 @@ Cancer protocol {
   * | chemotherapy
     | radition
     ↺ : treatment |
-  * resolve : remission ∎
+  * resolve ∎ : remission
 }
 
   Acute `Disseminated `Encephalomyelitis

@@ -30,3 +30,5 @@ UUID   struct @primitive @size(16)
 
 // Pointer
 // NativeInteger
+
+// BASED on LLVM
