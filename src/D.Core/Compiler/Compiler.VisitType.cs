@@ -21,7 +21,7 @@
 
             for (var i = 0; i < type.Members.Length; i++)
             {
-                var member = type.Members[i];
+                var member = type.Members[i] as PropertyDeclarationSyntax;
 
                 properties[i] = new Property(member.Name, scope.Get<Type>(member.Type), member.Flags);
             }

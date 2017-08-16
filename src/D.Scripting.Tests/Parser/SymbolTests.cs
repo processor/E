@@ -24,10 +24,10 @@ namespace D.Parsing.Tests
 
         private TypeSymbol GetTypeSymbol(string text)
         {
-            return Parse<TypeDeclarationSyntax>($@"
+            return (Parse<TypeDeclarationSyntax>($@"
 Unit struct {{ 
     a: {text}
-}}").Members[0].Type;
+}}").Members[0] as PropertyDeclarationSyntax).Type;
         }
 
         [Fact]
