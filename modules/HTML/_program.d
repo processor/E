@@ -1,5 +1,5 @@
 Slide class {
-  var index    : Int32
+  var index    : i32
   var previous : Slide
   var next     : Slide
 }
