@@ -37,10 +37,10 @@
     {
         public CompoundPropertyDeclaration(PropertyDeclarationSyntax[] declarations)
         {
-            Declarations = declarations;
+            Members = declarations;
         }
 
-        public PropertyDeclarationSyntax[] Declarations { get; }
+        public PropertyDeclarationSyntax[] Members { get; }
 
         Kind IObject.Kind => Kind.CompoundPropertyDeclaration;
     }

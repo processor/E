@@ -9,7 +9,7 @@
 
         String          = 5,
         Symbol          = 6,
-        Type            = 7,         
+        Type            = 7,
         Function        = 8,  // ƒ
 
         // 9-15

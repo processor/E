@@ -70,6 +70,7 @@ namespace D
 
         public virtual IObject Invoke(IArguments arguments)
         {
+
             return null;
         }
 
