@@ -15,7 +15,7 @@ namespace D.Parsing.Tests
             
             var a = new Parser(text).Enumerate().ToArray();
 
-            Assert.Equal(24, a.Length);
+            Assert.Equal(20, a.Length);
         }
 
         [Fact]

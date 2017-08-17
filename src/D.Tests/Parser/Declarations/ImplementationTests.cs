@@ -352,6 +352,8 @@ Curve <T> implementation for Arc<T> {
 
             Assert.Equal("Point<T>", initializer.Type);
         }
+
+
     }
 }
 

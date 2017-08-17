@@ -106,7 +106,7 @@ let a = 1,
     e: String = ""five"", 
     f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v, w, x, y, z: Number");
 
-            Assert.Equal(26, b.Declarations.Length);
+            Assert.Equal(26, b.Members.Length);
 
             // Assert.Equal("five", b.Declarations[4].Value.ToString());
         }

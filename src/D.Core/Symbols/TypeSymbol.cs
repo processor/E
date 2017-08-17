@@ -2,7 +2,7 @@
 {
     public class TypeSymbol : Symbol
     {
-        public static readonly TypeSymbol Any    = new TypeSymbol("Any");    // Object ?
+        public static readonly TypeSymbol Any    = new TypeSymbol("Any");    // Object | None
         public static readonly TypeSymbol String = new TypeSymbol("String");
         public static readonly TypeSymbol Number = new TypeSymbol("Number");
         public static readonly TypeSymbol Void   = new TypeSymbol("Void");   // unit '()' in rust

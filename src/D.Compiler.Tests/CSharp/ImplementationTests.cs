@@ -453,6 +453,7 @@ Point struct <T> {
         }
 
 
+
         [Fact]
         public void WriteProtocol()
         {

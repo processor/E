@@ -49,38 +49,38 @@ Point struct {
   x, y, z: T
 }
 ");
-            Assert.Equal(3, a.Members.Length);
+            Assert.Equal(1, a.Members.Length);
 
-            Assert.Equal("x", a.Members[0].Name);
-            Assert.Equal("y", a.Members[1].Name);
-            Assert.Equal("z", a.Members[2].Name);
+            var members = ((CompoundPropertyDeclaration)a.Members[0]).Members;
 
-            Assert.Equal("T", (a.Members[0] as PropertyDeclarationSyntax).Type);
-            Assert.Equal("T", (a.Members[1] as PropertyDeclarationSyntax).Type);
-            Assert.Equal("T", (a.Members[2] as PropertyDeclarationSyntax).Type);
+            Assert.Equal("x", members[0].Name);
+            Assert.Equal("y", members[1].Name);
+            Assert.Equal("z", members[2].Name);
+
+            Assert.Equal("T", members[0].Type);
+            Assert.Equal("T", members[1].Type);
+            Assert.Equal("T", members[2].Type);
         }
-
-
-       
-
 
         [Fact]
         public void ConstrainedGeneric()
         {
-            var a = Parse<TypeDeclarationSyntax>(@"
+            var type = Parse<TypeDeclarationSyntax>(@"
 Size<T:Number> struct {
   width  : Number
   height : Number
 }
 ");
-            Assert.Equal(2, a.Members.Length);
+            Assert.Equal(2, type.Members.Length);
 
-            Assert.Equal("T", a.Name.Arguments[0].Name);
-            Assert.Equal("width", a.Members[0].Name);
-            Assert.Equal("height", a.Members[1].Name);
+            var members = type.Members.OfType<PropertyDeclarationSyntax>().ToArray();
 
-            Assert.Equal("Number", (a.Members[0] as PropertyDeclarationSyntax).Type);
-            Assert.Equal("Number", (a.Members[1] as PropertyDeclarationSyntax).Type);
+            Assert.Equal("T", type.Name.Arguments[0].Name);
+            Assert.Equal("width", members[0].Name);
+            Assert.Equal("height", members[1].Name);
+
+            Assert.Equal("Number", members[0].Type);
+            Assert.Equal("Number", members[1].Type);
         }
 
         [Fact]
@@ -100,18 +100,21 @@ A, B, C : D type {
         [Fact]
         public void TypeDefination()
         {
-            var declaration = Parse<TypeDeclarationSyntax>(@"
+            var type = Parse<TypeDeclarationSyntax>(@"
 Graphic class {
   text : String
   id   : Identity
 }");
-            Assert.Equal("Graphic",  declaration.Name.ToString());
-            Assert.Equal("text",     declaration.Members[0].Name);
-            // Assert.Equal("String",   declaration.Members[0].Type.Name);
-            Assert.Equal("id",       declaration.Members[1].Name);
-            // Assert.Equal("Identity", declaration.Members[1].Type.ToString());
 
-            Assert.Equal(0, declaration.GenericParameters.Length);
+            var members = type.Members.OfType<PropertyDeclarationSyntax>().ToArray();
+
+            Assert.Equal("Graphic",  type.Name.ToString());
+            Assert.Equal("text",     members[0].Name);
+            Assert.Equal("String",   members[0].Type.Name);
+            Assert.Equal("id",       members[1].Name);
+            Assert.Equal("Identity", members[1].Type.ToString());
+
+            Assert.Equal(0, type.GenericParameters.Length);
         }
 
         [Fact]
@@ -187,6 +190,48 @@ T record {
             Assert.Equal("List<Optional<CollisionCourse>>", members[8].Type.ToString());
         }
 
+
+        [Fact]
+        public void LambdaMatch()
+        {
+            var type = Parse<TypeDeclarationSyntax>(@"
+Vector3 struct { 
+  x, y, z: Number
+
+  from (x, y, z: Number) => Vector3(x, y, z);
+  from (x, y: Number)    => Vector3(x, y, z: 0);
+  from (value: T)        => Vector3(x: value, y: value, z: value); // ambigious without ;
+
+  [ index: i64 ] => match index { 
+    0 => x
+    1 => y
+    2 => z
+  };
+}");
+
+            
+        }
+
+
+        [Fact]
+        public void CommentsAndCasing()
+        {
+            var type = Parse<TypeDeclarationSyntax>(@"
+Arc struct { 
+  x            : Number            // circle center x
+  y            : Number            // circle center y
+  x `Radius    : Number            // circle radius x
+  y `Radius    : Number            // circle radius y
+  start `Angle : Number<Angle>
+  end   `Angle : Number<Angle>
+  clockwise    : Boolean
+};");
+
+            var members = type.Members.OfType<PropertyDeclarationSyntax>().ToArray();
+
+            Assert.Equal(7, members.Length);
+        }
+
         [Fact]
         public void Complicated()
         {
@@ -199,24 +244,27 @@ Account record {
    currencyCode    :   List<Character>
 };");
 
-            var members = type.Members;
+            // var members = type.Members;
 
-            Assert.Equal("Account", type.Name.ToString());
+            var members = type.Members.OfType<PropertyDeclarationSyntax>().ToArray();
+
+            
+            Assert.Equal("Account", type.Name);
             Assert.True(type.IsRecord);
-            Assert.True((members[0] as PropertyDeclarationSyntax).Flags.HasFlag(ObjectFlags.Mutable));
+            Assert.True(members[0].Flags.HasFlag(ObjectFlags.Mutable));
             Assert.Equal("balance", members[0].Name);
             Assert.Equal("Decimal", (members[0] as PropertyDeclarationSyntax).Type.ToString());
 
             Assert.Equal("owner",   members[1].Name);
-            Assert.Equal("Entity", (members[1] as PropertyDeclarationSyntax).Type);
+            Assert.Equal("Entity",  members[1].Type);
 
-            Assert.Equal("Organization", (members[2] as PropertyDeclarationSyntax).Type);
-
-            Assert.Equal("List",        (members[3] as PropertyDeclarationSyntax).Type.Name);
-            Assert.Equal("Transaction", (members[3] as PropertyDeclarationSyntax).Type.Arguments[0].Name);
-
-            Assert.Equal("List",        (members[4] as PropertyDeclarationSyntax).Type.Name);
-            Assert.Equal("Character",   (members[4] as PropertyDeclarationSyntax).Type.Arguments[0].Name);
+            Assert.Equal("Organization", members[2].Type);
+                                         
+            Assert.Equal("List",         members[3].Type.Name);
+            Assert.Equal("Transaction",  members[3].Type.Arguments[0].Name);
+                                         
+            Assert.Equal("List",         members[4].Type.Name);
+            Assert.Equal("Character",    members[4].Type.Arguments[0].Name);
         }
     }
 }

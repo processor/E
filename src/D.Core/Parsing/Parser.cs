@@ -392,6 +392,45 @@ namespace D.Parsing
 
         #region Declarations
 
+        // Float : Number @size(32) { }
+        // Int32 type @size(32)
+        // Point type <T:Number> : Vector3 { }
+        // Point struct { } 
+        public TypeDeclarationSyntax ReadTypeDeclaration(Symbol typeName)
+        {
+            var flags = ReadTypeModifiers();
+
+            // <T: Number>
+            var genericParameters = ReadGenericParameters();
+
+            var baseType = ConsumeIf(Colon) // ? :
+                ? ReadTypeSymbol()          // baseType
+                : null;
+
+            var annotations = ReadAnnotations().ToArray();
+            var properties  = ReadTypeDeclarationBody();
+
+            ConsumeIf(Semicolon); // ? ;
+
+            return new TypeDeclarationSyntax(typeName, genericParameters, baseType, annotations, properties, flags: flags);
+        }
+
+        public CompoundTypeDeclarationSyntax ReadCompoundTypeDeclaration(Symbol[] names)
+        {
+            var flags = ReadTypeModifiers();
+
+            var baseTypes = ConsumeIf(Colon) // ? :
+                ? ReadTypeSymbol()           // baseType
+                : null;
+
+            var members = ReadTypeDeclarationBody();
+
+            ConsumeIf(Semicolon); // ? ;
+
+            return new CompoundTypeDeclarationSyntax(names, flags, baseTypes, members);
+        }
+
+
         // let x = 5
         // let x: i8 = 5
         // let x = (5: i8)
@@ -413,15 +452,9 @@ namespace D.Parsing
 
         private readonly List<PropertyDeclarationSyntax> variableList = new List<PropertyDeclarationSyntax>();
 
-        public SyntaxNode ReadLet()
-        {
-            return ReadLetOrVar(Let);
-        }
+        public SyntaxNode ReadLet() => ReadLetOrVar(Let);
 
-        public SyntaxNode ReadVar()
-        {
-            return ReadLetOrVar(Var);
-        }
+        public SyntaxNode ReadVar() => ReadLetOrVar(Var);
 
         public SyntaxNode ReadLetOrVar(TokenKind kind)
         {
@@ -442,7 +475,7 @@ namespace D.Parsing
                 {
                     var name = ReadTypeSymbol();
 
-                    var type = (ConsumeIf(Colon))
+                    var type = ConsumeIf(Colon)
                         ? ReadTypeSymbol()
                         : null;
 
@@ -465,41 +498,7 @@ namespace D.Parsing
 
             if (IsKind(Comma))
             {
-                variableList.Add(declaration);
-
-                while (ConsumeIf(Comma))
-                {
-                    variableList.Add(ReadVariableDeclaration(modifiers));
-                }
-
-                bool inferedFromLast = false;
-
-                foreach (var v in variableList)
-                {
-                    if (v.Type == null && v.Value == null)
-                    {
-                        inferedFromLast = true;
-                    }
-                }
-
-                if (inferedFromLast)
-                {
-                    var l = new List<PropertyDeclarationSyntax>(variableList.Count);
-
-                    var k = variableList[variableList.Count - 1].Type;
-
-                    foreach (var var in variableList)
-                    {
-                        l.Add(new PropertyDeclarationSyntax(var.Name, k, null, var.Flags));
-                    }
-
-                    variableList.Clear();
-                    variableList.AddRange(l);
-                }
-
-                ConsumeIf(Semicolon); // ? ;
-
-                return new CompoundPropertyDeclaration(variableList.Extract());
+                return FinishReadingVariableDeclarationList(declaration, modifiers);
             }
             else
             {
@@ -508,7 +507,46 @@ namespace D.Parsing
                 return declaration;
             }
         }
-        
+
+        private CompoundPropertyDeclaration FinishReadingVariableDeclarationList(PropertyDeclarationSyntax first, ObjectFlags modifiers)
+        {
+            variableList.Add(first);
+
+            while (ConsumeIf(Comma))
+            {
+                variableList.Add(ReadVariableDeclaration(modifiers));
+            }
+
+            bool inferedFromLast = false;
+
+            foreach (var v in variableList)
+            {
+                if (v.Type == null && v.Value == null)
+                {
+                    inferedFromLast = true;
+                }
+            }
+
+            if (inferedFromLast)
+            {
+                var l = new List<PropertyDeclarationSyntax>(variableList.Count);
+
+                var k = variableList[variableList.Count - 1].Type;
+
+                foreach (var var in variableList)
+                {
+                    l.Add(new PropertyDeclarationSyntax(var.Name, k, null, var.Flags));
+                }
+
+                variableList.Clear();
+                variableList.AddRange(l);
+            }
+
+            ConsumeIf(Semicolon); // ? ;
+
+            return new CompoundPropertyDeclaration(variableList.Extract());
+        }
+
         private PropertyDeclarationSyntax ReadVariableDeclaration(ObjectFlags modifiers)
         {
             ConsumeIf(ParenthesisOpen);     // ? (
@@ -755,44 +793,6 @@ namespace D.Parsing
             return flags;
         }
 
-        // Float : Number @size(32) { }
-        // Int32 type @size(32)
-        // Point type <T:Number> : Vector3 { }
-        // Point struct { } 
-        public TypeDeclarationSyntax ReadTypeDeclaration(Symbol typeName)
-        {
-            var flags = ReadTypeModifiers();
-
-            // <T: Number>
-            var genericParameters = ReadGenericParameters();
-
-            var baseType = ConsumeIf(Colon) // ? :
-                ? ReadTypeSymbol()          // baseType
-                : null;
-
-            var annotations = ReadAnnotations().ToArray();
-            var properties = ReadTypeDeclarationBody();
-
-            ConsumeIf(Semicolon); // ? ;
-
-            return new TypeDeclarationSyntax(typeName, genericParameters, baseType, annotations, properties, flags: flags);
-        }
-
-        public CompoundTypeDeclarationSyntax ReadCompoundTypeDeclaration(Symbol[] names)
-        {
-            var flags = ReadTypeModifiers();
-
-            var baseTypes = ConsumeIf(Colon) // ? :
-                ? ReadTypeSymbol()           // baseType
-                : null;
-
-            var members = ReadTypeDeclarationBody();
-
-            ConsumeIf(Semicolon); // ? ;
-
-            return new CompoundTypeDeclarationSyntax(names, flags, baseTypes, members);
-        }
-
         // Pascal unit : Pressure { symbol: "Pa";   value: 1 }
         // Radian unit : Angle    { symbol: "rad";  value: 1 }
         // Degree unit : Angle    { symbol: "deg";  value: (π/180) rad }
@@ -852,18 +852,27 @@ namespace D.Parsing
 
         }
 
-        private PropertyDeclarationSyntax[] ReadTypeDeclarationBody()
+        private SyntaxNode[] ReadTypeDeclarationBody()
         {
-            if (ConsumeIf(BraceOpen))  // ? {
+            if (ConsumeIf(BraceOpen)) // ! {
             {
-                var properties = ReadTypeMembers().ToArray();
-                
-                Consume(BraceClose);  // ! }
+                var members = new List<SyntaxNode>();
 
-                return properties;
+                EnterMode(Mode.Block);
+
+                while (!IsKind(BraceClose))
+                {
+                    members.Add(ReadTypeMember());
+                }
+
+                LeaveMode(Mode.Block);
+
+                Consume(BraceClose); // ! }
+
+                return members.ToArray();
             }
-            
-            return Array.Empty<PropertyDeclarationSyntax>();
+
+            return Array.Empty<SyntaxNode>();
         }
 
         private readonly List<Symbol> names = new List<Symbol>();
@@ -880,33 +889,6 @@ namespace D.Parsing
                 var args = IsKind(ParenthesisOpen) ? ReadArguments() : Array.Empty<ArgumentSyntax>();
 
                 yield return new AnnotationExpressionSyntax(name, args);
-            }
-        }
-
-        private IEnumerable<PropertyDeclarationSyntax> ReadTypeMembers()
-        {
-            while (!IsEof && !IsKind(BraceClose))
-            {
-                // mutable name: Type | Type,
-
-                var flags = ReadModifiers(); 
-
-                do
-                {
-                    names.Add(ReadMemberSymbol());
-                }
-                while (ConsumeIf(Comma));
-
-                Consume(Colon); // ! :
-
-                var type = ReadTypeSymbol();
-
-                ConsumeIf(Semicolon); // ? ;
-
-                foreach (var n in names.Extract())
-                {
-                    yield return new PropertyDeclarationSyntax(n, type, null, flags);
-                }
             }
         }
 
@@ -1117,15 +1099,12 @@ namespace D.Parsing
             // let private v = 1
             // clone function() => Vector3(x, y, z) 
 
-            if (Current.Kind == Let)
+            switch (Current.Kind)
             {
-                return ReadLet();
+                case Let: return ReadLet();
+                case Var: return ReadVar();
             }
-            else if (Current.Kind == Var)
-            {
-                return ReadVar();
-            }
-
+            
             var modifiers = ReadModifiers();
 
             switch (Current.Kind)
@@ -1141,35 +1120,22 @@ namespace D.Parsing
                 case Identifier  :
                     modifiers |= ObjectFlags.Instance;
 
-                    var name = ReadName();
+                    var name = ReadMemberSymbol();
 
-
+                    if (IsKind(Comma)) // a, b : Type
+                    {
+                        return FinishReadingVariableDeclarationList(new PropertyDeclarationSyntax(name, null), modifiers);
+                    }
+                     
                     return IsKind(Colon)
-                        ? (SyntaxNode)ReadVariableDeclaration(Symbol.Variable(name), modifiers)        // {name}: {type}
-                        : (SyntaxNode)ReadFunctionDeclaration(new TypeSymbol(name), flags: modifiers); // function |  * | + | ..
+                        ? (SyntaxNode)ReadVariableDeclaration(name, modifiers)         // {name}: {type}
+                        : (SyntaxNode)ReadFunctionDeclaration(name, flags: modifiers); // function |  * | + | ..
             }
 
             throw new UnexpectedTokenException("Unexpected token reading member", Current);
         }
 
-        // private 
-
-        public SyntaxNode ReadTypeProperty(ObjectFlags modifiers, Symbol name)
-        {
-            var type = ReadTypeSymbol();
-
-            if (reader.Current.Kind == Comma)
-            {
-                // Compound
-            }  
-
-            return new PropertyDeclarationSyntax(Symbol.Variable(name), type, null, modifiers);
-        }
-        
-
-        // CompoundPropertyDecleration
-
-        
+  
         private ObjectFlags ReadModifiers()
         {
             var flags = ObjectFlags.None;

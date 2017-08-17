@@ -1,5 +1,6 @@
 ﻿namespace D
 {
+    using System.Collections.Generic;
     using Syntax;
 
     public partial class Compiler
@@ -17,20 +18,28 @@
                 // context.Add(member.Name, (Type)genericParameters[i].Type);
             }
 
-            var properties = new Property[type.Members.Length];
+            var properties = new List<Property>();
 
-            for (var i = 0; i < type.Members.Length; i++)
+            foreach(var member in type.Members)
             {
-                var member = type.Members[i] as PropertyDeclarationSyntax;
-
-                properties[i] = new Property(member.Name, scope.Get<Type>(member.Type), member.Flags);
+                if (member is PropertyDeclarationSyntax property)
+                {
+                    properties.Add(new Property(property.Name, scope.Get<Type>(property.Type), property.Flags));
+                }
+                else if (member is CompoundPropertyDeclaration compound) 
+                {
+                    foreach (var p2 in compound.Members)
+                    {
+                        properties.Add(new Property(p2.Name, scope.Get<Type>(p2.Type), p2.Flags));
+                    }
+                }
             }
 
             var baseType = type.BaseType != null
                 ? scope.Get<Type>(type.BaseType)
                 : null;
 
-            return new Type(type.Name, baseType, properties, genericParameters);
+            return new Type(type.Name, baseType, properties.ToArray(), genericParameters);
         }
     }
 }
