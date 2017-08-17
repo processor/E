@@ -1,3 +1,7 @@
-import [ Rule, Regulation, Term ] from Legal
+from Legal import Rule, Regulation, Term
 
-Bylaw enum = Rule | Regulation | Term
+Bylaw enum {
+  | Rule 
+  | Regulation 
+  | Term
+}

@@ -1,11 +1,7 @@
 Vote record {
-  // entity
-  // issue
-  // yay, nay
+  motion    : Motion
   actor     : Actor
   signature : Signature
 }
 
-Yay : Vote { }
-Nay : Vote { }
-
+Yay, Nay, Abstain : Vote { }

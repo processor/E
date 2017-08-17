@@ -1,3 +1,3 @@
-import Canvas from Graphics
+from Graphics import Canvas
 
 Screen : Canvas { }

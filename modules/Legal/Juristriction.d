@@ -1,3 +1,3 @@
 Juristriction record {
-  place: Place
+  let place: Place
 }

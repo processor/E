@@ -31,7 +31,7 @@ CBC,
 Cancer protocol { 
   * | chemotherapy
     | radition
-    ↺ : treatment |
+    ↺ : treatment
   * resolve ∎ : remission
 }
 

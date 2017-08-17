@@ -1,5 +1,3 @@
-import [ Bylaw ] from Legal
-
 Organization protocol {
   * incorporate : incorporated
   * action    ↺ : acting 
@@ -14,7 +12,7 @@ Organization protocol {
   directors    -> [ Director ]   // including managing & officers
   jurisdiction ->   Jurisdiction // via Incorporation.jurisdiction
 
-  bylaws       -> [ Bylaw ]
+  bylaws       -> [ bylaw: Bylaw ] // rules & regulations
 
   when dissolved {
      // logic that triggers when dissolved

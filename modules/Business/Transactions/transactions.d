@@ -20,8 +20,8 @@ Monetary `Transaction protocol {
   
   initiate () -> Transaction
   settle   () -> Settlement
-  cancel   (reason?: Cancelation_Reason) -> Cancelation
-  refuse   (reason?: Refusal_Reason)     -> Refusal
+  cancel   (reason?: Cancelation `Reason) -> Cancelation
+  refuse   (reason?: Refusal `Reason)     -> Refusal
   lock     () -> Lock                                         // 180 days for credit card transactions or after an unsucessful dispute
   reverse  () -> Reversal
 }

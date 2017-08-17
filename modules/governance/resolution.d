@@ -1,3 +1,3 @@
 Resolution protocol {
-  votes: Vote  
+  votes: [ Vote ]  
 }

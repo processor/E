@@ -1,4 +1,4 @@
 Trademark class {
-  term   : String
-  issued : DateTime
+  let term   : String
+  let issued : DateTime
 }

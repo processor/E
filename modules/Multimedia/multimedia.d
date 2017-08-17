@@ -1,13 +1,9 @@
-Multimedia `Container class { 
-  streams: [ Multimedia `Stream ]
+Container class { 
+  metadata : Object, 
+  streams  : [ Stream ]
 }
 
-Multimedia `Stream class {
-  
-}
+ISOBMFF class: Container { }
 
-Audio `Stream class { 
-  channels: [ any ]
-} 
-
-Video `Stream class { } 
+MP4  class : ISOBMFF { } 
+HEIF class : ISOBMFF { } 

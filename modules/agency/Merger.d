@@ -1,4 +1,4 @@
-import Resolution from Governance
+from Governance import Resolution
 
 Merger event { 
   aquirer    : Entity

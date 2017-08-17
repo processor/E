@@ -33,5 +33,5 @@ Asset record {
 
 Depreciation `Schedule record {
   interval : Interval				
-  callback : (Asset) -> Writedown		// percentage: 10%, fixed: $100
+  callback : (asset: Asset) -> Writedown		// percentage: 10%, fixed: $100
 }

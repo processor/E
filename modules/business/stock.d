@@ -1,7 +1,7 @@
-import * from Finance
+from Finance import *
 
-  Google_Stock_Preferred_A_1
-, Google_Stock_Common
+  Google `Stock `Preferred `A `1
+, Google `Stock `Common
 : Stock { 
    exchange : NASDAQ     // may change
    symbol   = "GOOGL"    // may change

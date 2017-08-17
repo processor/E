@@ -17,7 +17,7 @@ Channel protocol {
 }
 
 
-Seekable_Channel = Channel & Seekable
+Seekable `Channel = Channel & Seekable
 
 Channel `Status enum {
   Closed

@@ -1,4 +1,4 @@
-import [ Money ] from Commerce 
+import Currency from Commerce 
 
 Account protocol {
   * open           : opened
@@ -10,6 +10,9 @@ Account protocol {
   open    ()       -> Account
   close   (Reason) -> Account `Closure
 
+  credit ( ) -> Transaction
+  debit  ( ) -> Transaction
+  
   deposit (check: Check)                     -> Deposit
   dispute (transaction: Transaction, Reason) -> Dispute    // if ruled in your favor, results in a reversal
 

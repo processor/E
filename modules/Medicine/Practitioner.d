@@ -12,7 +12,3 @@ Practitioner protocol {
 Practitioner record { 
   person: Entity
 }
-
-Practitioner protocol {
-  
-}

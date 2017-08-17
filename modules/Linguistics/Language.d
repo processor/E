@@ -1,0 +1,3 @@
+Language protocol {
+  name -> String
+}

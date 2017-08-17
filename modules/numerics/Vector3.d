@@ -1,5 +1,5 @@
 Vector3 struct { 
-  x, y, z: Number
+  let x, y, z: Number
 
   from (x, y, z: Number) => Vector3(x, y, z)
   from (x, y: Number)    => Vector3(x, y, z: 0)

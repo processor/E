@@ -1,7 +1,4 @@
-Gravity struct : Number { 
-
+Gravity unit {
+  symbol      : "g"
+  value       : m/s²
 }
-
-// in meters per second
-
-// Earth: 9.807 m/s²

@@ -1,4 +1,4 @@
 Writedown event {
-  asset  : Asset
-  amount : Money
+  let asset  : Asset
+  let amount : Currency
 }

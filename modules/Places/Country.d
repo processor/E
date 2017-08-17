@@ -20,7 +20,7 @@
 , Benin
 , Bhutan
 , Bolivia
-, Bosnia and Herzegovina
+, Bosnia `and `Herzegovina
 , Botswana
 , Brazil
 , Brunei 
@@ -38,8 +38,8 @@
 , China
 , Colombia
 , Comoros
-, Congo, Democratic Republic of the
-, Congo, Republic of the
+, Congo, Democratic Republic `of `the
+, Congo, Republic `of `the
 , Costa Rica
 , Cote d'Ivoire
 , Croatia
@@ -54,7 +54,7 @@
 , East `Timor
 , Ecuador
 , Egypt
-, El Salvador
+, El `Salvador
 , Equatorial `Guinea
 , Eritrea
 , Estonia
@@ -71,7 +71,7 @@
 , Grenada
 , Guatemala
 , Guinea
-, Guinea-Bissau
+, Guinea `Bissau
 , Guyana
 , Haiti
 , Holy See
@@ -150,9 +150,9 @@
 , Romania
 , Russia
 , Rwanda
-, Saint `Kitts ` and `Nevis
+, Saint `Kitts `and `Nevis
 , Saint `Lucia
-, Saint `Vincent ` and ` the `Grenadines
+, Saint `Vincent `and `the `Grenadines
 , Samoa 
 , San `Marino
 , Sao `Tome `and `Principe
@@ -185,7 +185,7 @@
 , Timor-Leste
 , Togo
 , Tonga
-, Trinidad and_Tobago
+, Trinidad `and `Tobago
 , Tunisia
 , Turkey
 , Turkmenistan
