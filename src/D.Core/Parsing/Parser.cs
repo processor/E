@@ -132,15 +132,6 @@ namespace D.Parsing
             return TopExpression(); // functionName args, 5px * 5
         }
 
-        // <tag>
-        
-        // </tag>
-        /*
-        public TagExpression ReadTag()
-        {
-        }
-        */
-
         #region Queries
 
         public QueryExpression ReadQuery()
@@ -526,6 +517,11 @@ namespace D.Parsing
 
             ConsumeIf(ParenthesisClose);    // ? )
 
+            return ReadVariableDeclaration(name, modifiers);
+        }
+
+        private PropertyDeclarationSyntax ReadVariableDeclaration(Symbol name, ObjectFlags modifiers)
+        {
             var type = ConsumeIf(Colon)     // ? :
                 ? ReadTypeSymbol()
                 : null;
@@ -535,7 +531,6 @@ namespace D.Parsing
                 : null;
 
             return new PropertyDeclarationSyntax(name, type, value, modifiers);
-
         }
 
         private FunctionDeclarationSyntax ReadInitializer()
@@ -1148,9 +1143,10 @@ namespace D.Parsing
 
                     var name = ReadName();
 
-                    return ConsumeIf(Colon)
-                        ? ReadTypeProperty(modifiers, Symbol.Variable(name))               // {name}: {type}
-                        : ReadFunctionDeclaration(new TypeSymbol(name), flags: modifiers); // function |  * | + | ..
+
+                    return IsKind(Colon)
+                        ? (SyntaxNode)ReadVariableDeclaration(Symbol.Variable(name), modifiers)        // {name}: {type}
+                        : (SyntaxNode)ReadFunctionDeclaration(new TypeSymbol(name), flags: modifiers); // function |  * | + | ..
             }
 
             throw new UnexpectedTokenException("Unexpected token reading member", Current);
@@ -2279,6 +2275,19 @@ namespace D.Parsing
         {
             reader.Dispose();
         }
+
+        #endregion
+
+        #region XML
+
+        // <tag>
+
+        // </tag>
+        /*
+        public TagExpression ReadTag()
+        {
+        }
+        */
 
         #endregion
 

@@ -6,11 +6,9 @@
     {
         private readonly Trie<Operator> trie = new Trie<Operator>();
 
-        public bool Contains(string symbol)
-            => trie.ContainsKey(symbol);
+        public bool Contains(string symbol) => trie.ContainsKey(symbol);
 
-        public bool TryGet(string symbol, out Operator op)
-            => trie.TryGetValue(symbol, out op);
+        public bool TryGet(string symbol, out Operator op) => trie.TryGetValue(symbol, out op);
 
         public void Add(params Operator[] ops)
         {
@@ -20,8 +18,7 @@
             }
         }
 
-        public Operator this[OperatorType type, string name] 
-            => trie[AsSymbol(type) + name];
+        public Operator this[OperatorType type, string name]  => trie[AsSymbol(type) + name];
 
         public bool Maybe(OperatorType type, char ch, out Trie<Operator>.Node node)
         {

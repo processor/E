@@ -47,7 +47,7 @@ namespace D
         }
 
         public string Name => name;
-
+        
         public OperatorCollection Operators => operators;
 
         public void Add(string name, IObject value)

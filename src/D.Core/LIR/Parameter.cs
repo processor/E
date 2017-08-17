@@ -49,8 +49,7 @@ namespace D
         public ParameterDirection Direction { get; set; }
 
         // TODO: cache on kind
-        public static Parameter Get(Kind kind)
-            => new Parameter(new Type(kind));
+        public static Parameter Get(Kind kind) => new Parameter(new Type(kind));
     }
 
     public enum ParameterDirection
@@ -59,5 +58,4 @@ namespace D
         Out,
         InOut
     }
-
 }
