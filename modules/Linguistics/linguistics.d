@@ -1,13 +1,7 @@
-﻿Language struct {
-  name: String
-}
-
-, Verb
-, Noun `Phrase  
+﻿, Noun `Phrase  
 , Article	       	  	
 , Predicate  	
-, Verb `Phrase	
-, Morpheme		  
+, Verb `Phrase		  
 , Stem 
 : Object record {
   name: String 

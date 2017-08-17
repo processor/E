@@ -1,6 +1,6 @@
 Animation protocol { 
   * started
-  * ended | canceled ∎
+  * ended ∎ : canceled
 }
 
 Animation class {

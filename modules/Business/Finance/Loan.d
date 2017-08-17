@@ -1,7 +1,8 @@
 Loan protocol {
   * created
   * payment ↺
-  * paidoff ∎
+  * writeoff 
+  * close ∎  : closed
 
   balance     ->   Money
   payments    -> [ Loan `Payment ]

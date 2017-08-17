@@ -2,7 +2,10 @@ Force protocol {
   
 }
 
-Newton unit "N" = kg m / s
+Newton unit {
+  symbol : "N",
+  value  : kg m / s
+}
 
 // In physics, a force is any interaction that, when unopposed, will change the motion of an object.
 

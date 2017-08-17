@@ -1,10 +1,11 @@
-import [ Resolution, Officer ] from Governance
-import [ Stock, Stockholder ] from Finance
-import [ Place ] from Geography
+from Governance import Resolution, Officer
+from Finance    import Stock, Stockholder 
+from Geography  import Place
 
 Corporation protocol {
   * | resolve
     | issue `Stock
+    | issue `Bond
 
   resolve      (motion: Motion)    -> Resolution
   issue `Stock (quantity: Decimal) -> Stock

@@ -1,4 +1,4 @@
-Money struct { 
+Currency struct { 
   amount: Decimal
 }
 
@@ -29,13 +29,11 @@ Money struct {
 // -- Cryptocurrencies --
 , Bitcoin
 , Stella,
-, Ether,
+, Ether
+: Currency
 
-: Money;
-
-$   prefix  operator (amount: Decimal) |> USD      // $1000 ≡ USD(100)
-Ƀ   postfix operator (amount: Decimal) |> Bitcoin  // 100Ƀ                 ref: https://bitcoinmagazine.com/articles/bitcoin-finally-gets-an-approved-unicode-character-point-1446580490
-؋   postfix operator (amount: Decimal) |> AFN
-ман postfix operator (amount: Decimal) |> AZN
-лв  postfix operator (amount: Decimal) |> BGN
-£   postfix operator (amount: Decimal) |> GBP
+$ _   operator (amount: Decimal) |> USD       // $1000 ≡ USD(100)
+_ Ƀ   operator (amount: Decimal) |> Bitcoin   // 100 Ƀ
+_ ман operator (amount: Decimal) |> AZN
+_ лв  operator (amount: Decimal) |> BGN
+_ £   operator (amount: Decimal) |> GBP

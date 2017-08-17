@@ -3,7 +3,9 @@ Employment protocol {
   * work             
   * vacate
   * sick
-  * leave | dismiss | retire : ended ∎
+  * | quit    ∎ : quit
+    | dismiss ∎ : dimissed
+    | retire  ∎ : retired
   
   level     -> Employment `Level
   position  -> Employment `Position

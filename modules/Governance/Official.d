@@ -4,7 +4,7 @@
 , Marketing       `Director,
 , Manufacturing   `Director,
 , Human `Resource `Director,
-: Director { 
+: Director class { 
 
 }
 

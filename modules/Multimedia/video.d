@@ -1,4 +1,0 @@
-﻿
-  Aborted
-, Disconnected
-, DecodeError     : MediaError

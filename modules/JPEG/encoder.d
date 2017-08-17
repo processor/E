@@ -62,7 +62,7 @@ let LUMA_AC_CODE_LENGTHS = Array<u8> {
     0x05, 0x05, 0x04, 0x04, 0x00, 0x00, 0x01, 0x7D
 }
 
-let LUMA_AC_VALUES = new Array<u8> {
+let LUMA_AC `VALUES = new Array<u8> {
     0x01, 0x02, 0x03, 0x00, 0x04, 0x11, 0x05, 0x12, 0x21, 0x31, 0x41, 0x06, 0x13, 0x51, 0x61, 0x07,
     0x22, 0x71, 0x14, 0x32, 0x81, 0x91, 0xA1, 0x08, 0x23, 0x42, 0xB1, 0xC1, 0x15, 0x52, 0xD1, 0xF0,
     0x24, 0x33, 0x62, 0x72, 0x82, 0x09, 0x0A, 0x16, 0x17, 0x18, 0x19, 0x1A, 0x25, 0x26, 0x27, 0x28,
@@ -77,12 +77,12 @@ let LUMA_AC_VALUES = new Array<u8> {
 }
 
 // table k.6
-let CHROMA_AC_CODE_LENGTHS = new Array<u8> {
+let CHROMA `AC` CODE `LENGTHS = new Array<u8> {
     0x00, 0x02, 0x01, 0x02, 0x04, 0x04, 0x03, 0x04,
     0x07, 0x05, 0x04, 0x04, 0x00, 0x01, 0x02, 0x77,
 }
 
-let CHROMA_AC_VALUES = new Array<u8> {
+let CHROMA `AC `VALUES = new Array<u8> {
     0x00, 0x01, 0x02, 0x03, 0x11, 0x04, 0x05, 0x21, 0x31, 0x06, 0x12, 0x41, 0x51, 0x07, 0x61, 0x71,
     0x13, 0x22, 0x32, 0x81, 0x08, 0x14, 0x42, 0x91, 0xA1, 0xB1, 0xC1, 0x09, 0x23, 0x33, 0x52, 0xF0,
     0x15, 0x62, 0x72, 0xD1, 0x0A, 0x16, 0x24, 0x34, 0xE1, 0x25, 0xF1, 0x17, 0x18, 0x19, 0x1A, 0x26,
@@ -230,22 +230,22 @@ BitWriter impl for JPEGEncoder {
 }
 
 JPEGEncoder class {
-    writer         : BitWriter
-    components     : [ JPEGComponent ]
-    tables         : [ u8 ],
-    luma_dctable   : [ (u8, u16) ]
-    luma_actable   : [ (u8, u16) ] 
-    chroma_dctable : [ (u8, u16) ] 
-    chroma_actable : [ (u8, u16) ]
+    let writer         : BitWriter
+    let components     : [ JPEGComponent ]
+    let tables         : [ u8 ],
+    let luma   `dctable   : [ (u8, u16) ]
+    let luma   `actable   : [ (u8, u16) ] 
+    let chroma `dctable : [ (u8, u16) ] 
+    let chroma `actable : [ (u8, u16) ]
 }
 
 JPEGEncoder impl {
     from (w: &mut W, quality: u8 = 75) {
-        let luma_dctable = buildHuff_lut(LUMA_DC_CODE_LENGTHS, LUMA_DC_VALUES)
-        let luma_actable = buildHuff_lut(LUMA_AC_CODE_LENGTHS, LUMA_AC_VALUES)
+        let luma `dctable = buildHuff `lut(LUMA_DC_CODE_LENGTHS, LUMA_DC_VALUES)
+        let luma `actable = buildHuff `lut(LUMA_AC_CODE_LENGTHS, LUMA_AC_VALUES)
 
-        let chroma_dctable = buildHuff_lut(CHROMA_DC_CODE_LENGTHS, CHROMA_DC_VALUES)
-        let chroma_actable = buildHuff_lut(CHROMA_AC_CODE_LENGTHS, CHROMA_AC_VALUES)
+        let chroma `dctable = buildHuff `lut(CHROMA_DC_CODE_LENGTHS, CHROMA_DC_VALUES)
+        let chroma `actable = buildHuff `lut(CHROMA_AC_CODE_LENGTHS, CHROMA_AC_VALUES)
 
         let components = [
             JPEGComponent(id: LUMAID,       h: 1, v: 1, tq: LUMADESTINATION,   dcTable: LUMADESTINATION,   acTable: LUMADESTINATION,   dcPred: 0),
@@ -265,17 +265,17 @@ JPEGEncoder impl {
             return clamp(value, 1, u8:maxValue) as u32) as u8
         }
 
-        tables.extend(LUMA_QTABLE.map(scaleValue))
-        tables.extend(CHROMA_QTABLE.map(scaleValue))
+        tables.extend(LUMA `QTABLE.map(scaleValue))
+        tables.extend(CHROMA `QTABLE.map(scaleValue))
 
         return JPEGEncoder {
             writer : BitWriter:new(w),
             components,
             tables,
-            luma_dctable,
-            luma_actable,
-            chroma_dctable,
-            chroma_actable
+            luma `dctable,
+            luma `actable,
+            chroma `dctable,
+            chroma `actable
         }
     }
 
@@ -364,17 +364,17 @@ JPEGEncoder impl {
     }
 
     encodeRGB ƒ(bitmap: &[u8], width: u32, height: u32, bpp: u32) {
-        var y_dcprev = 0
-        var cb_dcprev = 0
-        var cr_dcprev = 0
+        var y  `dcprev = 0
+        var cb `dcprev = 0
+        var cr `dcprev = 0
 
-        var dct_yblock   = Array(0i32, 64)
-        var dct_cb_block = Array(0i32, 64)
-        var dct_cr_block = Array(0i32, 64)
+        var dct `y  `block   = Array(0i32, 64)
+        var dct `cb `block = Array(0i32, 64)
+        var dct `cr `block = Array(0i32, 64)
 
-        var yblock   = Array(0u8, 64)
-        var cb_block = Array(0u8, 64)
-        var cr_block = Array(0u8, 64)
+        var y  `block = Array(0u8, 64)
+        var cb `block = Array(0u8, 64)
+        var cr `block = Array(0u8, 64)
         
         for y in rangeStep(0, height, 8) {
             for x in rangeStep(0, width, 8) {
@@ -446,7 +446,7 @@ fn buildScanHeader(m: mutable Array<u8>, components: &[Component]) {
     for & comp in components {
         m.writeAll(&[comp.id])
         
-        let tables = (comp.dc_table << 4) | comp.ac_table
+        let tables = (comp.dc`table << 4) | comp.ac`table
 
         m.writeAll(&[tables])
     }

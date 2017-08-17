@@ -14,5 +14,5 @@
 Route protocol {
   * Departure
   * (Maneuver, Navigable) ↺ |
-  * Arrival ∎
+  * Arrival ∎ : arrived
 }

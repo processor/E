@@ -31,8 +31,8 @@ CBC,
 Cancer protocol { 
   * | chemotherapy
     | radition
-    ↺ : treatment |
-  * resolve : remission ∎
+    ↺ : treatment
+  * resolve ∎ : remission
 }
 
   Acute `Disseminated `Encephalomyelitis

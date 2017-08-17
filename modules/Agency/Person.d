@@ -1,4 +1,4 @@
-import [ Term, Contract ] Legal
+from Law import Term, Contract 
 
 Person protocol { 
   contract  (contractor : Person,                          terms  : [ Term ]) -> Contract       

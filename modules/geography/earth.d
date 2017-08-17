@@ -1,11 +1,11 @@
 Earth class : Planet {
-
+  let gravity: 9.807 m/s²
 }
 
 Ellipsoid impl for Earth {
   // WGS84 constants
   
-  majorAxis    -> 6378137 m
-  minorAxis    -> 6356752.314245 m
-  eccentricity -> 8.1819190842622e-2
+  let majorAxis    = 6378137 m
+  let minorAxis    = 6356752.314245 m
+  let eccentricity = 8.1819190842622e-2
 }

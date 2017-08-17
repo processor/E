@@ -1,4 +1,4 @@
-import * from Geometry
+from Geometry import *
 
 Pointer protocol { 
   * move ↺ : moving

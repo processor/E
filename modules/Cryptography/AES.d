@@ -1,9 +1,9 @@
 AES class : Algorithm {
-  encrypt() {
+  encrypt(plaintext: Span<byte>) {
 
   }
 
-  decrypt() {
+  decrypt(ciphertext: Span<byte>) {
 
   }
 }

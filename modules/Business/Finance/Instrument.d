@@ -1,6 +1,6 @@
 ﻿module "Finance"
 
-import Money from Commerce
+from Commerce import Currency
 
 Instrument record { 
   holder: Entity
@@ -10,8 +10,8 @@ Instrument record {
 // Stockholders of Entity / owner of shares
 
 CreditLine record {
-  balance : Money
-  limit   : Money
+  balance : Currency
+  limit   : Currency
   issuer  : Entity
   owner   : Entity
 }

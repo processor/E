@@ -3,10 +3,10 @@ Address protocol  {
 }
 
 Email `Address struct : Address { 
-  name     : String,
-  host     : String
-  username : String
-  protocol : String
+  let name     : String,
+  let host     : String
+  let username : String
+  let protocol : String
 
   to String => $"<{name}> {username}@{host}"
 }

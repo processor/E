@@ -27,3 +27,9 @@ These people are engaged in working together as equal stakeholders in addressing
 
 
 One key question is how well the challenge can be decomposed into subparts, and then addressed via the distributed knowledge in the community. The lack of shared vocabulary between people and communication overhead can sometimes be an issue in these communities and projects. If challenges of a particular type need to be repeatedly addressed so that each one can be properly decomposed, a multidisciplinary community can be exceptionally efficient and effective.
+
+
+
+
+netsh advfirewall firewall add rule name="Processor" dir=in action=allow protocol=TCP localport=5000
+advfirewall firewall add rule name=""Processor"" dir=in action=allow localport=5000 protocol=tcp

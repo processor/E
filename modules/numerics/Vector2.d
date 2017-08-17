@@ -1,7 +1,5 @@
 Vector2 struct {
-  x, y: Number
-
-  from (x, y) => Vector2(x, y)
+  let x, y: Number
 }
 
 Vector2 impl for Vector {

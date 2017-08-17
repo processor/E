@@ -1,5 +1,5 @@
 Vector4 struct { 
-  x, y, z, w: Number
+  let x, y, z, w: Number
 }
 
 apply `Quaternion (q: Quaternion) {

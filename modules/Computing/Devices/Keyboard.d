@@ -13,7 +13,7 @@ Keyboard protocol {
 }
 
 Keyboard `Key struct { 
-  code: Int32
+  code: i32
 }
 
 Key `Down event { 
