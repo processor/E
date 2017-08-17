@@ -1,9 +1,9 @@
 Vector3 struct { 
-  let x, y, z: Number
+  x, y, z: Number
 
-  from (x, y, z: Number) => Vector3(x, y, z)
-  from (x, y: Number)    => Vector3(x, y, z: 0)
-  from (value: T)        => Vector3(x: value, y: value, z: value)
+  from (x, y, z: Number) => Vector3(x, y, z);
+  from (x, y: Number)    => Vector3(x, y, z: 0);
+  from (value: T)        => Vector3(x: value, y: value, z: value);
 
   [ index: i64 ] => match index { 
     0 => x
@@ -11,9 +11,9 @@ Vector3 struct {
     2 => z
   }
 
-  direction                    => this / this.length       // aka unit vector : a vector of length 1
-  length                       => sqrt(this.dot(this))
-  lengthSquared                => dot(this);
+  direction          => this / this.length       // aka unit vector : a vector of length 1
+  length             => sqrt(this.dot(this))
+  lengthSquared      => dot(this);
 
   * (value: Number)  => Vector3(x: x * value,   y: y * value,   z: z * value  );
   / (value: Number)  => Vector3(x: x / value,   y: y / value,   z: z / value  );
