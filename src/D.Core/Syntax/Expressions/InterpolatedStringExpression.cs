@@ -13,6 +13,6 @@
 
         public SyntaxNode this[int index] => Children[index];
 
-        Kind IObject.Kind => Kind.InterpolatedStringExpression;
+        SyntaxKind SyntaxNode.Kind => SyntaxKind.InterpolatedStringExpression;
     }
 }

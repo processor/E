@@ -22,6 +22,6 @@
 
         public bool IsHalfOpen => Flags.HasFlag(RangeFlags.HalfOpen);
 
-        Kind IObject.Kind => Kind.RangeLiteral;
+        SyntaxKind SyntaxNode.Kind => SyntaxKind.RangeLiteral;
     }
 }

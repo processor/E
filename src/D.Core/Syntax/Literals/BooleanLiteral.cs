@@ -12,7 +12,7 @@
 
         public bool Value { get; }
 
-        Kind IObject.Kind => Kind.Boolean;
+        SyntaxKind SyntaxNode.Kind => SyntaxKind.BooleanLiteral;
 
         public override string ToString() => Value ? "true": "false";
     }

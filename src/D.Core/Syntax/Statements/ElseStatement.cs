@@ -9,6 +9,6 @@
 
         public BlockExpressionSyntax Body { get; }
 
-        Kind IObject.Kind => Kind.ElseStatement;
+        SyntaxKind SyntaxNode.Kind => SyntaxKind.ElseStatement;
     }
 }

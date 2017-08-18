@@ -14,6 +14,6 @@ namespace D.Syntax
 
         public ArgumentSyntax[] Arguments { get; }
 
-        Kind IObject.Kind => Kind.AnnotationExpression;
+        SyntaxKind SyntaxNode.Kind => SyntaxKind.AnnotationExpression;
     }
 }

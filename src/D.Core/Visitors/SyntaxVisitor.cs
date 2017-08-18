@@ -23,7 +23,7 @@ namespace D.Syntax
         public virtual SyntaxNode VisitTypePattern(TypePatternSyntax syntax)                         => throw new NotImplementedException(); 
         public virtual SyntaxNode VisitConstantPattern(ConstantPatternSyntax syntax)                 => throw new NotImplementedException(); 
         public virtual SyntaxNode VisitSymbol(Symbol symbol)                                         => throw new NotImplementedException(); 
-        public virtual SyntaxNode VisitConstant(IObject constant)                                    => throw new NotImplementedException(); 
+        public virtual SyntaxNode VisitConstant(SyntaxNode constant)                                 => throw new NotImplementedException(); 
         public virtual SyntaxNode FunctionDeclarationSyntax(FunctionDeclarationSyntax syntax)        => throw new NotImplementedException(); 
 
         public SyntaxNode Visit(SyntaxNode syntax)
@@ -39,30 +39,30 @@ namespace D.Syntax
             switch (syntax.Kind)
             {
                 // Declarations
-                case Kind.PropertyDeclaration       : return VisitVariableDeclaration((PropertyDeclarationSyntax)syntax);
-                case Kind.TypeInitializer         : return VisitTypeInitializer((ObjectInitializerSyntax)syntax);
-                case Kind.DestructuringAssignment   : return VisitDestructuringAssignment((DestructuringAssignmentSyntax)syntax);
-                case Kind.MemberAccessExpression    : return VisitMemberAccess((MemberAccessExpressionSyntax)syntax);
-                case Kind.IndexAccessExpression     : return VisitIndexAccess((IndexAccessExpressionSyntax)syntax);          
-                case Kind.LambdaExpression          : return VisitLambda((LambdaExpressionSyntax)syntax); 
+                case SyntaxKind.PropertyDeclaration       : return VisitVariableDeclaration((PropertyDeclarationSyntax)syntax);
+                case SyntaxKind.TypeInitializer         : return VisitTypeInitializer((ObjectInitializerSyntax)syntax);
+                case SyntaxKind.DestructuringAssignment   : return VisitDestructuringAssignment((DestructuringAssignmentSyntax)syntax);
+                case SyntaxKind.MemberAccessExpression    : return VisitMemberAccess((MemberAccessExpressionSyntax)syntax);
+                case SyntaxKind.IndexAccessExpression     : return VisitIndexAccess((IndexAccessExpressionSyntax)syntax);          
+                case SyntaxKind.LambdaExpression          : return VisitLambda((LambdaExpressionSyntax)syntax); 
                     
-                case Kind.CallExpression            : return VisitCall((CallExpressionSyntax)syntax);
+                case SyntaxKind.CallExpression            : return VisitCall((CallExpressionSyntax)syntax);
                     
-                case Kind.MatchExpression           : return VisitMatch((MatchExpressionSyntax)syntax);
-                case Kind.IfStatement               : return VisitIf((IfStatementSyntax)syntax);
-                case Kind.ElseIfStatement           : return VisitElseIf((ElseIfStatementSyntax)syntax);
-                case Kind.ElseStatement             : return VisitElse((ElseStatementSyntax)syntax);
-                case Kind.ReturnStatement           : return VisitReturn((ReturnStatementSyntax)syntax);
+                case SyntaxKind.MatchExpression           : return VisitMatch((MatchExpressionSyntax)syntax);
+                case SyntaxKind.IfStatement               : return VisitIf((IfStatementSyntax)syntax);
+                case SyntaxKind.ElseIfStatement           : return VisitElseIf((ElseIfStatementSyntax)syntax);
+                case SyntaxKind.ElseStatement             : return VisitElse((ElseStatementSyntax)syntax);
+                case SyntaxKind.ReturnStatement           : return VisitReturn((ReturnStatementSyntax)syntax);
 
                 // Patterns
-                case Kind.ConstantPattern           : return VisitConstantPattern((ConstantPatternSyntax)syntax);
-                case Kind.TypePattern               : return VisitTypePattern((TypePatternSyntax)syntax);
+                case SyntaxKind.ConstantPattern           : return VisitConstantPattern((ConstantPatternSyntax)syntax);
+                case SyntaxKind.TypePattern               : return VisitTypePattern((TypePatternSyntax)syntax);
                     
 
-                case Kind.Symbol: return VisitSymbol((Symbol)syntax);
+                case SyntaxKind.Symbol: return VisitSymbol((Symbol)syntax);
                     
-                case Kind.Number:
-                case Kind.StringLiteral:
+                case SyntaxKind.NumberLiteral:
+                case SyntaxKind.StringLiteral:
                 
                     return VisitConstant(syntax);
                     

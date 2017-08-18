@@ -9,7 +9,7 @@
         
         public string Text { get; }
 
-        Kind IObject.Kind => Kind.NumberLiteral;
+        SyntaxKind SyntaxNode.Kind => SyntaxKind.NumberLiteral;
 
         public static implicit operator int (NumberLiteralSyntax value) => int.Parse(value.Text);
 

@@ -12,6 +12,6 @@
 
         public BlockExpressionSyntax Body { get; }
 
-        Kind IObject.Kind => Kind.WhileStatement;
+        SyntaxKind SyntaxNode.Kind => SyntaxKind.WhileStatement;
     }
 }

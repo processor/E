@@ -9,6 +9,6 @@
 
         public SyntaxNode Expression { get; }
 
-        Kind IObject.Kind => Kind.SpreadStatement;
+        SyntaxKind SyntaxNode.Kind => SyntaxKind.SpreadStatement;
     }
 }

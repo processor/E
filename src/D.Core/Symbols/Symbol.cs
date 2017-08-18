@@ -113,5 +113,8 @@ namespace D
 
         public static implicit operator string(Symbol symbol) =>
             symbol?.ToString();
+
+
+        SyntaxKind SyntaxNode.Kind => SyntaxKind.Symbol;
     }
 }

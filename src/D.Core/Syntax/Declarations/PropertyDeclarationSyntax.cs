@@ -28,7 +28,7 @@
 
         public ObjectFlags Flags { get; }
 
-        Kind IObject.Kind => Kind.PropertyDeclaration;
+        SyntaxKind SyntaxNode.Kind => SyntaxKind.PropertyDeclaration;
     }
 
     // a, b, c: Number
@@ -42,7 +42,7 @@
 
         public PropertyDeclarationSyntax[] Members { get; }
 
-        Kind IObject.Kind => Kind.CompoundPropertyDeclaration;
+        SyntaxKind SyntaxNode.Kind => SyntaxKind.CompoundPropertyDeclaration;
     }
 }
 

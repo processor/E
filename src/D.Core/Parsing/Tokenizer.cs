@@ -65,7 +65,7 @@ namespace D.Parsing
             {
                 case '@': return Read(At);
                 case '↺': return Read(Repeats);
-                case '∎': return Read(End);
+                case '∎': return Read(Tombstone);
 
                 case '~': return Read(Op); // bitwise compliment
 

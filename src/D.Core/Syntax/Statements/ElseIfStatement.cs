@@ -16,6 +16,6 @@
         // Else, ElseIf
         public SyntaxNode ElseBranch { get; }
 
-        Kind IObject.Kind => Kind.ElseIfStatement;
+        SyntaxKind SyntaxNode.Kind => SyntaxKind.ElseIfStatement;
     }
 }

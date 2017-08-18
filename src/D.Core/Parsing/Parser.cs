@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
+using D.Syntax;
+
 namespace D.Parsing
 {
-    using Syntax;
-
     using static OperatorType;
     using static TokenKind;
 
@@ -165,12 +165,11 @@ namespace D.Parsing
 
             var map = ConsumeIf(Select)             // ? select
                 ? IsKind(BraceOpen)
-                    ? ReadObjectInitializer(null)     // ? { record }
+                    ? ReadObjectInitializer(null)   // ? { record }
                     : ReadExpression()              // ? variable
                 : null;
 
             LeaveMode(Mode.Block);
-
 
             var orderby = ConsumeIf(Orderby)        // ? orderby
                ? new OrderByStatement(
@@ -390,7 +389,7 @@ namespace D.Parsing
 
         #endregion
 
-        #region Declarations
+        #region Declarations (Types, Properties, ...)
 
         // Float : Number @size(32) { }
         // Int32 type @size(32)
@@ -450,7 +449,7 @@ namespace D.Parsing
         // Modifiers
         // let private | public | mutable
 
-        private readonly List<PropertyDeclarationSyntax> variableList = new List<PropertyDeclarationSyntax>();
+        private readonly List<PropertyDeclarationSyntax> properties = new List<PropertyDeclarationSyntax>();
 
         public SyntaxNode ReadLet() => ReadLetOrVar(Let);
 
@@ -510,16 +509,16 @@ namespace D.Parsing
 
         private CompoundPropertyDeclaration FinishReadingVariableDeclarationList(PropertyDeclarationSyntax first, ObjectFlags modifiers)
         {
-            variableList.Add(first);
+            properties.Add(first);
 
             while (ConsumeIf(Comma))
             {
-                variableList.Add(ReadVariableDeclaration(modifiers));
+                properties.Add(ReadVariableDeclaration(modifiers));
             }
 
             bool inferedFromLast = false;
 
-            foreach (var v in variableList)
+            foreach (var v in properties)
             {
                 if (v.Type == null && v.Value == null)
                 {
@@ -529,22 +528,22 @@ namespace D.Parsing
 
             if (inferedFromLast)
             {
-                var l = new List<PropertyDeclarationSyntax>(variableList.Count);
+                var l = new List<PropertyDeclarationSyntax>(properties.Count);
 
-                var k = variableList[variableList.Count - 1].Type;
+                var k = properties[properties.Count - 1].Type;
 
-                foreach (var var in variableList)
+                foreach (var var in properties)
                 {
                     l.Add(new PropertyDeclarationSyntax(var.Name, k, null, var.Flags));
                 }
 
-                variableList.Clear();
-                variableList.AddRange(l);
+                properties.Clear();
+                properties.AddRange(l);
             }
 
             ConsumeIf(Semicolon); // ? ;
 
-            return new CompoundPropertyDeclaration(variableList.Extract());
+            return new CompoundPropertyDeclaration(properties.Extract());
         }
 
         private PropertyDeclarationSyntax ReadVariableDeclaration(ObjectFlags modifiers)
@@ -652,11 +651,11 @@ namespace D.Parsing
             }
             else if (IsKind(Identifier))
             {
-                var varName = reader.Consume();
+                var parameterName = ReadMemberSymbol();
 
-                // parameters MUST not begin with an uppercase letter.
+                // Note: parameters MUST not begin with an uppercase letter.
 
-                parameters = new[] { new ParameterSyntax(varName) };
+                parameters = new[] { new ParameterSyntax(parameterName) };
             }
             else
             {
@@ -908,9 +907,9 @@ namespace D.Parsing
 
             var annotations = ReadAnnotations().ToArray();
 
-            Consume(BraceOpen);     // ! {
+            Consume(BraceOpen);   // ! {
 
-            var channelProtocol = Array.Empty<IProtocolMessage>();
+            IProtocolMessage[] channelProtocol;
 
             if (!IsKind(BraceClose))
             {
@@ -922,6 +921,10 @@ namespace D.Parsing
                 {
                     methods.Add(ReadProtocolMember());
                 }
+            }
+            else
+            {
+                channelProtocol = Array.Empty<IProtocolMessage>();
             }
             
             Consume(BraceClose);  // ! }
@@ -959,11 +962,11 @@ namespace D.Parsing
 
                         if (ConsumeIf(Colon))
                         {
-                            var label = ReadLabelSymbol();
+                            var label = ReadLabelSymbol(); // the state
                         }
                     }
 
-                    if (ConsumeIf(End)) // ? ∎
+                    if (ConsumeIf(Tombstone)) // ? ∎
                     {
                         flags |= MessageFlags.End;
                     }
@@ -1025,7 +1028,7 @@ namespace D.Parsing
 
             var name = ReadFunctionSymbol();
 
-            if (ConsumeIf(End)) // ? ∎
+            if (ConsumeIf(Tombstone)) // ? ∎
             {
                 flags |= MessageFlags.End;
             }
@@ -1443,7 +1446,7 @@ namespace D.Parsing
 
             var elements = new List<SyntaxNode>();
 
-            var elementKind = Kind.Object;
+            var elementKind = SyntaxKind.Object;
             var uniform = true;
 
             while (!IsKind(BracketClose))
@@ -2004,7 +2007,7 @@ namespace D.Parsing
         public SyntaxNode MaybeMemberAccess()
         {
             var left = ReadPrimary();
-
+            
             // Maybe member access
             while (IsOneOf(Dot, BracketOpen, ParenthesisOpen)       // . | [
                || (IsKind(PipeForward) && !InMode(Mode.Arguments))) // |> 
@@ -2124,12 +2127,10 @@ namespace D.Parsing
 
                     return symbol;
 
-                case Number          : depth = 0; return ReadNumber();
-                case BracketOpen     : depth = 0; return ReadArrayInitializer();
-
-                case Quote           : depth = 0; return ReadStringLiteral();
-
-                case Dollar          : depth = 0; return ReadDollarSymbol();
+                case Number      : depth = 0; return ReadNumber();
+                case BracketOpen : depth = 0; return ReadArrayInitializer();
+                case Quote       : depth = 0; return ReadStringLiteral();
+                case Dollar      : depth = 0; return ReadDollarSymbol();
             }
 
             depth++;

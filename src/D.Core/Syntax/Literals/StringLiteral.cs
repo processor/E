@@ -3,7 +3,7 @@
 namespace D.Syntax
 {
     public class StringLiteralSyntax : SyntaxNode
-    { 
+    {
         public StringLiteralSyntax(string value)
         {
             Value = value ?? throw new ArgumentNullException(nameof(value));
@@ -11,19 +11,15 @@ namespace D.Syntax
 
         public string Value { get; }
 
-        public static implicit operator StringLiteralSyntax(string text) => 
+        public static implicit operator StringLiteralSyntax(string text) =>
             new StringLiteralSyntax(text);
 
         public static implicit operator string(StringLiteralSyntax text) =>
             text.Value;
 
         public override string ToString() => Value;
-
-        #region IObject
-
-        Kind IObject.Kind => Kind.StringLiteral;
-
-        #endregion
+        
+        SyntaxKind SyntaxNode.Kind => SyntaxKind.StringLiteral;
     }
 }
 

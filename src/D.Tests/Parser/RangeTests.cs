@@ -12,7 +12,7 @@ namespace D.Parsing.Tests
             var range = Parse<RangeExpression>("0...(5 * 2)");
 
             // Assert.Equal(0L, (Integer)range.Start);
-            Assert.Equal(Kind.MultiplyExpression, range.End.Kind);
+           //  Assert.Equal(SyntaxKind.MultiplyExpression, range.End.Kind);
         }
 
         [Theory]

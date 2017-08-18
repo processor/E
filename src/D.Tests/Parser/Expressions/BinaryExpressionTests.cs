@@ -231,7 +231,7 @@ namespace D.Parsing.Tests
         {
             var statement = Parse<BinaryExpressionSyntax>("(a * (b - 1)) + (d * c)");
 
-            Assert.Equal(Kind.MultiplyExpression, statement.Left.Kind);
+            Assert.Equal(SyntaxKind.BinaryExpression, statement.Left.Kind);
 
             Assert.Equal("(a * (b - 1)) + (d * c)", statement.ToString());
         }
@@ -261,8 +261,8 @@ namespace D.Parsing.Tests
 
             Assert.Equal("x", r.Left.ToString());
             Assert.Equal("y", r.Right.ToString());
-            Assert.Equal(Kind.Symbol, r.Left.Kind);
-            Assert.Equal(Kind.Symbol, r.Right.Kind);
+            Assert.Equal(SyntaxKind.Symbol, r.Left.Kind);
+            Assert.Equal(SyntaxKind.Symbol, r.Right.Kind);
         }
 
         [Fact]
@@ -283,8 +283,8 @@ namespace D.Parsing.Tests
         {
             var statement = Parse<BinaryExpressionSyntax>("(1 * 5) + (3 + 5)");
 
-            Assert.Equal(Kind.MultiplyExpression, statement.Left.Kind);
-            Assert.Equal(Kind.AddExpression, statement.Right.Kind);
+            Assert.Equal(SyntaxKind.BinaryExpression, statement.Left.Kind);
+            Assert.Equal(SyntaxKind.BinaryExpression, statement.Right.Kind);
         }
 
         [Fact]

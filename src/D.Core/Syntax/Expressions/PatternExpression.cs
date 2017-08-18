@@ -10,7 +10,7 @@
         
         public SyntaxNode Constant { get; }
 
-        Kind IObject.Kind => Kind.ConstantPattern;
+        SyntaxKind SyntaxNode.Kind => SyntaxKind.ConstantPattern;
     }
 
     // 0...10
@@ -27,19 +27,19 @@
 
         public SyntaxNode End { get; }
 
-        Kind IObject.Kind => Kind.RangePattern;
+        SyntaxKind SyntaxNode.Kind => SyntaxKind.RangePattern;
     }
 
     // [ a, b ]
     public class ArrayPatternSyntax : SyntaxNode
     {
-        Kind IObject.Kind => Kind.ArrayPattern;
+        SyntaxKind SyntaxNode.Kind => SyntaxKind.ArrayPattern;
     }
 
     // { a, b }
     public class ObjectPatternSyntax : SyntaxNode
     {
-        Kind IObject.Kind => Kind.ObjectPattern;
+        SyntaxKind SyntaxNode.Kind => SyntaxKind.ObjectPattern;
     }
 
     // (a, b, c)
@@ -56,7 +56,7 @@
 
                 if (element is NamedElementSyntax namedElement)
                 {
-                    Variables[i] = new NamedElementSyntax(namedElement.Name, (Symbol)namedElement.Value);
+                    Variables[i] = new NamedElementSyntax(namedElement.Name, namedElement.Value);
                 }
                 else if (element is Symbol name)
                 {
@@ -67,7 +67,7 @@
 
         public NamedElementSyntax[] Variables { get; }
 
-        Kind IObject.Kind => Kind.TuplePattern;
+        SyntaxKind SyntaxNode.Kind => SyntaxKind.TuplePattern;
     }
 
     // (fruit: Fruit)
@@ -85,12 +85,12 @@
 
         public Symbol VariableName { get; }
 
-        Kind IObject.Kind => Kind.TypePattern;
+        SyntaxKind SyntaxNode.Kind => SyntaxKind.TypePattern;
     }
 
     // _
     public class AnyPatternSyntax : SyntaxNode
     {
-        Kind IObject.Kind => Kind.AnyPattern;
+        SyntaxKind SyntaxNode.Kind => SyntaxKind.AnyPattern;
     }
 }

@@ -16,7 +16,7 @@ namespace D.Syntax
 
         public SyntaxNode Instance { get; }
 
-        Kind IObject.Kind => Kind.DestructuringAssignment;
+        SyntaxKind SyntaxNode.Kind => SyntaxKind.DestructuringAssignment;
     }
 
     public struct AssignmentElementSyntax

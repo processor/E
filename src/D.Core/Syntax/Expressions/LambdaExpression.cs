@@ -10,7 +10,7 @@
 
         public SyntaxNode Expression { get; }
 
-        Kind IObject.Kind => Kind.LambdaExpression;
+        SyntaxKind SyntaxNode.Kind => SyntaxKind.LambdaExpression;
     }
 }
 

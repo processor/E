@@ -16,6 +16,6 @@ namespace D.Syntax
 
         public SyntaxNode this[int index] => Statements[index];
 
-        Kind IObject.Kind => Kind.ModuleStatement;
+        SyntaxKind SyntaxNode.Kind => SyntaxKind.ModuleStatement;
     }
 }

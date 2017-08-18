@@ -36,7 +36,7 @@
 
         public long Take { get; }
 
-        Kind IObject.Kind => Kind.QueryExpression;
+        SyntaxKind SyntaxNode.Kind => SyntaxKind.QueryExpression;
     }
 
     public class OrderByStatement

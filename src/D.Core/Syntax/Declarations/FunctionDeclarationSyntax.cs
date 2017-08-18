@@ -104,7 +104,6 @@ namespace D.Syntax
 
         #endregion
 
-
         #region Helpers
 
         TypeSymbol ISyntaxNode.Type => new TypeSymbol("Function", GetParameterTypeSymbols(this.Parameters));
@@ -124,7 +123,7 @@ namespace D.Syntax
 
         #endregion
 
-        Kind IObject.Kind => Kind.FunctionDeclaration;
+        SyntaxKind SyntaxNode.Kind => SyntaxKind.FunctionDeclaration;
     }
 }
 

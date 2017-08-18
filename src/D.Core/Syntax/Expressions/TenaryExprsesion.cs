@@ -15,6 +15,6 @@
 
         public SyntaxNode Right { get; }
 
-        public Kind Kind => Kind.TernaryExpression;
+        SyntaxKind SyntaxNode.Kind => SyntaxKind.TernaryExpression;
     }
 }

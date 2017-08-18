@@ -13,7 +13,7 @@ namespace D.Syntax
 
         public int Size => Elements.Length;
 
-        public Kind Kind => Kind.TupleExpression;
+        SyntaxKind SyntaxNode.Kind => SyntaxKind.TupleExpression;
     }
 
     // a: 100
@@ -30,7 +30,7 @@ namespace D.Syntax
         // type or constant
         public SyntaxNode Value { get; }
 
-        Kind IObject.Kind => Kind.NamedValue;
+        SyntaxKind SyntaxNode.Kind => SyntaxKind.NamedValue;
     }
 }
  

@@ -2,7 +2,7 @@
 {
     using Expressions;
 
-    public partial class CSharpTranspiler
+    public partial class CSharpEmitter
     {
         public override IExpression VisitBinary(BinaryExpression be)
         {

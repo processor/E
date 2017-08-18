@@ -2,7 +2,7 @@
 {
     using Expressions;
 
-    public partial class CSharpTranspiler
+    public partial class CSharpEmitter
     {
         public void VisitProtocal(ProtocolExpression protocol)
         {

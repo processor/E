@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace D.Syntax
+﻿namespace D.Syntax
 {
     public class ArgumentSyntax : SyntaxNode
     {
@@ -19,6 +17,6 @@ namespace D.Syntax
 
         public SyntaxNode Value { get; }
 
-        Kind IObject.Kind => Kind.Argument;
+        SyntaxKind SyntaxNode.Kind => SyntaxKind.Argument;
     }
 }

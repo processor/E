@@ -1,6 +1,7 @@
 ﻿namespace D.Syntax
 {
-    public interface SyntaxNode : IObject
+    public interface SyntaxNode
     {
+        SyntaxKind Kind { get; }
     }   
 }

@@ -16,7 +16,7 @@ namespace D.Syntax
         }
 
         // document
-        public IObject Observable { get; set; }
+        public SyntaxNode Observable { get; set; }
 
         // Pointer'Moved
         public Symbol EventType { get; }
@@ -30,7 +30,7 @@ namespace D.Syntax
         // until gallary Detached
         public UntilConditionSyntax UntilExpression { get; set; }
 
-        Kind IObject.Kind => Kind.ObserveStatement;
+        SyntaxKind SyntaxNode.Kind => SyntaxKind.ObserveStatement;
     }
 
     public class UntilConditionSyntax
