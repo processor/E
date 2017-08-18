@@ -1,6 +1,6 @@
 ﻿namespace D.Syntax
 {
-    public interface ISyntaxMember
+    public interface IMemberSyntax
     {
         Symbol Name { get; }
         

@@ -17,11 +17,12 @@ Point impl {
 }
 ");
 
+            var a = (CompoundPropertyDeclaration)type[0];
 
+            Assert.Equal("x", a.Members[0].Name);
+            Assert.Equal("y", a.Members[1].Name);
+            Assert.Equal("z", a.Members[2].Name);
 
-            // properties @ top level...
-
-            var a = ((CompoundPropertyDeclaration)type[0]);
         }
 
         [Fact]

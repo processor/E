@@ -3,7 +3,7 @@
     // let a: Integer = 5
     // let mutable y: i64
 
-    public class VariableDeclarationSyntax : ISyntaxMember, SyntaxNode
+    public class VariableDeclarationSyntax : IMemberSyntax, SyntaxNode
     {
         public VariableDeclarationSyntax(
             Symbol name, 

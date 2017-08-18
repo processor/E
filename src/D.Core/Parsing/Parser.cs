@@ -231,7 +231,7 @@ namespace D.Parsing
             return new ReturnStatementSyntax(expression);
         }
 
-        public EmitStatement ReadEmit()
+        public EmitStatementSyntax ReadEmit()
         {
             Consume(Emit);                      // ! emit
 
@@ -239,7 +239,7 @@ namespace D.Parsing
 
             ConsumeIf(Semicolon);               // ? ;
 
-            return new EmitStatement(expression);
+            return new EmitStatementSyntax(expression);
         }
 
         public IfStatementSyntax ReadIf()
@@ -2242,19 +2242,6 @@ namespace D.Parsing
         {
             reader.Dispose();
         }
-
-        #endregion
-
-        #region XML
-
-        // <tag>
-
-        // </tag>
-        /*
-        public TagExpression ReadTag()
-        {
-        }
-        */
 
         #endregion
 

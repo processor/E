@@ -21,7 +21,7 @@ for (x, y) in points {
 
             var pointsVar    = statements.Next() as PropertyDeclarationSyntax;
             var sumVar       = statements.Next() as PropertyDeclarationSyntax;
-            var forStatement = (ForStatementSyntax)statements.Next();
+            var forStatement = statements.Next() as ForStatementSyntax;
 
             var pattern = forStatement.VariableExpression as TuplePatternSyntax;
 

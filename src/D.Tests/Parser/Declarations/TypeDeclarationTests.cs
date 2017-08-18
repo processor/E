@@ -257,7 +257,7 @@ Account record {
             Assert.True(type.IsRecord);
             Assert.True(members[0].Flags.HasFlag(ObjectFlags.Mutable));
             Assert.Equal("balance", members[0].Name);
-            Assert.Equal("Decimal", (members[0] as PropertyDeclarationSyntax).Type.ToString());
+            Assert.Equal("Decimal", members[0].Type);
 
             Assert.Equal("owner",   members[1].Name);
             Assert.Equal("Entity",  members[1].Type);

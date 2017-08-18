@@ -81,7 +81,7 @@ namespace D.Parsing.Tests
 
             Assert.Equal("a", (Symbol)expression.Left);
 
-            // Assert.Equal(3,   (Integer)expression.Right);
+            Assert.Equal(3,   (NumberLiteralSyntax)expression.Right);
 
             Assert.Equal(Remainder, expression.Operator);
 
@@ -254,10 +254,10 @@ namespace D.Parsing.Tests
         {
             var b = Parse<BinaryExpressionSyntax>("5 * x * y");
 
-            //var l = (Integer)b.Left;
+            var l = (NumberLiteralSyntax)b.Left;
             var r = (BinaryExpressionSyntax)b.Right;
 
-            // Assert.Equal(5, l.Value);
+            Assert.Equal(5, l);
 
             Assert.Equal("x", r.Left.ToString());
             Assert.Equal("y", r.Right.ToString());
@@ -333,12 +333,10 @@ namespace D.Parsing.Tests
             var left = (TupleExpressionSyntax)statement.Left;
             var right = (UnitLiteralSyntax)statement.Right;
 
-            // Unit.Parse<double>()
 
-            // Assert.Equal(5,     (int)right.Quantity);
-            // Assert.Equal("k",   right.Prefix.Name);
-            // Assert.Equal("g",   right.Type.Name);
-            // Assert.Equal("5kg", right.ToString());
+            Assert.Equal(5,     (NumberLiteralSyntax)right.Expression);
+            Assert.Equal("kg",   right.UnitName);
+            Assert.Equal("5 kg", right.ToString());
         }
 
         [Fact]
