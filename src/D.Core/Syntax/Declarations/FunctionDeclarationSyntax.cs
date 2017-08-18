@@ -4,7 +4,7 @@ using System.Text;
 
 namespace D.Syntax
 {
-    public class FunctionDeclarationSyntax : ISyntaxNode, SyntaxNode
+    public class FunctionDeclarationSyntax : ISyntaxMember, SyntaxNode
     {
         // TODO: Module
 
@@ -106,7 +106,7 @@ namespace D.Syntax
 
         #region Helpers
 
-        TypeSymbol ISyntaxNode.Type => new TypeSymbol("Function", GetParameterTypeSymbols(this.Parameters));
+        TypeSymbol ISyntaxMember.Type => new TypeSymbol("Function", GetParameterTypeSymbols(this.Parameters));
 
         private static Symbol[] GetParameterTypeSymbols(ParameterSyntax[] parameters)
         {

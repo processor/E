@@ -21,13 +21,13 @@ namespace D.Syntax
 
     public struct AssignmentElementSyntax
     {
-        public AssignmentElementSyntax(string name, Symbol type)
+        public AssignmentElementSyntax(Symbol name, Symbol type)
         {
             Name = name ?? throw new ArgumentNullException(nameof(name));
             Type = type;
         }
 
-        public string Name { get; }
+        public Symbol Name { get; }
 
         public Symbol Type { get; }
     }

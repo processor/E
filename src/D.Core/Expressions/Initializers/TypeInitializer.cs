@@ -19,10 +19,3 @@ namespace D.Expressions
         Kind IObject.Kind => Kind.TypeInitializer; 
     }
 }
-
-// Tuple Based Syntax
-// (x: 1, y: 2)
-// (x, y)
-
-// Rust uses a different syntax... and requires that all fields be initized at once
-// Point { x: 1, y: 2 }

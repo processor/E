@@ -2,7 +2,7 @@
 {
     public class ElseIfStatementSyntax : SyntaxNode
     {
-        public ElseIfStatementSyntax(SyntaxNode condition, BlockExpressionSyntax body, SyntaxNode elseBranch)
+        public ElseIfStatementSyntax(SyntaxNode condition, BlockSyntax body, SyntaxNode elseBranch)
         {
             Condition = condition;
             Body = body;
@@ -11,7 +11,7 @@
 
         public SyntaxNode Condition { get; }
 
-        public BlockExpressionSyntax Body { get; }
+        public BlockSyntax Body { get; }
 
         // Else, ElseIf
         public SyntaxNode ElseBranch { get; }

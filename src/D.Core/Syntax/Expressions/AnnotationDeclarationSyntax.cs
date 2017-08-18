@@ -6,7 +6,7 @@ namespace D.Syntax
     {
         public AnnotationExpressionSyntax(Symbol name, ArgumentSyntax[] arguments)
         {
-            Name = name ?? throw new ArgumentNullException(nameof(name));
+            Name      = name ?? throw new ArgumentNullException(nameof(name));
             Arguments = arguments ?? throw new ArgumentNullException(nameof(arguments));
         }
 

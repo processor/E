@@ -8,7 +8,7 @@
         public RangeExpression(SyntaxNode start, SyntaxNode end, RangeFlags flags)
         {
             Start = start;
-            End = end;
+            End   = end;
             Flags = flags;
         }
 

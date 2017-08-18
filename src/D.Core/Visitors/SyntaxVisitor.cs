@@ -7,7 +7,7 @@ namespace D.Syntax
         public virtual SyntaxNode VisitBinary(BinaryExpressionSyntax syntax)                         => throw new NotImplementedException();
         public virtual SyntaxNode VisitUnary(UnaryExpressionSyntax syntax)                           => throw new NotImplementedException(); 
         public virtual SyntaxNode VisitTernary(TernaryExpressionSyntax syntax)                       => throw new NotImplementedException(); 
-        public virtual SyntaxNode VisitBlock(BlockExpressionSyntax syntax)                           => throw new NotImplementedException(); 
+        public virtual SyntaxNode VisitBlock(BlockSyntax syntax)                           => throw new NotImplementedException(); 
         public virtual SyntaxNode VisitCall(CallExpressionSyntax syntax)                             => throw new NotImplementedException(); 
         public virtual SyntaxNode VisitVariableDeclaration(PropertyDeclarationSyntax syntax)         => throw new NotImplementedException(); 
         public virtual SyntaxNode VisitTypeInitializer(ObjectInitializerSyntax syntax)               => throw new NotImplementedException(); 
@@ -33,7 +33,7 @@ namespace D.Syntax
                 case UnaryExpressionSyntax unary     : return VisitUnary(unary);
                 case BinaryExpressionSyntax binary   : return VisitBinary(binary);
                 case TernaryExpressionSyntax ternary : return VisitTernary(ternary);
-                case BlockExpressionSyntax block     : return VisitBlock(block);
+                case BlockSyntax block     : return VisitBlock(block);
             }
             
             switch (syntax.Kind)

@@ -66,9 +66,8 @@ namespace D
 
             return module;
         }
-        
 
-        public BlockExpression VisitBlock(BlockExpressionSyntax syntax)
+        public BlockExpression VisitBlock(BlockSyntax syntax)
         {
             var statements = new IExpression[syntax.Statements.Length];
 
@@ -95,7 +94,7 @@ namespace D
                 case UnaryExpressionSyntax unary     : return VisitUnary(unary);
                 case BinaryExpressionSyntax binary   : return VisitBinary(binary);
                 case TernaryExpressionSyntax ternary : return VisitTernary(ternary);
-                case BlockExpressionSyntax block     : return VisitBlock(block);
+                case BlockSyntax block     : return VisitBlock(block);
 
                 case LambdaExpressionSyntax lambda   : return VisitLambda(lambda);
 

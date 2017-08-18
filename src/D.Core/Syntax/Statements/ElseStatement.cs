@@ -2,12 +2,12 @@
 {
     public class ElseStatementSyntax : SyntaxNode
     {
-        public ElseStatementSyntax(BlockExpressionSyntax body)
+        public ElseStatementSyntax(BlockSyntax body)
         {
             Body = body;
         }
 
-        public BlockExpressionSyntax Body { get; }
+        public BlockSyntax Body { get; }
 
         SyntaxKind SyntaxNode.Kind => SyntaxKind.ElseStatement;
     }

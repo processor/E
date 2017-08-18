@@ -1,6 +1,6 @@
 ﻿namespace D.Syntax
 {
-    public class ArgumentSyntax : SyntaxNode
+    public class ArgumentSyntax
     {
         public ArgumentSyntax(SyntaxNode value)
         {
@@ -16,7 +16,5 @@
         public Symbol Name { get; }
 
         public SyntaxNode Value { get; }
-
-        SyntaxKind SyntaxNode.Kind => SyntaxKind.Argument;
     }
 }

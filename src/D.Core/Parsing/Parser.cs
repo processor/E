@@ -300,7 +300,7 @@ namespace D.Parsing
         // for x { } 
         // for x in y { }
 
-        public ForStatement ReadFor()
+        public ForStatementSyntax ReadFor()
         {
             Consume(For);
 
@@ -325,7 +325,7 @@ namespace D.Parsing
 
             LeaveMode(Mode.For);
 
-            return new ForStatement(variableExpression, generatorExpression, ReadBlock());
+            return new ForStatementSyntax(variableExpression, generatorExpression, ReadBlock());
         }
 
         // on instance Event'Type e { }
@@ -338,7 +338,7 @@ namespace D.Parsing
             var eventType = ReadTypeSymbol();
 
             var varName = (! (IsKind(BraceOpen) | IsKind(LambdaOperator)))
-                ? ReadFunctionSymbol().Name
+                ? ReadFunctionSymbol()
                 : null;
 
             var body = ReadBody();
@@ -360,7 +360,7 @@ namespace D.Parsing
             return new UntilConditionSyntax(untilObservable, untilEventType);
         }
 
-        public BlockExpressionSyntax ReadBlock()
+        public BlockSyntax ReadBlock()
         {
             Consume(BraceOpen); // ! {
 
@@ -377,7 +377,7 @@ namespace D.Parsing
 
             LeaveMode(Mode.Block);
 
-            return new BlockExpressionSyntax(statements.ToArray());
+            return new BlockSyntax(statements.ToArray());
         }
 
         public SpreadExpressionSyntax ReadSpread()
@@ -1227,9 +1227,9 @@ namespace D.Parsing
             return new ArgumentSymbol(ReadName());
         }
 
-        public MemberSymbol ReadMemberSymbol()
+        public PropertySymbol ReadMemberSymbol()
         {
-            return new MemberSymbol(ReadName());
+            return new PropertySymbol(ReadName());
         }
 
         public ModuleSymbol ReadModuleSymbol()

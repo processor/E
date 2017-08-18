@@ -3,9 +3,9 @@
     // let a: Integer = 5
     // let mutable y: i64
 
-    public class PropertyDeclarationSyntax : ISyntaxMember, SyntaxNode
+    public class VariableDeclarationSyntax : ISyntaxMember, SyntaxNode
     {
-        public PropertyDeclarationSyntax(
+        public VariableDeclarationSyntax(
             Symbol name, 
             TypeSymbol type, 
             SyntaxNode value = null, 
@@ -33,9 +33,9 @@
 
     // a, b, c: Number
 
-    public class CompoundPropertyDeclaration : SyntaxNode
+    public class CompoundVariableDeclaration : SyntaxNode
     {
-        public CompoundPropertyDeclaration(PropertyDeclarationSyntax[] declarations)
+        public CompoundVariableDeclaration(PropertyDeclarationSyntax[] declarations)
         {
             Members = declarations;
         }
