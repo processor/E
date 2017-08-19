@@ -31,7 +31,7 @@ Node protocol {
             var b = protocol.Members[1];
 
             Assert.Equal("children", b.Name);
-            Assert.Equal("List",     b.ReturnType.Name);
+            Assert.Equal("Array",    b.ReturnType.Name);
             Assert.Equal("Node",     b.ReturnType.Arguments[0].Name);
         }
 

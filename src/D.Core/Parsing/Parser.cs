@@ -576,7 +576,7 @@ namespace D.Parsing
 
             Consume(From); // ! from
 
-            return ReadFunctionDeclaration(new FunctionSymbol("initializer"), flags);
+            return ReadFunctionDeclaration(new TypeSymbol("initializer"), flags);
         }
 
         // to String =>
@@ -623,7 +623,7 @@ namespace D.Parsing
 
             if (isOperator) flags |= ObjectFlags.Operator;
 
-            var name = isOperator ? new FunctionSymbol(reader.Consume()) : ReadFunctionSymbol();
+            var name = isOperator ? new TypeSymbol(reader.Consume()) : ReadFunctionSymbol();
 
             return ReadFunctionDeclaration(name, flags);
         }
@@ -1217,9 +1217,9 @@ namespace D.Parsing
 
         }
 
-        public FunctionSymbol ReadFunctionSymbol()
+        public TypeSymbol ReadFunctionSymbol()
         {
-            return new FunctionSymbol(ReadName());
+            return new TypeSymbol(ReadName());
         }
 
         public ArgumentSymbol ReadArgumentSymbol()
@@ -1298,20 +1298,17 @@ namespace D.Parsing
 
                 return new TypeSymbol(wasFunction ? "Function" : "Tuple", args.ToArray());
             }
-
-
+            
             if ((ConsumeIf(BracketOpen))) // [
             {
                 var type = ReadTypeSymbol();
-                
-                // TODO: Support size constructor (RUST)
-
-                // ; size
-
+     
                 Consume(BracketClose); // ]
 
-                return new TypeSymbol("List", arguments: type);
+                return new TypeSymbol("Array", arguments: type);
             }
+
+            // Async?
 
             if (ConsumeIf("*"))
             {
@@ -1431,7 +1428,7 @@ namespace D.Parsing
             // Maybe symbol?
             if (ConsumeIf(BracketClose))
             {
-                return Symbol.Type("List", ReadTypeSymbol());
+                return Symbol.Type("Array", ReadTypeSymbol());
             }
 
             var rows = 0;
@@ -1491,7 +1488,7 @@ namespace D.Parsing
             /*
             if (elements.Count == 1 && elements[0].Kind == Kind.NumberLiteral && IsKind(Identifier) && char.IsUpper(reader.Current.Text[0]))
             {
-                var name = Symbol.Type("List", ReadSymbol(SymbolKind.Type));
+                var name = Symbol.Type("Array", ReadSymbol(SymbolKind.Type));
 
                 return new CallExpressionSyntax(null, name, new[] { new ArgumentSyntax(elements[0]) });
             }

@@ -185,9 +185,9 @@ T record {
             Assert.Equal("Variant<A,B>",                    members[3].Type.ToString());
             Assert.Equal("Tuple<A,B,C>",                    members[4].Type.ToString());
             Assert.Equal("Function<A,B,C,D>",               members[5].Type.ToString());
-            Assert.Equal("List<physics::Momentum<T>>",      members[6].Type.ToString());
+            Assert.Equal("Array<physics::Momentum<T>>",     members[6].Type.ToString());
             Assert.Equal("Optional<Integer>",               members[7].Type.ToString());
-            Assert.Equal("List<Optional<CollisionCourse>>", members[8].Type.ToString());
+            Assert.Equal("Array<Optional<CollisionCourse>>", members[8].Type.ToString());
         }
 
         [Fact]
@@ -245,7 +245,7 @@ Account record {
    owner           :   Entity
    provider        :   Organization
    transactions    : [ Transaction ]
-   currencyCode    :   List<Character>
+   currencyCode    :   Array<Character>
 };");
 
             // var members = type.Members;
@@ -264,11 +264,11 @@ Account record {
 
             Assert.Equal("Organization", members[2].Type);
                                          
-            Assert.Equal("List",         members[3].Type.Name);
-            Assert.Equal("Transaction",  members[3].Type.Arguments[0].Name);
+            Assert.Equal("Array",       members[3].Type.Name);
+            Assert.Equal("Transaction", members[3].Type.Arguments[0].Name);
                                          
-            Assert.Equal("List",         members[4].Type.Name);
-            Assert.Equal("Character",    members[4].Type.Arguments[0].Name);
+            Assert.Equal("Array",       members[4].Type.Name);
+            Assert.Equal("Character",   members[4].Type.Arguments[0].Name);
         }
     }
 }

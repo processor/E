@@ -35,7 +35,7 @@ Unit struct {{
         {
             var symbol = GetTypeSymbol("[ physics::Momentum ]");
      
-            Assert.Equal("List", symbol.Name);
+            Assert.Equal("Array", symbol.Name);
 
             var a = symbol.Arguments[0];
 
