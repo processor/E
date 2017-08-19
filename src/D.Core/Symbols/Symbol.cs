@@ -41,8 +41,6 @@ namespace D
 
         public SymbolFlags Flags { get; }
 
-        public abstract SymbolType SymbolType { get; }
-
         #region Initializization / Binding
 
         public void Initialize(Type type)
@@ -56,6 +54,10 @@ namespace D
 
         public Type ResolvedType { get; set; }
 
+        // ContainingType   (if a member of a type)
+
+        // ContainingModule (if a member of a module)
+       
         #endregion
 
         Kind IObject.Kind => Kind.Symbol;
@@ -96,25 +98,33 @@ namespace D
             return sb.ToString();
         }
 
-        public static LabelSymbol Label(string name) =>
+        public static LabelSymbol Label(string name) => 
             new LabelSymbol(name);
 
-        public static VariableSymbol Variable(string name) =>
+        public static VariableSymbol Variable(string name) => 
             new VariableSymbol(name);
 
-        public static Symbol Argument(string name) => 
+        public static Symbol Argument(string name) =>
             new ArgumentSymbol(name);
 
-        public static TypeSymbol Type(string name) =>
+        public static TypeSymbol Type(string name) => 
             new TypeSymbol(name);
 
-        public static Symbol Type(string name, params Symbol[] arguments) =>
+        public static Symbol Type(string name, params Symbol[] arguments) => 
             new TypeSymbol(name, arguments);
-
-        public static implicit operator string(Symbol symbol) =>
-            symbol?.ToString();
-
+        public static implicit operator string(Symbol symbol) => symbol?.ToString();
 
         SyntaxKind SyntaxNode.Kind => SyntaxKind.Symbol;
     }
 }
+
+// Symbols include:
+// - Types: Object, Decimal, Array<string>
+// - Parameter Names
+// - Property Names
+// - Function Names
+// - Variable Names (locals)
+
+// Symbol scopes
+// - Immediate block
+// - Module

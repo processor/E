@@ -15,8 +15,6 @@
 
         public TypeSymbol(string name, params Symbol[] arguments)
             : base(name, arguments) { }
-
-        public override SymbolType SymbolType => SymbolType.Type;
     }
 }
 

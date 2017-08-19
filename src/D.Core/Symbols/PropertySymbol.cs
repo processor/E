@@ -9,7 +9,5 @@ namespace D
 
         public PropertySymbol(string module, string name)
             : base(module, name, Array.Empty<Symbol>()) { }
-
-        public override SymbolType SymbolType => SymbolType.Property;
     }
 }
