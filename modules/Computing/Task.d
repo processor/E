@@ -1,0 +1,3 @@
+Task class {
+  // continuation
+}

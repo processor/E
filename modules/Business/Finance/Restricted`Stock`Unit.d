@@ -8,4 +8,4 @@ Restricted`Stock`Unit protocol {
 
 }
 
-R`S`U alias of Restricted`Stock`Unit
+R`S`U = Restricted`Stock`Unit

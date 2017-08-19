@@ -16,7 +16,6 @@ Channel protocol {
 	  | NotConnectedError
 }
 
-
 Seekable `Channel = Channel & Seekable
 
 Channel `Status enum {
@@ -25,32 +24,19 @@ Channel `Status enum {
   Terminated
 }
 
-ReadableChannel protocol {
+Readable `Channel protocol {
   available : i64 >= 0
   read ƒ    -> Message | Backpressure
 }
 
-// * T = Alias for Channel of T
-
-
-WriteableChannel protocol {
+Writeable `Channel protocol {
   async write ƒ(message: Message) -> OK | Awaiter | Closed
 }
 
-Channel`Awaiter<T> protocol { 
+Channel `Awaiter<T> protocol { 
   reason : NoMessages | Throttled
   result : T
   ready  : event
 }
 
-
 // Create a multicast wrapper around a channel
-
-Observerable<T> protocol {
-  subscriptions           : [ Subscription<T> ]
-
-  subscribe(ƒ(Message|∎)) -> Subscription<T>
-}
-
-
-

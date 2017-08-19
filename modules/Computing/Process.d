@@ -1,4 +1,5 @@
-Process protocol {
-  start()
+Process actor {
+  // metrics ?
+
   terminate()
 }

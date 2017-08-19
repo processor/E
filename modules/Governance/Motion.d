@@ -3,12 +3,15 @@ Motion protocal {
 
   decision : Decision
 
-  // qortum
-  
   votes: [ Vote ]
 
   vote(actor: Actor) -> Vote
 }
+
+// cast
+// quorum
+// proxy
+
 
 Motion actor { 
   vote(Entity) { } 
