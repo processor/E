@@ -15,7 +15,7 @@ namespace D.Graph.Tests
             context.Add("a", new StringLiteral("a"));
             context.Add("b", new Integer(1));
 
-            Assert.Equal("Any", context.Get<Type>(TypeSymbol.Any).Name);
+            Assert.Equal("Object", context.Get<Type>(TypeSymbol.Object).Name);
 
             Assert.Equal("a", context.Get<StringLiteral>(Symbol.Variable("a")));
             Assert.Equal(1,   context.Get<Integer>(Symbol.Variable("b")));
@@ -31,7 +31,7 @@ namespace D.Graph.Tests
             var child = context.Nested("child");
 
             Assert.Equal("name", child.Get<StringLiteral>(Symbol.Variable("name")));
-            Assert.Equal("Any",  child.Get<Type>(TypeSymbol.Any).Name);
+            Assert.Equal("Object",  child.Get<Type>(TypeSymbol.Object).Name);
 
         }
     }

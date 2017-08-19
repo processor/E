@@ -1,6 +1,7 @@
-﻿namespace D
+﻿using System.Collections.Generic;
+
+namespace D
 {
-    using System.Collections.Generic;
     using Syntax;
 
     public partial class Compiler
@@ -13,7 +14,7 @@
             {
                 var member = type.GenericParameters[i];
 
-                genericParameters[i] = new Parameter(member.Name, scope.Get<Type>(member.Type ?? TypeSymbol.Any));
+                genericParameters[i] = new Parameter(member.Name, scope.Get<Type>(member.Type ?? TypeSymbol.Object));
 
                 // context.Add(member.Name, (Type)genericParameters[i].Type);
             }

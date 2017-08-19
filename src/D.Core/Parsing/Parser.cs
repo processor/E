@@ -1364,15 +1364,12 @@ namespace D.Parsing
 
             var result = new TypeSymbol(domain, name, parameters);
 
-            
             // Variant      :  A | B 
             // Intersection : A & B
 
             if (IsKind(Bar))
             {
-                var list = new List<Symbol> {
-                    result
-                };
+                var list = new List<Symbol> { result };
 
                 while (ConsumeIf(Bar))
                 {
@@ -1383,9 +1380,7 @@ namespace D.Parsing
             }
             else if (reader.Current == "&")
             {
-                var list = new List<Symbol> {
-                    result
-                };
+                var list = new List<Symbol> { result };
 
                 while (ConsumeIf("&"))
                 {
@@ -1397,9 +1392,7 @@ namespace D.Parsing
 
             else if (IsKind(ReturnArrow))
             {
-                var list = new List<Symbol> {
-                    result
-                };
+                var list = new List<Symbol> { result };
 
                 Consume(ReturnArrow);
 
