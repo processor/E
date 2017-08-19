@@ -14,9 +14,22 @@ Bank protocol {
   refuse     `Transaction (Transaction) -> Transaction `Refusal
   reverse    `Transaction (Transaction) -> Transaction `Reversed
   underwrite `Loan        (Loan)        -> Transaction `Underwriting
+
+  deposit() -> Deposit
+
 }
 
 Bank actor {
   entity : Entity,
   code   : String
 }
+
+// A bank maintains accounts, underwrites, and services loans
+// A payment processor may also act as an intermedary in a dispute
+
+
+  Account `Closed
+  Authorization `Expired
+  Unauthorized
+, Insufficient `Funds 
+: Refusal `Reason term

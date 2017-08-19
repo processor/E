@@ -23,26 +23,6 @@ Transaction protocol {
 
 // A transaction atomically mutates a pair of Account ledgers (Credit | Debit)
 
-  Account `Closed
-  Authorization `Expired
-  Unauthorized
-, Insufficient `Funds 
-: Refusal `Reason term
-
-  Deposit
-, Charge
-, Refund
-: Transaction record {
-  from    : Account
-  to      : Account
-  amount	: Decimal
-} 
-
-// Transaction Operations ...
-
-Transaction actor {
-
-}
 
 // Events ------------------------------------------
 

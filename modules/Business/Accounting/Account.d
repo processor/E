@@ -1,34 +1,31 @@
 import Currency from Commerce 
 
 Account protocol {
-  * open           : opened
-  * | deposit
-    | dispute
+  * open    : open
+  * | transfer
+    | authorize
     ↺
   * close ∎ : closed
 
   open    ()               -> Account
   close   (reason: Reason) -> Account `Closure
 
-  deposit  (check: Check)                     -> Deposit
-  dispute  (transaction: Transaction, Reason) -> Dispute    // if ruled in your favor, results in a reversal
-  transfer (target: Account)                  -> Transaction
+  transfer (amount: Decimal, target : Account) -> Transaction
 
-  asset        ->   Asset     // The asset held in the account (.e.g USD, Oranges, etc.)
-  balance      ->   Decimal
-  entries      -> [ Entry ]
-  signers      -> [ Signer ]        // agents authorized to transact
-  trustee      -> [ Trustee ]
-  transactions -> [ Transaction ]
+  asset          ->   Asset           // e.g USD, Gold
+  balance        ->   Decimal
+  entries        -> [ Entry ]
+  signers        -> [ Signer ]        // agents authorized to transact
+  trustee        -> [ Trustee ]
+  authorizations -> [ Authorization ]
 }
 
 Account actor {
-  provider : Entity
+  provider : Entity     // who holds the entity...
   balance  : Decimal 
 }
 
-
-
+// Deposits are made to banks -- which issue a credit to an account
 
 // Are all signers authorized to make transactions?
 

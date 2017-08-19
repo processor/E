@@ -11,6 +11,7 @@ Human actor : Organism {
   
   employments -> [ Employment ]
   contracts   -> [ Contract ]
+  holdings    -> [ Holding ]
 
   employers   => from employments select employeer
   contractees => from contracts select contratee

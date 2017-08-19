@@ -1,15 +1,16 @@
-﻿  Income      `Tax	 
-, Payroll     `Tax 
-, Property    `Tax 
-, Unemployment`Tax 
-, Sales       `Tax    
-: Tax record {
+﻿Tax record {
   currency : Currency
   amount   : Decimal
 }
 
+Income       `Tax record : Tax { }	 
+Payroll      `Tax record : Tax { } 
+Property     `Tax record : Tax { } 
+Unemployment `Tax record : Tax { } 
+Sales        `Tax record : Tax { }   
+
 Tax `Deduction record {
-   rules: [ Rule ]
+  rules: [ Rule ]
 }
 
 // Juristriction?

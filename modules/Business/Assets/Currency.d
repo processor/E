@@ -1,35 +1,35 @@
-Currency : Asset { }
+Currency : Asset { 
 
-  ARS                       // Argentina, Pesos
-, AUD                       // Australia, Dollars
-, CAD                       // Canada,Dollars
-, CHF                       // Swiss Frank
-, CZK                       // Czech Koruna
-, DKK                       // Danish Krone
-, EUR                       // Euro,Dollars (Austria, ...)
-, GBP                       // Pound Sterling 
-, HKD                       // Hong Kong, Dollars
-, HUF                       // Hungarian Forint 
-, JPY                       // Japan, Yen 
-, MXN                       // Mexica, Pesos
-, NOK                       // Norwegian Krone
-, NZD                       // New Zealand Dollar
-, PLN                       // Polish Zloty
-, RUB                       // Russia, Rubles 
-, SEK                       // Swedish Krona
-, SGD                       // Singapore Dollar
-, USD                       // United States Dollar
-, THB                       // Taiwan, New Dollars 
-, TWD                       // Venezuela, Bolivares
-, VEB @obsolete, 
-, VEF                       // Venezuela, Bolivar Fuerte 
+}
+
+ARS           actor : Currency { }                    // Argentina, Pesos
+AUD           actor : Currency { }                    // Australia, Dollars
+CAD           actor : Currency { }                    // Canada,Dollars
+CHF           actor : Currency { }                    // Swiss Frank
+CZK           actor : Currency { }                    // Czech Koruna
+DKK           actor : Currency { }                    // Danish Krone
+EUR           actor : Currency { }                    // Euro,Dollars (Austria, ...)
+GBP           actor : Currency { let symbol = '£' }   // Pound Sterling 
+HKD           actor : Currency { }                    // Hong Kong, Dollars
+HUF           actor : Currency { }                    // Hungarian Forint 
+JPY           actor : Currency { }                    // Japan, Yen 
+MXN           actor : Currency { }                    // Mexica, Pesos
+NOK           actor : Currency { }                    // Norwegian Krone
+NZD           actor : Currency { }                    // New Zealand Dollar
+PLN           actor : Currency { }                    // Polish Zloty
+RUB           actor : Currency { }                    // Russia, Rubles 
+SEK           actor : Currency { }                    // Swedish Krona
+SGD           actor : Currency { }                    // Singapore Dollar
+USD           actor : Currency { let symbol = '$' }   // United States Dollar
+THB           actor : Currency { }                    // Taiwan, New Dollars 
+TWD           actor : Currency { }                    // Venezuela, Bolivares
+VEB @obsolete actor : Currency { }
+VEF           actor : Currency { }                    // Venezuela, Bolivar Fuerte 
 
 // -- Cryptocurrencies --
-, Bitcoin
-, Stella,
-, Ether
-: Currency
-
+Bitcoin       actor : Currency { let symbol = 'Ƀ' }
+Stella        actor : Currency { }
+Ether         actor : Currency { }
 
 // A currency is an asset with a supply
 

@@ -1,12 +1,8 @@
 Entry record {
   account : Account
   source  : Account
+  amount  : Decimal     // +1, -1
   balance : Decimal
 
-  // fee
-  // 
+  // fee (to trustline)
 }
-
-// - An account holds a single Asset
-
-// An entry is made when a transaction is completed

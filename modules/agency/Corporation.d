@@ -12,7 +12,8 @@ Corporation protocol {
 
   jurisdiction ->   Place
   officers     -> [ Officer ]
-  stockholders -> [ Stockholder ] 
+  stockholders -> [ Stockholder ]
+  holdings     -> [ Holding ]
 }
 
 Corporation actor : Organization {
