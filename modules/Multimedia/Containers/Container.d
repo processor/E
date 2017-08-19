@@ -1,4 +1,4 @@
 Container class { 
-  metadata : Object, 
+  metadata : [ String: Object ], 
   streams  : [ Stream ]
 }

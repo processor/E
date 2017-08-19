@@ -12,7 +12,7 @@ Account protocol {
 
   deposit  (check: Check)                     -> Deposit
   dispute  (transaction: Transaction, Reason) -> Dispute    // if ruled in your favor, results in a reversal
-  transfer (target: Account)                 -> Transaction
+  transfer (target: Account)                  -> Transaction
 
   asset        ->   Asset     // The asset held in the account (.e.g USD, Oranges, etc.)
   balance      ->   Decimal

@@ -7,7 +7,7 @@ Bond protocol : Asset {
 }
 
 Bond actor : Asset {
-  currency : Currency,
+  asset    : Asset,  // e.g. USD, Gold
   quantity : Decimal
   price	   : Decimal.
   interest : Percent/Period,

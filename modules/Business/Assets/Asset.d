@@ -5,18 +5,20 @@ Asset protocol {
     | dispose ∎ : disposed
 
   purchase(
-    seller  :   Entity, 
-    price   :   (Currency, Decimal),
-    quanity :   Decimal = 1, 
-    terms   : [ Terms ]
+    seller   : Entity, 
+    currency : Currency, 
+    amount   : Decimal,
+    quantity : Decimal = 1, 
+    terms    : [ Legal::Term ]
   ) -> Purchase        
   
   sell(
     buyer    : Entity,  
-    currency : Currency,
+    currency : Currency, 
+    amount   : Decimal,
     price    : Decimal,
-    quantity : Decimal, 
-    terms? : [ Terms ]
+    quantity : Decimal = 1, 
+    terms? : [ Legal::Term ]
   ) -> Sale
 
   writedown (amount: Decimal) -> Writedown

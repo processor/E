@@ -1,25 +1,25 @@
 Policy protocol {
   allow ( 
-    entity   :   Entity, 
-    actions  : [ Verb ], 
-    resource :   Resource,
-    when     :   Predicate
+    principal  :   Principal, 
+    actions    : [ Action ], 
+    resource   :   Resource,
+    predicate  :   Expression
   ) -> * Rule 
 
   forbid (
-    entity   :   Entity, 
-    actions  : [ Verb ], 
-    resource :   Resource,
-    when     :   Predicate
+    principal :   Principal, 
+    actions   : [ Action ], 
+    resource  :   Resource,
+    predicate :   Predicate
   ) -> * Rule
 }
 
 /*
 allow (
-  entity   : Carbonmade, 
-  action   : open | link, 
-  resource : Blob#1000,
-  where    : time in "jp/toyko" > 5pm
+  entity    : Corporation(name: Carbonmade), 
+  action    : Blob::open | Blob::link, 
+  resource  : Blob(id: 1000)
+  predicate : time in "jp/toyko" > 5pm
 }
 
 // get, read, write: verb

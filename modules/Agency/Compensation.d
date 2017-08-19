@@ -2,11 +2,13 @@ Compensation protocol {
   
 }
 
-Salary struct : Compensation { 
-  amount   : Currency
+Salary struct : Compensation {
+  currency : Currency, 
+  amount   : Decimal
   interval : Interval
 }
 
 Fixed : Compensation {
-  amount: Currency
+  currency : Currency, 
+  amount   : Decimal
 }

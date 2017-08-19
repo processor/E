@@ -1,8 +1,4 @@
-Address protocol  {
-
-}
-
-Email `Address struct : Address { 
+Email `Address struct : Networking::Address { 
   let name     : String,
   let host     : String
   let username : String

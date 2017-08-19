@@ -14,7 +14,7 @@ Gallery class : Block {
     var last : Slide
     var index = 0
 
-    for medias {
+    for $ in medias {
       // Create a viewer for the media
       
       let element = match $ {
@@ -23,7 +23,7 @@ Gallery class : Block {
         | Audio _ => Audio `Element $
       }
 
-      let slide = Slide { element, index: index, previous: last }
+      let slide = Slide(element, index: index, previous: last)
 
       // Create a linked list
       if (last) last.Next = slide
@@ -107,10 +107,6 @@ Gallery class : Block {
 	  <Column "c" />
 	)/> 
 )/>
-
-
-
-
 
 
 

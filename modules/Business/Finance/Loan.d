@@ -4,7 +4,7 @@ Loan protocol {
   * writeoff 
   * close ∎  : closed
 
-  currency    ->   Currency              // e.g. USD, Gold
+  asset       ->   Asset              // e.g. USD, Gold
   balance     ->   Decimal
   payments    -> [ Loan `Payment ]
   signers     -> [ Signer ]
@@ -30,7 +30,6 @@ Collatoral record {
   asset       : Asset
   quantity    : Decimal
   preference  : i64 >=0
-
 }
 
 Loan `Application {  }
