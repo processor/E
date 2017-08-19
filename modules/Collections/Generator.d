@@ -1,3 +1,3 @@
 Generator<T> protocol {
-  next(): T?
+  next() -> T | ∎
 }

@@ -1,10 +1,9 @@
 Box struct { 
-  center : Point
-  width  : Number
-  height : Number
-  length : Number 
+  width  : f64
+  height : f64
+  length : f64 
 
-  from (width, height, length: Number) => Box { width, height, length }
+  from (width: f64, height: f64, length: f64) => Box { width, height, length }
 }
 
 Geometry impl for Box { 

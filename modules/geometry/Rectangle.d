@@ -1,4 +1,4 @@
-Rectangle<T> struct {
-  height : T
-  width  : T
+Rectangle struct {
+  height : f64
+  width  : f64
 }

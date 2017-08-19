@@ -1,6 +1,6 @@
 Organization protocol {
   * incorporate : incorporated
-  * action    ↺ : acting 
+  * act       ↺ : acting 
   * bankrupt    ↑ acting        // backto acting
   * merge     ∎ : merged
   * disolve   ∎ : dissolved

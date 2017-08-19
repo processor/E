@@ -8,7 +8,7 @@ Gallery class : Block {
   var current :   Slide
   var slides  : [ Slide ]
 
-  from (medias: [ Media ]) {
+  init (medias: [ Media ]) {
     slides = [ Slide ]
     
     var last : Slide

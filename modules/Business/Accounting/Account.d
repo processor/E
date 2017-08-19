@@ -7,25 +7,31 @@ Account protocol {
     ↺
   * close ∎ : closed
 
-  open    ()       -> Account
-  close   (Reason) -> Account `Closure
+  open    ()               -> Account
+  close   (reason: Reason) -> Account `Closure
 
-  credit ( ) -> Transaction
-  debit  ( ) -> Transaction
-  
-  deposit (check: Check)                     -> Deposit
-  dispute (transaction: Transaction, Reason) -> Dispute    // if ruled in your favor, results in a reversal
+  deposit  (check: Check)                     -> Deposit
+  dispute  (transaction: Transaction, Reason) -> Dispute    // if ruled in your favor, results in a reversal
+  transfer (target: Account)                 -> Transaction
 
-  balance      ->   Money
-  transactions -> [ Transaction ]
-  signers      -> [ Signer ]
+  asset        ->   Asset     // The asset held in the account (.e.g USD, Oranges, etc.)
+  balance      ->   Decimal
+  entries      -> [ Entry ]
+  signers      -> [ Signer ]        // agents authorized to transact
   trustee      -> [ Trustee ]
+  transactions -> [ Transaction ]
 }
 
-Account record {
+Account actor {
   provider : Entity
-  creation : Timestamp 
+  balance  : Decimal 
 }
 
+
+
+
+// Are all signers authorized to make transactions?
+
+// May an account hold mutiple assets?
 
 // beneficiaries

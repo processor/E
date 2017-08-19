@@ -1,0 +1,5 @@
+// AKA void
+None struct {
+
+
+}

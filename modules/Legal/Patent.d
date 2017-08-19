@@ -1,5 +1,5 @@
 Patent class {
-  let holder    :   Entity
-  let inventors : [ Inventor ]
-  let issued    :   DateTime
+  holder    :   Entity
+  inventors : [ Inventor ]
+  issued    :   DateTime?
 }

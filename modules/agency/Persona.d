@@ -1,5 +1,4 @@
 // e.g. iamcarbon
-Persona : Entity {
+Persona actor : Entity {
   email `Address : Email`Address
-  created        : Timestamp
 }

@@ -1,15 +1,10 @@
-Bank record {
-  entity : Entity,
-  code   : String
-}
-
 Bank protocol { 
-  * | open      `Account       
-    | close     `Account     
-    | settle    `Transaction
-    | refuse    `Transaction 
-    | underwrite`Loan        
-    | process   `Transaction 
+  * | open       `Account       
+    | close      `Account     
+    | settle     `Transaction
+    | refuse     `Transaction 
+    | underwrite `Loan        
+    | process    `Transaction 
     ↺            : acting     
   * dissolve ∎   : dissolved
 
@@ -19,4 +14,9 @@ Bank protocol {
   refuse     `Transaction (Transaction) -> Transaction `Refusal
   reverse    `Transaction (Transaction) -> Transaction `Reversed
   underwrite `Loan        (Loan)        -> Transaction `Underwriting
+}
+
+Bank actor {
+  entity : Entity,
+  code   : String
 }

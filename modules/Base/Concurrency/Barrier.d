@@ -1,0 +1,5 @@
+Barrier class {
+  destroy()
+}
+
+// Semaphore

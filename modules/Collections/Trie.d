@@ -1,5 +1,5 @@
-Trie class {
+Trie<T> class {
   root: Node<T>
 
-  contains(T) -> Boolean
+  contains(value: T) -> Boolean
 }

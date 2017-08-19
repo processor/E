@@ -1,3 +1,3 @@
-JSON` Array class {
+Array class : Node {
 
 }

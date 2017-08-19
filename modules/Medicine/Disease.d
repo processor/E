@@ -1,31 +1,39 @@
-domain medicine
+module Medicine
 
-/*
- *  Disease, // IDC-10 (14,400 codes)
+Disease protocol {
+  treat() -> Treatment
+}
 
- 
-A General and unspecified
-B Blood, blood forming organs, lymphatics, spleen
-D Digestive
-F Eye
-H Ear
-K Circulatory
-L Musculoskeletal
-N Neurological
-P Psychological
-R Respiratory
-S Skin
-T Endocrine, metabolic and nutritional
-U Urology
-W Pregnancy, childbirth, family planning
-X Female genital system and breast
-Y Male genital system
-Z Social problems
- 
-BloodVolume,
-CD4CellCount,
-CBC,
-*/
+Disease actor {
+
+}
+
+
+// A diease may be treated
+
+// IDC-10 (14,400 codes)
+//  
+// A General and unspecified
+// B Blood, blood forming organs, lymphatics, spleen
+// D Digestive
+// F Eye
+// H Ear
+// K Circulatory
+// L Musculoskeletal
+// N Neurological
+// P Psychological
+// R Respiratory
+// S Skin
+// T Endocrine, metabolic and nutritional
+// U Urology
+// W Pregnancy, childbirth, family planning
+// X Female genital system and breast
+// Y Male genital system
+// Z Social problems
+//  
+// BloodVolume,
+// CD4CellCount,
+// CBC,
 
 
 Cancer protocol { 

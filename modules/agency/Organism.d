@@ -1,7 +1,7 @@
 Organism protocol {
   * born
-  * action ↺ : acting
-  * die    ∎ : dead
+  * act ↺ : acting
+  * die ∎ : dead
 
   birth -> Birth
   death -> Death?
@@ -19,6 +19,9 @@ Organism protocol {
   }
 }
 
-Organism class : Entity { }
+Organism actor : Entity { 
 
-Dog => Canine
+
+}
+
+Dog actor : Canine

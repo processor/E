@@ -1,11 +1,9 @@
 Plane struct : Clonable {
   normal : Vector3
-  d      : Number  // sometimes known as w
-
-  from(normal: Vector3, d: Number) => Plane { normal, d }
+  d      : f64      // sometimes known as w
 
   // from Points
-  from (Vector3, Vector3, Vector3) {
+  from (a: Vector3, b: Vector3, c: Vector3) {
     let n = (b - a).cross(c - a).direction
 
     return Plane { 

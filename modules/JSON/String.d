@@ -1,0 +1,4 @@
+String class : Node {
+
+  
+}

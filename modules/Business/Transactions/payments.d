@@ -9,7 +9,6 @@ Check protocol {
   deposit   -> Deposit
 }
 
-
 // AHC, Swift, Visa, Mastercard, ...
 Payment `Network   record 
 Payment `Processor record
@@ -17,15 +16,12 @@ Payment `Processor record
 // may be credit or debit depending on whether the card has a line of credit
 
 Payment `Authorization event { 
-  amount    : Money
+  currency  : Currency
+  amount    : Decimal
   signature : Digital`Signature | Drawn`Signature
   expires   : DateTime
 }
 
-Digital `Signature record {
-  data   : Blob
-  device : Payment`Device
-}
 
 Drawn `Signature record {
   image: Image

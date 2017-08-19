@@ -18,10 +18,8 @@ sign ƒ(x: Number) -> Number;       // 1 when positive, 0 when 0, - 1 when negit
 sign ƒ(x: i64)  -> i64;
 
 // Min / max
-min  ƒ(x: Number  , y: Number) -> Number;
-min  ƒ(x: i64     , y: i64)    -> i64;
-max  ƒ(x: Number  , y: Number) -> Number;
-max  ƒ(x: i64     , y: i64)    -> i64;
+min  ƒ(x: Self, y: Self) where Self : Comparable -> Self;
+max  ƒ(x: Self, y: Self) where Self : Comparable -> Self;
 
 // Logarithmic functions
 log   ƒ(x) -> Number;    // the power to which the constant e has to be raised to produce x.

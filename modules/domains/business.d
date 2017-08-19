@@ -6,6 +6,6 @@
 , Manufacturing 
 , Taxation      
 , Investing  
-: Social_Science
+: Social `Science
 
 // Advertising?   

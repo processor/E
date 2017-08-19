@@ -1,6 +1,6 @@
-Complex struct {
-  real      : Number
-  imaginary : Number
+Complex<T> struct {
+  real      : T
+  imaginary : T
 }
 
 

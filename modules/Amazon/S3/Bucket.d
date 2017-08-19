@@ -2,7 +2,7 @@ Bucket protocol {
   list(prefix: String) -> [ Object ]
 }
 
-Bucket record {
+Bucket actor {
    account : Amazon `Account
    grants  : [ Grant ]
 }

@@ -1,7 +1,7 @@
 Conversion struct { 
-   price      : Money,
+   price      : Decimal,
    ratio      : Rational,
-   cap        : Money,          //  actual ration based based on cap
+   cap        : Decimal,          //  actual ration based based on cap
    discount   : Percentage,
    expiration : DateTime?
 }

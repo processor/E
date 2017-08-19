@@ -1,4 +1,4 @@
-﻿Interactive pprotocol{ 
+﻿Interactive protocol { 
   * attach     : watching
   * | click    : clicking
     | touch    : touching

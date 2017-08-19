@@ -1,7 +1,13 @@
 Offering protocol { 
-  instruments -> [ finance:Instrument ]
+  asset    ->   Finance::Instrument
+  quantity ->   Decimal
+  terms    -> [ Legal::Term ]
 }
 
-Offering class { 
+// Terms include 
+// - Price
+// - ...
+
+Offering record { 
   series: string // Seed, A, B, ...
 }

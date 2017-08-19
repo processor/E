@@ -8,7 +8,7 @@
 }
 
 Canvas class {
-  width  :   Number > 0
-  height :   Number > 0
+  width  :   i32 > 0
+  height :   i32 > 0
   pixels : [ Pixel ]
 }

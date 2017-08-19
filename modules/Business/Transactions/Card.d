@@ -6,8 +6,8 @@ Payment `Card protocol {
 }
 
 
-Payment `Card record : Payment `Method {
-
+Payment `Card actor : Payment `Method {
+  transaction : [ Transaction ]
 }
 
   Charge  `Card

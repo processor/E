@@ -8,11 +8,12 @@ Sale protocol {
 }
 
 Sale event {
-  seller    : Entity 
-  buyer     : Entity
-  thing     : Product | Service | Asset
-  price		  : Money
-  quantity  : Decimal
+  seller   : Entity 
+  buyer    : Entity
+  thing    : Product | Service | Asset
+  currency : Currency
+  price		 : Decimal
+  quantity : Decimal
 }
 
 Purchase := Sale					       // reverse of a sale is a purchase

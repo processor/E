@@ -1,39 +1,36 @@
 Loan protocol {
   * created
-  * payment ↺
+  * pay ↺
   * writeoff 
   * close ∎  : closed
 
-  balance     ->   Money
+  currency    ->   Currency              // e.g. USD, Gold
+  balance     ->   Decimal
   payments    -> [ Loan `Payment ]
   signers     -> [ Signer ]
   collatoral  -> [ Collatoral ]
   underwriter ->   Entity
   processor   ->   Entity
   default     ->   Loan `Default
-
-  on defaulted {
-     // ?
-  }
 }
 
-Loan : Instrument { 
-  owner	   : Entity
-  issued   : DateTime
-  issuer   : Entity
+Loan actor : Instrument { 
+  owner	   :   Entity
+  issued   :   DateTime
+  issuer   :   Entity
+  payments : [ Loan `Payment ]
 }
 
 Loan `Payment : Transaction {
-  loan     : Loan
-  interest : Money
-  principle: Money
+  interest  : Decimal
+  principle : Decimal
 }
 
+Collatoral record {
+  asset       : Asset
+  quantity    : Decimal
+  preference  : i64 >=0
 
-Loan `Collatoral record {
-  loan  @key : Loan
-  asset @key : Asset
-  priority   : i64 >=0
 }
 
 Loan `Application {  }

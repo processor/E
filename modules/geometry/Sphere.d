@@ -1,4 +1,4 @@
 Sphere struct { 
   center : Point
-  radius : Number
+  radius : f64
 }

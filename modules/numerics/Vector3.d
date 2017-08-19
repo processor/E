@@ -1,9 +1,13 @@
-Vector3 struct { 
-  x, y, z: Number
+Vector3<T> struct { 
+  x: T = 0
+  y: T = 0
+  z: T = 0
 
-  from (x, y, z: Number) => Vector3(x, y, z);
-  from (x, y: Number)    => Vector3(x, y, z: 0);
-  from (value: T)        => Vector3(x: value, y: value, z: value);
+  init (value: T) {
+    x = value
+    y = value
+    z = value
+  }
 
   [ index: i64 ] => match index { 
     0 => x
@@ -93,3 +97,39 @@ Vector3 struct {
   }
 
 }
+
+
+// sum       (Vector)
+// 
+// 
+// length      (Vector, Vector)
+// distance    (Vector, Vector)
+// dot         (Vector, Vector)
+// cross       (Vector, Vector)      // Cross product between two vectors
+// normalize   (Vector, Vector)
+// reflect     (Vector, Vector)
+// refract     (Vector, Vector)
+// faceforward (Vector, Vector)
+
+// Geometric Functions
+
+
+
+// <
+// <=
+// >
+// >=
+// ==
+// != 
+
+
+// matrixCompMult
+
+
+// add
+// subtract
+// clone
+// sum (of all elements)
+
+// radians from degrees ()
+// degrees from radians ()
