@@ -11,6 +11,6 @@ namespace D.Syntax
 
         public SyntaxNode Expression { get; }
 
-        Kind IObject.Kind => Kind.ReturnStatement;
+        SyntaxKind SyntaxNode.Kind => SyntaxKind.ReturnStatement;
     }
 }

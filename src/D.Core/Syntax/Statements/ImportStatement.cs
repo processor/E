@@ -11,6 +11,6 @@
 
         public Symbol this[int i] => Domains[i];
 
-        Kind IObject.Kind => Kind.UsingStatement;
+        SyntaxKind SyntaxNode.Kind => SyntaxKind.UsingStatement;
     }
 }

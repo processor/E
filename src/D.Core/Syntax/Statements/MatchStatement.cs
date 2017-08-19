@@ -14,7 +14,7 @@ namespace D.Syntax
 
         public MatchCaseSyntax[] Cases { get; }
 
-        Kind IObject.Kind => Kind.MatchExpression;
+        SyntaxKind SyntaxNode.Kind => SyntaxKind.MatchExpression;
     }
 
     public class MatchCaseSyntax

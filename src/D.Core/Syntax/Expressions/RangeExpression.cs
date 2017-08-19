@@ -8,7 +8,7 @@
         public RangeExpression(SyntaxNode start, SyntaxNode end, RangeFlags flags)
         {
             Start = start;
-            End = end;
+            End   = end;
             Flags = flags;
         }
 
@@ -22,6 +22,6 @@
 
         public bool IsHalfOpen => Flags.HasFlag(RangeFlags.HalfOpen);
 
-        Kind IObject.Kind => Kind.RangeLiteral;
+        SyntaxKind SyntaxNode.Kind => SyntaxKind.RangeLiteral;
     }
 }

@@ -31,9 +31,9 @@ namespace D.Syntax
 
             return sb.ToString();
         }
-        
+
         #endregion
 
-        public Kind Kind => Operator.OpKind;
+        SyntaxKind SyntaxNode.Kind => SyntaxKind.FunctionDeclaration;
     }
 }

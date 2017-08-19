@@ -243,7 +243,7 @@ let width = match media {
                 
                 using (var writer = new StringWriter(sb))
                 {
-                    var csharp = new CSharpTranspiler(writer);
+                    var csharp = new CSharpEmitter(writer);
 
                     csharp.Visit(expressions);
                 }

@@ -21,7 +21,7 @@ for (x, y) in points {
 
             var pointsVar    = statements.Next() as PropertyDeclarationSyntax;
             var sumVar       = statements.Next() as PropertyDeclarationSyntax;
-            var forStatement = (ForStatement)statements.Next();
+            var forStatement = statements.Next() as ForStatementSyntax;
 
             var pattern = forStatement.VariableExpression as TuplePatternSyntax;
 
@@ -34,7 +34,7 @@ for (x, y) in points {
         [Fact]
         public void ForAny()
         {
-            var f = Parse<ForStatement>(@"
+            var f = Parse<ForStatementSyntax>(@"
 for _ in 0...100 {
   a = a + 1
 }");
@@ -46,7 +46,7 @@ for _ in 0...100 {
         [Fact]
         public void ForRange()
         {
-            var f = Parse<ForStatement>(@"
+            var f = Parse<ForStatementSyntax>(@"
 for 0 ... i8.max {
   a = a + 1
 }");
@@ -60,7 +60,7 @@ for 0 ... i8.max {
         [Fact]
         public void For_X_In_Range()
         {
-            var f = Parse<ForStatement>(@"
+            var f = Parse<ForStatementSyntax>(@"
 for x in 0...100 {
   a = a + 1
 }");
@@ -72,7 +72,7 @@ for x in 0...100 {
         [Fact]
         public void For_X_In_Dataset()
         {
-            var f = Parse<ForStatement>(@"
+            var f = Parse<ForStatementSyntax>(@"
 for crime in Crimes {
   a = a + 1
 }");
@@ -85,7 +85,7 @@ for crime in Crimes {
         [Fact]
         public void ForCollection()
         {
-            var f = Parse<ForStatement>(@"
+            var f = Parse<ForStatementSyntax>(@"
 for criminology.Crimes {
   a = a + 1
 }");

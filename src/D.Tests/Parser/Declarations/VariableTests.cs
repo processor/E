@@ -12,7 +12,7 @@ namespace D.Parsing.Tests
             var var = Parse<PropertyDeclarationSyntax>("let parts = split($0)");
 
             Assert.Equal("parts", var.Name);
-            Assert.Equal(Kind.CallExpression, var.Value.Kind);
+            Assert.Equal(SyntaxKind.CallExpression, var.Value.Kind);
         }
 
         [Fact]

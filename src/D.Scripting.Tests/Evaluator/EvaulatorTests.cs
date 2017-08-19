@@ -75,7 +75,7 @@ namespace D.Tests
 
             Assert.Equal("a", left.Callee.ToString());
 
-            Assert.Equal(Kind.Symbol, left.Callee.Kind);
+            Assert.Equal(SyntaxKind.Symbol, left.Callee.Kind);
 
             // var r = evaulator.Evaluate(a);
 

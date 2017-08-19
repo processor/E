@@ -17,11 +17,12 @@ Point impl {
 }
 ");
 
+            var a = (CompoundPropertyDeclaration)type[0];
 
+            Assert.Equal("x", a.Members[0].Name);
+            Assert.Equal("y", a.Members[1].Name);
+            Assert.Equal("z", a.Members[2].Name);
 
-            // properties @ top level...
-
-            var a = ((CompoundPropertyDeclaration)type[0]);
         }
 
         [Fact]
@@ -145,7 +146,7 @@ Point impl {
   }
 }");
             var f  = (FunctionDeclarationSyntax)  bank.Members[0];
-            var b  = (BlockExpressionSyntax)       f.Body;
+            var b  = (BlockSyntax)       f.Body;
             var o  = (ObserveStatementSyntax)     b.Statements[1];
             var o2 = (ObserveStatementSyntax)     b.Statements[2];
             var o3 = (ObserveStatementSyntax)     b.Statements[3];
@@ -345,7 +346,7 @@ Curve <T> implementation for Arc<T> {
 
             Assert.Equal("getPoint", f.Name);
 
-            var body     = (BlockExpressionSyntax)f.Body;
+            var body     = (BlockSyntax)f.Body;
 
             var returnStatement = (ReturnStatementSyntax)body[body.Statements.Length - 1];
             var initializer     = (ObjectInitializerSyntax)returnStatement.Expression;

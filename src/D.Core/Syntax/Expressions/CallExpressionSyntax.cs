@@ -23,9 +23,9 @@
 
         public bool IsPiped { get; set; }
 
-        Kind IObject.Kind => Kind.CallExpression;
+        SyntaxKind SyntaxNode.Kind => SyntaxKind.CallExpression;
     }
-    
+
     // e.g.
 
     // resize(100, 100)

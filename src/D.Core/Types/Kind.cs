@@ -45,7 +45,6 @@
         Float32         = 122,
         Float64         = 123,
 
-
         #region 200-300 Vectors
 
         Vector64     = 200,
@@ -145,7 +144,6 @@
 
         #region Expressions & Statements
 
-
         // Statements
         BlockStatement          = 3000, // { ... }
         ReturnStatement         = 3001,
@@ -159,9 +157,7 @@
         WhileStatement          = 3010,
         ModuleStatement         = 3012,
 
-
         CoalesceExpression       = 5001, // ??
-
         
         AnnotationExpression     = 5003,
         CallExpression           = 5004,

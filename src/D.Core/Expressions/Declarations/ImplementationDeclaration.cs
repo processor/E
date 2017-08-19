@@ -37,6 +37,7 @@ namespace D.Expressions
             }
         }
 
+        // Functions?
         public IEnumerable<FunctionExpression> Methods
         {
             get

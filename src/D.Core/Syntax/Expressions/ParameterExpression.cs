@@ -3,20 +3,20 @@
     public class ParameterSyntax
     {
         public ParameterSyntax(
-            string name, 
+            Symbol name, 
             Symbol type = null,
             SyntaxNode defaultValue = null,
             SyntaxNode predicate = null,
             int index = 0)
         {
-            Name = name;
-            Type = type;
+            Name         = name;
+            Type         = type;
             DefaultValue = defaultValue;
-            Predicate = predicate;
-            Index = index;
+            Predicate    = predicate;
+            Index        = index;
         }
 
-        public string Name { get; }
+        public Symbol Name { get; }
 
         public int Index { get; }
 

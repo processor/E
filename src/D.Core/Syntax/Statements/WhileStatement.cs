@@ -2,7 +2,7 @@
 {
     public class WhileStatementSyntax : SyntaxNode
     {
-        public WhileStatementSyntax(SyntaxNode condition, BlockExpressionSyntax body)
+        public WhileStatementSyntax(SyntaxNode condition, BlockSyntax body)
         {
             Condition = condition;
             Body = body;
@@ -10,8 +10,8 @@
 
         public SyntaxNode Condition { get; }
 
-        public BlockExpressionSyntax Body { get; }
+        public BlockSyntax Body { get; }
 
-        Kind IObject.Kind => Kind.WhileStatement;
+        SyntaxKind SyntaxNode.Kind => SyntaxKind.WhileStatement;
     }
 }

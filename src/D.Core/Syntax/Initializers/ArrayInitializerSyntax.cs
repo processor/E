@@ -12,6 +12,6 @@
 
         public int? Stride { get; }
 
-        public Kind Kind => Kind.ArrayInitializer;
+        SyntaxKind SyntaxNode.Kind => SyntaxKind.ArrayInitializer;
     }
 }

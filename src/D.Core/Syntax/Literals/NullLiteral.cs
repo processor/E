@@ -4,7 +4,7 @@
     {
         public static readonly NullLiteralSyntax Instance = new NullLiteralSyntax();
 
-        Kind IObject.Kind => Kind.Null;
+        SyntaxKind SyntaxNode.Kind => SyntaxKind.NullLiteral;
 
         public override string ToString() => "null";
     }

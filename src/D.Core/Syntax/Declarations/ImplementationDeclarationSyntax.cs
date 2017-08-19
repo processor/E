@@ -74,6 +74,6 @@ namespace D.Syntax
 
         #endregion
 
-        Kind IObject.Kind => Kind.ImplementationDeclaration;
+        SyntaxKind SyntaxNode.Kind => SyntaxKind.ImplementationDeclaration;
     }
 }

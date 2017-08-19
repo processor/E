@@ -17,6 +17,6 @@ namespace D.Syntax
         // [1, 2]
         public ArgumentSyntax[] Arguments { get; }
 
-        Kind IObject.Kind => Kind.IndexAccessExpression;
+        SyntaxKind SyntaxNode.Kind => SyntaxKind.IndexAccessExpression;
     }
 }

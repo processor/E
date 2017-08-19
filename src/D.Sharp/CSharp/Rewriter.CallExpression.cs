@@ -4,7 +4,7 @@ namespace D.Compilation
 {
     using Expressions;
 
-    public partial class CSharpTranspiler
+    public partial class CSharpEmitter
     {
         // Fully qualify
         private static readonly Dictionary<string, string> funcMap = new Dictionary<string, string> {

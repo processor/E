@@ -15,7 +15,7 @@
         public static implicit operator char(CharacterLiteralSyntax text)
             => text.Value;
 
-        Kind IObject.Kind => Kind.Character;
+        SyntaxKind SyntaxNode.Kind => SyntaxKind.CharacterLiteral;
 
         public override string ToString() => Value.ToString();
     }

@@ -11,9 +11,9 @@ namespace D.Parsing.Tests
         {
             var assignment = Parse<BinaryExpressionSyntax>($"i = 1");
 
-            Assert.Equal("i",                           (Symbol)assignment.Left);
-            Assert.Equal(Kind.AssignmentExpression,     assignment.Kind);
-            // Assert.Equal(1,                          (Integer)assignment.Right);
+            Assert.Equal("i",                       (Symbol)assignment.Left);
+            Assert.Equal(Kind.AssignmentExpression, assignment.Operator.OpKind);
+            Assert.Equal(1,                         (NumberLiteralSyntax)assignment.Right);
         }
 
         [Fact]
@@ -34,7 +34,7 @@ namespace D.Parsing.Tests
 
             Assert.Equal("x", statement.Left.ToString());
 
-            Assert.Equal(Kind.LogicalOrExpression, statement.Right.Kind);
+            Assert.Equal(SyntaxKind.BinaryExpression, statement.Right.Kind);
         }
 
         [Fact]
@@ -52,8 +52,9 @@ namespace D.Parsing.Tests
         {
             var assignment = Parse<BinaryExpressionSyntax>("(a, b) = (1, 3)");
 
-            // Assert.Equal("image", ((Symbol)assignment.Left).Name);
-            // Assert.Equal("10", assignment.Right.ToString());
+
+            var l = (TupleExpressionSyntax)assignment.Left;
+            var r = (TupleExpressionSyntax)assignment.Right;
         }
 
         [Fact]

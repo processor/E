@@ -30,7 +30,7 @@ namespace D.Syntax
 
         public bool IsEvent => Flags.HasFlag(TypeFlags.Event);
 
-        Kind IObject.Kind => Kind.TypeDeclaration;
+        SyntaxKind SyntaxNode.Kind => SyntaxKind.TypeDeclaration;
     }
 
     public class TypeDeclarationSyntax : TypeDefinationBase

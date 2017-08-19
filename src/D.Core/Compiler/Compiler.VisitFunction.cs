@@ -32,7 +32,7 @@ namespace D
             {
                 body = null; // protocol functions are abstract and do not define a body
             }
-            else if (f.Body is BlockExpressionSyntax blockSyntax)
+            else if (f.Body is BlockSyntax blockSyntax)
             {
                 body = VisitBlock(blockSyntax);
             }

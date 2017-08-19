@@ -42,6 +42,6 @@ namespace D.Syntax
 
         #endregion
 
-        Kind IObject.Kind => Kind.UnitDeclaration;
+        SyntaxKind SyntaxNode.Kind => SyntaxKind.UnitDeclaration;
     }
 }

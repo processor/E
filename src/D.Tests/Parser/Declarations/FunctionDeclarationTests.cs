@@ -18,7 +18,7 @@ inverse ƒ -> Matrix<T> {
   }
 ");
 
-            var body = (BlockExpressionSyntax)func.Body;
+            var body = (BlockSyntax)func.Body;
 
             var assignment = (BinaryExpressionSyntax)body.Statements[0];
 
@@ -226,7 +226,7 @@ sum ƒ(a: Integer, b: Integer) {
             Assert.Equal("a",       w.Parameters[0].Name);
             Assert.Equal("Integer", w.Parameters[0].Type.ToString());
 
-            var body = (BlockExpressionSyntax)w.Body;
+            var body = (BlockSyntax)w.Body;
 
             var returnStatement = (ReturnStatementSyntax)body.Statements[0];
 

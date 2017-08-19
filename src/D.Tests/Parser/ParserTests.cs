@@ -27,7 +27,7 @@ d.v = 15
             Assert.Equal("d", l.Left.ToString());
             Assert.Equal("v", l.Name);
 
-            // Assert.Equal(15L, (Integer)s5.Right);
+            Assert.Equal(15, (NumberLiteralSyntax)s5.Right);
 
             Assert.Equal(6, statements.Length);
         }       

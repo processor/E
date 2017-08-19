@@ -34,7 +34,7 @@ namespace D.Expressions
         
         public void Deconstruct(out Symbol name, out IExpression value)
         {
-            name = Name;
+            name  = Name;
             value = Value;
         }
 

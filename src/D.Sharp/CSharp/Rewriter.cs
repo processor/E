@@ -6,12 +6,12 @@ namespace D.Compilation
 {
     using Expressions;
 
-    public partial class CSharpTranspiler : ExpressionVisitor
+    public partial class CSharpEmitter : ExpressionVisitor
     {
         private int level = 0;
         private readonly TextWriter writer;
 
-        public CSharpTranspiler(TextWriter writer)
+        public CSharpEmitter(TextWriter writer)
         {
             this.writer = writer;
         }

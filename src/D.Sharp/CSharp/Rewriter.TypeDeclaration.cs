@@ -2,7 +2,7 @@
 
 namespace D.Compilation
 {
-    public partial class CSharpTranspiler
+    public partial class CSharpEmitter
     {
         public void WriteProperties(IEnumerable<Property> properties)
         {

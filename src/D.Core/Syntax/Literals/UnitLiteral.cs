@@ -3,7 +3,7 @@
 namespace D.Syntax
 {
     // 5 m^2
-    
+
     public class UnitLiteralSyntax : SyntaxNode
     {
         public UnitLiteralSyntax(SyntaxNode expression, string unitName, int unitPower)
@@ -19,9 +19,8 @@ namespace D.Syntax
 
         public int UnitPower { get; set; }
 
-        Kind IObject.Kind => Kind.UnitLiteral;
+        SyntaxKind SyntaxNode.Kind => SyntaxKind.UnitLiteral;
 
-        public override string ToString() => 
-            Expression.ToString() + " " + UnitName;
+        public override string ToString() =>  Expression.ToString() + " " + UnitName;
     }
 }

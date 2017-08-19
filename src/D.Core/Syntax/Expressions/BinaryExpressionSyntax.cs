@@ -19,7 +19,7 @@ namespace D.Syntax
 
         public bool Grouped { get; set; }
 
-        public Kind Kind => Operator.OpKind;
+        SyntaxKind SyntaxNode.Kind => SyntaxKind.BinaryExpression;
 
         #region ToString
 

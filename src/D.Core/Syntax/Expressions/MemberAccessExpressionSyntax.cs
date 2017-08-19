@@ -29,6 +29,6 @@ namespace D.Syntax
             return sb.ToString();
         }
 
-        Kind IObject.Kind => Kind.MemberAccessExpression;
+        SyntaxKind SyntaxNode.Kind => SyntaxKind.MemberAccessExpression;
     }
 }

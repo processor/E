@@ -2,7 +2,7 @@
 {
     public class ImportDeclarationSyntax : SyntaxNode
     {
-        Kind IObject.Kind => Kind.ImportDeclaration;
+        SyntaxKind SyntaxNode.Kind => SyntaxKind.ImportDeclaration;
     }
 }
 

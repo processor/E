@@ -16,18 +16,18 @@ namespace D.Syntax
 
         public SyntaxNode Instance { get; }
 
-        Kind IObject.Kind => Kind.DestructuringAssignment;
+        SyntaxKind SyntaxNode.Kind => SyntaxKind.DestructuringAssignment;
     }
 
     public struct AssignmentElementSyntax
     {
-        public AssignmentElementSyntax(string name, Symbol type)
+        public AssignmentElementSyntax(Symbol name, Symbol type)
         {
             Name = name ?? throw new ArgumentNullException(nameof(name));
             Type = type;
         }
 
-        public string Name { get; }
+        public Symbol Name { get; }
 
         public Symbol Type { get; }
     }

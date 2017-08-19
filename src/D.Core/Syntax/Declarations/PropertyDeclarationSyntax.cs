@@ -3,7 +3,7 @@
     // let a: Integer = 5
     // let mutable y: i64
 
-    public class PropertyDeclarationSyntax : ISyntaxNode, SyntaxNode
+    public class PropertyDeclarationSyntax : IMemberSyntax, SyntaxNode
     {
         public PropertyDeclarationSyntax(
             Symbol name, 
@@ -28,7 +28,7 @@
 
         public ObjectFlags Flags { get; }
 
-        Kind IObject.Kind => Kind.PropertyDeclaration;
+        SyntaxKind SyntaxNode.Kind => SyntaxKind.PropertyDeclaration;
     }
 
     // a, b, c: Number
@@ -42,7 +42,7 @@
 
         public PropertyDeclarationSyntax[] Members { get; }
 
-        Kind IObject.Kind => Kind.CompoundPropertyDeclaration;
+        SyntaxKind SyntaxNode.Kind => SyntaxKind.CompoundPropertyDeclaration;
     }
 }
 

@@ -190,17 +190,21 @@ T record {
             Assert.Equal("List<Optional<CollisionCourse>>", members[8].Type.ToString());
         }
 
-
         [Fact]
-        public void LambdaMatch()
+        public void DeclaratedIndexerWithLambdaBody()
         {
+            // The indexer syntax is ambigious and limits our 'map' syntax...
+
+            // swift uses subscript
+            // c# prefixes with this
+
+            // operators should only be able to chain one line...
+
             var type = Parse<TypeDeclarationSyntax>(@"
 Vector3 struct { 
   x, y, z: Number
 
-  from (x, y, z: Number) => Vector3(x, y, z);
-  from (x, y: Number)    => Vector3(x, y, z: 0);
-  from (value: T)        => Vector3(x: value, y: value, z: value); // ambigious without ;
+  from (value: T) => Vector3(x: value, y: value, z: value); // ambigious without ;
 
   [ index: i64 ] => match index { 
     0 => x
@@ -253,7 +257,7 @@ Account record {
             Assert.True(type.IsRecord);
             Assert.True(members[0].Flags.HasFlag(ObjectFlags.Mutable));
             Assert.Equal("balance", members[0].Name);
-            Assert.Equal("Decimal", (members[0] as PropertyDeclarationSyntax).Type.ToString());
+            Assert.Equal("Decimal", members[0].Type);
 
             Assert.Equal("owner",   members[1].Name);
             Assert.Equal("Entity",  members[1].Type);
