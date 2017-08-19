@@ -1,8 +1,5 @@
 ﻿namespace D.Syntax
 {
-    // let a: Integer = 5
-    // let mutable y: i64
-
     public class VariableDeclarationSyntax : IMemberSyntax, SyntaxNode
     {
         public VariableDeclarationSyntax(
@@ -28,7 +25,7 @@
 
         public ObjectFlags Flags { get; }
 
-        SyntaxKind SyntaxNode.Kind => SyntaxKind.PropertyDeclaration;
+        SyntaxKind SyntaxNode.Kind => SyntaxKind.VariableDeclaration;
     }
 
     // a, b, c: Number
@@ -42,7 +39,7 @@
 
         public PropertyDeclarationSyntax[] Members { get; }
 
-        SyntaxKind SyntaxNode.Kind => SyntaxKind.CompoundPropertyDeclaration;
+        SyntaxKind SyntaxNode.Kind => SyntaxKind.CompoundVariableDeclaration;
     }
 }
 

@@ -4,11 +4,11 @@ namespace D.Expressions
 {
     public class BinaryExpression : IExpression
     {
-        public BinaryExpression(Operator op, IObject left, IObject right)
+        public BinaryExpression(Operator op, IObject lhs, IObject rhs)
         {
             Operator = op;
-            Left = left;
-            Right = right;
+            Left     = lhs;
+            Right    = rhs;
         }
 
         public Operator Operator { get; }

@@ -25,9 +25,9 @@
 
         SyntaxKind SyntaxNode.Kind => SyntaxKind.CallExpression;
     }
-
-    // e.g.
-
-    // resize(100, 100)
-    // String("hello")
 }
+
+// e.g.
+
+// resize(100, 100)
+// String("hello")

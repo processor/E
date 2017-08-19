@@ -1,14 +1,15 @@
-﻿using System.Text;
+﻿using System;
+using System.Text;
 
 namespace D.Syntax
 {
     public class BinaryExpressionSyntax : SyntaxNode
     {
-        public BinaryExpressionSyntax(Operator op, SyntaxNode left, SyntaxNode right)
+        public BinaryExpressionSyntax(Operator op, SyntaxNode lhs, SyntaxNode rhs)
         {
             Operator = op;
-            Left = left;
-            Right = right;
+            Left     = lhs ?? throw new ArgumentNullException(nameof(lhs));
+            Right    = rhs ?? throw new ArgumentNullException(nameof(rhs));
         }
 
         public Operator Operator { get; }

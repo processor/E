@@ -2,10 +2,10 @@
 {
     public class Equation : IExpression
     {
-        public Equation(IObject left, IObject right, Symbol[] symbols)
+        public Equation(IObject lhs, IObject rhs, Symbol[] symbols)
         {
-            Left    = left;
-            Right   = right;
+            Left    = lhs;
+            Right   = rhs;
             Symbols = symbols;
         }
 

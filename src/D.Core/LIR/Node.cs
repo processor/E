@@ -3,7 +3,7 @@ using System.Collections.Concurrent;
 
 namespace D
 {
-    public class Node : INode
+    public class Node
     {
         private readonly ConcurrentDictionary<string, IObject> nodes = new ConcurrentDictionary<string, IObject>();
 
@@ -50,8 +50,7 @@ namespace D
         
         public OperatorCollection Operators => operators;
 
-        public void Add(string name, IObject value)
-            => nodes.TryAdd(name, value);
+        public void Add(string name, IObject value) => nodes.TryAdd(name, value);
 
         public bool TryGet<T>(string name, out T value)
         {
