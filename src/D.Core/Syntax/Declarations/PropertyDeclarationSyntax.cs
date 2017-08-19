@@ -1,8 +1,5 @@
 ﻿namespace D.Syntax
 {
-    // let a: Integer = 5
-    // let mutable y: i64
-
     public class PropertyDeclarationSyntax : IMemberSyntax, SyntaxNode
     {
         public PropertyDeclarationSyntax(
@@ -47,6 +44,8 @@
 }
 
 /*
+let a: Integer = 5
+let y: i64
 let a: Integer = 1;
 let a: Integer > 1 = 5;
 let a = 1;

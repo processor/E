@@ -6,4 +6,4 @@
     }
 }
 
-// import Name
+// from Module import Name

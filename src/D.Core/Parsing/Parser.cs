@@ -1830,7 +1830,7 @@ namespace D.Parsing
                 // *-, +=, ...
                 if (ConsumeIf("="))
                 {
-                    var r = new BinaryExpressionSyntax(op, left, right: ReadExpression());
+                    var r = new BinaryExpressionSyntax(op, left, rhs: ReadExpression());
 
                     return new BinaryExpressionSyntax(D.Operator.Assign, left, r);
                 }

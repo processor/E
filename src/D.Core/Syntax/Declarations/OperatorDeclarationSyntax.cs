@@ -2,7 +2,6 @@
 
 namespace D.Syntax
 {
-    // _ "+" operator { associtivity: "left" }
     public class OperatorDeclarationSyntax : SyntaxNode
     {
         public OperatorDeclarationSyntax(
@@ -41,3 +40,5 @@ namespace D.Syntax
         SyntaxKind SyntaxNode.Kind => SyntaxKind.OperatorDeclaration;
     }
 }
+
+// _ "+" operator { associtivity: "left" }

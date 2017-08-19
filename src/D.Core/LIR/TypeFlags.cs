@@ -6,6 +6,7 @@ namespace D
     public enum TypeFlags
     {
         None   = 0,
+        Actor  = 1 << 1,
         Record = 1 << 3,
         Event  = 1 << 4,
         Class  = 1 << 5,

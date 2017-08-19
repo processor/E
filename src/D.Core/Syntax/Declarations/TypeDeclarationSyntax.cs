@@ -59,7 +59,6 @@ namespace D.Syntax
         public ParameterSyntax[] GenericParameters { get; }
     }
 
-
     // Las `Vegas, New `York : State class { }
 
     public class CompoundTypeDeclarationSyntax : TypeDefinationBase

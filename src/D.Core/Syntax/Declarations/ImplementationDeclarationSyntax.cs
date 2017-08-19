@@ -3,10 +3,6 @@ using System.Linq;
 
 namespace D.Syntax
 {
-    // Curve implementation for Bezier { }
-    // Matrix4 implementation 
-    // Int32 implementation : Addable, Subtractable, ...
-
     public class ImplementationDeclarationSyntax : SyntaxNode
     {
         public ImplementationDeclarationSyntax(
@@ -77,3 +73,7 @@ namespace D.Syntax
         SyntaxKind SyntaxNode.Kind => SyntaxKind.ImplementationDeclaration;
     }
 }
+
+// Curve implementation for Bezier { }
+// Matrix4 implementation 
+// Int32 implementation : Addable, Subtractable, ...
