@@ -80,7 +80,7 @@ namespace D
             return false;
         }
 
-        public bool TryGetType(Symbol symbol, out Type type)
+        private bool TryGetType(Symbol symbol, out Type type)
         {
             if (TryGet(symbol.Name, out IObject t))
             {
@@ -124,7 +124,6 @@ namespace D
                 return new Type(symbol.Module, symbol.Name);   
             }
         }
-
 
         public T Get<T>(Symbol symbol)
         {

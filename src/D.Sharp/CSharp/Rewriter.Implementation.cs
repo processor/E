@@ -7,7 +7,7 @@
             Indent(level);
             Emit($"public class {type.Name}");
             
-            var where = false;
+            var needsWhere = false;
             var ii = 0;
 
             if (type.GenericParameters.Length > 0)
@@ -18,7 +18,10 @@
                 {
                     if (++ii != 1) Emit(", ");
 
-                    if (generic.Type.Name != "Any") where = true;
+                    if (generic.Type != Type.Get(Kind.Object))
+                    {
+                        needsWhere = true;
+                    }
 
                     Emit(generic.Name);
                 }
@@ -49,7 +52,7 @@
                 }
             }
 
-            if (where)
+            if (needsWhere)
             {
                 Emit(" where ");
 
