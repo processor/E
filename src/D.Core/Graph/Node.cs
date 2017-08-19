@@ -3,11 +3,12 @@ using System.Collections.Concurrent;
 
 namespace D
 {
-    public class Node
+    // Converge with Modules
+    // A node typically represents an environment...
+
+    public sealed class Node
     {
         private readonly ConcurrentDictionary<string, IObject> nodes = new ConcurrentDictionary<string, IObject>();
-
-        // We need to consider arguments in the names...
 
         private readonly OperatorCollection operators = new OperatorCollection();
 
@@ -23,7 +24,7 @@ namespace D
 
             AddModule(new Modules.Primitives());
         }
-
+        
         public Node(params IModule[] modules)
             : this()
         {

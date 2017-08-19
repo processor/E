@@ -1238,7 +1238,7 @@ namespace D.Parsing
         }
 
         // chains the name if it finds a backtick
-        // e.g. setting `Transaction
+        // settle `Transaction
         private Token ReadName()
         {
             var name = reader.Consume();
@@ -1713,7 +1713,7 @@ namespace D.Parsing
 
             ConsumeIf(BraceOpen);               // ? {
 
-            var cases = new List<MatchCaseSyntax>();
+            var cases = new List<CaseSyntax>();
 
             // pattern => action
             // ...
@@ -1731,7 +1731,7 @@ namespace D.Parsing
 
                 var lambda = ReadLambda();
 
-                cases.Add(new MatchCaseSyntax(pattern, when, lambda));
+                cases.Add(new CaseSyntax(pattern, when, lambda));
 
                 ConsumeIf(Comma); // ? ,
             }

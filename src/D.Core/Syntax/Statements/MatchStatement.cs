@@ -4,7 +4,7 @@ namespace D.Syntax
 {
     public class MatchExpressionSyntax : SyntaxNode
     {
-        public MatchExpressionSyntax(SyntaxNode expression, MatchCaseSyntax[] cases)
+        public MatchExpressionSyntax(SyntaxNode expression, CaseSyntax[] cases)
         {
             Expression = expression;
             Cases = cases ?? throw new ArgumentNullException(nameof(cases));
@@ -12,14 +12,14 @@ namespace D.Syntax
 
         public SyntaxNode Expression { get; }
 
-        public MatchCaseSyntax[] Cases { get; }
+        public CaseSyntax[] Cases { get; }
 
         SyntaxKind SyntaxNode.Kind => SyntaxKind.MatchExpression;
     }
 
-    public class MatchCaseSyntax
+    public class CaseSyntax
     {
-        public MatchCaseSyntax(SyntaxNode pattern, SyntaxNode condition, LambdaExpressionSyntax body)
+        public CaseSyntax(SyntaxNode pattern, SyntaxNode condition, LambdaExpressionSyntax body)
         {
             Pattern     = pattern;
             Condition   = condition;
