@@ -12,6 +12,11 @@ Keyboard protocol {
   capturing ->   Element
 }
 
+Keyboard actor {
+
+
+}
+
 Keyboard `Key struct { 
   code: i32
 }

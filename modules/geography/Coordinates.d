@@ -1,5 +1,5 @@
 Coordinates struct {  
-  latitude	 : Number
-  longitude	 : Number
+  latitude	 : f64
+  longitude	 : f64
   altitude	 : Altitude?
 }

@@ -1,0 +1,1 @@
+quantize ƒ(palette: Palette, image: Image); 

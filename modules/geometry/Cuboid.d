@@ -33,8 +33,6 @@ Cuboid struct {
 // 12 edges
 // 8 verticies
 
-
-
 Cuboid impl for Geometry {
   vertices -> null
   faces    -> null

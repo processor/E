@@ -1,9 +1,9 @@
 Duration struct {
-  from (Milliseconds) {
+  from (milliseconds: Milliseconds) {
 
   }
 
-  from (Seconds) {
+  from (seconds: Seconds) {
     
   }
 }

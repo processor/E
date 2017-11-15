@@ -1,5 +1,5 @@
 Quaternion struct {
-  let w, x, y, z: Number
+  w, x, y, z: Number
 
   dot (v: Quaternion) => x * v.x + y * v.y + z * v.z + w * v.w
   

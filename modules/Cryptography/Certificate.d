@@ -6,7 +6,13 @@ Certificate protocol {
   revoke() : Revocation
 }
 
-Certificate class {
+Certificate actor {
   issued  : DateTime
   revoked : DateTime
+
+  private`Key : Protected<[byte]>
+
 }
+
+// OCSPStaple
+// x509>

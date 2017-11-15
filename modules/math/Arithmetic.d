@@ -1,8 +1,10 @@
-Arithmetic<T> protocol {
-  +  (T, T) -> T;
-  -  (T, T) -> T;
-  *  (T, T) -> T;
-  /  (T, T) -> T;
-  ** (T, T) -> T;
-  %  (T, T) -> T;
+Arithmetic<Self> protocol {
+  +  (lhs: Self, rhs: Self) -> Self;
+  -  (lhs: Self, rhs: Self) -> Self;
+  *  (lhs: Self, rhs: Self) -> Self;
+  /  (lhs: Self, rhs: Self) -> Self;
+  ** (lhs: Self, rhs: Self) -> Self;
+  %  (lhs: Self, rhs: Self) -> Self;
 }
+
+// Arithmetic ? 

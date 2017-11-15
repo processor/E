@@ -1,5 +1,5 @@
 Processor class {
-  frequency    :   Number
+  frequency    :   f32
   instructions : [ Instruction ]
 }
 

@@ -13,16 +13,13 @@ Corporation protocol {
   jurisdiction ->   Place
   officers     -> [ Officer ]
   stockholders -> [ Stockholder ]
+  holdings     -> [ Holding ]
 }
 
-Incorporation event {
-  entity	   	  : Organization
-  regitar	   	  : Registrar
-  jurisitrction : Entity
-)
+Corporation actor : Organization {
 
-Dissolution event {
-  entity    : Organization
-  reason    : Reason		// for dissolution
-  registrar : Registrar
+  
 }
+
+
+// Stockholders are provided with "1" vote per share

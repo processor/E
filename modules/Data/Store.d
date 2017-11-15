@@ -3,3 +3,8 @@ Store<T> : protocal {
   locate (id : Identity) -> * URL
   get    (id : Identity) -> * T | Error
 }
+
+Store<T> actor {
+
+  
+}

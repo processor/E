@@ -1,13 +1,15 @@
-﻿Contract record {
-  contractee: Entity
-  contractor: Entity
-)
+﻿Contract protocol { 
+  // commence?
+  // ???
 
-Contract protocol { 
   terms    -> [ Law::Term ]
   invoices -> [ Commerce::Invoice ] 
 }
 
-Service `Contract : Contract {
-   interval: Interval
-}
+Contract actor {
+  contractee: Entity
+  contractor: Entity
+)
+
+
+// can contracts be between mutiple entities ?

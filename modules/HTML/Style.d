@@ -4,5 +4,5 @@ Style class {
   padding	   : Box,
   margin     : Box,
   background : Color | Gradiant,
-  font		   : Font					            // size, color, variation, line height, ...
+  font		   : Text::Font					            // size, color, variation, line height, ...
 }

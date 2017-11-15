@@ -5,3 +5,5 @@ Merger event {
   aquiree    : Entity
   resolution : Resolution 
 }
+
+// The merge of two entities

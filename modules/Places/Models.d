@@ -1,9 +1,4 @@
-﻿Place record {
-  name   : String
-  bounds : ?Polygon
-}
-
-  Universe
+﻿  Universe
 , Galaxy
 , Planet,
 , Continent : Place
@@ -49,10 +44,6 @@ Inhabitable protocol {
   inhabitants -> [ Inhabitant ]
 }
 
-Inhabitant : Entity {
- place   : Place
-}
-
 State record : Place {
   code: ISO:"3166-2"
 }
@@ -61,8 +52,5 @@ Providence record : Place {
   code: string
 }
 
-Country record : Place {
-  code: ISO:3166-2,
-}
 
 Park record : Place

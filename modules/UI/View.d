@@ -1,4 +1,4 @@
-use { Rectangle } from Geometry
+from Geometry import Rectangle
 
 View protocol { 
   width  : i32

@@ -1,4 +1,7 @@
-Claim record {
+Claim protocol {
+  deny()  
+}
+  
+Claim actor {
 
 }
-

@@ -1,0 +1,5 @@
+Process actor {
+  // metrics ?
+
+  terminate()
+}

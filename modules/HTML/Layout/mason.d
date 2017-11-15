@@ -2,9 +2,10 @@ Masonary `Layout class {
   gap     :   f32
   columns : [ Box ]
 
-  from (columnCount: i32, columnWidth: f32, gap: f32 = 10) {
+  init (columnCount: i32, columnWidth: f32, gap: f32 = 10) {
     var left = 0
     
+    gap     = gap
     columns = [ Box ];
 
     for i in 0..<columnCount {
@@ -17,8 +18,6 @@ Masonary `Layout class {
 
       left += columnWidth + gap
     }
-
-    return Masonary `Layout(gap, columns)
   }
 
   shortestColumn ƒ() => 

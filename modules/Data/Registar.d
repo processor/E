@@ -4,6 +4,11 @@ Registar class {
   type   : String   // birth,death,etc
 }
 
+Registar actor {
+
+
+}
+
 // A registar and dataset are similar....
 
 // us:ca:birth/

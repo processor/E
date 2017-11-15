@@ -1,4 +1,3 @@
 Hash class {
-
-
+  compute() { }
 }

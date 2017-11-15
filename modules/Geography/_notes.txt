@@ -1,4 +1,4 @@
-﻿  Geography
+﻿
 , Geophysics
    
 // including GIS Geographic Information Systems

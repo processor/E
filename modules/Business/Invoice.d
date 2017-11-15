@@ -1,10 +1,8 @@
-﻿Line enum = Sale | Adjustment | Fee | Service
-
-Invoice record {
-  amount :   Money
-  issuer :   Entity
-  terms  : [ Invoice `Term ]
-  lines  : [ Line ]
+﻿Line enum {
+  Sale 
+  Adjustment
+  Fee 
+  Service
 }
 
 Receipt := Invoice when closed  // friendly name for a paid invoice
@@ -17,15 +15,23 @@ Invoice protocol {
   * | close   ∎ : closed
     | abandon ∎ : abandoned
 
-  create  ()                              -> Invoice
-  pay     (Payment `Method, amount: Money) -> Payment
-  bill    (recipient: Entity)             -> Bill
-  close   ()                              -> Closure
-  abandon ()                              -> Abandonment
+  create  ()                                 -> Invoice
+  pay     (Payment `Method, amount: Decimal) -> Payment
+  bill    (recipient: Entity)                -> Bill
+  close   ()                                 -> Closure
+  abandon ()                                 -> Abandonment
 
   bills    -> [ Bill ]           // an invoice may be billed mutiple times 
-  payments -> [ Transaction ] 
+  payments -> [ Payment ] 
 }
+
+Invoice actor {
+  amount :   Decimal
+  issuer :   Entity
+  terms  : [ Invoice `Term ]
+  lines  : [ Line ]
+}
+
 
 Bill event {
   invoice   : Invoice
@@ -39,5 +45,5 @@ Invoice `Abandonment event { }
 
 Invoice `Adjustment struct {
   description : String
-  amount      : Money
+  amount      : Decimal
 }

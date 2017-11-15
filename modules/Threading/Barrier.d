@@ -1,3 +1,0 @@
-Barrier protocol {
-  destroy()
-}

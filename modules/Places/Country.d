@@ -1,3 +1,8 @@
+Country record : Place {
+  code: ISO:3166-2,
+}
+
+
   Afghanistan
 , Albania
 , Algeria
@@ -203,3 +208,4 @@
 , Zambia
 , Zimbabwe 
 : Country : Place { }
+
