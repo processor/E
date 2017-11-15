@@ -32,15 +32,14 @@ namespace D.Parsing.Tests
         }
 
         [Theory]
-        [InlineData("$"   , Dollar)]
-        [InlineData("|"   , Bar)]
-        [InlineData("."   , Dot)]
-        [InlineData(".."  , DotDot)]
-        [InlineData("..." , DotDotDot)]
-        [InlineData("`"   , Backtick)]
+        [InlineData("$"    , Dollar)]
+        [InlineData("|"    , Bar)]
+        [InlineData("."    , Dot)]
+        [InlineData(".."   , DotDot)]
+        [InlineData("..."  , DotDotDot)]
+        [InlineData("`"    , Backtick)]
         // [InlineData("#"   , Pound)]
-        [InlineData('"'   , Quote)]
-        [InlineData('\''  , Apostrophe)]
+        [InlineData("\""   , Apostrophe)]
         public void Symbols(string name, TokenKind type)
         {
             Assert.Equal(name, new Tokenizer(name).Read(type));

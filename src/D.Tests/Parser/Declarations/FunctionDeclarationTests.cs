@@ -70,7 +70,7 @@ fromTranslation ƒ <T: Number>(x: T, y: T, z: T) => Matrix4<T>(
             Assert.Equal("T"      , func.GenericParameters[0].Name);
             Assert.Equal("Number" , func.GenericParameters[0].Type);
 
-            Assert.Equal(true, func.IsInitializer);
+            Assert.True(func.IsInitializer);
 
             Assert.Equal("x",     func.Parameters[0].Name);
             Assert.Equal("y",     func.Parameters[1].Name);

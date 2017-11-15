@@ -55,7 +55,7 @@ Unit struct {{
         {
             var symbol = GetTypeSymbol("Momentum");
 
-            Assert.Equal(null, symbol.Module);
+            Assert.Null(symbol.Module);
             Assert.Equal("Momentum", symbol.Name);
         }
     }
