@@ -3,20 +3,20 @@
 namespace D.Syntax
 {
     // [index]
-    public class IndexAccessExpressionSyntax : SyntaxNode
+    public class IndexAccessExpressionSyntax : ISyntaxNode
     {
-        public IndexAccessExpressionSyntax(SyntaxNode left, ArgumentSyntax[] arguments)
+        public IndexAccessExpressionSyntax(ISyntaxNode left, ArgumentSyntax[] arguments)
         {
             Left = left;
             Arguments = arguments ?? throw new ArgumentNullException(nameof(arguments));
         }
 
-        public SyntaxNode Left { get; }
+        public ISyntaxNode Left { get; }
 
         // [1]
         // [1, 2]
         public ArgumentSyntax[] Arguments { get; }
 
-        SyntaxKind SyntaxNode.Kind => SyntaxKind.IndexAccessExpression;
+        SyntaxKind ISyntaxNode.Kind => SyntaxKind.IndexAccessExpression;
     }
 }

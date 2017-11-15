@@ -81,7 +81,7 @@ namespace D.Compilation.Inference.Tests
            ) as FunctionExpression;
         }
 
-        public static IEnumerable<SyntaxNode> Parse(string source)
+        public static IEnumerable<ISyntaxNode> Parse(string source)
         {
             var compilier = new Compiler();
 

@@ -3,15 +3,15 @@
 namespace D.Syntax
 {
     // => ...
-    public class LambdaExpressionSyntax : SyntaxNode
+    public class LambdaExpressionSyntax : ISyntaxNode
     {
-        public LambdaExpressionSyntax(SyntaxNode expression)
+        public LambdaExpressionSyntax(ISyntaxNode expression)
         {
             Expression = expression ?? throw new ArgumentNullException(nameof(expression));
         }
 
-        public SyntaxNode Expression { get; }
+        public ISyntaxNode Expression { get; }
 
-        SyntaxKind SyntaxNode.Kind => SyntaxKind.LambdaExpression;
+        SyntaxKind ISyntaxNode.Kind => SyntaxKind.LambdaExpression;
     }
 }

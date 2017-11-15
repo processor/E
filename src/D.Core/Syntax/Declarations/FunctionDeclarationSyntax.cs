@@ -4,19 +4,19 @@ using System.Text;
 
 namespace D.Syntax
 {
-    public class FunctionDeclarationSyntax : IMemberSyntax, SyntaxNode
+    public class FunctionDeclarationSyntax : IMemberSyntax, ISyntaxNode
     {
         // TODO: Module
 
         public FunctionDeclarationSyntax(
             ParameterSyntax[] parameters,
-            SyntaxNode body,
+            ISyntaxNode body,
             ObjectFlags flags = ObjectFlags.None)
             : this(parameters, body, null, flags) { }
 
         public FunctionDeclarationSyntax(
            ParameterSyntax[] parameters,
-           SyntaxNode body,
+           ISyntaxNode body,
            Symbol returnType,
            ObjectFlags flags = ObjectFlags.None)
         {
@@ -32,7 +32,7 @@ namespace D.Syntax
             ParameterSyntax[] genericParameters,
             ParameterSyntax[] parameters,
             Symbol returnType,
-            SyntaxNode body,
+            ISyntaxNode body,
             ObjectFlags flags = ObjectFlags.None)
         {
             Name              = name;
@@ -53,10 +53,10 @@ namespace D.Syntax
 
         // Class Or Interface
 
-        public SyntaxNode DeclaringType { get; internal set; }
+        public ISyntaxNode DeclaringType { get; internal set; }
 
         // Block or lambda
-        public SyntaxNode Body { get; }
+        public ISyntaxNode Body { get; }
 
         public override string ToString()
         {
@@ -123,7 +123,7 @@ namespace D.Syntax
 
         #endregion
 
-        SyntaxKind SyntaxNode.Kind => SyntaxKind.FunctionDeclaration;
+        SyntaxKind ISyntaxNode.Kind => SyntaxKind.FunctionDeclaration;
     }
 }
 

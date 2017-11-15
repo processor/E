@@ -5,8 +5,8 @@
         public ParameterSyntax(
             Symbol name, 
             Symbol type = null,
-            SyntaxNode defaultValue = null,
-            SyntaxNode predicate = null,
+            ISyntaxNode defaultValue = null,
+            ISyntaxNode predicate = null,
             int index = 0)
         {
             Name         = name;
@@ -20,9 +20,9 @@
 
         public int Index { get; }
 
-        public SyntaxNode DefaultValue { get; }
+        public ISyntaxNode DefaultValue { get; }
 
-        public SyntaxNode Predicate { get; }
+        public ISyntaxNode Predicate { get; }
 
         public Symbol Type { get; }
     }

@@ -2,17 +2,17 @@
 
 namespace D.Syntax
 {
-    public class BlockSyntax : SyntaxNode
+    public class BlockSyntax : ISyntaxNode
     {
-        public BlockSyntax(params SyntaxNode[] statements)
+        public BlockSyntax(params ISyntaxNode[] statements)
         {
             Statements = statements ?? throw new ArgumentNullException(nameof(statements));
         }
 
-        public SyntaxNode[] Statements { get; }
+        public ISyntaxNode[] Statements { get; }
 
-        public SyntaxNode this[int index] => Statements[index];
+        public ISyntaxNode this[int index] => Statements[index];
 
-        SyntaxKind SyntaxNode.Kind => SyntaxKind.Block;
+        SyntaxKind ISyntaxNode.Kind => SyntaxKind.Block;
     }
 }

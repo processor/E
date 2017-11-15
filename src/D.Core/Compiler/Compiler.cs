@@ -23,7 +23,7 @@ namespace D
             this.scope = graph;
         }
 
-        public Module Compile(IEnumerable<SyntaxNode> nodes)
+        public Module Compile(IEnumerable<ISyntaxNode> nodes)
         {
             var module = new Module();
             
@@ -81,7 +81,7 @@ namespace D
 
         int i = 0;
 
-        public IExpression Visit(SyntaxNode syntax)
+        public IExpression Visit(ISyntaxNode syntax)
         {
             i++;
 

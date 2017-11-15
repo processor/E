@@ -2,7 +2,7 @@
 
 namespace D.Syntax
 {
-    public class OperatorDeclarationSyntax : SyntaxNode
+    public class OperatorDeclarationSyntax : ISyntaxNode
     {
         public OperatorDeclarationSyntax(
             Symbol name, 
@@ -18,11 +18,11 @@ namespace D.Syntax
 
         #region Property Helpers
         
-        public SyntaxNode Precedence => GetPropertyValue("precedence");
+        public ISyntaxNode Precedence => GetPropertyValue("precedence");
         
-        public SyntaxNode Associativity => GetPropertyValue("associativity");
+        public ISyntaxNode Associativity => GetPropertyValue("associativity");
 
-        public SyntaxNode GetPropertyValue(string name)
+        public ISyntaxNode GetPropertyValue(string name)
         {
             foreach (var property in Properties)
             {
@@ -37,7 +37,7 @@ namespace D.Syntax
 
         #endregion
 
-        SyntaxKind SyntaxNode.Kind => SyntaxKind.OperatorDeclaration;
+        SyntaxKind ISyntaxNode.Kind => SyntaxKind.OperatorDeclaration;
     }
 }
 

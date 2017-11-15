@@ -3,9 +3,9 @@ using System.Text;
 
 namespace D.Syntax
 {
-    public class BinaryExpressionSyntax : SyntaxNode
+    public class BinaryExpressionSyntax : ISyntaxNode
     {
-        public BinaryExpressionSyntax(Operator op, SyntaxNode lhs, SyntaxNode rhs)
+        public BinaryExpressionSyntax(Operator op, ISyntaxNode lhs, ISyntaxNode rhs)
         {
             Operator = op;
             Left     = lhs ?? throw new ArgumentNullException(nameof(lhs));
@@ -14,13 +14,13 @@ namespace D.Syntax
 
         public Operator Operator { get; }
 
-        public SyntaxNode Left { get; }
+        public ISyntaxNode Left { get; }
 
-        public SyntaxNode Right { get; }
+        public ISyntaxNode Right { get; }
 
         public bool Grouped { get; set; }
 
-        SyntaxKind SyntaxNode.Kind => SyntaxKind.BinaryExpression;
+        SyntaxKind ISyntaxNode.Kind => SyntaxKind.BinaryExpression;
 
         #region ToString
 

@@ -2,15 +2,15 @@
 
 namespace D.Syntax
 {
-    public class ReturnStatementSyntax : SyntaxNode
+    public class ReturnStatementSyntax : ISyntaxNode
     {
-        public ReturnStatementSyntax(SyntaxNode expression)
+        public ReturnStatementSyntax(ISyntaxNode expression)
         {
             Expression = expression ?? throw new ArgumentNullException(nameof(expression));
         }
 
-        public SyntaxNode Expression { get; }
+        public ISyntaxNode Expression { get; }
 
-        SyntaxKind SyntaxNode.Kind => SyntaxKind.ReturnStatement;
+        SyntaxKind ISyntaxNode.Kind => SyntaxKind.ReturnStatement;
     }
 }

@@ -2,22 +2,22 @@
 
 namespace D.Syntax
 {
-    public class IfStatementSyntax : SyntaxNode
+    public class IfStatementSyntax : ISyntaxNode
     {
-        public IfStatementSyntax(SyntaxNode condition, BlockSyntax body, SyntaxNode elseBranch)
+        public IfStatementSyntax(ISyntaxNode condition, BlockSyntax body, ISyntaxNode elseBranch)
         {
             Condition  = condition ?? throw new ArgumentNullException(nameof(condition));
             Body       = body ?? throw new ArgumentNullException(nameof(body));
             ElseBranch = elseBranch;
         }
 
-        public SyntaxNode Condition { get; }
+        public ISyntaxNode Condition { get; }
 
         public BlockSyntax Body { get; }
 
         // Else | ElseIf
-        public SyntaxNode ElseBranch { get; }
+        public ISyntaxNode ElseBranch { get; }
 
-        SyntaxKind SyntaxNode.Kind => SyntaxKind.IfStatement;
+        SyntaxKind ISyntaxNode.Kind => SyntaxKind.IfStatement;
     }
 }

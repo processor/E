@@ -1,20 +1,20 @@
 ﻿namespace D.Syntax
 {    
-    public class TernaryExpressionSyntax : SyntaxNode
+    public class TernaryExpressionSyntax : ISyntaxNode
     {
-        public TernaryExpressionSyntax(SyntaxNode condition, SyntaxNode left, SyntaxNode right)
+        public TernaryExpressionSyntax(ISyntaxNode condition, ISyntaxNode left, ISyntaxNode right)
         {
             Condition = condition;
             Left = left;
             Right = right;
         }
 
-        public SyntaxNode Condition { get; }
+        public ISyntaxNode Condition { get; }
 
-        public SyntaxNode Left { get; }
+        public ISyntaxNode Left { get; }
 
-        public SyntaxNode Right { get; }
+        public ISyntaxNode Right { get; }
 
-        SyntaxKind SyntaxNode.Kind => SyntaxKind.TernaryExpression;
+        SyntaxKind ISyntaxNode.Kind => SyntaxKind.TernaryExpression;
     }
 }

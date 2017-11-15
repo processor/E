@@ -2,7 +2,7 @@
 
 namespace D.Syntax
 {
-    public class AnnotationExpressionSyntax : SyntaxNode
+    public class AnnotationExpressionSyntax : ISyntaxNode
     {
         public AnnotationExpressionSyntax(Symbol name, ArgumentSyntax[] arguments)
         {
@@ -14,6 +14,6 @@ namespace D.Syntax
 
         public ArgumentSyntax[] Arguments { get; }
 
-        SyntaxKind SyntaxNode.Kind => SyntaxKind.AnnotationExpression;
+        SyntaxKind ISyntaxNode.Kind => SyntaxKind.AnnotationExpression;
     }
 }

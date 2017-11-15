@@ -2,9 +2,9 @@
 
 namespace D.Syntax
 {
-    public class UnaryExpressionSyntax : SyntaxNode
+    public class UnaryExpressionSyntax : ISyntaxNode
     {
-        public UnaryExpressionSyntax(Operator op, SyntaxNode arg)
+        public UnaryExpressionSyntax(Operator op, ISyntaxNode arg)
         {
             Operator = op;
             Argument = arg;
@@ -13,7 +13,7 @@ namespace D.Syntax
         // Change to symbol
         public Operator Operator { get; }
 
-        public SyntaxNode Argument { get; }
+        public ISyntaxNode Argument { get; }
 
         #region ToString
 
@@ -34,6 +34,6 @@ namespace D.Syntax
 
         #endregion
 
-        SyntaxKind SyntaxNode.Kind => SyntaxKind.FunctionDeclaration;
+        SyntaxKind ISyntaxNode.Kind => SyntaxKind.FunctionDeclaration;
     }
 }

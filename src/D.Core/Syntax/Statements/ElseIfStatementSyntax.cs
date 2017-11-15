@@ -1,21 +1,21 @@
 ﻿namespace D.Syntax
 {
-    public class ElseIfStatementSyntax : SyntaxNode
+    public class ElseIfStatementSyntax : ISyntaxNode
     {
-        public ElseIfStatementSyntax(SyntaxNode condition, BlockSyntax body, SyntaxNode elseBranch)
+        public ElseIfStatementSyntax(ISyntaxNode condition, BlockSyntax body, ISyntaxNode elseBranch)
         {
             Condition = condition;
             Body = body;
             ElseBranch = elseBranch;
         }
 
-        public SyntaxNode Condition { get; }
+        public ISyntaxNode Condition { get; }
 
         public BlockSyntax Body { get; }
 
         // Else, ElseIf
-        public SyntaxNode ElseBranch { get; }
+        public ISyntaxNode ElseBranch { get; }
 
-        SyntaxKind SyntaxNode.Kind => SyntaxKind.ElseIfStatement;
+        SyntaxKind ISyntaxNode.Kind => SyntaxKind.ElseIfStatement;
     }
 }

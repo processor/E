@@ -6,7 +6,7 @@ namespace D
     using Expressions;
     using Syntax;
 
-    public abstract class Symbol : IExpression, SyntaxNode
+    public abstract class Symbol : IExpression, ISyntaxNode
     {
         public Symbol(string name, SymbolFlags flags = SymbolFlags.None)
         {
@@ -114,7 +114,7 @@ namespace D
             new TypeSymbol(name, arguments);
         public static implicit operator string(Symbol symbol) => symbol?.ToString();
 
-        SyntaxKind SyntaxNode.Kind => SyntaxKind.Symbol;
+        SyntaxKind ISyntaxNode.Kind => SyntaxKind.Symbol;
     }
 }
 

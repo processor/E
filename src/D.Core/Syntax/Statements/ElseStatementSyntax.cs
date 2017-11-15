@@ -1,6 +1,6 @@
 ﻿namespace D.Syntax
 {
-    public class ElseStatementSyntax : SyntaxNode
+    public class ElseStatementSyntax : ISyntaxNode
     {
         public ElseStatementSyntax(BlockSyntax body)
         {
@@ -9,6 +9,6 @@
 
         public BlockSyntax Body { get; }
 
-        SyntaxKind SyntaxNode.Kind => SyntaxKind.ElseStatement;
+        SyntaxKind ISyntaxNode.Kind => SyntaxKind.ElseStatement;
     }
 }

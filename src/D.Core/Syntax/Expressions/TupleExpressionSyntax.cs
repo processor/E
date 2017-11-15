@@ -2,24 +2,24 @@
 
 namespace D.Syntax
 {
-    public class TupleExpressionSyntax : SyntaxNode
+    public class TupleExpressionSyntax : ISyntaxNode
     {
-        public TupleExpressionSyntax(SyntaxNode[] elements)
+        public TupleExpressionSyntax(ISyntaxNode[] elements)
         {
             Elements = elements ?? throw new ArgumentNullException(nameof(elements));
         }
 
-        public SyntaxNode[] Elements { get; }
+        public ISyntaxNode[] Elements { get; }
 
         public int Size => Elements.Length;
 
-        SyntaxKind SyntaxNode.Kind => SyntaxKind.TupleExpression;
+        SyntaxKind ISyntaxNode.Kind => SyntaxKind.TupleExpression;
     }
 
     // a: 100
-    public class NamedElementSyntax : SyntaxNode
+    public class NamedElementSyntax : ISyntaxNode
     {
-        public NamedElementSyntax(Symbol name, SyntaxNode value)
+        public NamedElementSyntax(Symbol name, ISyntaxNode value)
         {
             Name  = name ?? throw new ArgumentNullException(nameof(name));
             Value = value;
@@ -28,9 +28,9 @@ namespace D.Syntax
         public Symbol Name { get; }
 
         // type or constant
-        public SyntaxNode Value { get; }
+        public ISyntaxNode Value { get; }
 
-        SyntaxKind SyntaxNode.Kind => SyntaxKind.NamedValue;
+        SyntaxKind ISyntaxNode.Kind => SyntaxKind.NamedValue;
     }
 }
  
