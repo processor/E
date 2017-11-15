@@ -39,7 +39,8 @@ namespace D.Parsing.Tests
         [InlineData("..."  , DotDotDot)]
         [InlineData("`"    , Backtick)]
         // [InlineData("#"   , Pound)]
-        [InlineData("\""   , Apostrophe)]
+        [InlineData("\""   , Quote)]
+        [InlineData("'"    , Apostrophe)]
         public void Symbols(string name, TokenKind type)
         {
             Assert.Equal(name, new Tokenizer(name).Read(type));
