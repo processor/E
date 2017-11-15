@@ -14,11 +14,18 @@ namespace D
 
         private readonly Node parent;
         private readonly string name;
-        
+
+        private readonly int depth = 0;
+
         public Node(string name = null, Node parent = null)
         {
             this.name   = name;
             this.parent = parent;
+            
+            if (parent != null)
+            {
+                this.depth = parent.depth + 1;
+            }
 
             operators.Add(Operator.DefaultList);
 
