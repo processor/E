@@ -21,41 +21,69 @@ namespace D
         {
             Name = name;
             Type = new Type(kind);
+            Direction = ParameterDirection.In;
         }
 
-        public Parameter(string name, Type type, bool optional = false, object defaultValue = null)
+        public Parameter(string name, 
+            Type type, 
+            bool isOptional = false,
+            object defaultValue = null,
+            ParameterDirection direction = ParameterDirection.In)
         {
             Name = name;
             Type = type;
-            IsOptional = optional;
             DefaultValue = defaultValue;
+            Direction = direction;
+
+            if (isOptional)
+            {
+                Flags |= ParameterFlags.Optional;
+            }
         }
 
         public Parameter(Type type)
         {
             Type = type ?? throw new ArgumentNullException(nameof(type));
         }
-
+        
         public string Name { get; }
-
-        public bool IsOptional { get; }
-
-        public object DefaultValue { get; }
 
         public Type Type { get; }
 
-        public Predicate[] Conditions { get; set; }
+        public ParameterFlags Flags { get; }
 
-        public ParameterDirection Direction { get; set; }
+        public object DefaultValue { get; }
+        
+        // x: Integer where value > 0 && value < 4
+
+        public Predicate Predicate { get; }
+
+        public ParameterDirection Direction { get; }
 
         // TODO: cache on kind
         public static Parameter Get(Kind kind) => new Parameter(new Type(kind));
+
+        #region Flags
+
+        public bool IsOptional => Flags.HasFlag(ParameterFlags.Optional);
+
+        public bool IsReadOnly => Flags.HasFlag(ParameterFlags.ReadOnly);
+
+        #endregion
+    }
+
+    
+    public enum ParameterFlags
+    {
+        None     = 0,
+        Optional = 1 << 0,
+        ReadOnly = 1 << 1
     }
 
     public enum ParameterDirection
     {
-        In,
-        Out,
-        InOut
+        In      = 1,
+        Out     = 2,
+        InOut   = 3
     }
 }
