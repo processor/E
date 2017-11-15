@@ -2,7 +2,7 @@
 
 namespace D
 {
-    public class Parameter
+    public sealed class Parameter /* readonly struct? */
     {
         public static readonly Parameter Object  = Get(Kind.Object);
         public static readonly Parameter String  = Get(Kind.String);
@@ -28,12 +28,14 @@ namespace D
             Type type, 
             bool isOptional = false,
             object defaultValue = null,
+            Annotation[] annotations = null,
             ParameterDirection direction = ParameterDirection.In)
         {
             Name = name;
             Type = type;
             DefaultValue = defaultValue;
-            Direction = direction;
+            Annotations = annotations;
+            Direction   = direction;
 
             if (isOptional)
             {
@@ -49,6 +51,12 @@ namespace D
         public string Name { get; }
 
         public Type Type { get; }
+        
+        public Annotation[] Annotations { get; }
+
+        // Annotations
+
+        // Unit (length)
 
         public ParameterFlags Flags { get; }
 
