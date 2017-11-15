@@ -119,6 +119,28 @@ clamp ƒ <T> (p: Point<T>, min: Point<T>, max: Point<T>) => Point<T> {
             // Assert.Equal("T",       func.ReturnType.Arguments[0].Name);
         }
 
+
+        [Fact]
+        public void Conditions()
+        {
+            var func = Parse<FunctionDeclarationSyntax>(@"
+abs ƒ (a: Integer > 0) -> Integer {
+  return 1;
+}");
+            
+            // abs ƒ(a: Integer) -> Integer
+            // where a > 0 {
+
+            // }
+            Assert.Equal("abs", func.Name);
+            Assert.Equal("Integer", func.ReturnType);
+
+            Assert.Equal("a",       func.Parameters[0].Name);
+            Assert.Equal("Integer", func.Parameters[0].Type);
+            Assert.Equal("a > 0",   func.Parameters[0].Condition.ToString());
+
+        }
+
         [Fact]
         public void FuncToString()
         {
@@ -179,7 +201,7 @@ clamp ƒ(p: geometry::Point<T>, min: Point<T>, max: Point<T>) => Point {
         {
             var func = Parse<FunctionDeclarationSyntax>("a function(a: Integer > 0) => 1");
 
-            Assert.Equal("a > 0", func.Parameters[0].Predicate.ToString());
+            Assert.Equal("a > 0", func.Parameters[0].Condition.ToString());
         }
 
       

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq.Expressions;
 
 namespace D
 {
@@ -29,13 +30,15 @@ namespace D
             bool isOptional = false,
             object defaultValue = null,
             Annotation[] annotations = null,
-            ParameterDirection direction = ParameterDirection.In)
+            ParameterDirection direction = ParameterDirection.In,
+            Expression condition = null)
         {
-            Name = name;
-            Type = type;
+            Name         = name;
+            Type         = type;
             DefaultValue = defaultValue;
-            Annotations = annotations;
-            Direction   = direction;
+            Annotations  = annotations;
+            Direction    = direction;
+            Condition    = condition;
 
             if (isOptional)
             {
@@ -63,8 +66,8 @@ namespace D
         public object DefaultValue { get; }
         
         // x: Integer where value > 0 && value < 4
-
-        public Predicate Predicate { get; }
+        
+        public Expression Condition { get; }
 
         public ParameterDirection Direction { get; }
 
@@ -79,7 +82,6 @@ namespace D
 
         #endregion
     }
-
     
     public enum ParameterFlags
     {

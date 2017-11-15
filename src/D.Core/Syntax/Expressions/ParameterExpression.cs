@@ -6,13 +6,13 @@
             Symbol name, 
             Symbol type = null,
             ISyntaxNode defaultValue = null,
-            ISyntaxNode predicate = null,
+            ISyntaxNode condition = null,
             int index = 0)
         {
             Name         = name;
             Type         = type;
             DefaultValue = defaultValue;
-            Predicate    = predicate;
+            Condition    = condition;
             Index        = index;
         }
 
@@ -22,7 +22,7 @@
 
         public ISyntaxNode DefaultValue { get; }
 
-        public ISyntaxNode Predicate { get; }
+        public ISyntaxNode Condition { get; }
 
         public Symbol Type { get; }
     }

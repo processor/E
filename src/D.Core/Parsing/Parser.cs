@@ -757,7 +757,8 @@ namespace D.Parsing
             while (reader.ConsumeIf(Comma));
         }
         
-        // this, a, i: Integer
+        // this, a, i: Integer, i: Interger > 0
+
         public ParameterSyntax ReadParameter(int index)
         {
             var name = ReadArgumentSymbol(); // name
@@ -766,7 +767,10 @@ namespace D.Parsing
                 ? ReadTypeSymbol()
                 : null;
 
-            var predicate = (IsKind(Op) && Current.Text != "=") // ? op
+            // > 0
+            // where value > 0 && value < 10
+
+            var condition = (IsKind(Op) && Current.Text != "=") // ? op
                 ? MaybeBinary(name, 0)
                 : null;
            
@@ -774,7 +778,11 @@ namespace D.Parsing
                 ? ReadExpression()
                 : null;
 
-            return new ParameterSyntax(name, type, defaultValue, predicate, index: index);
+            return new ParameterSyntax(name, 
+                type,
+                defaultValue : defaultValue,
+                condition    : condition,
+                index        : index);
         }
 
         // event (?record) | record
