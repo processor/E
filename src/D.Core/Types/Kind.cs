@@ -22,12 +22,11 @@
 
         Protocol       = 17,
         ImplementationExpression = 18,
-        // Variable       = 19,
         Void           = 20, // static instance = nothing
         Character      = 21,
 
         // Collections
-        List           = 101,
+        Array         = 101,
         Set            = 102,
 
         Byte           = 103,

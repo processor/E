@@ -1,8 +1,8 @@
 ﻿namespace D.Syntax
 {
-    public class ImportDeclarationSyntax : SyntaxNode
+    public class ImportDeclarationSyntax : ISyntaxNode
     {
-        SyntaxKind SyntaxNode.Kind => SyntaxKind.ImportDeclaration;
+        SyntaxKind ISyntaxNode.Kind => SyntaxKind.ImportDeclaration;
     }
 }
 

@@ -1,6 +1,6 @@
 ﻿namespace D.Syntax
 {
-    public struct CharacterLiteralSyntax : SyntaxNode
+    public struct CharacterLiteralSyntax : ISyntaxNode
     { 
         public CharacterLiteralSyntax(char value)
         {
@@ -15,7 +15,7 @@
         public static implicit operator char(CharacterLiteralSyntax text)
             => text.Value;
 
-        SyntaxKind SyntaxNode.Kind => SyntaxKind.CharacterLiteral;
+        SyntaxKind ISyntaxNode.Kind => SyntaxKind.CharacterLiteral;
 
         public override string ToString() => Value.ToString();
     }

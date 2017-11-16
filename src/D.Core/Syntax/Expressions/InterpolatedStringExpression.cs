@@ -2,17 +2,17 @@
 {
     // $"{expression}text"
 
-    public class InterpolatedStringExpressionSyntax : SyntaxNode
+    public class InterpolatedStringExpressionSyntax : ISyntaxNode
     {
-        public InterpolatedStringExpressionSyntax(SyntaxNode[] children)
+        public InterpolatedStringExpressionSyntax(ISyntaxNode[] children)
         {
             Children = children;
         }
 
-        public SyntaxNode[] Children { get; }
+        public ISyntaxNode[] Children { get; }
 
-        public SyntaxNode this[int index] => Children[index];
+        public ISyntaxNode this[int index] => Children[index];
 
-        SyntaxKind SyntaxNode.Kind => SyntaxKind.InterpolatedStringExpression;
+        SyntaxKind ISyntaxNode.Kind => SyntaxKind.InterpolatedStringExpression;
     }
 }

@@ -1,17 +1,17 @@
 ﻿namespace D.Syntax
 {
-    public class ArrayInitializerSyntax : SyntaxNode
+    public class ArrayInitializerSyntax : ISyntaxNode
     {
-        public ArrayInitializerSyntax(SyntaxNode[] elements, int? stride)
+        public ArrayInitializerSyntax(ISyntaxNode[] elements, int? stride)
         {
             Elements = elements;
             Stride = stride;
         }
 
-        public SyntaxNode[] Elements { get; }
+        public ISyntaxNode[] Elements { get; }
 
         public int? Stride { get; }
 
-        SyntaxKind SyntaxNode.Kind => SyntaxKind.ArrayInitializer;
+        SyntaxKind ISyntaxNode.Kind => SyntaxKind.ArrayInitializer;
     }
 }

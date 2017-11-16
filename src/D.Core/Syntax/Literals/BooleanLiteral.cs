@@ -1,6 +1,6 @@
 ﻿namespace D.Syntax
 {
-    public class BooleanLiteralSyntax : SyntaxNode
+    public class BooleanLiteralSyntax : ISyntaxNode
     {
         public static readonly BooleanLiteralSyntax True = new BooleanLiteralSyntax(true);
         public static readonly BooleanLiteralSyntax False = new BooleanLiteralSyntax(false);
@@ -12,7 +12,7 @@
 
         public bool Value { get; }
 
-        SyntaxKind SyntaxNode.Kind => SyntaxKind.BooleanLiteral;
+        SyntaxKind ISyntaxNode.Kind => SyntaxKind.BooleanLiteral;
 
         public override string ToString() => Value ? "true": "false";
     }

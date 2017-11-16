@@ -4,15 +4,15 @@ using System.Text;
 namespace D.Syntax
 {
     // .member
-    public class MemberAccessExpressionSyntax : SyntaxNode
+    public class MemberAccessExpressionSyntax : ISyntaxNode
     {
-        public MemberAccessExpressionSyntax(SyntaxNode left, Symbol name)
+        public MemberAccessExpressionSyntax(ISyntaxNode left, Symbol name)
         {
             Left = left ?? throw new ArgumentNullException(nameof(left));
             Name = name ?? throw new ArgumentNullException(nameof(name));
         }
 
-        public SyntaxNode Left { get; }
+        public ISyntaxNode Left { get; }
 
         // Property | Function
         public Symbol Name { get; }
@@ -29,6 +29,6 @@ namespace D.Syntax
             return sb.ToString();
         }
 
-        SyntaxKind SyntaxNode.Kind => SyntaxKind.MemberAccessExpression;
+        SyntaxKind ISyntaxNode.Kind => SyntaxKind.MemberAccessExpression;
     }
 }

@@ -1,6 +1,6 @@
 ﻿namespace D.Syntax
 {
-    public class NumberLiteralSyntax : SyntaxNode
+    public class NumberLiteralSyntax : ISyntaxNode
     {
         public NumberLiteralSyntax(string text)
         {
@@ -9,7 +9,7 @@
         
         public string Text { get; }
 
-        SyntaxKind SyntaxNode.Kind => SyntaxKind.NumberLiteral;
+        SyntaxKind ISyntaxNode.Kind => SyntaxKind.NumberLiteral;
 
         public static implicit operator int (NumberLiteralSyntax value) => int.Parse(value.Text);
 

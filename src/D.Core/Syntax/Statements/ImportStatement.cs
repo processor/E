@@ -1,6 +1,6 @@
 ﻿namespace D.Syntax
 {
-    public class UsingStatement : SyntaxNode
+    public class UsingStatement : ISyntaxNode
     {
         public UsingStatement(Symbol[] domains)
         {
@@ -11,6 +11,6 @@
 
         public Symbol this[int i] => Domains[i];
 
-        SyntaxKind SyntaxNode.Kind => SyntaxKind.UsingStatement;
+        SyntaxKind ISyntaxNode.Kind => SyntaxKind.UsingStatement;
     }
 }

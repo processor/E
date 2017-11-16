@@ -5,14 +5,14 @@
         public ParameterSyntax(
             Symbol name, 
             Symbol type = null,
-            SyntaxNode defaultValue = null,
-            SyntaxNode predicate = null,
+            ISyntaxNode defaultValue = null,
+            ISyntaxNode condition = null,
             int index = 0)
         {
             Name         = name;
             Type         = type;
             DefaultValue = defaultValue;
-            Predicate    = predicate;
+            Condition    = condition;
             Index        = index;
         }
 
@@ -20,9 +20,9 @@
 
         public int Index { get; }
 
-        public SyntaxNode DefaultValue { get; }
+        public ISyntaxNode DefaultValue { get; }
 
-        public SyntaxNode Predicate { get; }
+        public ISyntaxNode Condition { get; }
 
         public Symbol Type { get; }
     }

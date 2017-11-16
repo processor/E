@@ -3,7 +3,7 @@
 namespace D.Syntax
 {
     // Kelvin unit: Temperature { symbol: "K", value: 1 }
-    public class UnitDeclarationSyntax : SyntaxNode
+    public class UnitDeclarationSyntax : ISyntaxNode
     {
         public UnitDeclarationSyntax(
             Symbol name, 
@@ -23,11 +23,11 @@ namespace D.Syntax
 
         #region Property Helpers
 
-        public SyntaxNode Value => GetPropertyValue("value");
+        public ISyntaxNode Value => GetPropertyValue("value");
         
-        public SyntaxNode Symbol => GetPropertyValue("symbol");
+        public ISyntaxNode Symbol => GetPropertyValue("symbol");
 
-        public SyntaxNode GetPropertyValue(string name)
+        public ISyntaxNode GetPropertyValue(string name)
         {
             foreach (var property in Properties)
             {
@@ -42,6 +42,6 @@ namespace D.Syntax
 
         #endregion
 
-        SyntaxKind SyntaxNode.Kind => SyntaxKind.UnitDeclaration;
+        SyntaxKind ISyntaxNode.Kind => SyntaxKind.UnitDeclaration;
     }
 }

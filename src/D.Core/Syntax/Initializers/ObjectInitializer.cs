@@ -2,7 +2,7 @@
 
 namespace D.Syntax
 {
-    public class ObjectInitializerSyntax : SyntaxNode
+    public class ObjectInitializerSyntax : ISyntaxNode
     {
         public ObjectInitializerSyntax(TypeSymbol type, ArgumentSyntax[] arguments)
         {
@@ -14,7 +14,7 @@ namespace D.Syntax
 
         public ArgumentSyntax[] Arguments { get; }
 
-        SyntaxKind SyntaxNode.Kind => SyntaxKind.TypeInitializer;
+        SyntaxKind ISyntaxNode.Kind => SyntaxKind.TypeInitializer;
     }
 }
 

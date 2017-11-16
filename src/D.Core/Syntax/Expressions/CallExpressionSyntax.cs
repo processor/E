@@ -5,9 +5,9 @@
     // .   memberAccess
     // ()  invoke
 
-    public class CallExpressionSyntax : SyntaxNode
+    public class CallExpressionSyntax : ISyntaxNode
     {
-        public CallExpressionSyntax(SyntaxNode callee, Symbol name, ArgumentSyntax[] arguments)
+        public CallExpressionSyntax(ISyntaxNode callee, Symbol name, ArgumentSyntax[] arguments)
         {
             Callee    = callee;
             Name      = name;
@@ -15,7 +15,7 @@
         }
 
         // Nullable 
-        public SyntaxNode Callee { get; }  // Piper
+        public ISyntaxNode Callee { get; }  // Piper
         
         public Symbol Name { get; }
 
@@ -23,7 +23,7 @@
 
         public bool IsPiped { get; set; }
 
-        SyntaxKind SyntaxNode.Kind => SyntaxKind.CallExpression;
+        SyntaxKind ISyntaxNode.Kind => SyntaxKind.CallExpression;
     }
 }
 

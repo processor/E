@@ -5,4 +5,5 @@
     <AssemblyName>D.Core</AssemblyName>
     <LangVersion>latest</LangVersion>
   </PropertyGroup>
+
 </Project>

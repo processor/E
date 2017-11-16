@@ -4,43 +4,51 @@ namespace D.Syntax
 {
     public abstract class SyntaxVisitor
     {
-        public virtual SyntaxNode VisitBinary(BinaryExpressionSyntax syntax)                         => throw new NotImplementedException();
-        public virtual SyntaxNode VisitUnary(UnaryExpressionSyntax syntax)                           => throw new NotImplementedException(); 
-        public virtual SyntaxNode VisitTernary(TernaryExpressionSyntax syntax)                       => throw new NotImplementedException(); 
-        public virtual SyntaxNode VisitBlock(BlockSyntax syntax)                           => throw new NotImplementedException(); 
-        public virtual SyntaxNode VisitCall(CallExpressionSyntax syntax)                             => throw new NotImplementedException(); 
-        public virtual SyntaxNode VisitVariableDeclaration(PropertyDeclarationSyntax syntax)         => throw new NotImplementedException(); 
-        public virtual SyntaxNode VisitTypeInitializer(ObjectInitializerSyntax syntax)               => throw new NotImplementedException(); 
-        public virtual SyntaxNode VisitDestructuringAssignment(DestructuringAssignmentSyntax syntax) => throw new NotImplementedException(); 
-        public virtual SyntaxNode VisitIndexAccess(IndexAccessExpressionSyntax syntax)               => throw new NotImplementedException(); 
-        public virtual SyntaxNode VisitMemberAccess(MemberAccessExpressionSyntax syntax)             => throw new NotImplementedException(); 
-        public virtual SyntaxNode VisitLambda(LambdaExpressionSyntax syntax)                         => throw new NotImplementedException(); 
-        public virtual SyntaxNode VisitMatch(MatchExpressionSyntax syntax)                           => throw new NotImplementedException(); 
-        public virtual SyntaxNode VisitIf(IfStatementSyntax syntax)                                  => throw new NotImplementedException(); 
-        public virtual SyntaxNode VisitElse(ElseStatementSyntax syntax)                              => throw new NotImplementedException(); 
-        public virtual SyntaxNode VisitElseIf(ElseIfStatementSyntax syntax)                          => throw new NotImplementedException(); 
-        public virtual SyntaxNode VisitReturn(ReturnStatementSyntax syntax)                          => throw new NotImplementedException(); 
-        public virtual SyntaxNode VisitTypePattern(TypePatternSyntax syntax)                         => throw new NotImplementedException(); 
-        public virtual SyntaxNode VisitConstantPattern(ConstantPatternSyntax syntax)                 => throw new NotImplementedException(); 
-        public virtual SyntaxNode VisitSymbol(Symbol symbol)                                         => throw new NotImplementedException(); 
-        public virtual SyntaxNode VisitConstant(SyntaxNode constant)                                 => throw new NotImplementedException(); 
-        public virtual SyntaxNode FunctionDeclarationSyntax(FunctionDeclarationSyntax syntax)        => throw new NotImplementedException(); 
+        public virtual ISyntaxNode VisitBinary(BinaryExpressionSyntax syntax)                         => throw new NotImplementedException();
+        public virtual ISyntaxNode VisitUnary(UnaryExpressionSyntax syntax)                           => throw new NotImplementedException(); 
+        public virtual ISyntaxNode VisitTernary(TernaryExpressionSyntax syntax)                       => throw new NotImplementedException(); 
+        public virtual ISyntaxNode VisitBlock(BlockSyntax syntax)                                     => throw new NotImplementedException(); 
+        public virtual ISyntaxNode VisitCall(CallExpressionSyntax syntax)                             => throw new NotImplementedException(); 
+        public virtual ISyntaxNode VisitVariableDeclaration(PropertyDeclarationSyntax syntax)         => throw new NotImplementedException(); 
+        public virtual ISyntaxNode VisitTypeInitializer(ObjectInitializerSyntax syntax)               => throw new NotImplementedException(); 
+        public virtual ISyntaxNode VisitDestructuringAssignment(DestructuringAssignmentSyntax syntax) => throw new NotImplementedException(); 
+        public virtual ISyntaxNode VisitIndexAccess(IndexAccessExpressionSyntax syntax)               => throw new NotImplementedException(); 
+        public virtual ISyntaxNode VisitMemberAccess(MemberAccessExpressionSyntax syntax)             => throw new NotImplementedException(); 
+        public virtual ISyntaxNode VisitLambda(LambdaExpressionSyntax syntax)                         => throw new NotImplementedException(); 
+        public virtual ISyntaxNode VisitMatch(MatchExpressionSyntax syntax)                           => throw new NotImplementedException(); 
+        public virtual ISyntaxNode VisitIf(IfStatementSyntax syntax)                                  => throw new NotImplementedException(); 
+        public virtual ISyntaxNode VisitElse(ElseStatementSyntax syntax)                              => throw new NotImplementedException(); 
+        public virtual ISyntaxNode VisitElseIf(ElseIfStatementSyntax syntax)                          => throw new NotImplementedException(); 
+        public virtual ISyntaxNode VisitReturn(ReturnStatementSyntax syntax)                          => throw new NotImplementedException(); 
+        public virtual ISyntaxNode VisitTypePattern(TypePatternSyntax syntax)                         => throw new NotImplementedException(); 
+        public virtual ISyntaxNode VisitAnyPattern(AnyPatternSyntax syntax)                           => throw new NotImplementedException();
+        public virtual ISyntaxNode VisitConstantPattern(ConstantPatternSyntax syntax)                 => throw new NotImplementedException();
+        public virtual ISyntaxNode VisitSymbol(Symbol symbol)                                         => throw new NotImplementedException(); 
+        public virtual ISyntaxNode FunctionDeclarationSyntax(FunctionDeclarationSyntax syntax)        => throw new NotImplementedException();
+        public virtual ISyntaxNode VisitStringLiteral(StringLiteralSyntax syntax)                     => throw new NotImplementedException();
+        public virtual ISyntaxNode VisitNumberLiteral(NumberLiteralSyntax syntax)                     => throw new NotImplementedException();
 
-        public SyntaxNode Visit(SyntaxNode syntax)
+        int i = 0;
+
+        public ISyntaxNode Visit(ISyntaxNode syntax)
         {
+            i++;
+
+            if (i > 1000) throw new Exception("rerucssion???");
+
             switch (syntax)
             {
                 case UnaryExpressionSyntax unary     : return VisitUnary(unary);
                 case BinaryExpressionSyntax binary   : return VisitBinary(binary);
                 case TernaryExpressionSyntax ternary : return VisitTernary(ternary);
-                case BlockSyntax block     : return VisitBlock(block);
+                case BlockSyntax block               : return VisitBlock(block);
             }
             
             switch (syntax.Kind)
             {
                 // Declarations
                 case SyntaxKind.PropertyDeclaration       : return VisitVariableDeclaration((PropertyDeclarationSyntax)syntax);
-                case SyntaxKind.TypeInitializer         : return VisitTypeInitializer((ObjectInitializerSyntax)syntax);
+                case SyntaxKind.TypeInitializer           : return VisitTypeInitializer((ObjectInitializerSyntax)syntax);
                 case SyntaxKind.DestructuringAssignment   : return VisitDestructuringAssignment((DestructuringAssignmentSyntax)syntax);
                 case SyntaxKind.MemberAccessExpression    : return VisitMemberAccess((MemberAccessExpressionSyntax)syntax);
                 case SyntaxKind.IndexAccessExpression     : return VisitIndexAccess((IndexAccessExpressionSyntax)syntax);          
@@ -57,19 +65,16 @@ namespace D.Syntax
                 // Patterns
                 case SyntaxKind.ConstantPattern           : return VisitConstantPattern((ConstantPatternSyntax)syntax);
                 case SyntaxKind.TypePattern               : return VisitTypePattern((TypePatternSyntax)syntax);
-                    
+                case SyntaxKind.AnyPattern                : return VisitAnyPattern((AnyPatternSyntax)syntax);
 
                 case SyntaxKind.Symbol: return VisitSymbol((Symbol)syntax);
                     
-                case SyntaxKind.NumberLiteral:
-                case SyntaxKind.StringLiteral:
-                
-                    return VisitConstant(syntax);
-                    
+                case SyntaxKind.NumberLiteral: return VisitNumberLiteral((NumberLiteralSyntax)syntax);
+                case SyntaxKind.StringLiteral: return VisitStringLiteral((StringLiteralSyntax)syntax);
 
+                    
                 default: throw new Exception("unexpected expression:" + syntax.GetType().Name);
             }
         }
-    
     }
 }

@@ -43,7 +43,7 @@ Point impl {
             Assert.Equal("Number",       ((PropertyDeclarationSyntax)type[0]).Type);
 
             Assert.Equal("String",       ((FunctionDeclarationSyntax)type[3]).ReturnType);
-            Assert.Equal("List<T>",      ((FunctionDeclarationSyntax)type[4]).ReturnType);
+            Assert.Equal("Array<T>",      ((FunctionDeclarationSyntax)type[4]).ReturnType);
             Assert.Equal("Tuple<T,T,T>", ((FunctionDeclarationSyntax)type[5]).ReturnType);
 
             foreach (var member in type.Members.OfType<FunctionDeclarationSyntax>())
@@ -65,7 +65,7 @@ Point impl {
 ");
 
             Assert.Equal("String",       ((FunctionDeclarationSyntax)impl[0]).ReturnType);
-            Assert.Equal("List<T>",      ((FunctionDeclarationSyntax)impl[1]).ReturnType);
+            Assert.Equal("Array<T>",     ((FunctionDeclarationSyntax)impl[1]).ReturnType);
             Assert.Equal("Tuple<T,T,T>", ((FunctionDeclarationSyntax)impl[2]).ReturnType);
 
             foreach (var member in impl.Members.OfType<FunctionDeclarationSyntax>())

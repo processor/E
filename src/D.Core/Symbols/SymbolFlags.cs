@@ -4,14 +4,26 @@
     {
         None        = 0,
       
-        // Variables
-        Property    = 1 << 9, // type member
+        Property    = 1 << 1, // type member
 
-        Infix       = 1 << 9,
-        Postfix     = 1 << 10,
+        Infix       = 1 << 2,
+        Postfix     = 1 << 3,
 
-        // Variable Scope...
-        BlockScoped = 1 << 11,
-        Local       = 1 << 12
+        // Scope
+        BlockScoped = 1 << 4, // { } 
+        Local       = 1 << 5, 
+        // for / while / ...
+
+
+        /*
+        // Kinds
+        Variable = 1 << 20,
+        Argument = 1 << 21,
+        Type = 1 << 22, // class | struct
+        Function = 1 << 23,
+        Module = 1 << 24,
+        Label = 1 << 25, // State?
+        Operator = 1 << 25,
+        */
     }
 }

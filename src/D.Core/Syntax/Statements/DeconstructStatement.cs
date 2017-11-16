@@ -4,9 +4,9 @@ namespace D.Syntax
 {
     // let (a, b, c) = point
 
-    public class DestructuringAssignmentSyntax : SyntaxNode
+    public class DestructuringAssignmentSyntax : ISyntaxNode
     {
-        public DestructuringAssignmentSyntax(AssignmentElementSyntax[] elements, SyntaxNode instance)
+        public DestructuringAssignmentSyntax(AssignmentElementSyntax[] elements, ISyntaxNode instance)
         {
             Variables = elements;
             Instance = instance;
@@ -14,9 +14,9 @@ namespace D.Syntax
 
         public AssignmentElementSyntax[] Variables { get; }
 
-        public SyntaxNode Instance { get; }
+        public ISyntaxNode Instance { get; }
 
-        SyntaxKind SyntaxNode.Kind => SyntaxKind.DestructuringAssignment;
+        SyntaxKind ISyntaxNode.Kind => SyntaxKind.DestructuringAssignment;
     }
 
     public struct AssignmentElementSyntax

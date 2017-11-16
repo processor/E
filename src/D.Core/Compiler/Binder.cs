@@ -53,7 +53,7 @@ namespace D
                     return scope.Get<Type>(initializer.Type);
 
                 case ArrayInitializer array:
-                    return new Type(Kind.List, (Type)array.ElementType);
+                    return new Type(Kind.Array, (Type)array.ElementType);
             }
 
             if (expression.Kind != Kind.Object)

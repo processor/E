@@ -3,27 +3,35 @@ using System.Collections.Concurrent;
 
 namespace D
 {
-    public class Node
+    // Converge with Modules
+    // A node typically represents an environment...
+
+    public sealed class Node
     {
         private readonly ConcurrentDictionary<string, IObject> nodes = new ConcurrentDictionary<string, IObject>();
-
-        // We need to consider arguments in the names...
 
         private readonly OperatorCollection operators = new OperatorCollection();
 
         private readonly Node parent;
         private readonly string name;
-        
+
+        private readonly int depth = 0;
+
         public Node(string name = null, Node parent = null)
         {
             this.name   = name;
             this.parent = parent;
+            
+            if (parent != null)
+            {
+                this.depth = parent.depth + 1;
+            }
 
             operators.Add(Operator.DefaultList);
 
             AddModule(new Modules.Primitives());
         }
-
+        
         public Node(params IModule[] modules)
             : this()
         {

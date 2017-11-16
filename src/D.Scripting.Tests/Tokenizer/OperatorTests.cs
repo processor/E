@@ -10,7 +10,7 @@ namespace D.Parsing.Tests
         [InlineData("*")]
         [InlineData("+")]
         [InlineData("-")]
-        [InlineData('/')]
+        [InlineData("/")]
         [InlineData(">>")]
         [InlineData(">>>")]
         [InlineData("<<")]

@@ -10,9 +10,9 @@ namespace D.Syntax
       b: Number
     }     
     */
-    public class TypeDefinationBase : SyntaxNode
+    public class TypeDefinationBase : ISyntaxNode
     {
-        public TypeDefinationBase(Symbol baseType, SyntaxNode[] members, TypeFlags flags)
+        public TypeDefinationBase(Symbol baseType, ISyntaxNode[] members, TypeFlags flags)
         {
             BaseType = baseType;
             Members = members ?? throw new ArgumentNullException(nameof(members));
@@ -24,13 +24,13 @@ namespace D.Syntax
 
         public TypeFlags Flags { get; }
 
-        public SyntaxNode[] Members { get; }
+        public ISyntaxNode[] Members { get; }
 
         public bool IsRecord => Flags.HasFlag(TypeFlags.Record);
 
         public bool IsEvent => Flags.HasFlag(TypeFlags.Event);
 
-        SyntaxKind SyntaxNode.Kind => SyntaxKind.TypeDeclaration;
+        SyntaxKind ISyntaxNode.Kind => SyntaxKind.TypeDeclaration;
     }
 
     public class TypeDeclarationSyntax : TypeDefinationBase
@@ -40,7 +40,7 @@ namespace D.Syntax
             ParameterSyntax[] genericParameters,
             Symbol baseType,
             AnnotationExpressionSyntax[] annotations,
-            SyntaxNode[] members,
+            ISyntaxNode[] members,
             TypeFlags flags = TypeFlags.None)
             : base(baseType, members, flags)
         {
@@ -63,7 +63,7 @@ namespace D.Syntax
 
     public class CompoundTypeDeclarationSyntax : TypeDefinationBase
     {
-        public CompoundTypeDeclarationSyntax(Symbol[] names, TypeFlags flags, Symbol baseType, SyntaxNode[] members)
+        public CompoundTypeDeclarationSyntax(Symbol[] names, TypeFlags flags, Symbol baseType, ISyntaxNode[] members)
              : base(baseType, members, flags)
         {
             Names = names ?? throw new ArgumentNullException(nameof(names));

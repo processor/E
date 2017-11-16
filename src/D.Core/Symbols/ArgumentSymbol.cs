@@ -4,7 +4,5 @@
     {
         public ArgumentSymbol(string name)
             : base(name) { }
-
-        public override SymbolType SymbolType => SymbolType.Argument;
     }
 }

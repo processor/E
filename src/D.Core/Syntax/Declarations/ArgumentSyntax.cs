@@ -2,12 +2,12 @@
 {
     public class ArgumentSyntax
     {
-        public ArgumentSyntax(SyntaxNode value)
+        public ArgumentSyntax(ISyntaxNode value)
         {
             Value = value;
         }
 
-        public ArgumentSyntax(Symbol name, SyntaxNode value)
+        public ArgumentSyntax(Symbol name, ISyntaxNode value)
         {
             Name = name;
             Value = value;
@@ -15,6 +15,6 @@
 
         public Symbol Name { get; }
 
-        public SyntaxNode Value { get; }
+        public ISyntaxNode Value { get; }
     }
 }

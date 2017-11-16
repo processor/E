@@ -1,11 +1,11 @@
 ﻿namespace D.Syntax
 {
-    public class VariableDeclarationSyntax : IMemberSyntax, SyntaxNode
+    public class VariableDeclarationSyntax : IMemberSyntax, ISyntaxNode
     {
         public VariableDeclarationSyntax(
             Symbol name, 
             TypeSymbol type, 
-            SyntaxNode value = null, 
+            ISyntaxNode value = null, 
             ObjectFlags flags = ObjectFlags.None)
         {
             Name  = name;
@@ -21,16 +21,16 @@
         // A & B
         public TypeSymbol Type { get; }
 
-        public SyntaxNode Value { get; }
+        public ISyntaxNode Value { get; }
 
         public ObjectFlags Flags { get; }
 
-        SyntaxKind SyntaxNode.Kind => SyntaxKind.VariableDeclaration;
+        SyntaxKind ISyntaxNode.Kind => SyntaxKind.VariableDeclaration;
     }
 
     // a, b, c: Number
 
-    public class CompoundVariableDeclaration : SyntaxNode
+    public class CompoundVariableDeclaration : ISyntaxNode
     {
         public CompoundVariableDeclaration(PropertyDeclarationSyntax[] declarations)
         {
@@ -39,7 +39,7 @@
 
         public PropertyDeclarationSyntax[] Members { get; }
 
-        SyntaxKind SyntaxNode.Kind => SyntaxKind.CompoundVariableDeclaration;
+        SyntaxKind ISyntaxNode.Kind => SyntaxKind.CompoundVariableDeclaration;
     }
 }
 

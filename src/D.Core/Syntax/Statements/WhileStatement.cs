@@ -1,17 +1,17 @@
 ﻿namespace D.Syntax
 {
-    public class WhileStatementSyntax : SyntaxNode
+    public class WhileStatementSyntax : ISyntaxNode
     {
-        public WhileStatementSyntax(SyntaxNode condition, BlockSyntax body)
+        public WhileStatementSyntax(ISyntaxNode condition, BlockSyntax body)
         {
             Condition = condition;
             Body = body;
         }
 
-        public SyntaxNode Condition { get; }
+        public ISyntaxNode Condition { get; }
 
         public BlockSyntax Body { get; }
 
-        SyntaxKind SyntaxNode.Kind => SyntaxKind.WhileStatement;
+        SyntaxKind ISyntaxNode.Kind => SyntaxKind.WhileStatement;
     }
 }

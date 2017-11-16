@@ -2,9 +2,9 @@
 
 namespace D.Syntax
 {
-    public class ModuleSyntax : SyntaxNode
+    public class ModuleSyntax : ISyntaxNode
     {
-        public ModuleSyntax(Symbol name, SyntaxNode[] statements)
+        public ModuleSyntax(Symbol name, ISyntaxNode[] statements)
         {
             Name = name ?? throw new ArgumentNullException(nameof(name));
             Statements = statements ?? throw new ArgumentNullException(nameof(statements));
@@ -12,10 +12,10 @@ namespace D.Syntax
 
         public Symbol Name { get; }
 
-        public SyntaxNode[] Statements { get; }
+        public ISyntaxNode[] Statements { get; }
 
-        public SyntaxNode this[int index] => Statements[index];
+        public ISyntaxNode this[int index] => Statements[index];
 
-        SyntaxKind SyntaxNode.Kind => SyntaxKind.ModuleStatement;
+        SyntaxKind ISyntaxNode.Kind => SyntaxKind.ModuleStatement;
     }
 }

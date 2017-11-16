@@ -191,7 +191,14 @@ namespace D.Compilation
             {
                 var i = 0;
 
-                Emit(type.Name);
+                if (type.Name == "Array")
+                {
+                    Emit("List");
+                }
+                else
+                {
+                    Emit(type.Name);
+                }
 
                 Emit("<");
 

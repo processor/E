@@ -8,7 +8,5 @@
         // Scope = Local OR Block
 
         public bool IsLocal => Flags.HasFlag(SymbolFlags.Local);
-
-        public override SymbolType SymbolType => SymbolType.Variable;
     }
 }

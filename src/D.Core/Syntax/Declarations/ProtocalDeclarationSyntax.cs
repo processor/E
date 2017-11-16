@@ -8,7 +8,7 @@ namespace D.Syntax
 
     // mutable name -> String
 
-    public class ProtocolDeclarationSyntax : SyntaxNode
+    public class ProtocolDeclarationSyntax : ISyntaxNode
     {
         public ProtocolDeclarationSyntax(Symbol name, IProtocolMessage[] messages, FunctionDeclarationSyntax[] members)
         {
@@ -23,7 +23,7 @@ namespace D.Syntax
 
         public FunctionDeclarationSyntax[] Members { get; }
 
-        SyntaxKind SyntaxNode.Kind => SyntaxKind.ProtocolDeclaration;
+        SyntaxKind ISyntaxNode.Kind => SyntaxKind.ProtocolDeclaration;
     }
 
     /*

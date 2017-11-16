@@ -1,8 +1,9 @@
 ﻿using System;
+using System.Linq.Expressions;
 
 namespace D
 {
-    public class Parameter
+    public sealed class Parameter /* readonly struct? */
     {
         public static readonly Parameter Object  = Get(Kind.Object);
         public static readonly Parameter String  = Get(Kind.String);
@@ -21,41 +22,78 @@ namespace D
         {
             Name = name;
             Type = new Type(kind);
+            Direction = ParameterDirection.In;
         }
 
-        public Parameter(string name, Type type, bool optional = false, object defaultValue = null)
+        public Parameter(string name, 
+            Type type, 
+            bool isOptional = false,
+            object defaultValue = null,
+            Annotation[] annotations = null,
+            ParameterDirection direction = ParameterDirection.In,
+            Expression condition = null)
         {
-            Name = name;
-            Type = type;
-            IsOptional = optional;
+            Name         = name;
+            Type         = type;
             DefaultValue = defaultValue;
+            Annotations  = annotations;
+            Direction    = direction;
+            Condition    = condition;
+
+            if (isOptional)
+            {
+                Flags |= ParameterFlags.Optional;
+            }
         }
 
         public Parameter(Type type)
         {
             Type = type ?? throw new ArgumentNullException(nameof(type));
         }
-
+        
         public string Name { get; }
 
-        public bool IsOptional { get; }
+        public Type Type { get; }
+        
+        public Annotation[] Annotations { get; }
+
+        // Annotations
+
+        // Unit (length)
+
+        public ParameterFlags Flags { get; }
 
         public object DefaultValue { get; }
+        
+        // x: Integer where value > 0 && value < 4
+        
+        public Expression Condition { get; }
 
-        public Type Type { get; }
-
-        public Predicate[] Conditions { get; set; }
-
-        public ParameterDirection Direction { get; set; }
+        public ParameterDirection Direction { get; }
 
         // TODO: cache on kind
         public static Parameter Get(Kind kind) => new Parameter(new Type(kind));
+
+        #region Flags
+
+        public bool IsOptional => Flags.HasFlag(ParameterFlags.Optional);
+
+        public bool IsReadOnly => Flags.HasFlag(ParameterFlags.ReadOnly);
+
+        #endregion
+    }
+    
+    public enum ParameterFlags
+    {
+        None     = 0,
+        Optional = 1 << 0,
+        ReadOnly = 1 << 1
     }
 
     public enum ParameterDirection
     {
-        In,
-        Out,
-        InOut
+        In      = 1,
+        Out     = 2,
+        InOut   = 3
     }
 }

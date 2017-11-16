@@ -3,12 +3,12 @@ using System.Linq;
 
 namespace D.Syntax
 {
-    public class ImplementationDeclarationSyntax : SyntaxNode
+    public class ImplementationDeclarationSyntax : ISyntaxNode
     {
         public ImplementationDeclarationSyntax(
             Symbol protocol,
             Symbol type, 
-            SyntaxNode[] members)
+            ISyntaxNode[] members)
         {
             Protocol = protocol;
             Type     = type;
@@ -20,9 +20,9 @@ namespace D.Syntax
         public Symbol Type { get; }
 
         // Protocols
-        public SyntaxNode[] Members { get; }
+        public ISyntaxNode[] Members { get; }
 
-        public SyntaxNode this[int index] => Members[index];
+        public ISyntaxNode this[int index] => Members[index];
 
         #region Helpers
 
@@ -70,7 +70,7 @@ namespace D.Syntax
 
         #endregion
 
-        SyntaxKind SyntaxNode.Kind => SyntaxKind.ImplementationDeclaration;
+        SyntaxKind ISyntaxNode.Kind => SyntaxKind.ImplementationDeclaration;
     }
 }
 

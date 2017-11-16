@@ -3,18 +3,18 @@
     // .. Inclusive
     // ..< (Half Open)
    
-    public class RangeExpression : SyntaxNode
+    public class RangeExpression : ISyntaxNode
     {
-        public RangeExpression(SyntaxNode start, SyntaxNode end, RangeFlags flags)
+        public RangeExpression(ISyntaxNode start, ISyntaxNode end, RangeFlags flags)
         {
             Start = start;
             End   = end;
             Flags = flags;
         }
 
-        public SyntaxNode Start { get; }
+        public ISyntaxNode Start { get; }
 
-        public SyntaxNode End { get; }
+        public ISyntaxNode End { get; }
 
         public RangeFlags Flags { get; }
 
@@ -22,6 +22,6 @@
 
         public bool IsHalfOpen => Flags.HasFlag(RangeFlags.HalfOpen);
 
-        SyntaxKind SyntaxNode.Kind => SyntaxKind.RangeLiteral;
+        SyntaxKind ISyntaxNode.Kind => SyntaxKind.RangeLiteral;
     }
 }

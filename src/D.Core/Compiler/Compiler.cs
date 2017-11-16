@@ -9,7 +9,7 @@ namespace D
     public partial class Compiler
     {
         // Phases:
-        // - Parse into Syntax Tree
+        // - Parse Syntax Tree into a LIR
         // - Capture declarations within modules ...
         // - Bind symbols to their declarations
         // - Transform to ExpressionTree
@@ -23,7 +23,7 @@ namespace D
             this.scope = graph;
         }
 
-        public Module Compile(IEnumerable<SyntaxNode> nodes)
+        public Module Compile(IEnumerable<ISyntaxNode> nodes)
         {
             var module = new Module();
             
@@ -81,7 +81,7 @@ namespace D
 
         int i = 0;
 
-        public IExpression Visit(SyntaxNode syntax)
+        public IExpression Visit(ISyntaxNode syntax)
         {
             i++;
 
@@ -94,7 +94,7 @@ namespace D
                 case UnaryExpressionSyntax unary     : return VisitUnary(unary);
                 case BinaryExpressionSyntax binary   : return VisitBinary(binary);
                 case TernaryExpressionSyntax ternary : return VisitTernary(ternary);
-                case BlockSyntax block     : return VisitBlock(block);
+                case BlockSyntax block               : return VisitBlock(block);
 
                 case LambdaExpressionSyntax lambda   : return VisitLambda(lambda);
 
@@ -315,32 +315,32 @@ namespace D
 
             for (var i = 0; i < cases.Length; i++)
             {
-                cases[i] = VisitMatchCase(syntax.Cases[i]);
+                cases[i] = VisitCase(syntax.Cases[i]);
             }
 
             return new MatchExpression(Visit(syntax.Expression), cases);
         }
 
-        public virtual MatchCase VisitMatchCase(MatchCaseSyntax syntax)
-            => new MatchCase(Visit(syntax.Pattern), Visit(syntax.Condition), VisitLambda(syntax.Body));
+        public virtual MatchCase VisitCase(CaseSyntax syntax) => 
+            new MatchCase(Visit(syntax.Pattern), Visit(syntax.Condition), VisitLambda(syntax.Body));
 
-        public virtual IfStatement VisitIf(IfStatementSyntax expression)
-            => new IfStatement(Visit(expression.Condition), VisitBlock(expression.Body), Visit(expression.ElseBranch));
+        public virtual IfStatement VisitIf(IfStatementSyntax expression) =>
+            new IfStatement(Visit(expression.Condition), VisitBlock(expression.Body), Visit(expression.ElseBranch));
 
-        public virtual ElseStatement VisitElse(ElseStatementSyntax syntax)
-            => new ElseStatement(VisitBlock(syntax.Body));
+        public virtual ElseStatement VisitElse(ElseStatementSyntax syntax) => 
+            new ElseStatement(VisitBlock(syntax.Body));
 
-        public virtual ElseIfStatement VisitElseIf(ElseIfStatementSyntax syntax)
-            => new ElseIfStatement(Visit(syntax.Condition), VisitBlock(syntax.Body), Visit(syntax.ElseBranch));
+        public virtual ElseIfStatement VisitElseIf(ElseIfStatementSyntax syntax) => 
+            new ElseIfStatement(Visit(syntax.Condition), VisitBlock(syntax.Body), Visit(syntax.ElseBranch));
 
-        public virtual ReturnStatement VisitReturn(ReturnStatementSyntax syntax)
-            => new ReturnStatement(Visit(syntax.Expression));
+        public virtual ReturnStatement VisitReturn(ReturnStatementSyntax syntax) =>
+            new ReturnStatement(Visit(syntax.Expression));
 
-        public virtual TypePattern VisitTypePattern(TypePatternSyntax pattern)
-            => new TypePattern(pattern.TypeExpression, pattern.VariableName);
+        public virtual TypePattern VisitTypePattern(TypePatternSyntax pattern) => 
+            new TypePattern(pattern.TypeExpression, pattern.VariableName);
 
-        public virtual ConstantPattern VisitConstantPattern(ConstantPatternSyntax pattern)
-            => new ConstantPattern(Visit(pattern.Constant));
+        public virtual ConstantPattern VisitConstantPattern(ConstantPatternSyntax pattern) => 
+            new ConstantPattern(Visit(pattern.Constant));
 
         public virtual Symbol VisitSymbol(Symbol symbol)
         {

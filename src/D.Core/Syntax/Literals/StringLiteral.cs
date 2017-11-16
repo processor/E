@@ -2,7 +2,7 @@
 
 namespace D.Syntax
 {
-    public class StringLiteralSyntax : SyntaxNode
+    public class StringLiteralSyntax : ISyntaxNode
     {
         public StringLiteralSyntax(string value)
         {
@@ -19,7 +19,7 @@ namespace D.Syntax
 
         public override string ToString() => Value;
         
-        SyntaxKind SyntaxNode.Kind => SyntaxKind.StringLiteral;
+        SyntaxKind ISyntaxNode.Kind => SyntaxKind.StringLiteral;
     }
 }
 

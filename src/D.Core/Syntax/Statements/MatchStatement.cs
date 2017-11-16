@@ -2,33 +2,33 @@
 
 namespace D.Syntax
 {
-    public class MatchExpressionSyntax : SyntaxNode
+    public class MatchExpressionSyntax : ISyntaxNode
     {
-        public MatchExpressionSyntax(SyntaxNode expression, MatchCaseSyntax[] cases)
+        public MatchExpressionSyntax(ISyntaxNode expression, CaseSyntax[] cases)
         {
             Expression = expression;
             Cases = cases ?? throw new ArgumentNullException(nameof(cases));
         }
 
-        public SyntaxNode Expression { get; }
+        public ISyntaxNode Expression { get; }
 
-        public MatchCaseSyntax[] Cases { get; }
+        public CaseSyntax[] Cases { get; }
 
-        SyntaxKind SyntaxNode.Kind => SyntaxKind.MatchExpression;
+        SyntaxKind ISyntaxNode.Kind => SyntaxKind.MatchExpression;
     }
 
-    public class MatchCaseSyntax
+    public class CaseSyntax
     {
-        public MatchCaseSyntax(SyntaxNode pattern, SyntaxNode condition, LambdaExpressionSyntax body)
+        public CaseSyntax(ISyntaxNode pattern, ISyntaxNode condition, LambdaExpressionSyntax body)
         {
             Pattern     = pattern;
             Condition   = condition;
             Body        = body;
         }
         
-        public SyntaxNode Pattern { get; }
+        public ISyntaxNode Pattern { get; }
 
-        public SyntaxNode Condition { get; }
+        public ISyntaxNode Condition { get; }
 
         public LambdaExpressionSyntax Body { get; }
     }

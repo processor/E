@@ -15,7 +15,7 @@ namespace D
 
             foreach (var p in paramaters)
             {
-                scope.Add(p.Name, (Type)p.Type);
+                scope.Add(p.Name, p.Type);
             }
 
             var b = Visit(f.Body);
@@ -55,7 +55,7 @@ namespace D
                 DeclaringType = declaringType
             };
 
-            scope = scope.Parent;
+            LeaveScope();
 
             return result;
         }
