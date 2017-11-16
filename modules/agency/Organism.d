@@ -3,12 +3,12 @@ Organism protocol {
   * act ↺ : acting
   * die ∎ : dead
 
-  birth -> Birth
-  death -> Death?
+  birth : Birth
+  death : Death?
 
-  die (reason: Reason) -> Death
+  die (reason: Reason) : Death
 
-  relations -> [ Relation ]
+  relations : [ Relation ]
   
   registar => birth.registar
 

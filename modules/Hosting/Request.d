@@ -1,5 +1,5 @@
 Context protocol {
-  request    -> Request
-  response   -> Response
-  connection -> Connection
+  request    : Request
+  response   : Response
+  connection : Connection
 }

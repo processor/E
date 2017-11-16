@@ -33,11 +33,11 @@ Employment `Termination event {
 }
 
 /* .e.g. -----------------------------------
-Expected        `Work (40h,       Weekly)
+Expected        `Work (40 hours,  Weekly)
 Payment         `Term (5000 usd,  Monthly) 
-Vacation`Leave  `Term (days: 1,   Weekly)
-Sick`Leave      `Term (days: 1,   Weekly)
-Maternity`Leave `Term (days: 60,  Yearly)
+Vacation`Leave  `Term (1  day,    Weekly)
+Sick`Leave      `Term (1  day,    Weekly)
+Maternity`Leave `Term (60 days,   Yearly)
 ------------------------------------------- */
 
 

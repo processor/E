@@ -1,10 +1,10 @@
 ﻿Host protocol {
   * terminate : terminated
 
-  processors         -> [ Processor ]
-  network`Interfaces -> [ Network `Interface ]
-  mounts             -> [ Mount ]
-  processes          -> [ Process ]
+  processors         : [ Processor ]
+  network`Interfaces : [ Network `Interface ]
+  mounts             : [ Mount ]
+  processes          : [ Process ]
 
 
   // run -> Process

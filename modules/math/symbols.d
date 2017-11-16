@@ -1,15 +1,14 @@
-∑ => Sigma   ( sum of all values in range of series)
-∫ => Intergral
-√ => sqrt
-ℝ => Real
-ℚ => Rational
-ℤ => Integer
-ℂ => Complex   
-ℙ => Probability
-∅ => EmptySet
+∫ _ operator //  Intergral
+√ _ operator //  sqrt
 
-⨯ operator
-∑ operator 
+ℝ ≡ Real
+ℚ ≡ Rational
+ℤ ≡ Integer
+ℂ ≡ Complex   
+ℙ _ ≡ Probability
+
+_ ⨯ _ operator { }   
+∑ _ operator { }   // Sigma (of of values in a series)
 
 // http://xahlee.info/comp/unicode_math_operators.html
 

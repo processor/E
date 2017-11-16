@@ -9,9 +9,9 @@ Human protocol {
 Human actor : Organism { 
   name: String
   
-  employments -> [ Employment ]
-  contracts   -> [ Contract ]
-  holdings    -> [ Holding ]
+  employments : [ Employment ]
+  contracts   : [ Contract ]
+  holdings    : [ Holding ]
 
   employers   => from employments select employeer
   contractees => from contracts select contratee

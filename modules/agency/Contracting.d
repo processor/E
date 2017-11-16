@@ -2,8 +2,8 @@
   // commence?
   // ???
 
-  terms    -> [ Law::Term ]
-  invoices -> [ Commerce::Invoice ] 
+  terms    : [ Law::Term ]
+  invoices : [ Commerce::Invoice ] 
 }
 
 Contract actor {
