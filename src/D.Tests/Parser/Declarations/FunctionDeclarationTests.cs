@@ -118,10 +118,9 @@ clamp ƒ <T> (p: Point<T>, min: Point<T>, max: Point<T>) => Point<T> {
             // Assert.Equal("Point",   func.ReturnType.Name);
             // Assert.Equal("T",       func.ReturnType.Arguments[0].Name);
         }
-
-
+        
         [Fact]
-        public void Conditions()
+        public void ParameterConditionShorthand()
         {
             var func = Parse<FunctionDeclarationSyntax>(@"
 abs ƒ (a: Integer > 0) -> Integer {
@@ -142,14 +141,38 @@ abs ƒ (a: Integer > 0) -> Integer {
         }
 
         [Fact]
+        public void ParameterCondition()
+        {
+            var func = Parse<FunctionDeclarationSyntax>(@"
+f ƒ (
+  x: Integer where x > 0 && x < 10 @description(""A positive integer"")
+) -> Integer {
+  return 1;
+}");
+
+            // f ƒ(a: Integer) -> Integer
+            // where x > 0 && x < 10 {
+
+            // }
+            Assert.Equal("f", func.Name);
+            Assert.Equal("Integer", func.ReturnType);
+
+            Assert.Equal("description", func.Parameters[0].Annotations[0].Name);
+            Assert.Equal("A positive integer", func.Parameters[0].Annotations[0].Arguments[0].Value.ToString());
+
+            Assert.Equal("x", func.Parameters[0].Name);
+            Assert.Equal("Integer", func.Parameters[0].Type);
+            Assert.Equal("x > 0 && x < 10", func.Parameters[0].Condition.ToString());
+        }
+
+        [Fact]
         public void FuncToString()
         {
             var func = Parse<FunctionDeclarationSyntax>("toString ƒ () => $\"{x},{y},{z}\"");
 
             Assert.Equal("toString", func.Name);
 
-            Assert.Equal(0, func.Parameters.Length);
-        }
+            Assert.Empty(func.Parameters);        }
 
         [Fact]
         public void Generic2()
