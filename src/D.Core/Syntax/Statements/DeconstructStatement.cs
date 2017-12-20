@@ -19,7 +19,7 @@ namespace D.Syntax
         SyntaxKind ISyntaxNode.Kind => SyntaxKind.DestructuringAssignment;
     }
 
-    public struct AssignmentElementSyntax
+    public readonly struct AssignmentElementSyntax
     {
         public AssignmentElementSyntax(Symbol name, Symbol type)
         {

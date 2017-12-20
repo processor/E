@@ -5,7 +5,7 @@ namespace D.Units
 {
     using static Math;
 
-    public struct SIPrefix
+    public readonly struct SIPrefix
     {
         public static readonly SIPrefix None = new SIPrefix(null, 1);
 

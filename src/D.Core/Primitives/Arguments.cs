@@ -47,7 +47,7 @@ namespace D
         }
     }
 
-    public struct Argument : IArguments
+    public readonly struct Argument : IArguments
     {
         public Argument(IObject value)
         {

@@ -46,7 +46,7 @@ namespace D.Units
             => Unit<double>.Parse<double>(text);
     }
 
-    public struct Unit<T> : IUnit // e.g. Unit<int>
+    public readonly struct Unit<T> : IUnit // e.g. Unit<int>
         where T : struct, IComparable<T>
     {
         private static readonly T one = (T)Convert.ChangeType(1, typeof(T));

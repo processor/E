@@ -154,7 +154,7 @@ namespace D
             throw new Exception($"function {expression.FunctionName} not found");
         }
 
-        private struct ArgumentEvaluationResult
+        private readonly struct ArgumentEvaluationResult
         {
             public ArgumentEvaluationResult(IArguments args, bool hasSymbols)
             {
@@ -237,7 +237,6 @@ namespace D
 
                     r = rf.Body;
                 }
-
 
                 // Check if it's an invariant
                 // x > 5

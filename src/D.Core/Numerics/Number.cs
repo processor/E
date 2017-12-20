@@ -2,7 +2,7 @@
 
 namespace D
 {
-    public struct Number : INumeric<double>
+    public readonly struct Number : INumeric<double>
     {
         public Number(double value)
         {

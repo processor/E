@@ -2,7 +2,7 @@
 {
     // AKA action
 
-    public struct Verb : IObject
+    public readonly struct Verb : IObject
     {
         public Verb(string name)
         {

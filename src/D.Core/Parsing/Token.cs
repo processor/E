@@ -1,6 +1,6 @@
 ﻿namespace D.Parsing
 {
-    public struct Token
+    public readonly struct Token
     {
         public Token(TokenKind kind, Location start, string text = null, string trailing = null)
         {

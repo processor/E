@@ -2,7 +2,7 @@
 
 namespace D
 {
-    public struct Complex<T> : INumber
+    public readonly struct Complex<T> : INumber
         where T: struct, IComparable<T>
     {
         public Complex(T real, T imaginary)
