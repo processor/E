@@ -6,7 +6,7 @@ Stock protocol {
   name   : String
   series : String
 
-  offers : [ Offer ]    // buy & sell offers
+  offers : [ Offer ]    // buy & sell offers (executed by an exchange)
 }
 
 Stock actor : Asset {

@@ -1,3 +1,3 @@
-CMYK struct { 
-  c, m, y, k: f32
+CMYK<T> struct { 
+  c, m, y, k: T
 }

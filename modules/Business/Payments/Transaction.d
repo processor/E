@@ -15,10 +15,10 @@ Transaction protocol {
   lock        () -> Lock                                         // 180 days for credit card transactions or after an unsucessful dispute
   reverse     () -> Reversal
 
-  source     -> Account
+  source     : Account
   
-  signatures -> [ Signatures ]
-  events     -> [ Events ] 
+  signatures : [ Signatures ]
+  events     : [ Events ] 
 }
 
 // A transaction atomically mutates a pair of Account ledgers (Credit | Debit)

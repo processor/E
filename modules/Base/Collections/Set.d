@@ -4,11 +4,13 @@ Set<T> protocol {
 
   intersection (Set<T>) -> Set<T>   // ∩
   union        (Set<T>) -> Set<T>   // ∪
+
+  static ∅ { } // empty set
 }
 
-Subset         , // ⊆
-ProperSubset   , // ⊂
-NotSubset      , // ⊄"
-Superset       , // ⊇
-ProperSuperset , // ⊃
-NotSuperset      // ⊅
+_ ⊆ _ axiom { } // Subset         
+_ ⊂ _ axiom { } // ProperSubset   
+_ ⊄ _ axiom { } // NotSubset      
+_ ⊇ _ axiom { } // Superset       
+_ ⊃ _ axiom { } // ProperSuperset 
+_ ⊅ _ axiom { } // NotSuperset    

@@ -12,12 +12,12 @@ Account protocol {
 
   transfer (amount: Decimal, target : Account) -> Transaction
 
-  asset          ->   Asset           // e.g USD, Gold
-  balance        ->   Decimal
-  entries        -> [ Entry ]
-  signers        -> [ Signer ]        // agents authorized to transact
-  trustee        -> [ Trustee ]
-  authorizations -> [ Authorization ]
+  asset          :   Asset           // e.g USD, Gold
+  balance        :   Decimal
+  entries        : [ Entry ]
+  signers        : [ Signer ]        // agents authorized to transact
+  trustee        : [ Trustee ]
+  authorizations : [ Authorization ]
 }
 
 Account actor {
