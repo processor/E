@@ -191,6 +191,33 @@ T record {
         }
 
         [Fact]
+        public void VariantTests()
+        {
+            var declaration = Parse<TypeDeclarationSyntax>(@"
+T record {
+  a: A | B
+  b: A | B | C
+  c: A | B | C | D
+};");
+
+            var members = declaration.Members.Cast<PropertyDeclarationSyntax>().ToArray();
+
+          
+            Assert.Equal("A", members[0].Type.Arguments[0].Name);
+            Assert.Equal("B", members[0].Type.Arguments[1].Name);
+
+            Assert.Equal("A", members[1].Type.Arguments[0].Name);
+            Assert.Equal("B", members[1].Type.Arguments[1].Name);
+            Assert.Equal("C", members[1].Type.Arguments[2].Name);
+
+            Assert.Equal("A", members[2].Type.Arguments[0].Name);
+            Assert.Equal("B", members[2].Type.Arguments[1].Name);
+            Assert.Equal("C", members[2].Type.Arguments[2].Name);
+            Assert.Equal("D", members[2].Type.Arguments[3].Name);
+
+        }
+
+        [Fact]
         public void DeclaratedIndexerWithLambdaBody()
         {
             // The indexer syntax is ambigious and limits our 'map' syntax...

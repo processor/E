@@ -46,7 +46,8 @@ namespace D.Parsing
             For,
             Block,
             Implementation,
-            InterpolatedString
+            InterpolatedString,
+            Variant
         }
 
         private readonly Stack<Mode> modes = new Stack<Mode>();
@@ -757,8 +758,12 @@ namespace D.Parsing
             while (reader.ConsumeIf(Comma));
         }
         
-        // this, a, i: Integer, i: Interger > 0
-
+        // this
+        // x: Integer
+        // x: Integer > 0
+        // x: Integer where x > 0 && x < 10
+        // x: Integer = 0
+        // x: Integer = 0 where x > 0
         public ParameterSyntax ReadParameter(int index)
         {
             var name = ReadArgumentSymbol(); // name
@@ -766,23 +771,32 @@ namespace D.Parsing
             var type = ConsumeIf(Colon) // ? : {type}
                 ? ReadTypeSymbol()
                 : null;
-
-            // > 0
-            // where value > 0 && value < 10
-
-            var condition = (IsKind(Op) && Current.Text != "=") // ? op
-                ? MaybeBinary(name, 0)
-                : null;
-           
+            
             var defaultValue = ConsumeIf("=") // ? = {defaultValue}
                 ? ReadExpression()
                 : null;
+            
+            ISyntaxNode condition = null;
 
-            return new ParameterSyntax(name, 
-                type,
+            if (ConsumeIf(Where))                       // where value > 0 && value < 10
+            {
+                condition = ReadExpression();
+            }
+            else if (IsKind(Op) && Current.Text != "=")  // > 0
+            {
+                condition = MaybeBinary(name, 0);
+            }
+
+            var annotations = ReadAnnotations().ToArray();
+
+            return new ParameterSyntax(
+                name         : name, 
+                type         : type,
                 defaultValue : defaultValue,
                 condition    : condition,
-                index        : index);
+                index        : index,
+                annotations  : annotations
+            );
         }
 
         // event (?record) | record
@@ -1369,17 +1383,21 @@ namespace D.Parsing
 
             var result = new TypeSymbol(domain, name, parameters);
 
-            // Variant      :  A | B 
+            // Variant      : A | B 
             // Intersection : A & B
 
-            if (IsKind(Bar))
+            if (IsKind(Bar) && !InMode(Mode.Variant))
             {
+                EnterMode(Mode.Variant);
+
                 var list = new List<Symbol> { result };
 
                 while (ConsumeIf(Bar))
                 {
                     list.Add(ReadTypeSymbol());
                 }
+
+                LeaveMode(Mode.Variant);
 
                 return new TypeSymbol("Variant", list.ToArray());
             }
