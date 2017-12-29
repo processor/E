@@ -5,3 +5,5 @@ Square struct {
   width  => length
   area   => width * height
 }
+
+// implements Geometry

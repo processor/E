@@ -1,5 +1,5 @@
-Vector2 struct {
-  let x, y: Number
+Vector2<T> struct {
+  let x, y: <T>
 }
 
 Vector2 impl for Vector {

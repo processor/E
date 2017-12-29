@@ -1,0 +1,5 @@
+Polyhedron struct { 
+  
+}
+
+// implements Geometry

@@ -4,7 +4,7 @@
 URI struct {
   protocol : String
   host     : String
-  port     : Int16
+  port     : i16 > 0
   path     : String
 
   to String => $"{protocol}://{host}/{path}"

@@ -17,10 +17,10 @@ Media<T: Audio | Video> protocol {
   blob   -> T
   volume -> Percent
   
-  mute  () -> Muted
-  play  () -> Played
-  pause () -> Paused
-  end   () -> Ended
+  mute  () -> * Ok | Error
+  play  () -> * Ok | Error
+  pause () -> * Ok | Error
+  end   () -> * Ok | Error
 }
 
 Audio class : Media<T: OPUS | MP3>              { }

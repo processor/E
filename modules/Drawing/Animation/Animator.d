@@ -1,7 +1,7 @@
 Animator protocol {
-  start  (Animation)
-  pause  (Animation)
-  resume (Animation) 
+  start  (animation: Animation)
+  pause  (animation: Animation)
+  resume (animation: Animation) 
 }
 
 

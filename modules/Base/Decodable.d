@@ -1,0 +1,3 @@
+Decodable<Self, T> protocol {
+
+}

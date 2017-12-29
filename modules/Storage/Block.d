@@ -1,7 +1,7 @@
 Block record {
-  index  : i32
-  offset : i32
-  length : i32
+  index  : i32 >= 0
+  offset : i32 >= 0
+  length : i32 >= 0
   sha256 : [ byte ]
 }
 

@@ -6,5 +6,4 @@ Store<T> : protocal {
 
 Store<T> actor {
 
-  
 }

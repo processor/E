@@ -6,8 +6,7 @@ Dataset<T> protocol {
   query  (Query`Expression)  	                  -> * T ↺ | End ∎
 }
 
-
-Dataset record {
+Dataset struct : record {
   name  : String,
   kind  : Kind
 }
@@ -20,15 +19,6 @@ Dataset<T> protocol {
   shards      -> [ Shard<T> ]
   maintainers -> [ Entity ]
 }
-
-// A registry is a subset of a dataset 
-
-Registry<T> protocol {
-  
-}
-
-
-
 
 
 // Collection | Table ?

@@ -1,4 +1,3 @@
-Decimal procotol { 
-
-
+Decimal procotol {
+  precision: Number
 }

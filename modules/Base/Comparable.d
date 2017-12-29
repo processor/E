@@ -1,0 +1,3 @@
+Comparable<Self> protocol {
+  
+}

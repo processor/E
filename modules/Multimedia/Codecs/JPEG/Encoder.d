@@ -128,7 +128,7 @@ JPEGComponent struct {
 }
 
 BitWriter impl for JPEGEncoder {
-    writeBits(&mut self, bits: u16, size: u8) {
+    writeBits(this self, bits: u16, size: u8) {
         if size == 0 {
             return Ok(())
         }
@@ -139,7 +139,7 @@ BitWriter impl for JPEGEncoder {
         while nbits >= 8 {
             let byte = (accumulator & (0xFFFFFFFFu32 << 24)) >> 24
             
-            w.writeAll(&[byte as u8])
+            w.writeAll([byte as u8])
 
             if byte == 0xFF {
                 w.writeAll([ 0x00 ])
@@ -156,7 +156,7 @@ BitWriter impl for JPEGEncoder {
       writeBits(0x7F, 7)
     }
 
-    huffmanEncode(val: u8, table: &[(u8, u16)]) {
+    huffmanEncode(val: u8, table: Span<(u8, u16)>) {
       let (size, code) = table[val]
 
       if size > 16 {
@@ -167,10 +167,10 @@ BitWriter impl for JPEGEncoder {
     }
 
     writeBlock(
-        block   : &[i32],
+        block   : Span<i32>,
         prevdc  : i32,
-        dctable : &[(u8, u16)],
-        actable : &[(u8, u16)]) {
+        dctable : Span<(u8, u16)>,
+        actable : Span<(u8, u16)>) {
 
         // Differential DC encoding
         let dcval = block[0]
@@ -218,13 +218,13 @@ BitWriter impl for JPEGEncoder {
         Ok(dcval)
     }
 
-    writeSegment(&mut self, marker: u8, data: Option<&[u8]>)  {
-        w.writeAll(&[0xFF])
-        w.writeAll(&[marker])
+    writeSegment(this self, marker: u8, data: Option<[u8]>)  {
+        w.writeAll(ref [0xFF])
+        w.writeAll(ref [marker])
 
         if let Some(b) = data {
-            w.write_u16:<BigEndian>(b.len() as u16 + 2)
-            w.writeAll(&b)
+            w.writeU16:<BigEndian>(b.len() as u16 + 2)
+            w.writeAll(ref b)
         }
     }
 }
@@ -279,10 +279,10 @@ JPEGEncoder impl {
         }
     }
 
-    encode(bitmap: &[u8],
-           width: u32,
-           height: u32,
-           c: color::ColorType) -> IO:Pipe {
+    encode(bitmap : Span<u8>,
+           width  : u32,
+           height : u32,
+           c      : imaging::PixelFormat) -> IO:Pipe {
 
         let n = color:num_components(c)
         let componentCount = n == 1 || n == 2 ? 1 : 3
@@ -291,50 +291,53 @@ JPEGEncoder impl {
 
         var buf = [ byte ]
 
-        buildJfifHeader(&mut buf)
-        writer.writeSegment(APP0, Some(&buf))
+        buildJfifHeader(ref buf)
+        writer.writeSegment(APP0, Some(ref buf))
 
         buildFrameHeader(&mut buf, 8, width as u16, height as u16, &components[..componentCount])
-        writer.writeSegment(SOF0, Some(&buf))
+        writer.writeSegment(SOF0, Some(ref buf))
 
         assert!(tables.len() / 64 == 2)
         let numtables = componentCount == 1 ? 1 : 2
 
         for (i, table) in tables.chunks(64).take(numtables) {
-            buildQuantizationSegment(&mut buf, 8, i as u8, table)
-            writer.writeSegment(DQT, Some(&buf))
+            buildQuantizationSegment(ref buf, 8, i as u8, table)
+            writer.writeSegment(DQT, Some(ref buf))
         }
 
-        buildHuffmanSegment(&mut buf, DCCLASS, LUMADESTINATION, LUMA_DC_CODE_LENGTHS, LUMA_DC_VALUES)
-        writer.writeSegment(DHT, Some(&buf))
+        buildHuffmanSegment(ref buf, DCCLASS, LUMADESTINATION, LUMA_DC_CODE_LENGTHS, LUMA_DC_VALUES)
+        writer.writeSegment(DHT, Some(ref buf))
 
-        buildHuffmanSegment(&mut buf, ACCLASS, LUMADESTINATION, LUMA_AC_CODE_LENGTHS, LUMA_AC_VALUES)
-        writer.writeSegment(DHT, Some(&buf))
+        buildHuffmanSegment(ref buf, ACCLASS, LUMADESTINATION, LUMA_AC_CODE_LENGTHS, LUMA_AC_VALUES)
+        writer.writeSegment(DHT, Some(ref buf))
 
         if componentCount == 3 {
             buildHuffmanSegment(&mut buf, DCCLASS, CHROMADESTINATION, CHROMA_DC_CODE_LENGTHS, CHROMA_DC_VALUES)
-            writer.writeSegment(DHT, Some(&buf))
+            writer.writeSegment(DHT, Some(ref buf))
 
             buildHuffmanSegment(&mut buf, ACCLASS, CHROMADESTINATION, CHROMA_AC_CODE_LENGTHS, CHROMA_AC_VALUES)
-            writer.writeSegment(DHT, Some(&buf))
+            writer.writeSegment(DHT, Some(ref buf))
         }
 
-        buildScanHeader(&mut buf, &components[..componentCount])
-        writer.writeSegment(SOS, Some(&buf))
+        buildScanHeader(ref buf, &components[..componentCount])
+        writer.writeSegment(SOS, Some(ref buf))
 
         match c {
-            Color::RGB(8)   => encodeRGB  (bitmap, width, height, 3);
-            Color::RGBA(8)  => encodeRGB  (bitmap, width, height, 4);
-            Color::Gray(8)  => encodeGray (bitmap, width, height, 1);
-            Color::GrayA(8) => encodeGray (bitmap, width, height, 2);
-            _               => throw Error($"Unsupported color type {c}")
+            PixelFormat::RGB32   => encodeRGB  (bitmap, width, height, 3);
+            PixelFormat::RGBA32  => encodeRGB  (bitmap, width, height, 4);
+            PixelFormat::Gray8   => encodeGray (bitmap, width, height, 1);
+            PixelFormat::GrayA16 => encodeGray (bitmap, width, height, 2);
+            _                    => throw Error($"Unsupported color type {c}")
         }
 
         writer.padByte()
         writer.writeSegment(EOI, None)
     }
 
-    encodeGray ƒ(bitmap: &[u8], width: u32, height: u32, bpp: u32) {
+    encodeGray ƒ(bitmap: ref [u8], 
+                 width: u32, 
+                 height: u32, 
+                 bpp: u32) {
         var yblock     = Array(0u8, 64)
         var ydcprev    = 0
         var dct_yblock = Array(0i32, 64)
@@ -346,7 +349,7 @@ JPEGEncoder impl {
 
                 // Level shift and fdct
                 // Coeffs are scaled by 8
-                transform:fdct(&yblock, mutable dct_yblock)
+                transform:fdct(&yblock, ref dct_yblock)
 
                 // Quantization
                 for i in 0 ..< 64 {
@@ -363,7 +366,7 @@ JPEGEncoder impl {
         Ok(())
     }
 
-    encodeRGB ƒ(bitmap: &[u8], width: u32, height: u32, bpp: u32) {
+    encodeRGB ƒ(bitmap: Span<u8>, width: u32, height: u32, bpp: u32) {
         var y  `dcprev = 0
         var cb `dcprev = 0
         var cr `dcprev = 0
@@ -403,70 +406,71 @@ JPEGEncoder impl {
     }
 }
 
-buildJfifHeader ƒ(m: mutable Array<u8>) {
+buildJfifHeader ƒ(m: Span<u8>) {
     m.clear();
 
-    write!(m, "JFIF")
-    m.writeAll(&[0])
-    m.writeAll(&[0x01])
-    m.writeAll(&[0x02])
-    m.writeAll(&[0])
-    m.write_u16:<BigEndian>(1)
-    m.write_u16:<BigEndian>(1)
-    m.writeAll(&[0])
-    m.writeAll(&[0])
+    write(m, "JFIF")
+    m.writeAll([ 0 ])
+    m.writeAll([ 0x01 ])
+    m.writeAll([ 0x02 ])
+    m.writeAll([ 0 ])
+    m.writeU16:<BigEndian>(1)
+    m.writeU16:<BigEndian>(1)
+    m.writeAll([ 0 ])
+    m.writeAll([ 0 ])
 }
 
-buildFrameHeader ƒ(m          : mutable Array<u8>,
+buildFrameHeader ƒ(m          : Span<u8>,
                    precision  : u8,
                    width      : u16,
                    height     : u16,
                    components : [ JPEGComponent ]) {
     m.clear()
 
-    m.writeAll(&[precision])
+    m.writeAll([precision])
     m.write_u16BE:(height as u16)
     m.write_u16BE:(width as u16)
-    m.writeAll(&[components.count as u8])
+    m.writeAll([components.count as u8])
 
-    for & comp in components {
+    for comp in components {
         let hv = (comp.h << 4) | comp.v
 
-        m.writeAll(&[comp.id])
-        m.writeAll(&[hv])
-        m.writeAll(&[comp.tq])
+        m.writeAll([comp.id])
+        m.writeAll([hv])
+        m.writeAll([comp.tq])
     }
 }
 
-fn buildScanHeader(m: mutable Array<u8>, components: &[Component]) {
+fn buildScanHeader(m          : Span<u8>, 
+                   components : Span<Component>) {
     m.clear()
 
-    m.writeAll(&[components.len() as u8])
+    m.writeAll([ components.length as u8 ])
 
-    for & comp in components {
-        m.writeAll(&[comp.id])
+    for component in components {
+        m.writeAll([ component.id ])
         
-        let tables = (comp.dc`table << 4) | comp.ac`table
+        let tables = (component.dc`table << 4) | component.ac`table
 
         m.writeAll(&[tables])
     }
 
     // spectral start and end, approx. high and low
-    m.writeAll(&[0])
-    m.writeAll(&[63])
-    m.writeAll(&[0])
+    m.writeAll([ 0 ])
+    m.writeAll([ 63 ])
+    m.writeAll([ 0 ])
 }
 
-buildHuffmanSegment(m: mutable [ u8 ],
-                    class: u8,
-                    destination: u8,
-                    numcodes: &[u8],
-                    values: &[u8]) {
+buildHuffmanSegment(m           : Span<u8>,
+                    class       : u8,
+                    destination : u8,
+                    numcodes    : Span<u8>,
+                    values      : Span<u8>) {
     m.clear()
 
     let tcth = (class << 4) | destination
     
-    m.writeAll(&[tcth])
+    m.writeAll([ tcth ])
 
     assert!(numcodes.len() == 16)
 
@@ -479,12 +483,15 @@ buildHuffmanSegment(m: mutable [ u8 ],
 
     assert!(sum == values.len())
 
-    for & i in values {
-        m.writeAll(&[i])
+    for ref i in values {
+        m.writeAll([ i ])
     }
 }
 
-buildQuantizationSegment ƒ(m: mutable [ u8 ] , precision: u8, identifier: u8, qtable: [ u8 ]) {
+buildQuantizationSegment ƒ(m          : Span<u8>, 
+                           precision  : u8, 
+                           identifier : u8, 
+                           qtable     : Span<u8> {
     m.clear()
 
     let p = precision == 8 ? 0 : 1
@@ -517,17 +524,17 @@ encodeCoefficient ƒ(coefficient: i32) -> (u8, u16) {
 }
 
 valueAt ƒ(s: &[u8], index: i32) -> u8 {
-    return (index < s.len() ? s[index] ?  s[s.len() - 1]
+    return (index < s.len() ? s[index] ? s[s.len() - 1]
 }
 
-copyBlocksYCbRr ƒ(source: &[u8],
-                  x0    : u32,
-                  y0    : u32,
-                  width : u32,
-                  bpp   : u32,
-                  yb    : mutable [u8; 64],
-                  cbb   : mutable [u8; 64],
-                  crb   : mutable [u8; 64]) {
+copyBlocksYCbRr ƒ(source: Span<u8>,
+                  x0    : i32,
+                  y0    : i32,
+                  width : i32,
+                  bpp   : i32,
+                  yb    : ref [u8; 64],
+                  cbb   : ref [u8; 64],
+                  crb   : ref [u8; 64]) {
 
     for y in 0 ..< 8 {
         let ystride = (y0 + y) * bpp * width
@@ -548,12 +555,12 @@ copyBlocksYCbRr ƒ(source: &[u8],
     }
 }
 
-copyBlocksGray ƒ(source: &[u8],
+copyBlocksGray ƒ(source: Span<u8>,
                  x0    : u32,
                  y0    : u32,
                  width : u32,
                  bpp   : u32,
-                 gb    : mutable [u8; 64]) {
+                 gb    : ref [u8; 64]) {
   for y in 0 ..< 8 {
     let ystride = (y0 + y) * bpp * width;
 

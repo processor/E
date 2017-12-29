@@ -1,1 +1,1 @@
-Point type = Vector3  // type alias
+Point type ≡ Vector3 // type alias

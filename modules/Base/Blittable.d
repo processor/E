@@ -1,0 +1,3 @@
+Blittable protocol {
+  
+}
