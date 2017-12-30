@@ -1,10 +1,10 @@
-Arc struct { 
-  x            : Number            // circle center x
-  y            : Number            // circle center y
-  x `Radius    : Number            // circle radius x
-  y `Radius    : Number            // circle radius y
-  start `Angle : Number<Angle>
-  end   `Angle : Number<Angle>
+Arc<T: Numeric & Blittable = Float64> struct { 
+  x            : T            // circle center x
+  y            : T            // circle center y
+  x `Radius    : T            // circle radius x
+  y `Radius    : T            // circle radius y
+  start `Angle : T<Angle>
+  end   `Angle : T<Angle>
   clockwise    : Boolean
 }
 

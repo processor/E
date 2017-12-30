@@ -1,9 +1,9 @@
-Box struct { 
-  width  : f64
-  height : f64
-  length : f64 
+Box<T: Numeric & Blittable = Float64> struct { 
+  width  : T
+  height : T
+  length : T 
 
-  from (width: f64, height: f64, length: f64) => Box { width, height, length }
+  from (width: T, height: T, length: T) => Box { width, height, length }
 }
 
 Geometry impl for Box { 
