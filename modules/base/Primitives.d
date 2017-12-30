@@ -1,14 +1,11 @@
-none    struct @primitive @size(0)
-boolean struct @primitive @size(1) 
-
-
+none    struct(size: 0) : Blittable
+Boolean struct(size: 1) : Blittable 
 
 // Decimals
-d64  struct @primitive @size(8)
-d128 struct @primitive @size(16)
+Decimal64  struct(size:  8) : Blittable
+Decimal128 struct(size: 16) : Blittable
 
-
-UUID struct @primitive @size(16)
+UUID struct(size: 8) : Blittable
 
 // Pointer
 // NativeInteger
