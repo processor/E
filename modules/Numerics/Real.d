@@ -1,0 +1,6 @@
+Real protocol {
+
+
+}
+
+ℝ ≡ Real

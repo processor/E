@@ -6,3 +6,5 @@ Complex<T> struct {
 
 // magnitude
 // phase
+
+ℂ ≡ Complex

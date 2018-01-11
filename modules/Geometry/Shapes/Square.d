@@ -1,5 +1,5 @@
-Square struct {
-  length: Number
+Square<T: Numeric & Blittable = Float64> struct {
+  length: T
 
   height => length
   width  => length

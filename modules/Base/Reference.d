@@ -1,0 +1,4 @@
+Reference struct<T> {
+
+  
+}

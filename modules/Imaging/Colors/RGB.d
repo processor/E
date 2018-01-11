@@ -1,4 +1,4 @@
- RGB<T:Numeric & Blittable> struct: Color {
+ RGB<T: ℝ & Blittable> struct: Color {
   r, g, b : T
 
   to YCbCr<T> {

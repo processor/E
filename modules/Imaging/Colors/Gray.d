@@ -1,3 +1,3 @@
-GrayT:Numeric & Blittable type : Color {
+Gray<T: ℝ & Blittable> struct : Color {
   y: T
 }
