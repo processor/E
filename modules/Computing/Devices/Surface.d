@@ -11,9 +11,9 @@ Touch protocol {
     ↺
   * release ∎
 
-  move ([ Vector3 ])
+  move ([ Point ])
 
-  press (point: Vector3, force: Force) -> Press
+  press (point: Point, force: Force) -> Press
 }
 
 // pinch

@@ -1,6 +1,4 @@
 Semaphore class {
-  
-  enter(timeout: Duration): *
-
-  leave(): *
+  enter(timeout: Duration) -> *
+  leave() -> *
 }

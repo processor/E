@@ -1,5 +1,5 @@
-Matrix4x4<T> struct {
-  elements: [ Number ] // 4x4 = 16 elements
+Matrix4x4<T: Numeric & Blittable> struct {
+  elements: [ T ] // 4x4 = 16 elements
 
   [ index: i64 ] => elements[index]
   [ row: i64, column: i64 ] => elements[((row - 1) * 4) + (index - 1)]

@@ -1,7 +1,7 @@
 Triangle<T: Numeric & Blittable = Float64> struct {
-  a: Vector3<T>
-  b: Vector3<T>
-  c: Vector3<T>
+  a: (x: T, y: T)
+  b: (x: T, y: T)
+  c: (x: T, y: T)
 
   area() {
     return 0

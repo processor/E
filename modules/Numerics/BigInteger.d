@@ -1,4 +1,4 @@
-BigInteger protocol {
+Big`Integer protocol {
   bit `Count -> i32
   
   to Int32  -> Int32  | Overflow

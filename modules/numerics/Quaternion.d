@@ -1,7 +1,7 @@
-Quaternion struct {
-  w, x, y, z: Number
+Quaternion<T: Numeric & Blittable = Float64> struct {
+  w, x, y, z: T
 
-  dot (v: Quaternion) => x * v.x + y * v.y + z * v.z + w * v.w
+  dot (v: Quaternion<T>) => x * v.x + y * v.y + z * v.z + w * v.w
   
   length => sqrt(x * x + y * y + z * z + w * w)
 
@@ -46,13 +46,12 @@ Quaternion struct {
   )
 
   // *
-  multiplyBy (b: Quaternion) => Quaternion(
+  multiplyBy (b: Quaternion<T>) => Quaternion(
     x: this.x * b.w + this.w * b.x + this.y * b.z - this.z * b.y,
 		y: this.y * b.w + this.w * b.y + this.z * b.x - this.x * b.z,
 		z: this.z * b.w + this.w * b.z + this.x * b.y - this.y * b.x,
 		w: this.w * b.w - this.x * b.x - this.y * b.y - this.z * b.z
   )
-
 
   // spherical linear interpolation
   // https://en.wikipedia.org/wiki/Slerp

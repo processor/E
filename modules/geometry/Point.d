@@ -1,1 +1,1 @@
-Point type ≡ Vector3 // type alias
+Point<T = Float64> type ≡ (x: T, y: T, z: T) // type alias

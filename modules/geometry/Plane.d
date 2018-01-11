@@ -1,5 +1,5 @@
-Plane struct : Clonable {
-  normal : Vector3
+Plane<T: Numeric & Blittable = Float64> struct : Clonable {
+  normal : (x: T, y: T, z: T)
   d      : f64      // sometimes known as w
 
   // from Points
@@ -20,11 +20,11 @@ Plane struct : Clonable {
 
   }
 
-  transform (Quaternion) {
+  transform (quaterion: Quaternion<T>) {
 
   }
 
-  project(point: Vector3) {
+  project(point: (x: T, y: T, z: T)) {
     
   }
 

@@ -1,6 +1,6 @@
 Artboard class {  
-  width     : i32
-  height    : i32
+  width     : Int32 of Length
+  height    : Int32 of Length
    
   position  : Position, 
   objects   : [ (Position, Geometry) ]

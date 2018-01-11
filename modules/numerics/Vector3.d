@@ -1,4 +1,4 @@
-Vector3<T> struct { 
+Vector3<T: Numeric & Blittable = Float64> struct { 
   x: T = 0
   y: T = 0
   z: T = 0

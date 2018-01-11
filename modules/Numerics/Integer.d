@@ -1,4 +1,4 @@
-Integer protocol @blitable : Numeric { 
+Integer protocol : Numeric { 
 
 
 }

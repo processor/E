@@ -1,3 +1,3 @@
 Year struct { 
-  value: i32
+  value: Int32
 }
