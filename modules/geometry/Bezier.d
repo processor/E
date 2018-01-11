@@ -4,7 +4,7 @@ Bezier<T: Numeric & Blittable = Float64> struct : Curve {
   c3: (x: T, y: T) // second control point
   c4: (x: T, y: T) // second anchor point 
 
-  getPoint (t: T) => Vector2 (
+  getPoint (t: T) => (
     x: c1.x * b1(t) + c2.x * b2(t) + c3.x * b3(t) + c4.x * c4(t),
     y: c1.y * b1(t) + c2.y * b2(t) + c3.y * b3(t) + c4.y * b4(t)
   )
