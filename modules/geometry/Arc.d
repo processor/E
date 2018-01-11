@@ -7,7 +7,7 @@ Arc<T: Numeric & Blittable = Float64> struct : Curve {
   end   `Angle : T of Degree
   clockwise    : Boolean
 
-  getPoint(t: T) -> (x: T, y: T, z: T) {
+  getPoint(t: T) -> (x: T, y: T) {
     var deltaAngle = endAngle - startAngle
 
     let samePoints = abs(deltaAngle) < T.epsilon
@@ -28,8 +28,7 @@ Arc<T: Numeric & Blittable = Float64> struct : Curve {
 
     return (
       x: x + xRadius * cos(angle)
-      y: y + yRadius * sin(angle),
-      z: 0
+      y: y + yRadius * sin(angle)
     )
   }
 }
