@@ -1,5 +1,5 @@
 Router actor {
   routes: [ Route ]
 
-  route(packet: Packet)
+  route ƒ(packet: Packet)
 }

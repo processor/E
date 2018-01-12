@@ -1,11 +1,11 @@
-from Geometry import Rectangle
+from geometry import Rectangle
 
 View protocol { 
   width  : Int32 of Length
   height : Int32 of Length
 
-  screenPosition   : Rectangle
-  relativePosition : Rectangle
+  screenPosition   : Rectangle<Int32>
+  relativePosition : Rectangle<Int32>
 
   // realativeTo
 }

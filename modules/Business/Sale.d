@@ -10,7 +10,7 @@ Sale protocol {
 Sale event {
   seller   : Entity 
   buyer    : Entity
-  thing    : Product | Service | Asset
+  product  : Product | Service | Asset
   currency : Currency
   price		 : Decimal
   quantity : Decimal

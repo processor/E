@@ -1,8 +1,4 @@
-Request protocol {
-  header -> Header
-  body   -> Channel<byte>
+Request class {
+  headers : [ Header ]
+  path    : String
 }
-
-
-// url
-// protocol (h2)

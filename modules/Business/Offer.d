@@ -1,10 +1,11 @@
 Offer protocol {
-  * cancel : Canceled
-  * execute : Executed
+  * cancel                  : Canceled
+  * execute (buyer: Entity) : Executed
 }
 
 Offer actor {
-  asset    : Asset
+  selling  : Asset
+  buying   : Asset
   quantity : decimal
   price    : Decimal
   expires  : DateTime?

@@ -33,7 +33,6 @@ Ether         actor : Currency { }
 
 // A currency is an asset with a supply
 
-
 $ _   operator (amount: Decimal) |> USD       // $1000 ≡ USD(100)
 _ Ƀ   operator (amount: Decimal) |> Bitcoin   // 100 Ƀ
 _ ман operator (amount: Decimal) |> AZN

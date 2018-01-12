@@ -1,5 +1,6 @@
-Client protocol {
-  send(Request) -> Response
-}
+Client class {
 
-// get, post, head, put, ...
+  send ƒ(request: Request) -> * Response {
+
+  }
+}

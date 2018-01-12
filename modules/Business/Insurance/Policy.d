@@ -1,3 +1,3 @@
 Policy record {
-
+  limit: Decimal
 }
