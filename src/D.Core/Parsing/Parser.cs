@@ -396,23 +396,30 @@ namespace D.Parsing
         // Int32 type @size(32)
         // Point type <T:Number> : Vector3 { }
         // Point struct { } 
+        // Point struct (size: 16, align: 1, layout: Explict)
         public TypeDeclarationSyntax ReadTypeDeclaration(Symbol typeName)
         {
+            // record, struct
             var flags = ReadTypeModifiers();
 
+
+            var args = IsKind(ParenthesisOpen) ? ReadArguments() : Array.Empty<ArgumentSyntax>();
+        
+
             // <T: Number>
+            // <T: Number = Float64>
             var genericParameters = ReadGenericParameters();
 
             var baseType = ConsumeIf(Colon) // ? :
                 ? ReadTypeSymbol()          // baseType
                 : null;
 
-            var annotations = ReadAnnotations().ToArray();
+            var annotations = IsKind(At) ? ReadAnnotations().ToArray() : Array.Empty<AnnotationSyntax>();
             var properties  = ReadTypeDeclarationBody();
 
             ConsumeIf(Semicolon); // ? ;
 
-            return new TypeDeclarationSyntax(typeName, genericParameters, baseType, annotations, properties, flags: flags);
+            return new TypeDeclarationSyntax(typeName, genericParameters, baseType, args, annotations, properties, flags: flags);
         }
 
         public CompoundTypeDeclarationSyntax ReadCompoundTypeDeclaration(Symbol[] names)
@@ -703,7 +710,10 @@ namespace D.Parsing
                         ? ReadTypeSymbol()
                         : null;
 
-                    list.Add(new ParameterSyntax(genericName, genericType));
+
+                    var defaultValue = ConsumeIf("=") ? ReadTypeSymbol() : null;
+
+                    list.Add(new ParameterSyntax(genericName, genericType, defaultValue));
 
                     i++;
                 }
@@ -898,18 +908,18 @@ namespace D.Parsing
 
         private readonly List<Symbol> names = new List<Symbol>();
 
-        private IEnumerable<AnnotationExpressionSyntax> ReadAnnotations()
+        private IEnumerable<AnnotationSyntax> ReadAnnotations()
         {
             // @primitive
             // @size(10)
-
+            
             while (ConsumeIf(At))
             {
                 var name = ReadTypeSymbol(); // !{name}
 
                 var args = IsKind(ParenthesisOpen) ? ReadArguments() : Array.Empty<ArgumentSyntax>();
 
-                yield return new AnnotationExpressionSyntax(name, args);
+                yield return new AnnotationSyntax(name, args);
             }
         }
 
@@ -1012,17 +1022,17 @@ namespace D.Parsing
         {
             var name = ReadLabelSymbol();
             
-            ConsumeIf(Function);                             // ? ƒ
+            ConsumeIf(Function);                          // ? ƒ
 
             var flags = ObjectFlags.Abstract;
 
             ParameterSyntax[] parameters;
 
-            if (ConsumeIf(ParenthesisOpen))                  // ! (
+            if (ConsumeIf(ParenthesisOpen))               // ! (
             {
                 parameters = ReadParameters().ToArray();
 
-                Consume(ParenthesisClose);                   // ! )
+                Consume(ParenthesisClose);                // ! )
             }
             else
             {
@@ -1040,7 +1050,7 @@ namespace D.Parsing
             return new FunctionDeclarationSyntax(name, Array.Empty<ParameterSyntax>(), parameters, returnType, null, flags);
         }
 
-        // dissolve ∎   : dissolved
+        // dissolve ∎ : dissolved
         // settling 'Transaction  |
         public ProtocolMessage ReadProtocolMessage()
         {
@@ -1571,11 +1581,11 @@ namespace D.Parsing
             // Read any immediately preceding unit prefixes, types, and expondents on the same line
             if (IsKind(Identifier) && Current.Start.Line == line) 
             {
-                var unit = ReadUnitSymbol();
+                var (name, power) = ReadUnitSymbol();
 
                 var num = new NumberLiteralSyntax(text);
 
-                return new UnitLiteralSyntax(num, unit.name, unit.power);
+                return new UnitLiteralSyntax(num, name, power);
             }
           
             return new NumberLiteralSyntax(text);
@@ -2108,9 +2118,9 @@ namespace D.Parsing
 
                     if (reader.Current.Kind == Identifier && reader.Current.Start.Line == position.Line)
                     {
-                        var unit = ReadUnitSymbol();
+                        var (unitName, unitPower) = ReadUnitSymbol();
 
-                        return new UnitLiteralSyntax(left, unit.name, unit.power);
+                        return new UnitLiteralSyntax(left, unitName, unitPower);
                     }
                 }
 

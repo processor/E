@@ -7,7 +7,7 @@
             Symbol type = null,
             ISyntaxNode defaultValue = null,
             ISyntaxNode condition = null,
-            AnnotationExpressionSyntax[] annotations = null,
+            AnnotationSyntax[] annotations = null,
             int index = 0)
         {
             Name         = name;
@@ -28,6 +28,6 @@
 
         public ISyntaxNode Condition { get; }
 
-        public AnnotationExpressionSyntax[] Annotations { get; }
+        public AnnotationSyntax[] Annotations { get; }
     }
 }

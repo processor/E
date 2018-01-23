@@ -130,12 +130,47 @@ Point struct <T: Number> : Vector3<T> {
             Assert.Equal("Vector3", declaration.BaseType.Name);
             Assert.Equal("T", declaration.BaseType.Arguments[0].Name);
 
+            
             Assert.Equal(1, declaration.GenericParameters.Length);
 
             Assert.Equal("T",      declaration.GenericParameters[0].Name);
             Assert.Equal("Number", declaration.GenericParameters[0].Type);
 
             Assert.Equal(3, declaration.Members.Length);
+        }
+
+        [Fact]
+        public void GenericParamOfIntersectedTypesWithDefault()
+        {
+            var declaration = Parse<TypeDeclarationSyntax>(@"
+Point struct <T: Number & Blittable = Float64> : Vector3<T> {
+  x, y, z: T
+};");
+            Assert.Equal("Point", declaration.Name);
+            Assert.Equal("Vector3", declaration.BaseType.Name);
+            Assert.Equal("T", declaration.BaseType.Arguments[0].Name);
+
+            var t1 = declaration.GenericParameters[0];
+
+            Assert.Equal("T",                               t1.Name);
+            Assert.Equal("Intersection<Number,Blittable>",  t1.Type);
+            Assert.Equal("Float64",                         (t1.DefaultValue as TypeSymbol).Name);
+
+            Assert.Equal(SyntaxKind.CompoundPropertyDeclaration, declaration.Members[0].Kind);
+        }
+
+
+        [Fact]
+        public void BlittableType()
+        {
+            var declaration = Parse<TypeDeclarationSyntax>(@"
+Int64 struct (size: 8) { }");
+            Assert.Equal("Int64", declaration.Name);
+
+            var arg = declaration.Arguments[0];
+
+            Assert.Equal("size", arg.Name);
+            Assert.Equal("8",   (arg.Value as NumberLiteralSyntax).Text);
         }
 
         /*
@@ -182,12 +217,12 @@ T record {
             Assert.Equal("Channel",                         members[2].Type.Name);
             Assert.Equal("Integer",                         members[2].Type.Arguments[0].Name);
 
-            Assert.Equal("Variant<A,B>",                    members[3].Type.ToString());
-            Assert.Equal("Tuple<A,B,C>",                    members[4].Type.ToString());
-            Assert.Equal("Function<A,B,C,D>",               members[5].Type.ToString());
-            Assert.Equal("Array<physics::Momentum<T>>",     members[6].Type.ToString());
-            Assert.Equal("Optional<Integer>",               members[7].Type.ToString());
-            Assert.Equal("Array<Optional<CollisionCourse>>", members[8].Type.ToString());
+            Assert.Equal("Variant<A,B>",                     members[3].Type);
+            Assert.Equal("Tuple<A,B,C>",                     members[4].Type);
+            Assert.Equal("Function<A,B,C,D>",                members[5].Type);
+            Assert.Equal("Array<physics::Momentum<T>>",      members[6].Type);
+            Assert.Equal("Optional<Integer>",                members[7].Type);
+            Assert.Equal("Array<Optional<CollisionCourse>>", members[8].Type);
         }
 
         [Fact]
