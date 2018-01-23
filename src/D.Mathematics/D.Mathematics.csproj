@@ -4,9 +4,9 @@
     <AssemblyName>D.Mathematics</AssemblyName>
   </PropertyGroup>
   <ItemGroup>
-    <ProjectReference Include="..\D.Core\D.Core.csproj" />
+    <PackageReference Include="MathNet.Numerics" Version="4.0.0-beta05" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="MathNet.Numerics.Core" Version="3.17.0" />
+    <ProjectReference Include="..\D.Core\D.Core.csproj" />
   </ItemGroup>
 </Project>
