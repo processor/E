@@ -31,7 +31,7 @@ namespace D.Expressions
     }
     */
 
-    public struct AssignmentElement
+    public readonly struct AssignmentElement
     {
         public AssignmentElement(string name, Type type)
         {

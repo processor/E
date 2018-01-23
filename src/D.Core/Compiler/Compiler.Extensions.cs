@@ -17,7 +17,7 @@ namespace D
         }
     }
 
-    public struct Nested : IDisposable
+    public readonly struct Nested : IDisposable
     {
         private readonly Compiler compiler;
 
