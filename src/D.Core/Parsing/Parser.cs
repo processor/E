@@ -401,11 +401,9 @@ namespace D.Parsing
         {
             // record, struct
             var flags = ReadTypeModifiers();
-
-
+            
             var args = IsKind(ParenthesisOpen) ? ReadArguments() : Array.Empty<ArgumentSyntax>();
         
-
             // <T: Number>
             // <T: Number = Float64>
             var genericParameters = ReadGenericParameters();
@@ -824,21 +822,23 @@ namespace D.Parsing
             return flags;
         }
 
-        // Pascal unit : Pressure { symbol: "Pa";   value: 1 }
-        // Radian unit : Angle    { symbol: "rad";  value: 1 }
-        // Degree unit : Angle    { symbol: "deg";  value: (π/180) rad }
+        // Pascal unit (symbol: "Pa",  value : 1)          : Pressure
+        // Radian unit (symbol: "rad", value : 1)          : Angle
+        // Degree unit (symbol: "deg", value: (π/180) rad) : Angle
 
         public UnitDeclarationSyntax ReadUnitDeclaration(Symbol name)
         {
             ConsumeIf(Unit);
 
+            var args = IsKind(ParenthesisOpen) ? ReadArguments() : Array.Empty<ArgumentSyntax>();
+
             var baseType = ConsumeIf(Colon) // ? :
                 ? ReadTypeSymbol()          // baseType
                 : null;
 
-            var properties = ReadUnitDeclarationProperties();
-
-            return new UnitDeclarationSyntax(name, baseType, properties);
+            ConsumeIf(Semicolon);
+            
+            return new UnitDeclarationSyntax(name, baseType, args);
         }
 
         // TODO

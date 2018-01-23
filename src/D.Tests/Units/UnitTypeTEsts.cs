@@ -147,7 +147,7 @@ namespace D.Units.Tests
             UnitType.TryParse(text, out UnitType type);
 
             Assert.Equal(id, type.BaseUnit);
-            Assert.Equal(true, type.IsBaseUnit);
+            Assert.True(type.IsBaseUnit);
 
             /*
             if (text2 != null)
