@@ -1,4 +1,4 @@
-Vector3<T: Numeric & Blittable = Float64> struct { 
+Vector3<T: ℝ & Blittable = Float64> struct { 
   x: T = 0
   y: T = 0
   z: T = 0
@@ -19,10 +19,10 @@ Vector3<T: Numeric & Blittable = Float64> struct {
   length             => sqrt(this.dot(this))
   lengthSquared      => dot(this);
 
-  * (value: Number)  => Vector3(x: x * value,   y: y * value,   z: z * value  );
-  / (value: Number)  => Vector3(x: x / value,   y: y / value,   z: z / value  );
-  + (value: Vector3) => Vector3(x: x + value.x, y: y + value.y, z: z + value.z);
-  - (value: Vector3) => Vector3(x: x - value.x, y: y - value.y, z: z - value.z);
+  * (value: T)          => Vector3(x: x * value,   y: y * value,   z: z * value  );
+  / (value: T)          => Vector3(x: x / value,   y: y / value,   z: z / value  );
+  + (value: Vector3<T>) => Vector3(x: x + value.x, y: y + value.y, z: z + value.z);
+  - (value: Vector3<T>) => Vector3(x: x - value.x, y: y - value.y, z: z - value.z);
   
   negate ()          => Vector3(x: -x, y: -y, z: -z);
 
@@ -90,9 +90,9 @@ Vector3<T: Numeric & Blittable = Float64> struct {
     let parts = split(this, ',')
 
     return Vector3(
-      x: Number.parse(parts[0])
-      y: Number.parse(parts[1])
-      z: parts.count == 3 ? Number.parse(parts[2]) : 0
+      x: T.parse(parts[0])
+      y: T.parse(parts[1])
+      z: parts.count == 3 ? T.parse(parts[2]) : 0
     )
   }
 

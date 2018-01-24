@@ -1,4 +1,4 @@
-Size struct {
-  width  : Number
-  height : Number
+Size<T: ℝ & Blittable: Float64> struct {
+  width  : T
+  height : T
 }

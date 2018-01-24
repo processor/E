@@ -1,4 +1,4 @@
-Payment `Card protocol { 
+Payment `Card protocol : Payment { 
   issuer   : Entity
   network  : Payment `Network
   chip?    : Card `Chip

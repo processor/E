@@ -1,4 +1,4 @@
-Rectangle<T: Numeric & Blittable = Float64> struct {
+Rectangle<T: ℝ & Blittable = Float64> struct {
   height : T
   width  : T
 }

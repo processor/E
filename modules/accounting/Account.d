@@ -16,9 +16,19 @@ Account protocol {
   balance        :   Decimal
   entries        : [ Entry ]
   signers        : [ Signer ]        // agents authorized to transact
-  trustee        : [ Trustee ]
   authorizations : [ Authorization ]
 }
+
+Trustee {
+
+
+}
+// Account types ...
+// Asset
+// Liability
+// Income
+// Expense
+// Equity
 
 Account actor {
   provider : Entity     // who holds the entity...

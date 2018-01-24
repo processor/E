@@ -1,9 +1,4 @@
-﻿Line enum {
-  Sale 
-  Adjustment
-  Fee 
-  Service
-}
+﻿Line = Sale | Adjustment | Fee | Service
 
 Receipt := Invoice when closed  // friendly name for a paid invoice
 
@@ -31,7 +26,6 @@ Invoice actor {
   terms  : [ Invoice `Term ]
   lines  : [ Line ]
 }
-
 
 Bill event {
   invoice   : Invoice

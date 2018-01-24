@@ -1,3 +1,3 @@
-Curve protocol {
-  getPoint (Number) -> Vector2
+Curve<T: ℝ & Blittable> protocol {
+  getPoint (T: position) -> Vector2
 }

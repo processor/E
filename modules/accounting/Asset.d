@@ -4,7 +4,7 @@ Asset protocol {
   * | sell    ∎ : sold
     | dispose ∎ : disposed
 
-  purchase(
+  buy(
     seller   : Entity, 
     currency : Currency, 
     amount   : Decimal,
@@ -32,9 +32,18 @@ Asset protocol {
   price => purchase.price
 }
 
+// identities
+// issuer
+// manufacturer
+
 Asset record {
-  purchase	             : Purchase
-  depreciation `Schedule : Depreciation `Schedule	// An asset is written_down in steps according to it's schedule
+  purchase: Purchase
+}
+
+// An asset is written down in scheduled steps
+Depreciation `Schedule {
+
+  asset: Asset
 }
 
 // Move offers to exchange?

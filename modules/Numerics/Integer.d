@@ -1,4 +1,4 @@
-Integer protocol : Numeric { 
+Integer protocol : ℝ { 
 
 
 }

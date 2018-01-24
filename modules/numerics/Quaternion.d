@@ -1,4 +1,4 @@
-Quaternion<T: Numeric & Blittable = Float64> struct {
+Quaternion<T: ℝ & Blittable = Float64> struct {
   w, x, y, z: T
 
   dot (v: Quaternion<T>) => x * v.x + y * v.y + z * v.z + w * v.w
@@ -55,7 +55,7 @@ Quaternion<T: Numeric & Blittable = Float64> struct {
 
   // spherical linear interpolation
   // https://en.wikipedia.org/wiki/Slerp
-  slerp (rhs: Quaternion, amount: Number) {
+  slerp (rhs: Quaternion, amount: T) {
     let t = amount
 
     let cosOmega = this.x * rhs.x + this.y * rhs.y +
@@ -67,9 +67,9 @@ Quaternion<T: Numeric & Blittable = Float64> struct {
       cosOmega = -cosOmega;
     }
 
-    let s1, s2: Number
+    let s1, s2: T
 
-    if cosOmega > 1.0 - Number.epsilon {
+    if cosOmega > 1.0 - T.epsilon {
         // Too close, do straight linear interpolation.
         s1 = 1.0 - t;
         s2 = flip ? - t : t;

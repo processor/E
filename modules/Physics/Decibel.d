@@ -1,4 +1,1 @@
-﻿Decibel unit { 
-  symbol: "dB"
-  value: 1 
-}
+﻿Decibel unit (symbol: "dB") { value = 1 }

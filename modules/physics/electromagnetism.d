@@ -1,10 +1,8 @@
-boe,
-
 // Light ------------------------------------
 
-Lumen,      // lm   SI
-Lux,
+Lumen unit(symbol: "lm") { }  // SI
+Lux unit { }
 
-Phot,       // ph CGS
+Phot unit { }  
 
-lm = Lumen,
+let Speed`Of`Light =  2.99792458e8 m/s // in a vacuum

@@ -1,5 +1,5 @@
 Claim protocol {
-  deny()  
+  file : filled 
 }
   
 Claim actor {

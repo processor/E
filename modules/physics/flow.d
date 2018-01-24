@@ -1,5 +1,5 @@
-CFM unit { symbol: "" }
-GPD unit { symbol: "" }
-GPH unit { symbol: "" }
-GPM unit { symbol: "" }
-LPM unit { symbol: "" }
+CFM unit(symbol: "cfm") { }
+GPD unit(symbol: "gpd") { }
+GPH unit(symbol: "gph") { }
+GPM unit(symbol: "gpm") { }
+LPM unit(symbol: "lpm") { }

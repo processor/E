@@ -108,11 +108,8 @@ Gallery class : Block {
 	)/> 
 )/>
 
+<carbon:image />
+<carbon:video />
+<carbon:audio />
 
-
-
-  <Image>
-  <Video>
-  <Audio>
-
-  <Piece>
+<carbon:piece />

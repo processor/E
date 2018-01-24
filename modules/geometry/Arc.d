@@ -1,4 +1,4 @@
-Arc<T: Numeric & Blittable = Float64> struct : Curve { 
+Arc<T: ℝ & Blittable = Float64> struct : Curve { 
   x            : T            // circle center x
   y            : T            // circle center y
   x `Radius    : T            // circle radius x
@@ -16,7 +16,7 @@ Arc<T: Numeric & Blittable = Float64> struct : Curve {
     while deltaAngle < 0     { deltaAngle += π * 2 }
     while deltaAngle > π * 2 { deltaAngle -= π * 2 }
     
-    if deltaAngle < Number.elipson {
+    if deltaAngle < T.epsilon {
       deltaAngle = samePoints ? 0 : π * 2
     }
 

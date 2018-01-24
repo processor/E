@@ -1,4 +1,4 @@
-Plane<T: Numeric & Blittable = Float64> struct : Clonable {
+Plane<T: ℝ & Blittable = Float64> struct : Clonable {
   normal : (x: T, y: T, z: T)
   d      : f64      // sometimes known as w
 

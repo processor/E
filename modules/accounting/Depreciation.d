@@ -5,5 +5,5 @@ Depreciation event {
 
 Depreciation `Schedule record {
   interval : Interval				
-  callback : (asset: Asset) -> Depreciation // percentage: 10%, fixed: $100
+  run      : (asset: Asset) -> Depreciation // percentage: 10%, fixed: $100
 }

@@ -1,6 +1,6 @@
 Node<T> class {
   id       :   Identity
   value    :   T
-  incoming : [ Node ]
-  outgoing : [ Node ]
+  incoming : [ Node<T> ]
+  outgoing : [ Node<T> ]
 }

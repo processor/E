@@ -1,4 +1,0 @@
-﻿Manufacturer actor {
-  entity: Entity
-}
-

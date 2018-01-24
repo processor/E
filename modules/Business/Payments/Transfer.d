@@ -2,8 +2,8 @@ Bank `Transfer record : Transaction {
   protocal: any
 }
 
-// typically using AHC (Automated Clearing House)
+// typically using the AHC network (Automated Clearing House)
 
-// Automatated Clearing House
 // WIRE Transfer 
 // SWIFT
+

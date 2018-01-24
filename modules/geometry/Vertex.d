@@ -1,4 +1,4 @@
-Vertex<T: Numeric & Blittable = Float64> struct {
+Vertex<T: ℝ & Blittable = Float64> struct {
   position : Vector3<T>(0)
   normal   : Vector3<T>(0) // aka direction
 

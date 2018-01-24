@@ -15,28 +15,6 @@
 
 
 
-/*
-#region ≈ 1000-1099
-
-// fph/s
-
-// gravity
-
-ɡ0, // standard gravity ≡ 9.80665 m/s2	
-
-
-#endregion
-
-#region Angle 1100-1199
-
-
-
-
-#endregion
-
-
-#region Binary Units - Base 10 1300-1399
-
 // bit
 // B,       // 1
 kB = 1371,  // 1000
@@ -72,18 +50,9 @@ Bohr,           // radius of hydrogen
 fermi,
        
 
-inch,
-foot,
-mile,   // 6087 ft
-yard,   // 3ft
 
 
       
-
-
-mi = mile,
-
-// in = inch,
 ft = foot,
 Å = ångström,
 
@@ -139,8 +108,6 @@ MassConcentration, // SI: mole per cubic metre
 #endregion
 
 
-#region Speed (1520 - 1540)
-
 AngularVelocity = 78,
 
 // None SI
@@ -194,23 +161,3 @@ Duration, // ISO Encoded
 
 // Electromagnetic (vacume)     [vibration of charged particles -- including light waves]
 // Mechanical      (transmit through medium)
-
-
-// sound measument: pressure and time
-
-Sound,  // sampleRate: Frequency | PCM
-
-
-
-
-#region Resolution
-
-dpi,
-dccm,
-ddpx,
-
-#endregion
-
-      
-
-*/

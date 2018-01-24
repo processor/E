@@ -1,4 +1,4 @@
-Matrix4x4<T: Numeric & Blittable> struct {
+Matrix4x4<T: ℝ & Blittable> struct {
   elements: [ T ] // 4x4 = 16 elements
 
   [ index: i64 ] => elements[index]
@@ -33,7 +33,7 @@ Matrix4x4<T: Numeric & Blittable> struct {
 
     let detInv = 1 / determinant
 
-    let els = Number[16]
+    let els = T[16]
 
     els[0] = t11 * detInv;
     els[1] = (m24 * m33 * m41 - m23 * m34 * m41 - m24 * m31 * m43 + m21 * m34 * m43 + m23 * m31 * m44 - m21 * m33 * m44) * detInv
@@ -58,7 +58,7 @@ Matrix4x4<T: Numeric & Blittable> struct {
     return Matrix4<T>(elements: els)
   }
 
-  fromScale (x: T, y: T, z: Number) => Matrix4<T> {
+  fromScale (x: T, y: T, z: T) => Matrix4<T> {
     elements: [ 
       x, 0, 0, 0,
       0, y, 0, 0,
@@ -67,7 +67,7 @@ Matrix4x4<T: Numeric & Blittable> struct {
     ] 
   }
 
-  fromRotationX (theta: Number) {
+  fromRotationX (theta: T) {
     let c = cos(theta)
     let s = sin(theta)
 
@@ -81,7 +81,7 @@ Matrix4x4<T: Numeric & Blittable> struct {
     }		
   }
 
-  fromTranslation (x: T, y: T, z: Number) => Matrix4 {
+  fromTranslation (x: T, y: T, z: T) => Matrix4 {
     elements: [
       1, 0, 0, x,
       0, 1, 0, y,
@@ -92,7 +92,7 @@ Matrix4x4<T: Numeric & Blittable> struct {
 
   // inplace
   scale (v: Vector3) {
-    var els = Array<Number>.fill(16, 0)
+    var els = Array<T>.fill(16, 0)
     
 		els[0] *= v.x; els[4] *= v.y; els[8]  *= v.z;
 		els[1] *= v.x; els[5] *= v.y; els[9]  *= v.z;

@@ -1,5 +1,6 @@
 Deposit protocol {
   asset    : Asset
+  account  : Account
   quantity : Decimal
 }
 

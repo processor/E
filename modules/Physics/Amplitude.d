@@ -1,4 +1,4 @@
-Amplitude unit { }
+Amplitude protocol { }
 
 dB `SPL unit; // dB SPL (sound pressure level) – for sound in air and other gases, relative to 20 micropascals (μPa) = 2×10−5 Pa
 dB `SIL unit; // dB sound intensity level – relative to 10−12 W/m2, which is roughly the threshold of human hearing in air.

@@ -1,4 +1,4 @@
 Brush class {
-  thickness : Number
+  thickness : Float32
   color     : Color
 }

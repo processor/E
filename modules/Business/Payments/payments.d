@@ -1,11 +1,4 @@
-﻿Payment `Method record {
-  owner   : Entity
-  account : Account
-}
-
-Check : Payment `Method
-
-Payment `Network   record 
+﻿Payment `Network   record 
 Payment `Processor record
 
 // may be credit or debit depending on whether the card has a line of credit

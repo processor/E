@@ -1,4 +1,4 @@
-Square<T: Numeric & Blittable = Float64> struct {
+Square<T: ℝ & Blittable = Float64> struct {
   length: T
 
   height => length

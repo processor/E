@@ -1,30 +1,10 @@
-// can be intepreseted as PSI, Bar, etc
+Pascal      unit(symbol: "Pa", value: N / m²)          : Pressure { }
 
-Pascal unit : Pressure { symbol: "Pa", value: N / m² }
+Bar         unit                                       : Pressure { }
+Pièze       unit                                       : Pressure { }
+Atmosphere  unit(symbol: "atm",  value: 101.3250 kPa)  : Pressure { }
+Torr        unit(symbol: "Torr", value: 1/760 atm)     : Pressure { }
 
-Pascal extension { 
-  // Pascal
-  
-  // ...
-}
+P`S`I       unit(symbol: "psi",  value: lb/in² )       : Pressure { }
 
-
-Atmosphere,
-
-
-Bar,
-
-cmHg,
-inHg,
-
-
-// None SI Units
-pièze,
-
-Torr,
-
-ksi         unit : Pressure = { }
-psi         unit : Pressure = { symbol: "lb/in²" }
-bar         unit : Pressure = { }
-Atmosphere  unit : Pressure {} symbol: "atm" },
-mmHg        unit : Pressure = { }
+// ksi, bar
