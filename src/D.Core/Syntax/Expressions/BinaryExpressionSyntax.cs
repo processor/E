@@ -30,20 +30,20 @@ namespace D.Syntax
 
             if (Grouped)
             {
-                sb.Append("(");
+                sb.Append('(');
             }
 
             sb.Append(Left.ToString());
 
-            sb.Append(" ");
+            sb.Append(' ');
             sb.Append(Operator.Name);
-            sb.Append(" ");
+            sb.Append(' ');
 
             sb.Append(Right.ToString());
 
             if (Grouped)
             {
-                sb.Append(")");
+                sb.Append(')');
             }
 
             return sb.ToString();

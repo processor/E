@@ -40,8 +40,8 @@
         public static readonly Operator BitwiseNot         = Prefix(Kind.BitwiseNotExpression,        "~",   precedence: 15, associativity: Right);
 
         public static readonly Operator Power              = Infix(Kind.ExponentiationExpression,     "**",  precedence: 14, associativity: Right);  
-        public static readonly Operator Multiply     = Infix(Kind.MultiplyExpression,           "*",   precedence: 14);                        
-        public static readonly Operator Divide           = Infix(Kind.DivideExpression,             "/",   precedence: 14);                        
+        public static readonly Operator Multiply           = Infix(Kind.MultiplyExpression,           "*",   precedence: 14);                        
+        public static readonly Operator Divide             = Infix(Kind.DivideExpression,             "/",   precedence: 14);                        
         public static readonly Operator Remainder          = Infix(Kind.ModuloExpression,             "%",   precedence: 14);                       
 
         public static readonly Operator Add                = Infix(Kind.AddExpression,                "+",   precedence: 13);

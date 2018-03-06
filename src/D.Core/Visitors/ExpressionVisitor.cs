@@ -64,10 +64,9 @@ namespace D.Expressions
                 case Kind.Number:
                 case Kind.Int64:
                 case Kind.String                  : return VisitConstant((IExpression)expression);
-
-                default                           : throw new Exception("unexpected expression:" + expression.GetType().Name);
             }
+
+            throw new Exception("Unexpected expression:" + expression.GetType().Name);
         }
-    
     }
 }

@@ -89,8 +89,7 @@ namespace D
 
         #region Flags
 
-        public bool IsStatic
-           => IsOperator || !Flags.HasFlag(ObjectFlags.Instance);
+        public bool IsStatic => IsOperator || !Flags.HasFlag(ObjectFlags.Instance);
 
         public bool IsAbstract    => (Flags & ObjectFlags.Abstract) != 0;
         public bool IsOperator    => (Flags & ObjectFlags.Operator) != 0;
@@ -131,7 +130,7 @@ namespace D
                 writer.Write(parameter.Type);
             }
 
-            writer.Write(")");
+            writer.Write(')');
 
             writer.Write(Body.ToString());
         }

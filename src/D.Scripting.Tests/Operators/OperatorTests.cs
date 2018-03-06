@@ -1,4 +1,5 @@
 ﻿using D.Collections;
+
 using Xunit;
 
 namespace D.Operators.Tests
@@ -39,11 +40,11 @@ namespace D.Operators.Tests
             Assert.Equal(Operator.Not,                env.Operators[Prefix, "!"]);
                                                       
             // Binary Operators                       
-            Assert.Equal(Operator.Multiply,     env.Operators[Infix, "*"]);
+            Assert.Equal(Operator.Multiply,           env.Operators[Infix, "*"]);
             Assert.Equal(Operator.Power,              env.Operators[Infix, "**"]);
-            Assert.Equal(Operator.Divide,           env.Operators[Infix, "/"]);
-            Assert.Equal(Operator.Add,           env.Operators[Infix, "+"]);
-            Assert.Equal(Operator.Subtract,        env.Operators[Infix, "-"]);
+            Assert.Equal(Operator.Divide,             env.Operators[Infix, "/"]);
+            Assert.Equal(Operator.Add,                env.Operators[Infix, "+"]);
+            Assert.Equal(Operator.Subtract,           env.Operators[Infix, "-"]);
             Assert.Equal(Operator.Remainder,          env.Operators[Infix, "%"]);
                                                       
             Assert.Equal(Operator.Is,                 env.Operators[Infix, "is"]);

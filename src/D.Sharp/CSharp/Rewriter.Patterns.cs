@@ -14,7 +14,7 @@
         public override IExpression VisitTypePattern(TypePattern expression)
         {
             Emit(expression.TypeExpression.ToString());
-            Emit(" ");
+            Emit(' ');
             Emit(expression.VariableName);
 
             return expression;

@@ -23,7 +23,7 @@ namespace D.Expressions
 
             sb.Append(Left.ToString());
 
-            sb.Append(".");
+            sb.Append('.');
             sb.Append(MemberName);
 
             return sb.ToString();

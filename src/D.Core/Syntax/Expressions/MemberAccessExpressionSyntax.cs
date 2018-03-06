@@ -23,7 +23,7 @@ namespace D.Syntax
 
             sb.Append(Left.ToString());
 
-            sb.Append(".");
+            sb.Append('.');
             sb.Append(Name);
 
             return sb.ToString();

@@ -35,7 +35,7 @@ Degree unit (
   symbol: ""deg"", 
   value: (π/180) rad
 ): Angle { }".Trim());
-
+            
             Assert.Equal("Degree", unit.Name);
             Assert.Equal("Angle", unit.BaseType);
 

@@ -108,18 +108,18 @@ namespace D
 
             if (Arguments != null && Arguments.Length > 0)
             {
-                sb.Append("<");
+                sb.Append('<');
 
                 var i = 0;
 
                 foreach (var arg in Arguments)
                 {
-                    if (++i > 1) sb.Append(",");
+                    if (++i > 1) sb.Append(',');
 
                     sb.Append(arg.ToString());
                 }
 
-                sb.Append(">");
+                sb.Append('>');
             }
 
             return sb.ToString();

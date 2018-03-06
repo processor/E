@@ -80,7 +80,7 @@ namespace D.Syntax
                 writer.Write(parameter.Type);
             }
 
-            writer.Write(")");
+            writer.Write(')');
 
             writer.Write(Body.ToString());
         }

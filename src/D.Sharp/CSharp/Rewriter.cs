@@ -22,6 +22,11 @@ namespace D.Compilation
 
             writer.Write(text);
         }
+        
+        public void Emit(char text)
+        {
+            writer.Write(text);
+        }
 
         public void Emit(string text)
         {
@@ -153,7 +158,7 @@ namespace D.Compilation
         {
             for (var i = 0; i < level; i++)
             {
-                writer.Write("    ");
+                Emit("    ");
             }
         }
 
@@ -200,18 +205,18 @@ namespace D.Compilation
                     Emit(type.Name);
                 }
 
-                Emit("<");
+                Emit('<');
 
                 foreach (var arg in type.Arguments)
                 {
-                    if (i > 0) Emit(",");
+                    if (i > 0) Emit(',');
 
                     WriteTypeSymbol(arg);
 
                     i++;
                 }
 
-                Emit(">");
+                Emit('>');
 
                 return;
             }

@@ -10,7 +10,7 @@
 
             WriteTypeSymbol(type.Type);
             
-            Emit("(");
+            Emit('(');
             
             var i = 0;
 
@@ -25,7 +25,7 @@
                 Visit(member.Value);
             }
 
-            Emit(")");
+            Emit(')');
 
             return type;
         }

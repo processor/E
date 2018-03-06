@@ -53,8 +53,6 @@ namespace D.Units
         public static readonly SIPrefix Z =  new SIPrefix("Z" ,  zetta); // 10^21
         public static readonly SIPrefix Y =  new SIPrefix("Y" ,  yotta); // 10^24
 
-       
-
         private static Dictionary<string, double> scales = new Dictionary<string, double> {
             { "yocto",  yocto },
             { "zepto",  zepto },

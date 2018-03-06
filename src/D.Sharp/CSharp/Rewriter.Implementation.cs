@@ -12,7 +12,7 @@
 
             if (type.GenericParameters.Length > 0)
             {
-                Emit("<");
+                Emit('<');
 
                 foreach (var generic in type.GenericParameters)
                 {
@@ -26,7 +26,7 @@
                     Emit(generic.Name);
                 }
 
-                Emit(">");
+                Emit('>');
             }
 
             var a = 0;

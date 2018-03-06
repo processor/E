@@ -21,9 +21,9 @@
                 Emit(" = ");
 
                 Visit(expression.Expression);
-                Emit(".");
+                Emit('.');
                 Emit(ToPascalCase(a.Name));
-                Emit(";");
+                Emit(';');
 
                 i++;
             }

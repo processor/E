@@ -365,7 +365,7 @@ namespace D.Parsing.Tests
         {
             if (i > 0)
             {
-                sb.Append("(");
+                sb.Append('(');
             }
 
             if (be.Left is BinaryExpressionSyntax)
@@ -377,9 +377,9 @@ namespace D.Parsing.Tests
                 sb.Append(be.Left.ToString());
             }
 
-            sb.Append(" ");
+            sb.Append(' ');
             sb.Append(be.Operator.Name);
-            sb.Append(" ");
+            sb.Append(' ');
 
             if (be.Right is BinaryExpressionSyntax)
             {
@@ -392,7 +392,7 @@ namespace D.Parsing.Tests
 
             if (i > 0)
             {
-                sb.Append(")");
+                sb.Append(')');
             }
         }
     }
@@ -414,25 +414,25 @@ namespace D.Parsing.Tests
 
             if (i > 0 && a)
             {
-                sb.Append("(");
+                sb.Append('(');
             }
 
-            if (be.Left is BinaryExpressionSyntax)
+            if (be.Left is BinaryExpressionSyntax lhs)
             {
-                WritePair(sb, (BinaryExpressionSyntax)be.Left, i + 1);
+                WritePair(sb, lhs, i + 1);
             }
             else
             {
                 sb.Append(be.Left.ToString());
             }
 
-            sb.Append(" ");
+            sb.Append(' ');
             sb.Append(be.Operator.Name);
-            sb.Append(" ");
+            sb.Append(' ');
 
-            if (be.Right is BinaryExpressionSyntax)
+            if (be.Right is BinaryExpressionSyntax rhs)
             {
-                WritePair(sb, (BinaryExpressionSyntax)be.Right, i + 1);
+                WritePair(sb, rhs, i + 1);
             }
             else
             {
@@ -441,7 +441,7 @@ namespace D.Parsing.Tests
 
             if (i > 0 && a)
             {
-                sb.Append(")");
+                sb.Append(')');
             }
         }
     }

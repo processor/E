@@ -62,12 +62,10 @@
         Dot                 = 108, // .
         DotDot              = 109, // ..
         DotDotDot           = 110, // ... spread operator
-        // Pound            = 111, // #     
         Semicolon           = 112, // ;
         Quote               = 113, // "
         Question            = 114, // ?
         Underscore          = 115, // _
-        // Exclamation      = 116, // !
         HalfOpenRange       = 117, // ..<
         // TripleQuote,     // """
 
