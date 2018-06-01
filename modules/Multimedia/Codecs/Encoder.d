@@ -1,0 +1,3 @@
+Encoder<TSource, TTarget> protocol { 
+
+}

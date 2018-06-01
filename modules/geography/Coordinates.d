@@ -1,5 +1,5 @@
-Coordinates struct {  
-  latitude	 : f64
-  longitude	 : f64
-  altitude	 : Altitude?
+Coordinates<T: ℝ & Blittable = Float64> struct {  
+  latitude	 : T
+  longitude	 : T
+  altitude	 : Altitude<T>?
 }

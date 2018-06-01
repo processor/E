@@ -1,8 +1,8 @@
 DateTime protocol { 
-  year   : i32,
-  month  : i32,
-  day    : i32,
-  hour   : i32,
-  minute : i32,
-  second : i32
+  year   : Int32 ≥ 0,
+  month  : Int32 ≥ 0,
+  day    : Int32 ≥ 0,
+  hour   : Int32 ≥ 0,
+  minute : Int32 ≥ 0,
+  second : Int32 ≥ 0
 }

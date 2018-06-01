@@ -7,4 +7,3 @@ Subtractable protocol {
 }
 
 // Addable, Subtractable, Lerpable, Clonable
-

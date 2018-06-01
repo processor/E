@@ -1,6 +1,7 @@
 Principal protocol {
-
-
+  claims: [ Claim ]
 }
 
-// Anything that can prove a claim
+// authenticated
+
+// Anything (A person, organization, computer, AI agent, etc) that can prove one or more claim

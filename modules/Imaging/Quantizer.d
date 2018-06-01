@@ -1,1 +1,3 @@
-quantize ƒ(palette: Palette, image: Image)
+Quantizer protocol { 
+  quantize ƒ(palette: Palette, image: Image);
+}

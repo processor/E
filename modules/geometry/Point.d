@@ -1,1 +1,1 @@
-Point type = Vector3  // type alias
+Point<T = Float64> = Vector3<T>

@@ -11,11 +11,6 @@ Drag `End event {
 
 }
 
-Drop event { 
-  element  : Element
-  position : Vector2
-}
-
 Drag protocol { 
    * start
    * drop

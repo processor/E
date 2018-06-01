@@ -1,3 +1,0 @@
-Polyhedron struct { 
-  
-}

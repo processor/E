@@ -1,4 +1,4 @@
-Element class {
+Element protocol {
   atomic `Number : i16
   block          : Element` Block
   phase          : String

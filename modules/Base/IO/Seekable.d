@@ -1,6 +1,6 @@
 Seekable protocol {
-  position : i64 >= 0
-  length   : i64 >= 0
+  position : Int64 ≥ 0
+  length   : Int64 ≥ 0
 
-  seek (position: i64 >= 0) -> OK | OutsideRange	
+  seek (position: Int64 ≥ 0) -> OK | OutsideRange	
 }

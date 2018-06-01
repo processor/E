@@ -1,3 +1,3 @@
-v128 struct @primitive @size(16)
-v256 struct @primitive @size(32)
-v512 struct @primitive @size(64)
+Vector`128 struct (size: 16)
+Vector`256 struct (size: 32)
+Vector`512 struct (size: 64)

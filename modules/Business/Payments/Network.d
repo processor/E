@@ -8,4 +8,4 @@ Network protocol {
 // Discover
 // American`Express
 
-// AHC, Swift, Visa, Mastercard, ...
+// AHC, Swift

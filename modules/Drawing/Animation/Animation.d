@@ -1,18 +1,19 @@
 Animation protocol { 
   * started
   * ended ∎ : canceled
+
+  start() : Started
 }
 
 Animation class {
   delay        :   Duration
   duration     :   Duration
-  from         :   Number | Color
-  to           :   Number | Color
+  from         :   Float64 | Color
+  to           :   Float64 | Color
   properties   : [ Tweenable ]
   direction    :   Forwards | Backwards
   interpolator :   Interpolator
 }
-
 
 Animation `Sequence { 
    animations: [ Animation ]

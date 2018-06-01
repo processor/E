@@ -1,10 +1,9 @@
-from Diagnostics import Diagnostic
+from diagnostics import Diagnostic
 
 Application protocol { 
   network     :   Network
   environment :   Environment
   services    : [ Service ]
-  ui          :   UI
   screen      :   Screen
   reactor     :   Reactor
   user        :   User

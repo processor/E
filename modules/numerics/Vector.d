@@ -3,8 +3,5 @@ Vector<T> protocol {
   
   [index: i64] -> T
 
-  clone -> V
+  clone -> Vector<T>
 }
-
-// A vector can represent any blitable type ...
-// Represented as a Span in C#

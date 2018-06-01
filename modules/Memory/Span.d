@@ -1,5 +1,0 @@
-Span<T> struct {
-  
-}
-
-// Vector ?

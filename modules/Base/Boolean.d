@@ -1,0 +1,1 @@
+Boolean struct(size: 1) { }

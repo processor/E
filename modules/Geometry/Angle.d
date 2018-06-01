@@ -1,11 +1,13 @@
-Radian    unit : Angle { symbol: "rad";  value: 1 }
-Degree    unit : Angle { symbol: "deg";  value: (π/180) rad }
-Turn      unit : Angle { symbol: "turn"; value: 360 deg }     
-Radian    unit : Angle { symbol: "grad"; value: (1/400) turn }
-Arcsecond unit : Angle { symbol: "arcs"; value: (1/3600) deg }
-Arcminute unit : Angle { symbol: "arcm"; value: (1/60) deg }
+Angle protocol { }
 
-// examples: 
+Radian    unit(symbol: "rad",  value: 1)            : Angle { }
+Degree    unit(symbol: "deg",  value: (π/180) rad)) : Angle { }
+Turn      unit(symbol: "turn". value: 360 deg)      : Angle { }
+Radian    unit(symbol: "grad", value: (1/400) turn) : Angle { }
+Arcsecond unit(symbol: "arcs", value: (1/3600) deg) : Angle { }
+Arcminute unit(symbol: "arcm", value: (1/60) deg)   : Angle { }
+
+// # Examples 
 // 1 grad
 // 90 deg
 // 5 rad

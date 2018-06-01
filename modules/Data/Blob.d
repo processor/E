@@ -1,6 +1,6 @@
 Blob protocol {
-  open   ()                        -> * byte ↺     | Error    ∎ | End ∎
-  slice  (offset: i64, count: i64) -> * byte ↺     | Error    ∎ | End ∎
+  open   ()                        -> * Byte ↺     | Error    ∎ | End ∎
+  slice  (offset: i64, count: i64) -> * Byte ↺     | Error    ∎ | End ∎
   link   (record: Record)          -> * Linked   ∎ | Failed   ∎
   unlink (record: Record)          -> * Unlinked ∎ | Failed   ∎
 
@@ -11,5 +11,5 @@ Blob protocol {
 }
 
 Blob record { 
-  size: i64 > 0
+  size: Int64 > 0
 }

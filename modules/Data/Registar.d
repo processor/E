@@ -1,7 +1,7 @@
 Registar class {
   name   : String
   prefix : String
-  type   : String   // birth,death,etc
+  type   : Type   // Birth, Death, Product
 }
 
 Registar actor {

@@ -1,8 +1,7 @@
 Hospital protocol {
-  admit   (Human) -> Admission
-  dismiss (Human) -> Dismissal
+  admit   (human: Human) -> Admission
+  dismiss (human: Human) -> Dismissal
 }
-
 
 Hospital actor { 
   

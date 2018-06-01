@@ -1,12 +1,11 @@
 ﻿Matrix<T> protocol {
-  [ index: i64 ] -> T
-  [ row: i64, column: i64 ] -> T
-
+  [ index: Int64 ]              -> T
+  [ row: Int64, column: Int64 ] -> T
 
   transpose() -> Matrix<T>
 }
 
-determinant -> Number
-inverse
-outerProduct
-componentWiseMultiply
+// determinant -> T
+// inverse
+// outerProduct
+// componentWiseMultiply

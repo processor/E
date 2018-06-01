@@ -1,4 +1,0 @@
-Ellipse struct { 
-
-
-}

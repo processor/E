@@ -5,8 +5,8 @@ Connection protocol : Channel {
   * receive
   * close   ∎ : closed
 
-  open   () -> * Connected    | Error
-  close  () -> * Disconnected | Error
+  open   ƒ() -> * Connected    | Error
+  close  ƒ() -> * Disconnected | Error
 }
 
 

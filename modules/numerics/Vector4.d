@@ -8,7 +8,7 @@ apply `Quaternion (q: Quaternion) {
     let iz =   q.w * z + q.x * y - q.y * this.x
     let iw = - q.x * x - q.y * y - q.z * this.z
 
-    return Vector3(
+    return (
       x: ix * q.w + iw * - q.x + iy * - q.z - iz * - q.y
       y: iy * q.w + iw * - q.y + iz * - q.x - ix * - q.z
       z: iz * q.w + iw * - q.z + ix * - q.y - iy * - q.x

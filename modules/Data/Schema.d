@@ -4,7 +4,6 @@ Schema record {
   relationship : [ Schema `Relationship ]
 }
 
-
 Schema `Collection record {
   name      : String
   type      : Type

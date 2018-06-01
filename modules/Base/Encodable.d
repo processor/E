@@ -1,0 +1,3 @@
+Encodable<Self, T> protocol {
+
+}
