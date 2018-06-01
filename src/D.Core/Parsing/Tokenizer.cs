@@ -55,7 +55,7 @@ namespace D.Parsing
 
                     break;
 
-                case Mode.Quotes :
+                case Mode.Quotes:
                     return ReadQuotedString();
             }
        
@@ -78,13 +78,15 @@ namespace D.Parsing
                     }
 
                 case '<':
-                    switch (reader.Peek())
+                    char peek = reader.Peek();
+
+                    switch (peek)
                     {
                         case '<': return Read(Op, 2); // <<
                         case '=': return Read(Op, 2); // <= 
                     }
 
-                    if (char.IsLetter(reader.Peek())) // tag
+                    if (peek == '_' || char.IsLetter(peek)) // tag
                     {
                         EnterMode(Mode.Tag);
 
@@ -93,23 +95,13 @@ namespace D.Parsing
 
                     return Read(Op); // <
                     
-                case '>':
-                    if (InMode(Mode.Tag)) // >
-                    {
-                        modes.Pop();
+                case '>' when InMode(Mode.Tag): // >
+                    modes.Pop();
 
-                        return Read(TagClose);
-                    }
+                    return Read(TagClose);
 
-                    break;
-
-                case '=':
-                    if (reader.Peek() == '>')           
-                    {
-                        return Read(LambdaOperator, 2);     // => 
-                    }
-
-                    break;
+                case '=' when reader.Peek() == '>': // => 
+                    return Read(LambdaOperator, 2);     
 
                 case '-':
                     switch (reader.Peek())
@@ -122,8 +114,6 @@ namespace D.Parsing
 
                         default : return Read(Op); // -
                     }
-
-             
 
  
                 case '[': return Read(BracketOpen);
@@ -151,8 +141,7 @@ namespace D.Parsing
                 case '$':
                     switch (reader.Peek())
                     {
-                        case '"'    :
-
+                        case '"':
                             EnterMode(Mode.InterpolatedString);
 
                             return Read(InterpolatedStringOpen, 2);
@@ -160,7 +149,6 @@ namespace D.Parsing
                     }
 
                 case '.': // ., .., ...
-
                     if (char.IsDigit(reader.Peek())) // .{0-9}
                     {
                         return Read(DecimalPoint);
@@ -214,8 +202,6 @@ namespace D.Parsing
                     }
 
                     return Read(Quote);
-
-                    
                     
                 case '(': return Read(ParenthesisOpen);
                 case ')': return Read(ParenthesisClose);
@@ -223,9 +209,7 @@ namespace D.Parsing
                 // case '#': return Read(Pound);
 
                 case '_': return Read(Underscore);
-
                 case '?': return Read(Question);
-
                 case ';': return Read(Semicolon);
         
                 case '0':
@@ -251,16 +235,11 @@ namespace D.Parsing
                 case '⁸': 
                 case '⁹': return ReadSuperscript();
 
-                case '/':
-                    if (reader.Peek() == '/') // // 
-                    {
-                        ReadComment();
+                case '/' when reader.Peek() == '/': // //
+                    ReadComment();
 
-                        goto start;
-                    }
-
-                    break;
-
+                    goto start;
+                    
                 case '\n':
                 case '\r':
                 case '\t':
@@ -272,7 +251,7 @@ namespace D.Parsing
             {
                 if (env.Operators.Maybe(OperatorType.Infix, reader.Current, out var node))
                 {
-                    var start = reader.Location;
+                    Location start = reader.Location;
 
                     sb.Append(reader.Consume());
 
