@@ -26,6 +26,5 @@ namespace D
         public bool IsMutable => Modifiers.HasFlag(ObjectFlags.Mutable);
         
         #endregion
-
     }
 }

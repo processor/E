@@ -197,8 +197,7 @@ namespace D
             return new UnitLiteral(Visit(unit.Expression), unit.UnitName, unit.UnitPower);
         }
 
-        public virtual IExpression VisitAnyPattern(AnyPatternSyntax syntax)
-            => new AnyPattern();
+        public virtual IExpression VisitAnyPattern(AnyPatternSyntax syntax) => new AnyPattern();
 
         public virtual IExpression VisitNumber(NumberLiteralSyntax expression)
         {

@@ -1,6 +1,6 @@
 ﻿namespace D.Modules
 {
-    public class Primitives : Module
+    public sealed class Primitives : Module
     {
         public Primitives()
         {

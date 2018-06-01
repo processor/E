@@ -67,11 +67,11 @@ namespace D
         
         // NameIsImplict?
 
-        public IObject this[int i]
-            => i >= 0 ? Value : throw new ArgumentOutOfRangeException("Out of range");
+        public IObject this[int i] =>
+            i >= 0 ? Value : throw new ArgumentOutOfRangeException("Out of range");
 
-        public IObject this[string name]
-            => Name == name ? Value: throw new Exception("not found");
+        public IObject this[string name] => 
+            Name == name ? Value : throw new ArgumentNullException(nameof(name));
 
         public int Count => 1;
 
@@ -107,7 +107,7 @@ namespace D
                     if (arg.Name == name) return arg.Value;
                 }
 
-                throw new Exception("not found: " + name);
+                throw new KeyNotFoundException(name ?? "null");
             }
         }
 
@@ -115,11 +115,9 @@ namespace D
 
         #region IEnumerable
 
-        public IEnumerator<Argument> GetEnumerator()
-            => items.GetEnumerator();
+        public IEnumerator<Argument> GetEnumerator() => items.GetEnumerator();
 
-        IEnumerator IEnumerable.GetEnumerator()
-            => items.GetEnumerator();
+        IEnumerator IEnumerable.GetEnumerator() => items.GetEnumerator();
 
         #endregion
     }

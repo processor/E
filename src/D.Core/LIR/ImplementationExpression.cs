@@ -24,6 +24,6 @@ namespace D
 
         public FunctionExpression[] Methods { get; }
         
-        Kind IObject.Kind => Kind.ImplementationExpression;
+        Kind IObject.Kind => Kind.Implementation;
     }
 }

@@ -13,10 +13,10 @@ namespace D.Units
 
         #region Angles
 
-        public static readonly UnitType Radian      = new UnitType("rad", Angle);
-        public static readonly UnitType Steradian   = new UnitType("㏛", SolidAngle);
+        public static readonly UnitType Radian    = new UnitType("rad", Angle);
+        public static readonly UnitType Steradian = new UnitType("㏛", SolidAngle);
 
-        public static readonly UnitType Degree      = new UnitType("deg", Angle); //  1 degree = π/180 radians
+        public static readonly UnitType Degree    = new UnitType("deg", Angle); //  1 degree = π/180 radians
 
         #endregion
 
