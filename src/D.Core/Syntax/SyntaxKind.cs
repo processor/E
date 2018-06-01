@@ -57,6 +57,7 @@
         ObserveStatement     ,
         EmitStatement        ,
         ReturnStatement      ,
+        YieldStatement       ,
 
         WhileStatement       ,
         ModuleStatement      ,

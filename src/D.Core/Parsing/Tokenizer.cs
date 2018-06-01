@@ -301,7 +301,7 @@ namespace D.Parsing
 
             if (!InMode(Mode.Tag) && keywords.TryGetValue(text, out TokenKind kind))
             {
-                return new Token(kind, start, text);
+                return new Token(kind, start, text, ReadTrivia());
             }
 
             return new Token(Identifier, start, text, ReadTrivia());
