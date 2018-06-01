@@ -82,15 +82,19 @@ namespace D.Parsing
 
                     switch (peek)
                     {
-                        case '<': return Read(Op, 2); // <<
-                        case '=': return Read(Op, 2); // <= 
+                        case '<' : return Read(Op, 2); // <<
+                        case '=' : return Read(Op, 2); // <= 
+                        case '/' :
+                            EnterMode(Mode.Tag);
+
+                            return Read(TagCloseStart, 2); // </  
                     }
 
                     if (peek == '_' || char.IsLetter(peek)) // tag
                     {
                         EnterMode(Mode.Tag);
 
-                        return Read(TagOpen);
+                        return Read(TagStart);
                     }
 
                     return Read(Op); // <
@@ -98,7 +102,7 @@ namespace D.Parsing
                 case '>' when InMode(Mode.Tag): // >
                     modes.Pop();
 
-                    return Read(TagClose);
+                    return Read(TagEnd);
 
                 case '=' when reader.Peek() == '>': // => 
                     return Read(LambdaOperator, 2);     
@@ -221,7 +225,8 @@ namespace D.Parsing
                 case '6':
                 case '7':
                 case '8':
-                case '9': return ReadNumber();
+                case '9':
+                    return ReadNumber();
 
                 // Superscript
                 case '⁰': 
@@ -233,13 +238,22 @@ namespace D.Parsing
                 case '⁶': 
                 case '⁷': 
                 case '⁸': 
-                case '⁹': return ReadSuperscript();
+                case '⁹':
+                    return ReadSuperscript();
 
                 case '/' when reader.Peek() == '/': // //
                     ReadComment();
 
                     goto start;
-                    
+
+                case '/' when reader.Peek() == '>': // />
+                    if (InMode(Mode.Tag))
+                    {
+                        modes.Pop();
+                    }
+
+                    return Read(TagSelfClosed, 2);
+
                 case '\n':
                 case '\r':
                 case '\t':
@@ -268,9 +282,8 @@ namespace D.Parsing
         }
 
         // Operator
-        private Token Read(TokenKind kind, int count = 1)
-            => new Token(kind, loc, reader.Consume(count), ReadTrivia());
-
+        private Token Read(TokenKind kind, int count = 1) => 
+            new Token(kind, loc, reader.Consume(count), ReadTrivia());
 
         public Token ReadIdentifierOrKeyword()
         {
@@ -279,14 +292,14 @@ namespace D.Parsing
             do
             {
                 sb.Append(reader.Current);
+
+                reader.Next();
             }
-            while (char.IsLetterOrDigit(reader.Next()) && !reader.IsEof);
-
-            // or underscore...
-
+            while ((char.IsLetterOrDigit(reader.Current) || reader.Current == '_') && !reader.IsEof);
+            
             var text = sb.Extract();
 
-            if (keywords.TryGetValue(text, out TokenKind kind))
+            if (!InMode(Mode.Tag) && keywords.TryGetValue(text, out TokenKind kind))
             {
                 return new Token(kind, start, text);
             }
@@ -345,7 +358,6 @@ namespace D.Parsing
             { "event"          , Event },
             { "protocol"       , Protocol },
             { "record"         , Record },
-
             { "public"         , Public },
             { "private"        , Private },
             { "internal"       , Internal },
@@ -483,9 +495,9 @@ namespace D.Parsing
             sb.Append(reader.Consume()); // /
             sb.Append(reader.Consume()); // /
 
-            var l = reader.Line;
+            var line = reader.Line;
 
-            while (l == reader.Line && !reader.IsEof)
+            while (line == reader.Line && !reader.IsEof)
             {
                 sb.Append(reader.Current);
 
@@ -497,14 +509,11 @@ namespace D.Parsing
 
         #region Modes
 
-        public void EnterMode(Mode mode)
-          => modes.Push(mode);
+        public void EnterMode(Mode mode) => modes.Push(mode);
 
-        public void ExitMode()
-            => modes.Pop();
+        public void ExitMode() => modes.Pop();
 
-        public bool InMode(Mode mode)
-            => modes.Peek() == mode;
+        public bool InMode(Mode mode) => modes.Peek() == mode;
 
         public enum Mode
         {
@@ -513,7 +522,7 @@ namespace D.Parsing
             Quotes,
             InterpolatedString,
             Expression,
-            Tag, // <tag
+            Tag  // <tag
         }
 
         #endregion

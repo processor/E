@@ -78,7 +78,11 @@
         BinaryExpression     , // +
         TernaryExpression    ,  // ? :             
                                  
-        MemberAccessExpression   , // a.b
-        IndexAccessExpression    , // a[b]
+        MemberAccessExpression, // a.b
+        IndexAccessExpression, // a[b]
+
+
+        Element, // <element />
+        Text
     }
 }

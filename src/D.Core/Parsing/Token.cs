@@ -22,13 +22,9 @@
 
         public bool Is(TokenKind kind) => Kind == kind;
 
-        #region Casts
+        public override string ToString() => Kind.ToString() + ":" + Text;
 
         public static implicit operator string(Token token) => token.Text;
-
-        #endregion
-
-        public override string ToString() => Kind.ToString() + ":" + Text;
     }
 
     public enum TokenKind
@@ -73,10 +69,12 @@
         InterpolatedStringOpen  = 120, // $"
 
         // Tags
-        TagOpen                 = 151, // <
-        TagClose                = 152, // >
-
-        Character               = 200, // within '' 
+        TagStart            = 151, // <
+        TagEnd              = 152, // >
+        TagCloseStart       = 153, // </
+        TagSelfClosed       = 154, // />
+        
+        Character           = 200, // within '' 
 
         PipeForward,                    // |>
 
