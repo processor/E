@@ -47,7 +47,8 @@ namespace D.Parsing
             Block,
             Implementation,
             InterpolatedString,
-            Variant
+            Variant,
+            Element
         }
 
         private readonly Stack<Mode> modes = new Stack<Mode>();
@@ -59,11 +60,11 @@ namespace D.Parsing
 
         private void LeaveMode(Mode mode)
         {
-            var m = modes.Pop();
+            var lastMode = modes.Pop();
 
-            if (m != mode)
+            if (lastMode != mode)
             {
-                throw new Exception($"Expected {mode} when leaving {m}");
+                throw new Exception($"Expected {mode} when leaving {lastMode}");
             }
         }
 
@@ -95,7 +96,7 @@ namespace D.Parsing
 
             count++;
 
-            if (count > 500) throw new Exception("recurssive call: " + reader.Current.Kind);
+            if (count > 500) throw new Exception("excededed call depth: " + reader.Current.Kind);
 
             switch (reader.Current.Kind)
             {
@@ -116,6 +117,7 @@ namespace D.Parsing
                 case While                  : return ReadWhile();                       // while
                 case If                     : return ReadIf();                          // if
                 case Return                 : return ReadReturn();                      // return
+                case Yield                  : return ReadYield();                       // yield
                 case Emit                   : return ReadEmit();                        // emit
 
                 case Observe                : 
@@ -127,6 +129,7 @@ namespace D.Parsing
 
                 // case Exclamation         : return ReadUnary(Consume(Exclamation));   // !{expression}
 
+                case TagStart               : return ReadElement();                     // <div ...
                 case Using                  : return ReadUsingStatement();
             }
 
@@ -221,6 +224,17 @@ namespace D.Parsing
             return new LambdaExpressionSyntax(expression);
         }
 
+        public ReturnStatementSyntax ReadYield()
+        {
+            Consume(Yield);                    // ! yield
+
+            var expression = ReadExpression();  // ! (expression)
+
+            ConsumeIf(Semicolon);               // ? ;
+
+            return new ReturnStatementSyntax(expression);
+        }
+
         public ReturnStatementSyntax ReadReturn()
         {
             Consume(Return);                    // ! return
@@ -276,11 +290,9 @@ namespace D.Parsing
                 ? ReadElse()
                 : null;
 
-
             return condition != null
                 ? (ISyntaxNode)new ElseIfStatementSyntax(condition, body, elseBranch)
                 : new ElseStatementSyntax(body);
-
         }
 
         public WhileStatementSyntax ReadWhile()
@@ -694,7 +706,7 @@ namespace D.Parsing
 
         private ParameterSyntax[] ReadGenericParameters()
         {
-            if (ConsumeIf(TagOpen))
+            if (ConsumeIf(TagStart))
             {
                 var i = 0;
 
@@ -717,7 +729,7 @@ namespace D.Parsing
                 }
                 while (ConsumeIf(Comma));
 
-                Consume(TagClose);
+                Consume(TagEnd);
 
                 return list.ToArray();
             }
@@ -910,8 +922,8 @@ namespace D.Parsing
 
         private IEnumerable<AnnotationSyntax> ReadAnnotations()
         {
-            // @primitive
-            // @size(10)
+            // @key
+            // @member("hello")
             
             while (ConsumeIf(At))
             {
@@ -1292,7 +1304,6 @@ namespace D.Parsing
             }
 
             return name;
-
         }
 
         /*
@@ -1362,7 +1373,7 @@ namespace D.Parsing
 
             // <generic parameter list>
 
-            if (ConsumeIf(TagOpen)) // <
+            if (ConsumeIf(TagStart)) // <
             {
                 var list = new List<Symbol>();
 
@@ -1382,7 +1393,7 @@ namespace D.Parsing
                 }
                 while (ConsumeIf(Comma));
 
-                Consume(TagClose); // >                
+                Consume(TagEnd); // >                
 
                 parameters = list.ToArray();
             }
@@ -1886,16 +1897,10 @@ namespace D.Parsing
             return left;
         }
 
-        public UnaryExpressionSyntax ReadUnary(Token opToken)
+        public UnaryExpressionSyntax ReadUnary(Operator op)
         {
             // maybe postfix?
-
-            var op = graph.Operators[Prefix, opToken];
-
-            if (op == null)
-            { 
-                throw new Exception("Unexpected unary operator:" + opToken);
-            }
+            
 
             var expression = ReadExpression();
 
@@ -1916,6 +1921,110 @@ namespace D.Parsing
         }
 
         #endregion
+
+        #region Elements
+
+        public ElementSyntax ReadElement()
+        {
+            EnterMode(Mode.Element);
+
+            Consume(TagStart); // ! <
+
+            var (moduleName, elementName) = ReadElementName();
+
+            ArgumentSyntax[] args = null;
+
+            while (Current.Kind != TagEnd && Current.Kind != TagSelfClosed)
+            {
+                // read optional arguments
+                if (Current.Kind == ParenthesisOpen)
+                {
+                    args = ReadArguments();
+                }
+                else
+                {
+                    // attribute?
+                    Next();
+                }
+            }
+            
+            bool isSelfClosed = Consume().Kind == TagSelfClosed;
+
+            ISyntaxNode[] children = null;
+
+            // read the children
+            if (!isSelfClosed)
+            {
+                if (!IsKind(TagCloseStart))
+                {
+                    var list = new List<ISyntaxNode>();
+
+                    while (!IsKind(TagCloseStart) && !IsEof)
+                    {
+                        list.Add(ReadElementChild());
+                    }
+
+                    children = list.ToArray();
+                }
+
+                Consume(TagCloseStart);       // ! </
+
+                var (closingModuleName, closingElementName) = ReadElementName();
+                
+                Consume(TagEnd);              // ! >                
+            }
+
+            LeaveMode(Mode.Element);
+
+            return new ElementSyntax(moduleName, elementName, args, children ?? Array.Empty<ISyntaxNode>(), isSelfClosed);
+        }
+
+        public ISyntaxNode ReadElementChild()
+        {
+            switch (Current.Kind)
+            {
+                case BraceOpen : return ReadBlock();   // {
+                case TagStart  : return ReadElement(); // <
+            }
+
+            StringBuilder sb = null;
+            
+            while (!IsOneOf(TagStart, TagCloseStart, EOF) && !IsKind(BraceOpen))
+            {
+                if (sb == null)
+                {
+                    sb = new StringBuilder();
+                }
+            
+                sb.Append(Current.Text);
+
+                if (Current.Trailing != null)
+                {
+                    sb.Append(Current.Trailing);
+                }
+
+                Consume();
+            }
+
+            return new TextSyntax(sb?.ToString() ?? string.Empty);
+        }
+
+        private (string, string) ReadElementName()
+        {
+            string name = ReadName();
+            string module = null;
+            
+            if (ConsumeIf(Colon))
+            {
+                module = name;
+                name = ReadName();
+            }
+
+            return (module, name);
+        }
+
+        #endregion
+
 
         #region Primary Expressions
 
@@ -1963,6 +2072,8 @@ namespace D.Parsing
         // i..i32.max
         public ISyntaxNode MaybeRange()
         {
+            // TODO: Move to binary operators
+
             var left = MaybeType();
 
             if (ConsumeIf(DotDotDot)) // ? ...
@@ -2083,7 +2194,7 @@ namespace D.Parsing
 
         public ISyntaxNode ReadPrimary()
         {
-            if (depth > 1)
+            if (depth > 1) // was 1
             {
                 throw new UnexpectedTokenException($"token not read. current mode {modes.Peek()}. depth: {depth}", Current);
             }
@@ -2093,9 +2204,9 @@ namespace D.Parsing
             {
                 var op = Consume(Op);
 
-                if (graph.Operators[Prefix, op] != null)
+                if (graph.Operators[Prefix, op] is Operator unaryOperator)
                 {
-                    return ReadUnary(op);
+                    return ReadUnary(unaryOperator);
                 }
 
                 throw new Exception("unexpected operator:" + op.ToString());
@@ -2125,26 +2236,22 @@ namespace D.Parsing
                 }
 
                 return left;
-            }
+            }            
 
             switch (reader.Current.Kind)
             {
                 case This:
                 case Identifier:
+
                     depth = 0;
 
-                    Symbol symbol;
+                  
 
                     // read member or type...
 
-                    if (char.IsUpper(reader.Current.Text[0]))
-                    {
-                        symbol = ReadTypeSymbol();
-                    }
-                    else
-                    {
-                        symbol = ReadMemberSymbol();
-                    }
+                    Symbol symbol = char.IsUpper(reader.Current.Text[0])
+                        ? (Symbol)ReadTypeSymbol()
+                        : (Symbol)ReadMemberSymbol();
 
                     if (IsKind(LambdaOperator) && InMode(Mode.Arguments))  // ? =>
                     {
@@ -2259,9 +2366,9 @@ namespace D.Parsing
 
         // Question: Scope read if arg count is fixed ?
 
-        public CallExpressionSyntax ReadCall(ISyntaxNode callee, Symbol functionName)
+        public CallExpressionSyntax ReadCall(ISyntaxNode callee, Symbol name)
         {
-            return new CallExpressionSyntax(callee, functionName, ReadArguments());
+            return new CallExpressionSyntax(callee, name, ReadArguments());
         }
 
         public void Dispose()
@@ -2276,6 +2383,8 @@ namespace D.Parsing
         public bool IsEof => reader.IsEof;
 
         public Token Current => reader.Current;
+
+        Token Consume() => reader.Consume();
 
         Token Consume(TokenKind kind) => reader.Consume(kind);
 
