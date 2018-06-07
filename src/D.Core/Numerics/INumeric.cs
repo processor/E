@@ -14,7 +14,7 @@ namespace D
     {
         double Real { get; } // Quantity
 
-        T As<T>() where T: IEquatable<T>, IFormattable;
+        T As<T>() where T: unmanaged, IEquatable<T>, IFormattable;
     }
 
     public enum NumericKind

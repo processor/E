@@ -17,6 +17,8 @@
 
         public static implicit operator double (NumberLiteralSyntax value) => double.Parse(value.Text);
 
+        public static implicit operator decimal (NumberLiteralSyntax value) => decimal.Parse(value.Text);
+
         public override string ToString() => Text;
     }
 

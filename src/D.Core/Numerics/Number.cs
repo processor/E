@@ -46,7 +46,6 @@ namespace D
 
         #endregion
 
-        public override string ToString()
-            => Value.ToString();        
+        public override string ToString() => Value.ToString();        
     }
 }
