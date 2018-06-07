@@ -41,10 +41,10 @@
 
     public class OrderByStatement
     {
-        public OrderByStatement(IExpression member, bool descending)
+        public OrderByStatement(IExpression member, bool isDescending)
         {
             Member = member;
-            Descending = descending;
+            IsDescending = isDescending;
         }
 
         // orderby student.Last ascending, 
@@ -52,7 +52,7 @@
 
         public IExpression Member { get; }
 
-        public bool Descending { get; }
+        public bool IsDescending { get; }
     }
 
     // TODO: Support mutiple statements

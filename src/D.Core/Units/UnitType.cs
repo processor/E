@@ -138,14 +138,7 @@ namespace D.Units
         public static readonly UnitType Katal = new UnitType("kat", CatalyticActivity);
 
         // public static readonly UnitType Area = new UnitType(Length, "m²");
-
-        #region Others
-
         
-
-        #endregion
-
-
         #region Resolution
 
         public static readonly UnitType Dpi  = new UnitType("dpi",  Resolution);

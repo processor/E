@@ -6,6 +6,7 @@
     <LangVersion>7.2</LangVersion>
   </PropertyGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\D.Compiler\D.Compiler.csproj" />
     <ProjectReference Include="..\D.Core\D.Core.csproj" />
   </ItemGroup>
 </Project>

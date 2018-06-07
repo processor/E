@@ -27,13 +27,6 @@ namespace D.Expressions
 
         public IExpression Visit(IObject expression)
         {
-            switch (expression)
-            {
-                case UnaryExpression unary     : return VisitUnary(unary);
-                case BinaryExpression binary   : return VisitBinary(binary);
-                case TernaryExpression ternary : return VisitTernary(ternary);
-            }
-
             switch (expression.Kind)
             {
                 // Declarations
@@ -64,6 +57,13 @@ namespace D.Expressions
                 case Kind.Number:
                 case Kind.Int64:
                 case Kind.String                  : return VisitConstant((IExpression)expression);
+            }
+
+            switch (expression)
+            {
+                case UnaryExpression unary     : return VisitUnary(unary);
+                case BinaryExpression binary   : return VisitBinary(binary);
+                case TernaryExpression ternary : return VisitTernary(ternary);
             }
 
             throw new Exception("Unexpected expression:" + expression.GetType().Name);

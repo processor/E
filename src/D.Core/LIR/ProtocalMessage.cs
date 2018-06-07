@@ -1,50 +1,5 @@
 ﻿namespace D.Expressions
 {
-    // A protocol { }
-
-    /*
-    ∙ | open       `Account       
-      | close      `Account     
-      | settle     `Transaction
-      | refuse     `Transaction 
-      | underwrite `Loan        
-      | process    `Transaction 
-      ↺            : acting
-    ∙ dissolve ∎   : dissolved
-    */
-
-    public interface IMessageDeclaration
-    {
-        bool Fallthrough { get; }
-    }
-
-    public class MessageChoice : IMessageDeclaration
-    {
-        public MessageChoice(ProtocolMessage[] options, MessageFlags flags)
-        {
-            Options = options;
-            Flags   = flags;
-        }
-
-        public ProtocolMessage[] Options { get; }
-
-        public ProtocolMessage this[int index] => Options[index];
-
-        public int Count => Options.Length;
-
-        public MessageFlags Flags { get; }
-
-        public bool Fallthrough 
-            => Flags.HasFlag(MessageFlags.Fallthrough);
-
-        public bool Repeats
-            => Flags.HasFlag(MessageFlags.Repeats);
-
-        public bool IsEnd 
-            => Flags.HasFlag(MessageFlags.End);
-
-    }
-
     public class ProtocolMessage : IMessageDeclaration
     {
         // name

@@ -98,21 +98,21 @@
         Predicate        = 2100,
 
         // Declarations
-        TypeDeclaration                 = 2201,
-        FunctionDeclaration             = 2202,
-        ObserverDeclaration             = 2203,
-        PropertyDeclaration             = 2204, // Let ?
-        CompoundPropertyDeclaration     = 2205,
-        ProtocolDeclaration             = 2206,
-        ChannelDeclaration              = 2207,
-        ImplementationDeclaration       = 2208,
-        UnitDeclaration                 = 2209,
-        OperatorDeclaration             = 2010,
-        ImportDeclaration               = 2011,
+        TypeDeclaration              = 2201,
+        FunctionDeclaration          = 2202,
+        ObserverDeclaration          = 2203,
+        PropertyDeclaration          = 2204, // Let ?
+        CompoundPropertyDeclaration  = 2205,
+        ProtocolDeclaration          = 2206,
+        ChannelDeclaration           = 2207,
+        ImplementationDeclaration    = 2208,
+        UnitDeclaration              = 2209,
+        OperatorDeclaration          = 2010,
+        ImportDeclaration            = 2011,
 
-        DestructuringAssignment         = 2220,
+        DestructuringAssignment      = 2220,
 
-        InterpolatedStringExpression    = 2221,
+        InterpolatedStringExpression = 2221,
 
 
         PipeStatement = 2302,  // Merge with Call?

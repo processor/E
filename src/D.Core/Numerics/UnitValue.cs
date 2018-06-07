@@ -24,9 +24,9 @@ namespace D.Units
             Type     = type;     // g
         }
 
-        public T Quantity { get; }
+        public T Quantity { get; }    // Value
 
-        public UnitType Type { get; }
+        public UnitType Type { get; } // Unit
 
         #region With
 
@@ -36,10 +36,10 @@ namespace D.Units
             return new UnitValue<T1>(quantity, Type);
         }
 
-        public UnitValue<T> With<T>(T quantity, UnitType type)
-            where T : unmanaged, IComparable<T>, IEquatable<T>
+        public UnitValue<T1> With<T1>(T1 quantity, UnitType type)
+            where T1 : unmanaged, IComparable<T1>, IEquatable<T1>
         {
-            return new UnitValue<T>(quantity, type);
+            return new UnitValue<T1>(quantity, type);
         }
 
         #endregion
@@ -112,6 +112,11 @@ namespace D.Units
 
         public static bool TryParse(string text, out UnitValue<T> unit)
         {
+            // 1 g
+            // 1g
+            // 1.1g
+            // 1px
+
             // todo: strip off any exponent...
 
             if (UnitType.TryParse(text, out UnitType type))

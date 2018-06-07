@@ -1,6 +1,6 @@
 ﻿namespace D
 {
-    public sealed class Annotation /* readonly struct? */
+    public readonly struct Annotation
     {
         public Annotation(string name, IObject value)
         {
