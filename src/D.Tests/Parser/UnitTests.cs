@@ -10,7 +10,7 @@ namespace D.Parsing.Units.Tests
         [Fact]
         public void A()
         {
-            var unit = Parse<UnitLiteralSyntax>(@"50deg");
+            var unit = Parse<UnitValueSyntax>(@"50deg");
 
             Assert.Equal(50, (NumberLiteralSyntax)unit.Expression);
             Assert.Equal("deg", unit.UnitName);
@@ -20,7 +20,7 @@ namespace D.Parsing.Units.Tests
         [Fact]
         public void B()
         {
-            var unit = Parse<UnitLiteralSyntax>(@"50 deg");
+            var unit = Parse<UnitValueSyntax>(@"50 deg");
 
             Assert.Equal(50, (NumberLiteralSyntax)unit.Expression);
             Assert.Equal("deg", unit.UnitName);
@@ -29,7 +29,7 @@ namespace D.Parsing.Units.Tests
         [Fact]
         public void C()
         {
-            var unit = Parse<UnitLiteralSyntax>(@"(50 / 3) m²");
+            var unit = Parse<UnitValueSyntax>(@"(50 / 3) m²");
 
             var binary = (BinaryExpressionSyntax)unit.Expression;
 
@@ -37,7 +37,7 @@ namespace D.Parsing.Units.Tests
             Assert.Equal(3,  (NumberLiteralSyntax)binary.Right);
 
             Assert.Equal("m", unit.UnitName);
-            Assert.Equal(2, unit.UnitPower);
+            Assert.Equal(2,   unit.UnitPower);
         }
     }
 }

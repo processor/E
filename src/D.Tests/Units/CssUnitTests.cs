@@ -1,9 +1,73 @@
-﻿using Xunit;
+﻿using System.Runtime.Serialization;
+using Carbon.Json;
+using Xunit;
 
 namespace D.Units.Tests
 {
     public class CssUnitTests
     {
+        public class Element
+        {
+            [DataMember(Name = "width")]
+            public UnitValue<double> Width { get; set; }
+
+            [DataMember(Name = "height")]
+            public UnitValue<double> Height { get; set; }
+        }
+
+        [Fact]
+        public void Serialize()
+        {
+            // margin = new (20px, 20px)
+            // margin = new (100px)
+
+            var a = new Element {
+                Width  = UnitValue.Parse("1920px"),
+                Height = UnitValue.Parse("1080px")
+            };
+
+            // Element(width: 100px, margin: (100px, 80px))
+
+            var json = JsonObject.FromObject(a);
+
+            Assert.Equal(@"{
+  ""width"": ""1920px"",
+  ""height"": ""1080px""
+}", json.ToString());
+
+            var el = json.As<Element>();
+            
+            Assert.Equal("1920px", el.Width.ToString());
+            Assert.Equal("1080px", el.Height.ToString());
+        }
+
+        [Fact]
+        public void Parse1()
+        {
+            var val = UnitValue.Parse("11.5px");
+            
+            Assert.Equal(11.5,           val.Quantity);
+            Assert.Equal(CssUnitType.Px, val.Type);
+        }
+
+        [Fact]
+        public void Parse2()
+        {
+            var val = UnitValue.Parse("3turn");
+
+            Assert.Equal(3, val.Quantity);
+            Assert.Equal(UnitType.Turn, val.Type);
+        }
+
+        [Fact]
+        public void Parse3()
+        {
+            var val = UnitValue.Parse("-0.5turn");
+
+            Assert.Equal(-0.5,          val.Quantity);
+            Assert.Equal(UnitType.Turn, val.Type);
+        }
+
         [Theory]
         [InlineData(UnitId.Angle, "deg")]
         [InlineData(UnitId.Angle, "grad")]
@@ -51,9 +115,7 @@ namespace D.Units.Tests
 
             Assert.Equal(id, type.BaseUnit);
         }
-
-
-
+        
         [Theory]
         [InlineData(UnitId.Frequency, 1,    "Hz")]
         [InlineData(UnitId.Frequency, 1000, "kHz")]
@@ -64,7 +126,6 @@ namespace D.Units.Tests
             Assert.Equal(scale, type.Prefix.Value);
             Assert.Equal(id, type.BaseUnit);
         }
-
 
         [Theory]
         [InlineData(UnitId.Resolution, 1, "dpi")]
