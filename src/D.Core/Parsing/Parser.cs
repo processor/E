@@ -13,15 +13,15 @@ namespace D.Parsing
     public class Parser : IDisposable
     {
         private readonly TokenReader reader;
-        private readonly Node graph;
+        private readonly Node environment;
 
         public Parser(string text)
             : this(text, new Node()) { }
 
-        public Parser(string text, Node graph)
+        public Parser(string text, Node environment)
         {
-            this.reader = new TokenReader(new Tokenizer(text, graph));
-            this.graph = graph;
+            this.reader = new TokenReader(new Tokenizer(text, environment));
+            this.environment = environment;
 
             modes.Push(Mode.Root);
         }
@@ -226,7 +226,7 @@ namespace D.Parsing
 
         public ReturnStatementSyntax ReadYield()
         {
-            Consume(Yield);                    // ! yield
+            Consume(Yield);                     // ! yield
 
             var expression = ReadExpression();  // ! (expression)
 
@@ -1586,17 +1586,23 @@ namespace D.Parsing
 
                 var result = a * Math.Pow(10, b);
 
-                text = b > 0 ? result.ToString() : result.ToString();
+                text = result.ToString();
             }
 
-            // Read any immediately preceding unit prefixes, types, and expondents on the same line
+            if (literal.Trailing == null && ConsumeIf("%"))
+            {
+                return new PercentageSyntax(text);
+            }
+
+            // Read any immediately preceding unit types and expondents on the same line
+
             if (IsKind(Identifier) && Current.Start.Line == line) 
             {
-                var (name, power) = ReadUnitSymbol();
+                var (name, expondent) = ReadUnitSymbol();
 
                 var num = new NumberLiteralSyntax(text);
 
-                return new UnitValueSyntax(num, name, power);
+                return new UnitValueSyntax(num, name, expondent);
             }
           
             return new NumberLiteralSyntax(text);
@@ -1859,7 +1865,7 @@ namespace D.Parsing
         {
             // x = a || b && c
 
-            while (IsKind(Op) && (op = graph.Operators[Infix, reader.Current]).Precedence >= minPrecedence) // ??
+            while (IsKind(Op) && (op = environment.Operators[Infix, reader.Current]).Precedence >= minPrecedence) // ??
             {
                 reader.Consume(Op);
 
@@ -1875,7 +1881,7 @@ namespace D.Parsing
 
                 var right = MaybeMemberAccess();
 
-                while (IsKind(Op) && (op = graph.Operators[Infix, reader.Current]).Precedence >= o.Precedence)
+                while (IsKind(Op) && (op = environment.Operators[Infix, reader.Current]).Precedence >= o.Precedence)
                 {
                     right = MaybeBinary(right, o.Precedence);
                 }
@@ -1900,7 +1906,6 @@ namespace D.Parsing
         {
             // maybe postfix?
             
-
             var expression = ReadExpression();
 
             return new UnaryExpressionSyntax(op, expression);
@@ -2203,7 +2208,7 @@ namespace D.Parsing
             {
                 var op = Consume(Op);
 
-                if (graph.Operators[Prefix, op] is Operator unaryOperator)
+                if (environment.Operators[Prefix, op] is Operator unaryOperator)
                 {
                     return ReadUnary(unaryOperator);
                 }
@@ -2241,10 +2246,7 @@ namespace D.Parsing
             {
                 case This:
                 case Identifier:
-
                     depth = 0;
-
-                  
 
                     // read member or type...
 
@@ -2348,13 +2350,13 @@ namespace D.Parsing
         {
             switch (Current.Kind)
             {
-                case EOF                :   
-                case Bar                : // |
-                case PipeForward        : // |>
-                case ParenthesisClose   : // )
-                case BracketClose       : // ]
-                case Semicolon          : return false;
-                default                 : return true;
+                case EOF              :   
+                case Bar              : // |
+                case PipeForward      : // |>
+                case ParenthesisClose : // )
+                case BracketClose     : // ]
+                case Semicolon        : return false;
+                default               : return true;
             }
         }
 
