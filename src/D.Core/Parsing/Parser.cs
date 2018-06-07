@@ -1596,7 +1596,7 @@ namespace D.Parsing
 
                 var num = new NumberLiteralSyntax(text);
 
-                return new UnitLiteralSyntax(num, name, power);
+                return new UnitValueSyntax(num, name, power);
             }
           
             return new NumberLiteralSyntax(text);
@@ -2230,7 +2230,7 @@ namespace D.Parsing
                     {
                         var (unitName, unitPower) = ReadUnitSymbol();
 
-                        return new UnitLiteralSyntax(left, unitName, unitPower);
+                        return new UnitValueSyntax(left, unitName, unitPower);
                     }
                 }
 

@@ -84,7 +84,7 @@ namespace D.Units
 
         #region INumeric
 
-        Kind IObject.Kind => Kind.UnitLiteral;
+        Kind IObject.Kind => Kind.UnitValue;
 
         double INumber.Real => Convert.ToDouble(Quantity);
 

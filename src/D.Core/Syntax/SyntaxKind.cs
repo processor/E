@@ -12,7 +12,7 @@
         RangeLiteral     ,
         NumberLiteral    ,
         StringLiteral    ,
-        UnitLiteral      ,
+        UnitValue      ,
                             
         // Declarations
         TypeDeclaration             ,

@@ -15,7 +15,7 @@
         // 9-15
         Pointer        = 9,
         Expression     = 10,
-        UnitLiteral    = 11,
+        UnitValue      = 11,
         Currency       = 12,
         Entity         = 13,
         Timestamp      = 14,
