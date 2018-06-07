@@ -3,7 +3,7 @@
 namespace D
 {
     public readonly struct Complex<T> : INumber
-        where T: struct, IComparable<T>
+        where T: unmanaged, IComparable<T>
     {
         public Complex(T real, T imaginary)
         {

@@ -2,7 +2,7 @@
 
 namespace D.Expressions
 {
-    public class UnitLiteral : IExpression
+    public readonly struct UnitLiteral : IExpression
     { 
         public UnitLiteral(IExpression expression, string unitName, int power = 1)
         {
@@ -22,3 +22,4 @@ namespace D.Expressions
 }
 
 // (4/5) px
+// 5 m²

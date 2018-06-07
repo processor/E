@@ -5,7 +5,7 @@ namespace D
     using Expressions;
 
     public interface INumeric<T> : INumber
-        where T : struct, IComparable<T>
+        where T : unmanaged, IComparable<T>
     {
         T Value { get; }
     }

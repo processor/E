@@ -3,6 +3,7 @@
 namespace D.Mathematics
 {
     public interface IArithmetic<T>
+        where T: unmanaged
     {
         T Add(T x, T y);
 

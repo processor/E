@@ -1575,14 +1575,14 @@ namespace D.Parsing
 
             reader.Next();
 
-            var text = literal.Text.Contains('_') ? literal.Text.Replace("_", "") : literal.Text;
-            
-            if (text.Contains("e"))
-            {
-                var parts = text.Split('e');
+            var text = literal.Text.Contains("_") ? literal.Text.Replace("_", "") : literal.Text;
 
-                var a = double.Parse(parts[0]);
-                var b = double.Parse(parts[1]);
+            int eIndex = text.IndexOf('e');
+
+            if (eIndex > 0)
+            {
+                var a = double.Parse(text.Substring(0, eIndex));
+                var b = double.Parse(text.Substring(eIndex + 1));
 
                 var result = a * Math.Pow(10, b);
 
@@ -1601,7 +1601,6 @@ namespace D.Parsing
           
             return new NumberLiteralSyntax(text);
         }
-
 
         private (string name, int power) ReadUnitSymbol()
         {
