@@ -3,16 +3,16 @@
     public class ElementSyntax : ISyntaxNode
     {
         public ElementSyntax(
-            string module,
+            string ns,
             string name, 
             ArgumentSyntax[] arguments,
             ISyntaxNode[] children,
             bool selfClosed)
         {
-            Namespace = module;
-            Name      = name;
-            Arguments = arguments;
-            Children  = children;
+            Namespace  = ns;
+            Name       = name;
+            Arguments  = arguments;
+            Children   = children;
             SelfClosed = selfClosed;
         }
 
@@ -28,6 +28,8 @@
         public ISyntaxNode this[int index] => Children[index];
 
         public bool SelfClosed { get; }
+
+        // IsClosed???
 
         public SyntaxKind Kind => SyntaxKind.Element;
     }
