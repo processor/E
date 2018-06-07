@@ -11,6 +11,8 @@ namespace D.Units
         Derived  = 1 << 3,
 
         // Other Systems
-        Imperial = 1 << 4
+        Imperial = 1 << 4,
+
+        Relative = 1 << 10
     }
 }
