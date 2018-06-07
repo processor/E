@@ -12,20 +12,19 @@ namespace D.Units
 
         public static readonly UnitValue<T> One = new UnitValue<T>(one, UnitType.None);
         
-        public UnitValue(T quantity, UnitType type)
+        public UnitValue(T value, UnitType unit)
         {
-            Quantity = quantity; // 1
-            Type     = type;     // g
+            Value = value; // 1
+            Unit  = unit;  // g
         }
 
+        public T Value { get; }   
 
-        public T Quantity { get; }    // Value
-
-        public UnitType Type { get; } // Unit
+        public UnitType Unit { get; }
 
         #region With
 
-        public UnitValue<T> With(T quantity) => new UnitValue<T>(quantity, Type);
+        public UnitValue<T> With(T quantity) => new UnitValue<T>(quantity, Unit);
 
         public UnitValue<T> With(T quantity, UnitType type) => new UnitValue<T>(quantity, type);
 
@@ -35,7 +34,7 @@ namespace D.Units
 
         public double From(IUnitValue source)
         {
-           return Type.Prefix.Value * source.Type.Prefix.Value;
+           return Unit.Prefix.Value * source.Unit.Prefix.Value;
         }
 
         public double To(UnitType type)
@@ -58,11 +57,11 @@ namespace D.Units
 
             // Type Conversions ft -> m, etc 
 
-            double q = Convert.ToDouble(Quantity);
+            double q = Convert.ToDouble(Value);
 
             return q * (
-                (Type.Prefix.Value * Type.BaseFactor) /
-                (target.Type.Prefix.Value * target.Type.BaseFactor)
+                (Unit.Prefix.Value * Unit.BaseFactor) /
+                (target.Unit.Prefix.Value * target.Unit.BaseFactor)
             );
         }
 
@@ -72,9 +71,9 @@ namespace D.Units
 
         Kind IObject.Kind => Kind.UnitValue;
 
-        double INumber.Real => Convert.ToDouble(Quantity);
+        double INumber.Real => Convert.ToDouble(Value);
 
-        T1 INumber.As<T1>() => (T1)Convert.ChangeType(Quantity, typeof(T1));
+        T1 INumber.As<T1>() => (T1)Convert.ChangeType(Value, typeof(T1));
 
         #endregion
 
@@ -83,10 +82,10 @@ namespace D.Units
         public override string ToString()
         {
             var sb = new StringBuilder();
-
-            sb.Append(Quantity);
             
-            sb.Append(Type.ToString());   // e.g. kg
+            sb.Append(Value);
+            
+            sb.Append(Unit.ToString());   // e.g. kg
     
             return sb.ToString();
         }
@@ -148,12 +147,21 @@ namespace D.Units
             }
         }
 
+        public void Deconstruct(out T value, string unitName)
+        {
+            (value, unitName) = (Value, Unit.Name);
+        }
+
         public bool Equals(UnitValue<T> other) =>
-            Quantity.Equals(other.Quantity) &&
-            Type.Equals(other.Type);
+            Value.Equals(other.Value) &&
+            Unit.Equals(other.Unit);
     }
 }
 
 // 1s   = (1)(1)second
 // m³   = (1) m^3  AREA
 // ms   = (1/1000) * (1) s
+
+
+// A dimension is a measure of a physical variable (without numerical values),
+// while a unit is a way to assign a number or measurement to that dimension.

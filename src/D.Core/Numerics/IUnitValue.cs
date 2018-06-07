@@ -4,7 +4,7 @@ namespace D.Units
 {
     public interface IUnitValue : INumber
     {
-        UnitType Type { get; }
+        UnitType Unit { get; }
 
         double To(IUnitValue unit);
 

@@ -8,6 +8,17 @@ namespace D
         where T : struct, IComparable<T>, IEquatable<T>
     {
         T Value { get; }
+
+
+        // Add
+        // Subtract
+        // Multiply
+        // Divide
+
+        // Compare???
+
+        // Min
+        // Max
     }
 
     public interface INumber : IExpression
