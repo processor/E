@@ -2,32 +2,33 @@
 {
     public enum SyntaxKind
     {
-        Object  = 1,
-        Symbol  = 6,
-            
+        Object = 1,
+        Symbol = 6,
+
         // Literal Expressions
-        NullLiteral      ,
-        BooleanLiteral   ,
-        CharacterLiteral ,
-        RangeLiteral     ,
-        NumberLiteral    ,
-        StringLiteral    ,
-        UnitValue      ,
-                            
+        NullLiteral,
+        BooleanLiteral,
+        CharacterLiteral,
+        RangeLiteral,
+        NumberLiteral,
+        StringLiteral,
+        UnitValueLiteral,
+        Percentage,
+
         // Declarations
-        TypeDeclaration             ,
-        FunctionDeclaration         ,
-        ObserverDeclaration         ,
-        PropertyDeclaration         ,
+        TypeDeclaration,
+        FunctionDeclaration,
+        ObserverDeclaration,
+        PropertyDeclaration,
         CompoundPropertyDeclaration,
         VariableDeclaration,
-        CompoundVariableDeclaration ,
-        ProtocolDeclaration         ,
-        ChannelDeclaration          ,
-        ImplementationDeclaration   ,
-        UnitDeclaration             ,
-        OperatorDeclaration         ,
-        ImportDeclaration           ,
+        CompoundVariableDeclaration,
+        ProtocolDeclaration,
+        ChannelDeclaration,
+        ImplementationDeclaration,
+        UnitDeclaration,
+        OperatorDeclaration,
+        ImportDeclaration,
 
         DestructuringAssignment,
 
@@ -36,49 +37,49 @@
         SpreadStatement,
 
         // Patterns
-        AnyPattern     ,
-        ArrayPattern   ,
+        AnyPattern,
+        ArrayPattern,
         ConstantPattern,
-        RangePattern   ,
-        ObjectPattern  ,
-        TuplePattern   ,
-        TypePattern    ,
+        RangePattern,
+        ObjectPattern,
+        TuplePattern,
+        TypePattern,
 
         NamedValue,
 
 
         // Statements
-        Block       , // { ... }
-        ForStatement         , // for x in y
-        IfStatement          ,
-        ElseIfStatement      ,
-        ElseStatement        ,
-        UsingStatement       ,
-        ObserveStatement     ,
-        EmitStatement        ,
-        ReturnStatement      ,
-        YieldStatement       ,
+        Block, // { ... }
+        ForStatement, // for x in y
+        IfStatement,
+        ElseIfStatement,
+        ElseStatement,
+        UsingStatement,
+        ObserveStatement,
+        EmitStatement,
+        ReturnStatement,
+        YieldStatement,
 
-        WhileStatement       ,
-        ModuleStatement      ,
-                             
+        WhileStatement,
+        ModuleStatement,
+
         // Expressions
-        CoalesceExpression   , // ??               
-        AnnotationExpression ,
-        CallExpression       ,
-        TupleExpression      ,
-        LambdaExpression     ,
-        MatchExpression      ,
-        QueryExpression      ,
-                             
-        ArrayInitializer     ,
-        TypeInitializer      ,
-                             
+        CoalesceExpression, // ??               
+        AnnotationExpression,
+        CallExpression,
+        TupleExpression,
+        LambdaExpression,
+        MatchExpression,
+        QueryExpression,
+
+        ArrayInitializer,
+        TypeInitializer,
+
         // Unary             
-        UnaryExpression      ,
-        BinaryExpression     , // +
-        TernaryExpression    ,  // ? :             
-                                 
+        UnaryExpression,
+        BinaryExpression, // +
+        TernaryExpression,  // ? :             
+
         MemberAccessExpression, // a.b
         IndexAccessExpression, // a[b]
 

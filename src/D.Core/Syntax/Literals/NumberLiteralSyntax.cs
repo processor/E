@@ -7,6 +7,7 @@
             Text = text;
         }
         
+        
         public string Text { get; }
 
         SyntaxKind ISyntaxNode.Kind => SyntaxKind.NumberLiteral;
@@ -31,6 +32,9 @@
     // Binary
     // Octal
     // Hexadecimal
+    
+    // 456 as i32
+    // 900 as f32
 
     // Bit / Word Count (8, 16, 32, ...)
 }

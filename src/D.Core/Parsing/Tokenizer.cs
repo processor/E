@@ -184,7 +184,7 @@ namespace D.Parsing
                     }
 
                     break;
-
+                    
                 case '\'':
                     EnterMode(Mode.Apostrophe);
 

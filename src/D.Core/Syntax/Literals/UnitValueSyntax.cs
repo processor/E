@@ -19,7 +19,7 @@ namespace D.Syntax
 
         public int UnitPower { get; }
 
-        SyntaxKind ISyntaxNode.Kind => SyntaxKind.UnitValue;
+        SyntaxKind ISyntaxNode.Kind => SyntaxKind.UnitValueLiteral;
 
         public override string ToString() => Expression.ToString() + " " + UnitName;
     }

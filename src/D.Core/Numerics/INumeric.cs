@@ -5,7 +5,7 @@ namespace D
     using Expressions;
 
     public interface INumeric<T> : INumber
-        where T : unmanaged, IComparable<T>
+        where T : struct, IComparable<T>, IEquatable<T>
     {
         T Value { get; }
     }
@@ -14,7 +14,7 @@ namespace D
     {
         double Real { get; } // Quantity
 
-        T As<T>() where T: unmanaged, IEquatable<T>, IFormattable;
+        T As<T>() where T: struct, IComparable<T>, IEquatable<T>;
     }
 
     public enum NumericKind

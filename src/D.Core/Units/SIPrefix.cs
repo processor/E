@@ -5,7 +5,7 @@ namespace D.Units
 {
     using static Math;
 
-    public readonly struct SIPrefix
+    public readonly struct SIPrefix : IEquatable<SIPrefix>
     {
         public static readonly SIPrefix None = new SIPrefix(null, 1);
 
@@ -118,7 +118,7 @@ namespace D.Units
                 case 'µ': prefix = µ; break;
                 case 'm': prefix = m; break;
                 case 'c': prefix = c; break;
-                case 'd': prefix = (text[1] == 'a') ? da : d; break;
+                case 'd': prefix = text[1] == 'a' ? da : d; break;
                 case 'h': prefix = h; break;
                 case 'k': prefix = k; break;
                 case 'M': prefix = M; break;
@@ -151,6 +151,10 @@ namespace D.Units
 
             return false;
         }
+
+        public bool Equals(SIPrefix other) =>
+            Name == other.Name &&
+            Value == other.Value;
 
         // Scientific Notiation
     }

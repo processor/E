@@ -2,12 +2,6 @@
 
 namespace D.Units
 {
-    // 8.314 m^3 Pa / mol / K
-    // 8.314 (m^3 Pa) / (mol K)
-    // 8.314 (m^3 * Pa) / (mol * K)
-
-    // Unit 8.314 (m^3 Pa) / (mol K)
-
     public interface IUnitValue : INumber
     {
         UnitType Type { get; }
@@ -15,11 +9,19 @@ namespace D.Units
         double To(IUnitValue unit);
 
         double To(UnitType unit);
+    }
 
-        UnitValue<T> With<T>(T quantity)
-            where T : unmanaged, IComparable<T>, IEquatable<T>;
+    public interface IUnitValue<T> : IUnitValue
+        where T : struct, IComparable<T>, IEquatable<T>, IFormattable
+    {
+        UnitValue<T> With(T quantity);
 
-        UnitValue<T> With<T>(T quantity, UnitType type)
-           where T : unmanaged, IComparable<T>, IEquatable<T>;
+        UnitValue<T> With(T quantity, UnitType type);
     }
 }
+
+// 8.314 m^3 Pa / mol / K
+// 8.314 (m^3 Pa) / (mol K)
+// 8.314 (m^3 * Pa) / (mol * K)
+
+// Unit 8.314 (m^3 Pa) / (mol K)

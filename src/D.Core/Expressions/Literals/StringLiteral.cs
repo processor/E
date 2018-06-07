@@ -2,7 +2,7 @@
 
 namespace D.Expressions
 {
-    public class StringLiteral : IExpression
+    public readonly struct StringLiteral : IExpression
     { 
         public StringLiteral(string text)
         {
