@@ -75,6 +75,7 @@ namespace D.Mathematics
         // floor
 
         public static IArithmetic<T> GetProvider<T>()
+            where T: unmanaged
         {
             if (typeof(T) == typeof(Number))  return (IArithmetic<T>)new RealArithmetic();
             if (typeof(T) == typeof(int))     return (IArithmetic<T>)new Int32Arithmetic();
@@ -88,32 +89,29 @@ namespace D.Mathematics
             if (x == null) throw new ArgumentNullException(nameof(x));
             if (y == null) throw new ArgumentNullException(nameof(y));
 
-            if (!(x is IUnit) && !(y is IUnit))
+            if (!(x is IUnitValue) && !(y is IUnitValue))
             {
                 return new Number(x.Real * y.Real);
             }
 
-            var l = (x as IUnit);
-            var r = (y as IUnit)?.To(l) ?? y.Real;
+            var l = (x as IUnitValue);
+            var r = (y as IUnitValue)?.To(l) ?? y.Real;
 
-            return y is IUnit
-                ? l.With(
-                    quantity: l.Real * r,                // multiply the quantities
-                    power: l.Power + (y as IUnit).Power  // add the exponents
-                )
+            return y is IUnitValue yValue
+                ? l.With(quantity: l.Real * r, type: l.Type.WithExponent(l.Type.Exponent + yValue.Type.Exponent))
                 : l.With(l.Real * r);
                 
         }
     
         public static INumber Add(INumber x, INumber y)
         {
-            if (!(x is IUnit) && !(y is IUnit))
+            if (!(x is IUnitValue) && !(y is IUnitValue))
             {
                 return new Number(x.Real + y.Real);
             }
 
-            var l = (x as IUnit);
-            var r = (y as IUnit)?.To(l) ?? y.Real;
+            var l = (x as IUnitValue);
+            var r = (y as IUnitValue)?.To(l) ?? y.Real;
 
 
             return l.With(l.Real + r);
@@ -121,26 +119,26 @@ namespace D.Mathematics
 
         public static INumber Subtract(INumber x, INumber y)
         {
-            if (!(x is IUnit) && !(y is IUnit))
+            if (!(x is IUnitValue) && !(y is IUnitValue))
             {
                 return new Number(x.Real - y.Real);
             }
 
-            var l = x as IUnit;
-            var r = (y as IUnit)?.To(l) ?? y.Real;
+            var l = x as IUnitValue;
+            var r = (y as IUnitValue)?.To(l) ?? y.Real;
 
             return l.With(l.Real - r);
         }
 
         public static INumber Divide(INumber x, INumber y)
         {
-            if (!(x is IUnit) && !(y is IUnit))
+            if (!(x is IUnitValue) && !(y is IUnitValue))
             {
                 return new Number(x.Real / y.Real);
             }
 
-            var l = (x as IUnit);
-            var r = (y as IUnit)?.To(l) ?? y.Real;
+            var l = (x as IUnitValue);
+            var r = (y as IUnitValue)?.To(l) ?? y.Real;
             
             return l.With(l.Real / r);
         }
@@ -149,21 +147,19 @@ namespace D.Mathematics
         {
             var result = Math.Pow(x.Real, y.Real);
 
-            if (!(x is IUnit) && !(y is IUnit))
+            if (!(x is IUnitValue) && !(y is IUnitValue))
             {
                 return new Number(result);
             }
             else
             {
-                var unit = (IUnit)x;
+                var unit = (IUnitValue)x;
 
-                return new Unit<double>(
+                return new UnitValue<double>(
                     quantity : Math.Pow(x.Real, y.Real),
-                    prefix   : unit.Prefix, 
-                    type     : unit.Type,
-                    power    : unit.Power + ((int)y.Real - 1));
+                    type     : unit.Type.WithExponent(unit.Type.Exponent + ((int)y.Real - 1))
+                );
             }
-
         }
 
         public static INumber Modulus(INumber x, INumber y)

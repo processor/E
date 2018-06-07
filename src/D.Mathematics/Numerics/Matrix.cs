@@ -5,7 +5,7 @@ namespace D.Numerics
     using Expressions;
 
     public class Matrix<T> : IObject
-        where T : struct, IEquatable<T>, IFormattable
+        where T : unmanaged, IEquatable<T>, IFormattable
     {
         private MathNet.Numerics.LinearAlgebra.Matrix<T> impl;
 

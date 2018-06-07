@@ -104,12 +104,7 @@ namespace D
 
         public Type GetType(Symbol symbol)
         {
-            #region Preconditions
-
-            if (symbol == null)
-                throw new ArgumentNullException(nameof(symbol));
-
-            #endregion
+            if (symbol == null) throw new ArgumentNullException(nameof(symbol));
 
             if (TryGetType(symbol, out Type type))
             {

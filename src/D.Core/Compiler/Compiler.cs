@@ -126,7 +126,7 @@ namespace D
 
                 case SyntaxKind.Symbol                  : return VisitSymbol((Symbol)syntax);
                 case SyntaxKind.NumberLiteral           : return VisitNumber((NumberLiteralSyntax)syntax);
-                case SyntaxKind.UnitLiteral             : return VisitUnit((UnitLiteralSyntax)syntax);
+                case SyntaxKind.UnitValue               : return VisitUnitValue((UnitValueSyntax)syntax);
                 
                 case SyntaxKind.ArrayInitializer        : return VisitNewArray((ArrayInitializerSyntax)syntax);
                 case SyntaxKind.StringLiteral           : return new StringLiteral(syntax.ToString());
@@ -168,7 +168,6 @@ namespace D
 
                     // throw new Exception($"array initialized with different types... {bestElementType} + {type}");
                 }
-
             }
 
             return new ArrayInitializer(elements, 
@@ -189,12 +188,12 @@ namespace D
             return new InterpolatedStringExpression(members);
         }
 
-        public IExpression VisitUnit(UnitLiteralSyntax unit)
+        public IExpression VisitUnitValue(UnitValueSyntax value)
         {
             // Lookup unit...
             // Parser power...
 
-            return new UnitLiteral(Visit(unit.Expression), unit.UnitName, unit.UnitPower);
+            return new UnitValueLiteral(Visit(value.Expression), value.UnitName, value.UnitPower);
         }
 
         public virtual IExpression VisitAnyPattern(AnyPatternSyntax syntax) => new AnyPattern();

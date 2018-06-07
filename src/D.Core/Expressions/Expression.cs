@@ -10,7 +10,7 @@
 
         #region Logic
 
-        public static BinaryExpression And (IExpression x, IExpression y)
+        public static BinaryExpression And(IExpression x, IExpression y)
            => new BinaryExpression(Operator.LogicalAnd, x, y);
 
         public static BinaryExpression Or(IExpression x, IExpression y)
@@ -24,15 +24,15 @@
         #region Arthimetic
 
         public static IExpression GreaterThan(IExpression x, IExpression y)
-          => new BinaryExpression(Operator.GreaterThan, x, y);
+            => new BinaryExpression(Operator.GreaterThan, x, y);
 
-        public static IExpression GreaterThanOrEqual (IExpression x, IExpression y)
+        public static IExpression GreaterThanOrEqual(IExpression x, IExpression y)
             => new BinaryExpression(Operator.GreaterOrEqual, x, y);
 
-        public static IExpression Less (IExpression x, IExpression y)
-         => new BinaryExpression(Operator.LessThan, x, y);
+        public static IExpression Less(IExpression x, IExpression y)
+            => new BinaryExpression(Operator.LessThan, x, y);
 
-        public static IExpression LessThan (IExpression x, IExpression y)
+        public static IExpression LessThan(IExpression x, IExpression y)
             => new BinaryExpression(Operator.LessOrEqual, x, y);
 
         #endregion
