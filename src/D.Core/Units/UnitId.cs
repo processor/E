@@ -12,14 +12,14 @@
         AmountOfSubstance        = 6,   // mole        mol       .6
         LuminousIntensity        = 7,   // candela     cd        .7
 
-        Angle,                          // radian       rad
-        Frequency,                      // hertz        Hz
-        Force,                          // newton       N       kg/m/s^2
-        Pressure,                       // pascal       Pa      force / area
+        Angle                    = 20,  // radian       rad
+        Frequency                = 21,  // hertz        Hz
+        Force                    = 22,  // newton       N       kg/m/s^2
+        Pressure                 = 23,  // pascal       Pa      force / area
 
         SolidAngle,                     // steradian    sr
 
-        // Electric:
+        // Electric
         Energy,                         // joule        J
         ElectricCharge,                 // coulomb      C
         ElectricPotentialDifference,    // volt         V
@@ -40,30 +40,20 @@
 
         CatalyticActivity,              // katal        kat
 
-        Wavenumber,
+        Wavenumber,                     //              σ
+
+        // CSS
+        Resolution
     }
 
     /*
-     #region Symbols
-
-    // Primary units
-
-    A   = ElectricCurrent,
-    K   = ThermodynamicTemperature,
-    s   = Time,
-    kg  = Mass,
-    m   = Length,
-    mol = AmountOfSubstance,
-    cd  = LuminousIntensity,
 
     // Secondary Units
     a   = Acceleration,
     L   = Volume,
    
-    j   = ElectricCurrentDensity,
-    σ   = Wavenumber,
+    j   = ElectricCurrentDensity
 
-    #endregion
     */
 }
 

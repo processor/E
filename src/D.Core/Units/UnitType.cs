@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text;
 
 namespace D.Units
 {
@@ -16,7 +17,9 @@ namespace D.Units
         public static readonly UnitType Radian    = new UnitType("rad", Angle);
         public static readonly UnitType Steradian = new UnitType("㏛", SolidAngle);
 
-        public static readonly UnitType Degree    = new UnitType("deg", Angle); //  1 degree = π/180 radians
+        public static readonly UnitType Degree    = new UnitType("deg", Angle);  // 1 degree = π/180 radians
+        public static readonly UnitType Gradian   = new UnitType("grad", Angle); // 400 per circle
+        public static readonly UnitType Turn      = new UnitType("turn", Angle); // 1 per circle
 
         #endregion
 
@@ -69,7 +72,9 @@ namespace D.Units
 
         #region Length
 
-        public static readonly UnitType Meter     = new UnitType("m", Length, SI | Base);  // m
+        public static readonly UnitType Meter = new UnitType("m", Length, SI | Base);  // m
+
+        public static readonly UnitType Inch  = new UnitType("in", Length, Imperial);
 
         #endregion
 
@@ -136,16 +141,48 @@ namespace D.Units
 
         #region Others
 
-        public static readonly UnitType Pixel = new UnitType("px", Length);
+        
 
         #endregion
 
-  
+
+        #region Resolution
+
+        public static readonly UnitType Dpi  = new UnitType("dpi",  Resolution);
+        public static readonly UnitType Dpcm = new UnitType("dpcm", Resolution);
+        public static readonly UnitType Dppx = new UnitType("dppx", Resolution);
+
+        #endregion
+
+        // Absolute Lengths
+        public static readonly UnitType Q    = new UnitType("q",  Length); // quarter-millimeters
+        public static readonly UnitType Pt   = new UnitType("pt", Length); // points
+        public static readonly UnitType Pica = new UnitType("pc", Length); // picas | A pica is a hair less than 1/6 inch, and contains 12 points.
+        public static readonly UnitType Px   = new UnitType("px", Length);
+
+        // Relative Lengths
+        public static readonly UnitType Em   = new UnitType("em",   Length, Relative);
+        public static readonly UnitType Ex   = new UnitType("ex",   Length, Relative);
+        public static readonly UnitType Ch   = new UnitType("ch",   Length, Relative);
+        public static readonly UnitType Rem  = new UnitType("rem",  Length, Relative);
+        public static readonly UnitType Vw   = new UnitType("vw",   Length, Relative); // 1% of viewport’s width
+        public static readonly UnitType Vh   = new UnitType("vh",   Length, Relative); // 1% of viewport’s height
+        public static readonly UnitType Vmin = new UnitType("vmin", Length, Relative); // 1% of viewport’s smaller dimension
+        public static readonly UnitType Vmax = new UnitType("vmax", Length, Relative); // 1% of viewport’s larger dimension
+
         public UnitType(string name) // e.g. px
         {
             Name = name;
             BaseUnit = Unknown;
             BaseFactor = 1;
+        }
+
+        public UnitType(string name, int exponent) 
+        {
+            Name = name;
+            BaseUnit = Unknown;
+            BaseFactor = 1;
+            Exponent = exponent;
         }
 
         public UnitType(string name, UnitId id, UnitFlags flags = UnitFlags.None)
@@ -163,6 +200,17 @@ namespace D.Units
             BaseFactor = baseMultiplier;
         }
 
+        public UnitType(SIPrefix prefix, string name, UnitId id, double baseMultiplier, int exponent)
+        {
+            Prefix     = prefix;
+            Name       = name;
+            BaseUnit   = id;
+            BaseFactor = baseMultiplier;
+            Exponent   = exponent;
+        }
+
+        public SIPrefix Prefix { get; } = SIPrefix.None;
+
         public bool IsBaseUnit => Flags.HasFlag(Base);
 
         public UnitId BaseUnit { get; }
@@ -170,6 +218,8 @@ namespace D.Units
         public double BaseFactor { get; }
 
         public string Name { get; }
+
+        public int Exponent { get; } = 1;
 
         public IConverter<double, double> BaseConverter
             => new UnitConverter(BaseFactor);
@@ -179,7 +229,17 @@ namespace D.Units
         public IExpression Expand()
             => throw new Exception("Not yet implemented");
 
-        public override string ToString() => Name;
+        public UnitType WithPrefix(SIPrefix prefix)
+        {
+            return new UnitType(prefix, Name, BaseUnit, BaseFactor, Exponent);
+        }
+
+        public UnitType WithExponent(int exponent)
+        {
+            return new UnitType(Prefix, Name, BaseUnit, BaseFactor, exponent);
+        }
+
+        // TODO: Multiply (Add Exponents)
 
         public static bool TryParse(string name, out UnitType type)
         {
@@ -191,19 +251,28 @@ namespace D.Units
             {
                 return true;
             }
-            else
+            else if (SIPrefix.TryParseSymbol(name, out SIPrefix prefix))
             {
-                type = null;
+                var unitName = name.Substring(prefix.Length);
 
-                return false;
+                if (TryParseSymbol(unitName, out var unitType))
+                {
+                    type = unitType.WithPrefix(prefix);
+
+                    return true;
+                }
             }
+
+            type = null;
+
+            return false;
         }
 
         private static bool TryParseName(string text, out UnitType type)
         {
             switch(text)
             {
-                case "ohm"      : type = Ohm; break;
+                case "ohm"      : type = Ohm;        break;
                 case "radian"   : type = Radian;     break;
                 case "pascal"   : type = Pascal;     break;
                 case "coulomb"  : type = Coulomb;    break;
@@ -212,6 +281,7 @@ namespace D.Units
                 case "hertz"    : type = Hertz;      break;
                 case "meter"    : type = Meter;      break;
                 case "gram"     : type = Gram;       break;
+                case "grad"     : type = Gradian;    break;
                 case "second"   : type = Second;     break;
                 case "ampere"   : type = Ampere;     break;
                 case "kelvin"   : type = Kelvin;     break;
@@ -222,7 +292,11 @@ namespace D.Units
                 case "farad"    : type = Farad;      break;
                 case "steradian": type = Steradian;  break;
                 case "joule"    : type = Joule;      break;
-
+                case "turn"     : type = Turn;       break;
+                case "dpcm"     : type = Dpcm;       break;
+                case "dppx"     : type = Dppx;       break;
+                case "vmin"     : type = Vmin;       break;
+                case "vmax"     : type = Vmax;       break;
                 default:
                     type = null;
 
@@ -268,7 +342,8 @@ namespace D.Units
                 case "h"    : type =  Hour;         break;
                     
                 // case "lx"   : return Illuminance;         
-                // case "lm"   : return LuminousFlux;        
+                // case "lm"   : return LuminousFlux;
+                
                 case "cd"   : type = Candela; break;
 
                 case "kat"  : type = Katal; break;
@@ -277,10 +352,24 @@ namespace D.Units
 
                 // Non-SI units
                 case "lb"   : type = Pound; break;
-
+                case "in"   : type = Inch; break;
                 case "deg"  : type = Degree; break;
-                case "px"   : type = Pixel; break;
 
+
+                case "px"   : type = Px;  break;
+
+                // Resolutions
+                case "dpi"  : type = Dpi;  break;
+
+                case "pc"   : type = Pica; break;
+                case "pt"   : type = Pt; break;
+                case "em"   : type = Em; break;
+                case "ex"   : type = Ex; break;
+                case "rem"  : type = Rem; break;
+                case "ch"   : type = Ch; break;
+                case "vw"   : type = Vw; break;
+                case "vh"   : type = Vh; break;
+               
                 default     :
 
                     type = null;
@@ -290,5 +379,70 @@ namespace D.Units
 
             return true;
         }
+
+
+        public override string ToString()
+        {
+            var sb = new StringBuilder();
+
+            if (Prefix.Value != 1)
+            {
+                sb.Append(Prefix.Name); // e.g. k
+            }
+
+            sb.Append(Name);   // e.g. g
+
+            if (Exponent != 1)
+            {
+                sb.Append(new Superscript(Exponent).ToString());
+            }
+
+            return sb.ToString();
+
+        }
     }
 }
+
+
+// public static readonly UnitType Speed = new UnitType(Length, Second); // "m/s"
+// public static readonly UnitType Accelaration = new UnitType(Length, SecondSquare); // "m/s²"
+
+
+/*
+// Acceleration     ,  // metre per second squared	         m/s^2
+// Area             ,  // SI: square metre                   m^2
+// DynamicViscosity ,  // pascal second                      Pa·s
+// EnergyDensity    ,  // joule per cubic meter
+// Density          ,  // SI: kilogram per cubic metre       kg/m^3  (AKA Mass Density)
+// Momentum         ,  // mass distance/second
+// Speed            ,  // metre per second
+// Tension          ,  // newton meter
+// Volume           ,  // cubic metre	                    liter
+
+
+// Luminance                = 1068, // candela per square meter  cd/m^2
+// LuminiousFlux            = 1069,
+
+
+// Wavenumber                  = 1070, 
+
+// RefractiveIndex             = 1073,
+// RelactivePermeability       = 1074,
+
+MagneticFieldStrength = 1065,
+                                      
+MolarEnergy                 = 1066,
+MolarEntropy                = 1067,
+                                      
+      
+                                      
+HeatCapasity          
+ThermalConductivity   
+SurfaceChargeDensity  
+HeatFluxDensity       
+SurfaceTension        
+                       
+Radiance              
+RadiantIntensity      
+
+*/

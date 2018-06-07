@@ -75,9 +75,6 @@
 
         public static readonly Operator BitwiseAnd         = Infix(Kind.BitwiseAndExpression,         "&",  precedence: 20); // check precedence
 
-        // public static readonly Operator Negate = Prefix(Kind.NegateExpress);
-        // public static readonly Operator Plus   = Prefix(Kind.NegateExpress);
-
         // lowest
 
         Kind IObject.Kind => Kind.Operator;

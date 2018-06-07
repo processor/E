@@ -33,6 +33,6 @@ namespace D.Expressions
         
         #endregion
 
-        public Kind Kind => Operator.OpKind;
+        public Kind Kind => (Kind)Operator.OpKind;
     }
 }

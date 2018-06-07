@@ -189,10 +189,10 @@
         AsExpression              = 6017,
 
         // Binary - Comparision
-        GreaterThanExpression           = 6020, // > 
-        GreaterThanOrEqualExpression    = 6021, // >=, ≥
-        LessThanExpression              = 6022, // <
-        LessThanOrEqualExpression       = 6023, // <=, ≤
+        GreaterThanExpression        = 6020, // > 
+        GreaterThanOrEqualExpression = 6021, // >=, ≥
+        LessThanExpression           = 6022, // <
+        LessThanOrEqualExpression    = 6023, // <=, ≤
 
         // Binary - Equality
         EqualsExpression            = 6031, // ==
