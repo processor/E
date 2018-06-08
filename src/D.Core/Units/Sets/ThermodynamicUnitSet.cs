@@ -1,5 +1,5 @@
 ﻿
-using static D.Units.UnitInfo;
+using static D.Units.ThermodynamicUnits;
 
 namespace D.Units
 {
@@ -7,7 +7,8 @@ namespace D.Units
     {
         public ThermodynamicUnitSet()
         {
-           
+            Add("K",  Kelvin);
+            Add("°C", Celsius);
         }
     }
 }

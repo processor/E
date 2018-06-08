@@ -24,47 +24,11 @@ namespace D.Units
         public static readonly UnitInfo Gradian   = new UnitInfo("grad", PlaneAngle, 0.9,   Degree); // 400 per circle
         public static readonly UnitInfo Turn      = new UnitInfo("turn", PlaneAngle, 360,   Degree); // 1 per circle
 
-
         #endregion
 
-        #region Electromagism / Energy
+        // Electromagism / Energy
 
-        public static readonly UnitInfo Ampere  = new UnitInfo("A",  ElectricCurrent, SI | Base);
-        public static readonly UnitInfo Coulomb = new UnitInfo("C",  ElectricCharge);
-        public static readonly UnitInfo Ohm     = new UnitInfo("Ω",  ElectricResistance);
-        public static readonly UnitInfo Farad   = new UnitInfo("F",  Capacitance);
-        public static readonly UnitInfo Henry   = new UnitInfo("H",  Inductance);
-        public static readonly UnitInfo Joule   = new UnitInfo("J",  Energy);
-        public static readonly UnitInfo Siemens = new UnitInfo("S",  ElectricConductance);
-        public static readonly UnitInfo Tesla   = new UnitInfo("T",  MagneticFluxDensity);
-        public static readonly UnitInfo Volt    = new UnitInfo("V",  ElectricPotentialDifference);
-        public static readonly UnitInfo Watt    = new UnitInfo("W", Dimension.Power);
-        public static readonly UnitInfo Weber   = new UnitInfo("Wb", MagneticFlux);
-
-        // Electric Properties
-        // ElectricChargeDensity       = 51, // C/m3 
-        // ElectricCurrentDensity      = 52,
-        // ElectricConductance         = 54,
-
-        // ElectricFieldStrength       = 57,
-        // ElectricFluxDensity         = 58,
-        // Permittivity                = 59, // farad/m
-        // Permeability                = 60, // henry/m
-
-        // Resistivity, // SI    ohm/metre
-
-        // ElectricFlux,
-
-        // Irradiance = 1501,     // watts per square meter (recieved)
-        // Radiosity = 1502,      // watts per square meter (transmited)
-
-        #endregion
-
-        #region Force
-
-        public static readonly UnitInfo Newton = new UnitInfo("N", Force); // kg⋅m/s²
-
-        #endregion
+    
 
         #region Frequency
 
@@ -86,7 +50,8 @@ namespace D.Units
 
         #region Mass
 
-        public static readonly UnitInfo Gram  = new UnitInfo("g", Mass); 
+        public static readonly UnitInfo Gram     = new UnitInfo("g", Mass, SI | Base);
+        public static readonly UnitInfo Kilogram = Gram.WithPrefix(SIPrefix.k);
 
         // Standard is KG
 
@@ -102,14 +67,7 @@ namespace D.Units
 
         #endregion
 
-        #region Temperature (Thermodynamic)
-
-        public static readonly UnitInfo Kelvin = new UnitInfo("K", ThermodynamicTemperature, SI | Base);
-
-        // Add −273.15
-        public static readonly UnitInfo Celsius = new UnitInfo("°C", ThermodynamicTemperature, SI | Base); // + x
-
-        #endregion
+        // Temperature (Thermodynamics) 
 
         #region Time
 
@@ -125,14 +83,6 @@ namespace D.Units
         #region Pressure
 
         public static readonly UnitInfo Pascal = new UnitInfo("Pa", Pressure);
-
-        #endregion
-
-        #region Radiation
-
-        public static readonly UnitInfo Sievert   = new UnitInfo("Sv"); // Radioactivity
-        public static readonly UnitInfo Gray      = new UnitInfo("Gy");
-        public static readonly UnitInfo Becquerel = new UnitInfo("Bq"); // Absorbed dose
 
         #endregion
 
@@ -231,6 +181,8 @@ namespace D.Units
 
         Kind IObject.Kind => Kind.Unit;
 
+        public bool IsMetric => Flags.HasFlag(SI);
+
         public UnitInfo WithPrefix(SIPrefix prefix)
         {
             return new UnitInfo(prefix, Name, Dimension, DefinitionValue, Power);
@@ -253,7 +205,7 @@ namespace D.Units
             {
                 var unitName = name.Substring(prefix.Length);
 
-                if (UnitSet.Default.TryGet(unitName, out var unitType))
+                if (UnitSet.Default.TryGet(unitName, out var unitType) && unitType.IsMetric)
                 {
                     type = unitType.WithPrefix(prefix);
 

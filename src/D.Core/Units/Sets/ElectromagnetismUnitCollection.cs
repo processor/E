@@ -1,5 +1,5 @@
 ﻿
-using static D.Units.UnitInfo;
+using static D.Units.ElectromagismUnits;
 
 namespace D.Units
 {
@@ -24,8 +24,8 @@ namespace D.Units
             // Magnetic flux densicity
 
             // Light
-            // Add("lx", Illuminance);
-            // Add("lm", LuminousFlux);
+            Add("lx", Illuminance);
+            Add("lm", LuminousFlux);
         }
     }
 }

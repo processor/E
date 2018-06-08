@@ -13,8 +13,11 @@ namespace D.Units.Tests
 
             [DataMember(Name = "height")]
             public UnitValue<double> Height { get; set; }
-        }
 
+            [DataMember(Name = "flex")]
+            public UnitValue<double> Flex { get; set; }
+        }
+        
         [Fact]
         public void Serialize()
         {
@@ -23,7 +26,8 @@ namespace D.Units.Tests
 
             var a = new Element {
                 Width  = UnitValue.Parse("1920px"),
-                Height = UnitValue.Parse("1080px")
+                Height = UnitValue.Px(1080),
+                Flex   = UnitValue.Percent(100)
             };
 
             // Element(width: 100px, margin: (100px, 80px))
@@ -32,13 +36,15 @@ namespace D.Units.Tests
 
             Assert.Equal(@"{
   ""width"": ""1920px"",
-  ""height"": ""1080px""
+  ""height"": ""1080px"",
+  ""flex"": ""100%""
 }", json.ToString());
 
             var el = json.As<Element>();
             
             Assert.Equal("1920px", el.Width.ToString());
             Assert.Equal("1080px", el.Height.ToString());
+            Assert.Equal("100%",   el.Flex.ToString());
         }
 
         [Fact]

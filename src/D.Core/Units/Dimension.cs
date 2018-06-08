@@ -20,7 +20,7 @@
         Force                    = 23,  // newton       N       kg/m/s²
         Pressure                 = 24,  // pascal       Pa      force / area
 
-        SolidAngle,                     // steradian    sr
+        SolidAngle               = 25,  // steradian    sr
 
         // Electric
         Energy,                         // joule        J
@@ -36,8 +36,6 @@
 
         Illuminance,                    // lux          lx          (= lm/m²)
         LuminousFlux,                   // lumen        lm
-        
-        
 
         CatalyticActivity,              // katal        kat
 

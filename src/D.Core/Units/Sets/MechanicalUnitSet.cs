@@ -1,13 +1,10 @@
-﻿
-using static D.Units.UnitInfo;
-
-namespace D.Units
+﻿namespace D.Units
 {
     public class MechanicalUnitSet : UnitSet
     {
         public MechanicalUnitSet()
         {
-           
+            Add("N", MechanicalUnits.Newton);
         }
     }
 }
