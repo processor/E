@@ -46,16 +46,11 @@ namespace D.Units
             // Volume
             Add("L", Liter);
             
-
             // Non-SI units
             Add("lb", Pound);
 
-            // Amount of Information
-            Add("B", Byte);
-
             // Dimensionless
             Add("%", Percent);
-
         }
     }
 }

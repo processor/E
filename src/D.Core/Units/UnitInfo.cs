@@ -28,8 +28,6 @@ namespace D.Units
 
         // Electromagism / Energy
 
-    
-
         #region Frequency
 
         public static readonly UnitInfo Hertz = new UnitInfo("Hz", Frequency);
@@ -95,12 +93,6 @@ namespace D.Units
         public static readonly UnitInfo Katal = new UnitInfo("kat", CatalyticActivity);
 
         public static readonly UnitInfo SquareMeters = new UnitInfo("m", Length).WithExponent(2);
-        
-        #region Information
-
-        public static readonly UnitInfo Byte = new UnitInfo("B", AmountOfInformation, Base);
-
-        #endregion
 
         // Dimensionless
 

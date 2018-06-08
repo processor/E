@@ -31,8 +31,6 @@
         public static readonly UnitInfo LuminousFlux = new UnitInfo("lm", Dimension.LuminousFlux, SI);
 
 
-
-
         // Electric Properties
         // ElectricChargeDensity       = 51, // C/m3 
         // ElectricCurrentDensity      = 52,
