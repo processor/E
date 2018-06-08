@@ -48,6 +48,7 @@ namespace D.Units
 
             // Volume
             Add("L", Liter);
+            
 
             // Non-SI units
             Add("lb", Pound);
@@ -57,6 +58,10 @@ namespace D.Units
 
             // Add CSS units
             AddRange(new CssUnitSet());
+
+            // Dimensionless
+            Add("%", Percent);
+
         }
     }
 }

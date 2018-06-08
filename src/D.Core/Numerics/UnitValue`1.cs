@@ -71,7 +71,21 @@ namespace D.Units
 
         Kind IObject.Kind => Kind.UnitValue;
 
-        double INumber.Real => Convert.ToDouble(Value);
+        double INumber.Real
+        {
+
+            get
+            {
+                var result = Convert.ToDouble(Value);
+
+                if (Unit.DefinitionUnit is Number definationUnit)
+                {
+                    result = result * definationUnit.Value;
+                }
+
+                return result;
+            }
+        }
 
         T1 INumber.As<T1>() => (T1)Convert.ChangeType(Value, typeof(T1));
 

@@ -38,7 +38,6 @@
         Vector         = 114,
         Complex        = 115,
         Matrix         = 116,
-        Percentage     = 117,
 
         // Integers {…, -2, -1, 0, 1, 2,…}  
         Byte            = 118,

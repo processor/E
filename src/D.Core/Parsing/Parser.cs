@@ -1591,18 +1591,18 @@ namespace D.Parsing
 
             if (literal.Trailing == null && ConsumeIf("%"))
             {
-                return new PercentageSyntax(text);
+                return new UnitValueSyntax(new NumberLiteralSyntax(text), "%", 1);
             }
 
             // Read any immediately preceding unit types and expondents on the same line
 
             if (IsKind(Identifier) && Current.Start.Line == line) 
             {
-                var (name, expondent) = ReadUnitSymbol();
+                var (name, power) = ReadUnitSymbol();
 
                 var num = new NumberLiteralSyntax(text);
 
-                return new UnitValueSyntax(num, name, expondent);
+                return new UnitValueSyntax(num, name, power);
             }
           
             return new NumberLiteralSyntax(text);

@@ -13,7 +13,6 @@
         NumberLiteral,
         StringLiteral,
         UnitValueLiteral,
-        Percentage,
 
         // Declarations
         TypeDeclaration,

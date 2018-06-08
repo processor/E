@@ -3,6 +3,7 @@ using System.Collections.Generic;
 
 namespace D
 {
+    using D.Units;
     using Expressions;
     using Syntax;
 
@@ -131,18 +132,10 @@ namespace D
                 case SyntaxKind.NumberLiteral           : return VisitNumber((NumberLiteralSyntax)syntax);
                 case SyntaxKind.UnitValueLiteral        : return VisitUnitValue((UnitValueSyntax)syntax);
                 case SyntaxKind.StringLiteral           : return new StringLiteral(syntax.ToString());
-                case SyntaxKind.Percentage              : return VisitPercentage((PercentageSyntax)syntax);
                 case SyntaxKind.ArrayInitializer        : return VisitNewArray((ArrayInitializerSyntax)syntax);
             }
 
             throw new Exception("Unexpected node:" + syntax.Kind + "/" + syntax.GetType().ToString());
-        }
-
-        public PercentageLiteral VisitPercentage(PercentageSyntax syntax)
-        {
-            var value = double.Parse(syntax.Number) / 100d;
-
-            return new PercentageLiteral(value);
         }
 
         public ArrayInitializer VisitNewArray(ArrayInitializerSyntax syntax)
@@ -200,9 +193,17 @@ namespace D
 
         public IExpression VisitUnitValue(UnitValueSyntax value)
         {
-            // Lookup unit....
+            var lhs = Visit(value.Expression);
 
-            return new UnitValueLiteral(Visit(value.Expression), value.UnitName, value.UnitPower);
+            if (UnitSet.Default.TryGet(value.UnitName, out var unit))
+            {
+                if (unit.Dimension == Dimension.None && unit.DefinitionUnit is Number definationUnit)
+                {
+                    return new BinaryExpression(Operator.Multiply, lhs, definationUnit) { Grouped = true };
+                }
+            }
+
+            return new UnitValueLiteral(lhs, value.UnitName, value.UnitPower);
         }
 
         public virtual IExpression VisitAnyPattern(AnyPatternSyntax syntax) => new AnyPattern();
