@@ -1,12 +1,13 @@
-﻿namespace D.Expressions
+﻿using D.Parsing;
+
+namespace D.Expressions
 {
     public static class Expression
     {
         public static CallExpression Call(Symbol name, IArguments arguments)
            => new CallExpression(null, name, arguments, false);
 
-        public static Parameter Parameter(string name)
-            => new Parameter(name);
+        public static Parameter Parameter(string name) => new Parameter(name);
 
         #region Logic
 
@@ -21,7 +22,32 @@
 
         #endregion
 
+
         #region Arthimetic
+
+        public static BinaryExpression Multiply(IObject lhs, IObject rhs)
+        {
+            return new BinaryExpression(Operator.Multiply, lhs, rhs);
+        }
+
+        public static BinaryExpression Multiply(IObject lhs, double rhs)
+        {
+            return new BinaryExpression(Operator.Multiply, lhs, new Number(rhs));
+        }
+
+        public static BinaryExpression Divide(IObject lhs, IObject rhs)
+        {
+            return new BinaryExpression(Operator.Divide, lhs, rhs);
+        }
+
+        public static BinaryExpression Add(IObject lhs, IObject rhs)
+        {
+            return new BinaryExpression(Operator.Add, lhs, rhs);
+        }
+
+        #endregion
+
+        #region Comparisions
 
         public static IExpression GreaterThan(IExpression x, IExpression y)
             => new BinaryExpression(Operator.GreaterThan, x, y);
@@ -36,5 +62,14 @@
             => new BinaryExpression(Operator.LessOrEqual, x, y);
 
         #endregion
+
+        public static IExpression Parse(string text)
+        {
+            var compiler = new Compiler();
+
+            var syntax = Parser.Parse(text);
+
+            return compiler.Visit(syntax);
+        }
     }
 }
