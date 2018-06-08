@@ -2,13 +2,13 @@
 
 namespace D.Expressions
 {
-    public readonly struct UnitValueLiteral : IExpression
+    public class UnitValueLiteral : IExpression
     { 
         public UnitValueLiteral(IExpression expression, string unitName, int power = 1)
         {
             Expression = expression ?? throw new ArgumentNullException(nameof(expression));
-            UnitName = unitName ?? throw new ArgumentNullException(nameof(unitName));
-            UnitPower = power;
+            UnitName   = unitName ?? throw new ArgumentNullException(nameof(unitName));
+            UnitPower  = power;
         }
 
         public IExpression Expression { get; }

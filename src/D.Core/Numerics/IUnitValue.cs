@@ -4,11 +4,11 @@ namespace D.Units
 {
     public interface IUnitValue : INumber
     {
-        UnitType Unit { get; }
+        UnitInfo Unit { get; }
 
         double To(IUnitValue unit);
 
-        double To(UnitType unit);
+        double To(UnitInfo unit);
     }
 
     public interface IUnitValue<T> : IUnitValue
@@ -16,7 +16,7 @@ namespace D.Units
     {
         UnitValue<T> With(T quantity);
 
-        UnitValue<T> With(T quantity, UnitType type);
+        UnitValue<T> With(T quantity, UnitInfo type);
     }
 }
 

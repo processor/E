@@ -10,9 +10,9 @@ namespace D.Units
     {
         private static readonly T one = (T)Convert.ChangeType(1, typeof(T));
 
-        public static readonly UnitValue<T> One = new UnitValue<T>(one, UnitType.None);
+        public static readonly UnitValue<T> One = new UnitValue<T>(one, UnitInfo.None);
         
-        public UnitValue(T value, UnitType unit)
+        public UnitValue(T value, UnitInfo unit)
         {
             Value = value; // 1
             Unit  = unit;  // g
@@ -20,13 +20,13 @@ namespace D.Units
 
         public T Value { get; }   
 
-        public UnitType Unit { get; }
+        public UnitInfo Unit { get; }
 
         #region With
 
         public UnitValue<T> With(T quantity) => new UnitValue<T>(quantity, Unit);
 
-        public UnitValue<T> With(T quantity, UnitType type) => new UnitValue<T>(quantity, type);
+        public UnitValue<T> With(T quantity, UnitInfo type) => new UnitValue<T>(quantity, type);
 
         #endregion
 
@@ -37,7 +37,7 @@ namespace D.Units
            return Unit.Prefix.Value * source.Unit.Prefix.Value;
         }
 
-        public double To(UnitType type)
+        public double To(UnitInfo type)
         {
             var target = UnitValue.Create(1d, type);
 
@@ -60,8 +60,8 @@ namespace D.Units
             double q = Convert.ToDouble(Value);
 
             return q * (
-                (Unit.Prefix.Value * Unit.BaseFactor) /
-                (target.Unit.Prefix.Value * target.Unit.BaseFactor)
+                (Unit.Prefix.Value * Unit.DefinitionValue) /
+                (target.Unit.Prefix.Value * target.Unit.DefinitionValue)
             );
         }
 
@@ -92,12 +92,12 @@ namespace D.Units
 
         public static UnitValue<T> Wrap(T value)
         {
-            return new UnitValue<T>(value, UnitType.None);
+            return new UnitValue<T>(value, UnitInfo.None);
         }
 
         public static bool TryParse(string text, out UnitValue<T> unit)
         {
-            if (UnitType.TryParse(text, out UnitType type))
+            if (UnitInfo.TryParse(text, out UnitInfo type))
             {
                 unit = new UnitValue<T>(one, type);
 
@@ -107,7 +107,7 @@ namespace D.Units
             {
                 var unitName = text.Substring(prefix.Length);
                 
-                if (UnitType.TryParse(unitName, out type))
+                if (UnitInfo.TryParse(unitName, out type))
                 {
                     unit = new UnitValue<T>(one, type.WithPrefix(prefix));
 
@@ -131,17 +131,17 @@ namespace D.Units
 
                 double quantity = double.Parse((unit.Expression as NumberLiteralSyntax).Text);
 
-                var type = UnitType.TryParse(unit.UnitName, out UnitType unitType)
+                var type = UnitInfo.TryParse(unit.UnitName, out UnitInfo unitType)
                     ? unitType
-                    : new UnitType(unit.UnitName);
+                    : new UnitInfo(unit.UnitName);
 
                 return new UnitValue<T>((T)Convert.ChangeType(quantity, typeof(T)), type.WithExponent(unit.UnitPower));
             }
             else
             {
-                var type = UnitType.TryParse(text, out UnitType unitType)
+                var type = UnitInfo.TryParse(text, out UnitInfo unitType)
                    ? unitType
-                   : new UnitType(text);
+                   : new UnitInfo(text);
 
                 return new UnitValue<T>(one, type);
             }

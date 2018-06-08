@@ -26,6 +26,8 @@
         Void           = 19, // static instance = nothing
         Character      = 20,
 
+        Unit           = 25,
+
         // Collections
         Array          = 101,
         Set            = 102,

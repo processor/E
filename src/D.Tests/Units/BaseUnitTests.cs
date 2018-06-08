@@ -8,11 +8,11 @@ namespace D.Units.Tests
         [Fact]
         public void Equality()
         {
-            var a = new UnitType("a");
-            var b = new UnitType("b");
+            var a = new UnitInfo("a");
+            var b = new UnitInfo("b");
             
             Assert.False(a.Equals(b));
-            Assert.True(a.Equals(new UnitType("a")));
+            Assert.True(a.Equals(new UnitInfo("a")));
 
         }
 
@@ -27,7 +27,7 @@ namespace D.Units.Tests
         [Fact]
         public void CubeMeters()
         {
-            var unit = new UnitType("m", 3);
+            var unit = new UnitInfo("m", 3);
 
             Assert.Equal("m³", unit.ToString());
         }
@@ -35,10 +35,10 @@ namespace D.Units.Tests
         [Fact]
         public void X()
         {
-            UnitType.TryParse("g", out UnitType type);
+            UnitInfo.TryParse("g", out UnitInfo type);
 
             Assert.Equal("g", type.Name);
-            Assert.Equal(1,   type.BaseFactor);
+            Assert.Equal(1,   type.DefinitionValue);
             Assert.Equal(1,   type.Prefix.Value);
             Assert.Equal(1,   type.Exponent);
         }
@@ -52,7 +52,7 @@ namespace D.Units.Tests
         {
             var unit = UnitValue.Parse(s).With(1);
 
-            var baseUnit = UnitValue.Create(1, UnitType.Ampere);
+            var baseUnit = UnitValue.Create(1, UnitInfo.Ampere);
 
             Assert.Equal(v1, unit.To(baseUnit));
             // Assert.Equal(v2, unit.From(baseUnit), 5);
@@ -62,19 +62,19 @@ namespace D.Units.Tests
         [Fact]
         public void S()
         {
-            Assert.Equal(10/60d, UnitValue.Create(10, UnitType.Second).To(UnitType.Minute));
-            Assert.Equal(1/60d,  UnitValue.Create(1,  UnitType.Minute).To(UnitType.Hour));
-            Assert.Equal(60d,    UnitValue.Create(1,  UnitType.Minute).To(UnitType.Second));
-            Assert.Equal(120d,   UnitValue.Create(2,  UnitType.Hour).To(UnitType.Minute));
+            Assert.Equal(10/60d, UnitValue.Create(10, UnitInfo.Second).To(UnitInfo.Minute));
+            Assert.Equal(1/60d,  UnitValue.Create(1,  UnitInfo.Minute).To(UnitInfo.Hour));
+            Assert.Equal(60d,    UnitValue.Create(1,  UnitInfo.Minute).To(UnitInfo.Second));
+            Assert.Equal(120d,   UnitValue.Create(2,  UnitInfo.Hour).To(UnitInfo.Minute));
         }
 
         [Fact]
         public void A()
         {
-            var kg = UnitType.Gram.WithPrefix(SIPrefix.k); // kg
+            var kg = UnitInfo.Gram.WithPrefix(SIPrefix.k); // kg
 
-            var g_1000 = UnitValue.Create(1000, UnitType.Gram);
-            var g_500 =  UnitValue.Create(500, UnitType.Gram);
+            var g_1000 = UnitValue.Create(1000, UnitInfo.Gram);
+            var g_500 =  UnitValue.Create(500, UnitInfo.Gram);
             var g_100 =  UnitValue.Parse("g").With(100);
 
             Assert.Equal(1,   g_1000.To(kg));
@@ -87,10 +87,10 @@ namespace D.Units.Tests
         {
             var unit = UnitValue.Parse("kg").With(1);
 
-            Assert.Equal(1000d, unit.Type.Prefix.Value);
+            Assert.Equal(1000d, unit.Unit.Prefix.Value);
             Assert.Equal("1kg", unit.ToString());
-            Assert.Equal(1, unit.Quantity);
-            Assert.Equal(1, unit.Type.Exponent);
+            Assert.Equal(1, unit.Value);
+            Assert.Equal(1, unit.Unit.Exponent);
         }
 
         [InlineData("deg")]
@@ -98,7 +98,7 @@ namespace D.Units.Tests
         [InlineData("%")]
         public void OtherTests(string text)
         {
-            var result = UnitType.TryParse(text, out UnitType type);
+            var result = UnitInfo.TryParse(text, out UnitInfo type);
 
             Assert.True(result);
             Assert.Equal(text, type.Name);
@@ -141,18 +141,27 @@ namespace D.Units.Tests
 
 
         [Theory]
-        [InlineData(UnitId.Time, "s", "second")]
-        [InlineData(UnitId.ThermodynamicTemperature, "K", "kelvin")]
-        [InlineData(UnitId.ElectricCurrent, "A", "ampere")]
-        [InlineData(UnitId.Length, "m", "meter")]
+        [InlineData(Dimension.Time, "s", "second")]
+        [InlineData(Dimension.ThermodynamicTemperature, "K", "kelvin")]
+        [InlineData(Dimension.ElectricCurrent, "A", "ampere")]
+        [InlineData(Dimension.Length, "m", "meter")]
         // [InlineData(UnitId.Mass, "kg", "kilogram")]
-        [InlineData(UnitId.AmountOfSubstance, "mol", null)]
-        [InlineData(UnitId.LuminousIntensity, "cd", "candela")]
-        public void BaseTypes(UnitId id, string text, string text2)
+        [InlineData(Dimension.AmountOfSubstance, "mol", null)]
+        [InlineData(Dimension.LuminousIntensity, "cd", "candela")]
+        public void BaseTypes(Dimension id, string text, string text2)
         {
-            UnitType.TryParse(text, out UnitType type);
 
-            Assert.Equal(id, type.BaseUnit);
+            try
+            {
+                UnitSet.Default.AddRange(new ElectromagnetismUnitSet());
+            }
+            catch
+            {
+            }
+
+            UnitInfo.TryParse(text, out UnitInfo type);
+
+            Assert.Equal(id, type.Dimension);
             Assert.True(type.IsBaseUnit);
 
             /*
