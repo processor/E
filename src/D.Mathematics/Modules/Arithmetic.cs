@@ -35,7 +35,7 @@ namespace D.Mathematics
             var r = (y as IUnitValue)?.To(l) ?? y.Real;
 
             return y is IUnitValue yValue
-                ? UnitValue.Create(l.Real * r, type: l.Unit.WithExponent(l.Unit.Exponent + yValue.Unit.Exponent))
+                ? UnitValue.Create(l.Real * r, type: l.Unit.WithExponent(l.Unit.Power + yValue.Unit.Power))
                 : UnitValue.Create(l.Real * r, l.Unit);
                 
         }
@@ -93,7 +93,7 @@ namespace D.Mathematics
 
                 return new UnitValue<double>(
                     value : Math.Pow(x.Real, y.Real),
-                    unit     : unit.Unit.WithExponent(unit.Unit.Exponent + ((int)y.Real - 1))
+                    unit     : unit.Unit.WithExponent(unit.Unit.Power + ((int)y.Real - 1))
                 );
             }
         }

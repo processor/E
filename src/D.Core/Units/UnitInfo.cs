@@ -38,7 +38,7 @@ namespace D.Units
         public static readonly UnitInfo Siemens = new UnitInfo("S",  ElectricConductance);
         public static readonly UnitInfo Tesla   = new UnitInfo("T",  MagneticFluxDensity);
         public static readonly UnitInfo Volt    = new UnitInfo("V",  ElectricPotentialDifference);
-        public static readonly UnitInfo Watt    = new UnitInfo("W",  Power);
+        public static readonly UnitInfo Watt    = new UnitInfo("W", Dimension.Power);
         public static readonly UnitInfo Weber   = new UnitInfo("Wb", MagneticFlux);
 
         // Electric Properties
@@ -152,7 +152,9 @@ namespace D.Units
 
         #endregion
 
-        public static readonly UnitInfo Percentage = new UnitInfo("%", Dimension.None);
+        // Dimensionless
+
+        public static readonly UnitInfo Percent = new UnitInfo("%", Dimension.None, 1, new Number(0.01)); // 1/100
 
         public UnitInfo(string name) // e.g. px
         {
@@ -166,7 +168,7 @@ namespace D.Units
             Name      = symbol;
             Dimension   = Dimension.None;
             DefinitionValue = 1;
-            Exponent    = exponent;
+            Power    = exponent;
         }
 
         public UnitInfo(string name, Dimension id, UnitFlags flags = UnitFlags.None)
@@ -184,13 +186,13 @@ namespace D.Units
             DefinitionValue = definitionValue;
         }
 
-        public UnitInfo(SIPrefix prefix, string name, Dimension id, double definitionValue, int exponent)
+        public UnitInfo(SIPrefix prefix, string name, Dimension id, double definitionValue, int power)
         {
             Prefix          = prefix;
             Name            = name;
             Dimension       = id;
             DefinitionValue = definitionValue;
-            Exponent        = exponent;
+            Power           = power;
         }
 
         public UnitInfo(string name, Dimension id, double definitionValue, IObject definationUnit)
@@ -217,7 +219,7 @@ namespace D.Units
 
         public string Name { get; }
 
-        public int Exponent { get; } = 1;
+        public int Power { get; } = 1;
                 
         public double DefinitionValue { get; }
 
@@ -231,12 +233,12 @@ namespace D.Units
 
         public UnitInfo WithPrefix(SIPrefix prefix)
         {
-            return new UnitInfo(prefix, Name, Dimension, DefinitionValue, Exponent);
+            return new UnitInfo(prefix, Name, Dimension, DefinitionValue, Power);
         }
 
         public UnitInfo WithExponent(int exponent)
         {
-            if (this.Exponent == exponent) return this;
+            if (this.Power == exponent) return this;
 
             return new UnitInfo(Prefix, Name, Dimension, DefinitionValue, exponent);
         }
@@ -275,9 +277,9 @@ namespace D.Units
 
             sb.Append(Name);   // e.g. g
 
-            if (Exponent != 1)
+            if (Power != 1)
             {
-                sb.Append(new Superscript(Exponent).ToString());
+                sb.Append(new Superscript(Power).ToString());
             }
 
             return sb.ToString();
@@ -286,7 +288,8 @@ namespace D.Units
         public bool Equals(UnitInfo other) =>
             Prefix.Equals(other.Prefix) &&
             Name == other.Name &&
-            Exponent == other.Exponent;
+            Power == other.Power;
+
     }
 }
 

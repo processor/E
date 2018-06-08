@@ -54,7 +54,6 @@ namespace D.Expressions
 
                 case Kind.Symbol                  : return VisitSymbol((Symbol)expression);
 
-                case Kind.Percentage:
                 case Kind.Number:
                 case Kind.Int64:
                 case Kind.String                  : return VisitConstant((IExpression)expression);
