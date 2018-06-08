@@ -397,7 +397,7 @@ namespace D.Parsing
 
             ReadDigits();
 
-            if (reader.Current == 'e')
+            if (reader.Current == 'e' && IsSignOrDigit(reader.Peek()))
             {
                 ReadExponent();
             }
@@ -427,6 +427,11 @@ namespace D.Parsing
             }
 
             ReadDigits();
+        }
+
+        private static bool IsSignOrDigit(char value)
+        {
+            return value == '-' || value == '+' || char.IsDigit(value);
         }
 
         private void ReadDigits()
