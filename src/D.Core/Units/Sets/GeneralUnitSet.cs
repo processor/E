@@ -15,14 +15,11 @@ namespace D.Units
 
             Add("Pa",    Pascal);
             Add("sr",    Steradian); // Square radian (㏛)
-            Add("K",     Kelvin);
-            Add("Bq",    Becquerel);
-            Add("Sv",    Sievert);
-            Add("Gy",    Gray);
-            Add("J",     Joule);
-            Add("N",     Newton);
+           
+            // Add("J",     Joule);
+            // Add("N",     Newton);
 
-            Add("gray",  Gray);
+            // Add("gray",  Gray);
             Add("mole",  Mole);
             Add("katal", Katal);
 
@@ -55,9 +52,6 @@ namespace D.Units
 
             // Amount of Information
             Add("B", Byte);
-
-            // Add CSS units
-            AddRange(new CssUnitSet());
 
             // Dimensionless
             Add("%", Percent);

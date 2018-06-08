@@ -19,6 +19,11 @@ namespace D.Units
             Add("C",       Coulomb);   // Electric Charge
             Add("S",       Siemens);
 
+            // Radition
+            Add("Bq", Becquerel);
+            Add("Sv", Sievert);
+            Add("Gy", Gray);
+
             // Permittivity
             // Conductivity
             // Magnetic flux densicity

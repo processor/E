@@ -4,12 +4,20 @@ namespace D.Units
 {
     public class UnitSet
     {
-        public static readonly UnitSet Default = new UnitSet();
+        public static readonly UnitSet Default = new UnitSet(
+            new GeneralUnitSet(),
+            new ThermodynamicUnitSet(),
+            new CssUnitSet()
+        );
 
+        public UnitSet() { }
 
-        static UnitSet()
+        public UnitSet(params UnitSet[] collections)
         {
-            Default.AddRange(new GeneralUnitSet());
+            foreach (var set in collections)
+            {
+                AddRange(set);
+            }
         }
 
         private readonly Dictionary<string, UnitInfo> items = new Dictionary<string, UnitInfo>();
