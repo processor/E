@@ -6,8 +6,6 @@ namespace D.Units
     {
         UnitInfo Unit { get; }
 
-        double To(IUnitValue unit);
-
         double To(UnitInfo unit);
     }
 

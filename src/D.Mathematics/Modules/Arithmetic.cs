@@ -32,7 +32,7 @@ namespace D.Mathematics
             }
 
             var l = (x as IUnitValue);
-            var r = (y as IUnitValue)?.To(l) ?? y.Real;
+            var r = (y as IUnitValue)?.To(l.Unit) ?? y.Real;
 
             return y is IUnitValue yValue
                 ? UnitValue.Create(l.Real * r, type: l.Unit.WithExponent(l.Unit.Power + yValue.Unit.Power))
@@ -48,7 +48,7 @@ namespace D.Mathematics
             }
 
             var l = (x as IUnitValue);
-            var r = (y as IUnitValue)?.To(l) ?? y.Real;
+            var r = (y as IUnitValue)?.To(l.Unit) ?? y.Real;
 
             return UnitValue.Create(l.Real + r, l.Unit);
         }
@@ -61,7 +61,7 @@ namespace D.Mathematics
             }
 
             var l = x as IUnitValue;
-            var r = (y as IUnitValue)?.To(l) ?? y.Real;
+            var r = (y as IUnitValue)?.To(l.Unit) ?? y.Real;
 
             return UnitValue.Create(l.Real - r, l.Unit);
         }
@@ -74,7 +74,7 @@ namespace D.Mathematics
             }
 
             var l = (x as IUnitValue);
-            var r = (y as IUnitValue)?.To(l) ?? y.Real;
+            var r = (y as IUnitValue)?.To(l.Unit) ?? y.Real;
             
             return UnitValue.Create(l.Real / r, l.Unit);
         }

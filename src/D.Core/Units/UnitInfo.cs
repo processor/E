@@ -11,7 +11,7 @@ namespace D.Units
 
     public class UnitInfo : IEquatable<UnitInfo>, IObject
     {
-        public static readonly UnitInfo None = new UnitInfo("unit", Dimension.None);
+        public static readonly UnitInfo None = new UnitInfo(string.Empty, Dimension.None);
 
         #region Angles (Plane & Solid)
 

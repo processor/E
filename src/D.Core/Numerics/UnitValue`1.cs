@@ -32,21 +32,12 @@ namespace D.Units
 
         #region Conversions
 
-        public double From(IUnitValue source)
+        public double To(UnitInfo targetUnit)
         {
-           return Unit.Prefix.Value * source.Unit.Prefix.Value;
-        }
-
-        public double To(UnitInfo type)
-        {
-            var target = UnitValue.Create(1d, type);
-
-            return To(target);
-        }
-
-        public double To(IUnitValue target)
-        {
-            // ensure they have a common base type?
+            if (Unit.Dimension != targetUnit.Dimension)
+            {
+                throw new Exception("Must be the same dimension. Was " + targetUnit.Dimension.ToString() + ".");
+            }
 
             // kg   = 1000
             // g    = 0
@@ -61,7 +52,7 @@ namespace D.Units
 
             return q * (
                 (Unit.Prefix.Value * Unit.DefinitionValue) /
-                (target.Unit.Prefix.Value * target.Unit.DefinitionValue)
+                (targetUnit.Prefix.Value * targetUnit.DefinitionValue)
             );
         }
 
@@ -107,49 +98,40 @@ namespace D.Units
         public static UnitValue<T> Wrap(T value)
         {
             return new UnitValue<T>(value, UnitInfo.None);
-        }
-
-        public static bool TryParse(string text, out UnitValue<T> unit)
-        {
-            if (UnitInfo.TryParse(text, out UnitInfo type))
-            {
-                unit = new UnitValue<T>(one, type);
-
-                return true; // Simple unit
-            }
-            else if (SIPrefix.TryParseSymbol(text, out SIPrefix prefix))
-            {
-                var unitName = text.Substring(prefix.Length);
-                
-                if (UnitInfo.TryParse(unitName, out type))
-                {
-                    unit = new UnitValue<T>(one, type.WithPrefix(prefix));
-
-                    return true;
-                }
-            }
-
-            unit = default;
-
-            return false;
-        }
+        }        
 
         public static UnitValue<T> Parse(string text)
         {
-            if ((char.IsDigit(text[0]) || text[0] == '-') && Parsing.Parser.Parse(text) is UnitValueSyntax unit)
+            if ((char.IsDigit(text[0]) || text[0] == '-'))
             {
-                // 1 g
-                // 1g
-                // 1.1g
-                // 1px
+                var syntax = Parsing.Parser.Parse(text);
 
-                double quantity = double.Parse((unit.Expression as NumberLiteralSyntax).Text);
+                if (syntax is UnitValueSyntax unitValue)
+                {
 
-                var type = UnitInfo.TryParse(unit.UnitName, out UnitInfo unitType)
-                    ? unitType
-                    : new UnitInfo(unit.UnitName);
+                    // 1 g
+                    // 1g
+                    // 1.1g
+                    // 1px
 
-                return new UnitValue<T>((T)Convert.ChangeType(quantity, typeof(T)), type.WithExponent(unit.UnitPower));
+                    double value = double.Parse((unitValue.Expression as NumberLiteralSyntax).Text);
+
+                    var type = UnitInfo.TryParse(unitValue.UnitName, out UnitInfo unitType)
+                        ? unitType
+                        : new UnitInfo(unitValue.UnitName);
+
+                    return new UnitValue<T>((T)Convert.ChangeType(value, typeof(T)), type.WithExponent(unitValue.UnitPower));
+                }
+                else if (syntax is NumberLiteralSyntax number)
+                {
+                    var value = (T)Convert.ChangeType(double.Parse(number.Text), typeof(T));
+
+                    return new UnitValue<T>(value, UnitInfo.None);
+                }
+                else
+                {
+                    throw new Exception("Invalid unit:" + text);
+                }
             }
             else
             {
