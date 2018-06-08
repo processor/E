@@ -14,13 +14,14 @@ namespace D
         // - Bind symbols to their declarations
         // - Transform to ExpressionTree
 
-        private readonly Node graph = new Node();
-
         private Node scope;
 
         public Compiler()
+            : this(new Node()) { }
+
+        public Compiler(Node env)
         {
-            this.scope = graph;
+            this.scope = env;
         }
 
         public Module Compile(IEnumerable<ISyntaxNode> nodes)
@@ -96,15 +97,17 @@ namespace D
                 case TernaryExpressionSyntax ternary : return VisitTernary(ternary);
                 case BlockSyntax block               : return VisitBlock(block);
 
-                case LambdaExpressionSyntax lambda   : return VisitLambda(lambda);
-
                 case CallExpressionSyntax call       : return VisitCall(call);
                 case MatchExpressionSyntax match     : return VisitMatch(match);
             }
 
             switch (syntax.Kind)
             {
-                case SyntaxKind.InterpolatedStringExpression:  return VisitInterpolatedStringExpression((InterpolatedStringExpressionSyntax)syntax);
+                case SyntaxKind.LambdaExpression:
+                    return VisitLambda((LambdaExpressionSyntax)syntax);
+
+                case SyntaxKind.InterpolatedStringExpression:
+                    return VisitInterpolatedStringExpression((InterpolatedStringExpressionSyntax)syntax);
 
                 // Declarations
                 case SyntaxKind.PropertyDeclaration     : return VisitVariableDeclaration((PropertyDeclarationSyntax)syntax);
@@ -126,13 +129,20 @@ namespace D
 
                 case SyntaxKind.Symbol                  : return VisitSymbol((Symbol)syntax);
                 case SyntaxKind.NumberLiteral           : return VisitNumber((NumberLiteralSyntax)syntax);
-                case SyntaxKind.UnitValue               : return VisitUnitValue((UnitValueSyntax)syntax);
-                
-                case SyntaxKind.ArrayInitializer        : return VisitNewArray((ArrayInitializerSyntax)syntax);
+                case SyntaxKind.UnitValueLiteral        : return VisitUnitValue((UnitValueSyntax)syntax);
                 case SyntaxKind.StringLiteral           : return new StringLiteral(syntax.ToString());
+                case SyntaxKind.Percentage              : return VisitPercentage((PercentageSyntax)syntax);
+                case SyntaxKind.ArrayInitializer        : return VisitNewArray((ArrayInitializerSyntax)syntax);
             }
 
             throw new Exception("Unexpected node:" + syntax.Kind + "/" + syntax.GetType().ToString());
+        }
+
+        public PercentageLiteral VisitPercentage(PercentageSyntax syntax)
+        {
+            var value = double.Parse(syntax.Number) / 100d;
+
+            return new PercentageLiteral(value);
         }
 
         public ArrayInitializer VisitNewArray(ArrayInitializerSyntax syntax)
@@ -190,8 +200,7 @@ namespace D
 
         public IExpression VisitUnitValue(UnitValueSyntax value)
         {
-            // Lookup unit...
-            // Parser power...
+            // Lookup unit....
 
             return new UnitValueLiteral(Visit(value.Expression), value.UnitName, value.UnitPower);
         }
@@ -200,7 +209,7 @@ namespace D
 
         public virtual IExpression VisitNumber(NumberLiteralSyntax expression)
         {
-            if (expression.Text.Contains("."))
+            if (expression.Text.IndexOf('.') > -1)
             {
                 return new Number(double.Parse(expression.Text));
             }
@@ -241,7 +250,7 @@ namespace D
             
             var items = new Argument[arguments.Length];
 
-            for (var i = 0; i < items.Length; i++)
+            for (int i = 0; i < items.Length; i++)
             {
                 var a = arguments[i];
 
