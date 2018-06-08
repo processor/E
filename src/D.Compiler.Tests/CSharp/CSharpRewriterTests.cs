@@ -12,6 +12,15 @@ namespace D.Compilation.Tests
     public class CSharpRewriterTests
     {
         [Fact]
+        public void Percent()
+        {
+            Assert.Equal(
+                expected: "object a = (2 * 0.5);",
+                actual: Rewrite("let a = (2 * 50%)")
+            );
+        }
+
+        [Fact]
         public void Access3()
         {
             Assert.Equal(

@@ -17,12 +17,12 @@
 
             EmitLine();
 
-            Emit("}");
+            Emit('}');
         }
 
         public void WriteModuleMembers(Module module)
         {
-            var i = 0;
+            int i = 0;
 
             foreach (var (name, member) in module)
             {

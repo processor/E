@@ -1,6 +1,6 @@
 ﻿namespace D.Expressions
 {
-    public readonly struct PercentageLiteral : IExpression
+    public class PercentageLiteral : IExpression
     {
         public PercentageLiteral(double value)
         {
@@ -11,6 +11,6 @@
 
         Kind IObject.Kind => Kind.Percentage;
 
-        public override string ToString() => Value + "%";
+        public override string ToString() => (Value * 100) + "%";
     }
 }
