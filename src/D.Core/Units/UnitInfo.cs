@@ -17,12 +17,12 @@ namespace D.Units
 
         private static readonly Symbol π = Symbol.Variable("π");
 
-        public static readonly UnitInfo Radian    = new UnitInfo("rad", PlaneAngle, Base);
+        public static readonly UnitInfo Radian    = new UnitInfo("rad", Angle, Base);
         public static readonly UnitInfo Steradian = new UnitInfo("sr",  SolidAngle, Base);
 
-        public static readonly UnitInfo Degree    = new UnitInfo("deg",  PlaneAngle, 1,     Divide(π, UnitValue.Create(180, Radian))); // π / 180 rad
-        public static readonly UnitInfo Gradian   = new UnitInfo("grad", PlaneAngle, 0.9,   Degree); // 400 per circle
-        public static readonly UnitInfo Turn      = new UnitInfo("turn", PlaneAngle, 360,   Degree); // 1 per circle
+        public static readonly UnitInfo Degree    = new UnitInfo("deg",  Angle, 1,     Divide(π, UnitValue.Create(180, Radian))); // π / 180 rad
+        public static readonly UnitInfo Gradian   = new UnitInfo("grad", Angle, 0.9,   Degree); // 400 per circle
+        public static readonly UnitInfo Turn      = new UnitInfo("turn", Angle, 360,   Degree); // 1 per circle
 
         #endregion
 

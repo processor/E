@@ -15,7 +15,7 @@
 
         // Secondary (derived) dimensions -------------------------
         Acceleration             = 20,  //              a       m/s²
-        PlaneAngle               = 21,  // radian       rad
+        Angle                    = 21,  // radian       rad
         Frequency                = 22,  // hertz        Hz
         Force                    = 23,  // newton       N       kg/m/s²
         Pressure                 = 24,  // pascal       Pa      force / area
