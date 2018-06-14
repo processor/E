@@ -8,7 +8,7 @@ namespace D
 
     public sealed class Node
     {
-        private readonly ConcurrentDictionary<string, IObject> nodes = new ConcurrentDictionary<string, IObject>();
+        private readonly ConcurrentDictionary<string, object> children = new ConcurrentDictionary<string, object>();
 
         private readonly OperatorCollection operators = new OperatorCollection();
 
@@ -19,9 +19,9 @@ namespace D
 
         public Node(string name = null, Node parent = null)
         {
-            this.name   = name;
+            this.name = name;
             this.parent = parent;
-            
+
             if (parent != null)
             {
                 this.depth = parent.depth + 1;
@@ -31,7 +31,7 @@ namespace D
 
             AddModule(new Modules.Primitives());
         }
-        
+
         public Node(params IModule[] modules)
             : this()
         {
@@ -45,7 +45,7 @@ namespace D
         {
             foreach (var (key, value) in module)
             {
-                nodes.TryAdd(key, value);
+                children.TryAdd(key, value);
 
                 if (value is Operator op)
                 {
@@ -54,15 +54,22 @@ namespace D
             }
         }
 
+
+
         public string Name => name;
-        
+
         public OperatorCollection Operators => operators;
 
-        public void Add(string name, IObject value) => nodes.TryAdd(name, value);
+        public void Add(string name, object value) => children.TryAdd(name, value);
+
+        public void Add(INamedObject value) => children.TryAdd(value.Name, value);
+
+        public void Add((string, object) tuple) => children.TryAdd(tuple.Item1, tuple.Item2);
+
 
         public bool TryGet<T>(string name, out T value)
         {
-            if (!TryGet(name, out IObject r))
+            if (!TryGet(name, out object r))
             {
                 value = default;
 
@@ -74,9 +81,9 @@ namespace D
             return true;
         }
 
-        public bool TryGet(string name, out IObject kind)
+        public bool TryGet(string name, out object kind)
         {
-            if (nodes.TryGetValue(name, out kind))
+            if (children.TryGetValue(name, out kind))
             {
                 return true;
             }
@@ -90,7 +97,7 @@ namespace D
 
         private bool TryGetType(Symbol symbol, out Type type)
         {
-            if (TryGet(symbol.Name, out IObject t))
+            if (TryGet(symbol.Name, out object t))
             {
                 type = (Type)t;
 
@@ -124,7 +131,7 @@ namespace D
             }
             else
             {
-                return new Type(symbol.Module, symbol.Name);   
+                return new Type(symbol.Module, symbol.Name);
             }
         }
 
@@ -149,12 +156,12 @@ namespace D
 
             throw new NotImplementedException();
         }
-        
+
         public Node Parent => parent;
-        
+
         public Node Nested(string name)
         {
-            return new Node(name, this);            
+            return new Node(name, this);
         }
     }
 }

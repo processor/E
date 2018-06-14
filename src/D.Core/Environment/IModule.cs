@@ -2,6 +2,6 @@
 
 namespace D
 {
-    public interface IModule : IEnumerable<(string, IObject)> { }
+    public interface IModule : IEnumerable<(string, object)> { }
 
 }
