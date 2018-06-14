@@ -34,7 +34,7 @@ namespace D.Mathematics
 
         public Kind Kind => Kind.Function; // TODO: Use function info...
 
-        public IObject Invoke(IArguments args)
+        public object Invoke(IArguments args)
         {
             var x = (INumber)args[0];
             var y = (INumber)args[1];

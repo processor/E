@@ -20,7 +20,7 @@ namespace D.Mathematics
 
         Kind IObject.Kind => Kind.Function;
 
-        public IObject Invoke(IArguments args)
+        public object Invoke(IArguments args)
         { 
             var arg0 = (INumber)args[0];
 

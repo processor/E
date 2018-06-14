@@ -4,8 +4,6 @@ using Xunit;
 
 namespace D.Operators.Tests
 {
-    using Expressions;
-
     using static OperatorType;
 
     public class OperatorTests
@@ -65,8 +63,7 @@ namespace D.Operators.Tests
 
             public Parameter[] Parameters => null;
 
-            public IObject Invoke(IArguments args)
-                => new StringLiteral("hello");
+            public object Invoke(IArguments args) => "hello " + args[0].ToString() + " " + args[1].ToString();
         }
 
         [Fact]
@@ -80,9 +77,9 @@ namespace D.Operators.Tests
 
             env.Operators.Add(op);
 
-            var eval = new Evaulator(env);
+            var eval = new Evaluator(env);
 
-            Assert.Equal("hello", eval.Evaluate("5 # 2").ToString());
+            Assert.Equal("hello 5 2", (string)eval.Evaluate("5 # 2"));
         }
     }
 }

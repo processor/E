@@ -1,6 +1,6 @@
 ﻿namespace D.Imaging
 {
-    public readonly struct Rgb : IColor, IObject
+    public readonly struct Rgb : IColor
     {
         public Rgb(double r, double g, double b)
         {
@@ -14,8 +14,6 @@
         public double G { get; }
 
         public double B { get; }
-
-        public Kind Kind => Kind.Object;
     }
 
     public class RgbConstructor : IFunction
@@ -26,7 +24,7 @@
 
         public Kind Kind => throw new System.NotImplementedException();
 
-        public IObject Invoke(IArguments args)
+        public object Invoke(IArguments args)
         {
             return new Rgb(
                r: (args[0] as INumber).Real,

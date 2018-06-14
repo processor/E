@@ -8,7 +8,7 @@ namespace D
     using Parsing;
     using Units;
 
-    public class Evaulator
+    public class Evaluator
     {
         private Scope scope = new Scope();
         private Compiler compiler = new Compiler();
@@ -17,22 +17,22 @@ namespace D
 
         int count = 0;
 
-        public Evaulator()
+        public Evaluator()
             : this(new Node()) { }
 
-        public Evaulator(Node env)
+        public Evaluator(Node env)
         {
             this.env = env;
         }
 
-        public Evaulator(IObject start, Node env)
+        public Evaluator(IObject start, Node env)
         {
             scope.This = start;
 
             this.env = env;
         }
 
-        public IObject This
+        public object This
         {
             get => scope.This;
             set => scope.This = value;
@@ -40,9 +40,9 @@ namespace D
 
         public Scope Scope => scope;
 
-        public IObject Evaluate(string script)
+        public object Evaluate(string script)
         {
-            IObject last = null;
+            object last = null;
 
             using (var parser = new Parser(script, env))
             {
@@ -55,31 +55,35 @@ namespace D
             return last;
         }
 
-        public IObject Evaluate(ISyntaxNode sytax)
+        public object Evaluate(ISyntaxNode sytax)
         {
             var expression = compiler.Visit(sytax);
 
             return Evaluate(expression);
         }
 
-        public IObject Evaluate(IObject expression)
+        public object Evaluate(object expression)
         {
             if (count > 1000) throw new Exception("too many calls");
 
             count++;
 
-            IObject result = null;
+            object result = null;
             
             switch (expression)
             {
-                case BinaryExpression binary     : result = EvaluateBinary(binary);     break;
-                case ConstantExpression constant : result = EvaluateConstant(constant); break;
-                case Symbol symbol               : result = EvaluateSymbol(symbol);     break;
-                case CallExpression call         : result = EvaluateCall(call);         break;
-                case UnitLiteral unit            : result = EvaluateUnit(unit);         break;
+                case BinaryExpression binary      : result = EvaluateBinary(binary);           break;
+                case ConstantExpression constant  : result = EvaluateConstant(constant);       break;
+                case Symbol symbol                : result = EvaluateSymbol(symbol);           break;
+                case CallExpression call          : result = EvaluateCall(call);               break;
+                case UnitValueLiteral unit        : result = EvaluateUnit(unit);               break;
+
+                case IUnitValue unitValue when unitValue.Unit.Dimension == Dimension.None:
+                    return new Number(unitValue.Real);
+
                 default:
 
-                    if ((long)expression.Kind > 255) throw new Exception($"expected kind: was {expression.Kind}");
+                    // if ((long)expression.Kind > 255) throw new Exception($"expected kind: was {expression.Kind}");
 
                     result = expression;
 
@@ -90,7 +94,6 @@ namespace D
 
             return result;
         }
-
         
         public IObject EvaluateConstant(ConstantExpression expression)
         {
@@ -99,19 +102,29 @@ namespace D
             return (IObject)expression.Value; 
         }
 
-        public IObject EvaluateUnit(UnitLiteral expression)
+        public IObject EvaluateUnit(UnitValueLiteral expression)
         {
-            if (Unit<double>.TryParse(expression.UnitName, out Unit<double> unit))
+            if (!UnitInfo.TryParse(expression.UnitName, out var unit))
             {
-                var number = (INumber)expression.Expression;
-
-                return unit.With(number.Real, expression.UnitPower);
+                throw new Exception($"Unit '{expression.UnitName}' was not found");
             }
 
-            throw new Exception("no unit found for:" + expression.UnitName);
+            if (expression.UnitPower != 0 && expression.UnitPower != 1)
+            {
+                unit = unit.WithExponent(expression.UnitPower);
+            }
+
+            double value = ((INumber)expression.Expression).Real;
+
+            if (unit.Dimension == Dimension.None && unit.DefinitionUnit is INumber definationUnit)
+            {
+                return new Number(value * definationUnit.Real);
+            }
+
+            return UnitValue.Create(value, unit);
         }
 
-        public IObject EvaluateSymbol(Symbol expression)
+        public object EvaluateSymbol(Symbol expression)
         {
             var value = scope.Get(expression.Name);
 
@@ -119,14 +132,15 @@ namespace D
 
             if (value == null) return expression;
 
-            var v = value;
+            if (value is IObject vo && (long)vo.Kind < 255)
+            {
+                return value;
+            }
             
-            if ((long)v.Kind < 255) return v;
-
             return Evaluate((IExpression)value);
         }
       
-        public IObject EvaluateCall(CallExpression expression)
+        public object EvaluateCall(CallExpression expression)
         {
             var argList = EvaluateArguments(expression.Arguments, expression.IsPiped);
             var args = argList.Arguments;
@@ -169,7 +183,7 @@ namespace D
 
         private ArgumentEvaluationResult EvaluateArguments(IArguments args, bool includeThis = false)
         {
-            var result = new IObject[args.Count + (includeThis ? 1 : 0)];
+            var result = new object[args.Count + (includeThis ? 1 : 0)];
 
             var offset = 0;
             var unresolvedSymbolCount = 0;
@@ -194,14 +208,14 @@ namespace D
         
         int q = 0;
 
-        public IObject EvaluateBinary(BinaryExpression expression)
+        public object EvaluateBinary(BinaryExpression expression)
         {
             var l = Evaluate(expression.Left);
             var r = Evaluate(expression.Right);
 
-            if (l is Symbol && expression.Kind == Kind.AssignmentExpression)
+            if (l is Symbol lSymbol && expression.Kind == Kind.AssignmentExpression)
             {
-                scope.Set(l.ToString(), r);
+                scope.Set(lSymbol.Name, r);
 
                 return r;
             }
@@ -238,7 +252,7 @@ namespace D
                     r = rf.Body;
                 }
 
-                // Check if it's an invariant
+                // Check if it's a predicate
                 // x > 5
                 // y < 100
 
@@ -250,13 +264,13 @@ namespace D
                         case ">=":
                         case "<":
                         case "<=": 
-                            return new Predicate(expression.Operator, name, r);
+                            return new Predicate(expression.Operator, name, (IObject)r);
                     }
                 }
 
                 // i > 10
 
-                return new FunctionExpression(args.ToArray(), new BinaryExpression(expression.Operator, l, r));
+                return new FunctionExpression(args.ToArray(), new BinaryExpression(expression.Operator, (IObject)l, (IObject)r));
             }
 
             #endregion

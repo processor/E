@@ -72,13 +72,13 @@ fromTranslation ƒ <T: Number>(x: T, y: T, z: T) => Matrix4<T>(
 
             Assert.True(func.IsInitializer);
 
-            Assert.Equal("x",     func.Parameters[0].Name);
-            Assert.Equal("y",     func.Parameters[1].Name);
-            Assert.Equal("z",     func.Parameters[2].Name);
-
-            Assert.Equal("T",     func.Parameters[0].Type);
-            Assert.Equal("T",     func.Parameters[1].Type);
-            Assert.Equal("T",     func.Parameters[2].Type);
+            Assert.Equal("x", func.Parameters[0].Name);
+            Assert.Equal("y", func.Parameters[1].Name);
+            Assert.Equal("z", func.Parameters[2].Name);
+                              
+            Assert.Equal("T", func.Parameters[0].Type);
+            Assert.Equal("T", func.Parameters[1].Type);
+            Assert.Equal("T", func.Parameters[2].Type);
 
             var lambda    = (LambdaExpressionSyntax)func.Body;
             var newObject = (ObjectInitializerSyntax)lambda.Expression;

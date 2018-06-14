@@ -6,9 +6,9 @@ namespace D
 {
     public interface IArguments : IEnumerable<Argument>
     {
-        IObject this[int i] { get; }
+        object this[int i] { get; }
 
-        IObject this[string name] { get; }
+        object this[string name] { get; }
 
         int Count { get;  }
     }
@@ -29,12 +29,12 @@ namespace D
             }
         }
 
-        public static IArguments Create(IObject item)
+        public static IArguments Create(object item)
         {
             return new Argument(null, item);
         }
 
-        public static IArguments Create(params IObject[] items)
+        public static IArguments Create(params object[] items)
         {
             var args = new Argument[items.Length];
 
@@ -49,13 +49,13 @@ namespace D
 
     public readonly struct Argument : IArguments
     {
-        public Argument(IObject value)
+        public Argument(object value)
         {
             Name = null;
             Value = value;
         }
 
-        public Argument(Symbol name, IObject value)
+        public Argument(Symbol name, object value)
         {
             Name = name;
             Value = value;
@@ -63,14 +63,14 @@ namespace D
 
         public Symbol Name { get; }
 
-        public IObject Value { get; }
+        public object Value { get; }
         
         // NameIsImplict?
 
-        public IObject this[int i] =>
+        public object this[int i] =>
             i >= 0 ? Value : throw new ArgumentOutOfRangeException("Out of range");
 
-        public IObject this[string name] => 
+        public object this[string name] => 
             Name == name ? Value : throw new ArgumentNullException(nameof(name));
 
         public int Count => 1;
@@ -96,9 +96,9 @@ namespace D
             this.items = items;
         }
 
-        public IObject this[int i] => items[i].Value;
+        public object this[int i] => items[i].Value;
 
-        public IObject this[string name]
+        public object this[string name]
         {
             get
             {

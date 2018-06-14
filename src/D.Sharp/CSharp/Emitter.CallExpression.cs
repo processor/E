@@ -44,7 +44,7 @@ namespace D.Compilation
                 {
                     Emit(", ");
 
-                    Visit(arg.Value);
+                    Visit((IObject)arg.Value);
                 }
 
                 Emit(')');
@@ -107,7 +107,7 @@ namespace D.Compilation
             {
                 if (++i > 1) Emit(", ");
 
-                WriteArg(arg.Value);
+                WriteArg((IObject)arg.Value);
             }
 
             Emit(')');

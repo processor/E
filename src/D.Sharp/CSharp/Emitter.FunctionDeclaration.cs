@@ -90,7 +90,7 @@
                 Indent(level);
                 Emit(ToPascalCase(member.Name));
                 Emit(" = ");
-                Visit(member.Value);
+                Visit((IObject)member.Value);
                 Emit(";");
             }
         }

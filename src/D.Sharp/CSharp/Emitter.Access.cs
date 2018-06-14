@@ -8,7 +8,7 @@
         {
             Visit(expression.Left);
             Emit('[');
-            Visit(expression.Arguments[0]);
+            Visit((IObject)expression.Arguments[0]);
             Emit(']');
 
             return expression;

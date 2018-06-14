@@ -2,14 +2,14 @@
 {
     public class Script
     {
-        public static IObject Evaluate(string text)
+        public static object Evaluate(string text)
         {
             return Evaluate(text, new Node());
         }
 
-        public static IObject Evaluate(string text, Node env)
+        public static object Evaluate(string text, Node env)
         {
-            var evaulator = new Evaulator(env);
+            var evaulator = new Evaluator(env);
 
             evaulator.Evaluate(text);
 

@@ -158,7 +158,7 @@ namespace D.Tests
             Assert.Equal("1", evaulator.Scope.Get("a").ToString());
         }
 
-        public IObject Eval(IExpression statement)
+        public object Eval(IExpression statement)
             => new Evaluator().Evaluate(statement);
 
       

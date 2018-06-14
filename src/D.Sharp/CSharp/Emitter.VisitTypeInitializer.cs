@@ -22,7 +22,7 @@
 
                 Emit(": ");
 
-                Visit(member.Value);
+                Visit((IObject)member.Value);
             }
 
             Emit(')');
