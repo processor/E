@@ -32,8 +32,8 @@ namespace D.Parsing.Tests
 
             Assert.Equal(2, pipe.Arguments.Length);
 
-            var arg1 = (UnitLiteralSyntax)pipe.Arguments[0].Value;
-            var arg2 = (UnitLiteralSyntax)pipe.Arguments[1].Value;
+            var arg1 = (UnitValueSyntax)pipe.Arguments[0].Value;
+            var arg2 = (UnitValueSyntax)pipe.Arguments[1].Value;
 
             Assert.Equal("800px", arg1.ToString());
             Assert.Equal("600px", arg2.ToString());
@@ -50,8 +50,8 @@ namespace D.Parsing.Tests
             
             Assert.Equal("resize", resizePipe.Name);
 
-            Assert.Equal("800 px", ((UnitLiteralSyntax)resizePipe.Arguments[0].Value).ToString());
-            Assert.Equal("600 px", ((UnitLiteralSyntax)resizePipe.Arguments[1].Value).ToString());
+            Assert.Equal("800 px", ((UnitValueSyntax)resizePipe.Arguments[0].Value).ToString());
+            Assert.Equal("600 px", ((UnitValueSyntax)resizePipe.Arguments[1].Value).ToString());
             Assert.Equal("image",  (Symbol)resizePipe.Callee);
 
             Assert.Equal("Gif", pipe.Arguments[0].Value.ToString());

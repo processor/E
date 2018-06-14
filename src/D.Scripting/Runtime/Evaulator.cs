@@ -3,9 +3,9 @@ using System.Collections.Generic;
 
 namespace D
 {
-    using Syntax;
     using Expressions;
     using Parsing;
+    using Syntax;
     using Units;
 
     public class Evaluator

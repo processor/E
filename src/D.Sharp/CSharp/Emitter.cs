@@ -110,13 +110,6 @@ namespace D.Compilation
 
                     break;
 
-                case Kind.Percentage:
-                    var percentage = (PercentageLiteral)value;
-
-                    writer.Write(percentage.Value);
-
-                    break;
-
                 default:
                     writer.Write(value.ToString());
                     break;

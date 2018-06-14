@@ -6,7 +6,7 @@ namespace D.Compilation
     {
         public void WriteProperties(IEnumerable<Property> properties)
         {
-            var i = 0;
+            int i = 0;
 
             foreach (var property in properties)
             {
@@ -22,7 +22,7 @@ namespace D.Compilation
 
                 WriteTypeSymbol(property.Type);
 
-                Emit(" ");
+                Emit(' ');
 
                 Emit(ToPascalCase(property.Name));
 
@@ -33,7 +33,7 @@ namespace D.Compilation
                     Emit("set; ");
                 }
 
-                Emit("}");
+                Emit('}');
             }
         }
 
@@ -43,16 +43,16 @@ namespace D.Compilation
 
             Emit("public " + name);
 
-            Emit("(");
+            Emit('(');
 
-            var i = 0;
+            int i = 0;
 
             foreach (var property in properties)
             {
                 if (++i != 1) Emit(", ");
 
                 WriteTypeSymbol(property.Type);
-                Emit(" ");
+                Emit(' ');
                 Emit(property.Name);
             }
 

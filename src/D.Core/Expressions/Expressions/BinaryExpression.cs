@@ -20,7 +20,7 @@ namespace D.Expressions
         public bool Grouped { get; set; }
 
         public Kind Kind => (Kind)Operator.OpKind;
-
+        
         #region ToString
 
         public override string ToString()

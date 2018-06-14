@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 using Xunit;
@@ -10,6 +11,18 @@ namespace D.Parsing.Tests
     public class CallTests : TestBase
     {
         [Fact]
+        public void CssCalc()
+        {
+            var a = Parse<CallExpressionSyntax>("calc(1px - 2 * 3em)");
+
+            Assert.Equal(1, a.Arguments.Length);
+
+            var inner = a.Arguments[0].Value as BinaryExpressionSyntax;
+
+            Assert.Equal("1 px - 2 * 3 em", inner.ToString());
+        }
+
+        [Fact]
         public void Parethensis()
         {
             var a = Parse<CallExpressionSyntax>("(a - b).negate(1)");
@@ -17,8 +30,8 @@ namespace D.Parsing.Tests
             var left = (BinaryExpressionSyntax)a.Callee;
 
             Assert.Equal(Operator.Subtract , left.Operator);
-            Assert.Equal("negate"             , a.Name);
-            Assert.Equal(1                    , (NumberLiteralSyntax)a.Arguments[0].Value);
+            Assert.Equal("negate"          , a.Name);
+            Assert.Equal(1                 , (NumberLiteralSyntax)a.Arguments[0].Value);
         }
 
         [Fact]
@@ -87,7 +100,7 @@ namespace D.Parsing.Tests
             Assert.Equal(2, (Integer)call.Arguments["y"]);
             Assert.Equal(3, (Integer)call.Arguments["z"]);
 
-            Assert.Throws<Exception>(() => call.Arguments["a"]);
+            Assert.Throws<KeyNotFoundException>(() => call.Arguments["a"]);
         }
     }
 }

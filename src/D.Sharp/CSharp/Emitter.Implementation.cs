@@ -4,9 +4,9 @@
     {        
         public void WriteImplementation(Type type)
         {
-            Indent(level);
-            Emit($"public class {type.Name}");
-            
+            Emit("public class ", level);
+            Emit(type.Name);
+
             var needsWhere = false;
             var ii = 0;
 

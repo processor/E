@@ -17,17 +17,18 @@ namespace D.Units.Tests
             [DataMember(Name = "flex")]
             public UnitValue<double> Flex { get; set; }
         }
-        
+
         [Fact]
         public void Serialize()
         {
             // margin = new (20px, 20px)
             // margin = new (100px)
 
-            var a = new Element {
-                Width  = UnitValue.Parse("1920px"),
+            var a = new Element
+            {
+                Width = UnitValue.Parse("1920px"),
                 Height = UnitValue.Px(1080),
-                Flex   = UnitValue.Percent(100)
+                Flex = UnitValue.Percent(100)
             };
 
             // Element(width: 100px, margin: (100px, 80px))
@@ -41,19 +42,18 @@ namespace D.Units.Tests
 }", json.ToString());
 
             var el = json.As<Element>();
-            
+
             Assert.Equal("1920px", el.Width.ToString());
             Assert.Equal("1080px", el.Height.ToString());
-            Assert.Equal("100%",   el.Flex.ToString());
+            Assert.Equal("100%", el.Flex.ToString());
         }
 
         [Fact]
         public void Parse1()
         {
             var val = UnitValue.Parse("11.5px");
-            
-            Assert.Equal(11.5,           val.Value);
-            Assert.Equal(CssUnits.Px, val.Unit);
+
+            Assert.Equal((11.5, CssUnits.Px), (val.Value, val.Unit));
         }
 
         [Fact]
@@ -69,80 +69,79 @@ namespace D.Units.Tests
         public void Parse3()
         {
             var val = UnitValue.Parse("-0.5turn");
-
-            Assert.Equal(-0.5,          val.Value);
-            Assert.Equal(UnitInfo.Turn, val.Unit);
+            
+            Assert.Equal((-0.5d, UnitInfo.Turn), (val.Value, val.Unit));
         }
 
         [Theory]
-        [InlineData(Dimension.PlaneAngle, "deg")]
-        [InlineData(Dimension.PlaneAngle, "grad")]
-        [InlineData(Dimension.PlaneAngle, "rad")]
-        [InlineData(Dimension.PlaneAngle, "turn")]
-        public void Angles(Dimension id, string text)
+        [InlineData("deg")]
+        [InlineData("grad")]
+        [InlineData("rad")]
+        [InlineData("turn")]
+        public void Angles(string text)
         {
             UnitInfo.TryParse(text, out UnitInfo type);
 
-            Assert.Equal(id, type.Dimension);
+            Assert.Equal(Dimension.Angle, type.Dimension);
         }
 
         [Theory]
-        [InlineData(Dimension.Time, 1,     "s")]
-        [InlineData(Dimension.Time, 0.001, "ms")]
-        public void Durations(Dimension id, double scale, string text)
+        [InlineData(1, "s")]
+        [InlineData(0.001, "ms")]
+        public void Durations(double scale, string text)
         {
             UnitInfo.TryParse(text, out UnitInfo type);
 
-            Assert.Equal(id,    type.Dimension);
+            Assert.Equal(text, type.ToString());
+            Assert.Equal(Dimension.Time, type.Dimension);
             Assert.Equal(scale, type.Prefix.Value);
         }
 
         [Theory]
 
         // Absolute
-        [InlineData(Dimension.Length, "cm")]
-        [InlineData(Dimension.Length, "mm")]
-        [InlineData(Dimension.Length, "in")]
-        [InlineData(Dimension.Length, "pt")]
-        [InlineData(Dimension.Length, "pc")]
-        [InlineData(Dimension.Length, "px")]
+        [InlineData("cm")]
+        [InlineData("mm")]
+        [InlineData("in")]
+        [InlineData("pt")]
+        [InlineData("pc")]
+        [InlineData("px")]
 
         // Relative
-        [InlineData(Dimension.Length, "em")] 
-        [InlineData(Dimension.Length, "ex")] 
-        [InlineData(Dimension.Length, "ch")]
-        [InlineData(Dimension.Length, "rem")]
-        [InlineData(Dimension.Length, "vw")] 
-        [InlineData(Dimension.Length, "vh")] 
-        
-        public void Lengths(Dimension id, string text)
+        [InlineData("em")]
+        [InlineData("ex")]
+        [InlineData("ch")]
+        [InlineData("rem")]
+        [InlineData("vw")]
+        [InlineData("vh")]
+        public void Lengths(string text)
         {
             UnitInfo.TryParse(text, out UnitInfo type);
 
-            Assert.Equal(id, type.Dimension);
+            Assert.Equal(Dimension.Length, type.Dimension);
         }
-        
+
         [Theory]
-        [InlineData(Dimension.Frequency, 1,    "Hz")]
-        [InlineData(Dimension.Frequency, 1000, "kHz")]
-        public void Frequency(Dimension id, double scale, string text)
+        [InlineData(1, "Hz")]
+        [InlineData(1000, "kHz")]
+        public void Frequency(double scale, string text)
         {
             UnitInfo.TryParse(text, out UnitInfo type);
 
             Assert.Equal(scale, type.Prefix.Value);
-            Assert.Equal(id, type.Dimension);
+            Assert.Equal(Dimension.Frequency, type.Dimension);
         }
 
         [Theory]
-        [InlineData(Dimension.Resolution, 1, "dpi")]
-        [InlineData(Dimension.Resolution, 1, "dpcm")]
-        [InlineData(Dimension.Resolution, 1, "dppx")]
-        public void Resolution(Dimension id, int scale, string text)
+        [InlineData("dpi")]
+        [InlineData("dpcm")]
+        [InlineData("dppx")]
+        public void Resolution(string text)
         {
             UnitInfo.TryParse(text, out UnitInfo type);
 
-            Assert.Equal(scale, type.Prefix.Value);
-            Assert.Equal(id, type.Dimension);
+            Assert.Equal(1, type.Prefix.Value);
+            Assert.Equal(Dimension.Resolution, type.Dimension);
         }
     }
 }

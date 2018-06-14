@@ -2,7 +2,6 @@
 
 namespace D.Units.Tests
 {
-
     public class BaseUnitTypeTests
     {
         [Fact]
@@ -14,14 +13,6 @@ namespace D.Units.Tests
             Assert.False(a.Equals(b));
             Assert.True(a.Equals(new UnitInfo("a")));
 
-        }
-
-        [Fact]
-        public void Q()
-        {
-            var value = UnitValue.Parse("3 m³");
-
-            Assert.Equal("3m³", value.ToString());
         }
 
         [Fact]
@@ -40,7 +31,7 @@ namespace D.Units.Tests
             Assert.Equal("g", type.Name);
             Assert.Equal(1,   type.DefinitionValue);
             Assert.Equal(1,   type.Prefix.Value);
-            Assert.Equal(1,   type.Exponent);
+            Assert.Equal(1,   type.Power);
         }
 
         [Theory]
@@ -52,9 +43,8 @@ namespace D.Units.Tests
         {
             var unit = UnitValue.Parse(s).With(1);
 
-            var baseUnit = UnitValue.Create(1, UnitInfo.Ampere);
+            Assert.Equal(v1, unit.To(UnitInfo.Gram));
 
-            Assert.Equal(v1, unit.To(baseUnit));
             // Assert.Equal(v2, unit.From(baseUnit), 5);
         }
 
@@ -90,7 +80,7 @@ namespace D.Units.Tests
             Assert.Equal(1000d, unit.Unit.Prefix.Value);
             Assert.Equal("1kg", unit.ToString());
             Assert.Equal(1, unit.Value);
-            Assert.Equal(1, unit.Unit.Exponent);
+            Assert.Equal(1, unit.Unit.Power);
         }
 
         [InlineData("deg")]
