@@ -1,25 +1,40 @@
 ﻿using System.Linq;
 
+using D.Expressions;
+using D.Imaging;
+using D.Mathematics;
+using D.Parsing;
+using D.Syntax;
+using D.Units;
+
 using Xunit;
+
+using static D.Units.UnitValue;
 
 namespace D.Tests
 {
-    using Expressions;
-    using Mathematics;
-    using Parsing;
-    using Syntax;
-
     public class EvaulatorTests
     {
         private static readonly Node env = new Node(
             new ArithmeticModule(), 
-            new TrigonometryModule()
+            new TrigonometryModule(),
+            new ColorModule()
         );
+
+        [Fact]
+        public void ConstructColor()
+        {
+            var rgb = (Rgb)Script.Evaluate("rgb(20%, 12%, 19%)", env);
+
+            Assert.Equal(0.20, rgb.R);
+            Assert.Equal(0.12, rgb.G);
+            Assert.Equal(0.19, rgb.B);
+        }
 
         [Fact]
         public void MultiAssignment()
         {
-            var evaulator = new Evaulator();
+            var evaulator = new Evaluator();
 
             var parser = new Parser(
 @"a = 1
@@ -39,10 +54,61 @@ namespace D.Tests
         }
 
         [Fact]
+        public void ManualProduct()
+        {
+            var evaulator = new Evaluator(env);
+
+            var node = new BinaryExpression(Operator.Multiply, Px(10), Percent(50));
+
+            var result = (UnitValue<double>)evaulator.Evaluate(node);
+
+            Assert.Equal((5, CssUnits.Px), (result.Value, result.Unit));
+        }
+
+        [Fact]
+        public void ManualProductWithCustomDimensionlessUnit()
+        {
+            var forth = new UnitInfo("forth", Dimension.None, 1, new Number(0.25));
+
+            var evaulator = new Evaluator(env);
+
+            var node = Expression.Multiply(Px(10), UnitValue.Create(1, forth));
+
+            var result = (UnitValue<double>)evaulator.Evaluate(node);
+
+            Assert.Equal((2.5, CssUnits.Px), (result.Value, result.Unit));
+        }
+        
+
+        [Fact]
+        public void ManualSum()
+        {
+            var evaulator = new Evaluator(env);
+
+            var node = new BinaryExpression(Operator.Add, Px(10), new BinaryExpression(Operator.Add, Px(1), Px(1)));
+
+            var result = (UnitValue<double>)evaulator.Evaluate(node);
+
+            Assert.Equal(12,             result.Value);
+            Assert.Equal(CssUnits.Px, result.Unit);
+        }
+
+        [Fact]
         public void Add()
         {
-            Assert.Equal("1",   Script.Evaluate("0 + 1", env).ToString());
-            Assert.Equal("2",   Script.Evaluate("1 + 1", env).ToString());
+            Assert.Equal("1", Script.Evaluate("0 + 1", env).ToString());
+            Assert.Equal("2", Script.Evaluate("1 + 1", env).ToString());
+        }
+
+        [Fact]
+        public void CssUnitValues()
+        {
+            Assert.Equal("40px",     Script.Evaluate("20px + 20px",                  env).ToString());
+            Assert.Equal("40px",     Script.Evaluate("20px * 2",                     env).ToString());
+            Assert.Equal("40px",     Script.Evaluate("80px / 2",                     env).ToString());
+            Assert.Equal("40000px²", Script.Evaluate("((80px / 2) ** 2) * 50 * 50%", env).ToString());
+            Assert.Equal("10px",     Script.Evaluate("20px * 50%",                   env).ToString());
+            Assert.Equal("20px",     Script.Evaluate("20px * 50% * 2",               env).ToString());
         }
 
         [Fact]
@@ -56,16 +122,15 @@ namespace D.Tests
         [Fact]
         public void Pipe()
         {
-            var evaulator = new Evaulator();
+            var evaulator = new Evaluator();
 
             var parser = new Parser(
 @"a = 11
   a |> add 50
   |> multiply 10
 
-  a * 3");
+");
 
-          
             evaulator.Evaluate(parser.Next());
 
             Assert.Equal("11", evaulator.Scope.Get("a").ToString());
@@ -75,34 +140,13 @@ namespace D.Tests
 
             Assert.Equal("a", left.Callee.ToString());
 
-            Assert.Equal(SyntaxKind.Symbol, left.Callee.Kind);
-
-            // var r = evaulator.Evaluate(a);
-
-            // Assert.Equal("11", evaulator.Scope.This.ToString());
-
-            return;
-
-            var result = evaulator.Evaluate(parser.Next());
-
-          
-            Assert.Equal("61", result.ToString());
-            Assert.Equal("61", evaulator.Scope.This.ToString());
-
-            result = evaulator.Evaluate(parser.Next());
-
-            Assert.Equal("610", result.ToString());
-
-            result = evaulator.Evaluate(parser.Next());
-
-            Assert.Equal("33", result.ToString());
-
+            Assert.Equal(SyntaxKind.Symbol, left.Callee.Kind);         
         }
 
         [Fact]
         public void Assignment()
         {
-            var evaulator = new Evaulator();
+            var evaulator = new Evaluator();
 
             var parser = new Parser(@"a = 1");
 
@@ -115,9 +159,10 @@ namespace D.Tests
         }
 
         public IObject Eval(IExpression statement)
-            => new Evaulator().Evaluate(statement);
+            => new Evaluator().Evaluate(statement);
 
       
+        /*
         [Fact]
         public void Eval2()
         {
@@ -125,6 +170,7 @@ namespace D.Tests
 
             Assert.Equal("0.453592kg²", result.ToString());
         }
+        */
 
         [Theory]
         [InlineData("2kg * 3",                 "6kg")]
@@ -141,7 +187,7 @@ namespace D.Tests
         [InlineData("30s ** 3",                "27000s³")]
         [InlineData("30s³ ** 2",               "900s⁴")]
         [InlineData("2 ** 32",                  "4294967296")]
-        [InlineData("5s + 10s", "15s")]
+        [InlineData("5s + 10s",                 "15s")]
         [InlineData("(1 * 5)",                  "5")]
         [InlineData("(1 * 5) + 3",              "8")]
         [InlineData("(1 + 5) * 3",              "18")]
@@ -211,7 +257,7 @@ namespace D.Tests
             // 5 * x * y
 
             var statement = new Parser(a).Next();
-
+            
             // var ƒ = Eval(statement);
 
             // Assert.Equal(b, b.ToString());
@@ -224,7 +270,7 @@ namespace D.Tests
 
             var statement = (BinaryExpressionSyntax)parser.Next();
 
-            var l = (UnitLiteralSyntax)statement.Left;
+            var l = (UnitValueSyntax)statement.Left;
             var r = (BinaryExpressionSyntax)statement.Right;
 
             Assert.Equal("1 kg", l.ToString());
