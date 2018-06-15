@@ -26,7 +26,7 @@ namespace D
 
         public Type GetType(IExpression expression)
         {
-            if (expression is Symbol name && scope.TryGet(name, out IObject obj))
+            if (expression is Symbol name && env.TryGetValue(name, out IObject obj))
             {
                 return (Type)obj;
             }
@@ -50,7 +50,7 @@ namespace D
                     return Type.Get(Kind.Object);
 
                 case TypeInitializer initializer:
-                    return scope.Get<Type>(initializer.Type);
+                    return env.Get<Type>(initializer.Type);
 
                 case ArrayInitializer array:
                     return new Type(Kind.Array, (Type)array.ElementType);

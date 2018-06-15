@@ -160,7 +160,7 @@ namespace D
                 return new FunctionExpression(parameters.ToArray(), new LambdaExpression(expression));
             }
 
-            if (env.TryGet(expression.FunctionName, out IObject func))
+            if (env.TryGetValue(expression.FunctionName, out IObject func))
             {
                 return ((IFunction)func).Invoke(args);
             }
@@ -275,7 +275,7 @@ namespace D
 
             #endregion
 
-            if (env.TryGet(expression.Operator.Name, out IFunction func))
+            if (env.TryGetValue(expression.Operator.Name, out IFunction func))
             {
                 return func.Invoke(Arguments.Create(l, r));
             }

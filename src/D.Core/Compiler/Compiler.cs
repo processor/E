@@ -354,7 +354,7 @@ namespace D
         {
             if (symbol.Status == SymbolStatus.Unresolved)
             {
-                if (env.TryGet<Type>(symbol, out var value))
+                if (env.TryGetValue<Type>(symbol, out var value))
                 {
                     symbol.Initialize(value);
                 }
