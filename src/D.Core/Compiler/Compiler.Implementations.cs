@@ -9,20 +9,20 @@ namespace D
     {
         public ImplementationExpression VisitImplementation(ImplementationDeclarationSyntax impl)
         {
-            scope = scope.Nested("impl");
+            env = env.Nested("impl");
 
-            var type = scope.GetType(impl.Type);
-            var protocol = impl.Protocol != null ? scope.Get<ProtocolExpression>(impl.Protocol) : null;
+            var type = env.GetType(impl.Type);
+            var protocol = impl.Protocol != null ? env.Get<ProtocolExpression>(impl.Protocol) : null;
 
             #region Setup environment
 
-            scope.Add("this", type);
+            env.Add("this", type);
 
             if (type.Properties != null)
             {
                 foreach (var property in type.Properties)
                 {
-                    scope.Add(property.Name, (Type)property.Type);
+                    env.Add(property.Name, (Type)property.Type);
                 }
             }
 
@@ -51,7 +51,7 @@ namespace D
                 // Method         a () =>
             }
 
-            scope = scope.Parent;
+            env = env.Parent;
 
             return new ImplementationExpression(protocol, type, variables.ToArray(), methods.ToArray());
         }

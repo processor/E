@@ -6,14 +6,14 @@ namespace D
     {
         public Nested EnterScope(string name)
         {
-            scope = scope.Nested(name);
+            env = env.Nested(name);
 
             return new Nested(this);
         }
 
         internal void LeaveScope()
         {
-            scope = scope.Parent;
+            env = env.Parent;
         }
     }
 

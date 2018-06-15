@@ -9,19 +9,19 @@ namespace D
     {
         public FunctionExpression VisitFunctionDeclaration(FunctionDeclarationSyntax f, Type declaringType = null)
         {
-            scope = scope.Nested(f.Name); // Create a nested scope...
+            env = env.Nested(f.Name); // Create a nested scope...
 
             var paramaters = ResolveParameters(f.Parameters);
 
             foreach (var p in paramaters)
             {
-                scope.Add(p.Name, p.Type);
+                env.Add(p.Name, p.Type);
             }
 
             var b = Visit(f.Body);
 
             var returnType = f.ReturnType != null
-                ? scope.Get<Type>(f.ReturnType)
+                ? env.Get<Type>(f.ReturnType)
                 : b.Kind == Kind.LambdaExpression
                     ? GetReturnType((LambdaExpression)b)
                     : GetReturnType((BlockExpression)b);

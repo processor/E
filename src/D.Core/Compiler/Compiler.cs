@@ -15,14 +15,14 @@ namespace D
         // - Bind symbols to their declarations
         // - Transform to ExpressionTree
 
-        private Node scope;
+        private Node env;
 
         public Compiler()
             : this(new Node()) { }
 
         public Compiler(Node env)
         {
-            this.scope = env;
+            this.env = env;
         }
 
         public Module Compile(IEnumerable<ISyntaxNode> nodes)
@@ -39,7 +39,7 @@ namespace D
 
                     if (function.Name != null)
                     {
-                        scope.Add(function.Name, function);
+                        env.Add(function.Name, function);
                     }
                 }
                 else if (node is TypeDeclarationSyntax typeDeclaration)
@@ -48,7 +48,7 @@ namespace D
 
                     module.Add(type);
 
-                    scope.Add(type.Name, type);
+                    env.Add(type.Name, type);
                 }
                 else if (node is ProtocolDeclarationSyntax protocolDeclaration)
                 {
@@ -56,7 +56,7 @@ namespace D
 
                     module.Add(protocol);
 
-                    scope.Add(protocol.Name, protocol);
+                    env.Add(protocol.Name, protocol);
                 }
                 else if (node is ImplementationDeclarationSyntax implDeclaration)
                 {
@@ -237,7 +237,7 @@ namespace D
 
             if (char.IsUpper(syntax.Name.Name[0]))
             {
-                objectType = scope.GetType(syntax.Name);
+                objectType = env.GetType(syntax.Name);
             }
            
             return new CallExpression(Visit(syntax.Callee), syntax.Name, VisitArguments(syntax.Arguments), syntax.IsPiped) {
@@ -266,7 +266,7 @@ namespace D
             var value = Visit(variable.Value);
             var type  = GetType(variable.Type ?? value);
             
-            scope.Add(variable.Name, type);
+            env.Add(variable.Name, type);
 
             return new VariableDeclaration(variable.Name, type, variable.Flags, value);
         }
@@ -354,7 +354,7 @@ namespace D
         {
             if (symbol.Status == SymbolStatus.Unresolved)
             {
-                if (scope.TryGet<Type>(symbol, out var value))
+                if (env.TryGet<Type>(symbol, out var value))
                 {
                     symbol.Initialize(value);
                 }
@@ -376,7 +376,7 @@ namespace D
                 var parameter = parameters[i];
 
                 var type = parameter.Type != null
-                    ? scope.Get<Type>(parameter.Type)
+                    ? env.Get<Type>(parameter.Type)
                     : new Type(Kind.Object); // TODO: Introduce generic or infer from body?
 
                 // Any
