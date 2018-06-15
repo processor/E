@@ -1,12 +1,10 @@
 ﻿using System;
 
 namespace D.Inference
-{    
+{
     public class Flow
     {
-        private readonly ITypeSystem system = new TypeSystem();
-
-        private readonly IEnvironment scope = new Environment();
+        private readonly Environment env = new Environment();
 
         public static long kindId = 1000000;
 
@@ -16,50 +14,77 @@ namespace D.Inference
 
         public Flow()
         {
-            var binary   = system.NewGeneric();
-            var boolType = GetType(Kind.Boolean);
+            var binary   = TypeSystem.NewGeneric();
+            var boolean  = GetType(Kind.Boolean);
+            var i32      = GetType(Kind.Int32);
+            var @string  = GetType(Kind.String);
 
-            any = system.NewType(id: "Object");
-            
-            itemType = system.NewGeneric();
-            listType = system.NewType("List", args: new[] { itemType });
-       
-            system.Infer(scope, Node.Define(Node.Var("<"), Node.Abstract(new[] {
+            any = GetType(Kind.Object);
+
+            itemType = TypeSystem.NewGeneric();
+            listType = TypeSystem.NewType("List", args: new[] { itemType });
+
+            TypeSystem.Infer(env, Node.Define(Node.Var("<"), Node.Abstract(new[] {
                 Node.Var("lhs", binary),
                 Node.Var("rhs", binary)
-            }, boolType, Node.Const(boolType))));
+            }, boolean, Node.Const(boolean))));
 
-            system.Infer(scope, Node.Define(Node.Var(">"), Node.Abstract(new[] {
-                Node.Var("lhs", binary),
-                Node.Var("rhs", binary)
-            }, boolType, Node.Const(boolType))));
-
-            system.Infer(scope, Node.Define(Node.Var("contains"), Node.Abstract(new[] {
+          
+            TypeSystem.Infer(env, Node.Define(Node.Var("contains"), Node.Abstract(new[] {
                 Node.Var("list", listType)
-            }, Node.Const(boolType))));
+            }, Node.Const(boolean))));
 
-            system.Infer(scope, Node.Define(Node.Var("head"), Node.Abstract(new[] {
+            TypeSystem.Infer(env, Node.Define(Node.Var("head"), Node.Abstract(new[] {
                 Node.Var("list", listType)
             }, itemType, Node.Const(itemType))));
-            
-            var ifThenElse = system.NewGeneric();
 
-            system.Infer(scope, Node.Define(Node.Var("if"), Node.Abstract(new[] {
-                Node.Var("condition", boolType),
+
+            // Binary Operators
+            foreach (var op in new[] { "+", "-", "/", "**", "*", "%" })
+            {
+                var g = TypeSystem.NewGeneric();
+
+                TypeSystem.Infer(env, Node.Define(Node.Var(op), Node.Abstract(new[] {
+                    Node.Var("lhs", g),
+                    Node.Var("rhs", g)
+                }, Node.Const(g))));
+            }
+
+            // Comparisions
+            foreach (var op in new[] { ">", ">=", "==", "!=", "<=" })
+            {
+                var g = TypeSystem.NewGeneric();
+
+                TypeSystem.Infer(env, Node.Define(Node.Var(op), Node.Abstract(new[] {
+                    Node.Var("lhs", g),
+                    Node.Var("rhs", g)
+                }, Node.Const(boolean))));
+            }
+
+
+
+
+            var ifThenElse = TypeSystem.NewGeneric();
+
+            TypeSystem.Infer(env, Node.Define(Node.Var("if"), Node.Abstract(new[] {
+                Node.Var("condition", boolean),
                 Node.Var("then", ifThenElse),
                 Node.Var("else", ifThenElse) }, 
             ifThenElse, Node.Var("then"))));
+
+            // ! {expression}
+            TypeSystem.Infer(env, Node.Define(Node.Var("!"), Node.Abstract(new[] {
+                Node.Var("expression", boolean)
+            }, boolean, Node.Const(boolean))));
         }
 
-        public IType NewGeneric() => system.NewGeneric();
-
-        public ITypeSystem System => system;
+        public IType NewGeneric() => TypeSystem.NewGeneric();
 
         public IType GetListTypeOf(Kind elementKind)
         {
             var item = GetType(elementKind);
 
-            return system.NewType(listType, new[] { item });
+            return TypeSystem.NewType(listType, "List<" + elementKind.ToString() + ">", new[] { item });
         }
 
         public IType GetType(Kind kind)
@@ -69,35 +94,24 @@ namespace D.Inference
 
         private IType GetType(Type kind)
         {
-            #region Preconditions
-
-            if (kind == null)
-                throw new ArgumentNullException(nameof(kind));
-
-            #endregion
-            
-            if (kind.Name == "Object")
-            {
-                return any;
-            }
-
-            if (!scope.TryGetValue(kind.Name, out IType type))
+            if (kind == null) throw new ArgumentNullException(nameof(kind));
+           
+            if (!env.TryGetValue(kind.Name, out IType type))
             {
                 if (kind.BaseType != null)
                 {
-                    type = system.NewType(
+                    type = TypeSystem.NewType(
                         constructor : GetType(kind.BaseType), 
                         id          : kind.Name,
-                        args: null,
-                        meta: null
+                        args        : null
                     );
                 }
                 else
                 {
-                    type = system.NewType(id: kind.Name);
+                    type = TypeSystem.NewType(id: kind.Name, args: null);
                 }
 
-                scope[kind.Name] = type;
+                env[kind.Name] = type;
             }
 
             return type;
@@ -116,7 +130,7 @@ namespace D.Inference
 
             var type = GetType(new Type(returnKind));
 
-            system.Infer(scope, Node.Define(Node.Var(name), Node.Abstract(
+            TypeSystem.Infer(env, Node.Define(Node.Var(name), Node.Abstract(
                 nodes, 
                 type: type, 
                 body: Node.Const(type))
@@ -139,23 +153,30 @@ namespace D.Inference
 
         public void AddFunction(string name, Node[] args, Node body)
         {
-            system.Infer(scope, Node.Define(Node.Var(name), Node.Abstract(args, body)));
+            TypeSystem.Infer(env, Node.Define(Node.Var(name), Node.Abstract(args, body)));
         }
 
-        public void AddVariable(string name, Kind kind)
+        
+        public VarNode AddVariable(string name, Kind kind)
         {
             var type = GetType(kind);
 
             // system.Infer(scope, Node.Var(name, type));
 
-            system.Infer(scope, Node.Define(Node.Var(name), Node.Const(type)));
+            var variable = Node.Var(name);
+
+            var a = Node.Define(variable, Node.Const(type));
+
+            TypeSystem.Infer(env, a);
 
             // nodes.Add(new Let(variable.Name, Node.Constant(variable.Type)));
+
+            return variable;
         }
 
         public IType Infer(Node node)
         {
-            return system.Infer(scope, node);
+            return TypeSystem.Infer(env, node);
         }
     }
 }
