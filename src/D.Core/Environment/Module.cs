@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace D
 {
-    public class Module : IModule
+    public class Module : IEnumerable<(string, object)>
     {
         public readonly List<(string, object)> members = new List<(string, object)>();
       
@@ -13,6 +13,9 @@ namespace D
         }
 
         public string Name { get; set; }
+ 
+
+        public (string, object) this[int index] => members[index];
 
         public void Add(INamedObject value) => members.Add((value.Name, value));
 
@@ -20,12 +23,8 @@ namespace D
 
         public void Add(string name, object value) =>  members.Add((name, value));
 
-        public List<(string, object)> Members => members;
-
         IEnumerator IEnumerable.GetEnumerator() => members.GetEnumerator();
 
         IEnumerator<(string, object)> IEnumerable<(string, object)>.GetEnumerator() => members.GetEnumerator();
     }
 }
-
-// A module provides "internal" scope

@@ -1,26 +1,21 @@
 ﻿using System;
 using System.Collections.Concurrent;
+using System.Collections.Generic;
 
 namespace D
 {
-    // Converge with Modules
-    // A node typically represents an environment...
-
-    public sealed class Node
+    public class Node
     {
         private readonly ConcurrentDictionary<string, object> children = new ConcurrentDictionary<string, object>();
 
         private readonly OperatorCollection operators = new OperatorCollection();
 
-        private readonly Node parent;
-        private readonly string name;
-
         private readonly int depth = 0;
 
         public Node(string name = null, Node parent = null)
         {
-            this.name = name;
-            this.parent = parent;
+            Name = name;
+            Parent = parent;
 
             if (parent != null)
             {
@@ -32,7 +27,7 @@ namespace D
             AddModule(new Modules.Primitives());
         }
 
-        public Node(params IModule[] modules)
+        public Node(params Module[] modules)
             : this()
         {
             foreach (var module in modules)
@@ -41,7 +36,7 @@ namespace D
             }
         }
 
-        public void AddModule(IModule module)
+        public void AddModule(Module module)
         {
             foreach (var (key, value) in module)
             {
@@ -54,22 +49,22 @@ namespace D
             }
         }
 
-
-
-        public string Name => name;
+        public string Name { get; }
+        
+        public Node Parent { get; }
 
         public OperatorCollection Operators => operators;
 
-        public void Add(string name, object value) => children.TryAdd(name, value);
+        public bool Add(string name, object value) => children.TryAdd(name, value);
 
-        public void Add(INamedObject value) => children.TryAdd(value.Name, value);
-
-        public void Add((string, object) tuple) => children.TryAdd(tuple.Item1, tuple.Item2);
-
-
-        public bool TryGet<T>(string name, out T value)
+        public void Set<T>(string name, T value)
         {
-            if (!TryGet(name, out object r))
+            children[name] = value;
+        }
+
+        public bool TryGetValue<T>(string key, out T value)
+        {
+            if (!TryGet(key, out object r))
             {
                 value = default;
 
@@ -87,7 +82,7 @@ namespace D
             {
                 return true;
             }
-            else if (parent != null && parent.TryGet(name, out kind))
+            else if (Parent != null && Parent.TryGet(name, out kind))
             {
                 return true;
             }
@@ -135,9 +130,19 @@ namespace D
             }
         }
 
+        public T Get<T>(string name)
+        {
+            if (!TryGetValue<T>(name, out T value))
+            {
+                throw new KeyNotFoundException($"Node does not contain {typeof(T).Name}");
+            }
+
+            return value;
+        }
+
         public T Get<T>(Symbol symbol)
         {
-            if (!TryGet<T>(symbol, out T value))
+            if (!TryGetValue<T>(symbol, out T value))
             {
                 if (typeof(T) == typeof(Type))
                 {
@@ -156,10 +161,8 @@ namespace D
 
             throw new NotImplementedException();
         }
-
-        public Node Parent => parent;
-
-        public Node Nested(string name)
+       
+        public Node Nested(string name = null)
         {
             return new Node(name, this);
         }
