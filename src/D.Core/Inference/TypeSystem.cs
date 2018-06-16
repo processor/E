@@ -22,8 +22,6 @@ namespace D.Inference
                 }
 
                 Name = name;
-
-                // Bind(Id = id);
             }
 
             protected TypeBase(string name, IType[] args)
@@ -34,29 +32,16 @@ namespace D.Inference
 
             public override string ToString() => Name;
 
-            /*
-            public IType Bind(string name)
-            {
-                Name = Node.Variable(name, this);
-
-                return this;
-            }
-            */
-
             public virtual string Name { get; }
 
             public IType Constructor { get; protected set; }
 
-            public IType[] Arguments { get; private set; }
+            public IType[] Arguments { get; }
 
             // AKA Instance
             public IType Self { get; internal set; }
 
-            // public VariableNode Name { get; private set; }
-
             public IType Value => Self != null ? Self.Value : this;
-
-            // public bool IsConstructor => Constructor == this;
         }
 
         internal sealed class GenericType : TypeBase
@@ -202,7 +187,7 @@ namespace D.Inference
                 {
                     if (OccursIn(t, s))
                     {
-                        throw new InvalidOperationException($"recursive unification of {t} in {s}");
+                        throw new InvalidOperationException($"Recursive unification of {t} in {s}");
                     }
 
                     tGeneric.Self = s;
