@@ -21,8 +21,6 @@ namespace D.Inference
         }
 
         public string Id => (string)Spec;
-
-        public bool IsConstructor => Type is IType type && type.IsConstructor;
     }
 
     // AKA identity node...

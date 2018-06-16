@@ -56,7 +56,7 @@ namespace D.Inference
 
             public IType Value => Self != null ? Self.Value : this;
 
-            public bool IsConstructor => Constructor == this;
+            // public bool IsConstructor => Constructor == this;
         }
 
         internal sealed class GenericType : TypeBase

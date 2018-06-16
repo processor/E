@@ -9,16 +9,10 @@ namespace D.Inference
 
         IType Constructor { get; }
 
-        // IType Bind(string name);
-
         IType[] Arguments { get; }
 
         IType Self { get; }
 
-        // VarNode Name { get; }
-
         IType Value { get; }
-
-        bool IsConstructor { get; }
     }
 }
