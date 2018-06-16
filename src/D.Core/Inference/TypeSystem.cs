@@ -12,56 +12,65 @@ namespace D.Inference
 {
     public static class TypeSystem
     {
-        internal abstract class Scheme : IType
+        internal abstract class TypeBase : IType
         {
-            protected Scheme(string id)
+            protected TypeBase(string name)
             {
-                if (this is Type && id == null)
+                if (this is Type && name == null)
                 {
-                    throw new ArgumentNullException(nameof(id));
+                    throw new ArgumentNullException(nameof(name));
                 }
 
-                Bind(Id = id);
+                Name = name;
+
+                // Bind(Id = id);
             }
 
-            protected Scheme(string id, IType[] args)
-                : this(id)
+            protected TypeBase(string name, IType[] args)
+                : this(name)
             {
                 Arguments = args ?? Array.Empty<IType>();
             }
 
-            public override string ToString() => Id;
+            public override string ToString() => Name;
 
+            /*
             public IType Bind(string name)
             {
-                Name = Node.Var(name, this);
+                Name = Node.Variable(name, this);
 
                 return this;
             }
+            */
+
+            public virtual string Name { get; }
 
             public IType Constructor { get; protected set; }
-
-            public virtual string Id { get; protected set; }
 
             public IType[] Arguments { get; private set; }
 
             // AKA Instance
             public IType Self { get; internal set; }
 
-            public VariableNode Name { get; private set; }
+            // public VariableNode Name { get; private set; }
 
             public IType Value => Self != null ? Self.Value : this;
 
             public bool IsConstructor => Constructor == this;
         }
 
-        internal sealed class GenericType : Scheme
+        internal sealed class GenericType : TypeBase
         {
+            internal GenericType()
+                : base(null) { Uid = Interlocked.Increment(ref id); }
+
             private string alpha;
 
             private string Alpha()
             {
                 int id = Uid;
+
+                // stackalloc char[20]; // ...
 
                 var sb = new StringBuilder();
 
@@ -78,24 +87,17 @@ namespace D.Inference
 
             private string GetName()
             {
-                return Self?.Id ?? string.Concat('`', alpha ?? (alpha = Alpha()));
+                return Self?.Name ?? string.Concat('`', alpha ?? (alpha = Alpha()));
             }
-
-            internal GenericType() 
-                : base(null) { Uid = Interlocked.Increment(ref id); }
-
+            
             internal readonly int Uid;
 
-            public override string ToString() => Self != null ? Self.ToString() : base.ToString();
-            public override string Id
-            {
-                get => GetName();
+            public override string ToString() => Self?.ToString() ?? base.ToString();
 
-                protected set { }
-            }
+            public override string Name => GetName();
         }
 
-        internal sealed class Type : Scheme
+        internal sealed class Type : TypeBase
         {
             internal Type(IType constructor, string id, IType[] args)
                 : base(id, args)
@@ -105,11 +107,9 @@ namespace D.Inference
 
             public override string ToString()
             {
-                var id = Arguments.Length > 0 ? Id : base.ToString();
+                string id = Arguments.Length > 0 ? Name : base.ToString();
 
                 if (Arguments.Length == 0) return id;
-
-     
 
                 return string.Format("{0}<{1}>", 
                     id, 
@@ -171,7 +171,7 @@ namespace D.Inference
             }
             else if (t is Type type)
             {
-                return NewType(type.Constructor, type.Id, type.Arguments.Select(arg => Fresh(arg, types, variables)).ToArray());
+                return NewType(type.Constructor, type.Name, type.Arguments.Select(arg => Fresh(arg, types, variables)).ToArray());
             }
             else
             {
@@ -181,13 +181,13 @@ namespace D.Inference
 
         private static int id;
 
-        public static readonly IType Function = new Type(null, "Func", null); 
+        public static readonly IType Function = new Type(null, "Function", null); 
 
         public static IType NewGeneric() => new GenericType();
 
         public static IType NewType(string id, IType[] args) => new Type(null, id, args);
 
-        public static IType NewType(IType constructor, IType[] args) => new Type(constructor, constructor.Id, args);
+        public static IType NewType(IType constructor, IType[] args) => new Type(constructor, constructor.Name, args);
 
         public static IType NewType(IType constructor, string id, IType[] args) => new Type(constructor, id, args);
 
@@ -214,7 +214,7 @@ namespace D.Inference
             }
             else if (t is Type t_type && s is Type s_type)
             {
-                if (t_type.Constructor.Id != s_type.Constructor.Id || t_type.Arguments.Length != s_type.Arguments.Length)
+                if (t_type.Constructor.Name != s_type.Constructor.Name || t_type.Arguments.Length != s_type.Arguments.Length)
                 {
                     throw new InvalidOperationException($"{t_type} incompatible with {s_type}");
                 }

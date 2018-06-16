@@ -7,6 +7,12 @@ namespace D.Inference
 {
     public sealed class VariableNode : Node
     {
+        public VariableNode(string name, IType type)
+        {
+            Spec = name;
+            Type = type;
+        }
+
         public override string ToString() => Id;
 
         public override IType Infer(Environment env, IReadOnlyList<IType> types)

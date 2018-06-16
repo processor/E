@@ -6,16 +6,33 @@ namespace D.Inference
 
     public class FlowTests
     {
-       
+        [Fact]
+        public void Var()
+        {
+            var flow = new Flow();
+
+            var number = flow.GetType(Kind.Number);
+            var boolean = flow.GetType(Kind.Boolean);
+
+            var a = new VariableNode("a", null);
+
+            flow.Assign(a, Kind.Number);
+            
+            Assert.Equal("Number", flow.Infer(a).Name);
+
+            flow.Assign(a, Kind.Boolean);
+
+            Assert.Equal("Boolean", flow.Infer(a).Name);
+        }
 
         [Fact]
         public void A()
         {
             var flow = new Flow();
 
-            Assert.Equal("Boolean", flow.Infer(Apply(Var("!"), new[] {
-                Var("Boolean")
-            })).Id);
+            Assert.Equal("Boolean", flow.Infer(Apply(Variable("!"), new[] {
+                Variable("Boolean")
+            })).Name);
         }
 
         [Fact]
@@ -23,19 +40,19 @@ namespace D.Inference
         {
             var flow = new Flow();
 
-            var a = Apply(Var("!"), new[] {
-                Var("Boolean")
+            var a = Apply(Variable("!"), new[] {
+                Variable("Boolean")
             });
 
-            var b = Apply(Var("+"), new[] {
+            var b = Apply(Variable("+"), new[] {
                 a, a
             });
 
-            var c = Apply(Var("*"), new[] {
+            var c = Apply(Variable("*"), new[] {
                 b, a
             });
 
-            Assert.Equal("Boolean", flow.Infer(c).Id);
+            Assert.Equal("Boolean", flow.Infer(c).Name);
         }
 
         [Fact]
@@ -46,9 +63,9 @@ namespace D.Inference
             var listOfString = flow.GetListTypeOf(Kind.String);
             var listOfFloat = flow.GetListTypeOf(Kind.Number);
 
-            Assert.Equal("String", flow.Infer(Apply(Var("head"), new[] { Const(listOfString) })).Id);
-            Assert.Equal("Number", flow.Infer(Apply(Var("head"), new[] { Const(listOfFloat) })).Id);
-            Assert.Equal("Boolean", flow.Infer(Apply(Var("contains"), new[] { Const(listOfFloat) })).Id);
+            Assert.Equal("String", flow.Infer(Apply(Variable("head"), new[] { Constant(listOfString) })).Name);
+            Assert.Equal("Number", flow.Infer(Apply(Variable("head"), new[] { Constant(listOfFloat) })).Name);
+            Assert.Equal("Boolean", flow.Infer(Apply(Variable("contains"), new[] { Constant(listOfFloat) })).Name);
         }
 
         [Fact]
@@ -63,23 +80,23 @@ namespace D.Inference
 
             system.AddVariable("name", Kind.String);
 
-            Assert.Equal("Number", system.Infer(Var("x")).Id.ToString());
-            Assert.Equal("Object", system.Infer(Var("x")).Constructor.Id.ToString());
+            Assert.Equal("Number", system.Infer(Variable("x")).Name.ToString());
+            Assert.Equal("Object", system.Infer(Variable("x")).Constructor.Name.ToString());
 
-            Assert.Equal("Number", system.Infer(Apply(Var("+"), new[] {
-                Var("x"),
-                Var("y")
-            })).Id);
+            Assert.Equal("Number", system.Infer(Apply(Variable("+"), new[] {
+                Variable("x"),
+                Variable("y")
+            })).Name);
 
-            Assert.Equal("Int32", system.Infer(Apply(Var("+"), new[] {
-                Var("z"),
-                Var("z")
-            })).Id);
+            Assert.Equal("Int32", system.Infer(Apply(Variable("+"), new[] {
+                Variable("z"),
+                Variable("z")
+            })).Name);
 
-            Assert.Equal("Number", system.Infer(Apply(Var("/"), new[] {
-                Var("x"),
-                Var("y")
-            })).Id);
+            Assert.Equal("Number", system.Infer(Apply(Variable("/"), new[] {
+                Variable("x"),
+                Variable("y")
+            })).Name);
         }
 
         [Fact]
@@ -94,10 +111,10 @@ namespace D.Inference
 
             var any = flow.NewGeneric();
 
-            flow.Infer(Define(Var("+"), Abstract(new[] {
-                Var("lhs", any),
-                Var("rhs", any)
-            }, any, Var("lhs"))));
+            flow.Infer(Define(Variable("+"), Abstract(new[] {
+                Variable("lhs", any),
+                Variable("rhs", any)
+            }, any, Variable("lhs"))));
 
             flow.AddFunction("concat", new[] {
                 new Parameter("lhs", Kind.String),
@@ -109,20 +126,20 @@ namespace D.Inference
 
             flow.AddFunction("test2",
                 args: new[] {
-                    Var("lhs", a),
-                    Var("rhs", b)
+                    Variable("lhs", a),
+                    Variable("rhs", b)
                 },
-                body: Apply(Var("+"), new[] { Var("lhs"), Var("rhs") }
+                body: Apply(Variable("+"), new[] { Variable("lhs"), Variable("rhs") }
              ));
 
-            Assert.Equal("Int64", flow.Infer(Var("a")).Id);
-            Assert.Equal("String", flow.Infer(Var("name")).Id);
-            Assert.Equal("Int64", flow.Infer(Apply(Var("+"), new[] { Var("a"), Var("a") })).Id);
+            Assert.Equal("Int64", flow.Infer(Variable("a")).Name);
+            Assert.Equal("String", flow.Infer(Variable("name")).Name);
+            Assert.Equal("Int64", flow.Infer(Apply(Variable("+"), new[] { Variable("a"), Variable("a") })).Name);
 
-            Assert.Equal("String", flow.Infer(Apply(Var("concat"), new[] { Var("name"), Var("name") })).Id);
+            Assert.Equal("String", flow.Infer(Apply(Variable("concat"), new[] { Variable("name"), Variable("name") })).Name);
 
-            Assert.Equal("Int64", flow.Infer(Apply(Var("test2"), new[] { Var("a"), Var("a") })).Id);
-            Assert.Equal("String", flow.Infer(Apply(Var("test2"), new[] { Var("name"), Var("name") })).Id);
+            Assert.Equal("Int64", flow.Infer(Apply(Variable("test2"), new[] { Variable("a"), Variable("a") })).Name);
+            Assert.Equal("String", flow.Infer(Apply(Variable("test2"), new[] { Variable("name"), Variable("name") })).Name);
         }
 
     }

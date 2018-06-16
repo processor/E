@@ -27,7 +27,14 @@ namespace D.Inference
 
             TypeSystem.Unify(type, TypeSystem.Infer(env, Body, known));
 
-            return env[varNode.Id] = type.Value.IsConstructor ? type.Value : type.Value.Bind(varNode.Id);
+            /*
+            if (type.Value.IsConstructor)
+            {
+                type.Value.Bind(varNode.Id);
+            }
+            */
+
+            return env[varNode.Id] = type.Value;
         }
     }
 

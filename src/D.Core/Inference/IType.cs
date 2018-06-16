@@ -5,12 +5,11 @@ namespace D.Inference
 {
     public interface IType
     {
-        string Id { get; }
+        string Name { get; }
 
-        // BaseType?
         IType Constructor { get; }
 
-        IType Bind(string name);
+        // IType Bind(string name);
 
         IType[] Arguments { get; }
 

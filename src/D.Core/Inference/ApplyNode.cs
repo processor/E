@@ -22,7 +22,7 @@ namespace D.Inference
                 return env[var.Id];
             }
 
-            return arg is VariableNode argVar ? Define(argVar, Const(typed(argVar))) : arg;
+            return arg is VariableNode argVar ? Define(argVar, Constant(typed(argVar))) : arg;
         }
 
         private IType AsAnnotationType(Environment env, IReadOnlyList<IType> types)
@@ -30,7 +30,7 @@ namespace D.Inference
             if (Spec is Node spec && spec.Type is IType ctor && !IsFunction(ctor))
             {
                 Arguments.Select((arg, i) => arg is VariableNode argVar
-                    ? TypeSystem.Infer(env, Define(argVar, Const(ctor.Arguments[i])), types)
+                    ? TypeSystem.Infer(env, Define(argVar, Constant(ctor.Arguments[i])), types)
                     : null
                 ).ToArray();
 
@@ -66,8 +66,8 @@ namespace D.Inference
 
             if (Type != null)
             {
-                var ctor = Type as IType ?? env[(string)Type];
-                @out = TypeSystem.Infer(env, Apply(Var(ctor.Id, ctor), args.Select(arg => Const(arg)).ToArray()), types);
+                var ctor = Type;
+                @out = TypeSystem.Infer(env, Apply(Variable(ctor.Name, ctor), args.Select(arg => Constant(arg)).ToArray()), types);
             }
             else
             {
