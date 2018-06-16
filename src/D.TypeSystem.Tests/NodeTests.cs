@@ -2,6 +2,7 @@
 
 namespace D.Inference.Tests
 {
+
     public class NodeTests
     {
         [Fact]

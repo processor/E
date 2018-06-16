@@ -17,23 +17,19 @@ namespace D.Inference
 
         private Node ToFormal(Environment env, IReadOnlyList<IType> types, Node arg)
         {
-            IType typed(VarNode var)
+            IType typed(VariableNode var)
             {
-                return IsAnnotation && !env.ContainsKey(var.Id) 
-                    ? env[var.Id] = TypeSystem.NewGeneric()
-                    : env[var.Id];
+                return env[var.Id];
             }
 
-            return IsAnnotation && arg is ApplyNode
-                ? Define((VarNode)arg.Arguments[0], Const(TypeSystem.Infer(env, (Node)arg.Spec, types)))
-                : arg is VarNode argVar ? Define(argVar, Const(typed(argVar))) : arg;
+            return arg is VariableNode argVar ? Define(argVar, Const(typed(argVar))) : arg;
         }
 
         private IType AsAnnotationType(Environment env, IReadOnlyList<IType> types)
         {
-            if (Spec is Node spec && spec.Type is IType ctor && (!IsFunction(ctor) || IsAnnotation))
+            if (Spec is Node spec && spec.Type is IType ctor && !IsFunction(ctor))
             {
-                Arguments.Select((arg, i) => arg is VarNode argVar
+                Arguments.Select((arg, i) => arg is VariableNode argVar
                     ? TypeSystem.Infer(env, Define(argVar, Const(ctor.Arguments[i])), types)
                     : null
                 ).ToArray();
@@ -71,7 +67,7 @@ namespace D.Inference
             if (Type != null)
             {
                 var ctor = Type as IType ?? env[(string)Type];
-                @out = TypeSystem.Infer(env, Apply(Var(ctor.Id, ctor), args.Select(arg => Const(arg)).ToArray(), IsAnnotation), types);
+                @out = TypeSystem.Infer(env, Apply(Var(ctor.Id, ctor), args.Select(arg => Const(arg)).ToArray()), types);
             }
             else
             {

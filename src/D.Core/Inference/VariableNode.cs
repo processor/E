@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace D.Inference
 {
-    public sealed class VarNode : Node
+    public sealed class VariableNode : Node
     {
         public override string ToString() => Id;
 

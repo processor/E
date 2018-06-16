@@ -19,15 +19,13 @@ namespace D.Inference
         {
             var known = new List<IType>(types);
             var type = TypeSystem.NewGeneric();
-            var varNode = (VarNode)Spec;
-
-            var scope = Body.IsAnnotation ? env.Nested() : env;
-
+            var varNode = (VariableNode)Spec;
+            
             env[varNode.Id] = type;
 
             known.Add(type);
 
-            TypeSystem.Unify(type, TypeSystem.Infer(scope, Body, known));
+            TypeSystem.Unify(type, TypeSystem.Infer(env, Body, known));
 
             return env[varNode.Id] = type.Value.IsConstructor ? type.Value : type.Value.Bind(varNode.Id);
         }

@@ -25,7 +25,7 @@ namespace D.Inference
             foreach (var arg in Arguments)
             {
                 IType type;
-                if (arg is VarNode varNode)
+                if (arg is VariableNode varNode)
                 {
                     if (varNode.Type != null)
                     {
@@ -42,7 +42,7 @@ namespace D.Inference
                 else
                 {
                     var spec = ((DefineNode)arg).Body;
-                    varNode = (VarNode)((DefineNode)arg).Spec;
+                    varNode = (VariableNode)((DefineNode)arg).Spec;
                     type = TypeSystem.NewGeneric();
                     TypeSystem.Unify(type, TypeSystem.Infer(scope, spec, known));
                     scope[varNode.Id] = type;

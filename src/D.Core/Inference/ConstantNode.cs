@@ -6,9 +6,9 @@ using System.Collections.Generic;
 
 namespace D.Inference
 {
-    public class ConstNode : Node
+    public sealed class ConstantNode : Node
     {
-        public ConstNode(IType spec)
+        public ConstantNode(IType spec)
         {
             Spec = spec ?? throw new ArgumentNullException(nameof(spec));
         }

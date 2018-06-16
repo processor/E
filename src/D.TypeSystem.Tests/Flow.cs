@@ -156,8 +156,7 @@ namespace D.Inference
             TypeSystem.Infer(env, Node.Define(Node.Var(name), Node.Abstract(args, body)));
         }
 
-        
-        public VarNode AddVariable(string name, Kind kind)
+        public VariableNode AddVariable(string name, Kind kind)
         {
             var type = GetType(kind);
 

@@ -38,22 +38,24 @@ namespace D.Inference
 
                 return this;
             }
+
             public IType Constructor { get; protected set; }
 
             public virtual string Id { get; protected set; }
 
             public IType[] Arguments { get; private set; }
 
+            // AKA Instance
             public IType Self { get; internal set; }
 
-            public VarNode Name { get; private set; }
+            public VariableNode Name { get; private set; }
 
             public IType Value => Self != null ? Self.Value : this;
 
             public bool IsConstructor => Constructor == this;
         }
 
-        internal sealed class Generic : Scheme
+        internal sealed class GenericType : Scheme
         {
             private string alpha;
 
@@ -79,7 +81,7 @@ namespace D.Inference
                 return Self?.Id ?? string.Concat('`', alpha ?? (alpha = Alpha()));
             }
 
-            internal Generic() 
+            internal GenericType() 
                 : base(null) { Uid = Interlocked.Increment(ref id); }
 
             internal readonly int Uid;
@@ -121,7 +123,7 @@ namespace D.Inference
 
         private static IType Prune(IType type)
         {
-            return type is Generic var && var.Self != null 
+            return type is GenericType var && var.Self != null 
                 ? (var.Self = Prune(var.Self)) 
                 : type;
         }
@@ -141,6 +143,7 @@ namespace D.Inference
             return false;
         }
 
+        // Creates a recurssive copy of the type.
         public static IType Fresh(IType t, IReadOnlyList<IType> types)
         {
             return Fresh(t, types, new Dictionary<int, IType>());
@@ -150,7 +153,7 @@ namespace D.Inference
         {
             t = Prune(t);
 
-            if (t is Generic var)
+            if (t is GenericType var)
             {
                 if (!OccursIn(t, types))
                 {
@@ -180,7 +183,7 @@ namespace D.Inference
 
         public static readonly IType Function = new Type(null, "Func", null); 
 
-        public static IType NewGeneric() => new Generic();
+        public static IType NewGeneric() => new GenericType();
 
         public static IType NewType(string id, IType[] args) => new Type(null, id, args);
 
@@ -193,7 +196,7 @@ namespace D.Inference
             t = Prune(t);
             s = Prune(s);
 
-            if (t is Generic tGeneric)
+            if (t is GenericType tGeneric)
             {
                 if (t != s)
                 {
@@ -205,7 +208,7 @@ namespace D.Inference
                     tGeneric.Self = s;
                 }
             }
-            else if (t is Type && s is Generic)
+            else if (t is Type && s is GenericType)
             {
                 Unify(s, t);
             }
