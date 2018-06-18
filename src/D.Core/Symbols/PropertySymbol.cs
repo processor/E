@@ -2,7 +2,7 @@
 
 namespace D
 {
-    public class PropertySymbol : Symbol
+    public sealed class PropertySymbol : Symbol
     {
         public PropertySymbol(string name)
             : base(name) { }

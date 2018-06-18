@@ -38,7 +38,6 @@ namespace D.Inference
                 Node.Variable("list", listType)
             }, itemType, Node.Constant(itemType))));
 
-
             // Binary Operators
             foreach (var op in new[] { "+", "-", "/", "**", "*", "%" })
             {
@@ -60,9 +59,6 @@ namespace D.Inference
                     Node.Variable("rhs", g)
                 }, Node.Constant(boolean))));
             }
-
-
-
 
             var ifThenElse = TypeSystem.NewGeneric();
 

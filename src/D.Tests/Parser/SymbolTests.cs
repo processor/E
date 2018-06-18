@@ -22,14 +22,6 @@ namespace D.Parsing.Tests
             Assert.Equal("Momentum", symbol.Name);
         }
 
-        private TypeSymbol GetTypeSymbol(string text)
-        {
-            return (Parse<TypeDeclarationSyntax>($@"
-Unit struct {{ 
-    a: {text}
-}}").Members[0] as PropertyDeclarationSyntax).Type;
-        }
-
         [Fact]
         public void ArrayWithDomain()
         {
@@ -51,12 +43,21 @@ Unit struct {{
         }
 
         [Fact]
-        public void Simple()
+        public void SingleWord()
         {
             var symbol = GetTypeSymbol("Momentum");
 
             Assert.Null(symbol.Module);
             Assert.Equal("Momentum", symbol.Name);
+        }
+
+
+        private static TypeSymbol GetTypeSymbol(string text)
+        {
+            return (Parse<TypeDeclarationSyntax>($@"
+Unit struct {{ 
+    a: {text}
+}}").Members[0] as PropertyDeclarationSyntax).Type;
         }
     }
 }
