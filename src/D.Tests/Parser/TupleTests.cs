@@ -14,7 +14,7 @@ namespace D.Parsing.Tests
                 height: height
             )");
 
-            var a = tuple.Elements[0] as NamedElementSyntax;
+            var a = tuple.Elements[0] as TupleElementSyntax;
             
             var binary = a.Value as BinaryExpressionSyntax;
 
@@ -29,7 +29,7 @@ namespace D.Parsing.Tests
                 height : height
             )");
 
-            var a = tuple.Elements[0] as NamedElementSyntax;
+            var a = tuple.Elements[0] as TupleElementSyntax;
         }
 
         [Fact]
@@ -40,7 +40,7 @@ namespace D.Parsing.Tests
                 height: height
             )");
 
-            var a = tuple.Elements[0] as NamedElementSyntax;
+            var a = tuple.Elements[0] as TupleElementSyntax;
         }
 
         [Fact]
@@ -75,8 +75,8 @@ namespace D.Parsing.Tests
 
             Assert.Equal(2, tuple.Elements.Length);
 
-            var x = (NamedElementSyntax)tuple.Elements[0];
-            var y = (NamedElementSyntax)tuple.Elements[1];
+            var x = (TupleElementSyntax)tuple.Elements[0];
+            var y = (TupleElementSyntax)tuple.Elements[1];
 
             Assert.Equal("x",   x.Name);
             Assert.Equal("y",   y.Name);

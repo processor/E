@@ -48,24 +48,24 @@
     {
         public TuplePatternSyntax(TupleExpressionSyntax tuple)
         {
-            Variables = new NamedElementSyntax[tuple.Elements.Length];
+            Variables = new TupleElementSyntax[tuple.Elements.Length];
 
             for (var i = 0; i < tuple.Elements.Length; i++)
             {
                 var element = tuple.Elements[i];
 
-                if (element is NamedElementSyntax namedElement)
+                if (element is TupleElementSyntax namedElement)
                 {
-                    Variables[i] = new NamedElementSyntax(namedElement.Name, namedElement.Value);
+                    Variables[i] = new TupleElementSyntax(namedElement.Name, namedElement.Value);
                 }
                 else if (element is Symbol name)
                 {
-                    Variables[i] = new NamedElementSyntax(name, null);
+                    Variables[i] = new TupleElementSyntax(name, null);
                 }
             }
         }
 
-        public NamedElementSyntax[] Variables { get; }
+        public TupleElementSyntax[] Variables { get; }
 
         SyntaxKind ISyntaxNode.Kind => SyntaxKind.TuplePattern;
     }

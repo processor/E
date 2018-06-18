@@ -132,12 +132,11 @@
         TuplePattern    = 4005,
         TypePattern     = 4006,
 
-        NamedValue,
+        TupleElement,
 
         Argument,
         Parameter,
         Property,
-
 
         #endregion
 

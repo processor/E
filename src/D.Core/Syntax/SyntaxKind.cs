@@ -43,9 +43,7 @@
         ObjectPattern,
         TuplePattern,
         TypePattern,
-
-        NamedValue,
-
+        TupleElement,
 
         // Statements
         Block, // { ... }

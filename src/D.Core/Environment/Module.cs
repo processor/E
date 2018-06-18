@@ -12,9 +12,10 @@ namespace D
             Name = name;
         }
 
-        public string Name { get; set; }
- 
+        // Parent??
 
+        public string Name { get; set; } // This may have mutiple levels...
+ 
         public (string, object) this[int index] => members[index];
 
         public void Add(INamedObject value) => members.Add((value.Name, value));

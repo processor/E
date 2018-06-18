@@ -1358,13 +1358,14 @@ namespace D.Parsing
                 return new TypeSymbol("Channel",  arguments: ReadTypeSymbol());
             }
 
-            string domain = null;
+            ModuleSymbol module = null;
 
             var name = ReadName(); // Identifer | This | Operator
 
-            if (ConsumeIf(ColonColon))
+            // :: Module
+            while (ConsumeIf(ColonColon))
             {
-                domain = name;
+                module = new ModuleSymbol(name, module);
 
                 name = reader.Consume(Identifier);
             }
@@ -1402,7 +1403,7 @@ namespace D.Parsing
                 parameters = Array.Empty<Symbol>();
             }
 
-            var result = new TypeSymbol(domain, name, parameters);
+            var result = new TypeSymbol(module, name, parameters);
 
             // Variant      : A | B 
             // Intersection : A & B
@@ -1738,11 +1739,11 @@ namespace D.Parsing
                 {
                     var value = ReadExpression();
 
-                    return new NamedElementSyntax(name, value);
+                    return new TupleElementSyntax(name, value);
                 }
                 else
                 {
-                    throw new Exception("unexpected tuple:" + first.ToString());
+                    throw new Exception("Unexpected tuple:" + first.ToString());
                 }
             }
           
@@ -1818,7 +1819,7 @@ namespace D.Parsing
 
                     if (tuple.Size == 1)
                     {
-                        var element = (NamedElementSyntax)tuple.Elements[0];
+                        var element = (TupleElementSyntax)tuple.Elements[0];
 
                         return new TypePatternSyntax((Symbol)element.Value, new VariableSymbol(element.Name));
                     }
@@ -2044,7 +2045,7 @@ namespace D.Parsing
 
                     var value = ReadExpression();
 
-                    var element = new NamedElementSyntax((Symbol)left, value);
+                    var element = new TupleElementSyntax((Symbol)left, value);
 
                     var result = FinishReadingTuple(element);
 

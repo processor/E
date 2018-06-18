@@ -7,7 +7,7 @@ namespace D
         public PropertySymbol(string name)
             : base(name) { }
 
-        public PropertySymbol(string module, string name)
+        public PropertySymbol(ModuleSymbol module, string name)
             : base(module, name, Array.Empty<Symbol>()) { }
     }
 }
