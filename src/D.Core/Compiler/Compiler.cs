@@ -25,9 +25,9 @@ namespace D
             this.env = env;
         }
 
-        public Module Compile(IEnumerable<ISyntaxNode> nodes)
+        public Module Compile(IEnumerable<ISyntaxNode> nodes, string moduleName)
         {
-            var module = new Module();
+            var module = new Module(moduleName);
             
             foreach (var node in nodes)
             {
