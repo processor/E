@@ -12,7 +12,7 @@ namespace D.Units
         }
 
         [Fact]
-        public void ScaleTests()
+        public void ScalesAreCorrect()
         {
             Assert.Equal(1000000000000000000000000d, SIPrefix.Y.Value);
             Assert.Equal(1000000000000000000000d, SIPrefix.Z.Value);

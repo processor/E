@@ -16,7 +16,8 @@ namespace D
 
             #region Setup environment
 
-            env.Add("this", type); // Self
+            env.Add("Self", type);
+            env.Add("this", type);
 
             if (type.Properties != null)
             {

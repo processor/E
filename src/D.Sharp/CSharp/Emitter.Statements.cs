@@ -39,8 +39,7 @@
 
         public override IExpression VisitElseIf(ElseIfStatement type)
         {
-            Indent(level);
-            Emit("else if (");
+            Emit("else if (", level);
 
             Visit(type.Condition);
 
@@ -56,6 +55,22 @@
             }
 
             return type;
+        }
+
+        public override IExpression VisitFor(ForStatement statement)
+        {
+            Indent(level);
+            Emit("foreach (var ");
+
+            Visit(statement.VariableExpression);
+
+            writer.Write(" in ");
+            writer.Write(statement.GeneratorExpression);
+            writer.WriteLine(")");
+
+            VisitBlock(statement.Body);
+            
+            return statement;
         }
 
         public override IExpression VisitElse(ElseStatement type)

@@ -16,11 +16,6 @@ namespace D.Inference
         {
             protected TypeBase(string name)
             {
-                if (this is Type && name == null)
-                {
-                    throw new ArgumentNullException(nameof(name));
-                }
-
                 Name = name;
             }
 
@@ -44,9 +39,9 @@ namespace D.Inference
             public IType Value => Self != null ? Self.Value : this;
         }
 
-        internal sealed class GenericType : TypeBase
+        internal sealed class TypeParameter : TypeBase
         {
-            internal GenericType()
+            internal TypeParameter()
                 : base(null) { Uid = Interlocked.Increment(ref id); }
 
             private string alpha;
@@ -84,31 +79,27 @@ namespace D.Inference
 
         internal sealed class Type : TypeBase
         {
-            internal Type(IType constructor, string id, IType[] args)
-                : base(id, args)
+            internal Type(IType constructor, string name, IType[] args)
+                : base(name, args)
             {
+                if (name == null) throw new ArgumentNullException(nameof(name));
+
                 Constructor = constructor ?? this;
             }
 
             public override string ToString()
             {
-                string id = Arguments.Length > 0 ? Name : base.ToString();
+                if (Arguments.Length == 0) return Name;
 
-                if (Arguments.Length == 0) return id;
+                var args = string.Join<IType>(", ", Arguments);
 
-                return string.Format("{0}<{1}>", 
-                    id, 
-                    string.Concat(
-                        string.Join(", ", Arguments.Take(Arguments.Length - 1)),
-                        Arguments.Length > 1 ? ", " : string.Empty,
-                        Arguments[Arguments.Length - 1].ToString())
-                    );
+                return string.Format($"{Name}<{args}>");
             }
         }
 
         private static IType Prune(IType type)
         {
-            return type is GenericType var && var.Self != null 
+            return type is TypeParameter var && var.Self != null 
                 ? (var.Self = Prune(var.Self)) 
                 : type;
         }
@@ -138,9 +129,13 @@ namespace D.Inference
         {
             t = Prune(t);
 
-            if (t is GenericType var)
+            if (t is TypeParameter var)
             {
-                if (!OccursIn(t, types))
+                if (OccursIn(t, types))
+                {
+                    return t;
+                }
+                else
                 {
                     if (!variables.ContainsKey(var.Uid))
                     {
@@ -149,10 +144,6 @@ namespace D.Inference
 
                     return variables[var.Uid];
                 }
-                else
-                {
-                    return t;
-                }
             }
             else if (t is Type type)
             {
@@ -160,7 +151,7 @@ namespace D.Inference
             }
             else
             {
-                throw new InvalidOperationException($"unsupported {t.GetType()}");
+                throw new Exception($"Exepected Type or GenericType. Was {t.GetType()}");
             }
         }
 
@@ -168,7 +159,7 @@ namespace D.Inference
 
         public static readonly IType Function = new Type(null, "Function", null); 
 
-        public static IType NewGeneric() => new GenericType();
+        public static IType NewGeneric() => new TypeParameter();
 
         public static IType NewType(string id, IType[] args) => new Type(null, id, args);
 
@@ -181,7 +172,7 @@ namespace D.Inference
             t = Prune(t);
             s = Prune(s);
 
-            if (t is GenericType tGeneric)
+            if (t is TypeParameter tGeneric)
             {
                 if (t != s)
                 {
@@ -193,7 +184,7 @@ namespace D.Inference
                     tGeneric.Self = s;
                 }
             }
-            else if (t is Type && s is GenericType)
+            else if (t is Type && s is TypeParameter)
             {
                 Unify(s, t);
             }
@@ -201,7 +192,7 @@ namespace D.Inference
             {
                 if (t_type.Constructor.Name != s_type.Constructor.Name || t_type.Arguments.Length != s_type.Arguments.Length)
                 {
-                    throw new InvalidOperationException($"{t_type} incompatible with {s_type}");
+                    throw new InvalidOperationException($"{t_type} is not compatible with {s_type}");
                 }
 
                 for (var i = 0; i < t_type.Arguments.Length; i++)
@@ -215,7 +206,10 @@ namespace D.Inference
             }
         }
 
-        public static IType Infer(Environment env, Node node) => Infer(env, node, Array.Empty<IType>());
+        public static IType Infer(Environment env, Node node)
+        {
+            return Infer(env, node, Array.Empty<IType>());
+        }
 
         public static IType Infer(Environment env, Node node, IReadOnlyList<IType> types)
         {

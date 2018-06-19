@@ -161,7 +161,7 @@ namespace D.Parsing
                 ? ReadExpression()
                 : null;
 
-            var filter = (ConsumeIf(Where))         // ? where
+            var filter = ConsumeIf(Where)         // ? where
                 ? ReadExpression()
                 : null;
 
@@ -447,7 +447,6 @@ namespace D.Parsing
             return new CompoundTypeDeclarationSyntax(names, flags, baseTypes, members);
         }
 
-
         // let x = 5
         // let x: i8 = 5
         // let x = (5: i8)
@@ -525,7 +524,9 @@ namespace D.Parsing
             }
         }
 
-        private CompoundPropertyDeclaration FinishReadingVariableDeclarationList(PropertyDeclarationSyntax first, ObjectFlags modifiers)
+        private CompoundPropertyDeclaration FinishReadingVariableDeclarationList(
+            PropertyDeclarationSyntax first,
+            ObjectFlags modifiers)
         {
             properties.Add(first);
 
@@ -647,7 +648,9 @@ namespace D.Parsing
         }
 
         // clamp ƒ <T> (p: Point<T>, min: Point<T>, max: Point<T>) => Point<T> { }
-        private FunctionDeclarationSyntax ReadFunctionDeclaration(Symbol name, ObjectFlags flags = ObjectFlags.None)
+        private FunctionDeclarationSyntax ReadFunctionDeclaration(
+            Symbol name,
+            ObjectFlags flags = ObjectFlags.None)
         {
             ConsumeIf(Function); // ? ƒ | function
 
@@ -748,7 +751,7 @@ namespace D.Parsing
             throw new UnexpectedTokenException("Expected block or lambda reading lambda", Current);
         }
 
-        private FunctionDeclarationSyntax ReadAnonymousFunctionDeclaration(Symbol variableName)
+        private FunctionDeclarationSyntax ReadAnonymousFunctionDeclaration(Symbol parameterName)
         {
             // TODO: determine whether it captures any outside variables 
 
@@ -757,8 +760,8 @@ namespace D.Parsing
             ConsumeIf(Semicolon); // ? ;
 
             return new FunctionDeclarationSyntax(
-                parameters  : new[] { new ParameterSyntax(variableName) },
-                body        : lambda.Expression, 
+                parameters  : new[] { new ParameterSyntax(parameterName) },
+                body        : lambda, 
                 flags       : ObjectFlags.Anonymous
             );
         }
@@ -1887,7 +1890,7 @@ namespace D.Parsing
                 }
 
                 left = new BinaryExpressionSyntax(o, left, right) {
-                    Grouped = InMode(Mode.Parenthesis)
+                    Parenthesized = InMode(Mode.Parenthesis)
                 };
 
                 ConsumeIf(Semicolon);
@@ -2148,10 +2151,10 @@ namespace D.Parsing
         public ISyntaxNode MaybeMemberAccess()
         {
             var left = ReadPrimary();
-            
+
             // Maybe member access
-            while (IsOneOf(Dot, BracketOpen, ParenthesisOpen)       // . | [
-               || (IsKind(PipeForward) && !InMode(Mode.Arguments))) // |> 
+     
+            while (IsOneOf(Dot, BracketOpen, ParenthesisOpen, PipeForward))
             {
                 if (IsKind(PipeForward))
                 {
@@ -2163,7 +2166,7 @@ namespace D.Parsing
 
                     left = call;
                 }
-                else if (IsKind(ParenthesisOpen))
+                else if (IsKind(ParenthesisOpen)) // ? (
                 {
                     if (left is TypeSymbol type)
                     {
@@ -2198,7 +2201,7 @@ namespace D.Parsing
 
         public ISyntaxNode ReadPrimary()
         {
-            if (depth > 1) // was 1
+            if (depth > 1)
             {
                 throw new UnexpectedTokenException($"token not read. current mode {modes.Peek()}. depth: {depth}", Current);
             }
@@ -2284,9 +2287,9 @@ namespace D.Parsing
         {
             if (!MoreArguments()) return Array.Empty<ArgumentSyntax>();
 
-            var parenthesized = ConsumeIf(ParenthesisOpen); // ? (
+            var parenthesized = ConsumeIf(ParenthesisOpen);   // ? (
 
-            if (parenthesized && ConsumeIf(ParenthesisClose))
+            if (parenthesized && ConsumeIf(ParenthesisClose)) // ? )
             {
                 return Array.Empty<ArgumentSyntax>();
             }
@@ -2317,7 +2320,7 @@ namespace D.Parsing
 
             if (parenthesized)
             {
-                ConsumeIf(ParenthesisClose); // ? )
+                Consume(ParenthesisClose); // ! )
             }
 
             LeaveMode(Mode.Arguments);
@@ -2362,14 +2365,18 @@ namespace D.Parsing
 
         public CallExpressionSyntax ReadCall(ISyntaxNode callee)
         {
-            return ReadCall(callee, ReadMethodSymbol());
+            return ReadCall(callee, functionName: ReadMethodSymbol());
         }
 
-        // Question: Scope read if arg count is fixed ?
+        // TODO: Scope read if arg count is fixed ?
 
-        public CallExpressionSyntax ReadCall(ISyntaxNode callee, Symbol name)
+        public CallExpressionSyntax ReadCall(ISyntaxNode callee, Symbol functionName)
         {
-            return new CallExpressionSyntax(callee, name, ReadArguments());
+            return new CallExpressionSyntax(
+                callee   : callee,
+                name     : functionName,
+                arguments: ReadArguments()
+            );
         }
 
         public void Dispose()
@@ -2413,6 +2420,12 @@ namespace D.Parsing
                reader.Current.Kind == a 
             || reader.Current.Kind == b 
             || reader.Current.Kind == c;
+
+        bool IsOneOf(TokenKind a, TokenKind b, TokenKind c, TokenKind d) =>
+            reader.Current.Kind == a
+         || reader.Current.Kind == b
+         || reader.Current.Kind == c
+         || reader.Current.Kind == d;
 
         bool IsKind(TokenKind kind) => reader.Current.Kind == kind;
 

@@ -160,9 +160,9 @@ namespace D
                 return new FunctionExpression(parameters.ToArray(), new LambdaExpression(expression));
             }
 
-            if (env.TryGetValue(expression.FunctionName, out IObject func))
+            if (env.TryGetValue(expression.FunctionName, out IFunction func))
             {
-                return ((IFunction)func).Invoke(args);
+                return func.Invoke(args);
             }
 
             throw new Exception($"function {expression.FunctionName} not found");

@@ -31,7 +31,9 @@ namespace D
                 {
                     foreach (var p2 in compound.Members)
                     {
-                        properties.Add(new Property(p2.Name, env.Get<Type>(p2.Type), p2.Flags));
+                        var memberType = p2.Type != null ? env.Get<Type>(p2.Type) : GetType(Visit(p2.Value));
+
+                        properties.Add(new Property(p2.Name, memberType, p2.Flags));
                     }
                 }
             }

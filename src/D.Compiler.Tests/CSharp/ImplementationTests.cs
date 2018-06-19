@@ -12,7 +12,7 @@ namespace D.Compilation.Tests
         [Fact]
         public void BezierType()
         {
-            var r  = Transpile(@"
+            var r = Helper.Transpile(@"
 Curve protocol {
   getPoint (position: Number) -> Vector2
 }
@@ -91,7 +91,7 @@ public class Cuboid
 }
 ".Trim(),
 
-            Transpile(@"
+            Helper.Transpile(@"
 Cuboid class {
   polygons: [ Polygon ]
 }
@@ -121,7 +121,7 @@ public static string A(Point<T> point)
     var z = point.Z;
 }".Trim(),
 
-Transpile(@"
+Helper.Transpile(@"
 a ƒ(point: Point<T>) -> String {
   let (x, y, z) = point
 }
@@ -143,7 +143,7 @@ public static object SinIn(double x) => Math.Sin(x * Math.PI * 0.5);
 public static object SinOut(double x) => -Math.Cos(Math.PI * x) / 2 + 0.5;
 ".Trim(),
 
-            Transpile(@"
+            Helper.Transpile(@"
 cubicIn  ƒ(x: Number) => x * x * x;
 cubicOut ƒ(x: Number) => (x - 1) ** 3 + 1;
 linear   ƒ(x: Number) => x;
@@ -161,7 +161,7 @@ public static Point<T> Clamp<T>(Point<T> p, Point<T> min, Point<T> max) => new P
 
 ".Trim(),
 
-Transpile(@"
+Helper.Transpile(@"
 clamp ƒ <T> (p: Point<T>, min: Point<T>, max: Point<T>) => Point<T>(
   x: max(min.x, min(max.x, p.x)),
   y: max(min.y, min(max.y, p.y)),
@@ -196,7 +196,7 @@ namespace Namespaced
 }
 ".Trim(),
 
-Transpile(@"
+Helper.Transpile(@"
 Class class { 
 
 }
@@ -232,7 +232,7 @@ namespace Banking
 }
 ".Trim(),
 
-Transpile(@"
+Helper.Transpile(@"
 Bank struct { 
   name: String
 }", "Banking"));
@@ -262,7 +262,7 @@ public class Account
 
 ".Trim(),
 
-Transpile(@"
+Helper.Transpile(@"
 
 Account record { 
   mutable balance : Decimal
@@ -324,7 +324,7 @@ public class Matrix4<T>
 }
 
 ".Trim(),
-Transpile(@"
+Helper.Transpile(@"
 Matrix4 struct <T> {
   elements: [T] 
 }
@@ -380,7 +380,7 @@ public class Point
 }
 ".Trim(),
 
-Transpile(@"
+Helper.Transpile(@"
 Point struct { x, y, z: Number }
 
 Point impl {
@@ -408,7 +408,7 @@ public class Point
 }
 ".Trim(),
 
-Transpile(@"
+Helper.Transpile(@"
 Point struct { }
 
 Point impl {
@@ -443,7 +443,7 @@ public class Point<T>
 }
 ".Trim(),
 
-Transpile(@"
+Helper.Transpile(@"
 
 Point struct <T> { 
   x, y, z: T
@@ -464,7 +464,7 @@ public interface Curve
 }
 ".Trim(),
 
-Transpile(@"
+Helper.Transpile(@"
 Curve protocol { 
   getPoint (t: Number) -> Point
 }
@@ -485,7 +485,7 @@ public interface Observer
 }
 ".Trim(),
 
-Transpile(@"
+Helper.Transpile(@"
 Observer protocol { 
   next -> (A, B, C) -> D
   next -> A -> B
@@ -506,7 +506,7 @@ public interface Node
 }
 ".Trim(),
 
-Transpile(@"
+Helper.Transpile(@"
 Node protocol { 
   kind -> Kind
   children -> [ Node ]
@@ -561,7 +561,7 @@ public class Point : Geometry
 ".Trim(),
 
 
-Transpile(@"
+Helper.Transpile(@"
 Geometry protocol {
   center -> Point
 }
@@ -587,7 +587,7 @@ Geometry impl for Point {
         [Fact]
         public void Unit()
         {
-            var unit = CompileModule(@"
+            var unit = Helper.CompileModule(@"
 Point struct { 
   x, y, z: Number
 }
@@ -598,23 +598,24 @@ Point impl {
 }
 ");
 
-            var type = unit.Members[0].Item2 as Type;
+            var pointType = unit.Statements[0] as Type;
 
-            Assert.Equal(1, unit.Members.Count);
+            // Assert.Equal(1, unit.Members.Count);
 
-            Assert.Equal("Point",type.Name);
-            Assert.Equal(3, type.Properties.Length);
+            Assert.Equal("Point", pointType.Name);
+            Assert.Equal(3, pointType.Properties.Length);
 
             // Assert.Equal(1, unit.Implementations[unit.Types[0]].Count);
             // Assert.Equal(2, unit.Implementations.First()[0].Members.Length);
         }
+
 
         [Fact]
         public void Y()
         {
             Assert.Equal(
 @"public static Point<T> Negate<T>(Point<T> value) => new Point<T>(x: -value.X, y: -value.Y, z: -value.Z);",
-Transpile(
+Helper.Transpile(
 @"negate ƒ <T> (value: Point<T>) => Point<T>(
   x: - value.x, 
   y: - value.y, 
@@ -622,21 +623,18 @@ Transpile(
 )"));
         }
 
-        public static Module CompileModule(string source)
-        {
-            var compilier = new Compiler();
+        
+      
+    }
 
-            using (var parser = new Parser(source))
-            {
-                return compilier.Compile(parser.Enumerate());
-            }
-        }
 
+    public static class Helper
+    {
         public static string Transpile(string source, string moduleName = null)
         {
             var sb = new StringBuilder();
 
-            var module = CompileModule(source);
+            var module = CompileModule(source, moduleName);
 
             using (var writer = new StringWriter(sb))
             {
@@ -644,8 +642,6 @@ Transpile(
 
                 if (moduleName != null)
                 {
-                    module.Name = moduleName;
-
                     csharp.WriteModule(module);
                 }
                 else
@@ -656,5 +652,16 @@ Transpile(
 
             return sb.ToString();
         }
+
+        public static Module CompileModule(string source, string moduleName = null)
+        {
+            var compilier = new Compiler();
+
+            using (var parser = new Parser(source))
+            {
+                return compilier.Compile(parser.Enumerate(), moduleName).Expressions[0] as Module;
+            }
+        }
+
     }
 }

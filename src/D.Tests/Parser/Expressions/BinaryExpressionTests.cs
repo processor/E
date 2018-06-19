@@ -196,13 +196,13 @@ namespace D.Parsing.Tests
         [Fact]
         public void Groupings1()
         {
-            Assert.True(Parse<BinaryExpressionSyntax>("(4 ** 3)").Grouped);
-            Assert.False(Parse<BinaryExpressionSyntax>("4 ** 3").Grouped);
+            Assert.True(Parse<BinaryExpressionSyntax>("(4 ** 3)").Parenthesized);
+            Assert.False(Parse<BinaryExpressionSyntax>("4 ** 3").Parenthesized);
 
             var a = Parse<BinaryExpressionSyntax>("4 ** (3 * 16)");
 
-            Assert.False(a.Grouped);
-            Assert.True(((BinaryExpressionSyntax)a.Right).Grouped);
+            Assert.False(a.Parenthesized);
+            Assert.True(((BinaryExpressionSyntax)a.Right).Parenthesized);
 
             Assert.Equal("4 ** (3 * 16)", a.ToString());
         }

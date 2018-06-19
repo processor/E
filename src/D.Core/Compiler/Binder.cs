@@ -16,7 +16,7 @@ namespace D
                 }
             }
 
-            throw new Exception("Block has no return statement");
+            throw new Exception("Block has no return statement:" + block[0].ToString());
         }
 
         public Type GetReturnType(LambdaExpression lambda)
@@ -26,9 +26,9 @@ namespace D
 
         public Type GetType(IExpression expression)
         {
-            if (expression is Symbol name && env.TryGetValue(name, out IObject obj))
+            if (expression is Symbol name && env.TryGetValue(name, out Type obj))
             {
-                return (Type)obj;
+                return obj;
             }
 
             switch (expression)

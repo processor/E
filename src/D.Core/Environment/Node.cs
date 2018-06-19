@@ -85,6 +85,11 @@ namespace D
 
         public bool TryGet(string name, out object kind)
         {
+            if (name == null)
+            {
+                throw new ArgumentNullException(nameof(name));
+            }
+
             if (children.TryGetValue(name, out kind))
             {
                 return true;

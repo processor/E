@@ -18,7 +18,7 @@ namespace D.Syntax
 
         public ISyntaxNode Right { get; }
 
-        public bool Grouped { get; set; }
+        public bool Parenthesized { get; set; }
 
         SyntaxKind ISyntaxNode.Kind => SyntaxKind.BinaryExpression;
 
@@ -28,7 +28,7 @@ namespace D.Syntax
         {
             var sb = new StringBuilder();
 
-            if (Grouped)
+            if (Parenthesized)
             {
                 sb.Append('(');
             }
@@ -41,7 +41,7 @@ namespace D.Syntax
 
             sb.Append(Right.ToString());
 
-            if (Grouped)
+            if (Parenthesized)
             {
                 sb.Append(')');
             }

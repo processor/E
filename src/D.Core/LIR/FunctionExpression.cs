@@ -114,7 +114,6 @@ namespace D
 
         #endregion
 
-
         #region INode
 
         // INode Parent { get; }

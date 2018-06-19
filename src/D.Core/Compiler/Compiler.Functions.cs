@@ -18,37 +18,32 @@ namespace D
                 env.Add(p.Name, p.Type);
             }
 
-            var b = Visit(f.Body);
+            // NOTE: protocol functions are abstract and do not define a body
+            var body = Visit(f.Body);
 
-            var returnType = f.ReturnType != null
-                ? env.Get<Type>(f.ReturnType)
-                : b.Kind == Kind.LambdaExpression
-                    ? GetReturnType((LambdaExpression)b)
-                    : GetReturnType((BlockExpression)b);
 
-            BlockExpression body;
+            Type returnType = null;
 
-            if (f.Body == null)
+            if (f.ReturnType != null)
             {
-                body = null; // protocol functions are abstract and do not define a body
+                returnType = env.Get<Type>(f.ReturnType);
             }
-            else if (f.Body is BlockSyntax blockSyntax)
+            else if (body is LambdaExpression lambda)
             {
-                body = VisitBlock(blockSyntax);
-            }
-            else if (f.Body is LambdaExpressionSyntax lambdaSyntax)
-            {
-                var lambda = VisitLambda(lambdaSyntax);
+                returnType = GetReturnType(lambda);
 
                 body = new BlockExpression(new ReturnStatement(lambda.Expression));
+            }
+            else if (body is BlockExpression block)
+            {
+                returnType = GetReturnType(block);
             }
             else
             {
                 throw new Exception("unexpected function body type:" + f.Body.Kind);
             }
 
-            var result = new FunctionExpression(f.Name, returnType, paramaters)
-            {
+            var result = new FunctionExpression(f.Name, returnType, paramaters) {
                 GenericParameters = ResolveParameters(f.GenericParameters),
                 Flags = f.Flags,
                 Body = body,

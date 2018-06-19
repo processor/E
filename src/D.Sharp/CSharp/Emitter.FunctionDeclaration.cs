@@ -95,7 +95,6 @@
             }
         }
 
-
         public void WriteProtocolFunction(ProtocolExpression protocol, FunctionExpression func)
         {
             Indent(level);
@@ -132,15 +131,17 @@
             WriteFunctionBody((BlockExpression)func.Body);
         }
 
-        public void VisitFunction(FunctionExpression func)
+        public override IExpression VisitFunction(FunctionExpression func)
         {
             if (func.IsAnonymous)
             {
+                WriteParameters(func.Parameters, '(', ')');
+
                 Emit(" => ");
 
                 Visit(func.Body);
 
-                return;
+                return func;
             }
 
             Indent(level);
@@ -159,7 +160,7 @@
 
                 WriteFunctionBody((BlockExpression)func.Body);
 
-                return;
+                return func;
             }
 
             if (func.IsStatic && !func.IsProperty)
@@ -189,8 +190,9 @@
             }
 
             WriteFunctionBody((BlockExpression)func.Body);
-        }
 
+            return func;
+        }
 
         private void WriteGenericParameters(Parameter[] parameters)
         {

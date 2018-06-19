@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 
 using Xunit;
@@ -11,13 +10,25 @@ namespace D.Parsing.Tests
     public class CallTests : TestBase
     {
         [Fact]
+        public void LambdaArgument()
+        {
+            var call = Parse<CallExpressionSyntax>("a |> map(c => c.height)");
+
+            var arg = call.Arguments[0].Value as FunctionDeclarationSyntax;
+
+            var lambda = (LambdaExpressionSyntax)arg.Body;
+
+            Assert.Equal("c", arg.Parameters[0].Name);
+        }
+
+        [Fact]
         public void CssCalc()
         {
-            var a = Parse<CallExpressionSyntax>("calc(1px - 2 * 3em)");
+            var call = Parse<CallExpressionSyntax>("calc(1px - 2 * 3em)");
 
-            Assert.Equal(1, a.Arguments.Length);
+            Assert.Equal(1, call.Arguments.Length);
 
-            var inner = a.Arguments[0].Value as BinaryExpressionSyntax;
+            var inner = call.Arguments[0].Value as BinaryExpressionSyntax;
 
             Assert.Equal("1 px - 2 * 3 em", inner.ToString());
         }
@@ -41,6 +52,7 @@ namespace D.Parsing.Tests
             Assert.Equal("floor",   Parse<CallExpressionSyntax>("floor(5.9)").Name);
 
         }
+
         [Fact]
         public void Lambda()
         {
