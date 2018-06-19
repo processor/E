@@ -8,8 +8,8 @@ namespace D.Mathematics
         {
             // Imaginary
 
-            Add("π", new Number(Math.PI));                                      // pi
-            Add("γ", new Number(0.5772156649015328606065120900824024310421d));  // Euler-Mascheroni  constant
+            AddExport("π", new Number(Math.PI));                                      // pi
+            AddExport("γ", new Number(0.5772156649015328606065120900824024310421d));  // Euler-Mascheroni  constant
         }
     }
 

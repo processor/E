@@ -56,6 +56,11 @@ namespace D
             };
 
             LeaveScope();
+            
+            if (result.Name != null)
+            {
+                env.Add(result.Name, result);
+            }
 
             return result;
         }

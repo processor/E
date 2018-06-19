@@ -20,7 +20,9 @@
         public TypeSymbol(ModuleSymbol module, string name, Symbol[] arguments)
             : base(module, name, arguments) { }
 
-       
+        public TypeSymbol BaseType { get; set; }
+
+        // Protocols       
     }
 }
 

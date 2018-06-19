@@ -6,7 +6,7 @@ namespace D
 {
     using Expressions;
 
-    public class FunctionExpression : INamedObject
+    public class FunctionExpression : INamedObject, IExpression
     {
         public FunctionExpression(string name, Type returnType, params Parameter[] parameters)
         {

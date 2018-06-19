@@ -1,11 +1,15 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using D.Expressions;
 
 namespace D
 {
-    public class Module : IEnumerable<(string, object)>
+    public class Module : IExpression
     {
-        public readonly List<(string, object)> members = new List<(string, object)>();
+        public readonly IDictionary<string, object> exports = new Dictionary<string, object>();
+
+
+        private readonly List<IExpression> statements = new List<IExpression>();
 
         public Module(string name = null, Module parent = null)
         {
@@ -13,18 +17,34 @@ namespace D
             Parent = parent;
         }
 
+        public string Name { get; }
+
         public Module Parent { get; }
 
-        public string Name { get; } // This may have mutiple levels...
+        public Kind Kind => Kind.Module;
 
-        public (string, object) this[int index] => members[index];
+        // Imported
+        // Exported
 
-        public void Add(INamedObject value) => members.Add((value.Name, value));
+        public void Add(IExpression value)
+        {
+            // TODO: Check visibility
+            statements.Add(value);
+        }
 
-        public void Add(string name, object value) => members.Add((name, value));
+        public void AddExport(INamedObject value)
+        {
+            exports[value.Name] = value;
+        }
 
-        IEnumerator IEnumerable.GetEnumerator() => members.GetEnumerator();
+        public void AddExport(string name, object value)
+        {
+            exports[name] = value;
+        }
 
-        IEnumerator<(string, object)> IEnumerable<(string, object)>.GetEnumerator() => members.GetEnumerator();
+        public IDictionary<string, object> Exports => exports;
+
+        public IReadOnlyList<IExpression> Statements => statements;
+    
     }
 }

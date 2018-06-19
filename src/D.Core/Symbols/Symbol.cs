@@ -38,8 +38,6 @@ namespace D
 
         public string Name { get; }
 
-        // Declaration?
-
         public Symbol[] Arguments { get; }
 
         public SymbolFlags Flags { get; }
@@ -54,15 +52,13 @@ namespace D
             Status = SymbolStatus.Resolved;
         }
 
-        public SymbolStatus Status { get; set; } = SymbolStatus.Unresolved;
+        public SymbolStatus Status { get; private set; } = SymbolStatus.Unresolved;
 
-        public Type ResolvedType { get; set; }
+        public Type ResolvedType { get; private set; }
+        
+        public Symbol ContainingType { get; set; } // if a member of a type
 
-        // Member?
-
-        // ContainingType   (if a member of a type)
-
-        // ContainingModule (if a member of a module)
+        public Symbol ContainingModule { get; set; } // if a member of a module
 
         #endregion
 
@@ -93,7 +89,10 @@ namespace D
 
                 foreach (var arg in Arguments)
                 {
-                    if (++i > 1) sb.Append(',');
+                    if (++i > 1)
+                    {
+                        sb.Append(',');
+                    }
 
                     sb.Append(arg.ToString());
                 }
@@ -102,6 +101,19 @@ namespace D
             }
 
             return sb.ToString();
+        }
+
+
+        public virtual bool TryGetValue(string name, out Symbol value)
+        {
+            value = default;
+
+            return false;
+        }
+
+        public virtual void Add(Symbol child)
+        {
+            throw new NotImplementedException();
         }
 
         public static LabelSymbol Label(string name) =>

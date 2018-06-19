@@ -4,9 +4,11 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading;
 
+using D.Expressions;
+
 namespace D
 {
-    public class Type : INamedObject, IEquatable<Type>
+    public class Type : INamedObject, IExpression, IEquatable<Type>
     {
         private static readonly ConcurrentDictionary<Kind, Type> cache = new ConcurrentDictionary<Kind, Type>();
 

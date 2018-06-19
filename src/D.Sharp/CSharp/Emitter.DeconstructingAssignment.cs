@@ -10,10 +10,11 @@
 
             foreach (var a in expression.Variables)
             {
+                if (a.Name == "_") continue;
+
                 if (i != 0) EmitLine();
 
-                Indent(level);
-
+                Indent(level);                
                 Emit("var ");
 
                 Emit(a.Name);

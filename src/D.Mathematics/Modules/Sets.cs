@@ -4,14 +4,14 @@
     {
         public SetsModule()
         {
-            Add(Intersection   ); // ∩
-            Add(Union          ); // ∪
-            Add(Subset         ); // ⊆
-            Add(ProperSubset   ); // ⊂
-            Add(NotSubset      ); // ⊄"
-            Add(Superset       ); // ⊇
-            Add(ProperSuperset ); // ⊃
-            Add(NotSuperset);     // ⊅
+            AddExport(Intersection   ); // ∩
+            AddExport(Union          ); // ∪
+            AddExport(Subset         ); // ⊆
+            AddExport(ProperSubset   ); // ⊂
+            AddExport(NotSubset      ); // ⊄"
+            AddExport(Superset       ); // ⊇
+            AddExport(ProperSuperset ); // ⊃
+            AddExport(NotSuperset);     // ⊅
         }
 
         public static readonly Operator Intersection    = Operator.Infix(Kind.Intersection,   "∩",  precedence: 1);

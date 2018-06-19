@@ -21,13 +21,13 @@ namespace D
 
             var properties = new List<Property>();
 
-            foreach(var member in type.Members)
+            foreach (var member in type.Members)
             {
                 if (member is PropertyDeclarationSyntax property)
                 {
                     properties.Add(new Property(property.Name, env.Get<Type>(property.Type), property.Flags));
                 }
-                else if (member is CompoundPropertyDeclaration compound) 
+                else if (member is CompoundPropertyDeclaration compound)
                 {
                     foreach (var p2 in compound.Members)
                     {
@@ -40,7 +40,11 @@ namespace D
                 ? env.Get<Type>(type.BaseType)
                 : null;
 
-            return new Type(type.Name, baseType, properties.ToArray(), genericParameters);
+            var result = new Type(type.Name, baseType, properties.ToArray(), genericParameters);
+
+            env.Add(type.Name, result);
+
+            return result;
         }
     }
 }

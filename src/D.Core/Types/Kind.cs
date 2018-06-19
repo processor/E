@@ -153,7 +153,7 @@
         ObserveStatement        = 3008,
         EmitStatement           = 3009,
         WhileStatement          = 3010,
-        ModuleStatement         = 3012,
+        Module                  = 3012,
 
         CoalesceExpression       = 5001, // ??
         

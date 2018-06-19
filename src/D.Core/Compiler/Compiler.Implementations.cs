@@ -7,16 +7,16 @@ namespace D
 
     public partial class Compiler
     {
-        public ImplementationExpression VisitImplementation(ImplementationDeclarationSyntax impl)
+        public ImplementationExpression VisitImplementation(ImplementationDeclarationSyntax syntax)
         {
             env = env.Nested("impl");
 
-            var type = env.GetType(impl.Type);
-            var protocol = impl.Protocol != null ? env.Get<ProtocolExpression>(impl.Protocol) : null;
+            var type = env.GetType(syntax.Type);
+            var protocol = syntax.Protocol != null ? env.Get<ProtocolExpression>(syntax.Protocol) : null;
 
             #region Setup environment
 
-            env.Add("this", type);
+            env.Add("this", type); // Self
 
             if (type.Properties != null)
             {
@@ -31,7 +31,7 @@ namespace D
             var methods   = new List<FunctionExpression>();
             var variables = new List<VariableDeclaration>();
 
-            foreach (var member in impl.Members)
+            foreach (var member in syntax.Members)
             {
                 switch (member)
                 {
@@ -53,7 +53,11 @@ namespace D
 
             env = env.Parent;
 
-            return new ImplementationExpression(protocol, type, variables.ToArray(), methods.ToArray());
+            var result = new ImplementationExpression(protocol, type, variables.ToArray(), methods.ToArray());
+
+            result.Type.Implementations.Add(result);
+
+            return result;
         }
     }
 }

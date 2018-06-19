@@ -351,7 +351,7 @@ namespace D.Parsing
             var eventType = ReadTypeSymbol();
 
             var varName = (! (IsKind(BraceOpen) | IsKind(LambdaOperator)))
-                ? ReadFunctionSymbol()
+                ? ReadMethodSymbol()
                 : null;
 
             var body = ReadBody();
@@ -641,7 +641,7 @@ namespace D.Parsing
 
             if (isOperator) flags |= ObjectFlags.Operator;
 
-            var name = isOperator ? new TypeSymbol(reader.Consume()) : ReadFunctionSymbol();
+            var name = isOperator ? new MethodSymbol(reader.Consume()) : ReadMethodSymbol();
 
             return ReadFunctionDeclaration(name, flags);
         }
@@ -1070,7 +1070,7 @@ namespace D.Parsing
                 ? MessageFlags.Optional 
                 : MessageFlags.None;
 
-            var name = ReadFunctionSymbol();
+            var name = ReadMethodSymbol();
 
             if (ConsumeIf(Tombstone)) // ? ∎
             {
@@ -1258,12 +1258,11 @@ namespace D.Parsing
         public VariableSymbol ReadVariableSymbol(SymbolFlags flags)
         {
             return new VariableSymbol(ReadName(), flags);
-
         }
 
-        public TypeSymbol ReadFunctionSymbol()
+        public MethodSymbol ReadMethodSymbol()
         {
-            return new TypeSymbol(ReadName());
+            return new MethodSymbol(ReadName());
         }
 
         public ArgumentSymbol ReadArgumentSymbol()
@@ -2363,7 +2362,7 @@ namespace D.Parsing
 
         public CallExpressionSyntax ReadCall(ISyntaxNode callee)
         {
-            return ReadCall(callee, ReadFunctionSymbol());
+            return ReadCall(callee, ReadMethodSymbol());
         }
 
         // Question: Scope read if arg count is fixed ?

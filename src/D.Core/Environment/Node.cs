@@ -38,11 +38,11 @@ namespace D
 
         public void AddModule(Module module)
         {
-            foreach (var (key, value) in module)
+            foreach (var pair in module.Exports)
             {
-                children.TryAdd(key, value);
+                children.TryAdd(pair.Key, pair.Value);
 
-                if (value is Operator op)
+                if (pair.Value is Operator op)
                 {
                     operators.Add(op);
                 }
@@ -55,7 +55,14 @@ namespace D
 
         public OperatorCollection Operators => operators;
 
-        public bool Add(string name, object value) => children.TryAdd(name, value);
+        public void Add(string name, object value)
+
+        {
+            if (!children.TryAdd(name, value))
+            {
+                // throw new Exception(name + " already added");
+            }
+        }
 
         public void Set<T>(string name, T value)
         {

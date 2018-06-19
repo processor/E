@@ -3,9 +3,9 @@ using System.Collections.Generic;
 
 namespace D
 {
-    using D.Units;
     using Expressions;
     using Syntax;
+    using Units;
 
     public partial class Compiler
     {
@@ -25,60 +25,44 @@ namespace D
             this.env = env;
         }
 
-        public Module Compile(IEnumerable<ISyntaxNode> nodes, string moduleName)
+        public Compilation Compile(IEnumerable<ISyntaxNode> nodes, string moduleName = null)
         {
+            var compilation = new Compilation();
+
             var module = new Module(moduleName);
-            
+
             foreach (var node in nodes)
             {
-                if (node is FunctionDeclarationSyntax func)
-                {
-                    var function = VisitFunctionDeclaration(func);
-
-                    module.Add(function);
-
-                    if (function.Name != null)
-                    {
-                        env.Add(function.Name, function);
-                    }
-                }
-                else if (node is TypeDeclarationSyntax typeDeclaration)
-                {
-                    var type = VisitTypeDeclaration(typeDeclaration);
-
-                    module.Add(type);
-
-                    env.Add(type.Name, type);
-                }
-                else if (node is ProtocolDeclarationSyntax protocolDeclaration)
-                {
-                    var protocol = VisitProtocol(protocolDeclaration);
-
-                    module.Add(protocol);
-
-                    env.Add(protocol.Name, protocol);
-                }
-                else if (node is ImplementationDeclarationSyntax implDeclaration)
-                {
-                    var impl = VisitImplementation(implDeclaration);
-
-                    impl.Type.Implementations.Add(impl);
-                }
+                module.Add(Visit(node));
             }
 
-            return module;
+            compilation.Expressions.Add(module);
+
+            return compilation;
         }
 
         public BlockExpression VisitBlock(BlockSyntax syntax)
         {
             var statements = new IExpression[syntax.Statements.Length];
 
-            for(var i = 0; i < statements.Length; i++)
+            for (int i = 0; i < statements.Length; i++)
             { 
                 statements[i] = Visit(syntax.Statements[i]);
             }
 
             return new BlockExpression(statements);
+        }
+
+        public Module VisitModule(ModuleSyntax syntax)
+        {
+            var module = new Module(syntax.Name);
+
+            for (var i = 0; i < syntax.Statements.Length; i++)
+            {                
+                module.Add(Visit(syntax.Statements[i]));   
+            }
+            
+            return module;
         }
 
         int i = 0;
@@ -100,12 +84,25 @@ namespace D
 
                 case CallExpressionSyntax call       : return VisitCall(call);
                 case MatchExpressionSyntax match     : return VisitMatch(match);
+                case ModuleSyntax module             : return VisitModule(module);
             }
 
             switch (syntax.Kind)
             {
+                case SyntaxKind.TypeDeclaration:
+                    return VisitTypeDeclaration((TypeDeclarationSyntax)syntax);
+
+                case SyntaxKind.FunctionDeclaration:
+                    return VisitFunctionDeclaration((FunctionDeclarationSyntax)syntax);
+
+                case SyntaxKind.ProtocolDeclaration:
+                    return VisitProtocol((ProtocolDeclarationSyntax)syntax);
+
                 case SyntaxKind.LambdaExpression:
                     return VisitLambda((LambdaExpressionSyntax)syntax);
+
+                case SyntaxKind.ImplementationDeclaration:
+                    return VisitImplementation((ImplementationDeclarationSyntax)syntax);
 
                 case SyntaxKind.InterpolatedStringExpression:
                     return VisitInterpolatedStringExpression((InterpolatedStringExpressionSyntax)syntax);

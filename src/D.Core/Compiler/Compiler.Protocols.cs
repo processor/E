@@ -14,7 +14,11 @@
                 functions[i] = VisitFunctionDeclaration(protocol.Members[i]);
             }
 
-            return new ProtocolExpression(protocol.Name, functions);
+            var result = new ProtocolExpression(protocol.Name, functions);
+
+            env.Add(protocol.Name, result);
+            
+            return result;
         }
     }
 }

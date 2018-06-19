@@ -4,7 +4,7 @@ namespace D
 {
     using Expressions;
 
-    public class ImplementationExpression : IObject
+    public class ImplementationExpression : IExpression
     {
         public ImplementationExpression(ProtocolExpression protocol, Type type, VariableDeclaration[] variables, FunctionExpression[] members)
         {

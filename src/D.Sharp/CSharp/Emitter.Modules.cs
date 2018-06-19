@@ -1,13 +1,14 @@
 ﻿namespace D.Compilation
 {
+    using System;
     using Expressions;
 
     public partial class CSharpEmitter
     {
         public void WriteModule(Module module)
         {
-            EmitLine("namespace " + module.Name);
-            EmitLine("{");
+            EmitLine("namespace " + module.Name, level);
+            EmitLine("{", level);
 
             level++;
 
@@ -17,26 +18,34 @@
 
             EmitLine();
 
-            Emit('}');
+            Emit("}", level);
         }
 
         public void WriteModuleMembers(Module module)
         {
             int i = 0;
 
-            foreach (var (name, member) in module)
+            foreach (var statement in module.Statements)
             {
+                if (statement is ImplementationExpression) continue;
+
                 if (++i > 1)
                 {
                     EmitLine();
                     EmitLine();
                 }
 
-                switch (member)
+                switch (statement)
                 {
                     case ProtocolExpression protocol : VisitProtocal(protocol);   break;
-                    case Type type                   : WriteImplementation(type); break;
+                    case D.Type type                 : WriteImplementation(type); break;
                     case FunctionExpression func     : VisitFunction(func);       break;
+                    case Module mod:
+                        WriteModule(mod);
+
+                        break;
+
+                    default                          : throw new NotImplementedException(statement.GetType().Name);
                 }
             }
         }        
