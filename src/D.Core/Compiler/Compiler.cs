@@ -115,6 +115,7 @@ namespace D
                 case SyntaxKind.IndexAccessExpression   : return VisitIndexAccess((IndexAccessExpressionSyntax)syntax);
 
                 // Statements
+                case SyntaxKind.ForStatement            : return VisitFor((ForStatementSyntax)syntax);
                 case SyntaxKind.IfStatement             : return VisitIf((IfStatementSyntax)syntax);
                 case SyntaxKind.ElseIfStatement         : return VisitElseIf((ElseIfStatementSyntax)syntax);
                 case SyntaxKind.ElseStatement           : return VisitElse((ElseStatementSyntax)syntax);
@@ -180,7 +181,7 @@ namespace D
         {
             var members = new IExpression[syntax.Children.Length];
 
-            for (var i = 0; i < members.Length; i++)
+            for (int i = 0; i < members.Length; i++)
             {
                 members[i] = Visit(syntax.Children[i]);
             }
@@ -205,20 +206,20 @@ namespace D
 
         public virtual IExpression VisitAnyPattern(AnyPatternSyntax syntax) => new AnyPattern();
 
-        public virtual IExpression VisitNumber(NumberLiteralSyntax expression)
+        public virtual IExpression VisitNumber(NumberLiteralSyntax syntax)
         {
-            if (expression.Text.IndexOf('.') > -1)
+            if (syntax.Text.IndexOf('.') > -1)
             {
-                return new Number(double.Parse(expression.Text));
+                return new Number(double.Parse(syntax.Text));
             }
             else
             {
-                return new Integer(long.Parse(expression.Text));
+                return new Integer(long.Parse(syntax.Text));
             }
         }
 
         public virtual BinaryExpression VisitBinary(BinaryExpressionSyntax syntax)
-            => new BinaryExpression(syntax.Operator, Visit(syntax.Left), Visit(syntax.Right)) { Grouped = syntax.Grouped };
+            => new BinaryExpression(syntax.Operator, Visit(syntax.Left), Visit(syntax.Right)) { Grouped = syntax.Parenthesized };
       
         public virtual UnaryExpression VisitUnary(UnaryExpressionSyntax syntax)
             => new UnaryExpression(syntax.Operator, arg: Visit(syntax.Argument));
@@ -258,14 +259,14 @@ namespace D
             return Arguments.Create(items);
         }
 
-        public virtual VariableDeclaration VisitVariableDeclaration(PropertyDeclarationSyntax variable)
+        public virtual VariableDeclaration VisitVariableDeclaration(PropertyDeclarationSyntax syntax)
         {
-            var value = Visit(variable.Value);
-            var type  = GetType(variable.Type ?? value);
+            var value = Visit(syntax.Value);
+            var type  = GetType(syntax.Type ?? value);
             
-            env.Add(variable.Name, type);
+            env.Add(syntax.Name, type);
 
-            return new VariableDeclaration(variable.Name, type, variable.Flags, value);
+            return new VariableDeclaration(syntax.Name, type, syntax.Flags, value);
         }
 
         public virtual TypeInitializer VisitObjectInitializer(ObjectInitializerSyntax syntax)
@@ -312,7 +313,9 @@ namespace D
             => new MemberAccessExpression(Visit(syntax.Left), syntax.Name);
 
         public virtual LambdaExpression VisitLambda(LambdaExpressionSyntax syntax)
-            => new LambdaExpression(Visit(syntax.Expression));
+        {
+            return new LambdaExpression(Visit(syntax.Expression));
+        }
 
         public virtual MatchExpression VisitMatch(MatchExpressionSyntax syntax)
         {
@@ -328,18 +331,6 @@ namespace D
 
         public virtual MatchCase VisitCase(CaseSyntax syntax) => 
             new MatchCase(Visit(syntax.Pattern), Visit(syntax.Condition), VisitLambda(syntax.Body));
-
-        public virtual IfStatement VisitIf(IfStatementSyntax expression) =>
-            new IfStatement(Visit(expression.Condition), VisitBlock(expression.Body), Visit(expression.ElseBranch));
-
-        public virtual ElseStatement VisitElse(ElseStatementSyntax syntax) => 
-            new ElseStatement(VisitBlock(syntax.Body));
-
-        public virtual ElseIfStatement VisitElseIf(ElseIfStatementSyntax syntax) => 
-            new ElseIfStatement(Visit(syntax.Condition), VisitBlock(syntax.Body), Visit(syntax.ElseBranch));
-
-        public virtual ReturnStatement VisitReturn(ReturnStatementSyntax syntax) =>
-            new ReturnStatement(Visit(syntax.Expression));
 
         public virtual TypePattern VisitTypePattern(TypePatternSyntax pattern) => 
             new TypePattern(pattern.TypeExpression, pattern.VariableName);
