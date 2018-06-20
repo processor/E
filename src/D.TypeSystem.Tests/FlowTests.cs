@@ -16,11 +16,11 @@ namespace D.Inference
 
             var a = new VariableNode("a", null);
 
-            flow.Assign(a, Kind.Number);
+            flow.Assign(a, Type.Get(Kind.Number));
             
             Assert.Equal("Number", flow.Infer(a).Name);
 
-            flow.Assign(a, Kind.Boolean);
+            flow.Assign(a, Type.Get(Kind.Boolean));
 
             Assert.Equal("Boolean", flow.Infer(a).Name);
         }
@@ -73,12 +73,12 @@ namespace D.Inference
         {
             var system = new Flow();
 
-            system.AddVariable("x", Kind.Number);
-            system.AddVariable("y", Kind.Number);
-            system.AddVariable("z", Kind.Int32);
-            system.AddVariable("x1", Kind.Float32);
+            system.Define("x",  Type.Get(Kind.Number));
+            system.Define("y",  Type.Get(Kind.Number));
+            system.Define("z",  Type.Get(Kind.Int32));
+            system.Define("x1", Type.Get(Kind.Float32));
 
-            system.AddVariable("name", Kind.String);
+            system.Define("name", Type.Get(Kind.String));
 
             Assert.Equal("Number", system.Infer(Variable("x")).Name.ToString());
             Assert.Equal("Object", system.Infer(Variable("x")).Constructor.Name.ToString());
@@ -104,10 +104,10 @@ namespace D.Inference
         {
             var flow = new Flow();
 
-            flow.AddVariable("a", Kind.Int64);
-            flow.AddVariable("b", Kind.Number);
-            flow.AddVariable("c", Kind.Number);
-            flow.AddVariable("name", Kind.String);
+            flow.Define("a", Type.Get(Kind.Int64));
+            flow.Define("b", Type.Get(Kind.Number));
+            flow.Define("c", Type.Get(Kind.Number));
+            flow.Define("name", Type.Get(Kind.String));
 
             var any = flow.NewGeneric();
 

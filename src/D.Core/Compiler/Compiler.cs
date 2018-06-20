@@ -4,6 +4,7 @@ using System.Collections.Generic;
 namespace D
 {
     using Expressions;
+    using Inference;
     using Syntax;
     using Units;
 
@@ -16,6 +17,7 @@ namespace D
         // - Transform to ExpressionTree
 
         private Node env;
+        private Flow flow = new Flow();
 
         public Compiler()
             : this(new Node()) { }
@@ -71,7 +73,7 @@ namespace D
         {
             i++;
 
-            if (i > 300) throw new Exception("rerucssion???");
+            if (i > 300) throw new Exception("recursion???");
 
             if (syntax == null) return null;
 
@@ -251,9 +253,11 @@ namespace D
 
             for (int i = 0; i < items.Length; i++)
             {
-                var a = arguments[i];
+                var arg = arguments[i];
 
-                items[i] = new Argument(a.Name, Visit(a.Value));
+                var value = Visit(arg.Value);
+
+                items[i] = new Argument(arg.Name, value);
             }
 
             return Arguments.Create(items);
@@ -264,7 +268,7 @@ namespace D
             var value = Visit(syntax.Value);
             var type  = GetType(syntax.Type ?? value);
             
-            env.Add(syntax.Name, type);
+            flow.Define(syntax.Name, type);
 
             return new VariableDeclaration(syntax.Name, type, syntax.Flags, value);
         }
@@ -304,7 +308,6 @@ namespace D
 
             return new DestructuringAssignment(elements, Visit(syntax.Instance));
         }
-        
 
         public virtual IndexAccessExpression VisitIndexAccess(IndexAccessExpressionSyntax syntax)
             => new IndexAccessExpression(Visit(syntax.Left), VisitArguments(syntax.Arguments));
@@ -329,8 +332,14 @@ namespace D
             return new MatchExpression(Visit(syntax.Expression), cases);
         }
 
-        public virtual MatchCase VisitCase(CaseSyntax syntax) => 
-            new MatchCase(Visit(syntax.Pattern), Visit(syntax.Condition), VisitLambda(syntax.Body));
+        public virtual MatchCase VisitCase(CaseSyntax syntax)
+        {
+            return new MatchCase(
+                pattern   : Visit(syntax.Pattern), 
+                condition : Visit(syntax.Condition),
+                body      : VisitLambda(syntax.Body)
+            );
+        }
 
         public virtual TypePattern VisitTypePattern(TypePatternSyntax pattern) => 
             new TypePattern(pattern.TypeExpression, pattern.VariableName);
@@ -340,11 +349,11 @@ namespace D
 
         public virtual Symbol VisitSymbol(Symbol symbol)
         {
-            if (symbol.Status == SymbolStatus.Unresolved)
+            if (symbol is TypeSymbol typeSymbol && typeSymbol.Status == SymbolStatus.Unresolved)
             {
-                if (env.TryGetValue<Type>(symbol, out var value))
+                if (env.TryGetValue<Type>(typeSymbol, out var value))
                 {
-                    symbol.Initialize(value);
+                    typeSymbol.Initialize(value);
                 }
             }
 

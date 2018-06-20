@@ -146,7 +146,7 @@ namespace D
         {
             if (!TryGetValue<T>(name, out T value))
             {
-                throw new KeyNotFoundException($"Node does not contain {typeof(T).Name}");
+                throw new KeyNotFoundException($"Node does not contain {name} of {typeof(T).Name}");
             }
 
             return value;

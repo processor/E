@@ -6,13 +6,13 @@ namespace D
 
     public partial class Compiler
     {
-        public Type VisitTypeDeclaration(TypeDeclarationSyntax type)
+        public Type VisitTypeDeclaration(TypeDeclarationSyntax syntax)
         {
-            var genericParameters = new Parameter[type.GenericParameters.Length];
+            var genericParameters = new Parameter[syntax.GenericParameters.Length];
 
-            for (var i = 0; i < type.GenericParameters.Length; i++)
+            for (var i = 0; i < syntax.GenericParameters.Length; i++)
             {
-                var member = type.GenericParameters[i];
+                var member = syntax.GenericParameters[i];
 
                 genericParameters[i] = new Parameter(member.Name, env.Get<Type>(member.Type ?? TypeSymbol.Object));
 
@@ -21,7 +21,7 @@ namespace D
 
             var properties = new List<Property>();
 
-            foreach (var member in type.Members)
+            foreach (var member in syntax.Members)
             {
                 if (member is PropertyDeclarationSyntax property)
                 {
@@ -38,15 +38,17 @@ namespace D
                 }
             }
 
-            var baseType = type.BaseType != null
-                ? env.Get<Type>(type.BaseType)
+            var baseType = syntax.BaseType != null
+                ? env.Get<Type>(syntax.BaseType)
                 : null;
 
-            var result = new Type(type.Name, baseType, properties.ToArray(), genericParameters);
+            var type = new Type(syntax.Name, baseType, properties.ToArray(), genericParameters, syntax.Flags);
 
-            env.Add(type.Name, result);
+            env.Add(syntax.Name, type);
 
-            return result;
+            flow.Add(type);
+
+            return type;
         }
     }
 }

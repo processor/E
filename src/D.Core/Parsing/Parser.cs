@@ -1385,14 +1385,19 @@ namespace D.Parsing
 
                 do
                 {
-                    var genericName = ReadTypeSymbol();
+                    var genericParameterName = ReadTypeSymbol();
 
                     if (ConsumeIf(Colon))
                     {
-                        var genericType = ReadTypeSymbol();
+                        var genericParameterType = ReadTypeSymbol();
                     }
 
-                    list.Add(genericName);
+                    if (ConsumeIf("="))
+                    {
+                        var parameterDefault = ReadTypeSymbol();
+                    }
+
+                    list.Add(genericParameterName);
                 }
                 while (ConsumeIf(Comma));
 

@@ -45,16 +45,7 @@ namespace D
         // Constructor + Self
         #region Initializization / Binding
 
-        public void Initialize(Type type)
-        {
-            ResolvedType = type;
-
-            Status = SymbolStatus.Resolved;
-        }
-
-        public SymbolStatus Status { get; private set; } = SymbolStatus.Unresolved;
-
-        public Type ResolvedType { get; private set; }
+        public SymbolStatus Status { get; protected set; } = SymbolStatus.Unresolved;
         
         public Symbol ContainingType { get; set; } // if a member of a type
 

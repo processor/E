@@ -77,7 +77,7 @@ namespace D.Compilation.Inference.Tests
         public static FunctionExpression ParseFunction(string text)
         {
            return new Compiler().VisitFunctionDeclaration(
-               f: Parse(text).First() as FunctionDeclarationSyntax
+               syntax: Parse(text).First() as FunctionDeclarationSyntax
            ) as FunctionExpression;
         }
 

@@ -22,6 +22,16 @@
 
         public TypeSymbol BaseType { get; set; }
 
+        public void Initialize(Type type)
+        {
+            ResolvedType = type;
+
+            Status = SymbolStatus.Resolved;
+        }
+
+        public Type ResolvedType { get; private set; }
+
+
         // Protocols       
     }
 }

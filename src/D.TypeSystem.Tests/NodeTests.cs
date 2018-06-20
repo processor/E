@@ -18,7 +18,7 @@ namespace D.Inference.Tests
 
             // var b = flow.AddVariable("b", Kind.Int32);
 
-            var b = flow.AddVariable("b", Kind.Int64);
+            var b = flow.Define("b", Type.Get(Kind.Int64));
 
             var letNode = Node.Let(new[] {
                 Node.Define(Node.Variable("a", boolean), Node.Constant(boolean)),

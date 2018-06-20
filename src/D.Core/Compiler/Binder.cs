@@ -26,13 +26,35 @@ namespace D
 
         public Type GetType(IExpression expression)
         {
-            if (expression is Symbol name && env.TryGetValue(name, out Type obj))
+            if (expression is Symbol name)
             {
-                return obj;
+                return env.Get<Type>(flow.Infer(name.Name).Name);
+
+                /*
+                if (env.TryGetValue(name, out Type obj))
+                {
+                    return obj;
+                }
+                */
             }
+
+          
 
             switch (expression)
             {
+                case MemberAccessExpression access:
+                    var type = GetType(access.Left);
+
+                    if (type == null) throw new Exception("no type found for left");
+
+                    var member = type.GetProperty(access.MemberName);
+
+                    if (member == null) return Type.Get(Kind.Object);
+
+                    if (member == null) throw new Exception($"{type.Name}::{access.MemberName} not found");
+
+                    return member.Type;
+                    
                 case CallExpression call:
                     return call.ReturnType ?? Type.Get(Kind.Object);
 

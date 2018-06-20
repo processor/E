@@ -14,16 +14,15 @@ namespace D
             var type = env.GetType(syntax.Type);
             var protocol = syntax.Protocol != null ? env.Get<ProtocolExpression>(syntax.Protocol) : null;
 
-            #region Setup environment
+            #region Flow
 
-            env.Add("Self", type);
-            env.Add("this", type);
+            flow.Define("this", type);
 
             if (type.Properties != null)
             {
                 foreach (var property in type.Properties)
                 {
-                    env.Add(property.Name, (Type)property.Type);
+                    flow.Define(property.Name, property.Type);
                 }
             }
 

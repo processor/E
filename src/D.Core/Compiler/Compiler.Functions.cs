@@ -7,26 +7,25 @@ namespace D
 
     public partial class Compiler
     {
-        public FunctionExpression VisitFunctionDeclaration(FunctionDeclarationSyntax f, Type declaringType = null)
+        public FunctionExpression VisitFunctionDeclaration(FunctionDeclarationSyntax syntax, Type declaringType = null)
         {
-            env = env.Nested(f.Name); // Create a nested scope...
+            // TODO: create a nested scope...
 
-            var paramaters = ResolveParameters(f.Parameters);
+            var paramaters = ResolveParameters(syntax.Parameters);
 
             foreach (var p in paramaters)
             {
-                env.Add(p.Name, p.Type);
+                flow.Define(p.Name, p.Type);
             }
 
             // NOTE: protocol functions are abstract and do not define a body
-            var body = Visit(f.Body);
-
-
+            var body = Visit(syntax.Body);
+            
             Type returnType = null;
 
-            if (f.ReturnType != null)
+            if (syntax.ReturnType != null)
             {
-                returnType = env.Get<Type>(f.ReturnType);
+                returnType = env.Get<Type>(syntax.ReturnType);
             }
             else if (body is LambdaExpression lambda)
             {
@@ -40,18 +39,18 @@ namespace D
             }
             else
             {
-                throw new Exception("unexpected function body type:" + f.Body.Kind);
+                throw new Exception("unexpected function body type:" + syntax.Body.Kind);
             }
 
-            var result = new FunctionExpression(f.Name, returnType, paramaters) {
-                GenericParameters = ResolveParameters(f.GenericParameters),
-                Flags = f.Flags,
+            var result = new FunctionExpression(syntax.Name, returnType, paramaters) {
+                GenericParameters = ResolveParameters(syntax.GenericParameters),
+                Flags = syntax.Flags,
                 Body = body,
                 DeclaringType = declaringType
             };
 
-            LeaveScope();
-            
+            // TODO: Leave scope
+
             if (result.Name != null)
             {
                 env.Add(result.Name, result);
