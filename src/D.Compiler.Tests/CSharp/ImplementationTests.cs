@@ -1,18 +1,16 @@
-﻿using System.IO;
-using System.Text;
-
+﻿
 using Xunit;
 
 namespace D.Compilation.Tests
 {
-    using Parsing;
+    using static Helper;
 
     public class ImplementationTests
     {
         [Fact]
         public void BezierType()
         {
-            var r = Helper.Transpile(@"
+            var r = Transpile(@"
 Curve protocol {
   getPoint (position: Number) -> Vector2
 }
@@ -45,7 +43,7 @@ public interface Curve
     Vector2 GetPoint(double position);
 }
 
-public class Bezier : Curve
+public struct Bezier : Curve
 {
     public Bezier(Vector3 c1, Vector3 c2, Vector3 c3, Vector3 c4)
     {
@@ -121,7 +119,7 @@ public static string A(Point<T> point)
     var z = point.Z;
 }".Trim(),
 
-Helper.Transpile(@"
+Transpile(@"
 a ƒ(point: Point<T>) -> String {
   let (x, y, z) = point
 }
@@ -143,7 +141,7 @@ public static object SinIn(double x) => Math.Sin(x * Math.PI * 0.5);
 public static object SinOut(double x) => -Math.Cos(Math.PI * x) / 2 + 0.5;
 ".Trim(),
 
-            Helper.Transpile(@"
+            Transpile(@"
 cubicIn  ƒ(x: Number) => x * x * x;
 cubicOut ƒ(x: Number) => (x - 1) ** 3 + 1;
 linear   ƒ(x: Number) => x;
@@ -161,7 +159,7 @@ public static Point<T> Clamp<T>(Point<T> p, Point<T> min, Point<T> max) => new P
 
 ".Trim(),
 
-Helper.Transpile(@"
+            Transpile(@"
 clamp ƒ <T> (p: Point<T>, min: Point<T>, max: Point<T>) => Point<T>(
   x: max(min.x, min(max.x, p.x)),
   y: max(min.y, min(max.y, p.y)),
@@ -171,9 +169,6 @@ clamp ƒ <T> (p: Point<T>, min: Point<T>, max: Point<T>) => Point<T>(
 "));
         }
 
-
-
-
         [Fact]
         public void SimpleProperties()
         {
@@ -181,6 +176,32 @@ clamp ƒ <T> (p: Point<T>, min: Point<T>, max: Point<T>) => Point<T>(
 
 namespace Namespaced
 {
+    public struct Vector3
+    {
+        public Vector3(double x, double y, double z)
+        {
+            X = x;
+            Y = y;
+            Z = z;
+        }
+
+        public double X { get; }
+
+        public double Y { get; }
+
+        public double Z { get; }
+    }
+
+    public struct Sphere
+    {
+        public Sphere(Vector3 center)
+        {
+            Center = center;
+        }
+
+        public Vector3 Center { get; }
+    }
+
     public class Class
     {
         public long A => 1;
@@ -192,11 +213,24 @@ namespace Namespaced
         public int D(int x) => x;
 
         public Vector3 E(Vector3 point) => point;
+
+        public double F(Vector3 point) => point.X;
+
+        public double G(Sphere sphere) => sphere.Center.X;
     }
 }
 ".Trim(),
 
-Helper.Transpile(@"
+        Transpile(@"
+
+Vector3 struct {
+  x, y, z: Float64
+}
+
+Sphere struct {
+  center: Vector3
+}
+
 Class class { 
 
 }
@@ -207,6 +241,8 @@ Class impl {
   c () => 1
   d (x: Int32) => x
   e (point: Vector3) => point
+  f (point: Vector3) => point.x
+  g (sphere: Sphere) => sphere.center.x;
 }
 
 ", "Namespaced"));
@@ -232,8 +268,8 @@ namespace Banking
 }
 ".Trim(),
 
-Helper.Transpile(@"
-Bank struct { 
+Transpile(@"
+Bank class { 
   name: String
 }", "Banking"));
         }
@@ -262,7 +298,7 @@ public class Account
 
 ".Trim(),
 
-Helper.Transpile(@"
+Transpile(@"
 
 Account record { 
   mutable balance : Decimal
@@ -279,7 +315,7 @@ Account impl { }
         public void Z1()
         {
             Assert.Equal(@"
-public class Matrix4<T>
+public struct Matrix4<T>
 {
     public Matrix4(List<T> elements)
     {
@@ -324,7 +360,7 @@ public class Matrix4<T>
 }
 
 ".Trim(),
-Helper.Transpile(@"
+Transpile(@"
 Matrix4 struct <T> {
   elements: [T] 
 }
@@ -355,7 +391,7 @@ Matrix4 impl {
         public void RewriteOperatorsMin()
         {
             Assert.Equal(@"
-public class Point
+public struct Point
 {
     public Point(double x, double y, double z)
     {
@@ -380,7 +416,7 @@ public class Point
 }
 ".Trim(),
 
-Helper.Transpile(@"
+Transpile(@"
 Point struct { x, y, z: Number }
 
 Point impl {
@@ -396,7 +432,7 @@ Point impl {
         public void RewriteOperators()
         {
             Assert.Equal(@"
-public class Point
+public struct Point
 {
     public static Point operator *(Point a, double b) => new Point(x: a.X * b, y: a.Y * b, z: a.Z * b);
 
@@ -408,7 +444,7 @@ public class Point
 }
 ".Trim(),
 
-Helper.Transpile(@"
+Transpile(@"
 Point struct { }
 
 Point impl {
@@ -426,7 +462,7 @@ Point impl {
         public void GenericPoint()
         {
             Assert.Equal(@"
-public class Point<T>
+public struct Point<T>
 {
     public Point(T x, T y, T z)
     {
@@ -443,7 +479,7 @@ public class Point<T>
 }
 ".Trim(),
 
-Helper.Transpile(@"
+Transpile(@"
 
 Point struct <T> { 
   x, y, z: T
@@ -464,7 +500,7 @@ public interface Curve
 }
 ".Trim(),
 
-Helper.Transpile(@"
+Transpile(@"
 Curve protocol { 
   getPoint (t: Number) -> Point
 }
@@ -485,7 +521,7 @@ public interface Observer
 }
 ".Trim(),
 
-Helper.Transpile(@"
+Transpile(@"
 Observer protocol { 
   next -> (A, B, C) -> D
   next -> A -> B
@@ -506,7 +542,7 @@ public interface Node
 }
 ".Trim(),
 
-Helper.Transpile(@"
+Transpile(@"
 Node protocol { 
   kind -> Kind
   children -> [ Node ]
@@ -525,7 +561,7 @@ public interface Geometry
     Point Center { get; }
 }
 
-public class Point : Geometry
+public struct Point : Geometry
 {
     public Point(double x, double y, double z)
     {
@@ -561,7 +597,7 @@ public class Point : Geometry
 ".Trim(),
 
 
-Helper.Transpile(@"
+Transpile(@"
 Geometry protocol {
   center -> Point
 }
@@ -615,53 +651,13 @@ Point impl {
         {
             Assert.Equal(
 @"public static Point<T> Negate<T>(Point<T> value) => new Point<T>(x: -value.X, y: -value.Y, z: -value.Z);",
-Helper.Transpile(
+
+Transpile(
 @"negate ƒ <T> (value: Point<T>) => Point<T>(
   x: - value.x, 
   y: - value.y, 
   z: - value.z 
 )"));
         }
-
-        
-      
-    }
-
-
-    public static class Helper
-    {
-        public static string Transpile(string source, string moduleName = null)
-        {
-            var sb = new StringBuilder();
-
-            var module = CompileModule(source, moduleName);
-
-            using (var writer = new StringWriter(sb))
-            {
-                var csharp = new CSharpEmitter(writer);
-
-                if (moduleName != null)
-                {
-                    csharp.WriteModule(module);
-                }
-                else
-                {
-                    csharp.WriteModuleMembers(module);
-                }
-            }
-
-            return sb.ToString();
-        }
-
-        public static Module CompileModule(string source, string moduleName = null)
-        {
-            var compilier = new Compiler();
-
-            using (var parser = new Parser(source))
-            {
-                return compilier.Compile(parser.Enumerate(), moduleName).Expressions[0] as Module;
-            }
-        }
-
     }
 }
