@@ -15,14 +15,11 @@ namespace D.Inference
             return type.Constructor != null ? type.Constructor == TypeSystem.Function : IsFunction(type.Self);
         }
 
-        private Node ToFormal(Environment env, IReadOnlyList<IType> types, Node arg)
+        private static Node ToFormal(Environment env, IReadOnlyList<IType> types, Node arg)
         {
-            IType typed(VariableNode var)
-            {
-                return env[var.Id];
-            }
-
-            return arg is VariableNode argVar ? Define(argVar, Constant(typed(argVar))) : arg;
+            return arg is VariableNode argVar 
+                ? Define(argVar, Constant(env[argVar.Id])) 
+                : arg;
         }
 
         private IType AsAnnotationType(Environment env, IReadOnlyList<IType> types)
@@ -62,20 +59,22 @@ namespace D.Inference
 
             var self = TypeSystem.Infer(env, expression, types);
 
-            IType @out;
+            IType result;
 
             if (Type != null)
             {
                 var ctor = Type;
-                @out = TypeSystem.Infer(env, Apply(Variable(ctor.Name, ctor), args.Select(arg => Constant(arg)).ToArray()), types);
+                result = TypeSystem.Infer(env, Apply(Variable(ctor.Name, ctor), args.Select(arg => Constant(arg)).ToArray()), types);
             }
             else
             {
-                @out = TypeSystem.NewGeneric();
-                args.Add(@out);
+                result = TypeSystem.NewGeneric();
+
+                args.Add(result);
+
                 TypeSystem.Unify(TypeSystem.NewType(TypeSystem.Function, args.ToArray()), self);
             }
-            return @out;
+            return result;
         }
     }
 }

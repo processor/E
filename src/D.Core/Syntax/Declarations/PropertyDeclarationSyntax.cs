@@ -25,6 +25,8 @@
 
         public ObjectFlags Flags { get; }
 
+        public bool IsMutable => Flags.HasFlag(ObjectFlags.Mutable);
+
         SyntaxKind ISyntaxNode.Kind => SyntaxKind.PropertyDeclaration;
     }
 
