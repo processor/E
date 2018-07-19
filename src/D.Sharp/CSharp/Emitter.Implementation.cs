@@ -4,7 +4,10 @@
     {        
         public void WriteImplementation(Type type)
         {
-            Emit("public class ", level);
+            Emit("public ", level);
+
+            Emit(type.Flags.HasFlag(TypeFlags.Struct) ? "struct " : "class ");
+
             Emit(type.Name);
 
             var needsWhere = false;

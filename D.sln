@@ -19,13 +19,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "D.Compiler.Tests", "src\D.C
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "D.Sharp", "src\D.Sharp\D.Sharp.csproj", "{9EB5BCE2-2475-499E-B012-4E9DEEEBF7D2}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "D.TypeSystem.Tests", "src\D.TypeSystem.Tests\D.TypeSystem.Tests.csproj", "{27C83423-5162-4ABC-BFE1-94EEB19604E3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "D.Inference.Tests", "src\D.TypeSystem.Tests\D.Inference.Tests.csproj", "{27C83423-5162-4ABC-BFE1-94EEB19604E3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "D.Imaging.Tests", "src\D.Imaging.Tests\D.Imaging.Tests.csproj", "{8A9B10C4-72EC-4176-BE68-2F537CB4D8D8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "D.Imaging.Tests", "src\D.Imaging.Tests\D.Imaging.Tests.csproj", "{8A9B10C4-72EC-4176-BE68-2F537CB4D8D8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "D.Imaging", "src\D.Imaging\D.Imaging.csproj", "{1E855C62-AA4D-42F0-98EA-FAF9BC4A92D2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "D.Imaging", "src\D.Imaging\D.Imaging.csproj", "{1E855C62-AA4D-42F0-98EA-FAF9BC4A92D2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "D.Layout", "src\D.Layout\D.Layout.csproj", "{34C6BC47-22A6-4EE2-86DE-F7A3903A81BE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "D.Layout", "src\D.Layout\D.Layout.csproj", "{34C6BC47-22A6-4EE2-86DE-F7A3903A81BE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
