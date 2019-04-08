@@ -1,3 +1,3 @@
-Gray<T: ℝ & Blittable> struct : Color {
+Gray<T: ℝ = Float32> struct : Color {
   y: T
 }

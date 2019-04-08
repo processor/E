@@ -1,6 +1,8 @@
-﻿Tax record {
-  currency : Currency
-  amount   : Decimal
+﻿Tax record : Liability {
+  currency  : Currency
+  amount    : Decimal,
+  authority : Authority,
+  payment   : Payment
 }
 
 Income       `Tax record : Tax { }	 
@@ -14,3 +16,5 @@ Tax `Deduction record {
 }
 
 // Juristriction?
+
+// within taxation?

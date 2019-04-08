@@ -2,7 +2,5 @@ Alive state {
   
 }
 
-// Dog(Blue) is Dead   // true
-// Dog(Pony) is Alive  // true
-// 
-// when did blue die?
+// Dog(Blue) is Dead   is true
+// Dog(Pony) is Alive  is true

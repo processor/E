@@ -1,3 +1,3 @@
-CMYK<T: ℝ & Blittable> struct : Color { 
+CMYK<T: ℝ> struct : Color { 
   c, m, y, k: T
 }

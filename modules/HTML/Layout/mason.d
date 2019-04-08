@@ -1,8 +1,8 @@
-Masonary `Layout class {
-  gap     :   f32
+Masonary class {
+  gap     :   Number
   columns : [ Box ]
 
-  init (columnCount: i32, columnWidth: f32, gap: f32 = 10) {
+  init (columnCount: Int32, columnWidth: Float32, gap: Float64 = 10) {
     var left = 0
     
     gap     = gap
@@ -20,13 +20,11 @@ Masonary `Layout class {
     }
   }
 
-  shortestColumn ƒ() => 
-    from columns 
-    orderby $0.height descending |> first
+  shortestColumn ƒ() => columns.orderByDescending(c => c.height) |> first
 }
 
-Layout impl for Masonary `Layout {
-  doLayout (elements: [ Node ]) { 
+Layout impl for Masonary {
+  layout (elements: [ Node ]) { 
     for el in elements {
       let column = shortestColumn()
                 

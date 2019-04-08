@@ -1,0 +1,4 @@
+Window class {
+  view: View
+
+}

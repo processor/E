@@ -23,7 +23,7 @@ Invoice protocol {
 Invoice actor {
   amount :   Decimal
   issuer :   Entity
-  terms  : [ Invoice `Term ]
+  terms  : [ Invoice`Term ]
   lines  : [ Line ]
 }
 
@@ -34,10 +34,10 @@ Bill event {
 
 // todo: Acceptance
 
-Invoice `Closure event { } 
-Invoice `Abandonment event { } 
+Invoice`Closure event { } 
+Invoice`Abandonment event { } 
 
-Invoice `Adjustment struct {
+Invoice`Adjustment struct {
   description : String
   amount      : Decimal
 }

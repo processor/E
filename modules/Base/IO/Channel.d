@@ -16,24 +16,24 @@ Channel protocol {
 	  | NotConnectedError
 }
 
-Seekable `Channel = Channel & Seekable
+Seekable`Channel = Channel & Seekable
 
-Channel `Status enum {
+Channel`Status enum {
   Closed
   Connected
   Terminated
 }
 
-Readable `Channel protocol {
+Readable`Channel protocol {
   available : Int64 ≥ 0
   read ƒ    -> Message | Backpressure
 }
 
-Writeable `Channel protocol {
+Writeable`Channel protocol {
   async write ƒ(message: Message) -> OK | Awaiter | Closed
 }
 
-Channel `Awaiter<T> protocol { 
+Channel`Awaiter<T> protocol { 
   reason : NoMessages | Throttled
   result : T
   ready  : event

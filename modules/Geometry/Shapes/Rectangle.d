@@ -1,6 +1,5 @@
-Rectangle<T: ℝ & Blittable = Float64> struct {
-  height : T
-  width  : T
+Rectangle<T: ℝ = Float64> struct {
+  width, height: T
 }
 
 Rectangle<T> protocol {

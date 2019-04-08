@@ -1,10 +1,10 @@
 Element protocol : Interactive { 
-  matches     (Selector)           -> Boolean
-  closest     (Selector)           -> Node
-  adjacent    (Node)               -> Node          // find the node following the current Node -- need previous
+  matches     (Selector)        -> Boolean
+  closest     (Selector)        -> Node
+  adjacent    (Node)            -> Node          // find the node following the current Node -- need previous
                  
-  add `Child    (child   : Node)   -> Added
-  add `Adjacent (sibling : Node)   -> Added
+  add`Child    (child   : Node) -> Added
+  add`Adjacent (sibling : Node) -> Added
 
   wrap       (parent: Node)     -> Wrapped<T>                         // wraps child with parent
   unwrap     ()                 -> Unwrapped | Must `Be `Only `Child  // replaces parent with child

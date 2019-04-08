@@ -1,12 +1,10 @@
-Stock protocol {
+Stock protocol : Asset {
   * issue
   * split
 
   entity : Entity
   name   : String
   series : String
-
-  offers : [ Offer ]    // buy & sell offers (executed by an exchange)
 }
 
 Stock actor : Asset {
@@ -16,6 +14,7 @@ Stock actor : Asset {
   quantity :   Decimal
   rights   : [ Right ]
 }
+
 
 // `class           `series
 // Prefered Shares A 1

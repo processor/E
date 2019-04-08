@@ -1,4 +1,4 @@
-Cuboid<T: ℝ & Blittable = Float64> struct { 
+Cuboid<T: ℝ = Float64> struct { 
   polygons: [ Polygon ]
 
   let definition = [
@@ -13,12 +13,12 @@ Cuboid<T: ℝ & Blittable = Float64> struct {
       
   // from * Polygon => Cuboid { faces: $0 to Array }
 
-  from (center: Point, dimensions: Box) => Cuboid(
+  from (center: Vector3<T>, dimensions: Vector3<T>) => Cuboid(
     from row in definition
     select Polygon(
       from i in row[0]
       select Vertex {
-        position: Point(
+        position: Vector3(
           x: center.x + dimensions.width  * (2 * !!(i & 1) - 1)
           y: center.y + dimensions.height * (2 * !!(i & 2) - 1)
           z: center.z + dimensions.depth  * (2 * !!(i & 4) - 1)
@@ -37,3 +37,6 @@ Cuboid impl for Geometry {
   vertices -> null
   faces    -> null
 }
+
+// [0] https://en.wikipedia.org/wiki/Cuboid
+// A cuboid is a convex polyhedron bounded by six quadrilateral faces, whose polyhedral graph is the same as that of a cube

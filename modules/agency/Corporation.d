@@ -4,11 +4,11 @@ from Geography  import Place
 
 Corporation protocol {
   * | resolve
-    | issue `Stock
-    | issue `Bond
+    | issue`Stock
+    | issue`Bond
 
   resolve      (motion: Motion)    : Resolution
-  issue `Stock (quantity: Decimal) : Stock
+  issue`Stock  (quantity: Decimal) : Stock
 
   jurisdiction :   Place
   officers     : [ Officer ]

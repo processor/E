@@ -2,7 +2,7 @@
   * terminate : terminated
 
   processors         : [ Processor ]
-  network`Interfaces : [ Network `Interface ]
+  network`Interfaces : [ Network`Interface ]
   mounts             : [ Mount ]
   processes          : [ Process ]
 

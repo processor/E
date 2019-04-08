@@ -1,9 +1,8 @@
-Ray struct { 
-  throughpoint : Vector3
-  direction    : Vector3 // normal?
+Ray<T: ℝ = Float64> struct { 
+  throughpoint : Vector3<T>
+  direction    : Vector3<T> // normal?
 }
 
-intersectionOf ƒ(Plane, Plane) -> Ray {
-
+intersectionOf ƒ(a: Plane, b: Plane) -> Ray {
   
 }

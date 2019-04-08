@@ -1,21 +1,35 @@
-from HTTP       import Context, Request, Response, Server
-from Templating import Template
+let container          = Storage::Container(145234)
 
+let template`Processor = Templating::Processor(container)
+let image`Processor    = Imaging::Processor()
 
-handle ƒ (context: Context) {
-  match context.request.path {
-    | "/" 		      => Template("/home/index")       |> renderTo(context.response)
-    | $"/{section}" => Template($"/{section}/index") |> renderTo(context.response)
-    | _             => Template("/errors/404")       |> renderTo(context.response)
+let handler = ƒ(context: HTTP::Context) {
+  let path = Path(context.request.path)
+
+  if (path.format != null) {
+    let object = container.get(path)
+
+    match path.format {
+      | "css" => CSS::render(object)
+      | "js"  => JavaScript::render(object)
+      | "md"  => Markdown::render(object)
+
+      | "png" 
+      | "jpeg" 
+      | "gif" => image`Processor.process(object)
+    }
+
+    $"Unsupported format: {path.format}" |> context.response.write 
+
+    return;
+  }
+  
+  match path {
+    | "/" 		      => template`Processor.process("/home/index")
+    | $"/{section}" => template`Processor.process($"/{section}/index")
+    | _             => template`Processor.process("/errors/404")
   }
 }
 
-let server = Server(
-  handler: handle
-)
+HTTP::Server(handler: handler).start()
 
-server.handle("/", ƒ (context) { 
-   Template("/home/index") |> renderTo(context.response)
-});
-
-server.start()

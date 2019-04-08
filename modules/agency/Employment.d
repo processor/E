@@ -8,14 +8,14 @@ Employment protocol {
     | dismiss ∎ : dimissed
     | retire  ∎ : retired
   
-  level         -> Employment `Level
-  position      -> Employment `Position
+  level         -> Employment`Level
+  position      -> Employment`Position
   compensations -> [ Compensation ] 
   terms         -> [ Legal::Term ] // * Employment Terms */ CREATE TABLE k100452345 (m1 key long, m2 key long)
 
   retire    () -> Retirement
-  leave     () -> Employment `Termination
-  dismiss   () -> Employment `Termination
+  leave     () -> Employment`Termination
+  dismiss   () -> Employment`Termination
 }
 
 
@@ -28,7 +28,7 @@ Employment actor {
 // An employment has state
 // - work & compensation takes place through an employment
 
-Employment `Termination event { 
+Employment`Termination event { 
   reason: Quit | Dismissed
 }
 

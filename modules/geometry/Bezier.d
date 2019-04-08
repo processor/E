@@ -1,4 +1,4 @@
-Bezier<T: ℝ & Blittable = Float64> struct : Curve { 
+Bezier<T: ℝ = Float64> struct : Curve { 
   c1: (x: T, y: T) // anchor point coordinates
   c2: (x: T, y: T) // first control point
   c3: (x: T, y: T) // second control point
@@ -18,9 +18,14 @@ Bezier<T: ℝ & Blittable = Float64> struct : Curve {
 }
 
 // # Usage
-// canvas |> draw Bezier(
+// from Imaging import Color
+// from Drawing import Canvas, Brush
+// let canvas = Canvas(1000, 1000)
+// let brush = Brush(stroke: 5px, color: RGB(0f, 0f, 0f))
+
+// Bezier(
 //   c1: (50, 50),
 //   c2: (300, 50),
 //   c3: (50, 300),
 //   c4: (300, 300)
-// )
+// ).draw`To(canvas)

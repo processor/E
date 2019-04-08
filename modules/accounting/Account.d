@@ -8,7 +8,7 @@ Account protocol {
   * close ∎ : closed
 
   open    ()               -> Account
-  close   (reason: Reason) -> Account `Closure
+  close   (reason: Reason) -> Account::Closure
 
   transfer (amount: Decimal, target : Account) -> Transaction
 
@@ -19,10 +19,7 @@ Account protocol {
   authorizations : [ Authorization ]
 }
 
-Trustee {
 
-
-}
 // Account types ...
 // Asset
 // Liability

@@ -5,8 +5,8 @@ Keyboard protocol {
     ↺
   * detach ∎  : detached
    
-  press   (key: Keyboard `Key) -> Key `Press
-  release (key: Keyboard `Key) -> Key `Release
+  press   (key: Keyboard`Key) -> Key`Press
+  release (key: Keyboard`Key) -> Key`Release
 
   depressed -> [ Keyboard `Key ]
   capturing ->   Element
@@ -17,14 +17,14 @@ Keyboard actor {
 
 }
 
-Keyboard `Key struct { 
+Keyboard`Key struct { 
   code: i32
 }
 
-Key `Down event { 
+Key`Down event { 
   key: Key
 }
 
-Key `Up event {
+Key`Up event {
   key: Key
 }

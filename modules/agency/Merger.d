@@ -3,7 +3,8 @@ from Governance import Resolution
 Merger event { 
   aquirer    : Entity
   aquiree    : Entity
-  resolution : Resolution 
+  resolution : Resolution
 }
 
-// The merge of two entities
+// # Merger
+// The merging of two entities

@@ -4,7 +4,7 @@ Schema record {
   relationship : [ Schema `Relationship ]
 }
 
-Schema `Collection record {
+Schema`Collection record {
   name      : String
   type      : Type
   size      : i32?

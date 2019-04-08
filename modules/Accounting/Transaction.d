@@ -15,8 +15,6 @@ Transaction protocol {
   lock        () -> Lock                                         // 180 days for credit card transactions or after an unsucessful dispute
   reverse     () -> Reversal
 
-  amount      : Decimal
-  source      : Account
   destination : Account
   
   signatures : [ Signatures ]

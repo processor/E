@@ -20,10 +20,9 @@ Mouse`Clicked event {
   // start
   // end
   button   : Mouse `Button
-  position : Point
+  position : Vector3<Number>
 }
 
-
 Mouse `Wheel event {
-  delta: (x, y, z: Number)
+  delta: Vector3<Number>
 }

@@ -1,5 +1,7 @@
 Holding actor { 
-  account: Account
+  account : Account
+  object  : Asset
+  balance : Decimal
 }
 
 // A holding is a record of Account for an Asset

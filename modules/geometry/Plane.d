@@ -1,6 +1,6 @@
-Plane<T: ℝ & Blittable = Float64> struct : Clonable {
+Plane<T: ℝ = Float64> struct : Clonable {
   normal : (x: T, y: T, z: T)
-  d      : f64      // sometimes known as w
+  d      : T              // also known as w | constant
 
   // from Points
   from (a: Vector3, b: Vector3, c: Vector3) {

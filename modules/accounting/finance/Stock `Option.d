@@ -1,10 +1,10 @@
-Stock `Option protocol {
+Stock`Option protocol {
   * exercise : exercised
   * forfit   : forfit
 
   holder        : Entity
   stock         : Stock
-  strike `Price : Decimal  
+  strike`Price : Decimal  
   expires       : DateTime?
   maturity      : DateTime? 
 }

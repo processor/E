@@ -3,97 +3,87 @@ Vector3<T: ℝ & Blittable = Float64> struct {
   y: T = 0
   z: T = 0
 
-  init (value: T) {
-    x = value
-    y = value
-    z = value
-  }
-
-  [ index: i64 ] => match index { 
+  [ index: Byte ] => match index { 
     0 => x
     1 => y
     2 => z
   }
 
-  direction          => this / this.length       // aka unit vector : a vector of length 1
-  length             => sqrt(this.dot(this))
-  lengthSquared      => dot(this);
+  direction => this / length
+  length => √(dot(this))
+  lengthSquared => dot(this)
 
-  * (value: T)          => Vector3(x: x * value,   y: y * value,   z: z * value  );
-  / (value: T)          => Vector3(x: x / value,   y: y / value,   z: z / value  );
-  + (value: Vector3<T>) => Vector3(x: x + value.x, y: y + value.y, z: z + value.z);
-  - (value: Vector3<T>) => Vector3(x: x - value.x, y: y - value.y, z: z - value.z);
+  * (other: T)    => Vector3(x: x * other.x, y: y * other.y, z: z * other.z);
+  / (other: T)    => Vector3(x: x / other.x, y: y / other.y, z: z / other.z);
+  + (other: Self) => Vector3(x: x + other.x, y: y + other.y, z: z + other.z);
+  - (other: Self) => Vector3(x: x - other.x, y: y - other.y, z: z - other.z);
   
-  negate ()          => Vector3(x: -x, y: -y, z: -z);
+  negate () => Vector3(x: -x, y: -y, z: -z);
 
-  cross (v: Vector3) => Vector3(x: y * v.z - z * v.y, y: z * v.x - x * v.z, z: x * v.y - y * v.x)
-
-  transform (Matrix4x4) => Vector3(
-    x: x * $0.m11 + y * $0.m21 + z * $0.m31 + $0.m41,
-    y: x * $0.m12 + y * $0.m22 + z * $0.m32 + $0.m42,
-    z: x * $0.m13 + y * $0.m23 + z * $0.m33 + $0.m43
+  cross (other: Self) => Vector3(
+    x: y * other.z - z * other.y, 
+    y: z * other.x - x * other.z, 
+    z: x * other.y - y * other.x
   )
 
-  clamp (min: Vector3, max: Vector3) => Vector3(
+  transform (matrix: Matrix4x4<T>) => Vector3(
+    x: x * matrix.m11 + y * matrix.m21 + z * matrix.m31 + matrix.m41,
+    y: x * matrix.m12 + y * matrix.m22 + z * matrix.m32 + matrix.m42,
+    z: x * matrix.m13 + y * matrix.m23 + z * matrix.m33 + matrix.m43
+  )
+
+  clamp (min: Self, max: Self) => Vector3(
     x: max(min.x, min(max.x, this.x)),
     y: max(min.y, min(max.y, this.y)),
     z: max(min.z, min(max.z, this.z))
   )
 
-  reflect (normal: Vector3) => this - (normal * this.dot(normal)) * 2
+  reflect (normal: Self) => this - (normal * dot(normal)) * 2
 
-  floor () => Vector3(
-    x: floor(x),
-    y: floor(y),
-    z: floor(z)
-  )
+  floor   () => Vector3(floor(x), floor(y), floor(z))
+  ceiling () => Vector3(ceiling(x), ceiling(y), ceiling(z))
+  round   () => Vector3(round(x), round(y), round(z))
 
-  ceiling () => Vector3(
-    x: ceiling(x),
-    y: ceiling(y),
-    z: ceiling(z)
-  )
-
-  round () => Vector3(
-    x: round(x),
-    y: round(y),
-    z: round(z)
-  )
-
-  lerp (v: Vector3, alpha = 0) => Vector3(
+  lerp (v: Self, alpha: T = default) => Vector3(
 		x: x + (v.x - this.x) * alpha
 		y: y + (v.y - this.y) * alpha
 		z: z + (v.z - this.z) * alpha
   )
 
-  dot (v: Vector3) => this.x * v.x + this.y * v.y + this.z * v.z
+  dot (v: Self) => x * v.x + y * v.y + z * v.z
 
-	angle`To (point: Vector3) {
-		let theta = this.dot(point) / sqrt(this.lengthSquared * point.lengthSquared)
+	angle`To (other: Self) {
+		let theta = dot(other) / √(lengthSquared * other.lengthSquared)
 
 		return acos(clamp(theta, -1, 1))
 	}
 
-  distance`To (point: Vector3) {
-    let x = this.x - point.x
-    let y = this.y - point.y
-    let z = this.z - point.z
+  distance`To (other: Self) {
+    let x = this.x - other.x
+    let y = this.y - other.y
+    let z = this.z - other.z
 
-    return sqrt((x * x) + (y * y) + (z * z))
+    return √((x * x) + (y * y) + (z * z))
   }
 
-  clone () => Vector3(x, y, z)
+  clone () => Vector3<T>(x, y, z)
 
-  to String => $"{x},{y},{z}";
+  to => String($"{x},{y},{z}")
 
-  from String -> Vector3 {
-    let parts = split(this, ',')
+  from (text: String) -> Self {
+    let parts = split(text, ',')
 
     return Vector3(
       x: T.parse(parts[0])
       y: T.parse(parts[1])
       z: parts.count == 3 ? T.parse(parts[2]) : 0
     )
+  }
+
+  from (value: T) {
+    x = value
+    y = value
+    z = value
   }
 
 }

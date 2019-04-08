@@ -21,7 +21,6 @@ Organism protocol {
 
 Organism actor : Entity { 
 
-
 }
 
 Dog actor : Canine

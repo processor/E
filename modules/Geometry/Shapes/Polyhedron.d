@@ -1,4 +1,4 @@
-Polyhedron<T: ℝ & Blittable = Float64> struct { 
+Polyhedron<T: ℝ> = Float64> struct { 
   
 }
 

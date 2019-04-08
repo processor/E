@@ -23,9 +23,9 @@ Asset protocol {
 
   writedown (amount: Decimal) -> Writedown
 
-  dispose () -> Asset `Disposal
+  dispose () -> Asset`Disposal
   
-  book `Value	-> (Currency, Decimal)
+  book`value -> (Currency, Decimal)
 
   writedowns -> [ Writedown ]
 
@@ -37,12 +37,13 @@ Asset protocol {
 // manufacturer
 
 Asset record {
-  purchase: Purchase
+  
 }
 
-// An asset is written down in scheduled steps
-Depreciation `Schedule {
+// Purchase (price)
 
+// An asset is written down in scheduled steps
+Depreciation`Schedule {
   asset: Asset
 }
 

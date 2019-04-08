@@ -3,7 +3,7 @@ Depreciation event {
   amount : Decimal
 }
 
-Depreciation `Schedule record {
+Depreciation`Schedule record {
   interval : Interval				
   run      : (asset: Asset) -> Depreciation // percentage: 10%, fixed: $100
 }

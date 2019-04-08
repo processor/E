@@ -4,4 +4,4 @@ Principal protocol {
 
 // authenticated
 
-// Anything (A person, organization, computer, AI agent, etc) that can prove one or more claim
+// Anything (A person, organization, computer, AI agent, etc) that can prove their claims

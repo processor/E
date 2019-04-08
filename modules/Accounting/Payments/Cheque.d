@@ -1,4 +1,4 @@
-Cheque protocol : Payment `Method {
+Cheque protocol : Payment`Method {
   amount    -> Decimal
   currency  -> Currency
   signature -> Signature // what are we agreeing too?
