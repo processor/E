@@ -6,7 +6,7 @@ namespace D
 {
     using Expressions;
 
-    public class FunctionExpression : INamedObject
+    public class FunctionExpression : INamedObject, IExpression
     {
         public FunctionExpression(string name, Type returnType, params Parameter[] parameters)
         {
@@ -89,8 +89,7 @@ namespace D
 
         #region Flags
 
-        public bool IsStatic
-           => IsOperator || !Flags.HasFlag(ObjectFlags.Instance);
+        public bool IsStatic => IsOperator || !Flags.HasFlag(ObjectFlags.Instance);
 
         public bool IsAbstract    => (Flags & ObjectFlags.Abstract) != 0;
         public bool IsOperator    => (Flags & ObjectFlags.Operator) != 0;
@@ -115,7 +114,6 @@ namespace D
 
         #endregion
 
-
         #region INode
 
         // INode Parent { get; }
@@ -131,7 +129,7 @@ namespace D
                 writer.Write(parameter.Type);
             }
 
-            writer.Write(")");
+            writer.Write(')');
 
             writer.Write(Body.ToString());
         }

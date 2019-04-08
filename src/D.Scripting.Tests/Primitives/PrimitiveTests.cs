@@ -9,16 +9,6 @@ namespace D.Parsing.Tests
     public class PrimitiveTests : TestBase
     {
         [Fact]
-        public void All()
-        {
-            var text = ReadDocument("base/primitives.d");
-            
-            var a = new Parser(text).Enumerate().ToArray();
-
-            Assert.Equal(20, a.Length);
-        }
-
-        [Fact]
         public void A()
         {
             var a = Parse<TypeDeclarationSyntax>("Float32 struct");

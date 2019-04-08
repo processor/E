@@ -55,7 +55,7 @@ namespace D.Parsing
 
                     break;
 
-                case Mode.Quotes :
+                case Mode.Quotes:
                     return ReadQuotedString();
             }
        
@@ -78,38 +78,34 @@ namespace D.Parsing
                     }
 
                 case '<':
-                    switch (reader.Peek())
+                    char peek = reader.Peek();
+
+                    switch (peek)
                     {
-                        case '<': return Read(Op, 2); // <<
-                        case '=': return Read(Op, 2); // <= 
+                        case '<' : return Read(Op, 2); // <<
+                        case '=' : return Read(Op, 2); // <= 
+                        case '/' :
+                            EnterMode(Mode.Tag);
+
+                            return Read(TagCloseStart, 2); // </  
                     }
 
-                    if (char.IsLetter(reader.Peek())) // tag
+                    if (peek == '_' || char.IsLetter(peek)) // tag
                     {
                         EnterMode(Mode.Tag);
 
-                        return Read(TagOpen);
+                        return Read(TagStart);
                     }
 
                     return Read(Op); // <
                     
-                case '>':
-                    if (InMode(Mode.Tag)) // >
-                    {
-                        modes.Pop();
+                case '>' when InMode(Mode.Tag): // >
+                    modes.Pop();
 
-                        return Read(TagClose);
-                    }
+                    return Read(TagEnd);
 
-                    break;
-
-                case '=':
-                    if (reader.Peek() == '>')           
-                    {
-                        return Read(LambdaOperator, 2);     // => 
-                    }
-
-                    break;
+                case '=' when reader.Peek() == '>': // => 
+                    return Read(LambdaOperator, 2);     
 
                 case '-':
                     switch (reader.Peek())
@@ -122,8 +118,6 @@ namespace D.Parsing
 
                         default : return Read(Op); // -
                     }
-
-             
 
  
                 case '[': return Read(BracketOpen);
@@ -151,8 +145,7 @@ namespace D.Parsing
                 case '$':
                     switch (reader.Peek())
                     {
-                        case '"'    :
-
+                        case '"':
                             EnterMode(Mode.InterpolatedString);
 
                             return Read(InterpolatedStringOpen, 2);
@@ -160,7 +153,6 @@ namespace D.Parsing
                     }
 
                 case '.': // ., .., ...
-
                     if (char.IsDigit(reader.Peek())) // .{0-9}
                     {
                         return Read(DecimalPoint);
@@ -192,7 +184,7 @@ namespace D.Parsing
                     }
 
                     break;
-
+                    
                 case '\'':
                     EnterMode(Mode.Apostrophe);
 
@@ -214,8 +206,6 @@ namespace D.Parsing
                     }
 
                     return Read(Quote);
-
-                    
                     
                 case '(': return Read(ParenthesisOpen);
                 case ')': return Read(ParenthesisClose);
@@ -223,9 +213,7 @@ namespace D.Parsing
                 // case '#': return Read(Pound);
 
                 case '_': return Read(Underscore);
-
                 case '?': return Read(Question);
-
                 case ';': return Read(Semicolon);
         
                 case '0':
@@ -237,7 +225,8 @@ namespace D.Parsing
                 case '6':
                 case '7':
                 case '8':
-                case '9': return ReadNumber();
+                case '9':
+                    return ReadNumber();
 
                 // Superscript
                 case '⁰': 
@@ -249,17 +238,21 @@ namespace D.Parsing
                 case '⁶': 
                 case '⁷': 
                 case '⁸': 
-                case '⁹': return ReadSuperscript();
+                case '⁹':
+                    return ReadSuperscript();
 
-                case '/':
-                    if (reader.Peek() == '/') // // 
+                case '/' when reader.Peek() == '/': // //
+                    ReadComment();
+
+                    goto start;
+
+                case '/' when reader.Peek() == '>': // />
+                    if (InMode(Mode.Tag))
                     {
-                        ReadComment();
-
-                        goto start;
+                        modes.Pop();
                     }
 
-                    break;
+                    return Read(TagSelfClosed, 2);
 
                 case '\n':
                 case '\r':
@@ -272,7 +265,7 @@ namespace D.Parsing
             {
                 if (env.Operators.Maybe(OperatorType.Infix, reader.Current, out var node))
                 {
-                    var start = reader.Location;
+                    Location start = reader.Location;
 
                     sb.Append(reader.Consume());
 
@@ -289,9 +282,8 @@ namespace D.Parsing
         }
 
         // Operator
-        private Token Read(TokenKind kind, int count = 1)
-            => new Token(kind, loc, reader.Consume(count), ReadTrivia());
-
+        private Token Read(TokenKind kind, int count = 1) => 
+            new Token(kind, loc, reader.Consume(count), ReadTrivia());
 
         public Token ReadIdentifierOrKeyword()
         {
@@ -300,16 +292,16 @@ namespace D.Parsing
             do
             {
                 sb.Append(reader.Current);
+
+                reader.Next();
             }
-            while (char.IsLetterOrDigit(reader.Next()) && !reader.IsEof);
-
-            // or underscore...
-
+            while ((char.IsLetterOrDigit(reader.Current) || reader.Current == '_') && !reader.IsEof);
+            
             var text = sb.Extract();
 
-            if (keywords.TryGetValue(text, out TokenKind kind))
+            if (!InMode(Mode.Tag) && keywords.TryGetValue(text, out TokenKind kind))
             {
-                return new Token(kind, start, text);
+                return new Token(kind, start, text, ReadTrivia());
             }
 
             return new Token(Identifier, start, text, ReadTrivia());
@@ -366,7 +358,6 @@ namespace D.Parsing
             { "event"          , Event },
             { "protocol"       , Protocol },
             { "record"         , Record },
-
             { "public"         , Public },
             { "private"        , Private },
             { "internal"       , Internal },
@@ -406,7 +397,7 @@ namespace D.Parsing
 
             ReadDigits();
 
-            if (reader.Current == 'e')
+            if (reader.Current == 'e' && IsSignOrDigit(reader.Peek()))
             {
                 ReadExponent();
             }
@@ -436,6 +427,11 @@ namespace D.Parsing
             }
 
             ReadDigits();
+        }
+
+        private static bool IsSignOrDigit(char value)
+        {
+            return value == '-' || value == '+' || char.IsDigit(value);
         }
 
         private void ReadDigits()
@@ -504,9 +500,9 @@ namespace D.Parsing
             sb.Append(reader.Consume()); // /
             sb.Append(reader.Consume()); // /
 
-            var l = reader.Line;
+            var line = reader.Line;
 
-            while (l == reader.Line && !reader.IsEof)
+            while (line == reader.Line && !reader.IsEof)
             {
                 sb.Append(reader.Current);
 
@@ -518,14 +514,11 @@ namespace D.Parsing
 
         #region Modes
 
-        public void EnterMode(Mode mode)
-          => modes.Push(mode);
+        public void EnterMode(Mode mode) => modes.Push(mode);
 
-        public void ExitMode()
-            => modes.Pop();
+        public void ExitMode() => modes.Pop();
 
-        public bool InMode(Mode mode)
-            => modes.Peek() == mode;
+        public bool InMode(Mode mode) => modes.Peek() == mode;
 
         public enum Mode
         {
@@ -534,7 +527,7 @@ namespace D.Parsing
             Quotes,
             InterpolatedString,
             Expression,
-            Tag, // <tag
+            Tag  // <tag
         }
 
         #endregion

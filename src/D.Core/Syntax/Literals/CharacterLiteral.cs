@@ -1,6 +1,6 @@
 ﻿namespace D.Syntax
 {
-    public struct CharacterLiteralSyntax : ISyntaxNode
+    public readonly struct CharacterLiteralSyntax : ISyntaxNode
     { 
         public CharacterLiteralSyntax(char value)
         {
@@ -10,10 +10,11 @@
         public char Value { get; }
 
         public static implicit operator CharacterLiteralSyntax(char value)
-            => new CharacterLiteralSyntax(value);
+        {
+            return new CharacterLiteralSyntax(value);
+        }
 
-        public static implicit operator char(CharacterLiteralSyntax text)
-            => text.Value;
+        public static implicit operator char(CharacterLiteralSyntax text) => text.Value;
 
         SyntaxKind ISyntaxNode.Kind => SyntaxKind.CharacterLiteral;
 

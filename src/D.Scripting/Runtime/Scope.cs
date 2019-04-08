@@ -4,7 +4,7 @@ namespace D
 {
     public class Scope
     {
-        private readonly Dictionary<string, IObject> items = new Dictionary<string, IObject>();
+        private readonly Dictionary<string, object> items = new Dictionary<string, object>();
 
         private readonly Scope parent;
         
@@ -13,18 +13,18 @@ namespace D
             this.parent = parent;
         }
 
-        public IObject This { get; set; }           // Single arg passed to the function, or current arg in flow
+        public object This { get; set; } // Single arg passed to the function, or current arg in flow
 
-        public void Set(string name, IObject value)
+        public void Set(string name, object value)
         {
             // Figure out if the property is mutable
 
             items[name] = value; 
         }
 
-        public IObject Get(string name)
+        public object Get(string name)
         {
-            if (!items.TryGetValue(name, out IObject var) && parent != null)
+            if (!items.TryGetValue(name, out object var) && parent != null)
             {
                 var = parent.Get(name); // check parent
             }

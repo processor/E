@@ -4,7 +4,7 @@ using System.Runtime.InteropServices;
 namespace D
 {
     [StructLayout(LayoutKind.Sequential, Size = 8)]
-    public struct Integer : IObject, INumber
+    public readonly struct Integer : IObject, INumber
     {
         public Integer(long value)
         {

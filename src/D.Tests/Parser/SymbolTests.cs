@@ -14,32 +14,35 @@ namespace D.Parsing.Tests
         }
 
         [Fact]
-        public void WithDomain()
+        public void WithComplexModule()
         {
-            var symbol = GetTypeSymbol("physics::Momentum");
+            var symbol = GetTypeSymbol("Carbon::Components::Media::Video");
 
-            Assert.Equal("physics", symbol.Module);
-            Assert.Equal("Momentum", symbol.Name);
-        }
-
-        private TypeSymbol GetTypeSymbol(string text)
-        {
-            return (Parse<TypeDeclarationSyntax>($@"
-Unit struct {{ 
-    a: {text}
-}}").Members[0] as PropertyDeclarationSyntax).Type;
+            Assert.Equal("Carbon",     symbol.Module.Parent.Parent.Name);
+            Assert.Equal("Components", symbol.Module.Parent.Name);
+            Assert.Equal("Media",      symbol.Module.Name);
+            Assert.Equal("Video",      symbol.Name);
         }
 
         [Fact]
-        public void ArrayWithDomain()
+        public void WithModule()
         {
-            var symbol = GetTypeSymbol("[ physics::Momentum ]");
+            var symbol = GetTypeSymbol("Physics::Momentum");
+
+            Assert.Equal("Physics", symbol.Module);
+            Assert.Equal("Momentum", symbol.Name);
+        }
+
+        [Fact]
+        public void ArrayWithModule()
+        {
+            var symbol = GetTypeSymbol("[ Physics::Momentum ]");
      
             Assert.Equal("Array", symbol.Name);
 
             var a = symbol.Arguments[0];
 
-            Assert.Equal("physics",  a.Module);
+            Assert.Equal("Physics",  a.Module);
             Assert.Equal("Momentum", a.Name);
         }
 
@@ -51,12 +54,20 @@ Unit struct {{
         }
 
         [Fact]
-        public void Simple()
+        public void SingleWord()
         {
             var symbol = GetTypeSymbol("Momentum");
 
             Assert.Null(symbol.Module);
             Assert.Equal("Momentum", symbol.Name);
+        }
+
+        private static TypeSymbol GetTypeSymbol(string text)
+        {
+            return (Parse<TypeDeclarationSyntax>($@"
+Unit struct {{ 
+    a: {text}
+}}").Members[0] as PropertyDeclarationSyntax).Type;
         }
     }
 }

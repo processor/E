@@ -4,9 +4,11 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading;
 
+using D.Expressions;
+
 namespace D
 {
-    public class Type : INamedObject, IEquatable<Type>
+    public class Type : INamedObject, IExpression, IEquatable<Type>
     {
         private static readonly ConcurrentDictionary<Kind, Type> cache = new ConcurrentDictionary<Kind, Type>();
 
@@ -44,7 +46,7 @@ namespace D
             Arguments  = args ?? Array.Empty<Type>();
         }
 
-        public Type(string name, Type baseType, Property[] properties, Parameter[] genericParameters)
+        public Type(string name, Type baseType, Property[] properties, Parameter[] genericParameters, TypeFlags flags = default)
         {
             Id                = Interlocked.Increment(ref id);
             Name              = name;
@@ -52,6 +54,7 @@ namespace D
             BaseType          = baseType;
             Properties        = properties;
             GenericParameters = genericParameters;
+            Flags             = flags;
         }
         
         public Type BaseType { get; } // aka constructor
@@ -73,12 +76,27 @@ namespace D
 
         // public Annotation[] Annotations { get; }
 
-        public string FullName => ToString();
+        public TypeFlags Flags { get; }
 
+        public string FullName => ToString();
+        
         Kind IObject.Kind => Kind.Type;
 
         // Implementations
         public List<ImplementationExpression> Implementations { get; } = new List<ImplementationExpression>();
+
+        public Property GetProperty(string name)
+        {
+            if (Properties == null) return null;
+
+            foreach (Property property in Properties)
+            {
+                if (property.Name == name) return property;
+
+            }
+
+            return null;
+        }
 
         public static Type Get(Kind kind)
         {
@@ -108,18 +126,18 @@ namespace D
 
             if (Arguments != null && Arguments.Length > 0)
             {
-                sb.Append("<");
+                sb.Append('<');
 
                 var i = 0;
 
                 foreach (var arg in Arguments)
                 {
-                    if (++i > 1) sb.Append(",");
+                    if (++i > 1) sb.Append(',');
 
                     sb.Append(arg.ToString());
                 }
 
-                sb.Append(">");
+                sb.Append('>');
             }
 
             return sb.ToString();

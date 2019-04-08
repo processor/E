@@ -4,7 +4,9 @@ using System.Collections.Generic;
 namespace D
 {
     using Expressions;
+    using Inference;
     using Syntax;
+    using Units;
 
     public partial class Compiler
     {
@@ -14,69 +16,55 @@ namespace D
         // - Bind symbols to their declarations
         // - Transform to ExpressionTree
 
-        private readonly Node graph = new Node();
-
-        private Node scope;
+        private Node env;
+        private Flow flow = new Flow();
 
         public Compiler()
+            : this(new Node()) { }
+
+        public Compiler(Node env)
         {
-            this.scope = graph;
+            this.env = env;
         }
 
-        public Module Compile(IEnumerable<ISyntaxNode> nodes)
+        public Compilation Compile(IEnumerable<ISyntaxNode> nodes, string moduleName = null)
         {
-            var module = new Module();
-            
+            var compilation = new Compilation();
+
+            var module = new Module(moduleName);
+
             foreach (var node in nodes)
             {
-                if (node is FunctionDeclarationSyntax func)
-                {
-                    var function = VisitFunctionDeclaration(func);
-
-                    module.Add(function);
-
-                    if (function.Name != null)
-                    {
-                        scope.Add(function.Name, function);
-                    }
-                }
-                else if (node is TypeDeclarationSyntax typeDeclaration)
-                {
-                    var type = VisitTypeDeclaration(typeDeclaration);
-
-                    module.Add(type);
-
-                    scope.Add(type.Name, type);
-                }
-                else if (node is ProtocolDeclarationSyntax protocolDeclaration)
-                {
-                    var protocol = VisitProtocol(protocolDeclaration);
-
-                    module.Add(protocol);
-
-                    scope.Add(protocol.Name, protocol);
-                }
-                else if (node is ImplementationDeclarationSyntax implDeclaration)
-                {
-                    var impl = VisitImplementation(implDeclaration);
-
-                    impl.Type.Implementations.Add(impl);
-                }
+                module.Add(Visit(node));
             }
 
-            return module;
+            compilation.Expressions.Add(module);
+
+            return compilation;
         }
 
         public BlockExpression VisitBlock(BlockSyntax syntax)
         {
             var statements = new IExpression[syntax.Statements.Length];
 
-            for(var i = 0; i < statements.Length; i++)
+            for (int i = 0; i < statements.Length; i++)
             { 
                 statements[i] = Visit(syntax.Statements[i]);
             }
 
             return new BlockExpression(statements);
+        }
+
+        public Module VisitModule(ModuleSyntax syntax)
+        {
+            var module = new Module(syntax.Name);
+
+            for (var i = 0; i < syntax.Statements.Length; i++)
+            {                
+                module.Add(Visit(syntax.Statements[i]));   
+            }
+            
+            return module;
         }
 
         int i = 0;
@@ -85,7 +73,7 @@ namespace D
         {
             i++;
 
-            if (i > 300) throw new Exception("rerucssion???");
+            if (i > 300) throw new Exception("recursion???");
 
             if (syntax == null) return null;
 
@@ -96,15 +84,30 @@ namespace D
                 case TernaryExpressionSyntax ternary : return VisitTernary(ternary);
                 case BlockSyntax block               : return VisitBlock(block);
 
-                case LambdaExpressionSyntax lambda   : return VisitLambda(lambda);
-
                 case CallExpressionSyntax call       : return VisitCall(call);
                 case MatchExpressionSyntax match     : return VisitMatch(match);
+                case ModuleSyntax module             : return VisitModule(module);
             }
 
             switch (syntax.Kind)
             {
-                case SyntaxKind.InterpolatedStringExpression:  return VisitInterpolatedStringExpression((InterpolatedStringExpressionSyntax)syntax);
+                case SyntaxKind.TypeDeclaration:
+                    return VisitTypeDeclaration((TypeDeclarationSyntax)syntax);
+
+                case SyntaxKind.FunctionDeclaration:
+                    return VisitFunctionDeclaration((FunctionDeclarationSyntax)syntax);
+
+                case SyntaxKind.ProtocolDeclaration:
+                    return VisitProtocol((ProtocolDeclarationSyntax)syntax);
+
+                case SyntaxKind.LambdaExpression:
+                    return VisitLambda((LambdaExpressionSyntax)syntax);
+
+                case SyntaxKind.ImplementationDeclaration:
+                    return VisitImplementation((ImplementationDeclarationSyntax)syntax);
+
+                case SyntaxKind.InterpolatedStringExpression:
+                    return VisitInterpolatedStringExpression((InterpolatedStringExpressionSyntax)syntax);
 
                 // Declarations
                 case SyntaxKind.PropertyDeclaration     : return VisitVariableDeclaration((PropertyDeclarationSyntax)syntax);
@@ -114,6 +117,7 @@ namespace D
                 case SyntaxKind.IndexAccessExpression   : return VisitIndexAccess((IndexAccessExpressionSyntax)syntax);
 
                 // Statements
+                case SyntaxKind.ForStatement            : return VisitFor((ForStatementSyntax)syntax);
                 case SyntaxKind.IfStatement             : return VisitIf((IfStatementSyntax)syntax);
                 case SyntaxKind.ElseIfStatement         : return VisitElseIf((ElseIfStatementSyntax)syntax);
                 case SyntaxKind.ElseStatement           : return VisitElse((ElseStatementSyntax)syntax);
@@ -126,10 +130,9 @@ namespace D
 
                 case SyntaxKind.Symbol                  : return VisitSymbol((Symbol)syntax);
                 case SyntaxKind.NumberLiteral           : return VisitNumber((NumberLiteralSyntax)syntax);
-                case SyntaxKind.UnitLiteral             : return VisitUnit((UnitLiteralSyntax)syntax);
-                
-                case SyntaxKind.ArrayInitializer        : return VisitNewArray((ArrayInitializerSyntax)syntax);
+                case SyntaxKind.UnitValueLiteral        : return VisitUnitValue((UnitValueSyntax)syntax);
                 case SyntaxKind.StringLiteral           : return new StringLiteral(syntax.ToString());
+                case SyntaxKind.ArrayInitializer        : return VisitNewArray((ArrayInitializerSyntax)syntax);
             }
 
             throw new Exception("Unexpected node:" + syntax.Kind + "/" + syntax.GetType().ToString());
@@ -168,7 +171,6 @@ namespace D
 
                     // throw new Exception($"array initialized with different types... {bestElementType} + {type}");
                 }
-
             }
 
             return new ArrayInitializer(elements, 
@@ -181,7 +183,7 @@ namespace D
         {
             var members = new IExpression[syntax.Children.Length];
 
-            for (var i = 0; i < members.Length; i++)
+            for (int i = 0; i < members.Length; i++)
             {
                 members[i] = Visit(syntax.Children[i]);
             }
@@ -189,31 +191,37 @@ namespace D
             return new InterpolatedStringExpression(members);
         }
 
-        public IExpression VisitUnit(UnitLiteralSyntax unit)
+        public IExpression VisitUnitValue(UnitValueSyntax value)
         {
-            // Lookup unit...
-            // Parser power...
+            var lhs = Visit(value.Expression);
 
-            return new UnitLiteral(Visit(unit.Expression), unit.UnitName, unit.UnitPower);
+            if (UnitSet.Default.TryGet(value.UnitName, out var unit))
+            {
+                if (unit.Dimension == Dimension.None && unit.DefinitionUnit is Number definationUnit)
+                {
+                    return new BinaryExpression(Operator.Multiply, lhs, definationUnit) { Grouped = true };
+                }
+            }
+
+            return new UnitValueLiteral(lhs, value.UnitName, value.UnitPower);
         }
 
-        public virtual IExpression VisitAnyPattern(AnyPatternSyntax syntax)
-            => new AnyPattern();
+        public virtual IExpression VisitAnyPattern(AnyPatternSyntax syntax) => new AnyPattern();
 
-        public virtual IExpression VisitNumber(NumberLiteralSyntax expression)
+        public virtual IExpression VisitNumber(NumberLiteralSyntax syntax)
         {
-            if (expression.Text.Contains("."))
+            if (syntax.Text.IndexOf('.') > -1)
             {
-                return new Number(double.Parse(expression.Text));
+                return new Number(double.Parse(syntax.Text));
             }
             else
             {
-                return new Integer(long.Parse(expression.Text));
+                return new Integer(long.Parse(syntax.Text));
             }
         }
 
         public virtual BinaryExpression VisitBinary(BinaryExpressionSyntax syntax)
-            => new BinaryExpression(syntax.Operator, Visit(syntax.Left), Visit(syntax.Right)) { Grouped = syntax.Grouped };
+            => new BinaryExpression(syntax.Operator, Visit(syntax.Left), Visit(syntax.Right)) { Grouped = syntax.Parenthesized };
       
         public virtual UnaryExpression VisitUnary(UnaryExpressionSyntax syntax)
             => new UnaryExpression(syntax.Operator, arg: Visit(syntax.Argument));
@@ -229,7 +237,7 @@ namespace D
 
             if (char.IsUpper(syntax.Name.Name[0]))
             {
-                objectType = scope.GetType(syntax.Name);
+                objectType = env.GetType(syntax.Name);
             }
            
             return new CallExpression(Visit(syntax.Callee), syntax.Name, VisitArguments(syntax.Arguments), syntax.IsPiped) {
@@ -243,24 +251,26 @@ namespace D
             
             var items = new Argument[arguments.Length];
 
-            for (var i = 0; i < items.Length; i++)
+            for (int i = 0; i < items.Length; i++)
             {
-                var a = arguments[i];
+                var arg = arguments[i];
 
-                items[i] = new Argument(a.Name, Visit(a.Value));
+                var value = Visit(arg.Value);
+
+                items[i] = new Argument(arg.Name, value);
             }
 
             return Arguments.Create(items);
         }
 
-        public virtual VariableDeclaration VisitVariableDeclaration(PropertyDeclarationSyntax variable)
+        public virtual VariableDeclaration VisitVariableDeclaration(PropertyDeclarationSyntax syntax)
         {
-            var value = Visit(variable.Value);
-            var type  = GetType(variable.Type ?? value);
+            var value = Visit(syntax.Value);
+            var type  = GetType(syntax.Type ?? value);
             
-            scope.Add(variable.Name, type);
+            flow.Define(syntax.Name, type);
 
-            return new VariableDeclaration(variable.Name, type, variable.Flags, value);
+            return new VariableDeclaration(syntax.Name, type, syntax.Flags, value);
         }
 
         public virtual TypeInitializer VisitObjectInitializer(ObjectInitializerSyntax syntax)
@@ -298,7 +308,6 @@ namespace D
 
             return new DestructuringAssignment(elements, Visit(syntax.Instance));
         }
-        
 
         public virtual IndexAccessExpression VisitIndexAccess(IndexAccessExpressionSyntax syntax)
             => new IndexAccessExpression(Visit(syntax.Left), VisitArguments(syntax.Arguments));
@@ -307,7 +316,9 @@ namespace D
             => new MemberAccessExpression(Visit(syntax.Left), syntax.Name);
 
         public virtual LambdaExpression VisitLambda(LambdaExpressionSyntax syntax)
-            => new LambdaExpression(Visit(syntax.Expression));
+        {
+            return new LambdaExpression(Visit(syntax.Expression));
+        }
 
         public virtual MatchExpression VisitMatch(MatchExpressionSyntax syntax)
         {
@@ -321,20 +332,14 @@ namespace D
             return new MatchExpression(Visit(syntax.Expression), cases);
         }
 
-        public virtual MatchCase VisitCase(CaseSyntax syntax) => 
-            new MatchCase(Visit(syntax.Pattern), Visit(syntax.Condition), VisitLambda(syntax.Body));
-
-        public virtual IfStatement VisitIf(IfStatementSyntax expression) =>
-            new IfStatement(Visit(expression.Condition), VisitBlock(expression.Body), Visit(expression.ElseBranch));
-
-        public virtual ElseStatement VisitElse(ElseStatementSyntax syntax) => 
-            new ElseStatement(VisitBlock(syntax.Body));
-
-        public virtual ElseIfStatement VisitElseIf(ElseIfStatementSyntax syntax) => 
-            new ElseIfStatement(Visit(syntax.Condition), VisitBlock(syntax.Body), Visit(syntax.ElseBranch));
-
-        public virtual ReturnStatement VisitReturn(ReturnStatementSyntax syntax) =>
-            new ReturnStatement(Visit(syntax.Expression));
+        public virtual MatchCase VisitCase(CaseSyntax syntax)
+        {
+            return new MatchCase(
+                pattern   : Visit(syntax.Pattern), 
+                condition : Visit(syntax.Condition),
+                body      : VisitLambda(syntax.Body)
+            );
+        }
 
         public virtual TypePattern VisitTypePattern(TypePatternSyntax pattern) => 
             new TypePattern(pattern.TypeExpression, pattern.VariableName);
@@ -344,11 +349,11 @@ namespace D
 
         public virtual Symbol VisitSymbol(Symbol symbol)
         {
-            if (symbol.Status == SymbolStatus.Unresolved)
+            if (symbol is TypeSymbol typeSymbol && typeSymbol.Status == SymbolStatus.Unresolved)
             {
-                if (scope.TryGet<Type>(symbol, out var value))
+                if (env.TryGetValue<Type>(typeSymbol, out var value))
                 {
-                    symbol.Initialize(value);
+                    typeSymbol.Initialize(value);
                 }
             }
 
@@ -368,7 +373,7 @@ namespace D
                 var parameter = parameters[i];
 
                 var type = parameter.Type != null
-                    ? scope.Get<Type>(parameter.Type)
+                    ? env.Get<Type>(parameter.Type)
                     : new Type(Kind.Object); // TODO: Introduce generic or infer from body?
 
                 // Any

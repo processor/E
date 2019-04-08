@@ -10,15 +10,15 @@ namespace D.Mathematics
     {
         public TrigonometryModule()
         {
-            Add(Trigonometry.Sine);
-            Add(Trigonometry.Cosine);
-            Add(Trigonometry.Tangent);
-            Add(Trigonometry.Cotangent);
-            Add(Trigonometry.Secant);
-            Add(Trigonometry.Cosecant);
-            Add(Trigonometry.HyperbolicSine);
-            Add(Trigonometry.HyperbolicCosine);
-            Add(Trigonometry.HyperbolicTangent);
+            AddExport(Trigonometry.Sine);
+            AddExport(Trigonometry.Cosine);
+            AddExport(Trigonometry.Tangent);
+            AddExport(Trigonometry.Cotangent);
+            AddExport(Trigonometry.Secant);
+            AddExport(Trigonometry.Cosecant);
+            AddExport(Trigonometry.HyperbolicSine);
+            AddExport(Trigonometry.HyperbolicCosine);
+            AddExport(Trigonometry.HyperbolicTangent);
          }
     }
 
@@ -48,31 +48,5 @@ namespace D.Mathematics
         // artan
         // arcot
         // arcsec
-    }
-
-    public class MathFunction : IFunction
-    {
-        private readonly Func<double, double> func;
-
-        public MathFunction(string name, Func<double, double> func)
-        {
-            Name = name;
-            Parameters = new[] { Parameter.Get(Kind.Number) };
-
-            this.func = func;
-        }
-
-        public string Name { get; }
-
-        public Parameter[] Parameters { get; }
-
-        Kind IObject.Kind => Kind.Function;
-
-        public IObject Invoke(IArguments args)
-        { 
-            var arg0 = (INumber)args[0];
-
-            return new Number(func.Invoke(arg0.Real));
-        }
     }
 }

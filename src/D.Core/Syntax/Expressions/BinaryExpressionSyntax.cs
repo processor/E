@@ -18,7 +18,7 @@ namespace D.Syntax
 
         public ISyntaxNode Right { get; }
 
-        public bool Grouped { get; set; }
+        public bool Parenthesized { get; set; }
 
         SyntaxKind ISyntaxNode.Kind => SyntaxKind.BinaryExpression;
 
@@ -28,22 +28,22 @@ namespace D.Syntax
         {
             var sb = new StringBuilder();
 
-            if (Grouped)
+            if (Parenthesized)
             {
-                sb.Append("(");
+                sb.Append('(');
             }
 
             sb.Append(Left.ToString());
 
-            sb.Append(" ");
+            sb.Append(' ');
             sb.Append(Operator.Name);
-            sb.Append(" ");
+            sb.Append(' ');
 
             sb.Append(Right.ToString());
 
-            if (Grouped)
+            if (Parenthesized)
             {
-                sb.Append(")");
+                sb.Append(')');
             }
 
             return sb.ToString();

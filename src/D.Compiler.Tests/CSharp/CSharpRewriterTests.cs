@@ -12,6 +12,15 @@ namespace D.Compilation.Tests
     public class CSharpRewriterTests
     {
         [Fact]
+        public void Percent()
+        {
+            Assert.Equal(
+                expected: "object a = 2 * (50 * 0.01);",
+                actual: Rewrite("let a = 2 * 50%")
+            );
+        }
+
+        [Fact]
         public void Access3()
         {
             Assert.Equal(
@@ -43,7 +52,7 @@ namespace D.Compilation.Tests
         {
             Assert.Equal(
                 expected : "D(C(B(A, 100), 17))",
-                actual   : Rewrite("A |> B 100 |> C 17 |> D")
+                actual   : Rewrite("A |> B(100) |> C(17) |> D")
             );
         }
         
@@ -63,7 +72,7 @@ class Gallery extends HTMLElement {
   }
    
   onPointerPressed(press) { 
-    var gallaryPointermove = function () {
+    var gallaryPointerMove = function () {
       console.log(""moved"");
     }.bind(this);
 
@@ -86,17 +95,17 @@ Rewrite(@"
 Gallery impl {
   from (slides: Slide[]) => Gallary { slides }
 
-  on Attached { 
+  on attached { 
    console.log(""attached"")
   }
 
-  on Pointer'pressed press {
+  on Pointer::pressed {
     observe gallary Pointer 'move {
       log ""moved""
 
       // Drag the slide
 
-    } until gallary.Root Pointer'released
+    } until gallary.Root Pointer::released
   }
 }
 "));

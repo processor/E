@@ -39,11 +39,7 @@ namespace D.Collections
 
         public void Add(string key, T value)
         {
-            #region Preconditions
-
             if (key == null) throw new ArgumentNullException(nameof(key));
-
-            #endregion
 
             var node = Root;
 
@@ -79,12 +75,7 @@ namespace D.Collections
 
         public bool Remove(string key)
         {
-            #region Preconditions
-
-            if (key == null)
-                throw new ArgumentNullException(nameof(key));
-
-            #endregion
+            if (key == null) throw new ArgumentNullException(nameof(key));
 
             if (!TryGetNode(key, out Node node))
             {
@@ -103,11 +94,7 @@ namespace D.Collections
 
         public bool TryGetValue(string key, out T value)
         {
-            #region Preconditions
-
             if (key == null) throw new ArgumentNullException(nameof(key));
-
-            #endregion
 
             if (!TryGetNode(key, out Node node) || !node.IsLeaf)
             {

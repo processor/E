@@ -1,6 +1,6 @@
 ﻿namespace D.Units
 {
-    public struct UnitConverter : IConverter<double, double>
+    public readonly struct UnitConverter : IConverter<double, double>
     {
         public static readonly UnitConverter None = new UnitConverter(1); 
 
@@ -13,7 +13,6 @@
 
         public double Multiplier { get; }
 
-        public double Convert(double source)
-            => source * Multiplier;
+        public double Convert(double source) => source * Multiplier;
     }
 }

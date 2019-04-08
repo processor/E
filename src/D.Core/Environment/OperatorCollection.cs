@@ -34,7 +34,7 @@
                 case OperatorType.Infix   : return "infix_";
                 case OperatorType.Prefix  : return "prefix_";
                 case OperatorType.Postfix : return "postfix_";
-                default                   : return "";
+                default                   : return string.Empty;
             }
         }
     }

@@ -5,16 +5,27 @@ namespace D
     using Expressions;
 
     public interface INumeric<T> : INumber
-        where T : struct, IComparable<T>
+        where T : struct, IComparable<T>, IEquatable<T>
     {
         T Value { get; }
+
+
+        // Add
+        // Subtract
+        // Multiply
+        // Divide
+
+        // Compare???
+
+        // Min
+        // Max
     }
 
     public interface INumber : IExpression
     {
         double Real { get; } // Quantity
 
-        T As<T>() where T: IEquatable<T>, IFormattable;
+        T As<T>() where T: struct, IComparable<T>, IEquatable<T>;
     }
 
     public enum NumericKind

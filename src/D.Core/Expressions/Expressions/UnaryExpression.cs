@@ -22,17 +22,17 @@ namespace D.Expressions
 
             sb.Append(Operator.ToString().ToLower());
 
-            sb.Append("(");
+            sb.Append('(');
 
             sb.Append(Argument.ToString());
 
-            sb.Append(")");
+            sb.Append(')');
 
             return sb.ToString();
         }
         
         #endregion
 
-        public Kind Kind => Operator.OpKind;
+        public Kind Kind => (Kind)Operator.OpKind;
     }
 }

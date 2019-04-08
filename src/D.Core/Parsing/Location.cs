@@ -2,7 +2,7 @@
 
 namespace D.Parsing
 {
-    public struct Location : IEquatable<Location>
+    public readonly struct Location : IEquatable<Location>
     {
         public Location(int line, int column, int position)
         {
@@ -19,12 +19,10 @@ namespace D.Parsing
 
         public override bool Equals(object obj) => Equals((Location)obj);
 
-        public bool Equals(Location other)
-        {
-            return Position == other.Position
-                && Column == other.Column
-                && Line == other.Line;
-        }
+        public bool Equals(Location other) =>
+            Position == other.Position && 
+            Column == other.Column &&
+            Line == other.Line;
 
         public static bool operator == (Location left, Location right)
             => left.Equals(right);

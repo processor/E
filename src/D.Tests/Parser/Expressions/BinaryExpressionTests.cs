@@ -8,7 +8,6 @@ namespace D.Parsing.Tests
     using static Operator;
 
     using Syntax;
-    using Units;
 
     public class BinaryExpressionTests : TestBase
     {
@@ -197,13 +196,13 @@ namespace D.Parsing.Tests
         [Fact]
         public void Groupings1()
         {
-            Assert.True(Parse<BinaryExpressionSyntax>("(4 ** 3)").Grouped);
-            Assert.False(Parse<BinaryExpressionSyntax>("4 ** 3").Grouped);
+            Assert.True(Parse<BinaryExpressionSyntax>("(4 ** 3)").Parenthesized);
+            Assert.False(Parse<BinaryExpressionSyntax>("4 ** 3").Parenthesized);
 
             var a = Parse<BinaryExpressionSyntax>("4 ** (3 * 16)");
 
-            Assert.False(a.Grouped);
-            Assert.True(((BinaryExpressionSyntax)a.Right).Grouped);
+            Assert.False(a.Parenthesized);
+            Assert.True(((BinaryExpressionSyntax)a.Right).Parenthesized);
 
             Assert.Equal("4 ** (3 * 16)", a.ToString());
         }
@@ -270,7 +269,7 @@ namespace D.Parsing.Tests
         {
             var statement = Parse<BinaryExpressionSyntax>("1 g * 1 g * 2 g");
 
-            var l = (UnitLiteralSyntax)statement.Left;
+            var l = (UnitValueSyntax)statement.Left;
             var r = (BinaryExpressionSyntax)statement.Right;
 
             Assert.Equal("1 g", l.ToString());
@@ -317,7 +316,7 @@ namespace D.Parsing.Tests
 
             Assert.Equal("5", statement.Left.ToString());
 
-            var right = (UnitLiteralSyntax)statement.Right;
+            var right = (UnitValueSyntax)statement.Right;
 
             Assert.Equal(10, (NumberLiteralSyntax)right.Expression);
             Assert.Equal("px", right.UnitName);
@@ -331,7 +330,7 @@ namespace D.Parsing.Tests
             Assert.Equal(Multiply, statement.Operator);
 
             var left = (TupleExpressionSyntax)statement.Left;
-            var right = (UnitLiteralSyntax)statement.Right;
+            var right = (UnitValueSyntax)statement.Right;
 
 
             Assert.Equal(5,     (NumberLiteralSyntax)right.Expression);
@@ -365,25 +364,25 @@ namespace D.Parsing.Tests
         {
             if (i > 0)
             {
-                sb.Append("(");
+                sb.Append('(');
             }
 
-            if (be.Left is BinaryExpressionSyntax)
+            if (be.Left is BinaryExpressionSyntax l)
             {
-                WritePair(sb, (BinaryExpressionSyntax)be.Left, i + 1);
+                WritePair(sb, l, i + 1);
             }
             else
             {
                 sb.Append(be.Left.ToString());
             }
 
-            sb.Append(" ");
+            sb.Append(' ');
             sb.Append(be.Operator.Name);
-            sb.Append(" ");
+            sb.Append(' ');
 
-            if (be.Right is BinaryExpressionSyntax)
+            if (be.Right is BinaryExpressionSyntax r)
             {
-                WritePair(sb, (BinaryExpressionSyntax)be.Right, i + 1);
+                WritePair(sb, r, i + 1);
             }
             else
             {
@@ -392,7 +391,7 @@ namespace D.Parsing.Tests
 
             if (i > 0)
             {
-                sb.Append(")");
+                sb.Append(')');
             }
         }
     }
@@ -414,25 +413,25 @@ namespace D.Parsing.Tests
 
             if (i > 0 && a)
             {
-                sb.Append("(");
+                sb.Append('(');
             }
 
-            if (be.Left is BinaryExpressionSyntax)
+            if (be.Left is BinaryExpressionSyntax lhs)
             {
-                WritePair(sb, (BinaryExpressionSyntax)be.Left, i + 1);
+                WritePair(sb, lhs, i + 1);
             }
             else
             {
                 sb.Append(be.Left.ToString());
             }
 
-            sb.Append(" ");
+            sb.Append(' ');
             sb.Append(be.Operator.Name);
-            sb.Append(" ");
+            sb.Append(' ');
 
-            if (be.Right is BinaryExpressionSyntax)
+            if (be.Right is BinaryExpressionSyntax rhs)
             {
-                WritePair(sb, (BinaryExpressionSyntax)be.Right, i + 1);
+                WritePair(sb, rhs, i + 1);
             }
             else
             {
@@ -441,7 +440,7 @@ namespace D.Parsing.Tests
 
             if (i > 0 && a)
             {
-                sb.Append(")");
+                sb.Append(')');
             }
         }
     }

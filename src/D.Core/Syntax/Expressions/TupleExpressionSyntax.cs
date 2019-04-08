@@ -17,9 +17,9 @@ namespace D.Syntax
     }
 
     // a: 100
-    public class NamedElementSyntax : ISyntaxNode
+    public class TupleElementSyntax : ISyntaxNode
     {
-        public NamedElementSyntax(Symbol name, ISyntaxNode value)
+        public TupleElementSyntax(Symbol name, ISyntaxNode value)
         {
             Name  = name ?? throw new ArgumentNullException(nameof(name));
             Value = value;
@@ -30,7 +30,7 @@ namespace D.Syntax
         // type or constant
         public ISyntaxNode Value { get; }
 
-        SyntaxKind ISyntaxNode.Kind => SyntaxKind.NamedValue;
+        SyntaxKind ISyntaxNode.Kind => SyntaxKind.TupleElement;
     }
 }
  

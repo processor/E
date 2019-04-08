@@ -1,6 +1,6 @@
 ﻿namespace D
 {
-    public class LabelSymbol : Symbol
+    public sealed class LabelSymbol : Symbol
     {
         public LabelSymbol(string name)
             : base(name) { }

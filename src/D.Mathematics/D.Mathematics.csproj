@@ -1,12 +1,13 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>netcoreapp2.0</TargetFramework>
+    <TargetFramework>netstandard2.0</TargetFramework>
     <AssemblyName>D.Mathematics</AssemblyName>
+    <LangVersion>7.3</LangVersion>
   </PropertyGroup>
   <ItemGroup>
-    <ProjectReference Include="..\D.Core\D.Core.csproj" />
+    <PackageReference Include="MathNet.Numerics" Version="4.5.1" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="MathNet.Numerics.Core" Version="3.17.0" />
+    <ProjectReference Include="..\D.Core\D.Core.csproj" />
   </ItemGroup>
 </Project>

@@ -2,59 +2,59 @@
 {
     public enum Kind
     {
-        Null            = 0, // Null
-        Boolean         = 1, // boolean
-        Number          = 2, // Alias Float64: IEEE-754 encoded. Matches JavaScript
-        Object          = 3, // * | Any type
-
-        String          = 5,
-        Symbol          = 6,
-        Type            = 7,
-        Function        = 8,  // ƒ
+        Null           = 0, // Null
+        Boolean        = 1, // boolean
+        Number         = 2, // Alias Float64: IEEE-754 encoded. Matches JavaScript
+        Object         = 3, // * | Any type
+                       
+        String         = 5,
+        Symbol         = 6,
+        Type           = 7,
+        Function       = 8,  // ƒ
 
         // 9-15
         Pointer        = 9,
         Expression     = 10,
-        UnitLiteral    = 11, // A currency is a unit?
+        UnitValue      = 11,
         Currency       = 12,
         Entity         = 13,
         Timestamp      = 14,
+        Map            = 15, 
 
         Protocol       = 17,
-        ImplementationExpression = 18,
-        Void           = 20, // static instance = nothing
-        Character      = 21,
+        Implementation = 18,
+        Void           = 19, // static instance = nothing
+        Character      = 20,
+
+        Unit           = 25,
 
         // Collections
-        Array         = 101,
+        Array          = 101,
         Set            = 102,
 
-        Byte           = 103,
-       
-        Rational       = 111, // 1/3                        // ?
-        Decimal        = 113,                               // 128 bit
+        // Numerics
+        Rational       = 111, // 1/3
+        Decimal        = 113, // 128 bit
         Vector         = 114,
         Complex        = 115,
         Matrix         = 116,
 
         // Integers {…, -2, -1, 0, 1, 2,…}  
+        Byte            = 118,
         Int16           = 119,
         Int32           = 120,
         Int64           = 121,
         Float32         = 122,
         Float64         = 123,
 
-        #region 200-300 Vectors
-
-        Vector64     = 200,
-        Vector128    = 201,
-        Vector256    = 202,
-        Vector512    = 203,
-        Vector1024   = 204, // future
-        Vector2048   = 205, // future
-
-        #endregion
-
+        // Vectors
+        Vector64        = 200,
+        Vector128       = 201,
+        Vector256       = 202,
+        Vector512       = 203,
+        Vector1024      = 204,
+        Vector2048      = 205,
+        
         Operator = 300,
         Verb     = 301,
 
@@ -100,21 +100,21 @@
         Predicate        = 2100,
 
         // Declarations
-        TypeDeclaration                 = 2201,
-        FunctionDeclaration             = 2202,
-        ObserverDeclaration             = 2203,
-        PropertyDeclaration             = 2204, // Let ?
-        CompoundPropertyDeclaration     = 2205,
-        ProtocolDeclaration             = 2206,
-        ChannelDeclaration              = 2207,
-        ImplementationDeclaration       = 2208,
-        UnitDeclaration                 = 2209,
-        OperatorDeclaration             = 2010,
-        ImportDeclaration               = 2011,
+        TypeDeclaration              = 2201,
+        FunctionDeclaration          = 2202,
+        ObserverDeclaration          = 2203,
+        PropertyDeclaration          = 2204, // Let ?
+        CompoundPropertyDeclaration  = 2205,
+        ProtocolDeclaration          = 2206,
+        ChannelDeclaration           = 2207,
+        ImplementationDeclaration    = 2208,
+        UnitDeclaration              = 2209,
+        OperatorDeclaration          = 2010,
+        ImportDeclaration            = 2011,
 
-        DestructuringAssignment         = 2220,
+        DestructuringAssignment      = 2220,
 
-        InterpolatedStringExpression    = 2221,
+        InterpolatedStringExpression = 2221,
 
 
         PipeStatement = 2302,  // Merge with Call?
@@ -132,12 +132,11 @@
         TuplePattern    = 4005,
         TypePattern     = 4006,
 
-        NamedValue,
+        TupleElement,
 
         Argument,
         Parameter,
         Property,
-
 
         #endregion
 
@@ -154,7 +153,7 @@
         ObserveStatement        = 3008,
         EmitStatement           = 3009,
         WhileStatement          = 3010,
-        ModuleStatement         = 3012,
+        Module                  = 3012,
 
         CoalesceExpression       = 5001, // ??
         
@@ -191,16 +190,16 @@
         AsExpression              = 6017,
 
         // Binary - Comparision
-        GreaterThanExpression           = 6020, // > 
-        GreaterThanOrEqualExpression    = 6021, // >=, ≥
-        LessThanExpression              = 6022, // <
-        LessThanOrEqualExpression       = 6023, // <=, ≤
+        GreaterThanExpression        = 6020, // > 
+        GreaterThanOrEqualExpression = 6021, // >=, ≥
+        LessThanExpression           = 6022, // <
+        LessThanOrEqualExpression    = 6023, // <=, ≤
 
         // Binary - Equality
-        EqualsExpression           = 6031, // ==
-        IdenticalExpression               = 6032, // ===, ≡
-        NotEqualsExpression                = 6033, // !=, ≠
-        StrictNotEqual          = 6034, // !==
+        EqualsExpression            = 6031, // ==
+        IdenticalExpression         = 6032, // ===, ≡
+        NotEqualsExpression         = 6033, // !=, ≠
+        StrictNotEqual              = 6034, // !==
 
         TernaryExpression = 7072,  // ? : 
 
@@ -243,82 +242,10 @@
 
         #region Documents
 
-        Document
-
-        , TextContent
-
-        // Block Elements
-        , FooterElement         // <foooter /> 
-        , HeaderElement         // <header />
-        , HeadingElement        // <heading />  
-        , ParagraphElement      // <paragraph />      
-        , SectionElement        // <section />
-        , ListElement           // <list />
-
-        // Inline Elements
-        , FigureElement          // <figure />
-        , QuoteElement           // <quote />
-        , CitationElement        // <citation />
-        , CreditElement          // <credit />
-        , DetailElement          // <detail />
-
-        , TableElement           // <table />
-        , RowElement             // <row />
-        , ColumnElement          // <column />
-
-        // Code
-        , EquationElement        // <equation />
-        , CodeElement            // <code />
-
-        // Forms
-        , LabelElement           // <label />
-        , FieldElement
-        , InputElement
-        , FormElement
-
-        // Media
-        , AudioElement
-        , ImageElement
-        , VideoElement
-        
-        // Graphic Elements
-        , CanvasElement          // <canvas />
-        , GraphicElement         // <graphic />     | may be 3d
-        , LineElement            // <line />
-        , PathElement            // <path />
-        , CircleElement          // <circle />
-        , GlyphElement           // <glyph />
-        , PolygonElement         // <polygon />
-
-        // Layouts
-        , GridLayout
-        , MasonaryLayout
-
-        #endregion
-
-        #region Functions
-
-        , Map
-        , Filter
-        , Split
-        , Skip
-        , Take
-        , Uppercase
-        , Lowercase
-        , Min
-        , Max
-        , Slice
-        , Push
-        , Pop
-        , Shift
-        , Sort
-        , Abs
-        , Acos
-        , Asin
-        , Atan
-        , Atan2
-        , Ceiling
-        , Floor
+        Document,
+        Element,
+        Fragment,
+        TextContent
         
         #endregion
     }

@@ -6,7 +6,7 @@ namespace D.Parsing.Tests
 {
     public class TestBase
     {
-        public T Parse<T>(string text)
+        public static T Parse<T>(string text)
         {
             using (var parser = new Parser(text))
             {

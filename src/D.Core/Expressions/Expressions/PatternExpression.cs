@@ -48,24 +48,24 @@
     {
         public TuplePattern(TupleExpression tuple)
         {
-            Variables = new NamedElement[tuple.Elements.Length];
+            Variables = new TupleElement[tuple.Elements.Length];
 
             for (var i = 0; i < tuple.Elements.Length; i++)
             {
                 var element = tuple.Elements[i];
 
-                if (element is NamedElement v)
+                if (element is TupleElement v)
                 {
-                    Variables[i] = new NamedElement(v.Name, v.Value);
+                    Variables[i] = new TupleElement(v.Name, v.Value);
                 }
                 else if (element is Symbol symbol)
                 {
-                    Variables[i] = new NamedElement(symbol, null);
+                    Variables[i] = new TupleElement(symbol, null);
                 }
             }
         }
 
-        public NamedElement[] Variables { get; }
+        public TupleElement[] Variables { get; }
 
         Kind IObject.Kind => Kind.TuplePattern;
     }

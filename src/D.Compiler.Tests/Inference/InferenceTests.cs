@@ -57,11 +57,11 @@ namespace D.Compilation.Inference.Tests
         [Fact]
         public void InlineVariableFlow2()
         {
-            var script = "one ƒ() { var one: f32 = 1; let x = one; let y = x; return y; }";
+            var script = "one ƒ() { var one: Float32 = 1; let x = one; let y = x; return y; }";
 
             var node = ParseFunction(script);
 
-            Assert.Equal("f32", node.ReturnType.Name);
+            Assert.Equal("Float32", node.ReturnType.Name);
         }
 
         [Fact]
@@ -77,7 +77,7 @@ namespace D.Compilation.Inference.Tests
         public static FunctionExpression ParseFunction(string text)
         {
            return new Compiler().VisitFunctionDeclaration(
-               f: Parse(text).First() as FunctionDeclarationSyntax
+               syntax: Parse(text).First() as FunctionDeclarationSyntax
            ) as FunctionExpression;
         }
 

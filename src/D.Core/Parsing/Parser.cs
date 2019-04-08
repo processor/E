@@ -13,15 +13,15 @@ namespace D.Parsing
     public class Parser : IDisposable
     {
         private readonly TokenReader reader;
-        private readonly Node graph;
+        private readonly Node environment;
 
         public Parser(string text)
             : this(text, new Node()) { }
 
-        public Parser(string text, Node graph)
+        public Parser(string text, Node environment)
         {
-            this.reader = new TokenReader(new Tokenizer(text, graph));
-            this.graph = graph;
+            this.reader = new TokenReader(new Tokenizer(text, environment));
+            this.environment = environment;
 
             modes.Push(Mode.Root);
         }
@@ -46,7 +46,9 @@ namespace D.Parsing
             For,
             Block,
             Implementation,
-            InterpolatedString
+            InterpolatedString,
+            Variant,
+            Element
         }
 
         private readonly Stack<Mode> modes = new Stack<Mode>();
@@ -58,11 +60,11 @@ namespace D.Parsing
 
         private void LeaveMode(Mode mode)
         {
-            var m = modes.Pop();
+            var lastMode = modes.Pop();
 
-            if (m != mode)
+            if (lastMode != mode)
             {
-                throw new Exception($"Expected {mode} when leaving {m}");
+                throw new Exception($"Expected {mode} when leaving {lastMode}");
             }
         }
 
@@ -94,7 +96,7 @@ namespace D.Parsing
 
             count++;
 
-            if (count > 500) throw new Exception("recurssive call: " + reader.Current.Kind);
+            if (count > 500) throw new Exception("excededed call depth: " + reader.Current.Kind);
 
             switch (reader.Current.Kind)
             {
@@ -115,6 +117,7 @@ namespace D.Parsing
                 case While                  : return ReadWhile();                       // while
                 case If                     : return ReadIf();                          // if
                 case Return                 : return ReadReturn();                      // return
+                case Yield                  : return ReadYield();                       // yield
                 case Emit                   : return ReadEmit();                        // emit
 
                 case Observe                : 
@@ -126,6 +129,7 @@ namespace D.Parsing
 
                 // case Exclamation         : return ReadUnary(Consume(Exclamation));   // !{expression}
 
+                case TagStart               : return ReadElement();                     // <div ...
                 case Using                  : return ReadUsingStatement();
             }
 
@@ -157,7 +161,7 @@ namespace D.Parsing
                 ? ReadExpression()
                 : null;
 
-            var filter = (ConsumeIf(Where))         // ? where
+            var filter = ConsumeIf(Where)         // ? where
                 ? ReadExpression()
                 : null;
 
@@ -220,6 +224,17 @@ namespace D.Parsing
             return new LambdaExpressionSyntax(expression);
         }
 
+        public ReturnStatementSyntax ReadYield()
+        {
+            Consume(Yield);                     // ! yield
+
+            var expression = ReadExpression();  // ! (expression)
+
+            ConsumeIf(Semicolon);               // ? ;
+
+            return new ReturnStatementSyntax(expression);
+        }
+
         public ReturnStatementSyntax ReadReturn()
         {
             Consume(Return);                    // ! return
@@ -275,11 +290,9 @@ namespace D.Parsing
                 ? ReadElse()
                 : null;
 
-
             return condition != null
                 ? (ISyntaxNode)new ElseIfStatementSyntax(condition, body, elseBranch)
                 : new ElseStatementSyntax(body);
-
         }
 
         public WhileStatementSyntax ReadWhile()
@@ -338,7 +351,7 @@ namespace D.Parsing
             var eventType = ReadTypeSymbol();
 
             var varName = (! (IsKind(BraceOpen) | IsKind(LambdaOperator)))
-                ? ReadFunctionSymbol()
+                ? ReadMethodSymbol()
                 : null;
 
             var body = ReadBody();
@@ -395,23 +408,28 @@ namespace D.Parsing
         // Int32 type @size(32)
         // Point type <T:Number> : Vector3 { }
         // Point struct { } 
+        // Point struct (size: 16, align: 1, layout: Explict)
         public TypeDeclarationSyntax ReadTypeDeclaration(Symbol typeName)
         {
+            // record, struct
             var flags = ReadTypeModifiers();
-
+            
+            var args = IsKind(ParenthesisOpen) ? ReadArguments() : Array.Empty<ArgumentSyntax>();
+        
             // <T: Number>
+            // <T: Number = Float64>
             var genericParameters = ReadGenericParameters();
 
             var baseType = ConsumeIf(Colon) // ? :
                 ? ReadTypeSymbol()          // baseType
                 : null;
 
-            var annotations = ReadAnnotations().ToArray();
+            var annotations = IsKind(At) ? ReadAnnotations().ToArray() : Array.Empty<AnnotationSyntax>();
             var properties  = ReadTypeDeclarationBody();
 
             ConsumeIf(Semicolon); // ? ;
 
-            return new TypeDeclarationSyntax(typeName, genericParameters, baseType, annotations, properties, flags: flags);
+            return new TypeDeclarationSyntax(typeName, genericParameters, baseType, args, annotations, properties, flags: flags);
         }
 
         public CompoundTypeDeclarationSyntax ReadCompoundTypeDeclaration(Symbol[] names)
@@ -428,7 +446,6 @@ namespace D.Parsing
 
             return new CompoundTypeDeclarationSyntax(names, flags, baseTypes, members);
         }
-
 
         // let x = 5
         // let x: i8 = 5
@@ -507,7 +524,9 @@ namespace D.Parsing
             }
         }
 
-        private CompoundPropertyDeclaration FinishReadingVariableDeclarationList(PropertyDeclarationSyntax first, ObjectFlags modifiers)
+        private CompoundPropertyDeclaration FinishReadingVariableDeclarationList(
+            PropertyDeclarationSyntax first,
+            ObjectFlags modifiers)
         {
             properties.Add(first);
 
@@ -623,13 +642,15 @@ namespace D.Parsing
 
             if (isOperator) flags |= ObjectFlags.Operator;
 
-            var name = isOperator ? new TypeSymbol(reader.Consume()) : ReadFunctionSymbol();
+            var name = isOperator ? new MethodSymbol(reader.Consume()) : ReadMethodSymbol();
 
             return ReadFunctionDeclaration(name, flags);
         }
 
         // clamp ƒ <T> (p: Point<T>, min: Point<T>, max: Point<T>) => Point<T> { }
-        private FunctionDeclarationSyntax ReadFunctionDeclaration(Symbol name, ObjectFlags flags = ObjectFlags.None)
+        private FunctionDeclarationSyntax ReadFunctionDeclaration(
+            Symbol name,
+            ObjectFlags flags = ObjectFlags.None)
         {
             ConsumeIf(Function); // ? ƒ | function
 
@@ -688,7 +709,7 @@ namespace D.Parsing
 
         private ParameterSyntax[] ReadGenericParameters()
         {
-            if (ConsumeIf(TagOpen))
+            if (ConsumeIf(TagStart))
             {
                 var i = 0;
 
@@ -702,13 +723,16 @@ namespace D.Parsing
                         ? ReadTypeSymbol()
                         : null;
 
-                    list.Add(new ParameterSyntax(genericName, genericType));
+
+                    var defaultValue = ConsumeIf("=") ? ReadTypeSymbol() : null;
+
+                    list.Add(new ParameterSyntax(genericName, genericType, defaultValue));
 
                     i++;
                 }
                 while (ConsumeIf(Comma));
 
-                Consume(TagClose);
+                Consume(TagEnd);
 
                 return list.ToArray();
             }
@@ -727,7 +751,7 @@ namespace D.Parsing
             throw new UnexpectedTokenException("Expected block or lambda reading lambda", Current);
         }
 
-        private FunctionDeclarationSyntax ReadAnonymousFunctionDeclaration(Symbol variableName)
+        private FunctionDeclarationSyntax ReadAnonymousFunctionDeclaration(Symbol parameterName)
         {
             // TODO: determine whether it captures any outside variables 
 
@@ -736,8 +760,8 @@ namespace D.Parsing
             ConsumeIf(Semicolon); // ? ;
 
             return new FunctionDeclarationSyntax(
-                parameters  : new[] { new ParameterSyntax(variableName) },
-                body        : lambda.Expression, 
+                parameters  : new[] { new ParameterSyntax(parameterName) },
+                body        : lambda, 
                 flags       : ObjectFlags.Anonymous
             );
         }
@@ -757,8 +781,12 @@ namespace D.Parsing
             while (reader.ConsumeIf(Comma));
         }
         
-        // this, a, i: Integer, i: Interger > 0
-
+        // this
+        // x: Integer
+        // x: Integer > 0
+        // x: Integer where x > 0 && x < 10
+        // x: Integer = 0
+        // x: Integer = 0 where x > 0
         public ParameterSyntax ReadParameter(int index)
         {
             var name = ReadArgumentSymbol(); // name
@@ -766,23 +794,32 @@ namespace D.Parsing
             var type = ConsumeIf(Colon) // ? : {type}
                 ? ReadTypeSymbol()
                 : null;
-
-            // > 0
-            // where value > 0 && value < 10
-
-            var condition = (IsKind(Op) && Current.Text != "=") // ? op
-                ? MaybeBinary(name, 0)
-                : null;
-           
+            
             var defaultValue = ConsumeIf("=") // ? = {defaultValue}
                 ? ReadExpression()
                 : null;
+            
+            ISyntaxNode condition = null;
 
-            return new ParameterSyntax(name, 
-                type,
+            if (ConsumeIf(Where))                       // where value > 0 && value < 10
+            {
+                condition = ReadExpression();
+            }
+            else if (IsKind(Op) && Current.Text != "=")  // > 0
+            {
+                condition = MaybeBinary(name, 0);
+            }
+
+            var annotations = ReadAnnotations().ToArray();
+
+            return new ParameterSyntax(
+                name         : name, 
+                type         : type,
                 defaultValue : defaultValue,
                 condition    : condition,
-                index        : index);
+                index        : index,
+                annotations  : annotations
+            );
         }
 
         // event (?record) | record
@@ -800,21 +837,23 @@ namespace D.Parsing
             return flags;
         }
 
-        // Pascal unit : Pressure { symbol: "Pa";   value: 1 }
-        // Radian unit : Angle    { symbol: "rad";  value: 1 }
-        // Degree unit : Angle    { symbol: "deg";  value: (π/180) rad }
+        // Pascal unit (symbol: "Pa",  value : 1)          : Pressure
+        // Radian unit (symbol: "rad", value : 1)          : Angle
+        // Degree unit (symbol: "deg", value: (π/180) rad) : Angle
 
         public UnitDeclarationSyntax ReadUnitDeclaration(Symbol name)
         {
             ConsumeIf(Unit);
 
+            var args = IsKind(ParenthesisOpen) ? ReadArguments() : Array.Empty<ArgumentSyntax>();
+
             var baseType = ConsumeIf(Colon) // ? :
                 ? ReadTypeSymbol()          // baseType
                 : null;
 
-            var properties = ReadUnitDeclarationProperties();
-
-            return new UnitDeclarationSyntax(name, baseType, properties);
+            ConsumeIf(Semicolon);
+            
+            return new UnitDeclarationSyntax(name, baseType, args);
         }
 
         // TODO
@@ -884,18 +923,18 @@ namespace D.Parsing
 
         private readonly List<Symbol> names = new List<Symbol>();
 
-        private IEnumerable<AnnotationExpressionSyntax> ReadAnnotations()
+        private IEnumerable<AnnotationSyntax> ReadAnnotations()
         {
-            // @primitive
-            // @size(10)
-
+            // @key
+            // @member("hello")
+            
             while (ConsumeIf(At))
             {
                 var name = ReadTypeSymbol(); // !{name}
 
                 var args = IsKind(ParenthesisOpen) ? ReadArguments() : Array.Empty<ArgumentSyntax>();
 
-                yield return new AnnotationExpressionSyntax(name, args);
+                yield return new AnnotationSyntax(name, args);
             }
         }
 
@@ -998,17 +1037,17 @@ namespace D.Parsing
         {
             var name = ReadLabelSymbol();
             
-            ConsumeIf(Function);                             // ? ƒ
+            ConsumeIf(Function);                          // ? ƒ
 
             var flags = ObjectFlags.Abstract;
 
             ParameterSyntax[] parameters;
 
-            if (ConsumeIf(ParenthesisOpen))                  // ! (
+            if (ConsumeIf(ParenthesisOpen))               // ! (
             {
                 parameters = ReadParameters().ToArray();
 
-                Consume(ParenthesisClose);                   // ! )
+                Consume(ParenthesisClose);                // ! )
             }
             else
             {
@@ -1026,7 +1065,7 @@ namespace D.Parsing
             return new FunctionDeclarationSyntax(name, Array.Empty<ParameterSyntax>(), parameters, returnType, null, flags);
         }
 
-        // dissolve ∎   : dissolved
+        // dissolve ∎ : dissolved
         // settling 'Transaction  |
         public ProtocolMessage ReadProtocolMessage()
         {
@@ -1034,7 +1073,7 @@ namespace D.Parsing
                 ? MessageFlags.Optional 
                 : MessageFlags.None;
 
-            var name = ReadFunctionSymbol();
+            var name = ReadMethodSymbol();
 
             if (ConsumeIf(Tombstone)) // ? ∎
             {
@@ -1222,12 +1261,11 @@ namespace D.Parsing
         public VariableSymbol ReadVariableSymbol(SymbolFlags flags)
         {
             return new VariableSymbol(ReadName(), flags);
-
         }
 
-        public TypeSymbol ReadFunctionSymbol()
+        public MethodSymbol ReadMethodSymbol()
         {
-            return new TypeSymbol(ReadName());
+            return new MethodSymbol(ReadName());
         }
 
         public ArgumentSymbol ReadArgumentSymbol()
@@ -1268,7 +1306,6 @@ namespace D.Parsing
             }
 
             return name;
-
         }
 
         /*
@@ -1323,13 +1360,14 @@ namespace D.Parsing
                 return new TypeSymbol("Channel",  arguments: ReadTypeSymbol());
             }
 
-            string domain = null;
+            ModuleSymbol module = null;
 
             var name = ReadName(); // Identifer | This | Operator
 
-            if (ConsumeIf(ColonColon))
+            // :: Module
+            while (ConsumeIf(ColonColon))
             {
-                domain = name;
+                module = new ModuleSymbol(name, module);
 
                 name = reader.Consume(Identifier);
             }
@@ -1338,7 +1376,7 @@ namespace D.Parsing
 
             // <generic parameter list>
 
-            if (ConsumeIf(TagOpen)) // <
+            if (ConsumeIf(TagStart)) // <
             {
                 var list = new List<Symbol>();
 
@@ -1347,18 +1385,23 @@ namespace D.Parsing
 
                 do
                 {
-                    var genericName = ReadTypeSymbol();
+                    var genericParameterName = ReadTypeSymbol();
 
                     if (ConsumeIf(Colon))
                     {
-                        var genericType = ReadTypeSymbol();
+                        var genericParameterType = ReadTypeSymbol();
                     }
 
-                    list.Add(genericName);
+                    if (ConsumeIf("="))
+                    {
+                        var parameterDefault = ReadTypeSymbol();
+                    }
+
+                    list.Add(genericParameterName);
                 }
                 while (ConsumeIf(Comma));
 
-                Consume(TagClose); // >                
+                Consume(TagEnd); // >                
 
                 parameters = list.ToArray();
             }
@@ -1367,19 +1410,23 @@ namespace D.Parsing
                 parameters = Array.Empty<Symbol>();
             }
 
-            var result = new TypeSymbol(domain, name, parameters);
+            var result = new TypeSymbol(module, name, parameters);
 
-            // Variant      :  A | B 
+            // Variant      : A | B 
             // Intersection : A & B
 
-            if (IsKind(Bar))
+            if (IsKind(Bar) && !InMode(Mode.Variant))
             {
+                EnterMode(Mode.Variant);
+
                 var list = new List<Symbol> { result };
 
                 while (ConsumeIf(Bar))
                 {
                     list.Add(ReadTypeSymbol());
                 }
+
+                LeaveMode(Mode.Variant);
 
                 return new TypeSymbol("Variant", list.ToArray());
             }
@@ -1536,33 +1583,38 @@ namespace D.Parsing
 
             reader.Next();
 
-            var text = literal.Text.Contains('_') ? literal.Text.Replace("_", "") : literal.Text;
-            
-            if (text.Contains("e"))
-            {
-                var parts = text.Split('e');
+            var text = literal.Text.Contains("_") ? literal.Text.Replace("_", "") : literal.Text;
 
-                var a = double.Parse(parts[0]);
-                var b = double.Parse(parts[1]);
+            int eIndex = text.IndexOf('e');
+
+            if (eIndex > 0)
+            {
+                var a = double.Parse(text.Substring(0, eIndex));
+                var b = double.Parse(text.Substring(eIndex + 1));
 
                 var result = a * Math.Pow(10, b);
 
-                text = b > 0 ? result.ToString() : result.ToString();
+                text = result.ToString();
             }
 
-            // Read any immediately preceding unit prefixes, types, and expondents on the same line
+            if (literal.Trailing == null && ConsumeIf("%"))
+            {
+                return new UnitValueSyntax(new NumberLiteralSyntax(text), "%", 1);
+            }
+
+            // Read any immediately preceding unit types and expondents on the same line
+
             if (IsKind(Identifier) && Current.Start.Line == line) 
             {
-                var unit = ReadUnitSymbol();
+                var (name, power) = ReadUnitSymbol();
 
                 var num = new NumberLiteralSyntax(text);
 
-                return new UnitLiteralSyntax(num, unit.name, unit.power);
+                return new UnitValueSyntax(num, name, power);
             }
           
             return new NumberLiteralSyntax(text);
         }
-
 
         private (string name, int power) ReadUnitSymbol()
         {
@@ -1694,11 +1746,11 @@ namespace D.Parsing
                 {
                     var value = ReadExpression();
 
-                    return new NamedElementSyntax(name, value);
+                    return new TupleElementSyntax(name, value);
                 }
                 else
                 {
-                    throw new Exception("unexpected tuple:" + first.ToString());
+                    throw new Exception("Unexpected tuple:" + first.ToString());
                 }
             }
           
@@ -1774,7 +1826,7 @@ namespace D.Parsing
 
                     if (tuple.Size == 1)
                     {
-                        var element = (NamedElementSyntax)tuple.Elements[0];
+                        var element = (TupleElementSyntax)tuple.Elements[0];
 
                         return new TypePatternSyntax((Symbol)element.Value, new VariableSymbol(element.Name));
                     }
@@ -1821,7 +1873,7 @@ namespace D.Parsing
         {
             // x = a || b && c
 
-            while (IsKind(Op) && (op = graph.Operators[Infix, reader.Current]).Precedence >= minPrecedence) // ??
+            while (IsKind(Op) && (op = environment.Operators[Infix, reader.Current]).Precedence >= minPrecedence) // ??
             {
                 reader.Consume(Op);
 
@@ -1837,13 +1889,13 @@ namespace D.Parsing
 
                 var right = MaybeMemberAccess();
 
-                while (IsKind(Op) && (op = graph.Operators[Infix, reader.Current]).Precedence >= o.Precedence)
+                while (IsKind(Op) && (op = environment.Operators[Infix, reader.Current]).Precedence >= o.Precedence)
                 {
                     right = MaybeBinary(right, o.Precedence);
                 }
 
                 left = new BinaryExpressionSyntax(o, left, right) {
-                    Grouped = InMode(Mode.Parenthesis)
+                    Parenthesized = InMode(Mode.Parenthesis)
                 };
 
                 ConsumeIf(Semicolon);
@@ -1858,17 +1910,10 @@ namespace D.Parsing
             return left;
         }
 
-        public UnaryExpressionSyntax ReadUnary(Token opToken)
+        public UnaryExpressionSyntax ReadUnary(Operator op)
         {
             // maybe postfix?
-
-            var op = graph.Operators[Prefix, opToken];
-
-            if (op == null)
-            { 
-                throw new Exception("Unexpected unary operator:" + opToken);
-            }
-
+            
             var expression = ReadExpression();
 
             return new UnaryExpressionSyntax(op, expression);
@@ -1889,6 +1934,110 @@ namespace D.Parsing
 
         #endregion
 
+        #region Elements
+
+        public ElementSyntax ReadElement()
+        {
+            EnterMode(Mode.Element);
+
+            Consume(TagStart); // ! <
+
+            var (moduleName, elementName) = ReadElementName();
+
+            ArgumentSyntax[] args = null;
+
+            while (Current.Kind != TagEnd && Current.Kind != TagSelfClosed)
+            {
+                // read optional arguments
+                if (Current.Kind == ParenthesisOpen)
+                {
+                    args = ReadArguments();
+                }
+                else
+                {
+                    // attribute?
+                    Next();
+                }
+            }
+            
+            bool isSelfClosed = Consume().Kind == TagSelfClosed;
+
+            ISyntaxNode[] children = null;
+
+            // read the children
+            if (!isSelfClosed)
+            {
+                if (!IsKind(TagCloseStart))
+                {
+                    var list = new List<ISyntaxNode>();
+
+                    while (!IsKind(TagCloseStart) && !IsEof)
+                    {
+                        list.Add(ReadElementChild());
+                    }
+
+                    children = list.ToArray();
+                }
+
+                Consume(TagCloseStart);       // ! </
+
+                var (closingModuleName, closingElementName) = ReadElementName();
+                
+                Consume(TagEnd);              // ! >                
+            }
+
+            LeaveMode(Mode.Element);
+
+            return new ElementSyntax(moduleName, elementName, args, children ?? Array.Empty<ISyntaxNode>(), isSelfClosed);
+        }
+
+        public ISyntaxNode ReadElementChild()
+        {
+            switch (Current.Kind)
+            {
+                case BraceOpen : return ReadBlock();   // {
+                case TagStart  : return ReadElement(); // <
+            }
+
+            StringBuilder sb = null;
+            
+            while (!IsOneOf(TagStart, TagCloseStart, EOF) && !IsKind(BraceOpen))
+            {
+                if (sb == null)
+                {
+                    sb = new StringBuilder();
+                }
+            
+                sb.Append(Current.Text);
+
+                if (Current.Trailing != null)
+                {
+                    sb.Append(Current.Trailing);
+                }
+
+                Consume();
+            }
+
+            return new TextSyntax(sb?.ToString() ?? string.Empty);
+        }
+
+        private (string, string) ReadElementName()
+        {
+            string name = ReadName();
+            string module = null;
+            
+            if (ConsumeIf(Colon))
+            {
+                module = name;
+                name = ReadName();
+            }
+
+            return (module, name);
+        }
+
+        #endregion
+
+
         #region Primary Expressions
 
         public ISyntaxNode MaybeTuple()
@@ -1903,7 +2052,7 @@ namespace D.Parsing
 
                     var value = ReadExpression();
 
-                    var element = new NamedElementSyntax((Symbol)left, value);
+                    var element = new TupleElementSyntax((Symbol)left, value);
 
                     var result = FinishReadingTuple(element);
 
@@ -1935,6 +2084,8 @@ namespace D.Parsing
         // i..i32.max
         public ISyntaxNode MaybeRange()
         {
+            // TODO: Move to binary operators
+
             var left = MaybeType();
 
             if (ConsumeIf(DotDotDot)) // ? ...
@@ -2005,10 +2156,10 @@ namespace D.Parsing
         public ISyntaxNode MaybeMemberAccess()
         {
             var left = ReadPrimary();
-            
+
             // Maybe member access
-            while (IsOneOf(Dot, BracketOpen, ParenthesisOpen)       // . | [
-               || (IsKind(PipeForward) && !InMode(Mode.Arguments))) // |> 
+     
+            while (IsOneOf(Dot, BracketOpen, ParenthesisOpen, PipeForward))
             {
                 if (IsKind(PipeForward))
                 {
@@ -2020,7 +2171,7 @@ namespace D.Parsing
 
                     left = call;
                 }
-                else if (IsKind(ParenthesisOpen))
+                else if (IsKind(ParenthesisOpen)) // ? (
                 {
                     if (left is TypeSymbol type)
                     {
@@ -2065,9 +2216,9 @@ namespace D.Parsing
             {
                 var op = Consume(Op);
 
-                if (graph.Operators[Prefix, op] != null)
+                if (environment.Operators[Prefix, op] is Operator unaryOperator)
                 {
-                    return ReadUnary(op);
+                    return ReadUnary(unaryOperator);
                 }
 
                 throw new Exception("unexpected operator:" + op.ToString());
@@ -2090,14 +2241,14 @@ namespace D.Parsing
 
                     if (reader.Current.Kind == Identifier && reader.Current.Start.Line == position.Line)
                     {
-                        var unit = ReadUnitSymbol();
+                        var (unitName, unitPower) = ReadUnitSymbol();
 
-                        return new UnitLiteralSyntax(left, unit.name, unit.power);
+                        return new UnitValueSyntax(left, unitName, unitPower);
                     }
                 }
 
                 return left;
-            }
+            }            
 
             switch (reader.Current.Kind)
             {
@@ -2105,18 +2256,11 @@ namespace D.Parsing
                 case Identifier:
                     depth = 0;
 
-                    Symbol symbol;
-
                     // read member or type...
 
-                    if (char.IsUpper(reader.Current.Text[0]))
-                    {
-                        symbol = ReadTypeSymbol();
-                    }
-                    else
-                    {
-                        symbol = ReadMemberSymbol();
-                    }
+                    Symbol symbol = char.IsUpper(reader.Current.Text[0])
+                        ? (Symbol)ReadTypeSymbol()
+                        : (Symbol)ReadMemberSymbol();
 
                     if (IsKind(LambdaOperator) && InMode(Mode.Arguments))  // ? =>
                     {
@@ -2148,9 +2292,9 @@ namespace D.Parsing
         {
             if (!MoreArguments()) return Array.Empty<ArgumentSyntax>();
 
-            var parenthesized = ConsumeIf(ParenthesisOpen); // ? (
+            var parenthesized = ConsumeIf(ParenthesisOpen);   // ? (
 
-            if (parenthesized && ConsumeIf(ParenthesisClose))
+            if (parenthesized && ConsumeIf(ParenthesisClose)) // ? )
             {
                 return Array.Empty<ArgumentSyntax>();
             }
@@ -2181,7 +2325,7 @@ namespace D.Parsing
 
             if (parenthesized)
             {
-                ConsumeIf(ParenthesisClose); // ? )
+                Consume(ParenthesisClose); // ! )
             }
 
             LeaveMode(Mode.Arguments);
@@ -2214,26 +2358,30 @@ namespace D.Parsing
         {
             switch (Current.Kind)
             {
-                case EOF                :   
-                case Bar                : // |
-                case PipeForward        : // |>
-                case ParenthesisClose   : // )
-                case BracketClose       : // ]
-                case Semicolon          : return false;
-                default                 : return true;
+                case EOF              :   
+                case Bar              : // |
+                case PipeForward      : // |>
+                case ParenthesisClose : // )
+                case BracketClose     : // ]
+                case Semicolon        : return false;
+                default               : return true;
             }
         }
 
         public CallExpressionSyntax ReadCall(ISyntaxNode callee)
         {
-            return ReadCall(callee, ReadFunctionSymbol());
+            return ReadCall(callee, functionName: ReadMethodSymbol());
         }
 
-        // Question: Scope read if arg count is fixed ?
+        // TODO: Scope read if arg count is fixed ?
 
         public CallExpressionSyntax ReadCall(ISyntaxNode callee, Symbol functionName)
         {
-            return new CallExpressionSyntax(callee, functionName, ReadArguments());
+            return new CallExpressionSyntax(
+                callee   : callee,
+                name     : functionName,
+                arguments: ReadArguments()
+            );
         }
 
         public void Dispose()
@@ -2248,6 +2396,8 @@ namespace D.Parsing
         public bool IsEof => reader.IsEof;
 
         public Token Current => reader.Current;
+
+        Token Consume() => reader.Consume();
 
         Token Consume(TokenKind kind) => reader.Consume(kind);
 
@@ -2275,6 +2425,12 @@ namespace D.Parsing
                reader.Current.Kind == a 
             || reader.Current.Kind == b 
             || reader.Current.Kind == c;
+
+        bool IsOneOf(TokenKind a, TokenKind b, TokenKind c, TokenKind d) =>
+            reader.Current.Kind == a
+         || reader.Current.Kind == b
+         || reader.Current.Kind == c
+         || reader.Current.Kind == d;
 
         bool IsKind(TokenKind kind) => reader.Current.Kind == kind;
 

@@ -5,7 +5,7 @@ namespace D.Numerics
     using Expressions;
 
     public class Matrix<T> : IObject
-        where T : struct, IEquatable<T>, IFormattable
+        where T : struct, IComparable<T>, IEquatable<T>, IFormattable
     {
         private MathNet.Numerics.LinearAlgebra.Matrix<T> impl;
 
@@ -129,12 +129,8 @@ namespace D.Numerics
         */
         public static Matrix<T> Create(ArrayInitializer expression)
         {
-            #region Preconditions
-
             if (expression.Stride == null)
                 throw new Exception("Missing stride");
-
-            #endregion
 
             var stride = expression.Stride.Value;
             

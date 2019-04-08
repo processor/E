@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace D
 {
-    public struct Superscript
+    public readonly struct Superscript
     {
         private static readonly char[] digits = {  '⁰', '¹', '²', '³', '⁴', '⁵', '⁶', '⁷', '⁸', '⁹' };
 
@@ -58,12 +58,10 @@ namespace D
             return new string(sb.ToArray());
         }
 
-        public static char GetChar(int exponent)
-            => exponent >= 0 && exponent <= 9
-                ? digits[exponent]
-                : throw new ArgumentOutOfRangeException(nameof(exponent), exponent, "Must be >= 0 && <= 9");
+        public static char GetChar(int exponent) => exponent >= 0 && exponent <= 9
+            ? digits[exponent]
+            : throw new ArgumentOutOfRangeException(nameof(exponent), exponent, "Must be >= 0 && <= 9");
 
         // TODO: divide by 100 and append if greater then 10
-
     }
 }

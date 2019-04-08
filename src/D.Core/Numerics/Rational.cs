@@ -4,54 +4,54 @@ namespace D
 {
     using static Math;
 
-    public struct Rational : INumber
+    public readonly struct Rational : INumber
     {
-        private long numerator;
-        private long denominator;
-
         public Rational(long numerator, long denominator)
         {
-            this.numerator = numerator;
-            this.denominator = denominator;
-
-            Reduce();
+            Numerator = numerator;
+            Denominator = denominator;
         }
 
-        public long Numerator => numerator;
+        public long Numerator { get; }
 
-        public long Denominator => denominator;
+        public long Denominator { get; }
 
         Kind IObject.Kind => Kind.Rational;
 
         #region INumeric
 
-        double INumber.Real => (double)numerator / denominator;
+        double INumber.Real => (double)Numerator / Denominator;
 
-        T INumber.As<T>() => (T)Convert.ChangeType((double)numerator / denominator, typeof(T));
+        T INumber.As<T>() => (T)Convert.ChangeType((double)Numerator / Denominator, typeof(T));
 
         #endregion
 
         #region Helpers
 
-        private void Reduce()
+        private Rational Reduce()
         {
-            if (numerator == 0)
-            {
-                denominator = 1;
+            var n = Numerator;
+            var d = Denominator;
 
-                return;
+            if (n == 0)
+            {
+                d = 1;
+
+                return new Rational(n, d);
             }
 
-            var gcd = Gcd(numerator, denominator);
+            var gcd = Gcd(n, d);
 
-            numerator /= gcd;
-            denominator /= gcd;
+            n /= gcd;
+            d /= gcd;
 
-            if (denominator < 0)
+            if (d < 0)
             {
-                numerator *= -1;
-                denominator *= -1;
+                n *= -1;
+                d *= -1;
             }
+
+            return new Rational(n, d);
         }
 
         // greatest common denomiator
@@ -74,7 +74,6 @@ namespace D
 
         #endregion
 
-        public override string ToString()
-            => numerator + " / " + denominator;
+        public override string ToString() => Numerator + " / " + Denominator;
     }
 }

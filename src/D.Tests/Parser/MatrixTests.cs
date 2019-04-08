@@ -23,8 +23,8 @@ namespace D.Parsing.Tests
         public void Matrix2x4()
         {
             var matrix = FromText(@"[ 
-            [ 0, 1, 2, 3 ],
-            [ 4, 5, 6, 7 ]
+                [ 0, 1, 2, 3 ],
+                [ 4, 5, 6, 7 ]
             ]");
 
             Assert.Equal(0d, matrix[0, 0]);
@@ -35,7 +35,8 @@ namespace D.Parsing.Tests
         [Fact]
         public void Matrix4x4()
         {
-            var matrix = FromText(@"[ 
+            var matrix = FromText(@"
+            [ 
                 [ 0, 1, 2, 3 ], 
                 [ 4, 5, 6, 7 ],
                 [ 8, 9, 10, 11 ],
@@ -45,19 +46,19 @@ namespace D.Parsing.Tests
             Assert.Equal(4, matrix.ColumnCount);
             Assert.Equal(4, matrix.RowCount);
 
-
             Assert.Equal(0d,  matrix[0, 0]);
             Assert.Equal(1d,  matrix[0, 1]);
             Assert.Equal(2d,  matrix[0, 2]);
             Assert.Equal(5d,  matrix[1, 1]);
             Assert.Equal(10d, matrix[2, 2]);
         }
-
+   
 
         [Fact]
         public void Matrix5x5()
         {
-            var matrix = FromText(@"[ 
+            var matrix = FromText(@"
+            [
               [  0,   0,  -1,   0,   0 ],
               [  0,  -1,  -2,  -1,   0 ],
               [ -1,  -2,  16,  -2,  -1 ],
@@ -65,10 +66,9 @@ namespace D.Parsing.Tests
               [  0,   0,  -1,   0,   0 ]
             ]");
 
-            Assert.Equal(5, matrix.RowCount);
-            Assert.Equal(5, matrix.ColumnCount);
+            Assert.Equal(5,  matrix.RowCount);
+            Assert.Equal(5,  matrix.ColumnCount);
             Assert.Equal(25, matrix.ElementCount);
-
 
             Assert.Equal(0d,  matrix[0, 0]);
             Assert.Equal(-1d, matrix[2, 0]);

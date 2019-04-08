@@ -19,8 +19,8 @@ namespace D.Expressions
 
         public bool Grouped { get; set; }
 
-        public Kind Kind => Operator.OpKind;
-
+        public Kind Kind => (Kind)Operator.OpKind;
+        
         #region ToString
 
         public override string ToString()
@@ -29,20 +29,20 @@ namespace D.Expressions
 
             if (Grouped)
             {
-                sb.Append("(");
+                sb.Append('(');
             }
 
             sb.Append(Left.ToString());
 
-            sb.Append(" ");
+            sb.Append(' ');
             sb.Append(Operator.Name);
-            sb.Append(" ");
+            sb.Append(' ');
 
             sb.Append(Right.ToString());
 
             if (Grouped)
             {
-                sb.Append(")");
+                sb.Append(')');
             }
 
             return sb.ToString();

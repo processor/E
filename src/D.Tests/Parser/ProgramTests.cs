@@ -7,7 +7,7 @@ namespace D.Parsing.Tests
 {
     public class ProgramTests : TestBase
     {
-        [Fact]
+        // [Fact]
         public void Geometry()
         {
             foreach (var doc in ReadDocuments("geometry"))
@@ -25,7 +25,7 @@ namespace D.Parsing.Tests
             }
         }
 
-        [Fact]
+        // [Fact]
         public void Math()
         {
             var text = ReadDocument("math/Functions.d");
@@ -37,7 +37,7 @@ namespace D.Parsing.Tests
             Assert.Equal(52, statements.Length);
         }
 
-        [Fact]
+        // [Fact]
         public void Vector3()
         {
             var text = ReadDocument("numerics/Vector3.d");

@@ -1,6 +1,6 @@
 ﻿namespace D.Syntax
 {
-    public struct NullLiteralSyntax : ISyntaxNode
+    public readonly struct NullLiteralSyntax : ISyntaxNode
     {
         public static readonly NullLiteralSyntax Instance = new NullLiteralSyntax();
 

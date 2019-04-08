@@ -24,24 +24,18 @@ namespace D.Expressions
         public virtual IExpression VisitConstantPattern(ConstantPattern pattern)                    => throw new NotImplementedException();
         public virtual IExpression VisitSymbol(Symbol symbol)                                       => throw new NotImplementedException();
         public virtual IExpression VisitConstant(IExpression expression)                            => throw new NotImplementedException();
+        public virtual IExpression VisitFor(ForStatement expression)                                => throw new NotImplementedException();
+        public virtual IExpression VisitFunction(FunctionExpression function)                       => throw new NotImplementedException();
 
         public IExpression Visit(IObject expression)
         {
-            switch (expression)
-            {
-                case UnaryExpression unary     : return VisitUnary(unary);
-                case BinaryExpression binary   : return VisitBinary(binary);
-                case TernaryExpression ternary : return VisitTernary(ternary);
-            }
-
             switch (expression.Kind)
             {
                 // Declarations
                 case Kind.PropertyDeclaration     : return VisitVariableDeclaration((VariableDeclaration)expression);
-                    
+                case Kind.Function                : return VisitFunction((FunctionExpression)expression);   
                 case Kind.TypeInitializer         : return VisitTypeInitializer((TypeInitializer)expression);
                 case Kind.DestructuringAssignment : return VisitDestructuringAssignment((DestructuringAssignment)expression);
-
                 case Kind.CallExpression          : return VisitCall((CallExpression)expression);
                 case Kind.MatchExpression         : return VisitMatch((MatchExpression)expression);
                 case Kind.MemberAccessExpression  : return VisitMemberAccess((MemberAccessExpression)expression);
@@ -50,6 +44,7 @@ namespace D.Expressions
 
                 // Statements
                 case Kind.BlockStatement          : return VisitBlock((BlockExpression)expression);
+                case Kind.ForStatement            : return VisitFor((ForStatement)expression);     
                 case Kind.IfStatement             : return VisitIf((IfStatement)expression);
                 case Kind.ElseIfStatement         : return VisitElseIf((ElseIfStatement)expression);
                 case Kind.ElseStatement           : return VisitElse((ElseStatement)expression);
@@ -64,10 +59,16 @@ namespace D.Expressions
                 case Kind.Number:
                 case Kind.Int64:
                 case Kind.String                  : return VisitConstant((IExpression)expression);
-
-                default                           : throw new Exception("unexpected expression:" + expression.GetType().Name);
             }
+
+            switch (expression)
+            {
+                case UnaryExpression unary     : return VisitUnary(unary);
+                case BinaryExpression binary   : return VisitBinary(binary);
+                case TernaryExpression ternary : return VisitTernary(ternary);
+            }
+
+            throw new Exception("Unexpected expression:" + expression.GetType().Name);
         }
-    
     }
 }

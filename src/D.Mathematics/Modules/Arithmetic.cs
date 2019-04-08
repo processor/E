@@ -1,73 +1,10 @@
 ﻿using System;
 
+using D.Units;
+
 namespace D.Mathematics
 {
-    using Units;
-
-    using static ArithmethicFunction;
-
-    public class ArithmeticModule : Module
-    {
-        public ArithmeticModule()
-        {
-            Add(ArithmethicFunction.Add);
-            Add(Subtract);
-            Add(Multiply);
-            Add(Divide);
-            Add(Modulus);
-            Add(Power);
-
-            // Generic
-            Add(Floor);
-            Add(SquareRoot);
-            Add(Log);
-            Add(Log10);
-        }
-    }
-  
-    public class ArithmethicFunction : IFunction
-    {
-        public static readonly IFunction Add        = new ArithmethicFunction("+",  Arithmetic.Add);
-        public static readonly IFunction Multiply   = new ArithmethicFunction("*",  Arithmetic.Multiply);
-
-        public static readonly IFunction Subtract   = new ArithmethicFunction("-",  Arithmetic.Subtract);
-
-        public static readonly IFunction Divide     = new ArithmethicFunction("/",  Arithmetic.Divide);
-        public static readonly IFunction Power      = new ArithmethicFunction("**", Arithmetic.Pow);
-        public static readonly IFunction Modulus    = new ArithmethicFunction("%",  Arithmetic.Modulus);
-
-        public static readonly IFunction Floor      = new MathFunction("floor", x => Math.Floor(x));
-        public static readonly IFunction Log        = new MathFunction("log",   x => Math.Log(x));
-        public static readonly IFunction Log10      = new MathFunction("log10", x => Math.Log10(x));
-        public static readonly IFunction SquareRoot = new MathFunction("sqrt",  x => Math.Sqrt(x));
-
-
-        private readonly Func<INumber, INumber, INumber> func;
-
-        public ArithmethicFunction(string name, Func<INumber, INumber, INumber> func)
-        {
-            Name = name;
-            Parameters = new[] { Parameter.Number, Parameter.Number };
-
-            this.func = func;
-        }
-
-        public string Name { get; }
-
-        public Parameter[] Parameters { get; }
-
-        public Kind Kind => Kind.Function; // TODO: Use function info...
-
-        public IObject Invoke(IArguments args)
-        {
-            var x = (INumber)args[0];
-            var y = (INumber)args[1];
-
-            return func.Invoke(x, y);
-        }
-    }
-
-    public class Arithmetic
+    public static class Arithmetic
     {
         // abs
         // intergrate
@@ -75,6 +12,7 @@ namespace D.Mathematics
         // floor
 
         public static IArithmetic<T> GetProvider<T>()
+            where T: unmanaged
         {
             if (typeof(T) == typeof(Number))  return (IArithmetic<T>)new RealArithmetic();
             if (typeof(T) == typeof(int))     return (IArithmetic<T>)new Int32Arithmetic();
@@ -88,86 +26,78 @@ namespace D.Mathematics
             if (x == null) throw new ArgumentNullException(nameof(x));
             if (y == null) throw new ArgumentNullException(nameof(y));
 
-            if (!(x is IUnit) && !(y is IUnit))
+            if (!(x is IUnitValue) && !(y is IUnitValue))
             {
                 return new Number(x.Real * y.Real);
             }
 
-            var l = (x as IUnit);
-            var r = (y as IUnit)?.To(l) ?? y.Real;
+            var l = (x as IUnitValue);
+            var r = (y as IUnitValue)?.To(l.Unit) ?? y.Real;
 
-            return y is IUnit
-                ? l.With(
-                    quantity: l.Real * r,                // multiply the quantities
-                    power: l.Power + (y as IUnit).Power  // add the exponents
-                )
-                : l.With(l.Real * r);
+            return y is IUnitValue yValue
+                ? UnitValue.Create(l.Real * r, type: l.Unit.WithExponent(l.Unit.Power + yValue.Unit.Power))
+                : UnitValue.Create(l.Real * r, l.Unit);
                 
         }
     
         public static INumber Add(INumber x, INumber y)
         {
-            if (!(x is IUnit) && !(y is IUnit))
+            if (!(x is IUnitValue) && !(y is IUnitValue))
             {
                 return new Number(x.Real + y.Real);
             }
 
-            var l = (x as IUnit);
-            var r = (y as IUnit)?.To(l) ?? y.Real;
+            var l = (x as IUnitValue);
+            var r = (y as IUnitValue)?.To(l.Unit) ?? y.Real;
 
-
-            return l.With(l.Real + r);
+            return UnitValue.Create(l.Real + r, l.Unit);
         }
 
         public static INumber Subtract(INumber x, INumber y)
         {
-            if (!(x is IUnit) && !(y is IUnit))
+            if (!(x is IUnitValue) && !(y is IUnitValue))
             {
                 return new Number(x.Real - y.Real);
             }
 
-            var l = x as IUnit;
-            var r = (y as IUnit)?.To(l) ?? y.Real;
+            var l = x as IUnitValue;
+            var r = (y as IUnitValue)?.To(l.Unit) ?? y.Real;
 
-            return l.With(l.Real - r);
+            return UnitValue.Create(l.Real - r, l.Unit);
         }
 
         public static INumber Divide(INumber x, INumber y)
         {
-            if (!(x is IUnit) && !(y is IUnit))
+            if (!(x is IUnitValue) && !(y is IUnitValue))
             {
                 return new Number(x.Real / y.Real);
             }
 
-            var l = (x as IUnit);
-            var r = (y as IUnit)?.To(l) ?? y.Real;
+            var l = (x as IUnitValue);
+            var r = (y as IUnitValue)?.To(l.Unit) ?? y.Real;
             
-            return l.With(l.Real / r);
+            return UnitValue.Create(l.Real / r, l.Unit);
         }
 
         public static INumber Pow(INumber x, INumber y)
         {
             var result = Math.Pow(x.Real, y.Real);
 
-            if (!(x is IUnit) && !(y is IUnit))
+            if (!(x is IUnitValue) && !(y is IUnitValue))
             {
                 return new Number(result);
             }
             else
             {
-                var unit = (IUnit)x;
+                var unit = (IUnitValue)x;
 
-                return new Unit<double>(
-                    quantity : Math.Pow(x.Real, y.Real),
-                    prefix   : unit.Prefix, 
-                    type     : unit.Type,
-                    power    : unit.Power + ((int)y.Real - 1));
+                return new UnitValue<double>(
+                    value : Math.Pow(x.Real, y.Real),
+                    unit     : unit.Unit.WithExponent(unit.Unit.Power + ((int)y.Real - 1))
+                );
             }
-
         }
 
-        public static INumber Modulus(INumber x, INumber y)
-            => new Number(x.Real % y.Real);
-        
+        public static INumber Modulus(INumber x, INumber y) => new Number(x.Real % y.Real);
     }
 }

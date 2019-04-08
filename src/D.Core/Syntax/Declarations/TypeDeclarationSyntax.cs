@@ -39,22 +39,26 @@ namespace D.Syntax
             Symbol name,
             ParameterSyntax[] genericParameters,
             Symbol baseType,
-            AnnotationExpressionSyntax[] annotations,
+            ArgumentSyntax[] arguments,
+            AnnotationSyntax[] annotations,
             ISyntaxNode[] members,
             TypeFlags flags = TypeFlags.None)
             : base(baseType, members, flags)
         {
-            Name = name;
-            Annotations = annotations;
+            Name              = name;
+            Annotations       = annotations;
+            Arguments         = arguments;
             GenericParameters = genericParameters;
         }
 
         // e.g.
         // Crash 
-        // Vehicle 'Crash  term
+        // Vehicle 'Crash 
         public Symbol Name { get; }
 
-        public AnnotationExpressionSyntax[] Annotations { get; }
+        public ArgumentSyntax[] Arguments { get; }
+
+        public AnnotationSyntax[] Annotations { get; }
 
         public ParameterSyntax[] GenericParameters { get; }
     }

@@ -2,7 +2,7 @@
 
 namespace D.Expressions
 {
-    public class ProtocolExpression : INamedObject
+    public class ProtocolExpression : IExpression, INamedObject
     {  
         public ProtocolExpression(Symbol name, FunctionExpression[] members)
         {

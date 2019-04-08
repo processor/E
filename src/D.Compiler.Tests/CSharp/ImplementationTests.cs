@@ -1,18 +1,16 @@
-﻿using System.IO;
-using System.Text;
-
+﻿
 using Xunit;
 
 namespace D.Compilation.Tests
 {
-    using Parsing;
+    using static Helper;
 
     public class ImplementationTests
     {
         [Fact]
         public void BezierType()
         {
-            var r  = Transpile(@"
+            var r = Transpile(@"
 Curve protocol {
   getPoint (position: Number) -> Vector2
 }
@@ -45,7 +43,7 @@ public interface Curve
     Vector2 GetPoint(double position);
 }
 
-public class Bezier : Curve
+public struct Bezier : Curve
 {
     public Bezier(Vector3 c1, Vector3 c2, Vector3 c3, Vector3 c4)
     {
@@ -91,7 +89,7 @@ public class Cuboid
 }
 ".Trim(),
 
-            Transpile(@"
+            Helper.Transpile(@"
 Cuboid class {
   polygons: [ Polygon ]
 }
@@ -161,7 +159,7 @@ public static Point<T> Clamp<T>(Point<T> p, Point<T> min, Point<T> max) => new P
 
 ".Trim(),
 
-Transpile(@"
+            Transpile(@"
 clamp ƒ <T> (p: Point<T>, min: Point<T>, max: Point<T>) => Point<T>(
   x: max(min.x, min(max.x, p.x)),
   y: max(min.y, min(max.y, p.y)),
@@ -171,9 +169,6 @@ clamp ƒ <T> (p: Point<T>, min: Point<T>, max: Point<T>) => Point<T>(
 "));
         }
 
-
-
-
         [Fact]
         public void SimpleProperties()
         {
@@ -181,6 +176,32 @@ clamp ƒ <T> (p: Point<T>, min: Point<T>, max: Point<T>) => Point<T>(
 
 namespace Namespaced
 {
+    public struct Vector3
+    {
+        public Vector3(double x, double y, double z)
+        {
+            X = x;
+            Y = y;
+            Z = z;
+        }
+
+        public double X { get; }
+
+        public double Y { get; }
+
+        public double Z { get; }
+    }
+
+    public struct Sphere
+    {
+        public Sphere(Vector3 center)
+        {
+            Center = center;
+        }
+
+        public Vector3 Center { get; }
+    }
+
     public class Class
     {
         public long A => 1;
@@ -192,11 +213,24 @@ namespace Namespaced
         public int D(int x) => x;
 
         public Vector3 E(Vector3 point) => point;
+
+        public double F(Vector3 point) => point.X;
+
+        public double G(Sphere sphere) => sphere.Center.X;
     }
 }
 ".Trim(),
 
-Transpile(@"
+        Transpile(@"
+
+Vector3 struct {
+  x, y, z: Float64
+}
+
+Sphere struct {
+  center: Vector3
+}
+
 Class class { 
 
 }
@@ -207,6 +241,8 @@ Class impl {
   c () => 1
   d (x: Int32) => x
   e (point: Vector3) => point
+  f (point: Vector3) => point.x
+  g (sphere: Sphere) => sphere.center.x;
 }
 
 ", "Namespaced"));
@@ -233,7 +269,7 @@ namespace Banking
 ".Trim(),
 
 Transpile(@"
-Bank struct { 
+Bank class { 
   name: String
 }", "Banking"));
         }
@@ -279,7 +315,7 @@ Account impl { }
         public void Z1()
         {
             Assert.Equal(@"
-public class Matrix4<T>
+public struct Matrix4<T>
 {
     public Matrix4(List<T> elements)
     {
@@ -355,7 +391,7 @@ Matrix4 impl {
         public void RewriteOperatorsMin()
         {
             Assert.Equal(@"
-public class Point
+public struct Point
 {
     public Point(double x, double y, double z)
     {
@@ -396,7 +432,7 @@ Point impl {
         public void RewriteOperators()
         {
             Assert.Equal(@"
-public class Point
+public struct Point
 {
     public static Point operator *(Point a, double b) => new Point(x: a.X * b, y: a.Y * b, z: a.Z * b);
 
@@ -426,7 +462,7 @@ Point impl {
         public void GenericPoint()
         {
             Assert.Equal(@"
-public class Point<T>
+public struct Point<T>
 {
     public Point(T x, T y, T z)
     {
@@ -525,7 +561,7 @@ public interface Geometry
     Point Center { get; }
 }
 
-public class Point : Geometry
+public struct Point : Geometry
 {
     public Point(double x, double y, double z)
     {
@@ -587,7 +623,7 @@ Geometry impl for Point {
         [Fact]
         public void Unit()
         {
-            var unit = CompileModule(@"
+            var unit = Helper.CompileModule(@"
 Point struct { 
   x, y, z: Number
 }
@@ -598,63 +634,30 @@ Point impl {
 }
 ");
 
-            var type = unit.Members[0].Item2 as Type;
+            var pointType = unit.Statements[0] as Type;
 
-            Assert.Equal(1, unit.Members.Count);
+            // Assert.Equal(1, unit.Members.Count);
 
-            Assert.Equal("Point",type.Name);
-            Assert.Equal(3, type.Properties.Length);
+            Assert.Equal("Point", pointType.Name);
+            Assert.Equal(3, pointType.Properties.Length);
 
             // Assert.Equal(1, unit.Implementations[unit.Types[0]].Count);
             // Assert.Equal(2, unit.Implementations.First()[0].Members.Length);
         }
+
 
         [Fact]
         public void Y()
         {
             Assert.Equal(
 @"public static Point<T> Negate<T>(Point<T> value) => new Point<T>(x: -value.X, y: -value.Y, z: -value.Z);",
+
 Transpile(
 @"negate ƒ <T> (value: Point<T>) => Point<T>(
   x: - value.x, 
   y: - value.y, 
   z: - value.z 
 )"));
-        }
-
-        public static Module CompileModule(string source)
-        {
-            var compilier = new Compiler();
-
-            using (var parser = new Parser(source))
-            {
-                return compilier.Compile(parser.Enumerate());
-            }
-        }
-
-        public static string Transpile(string source, string moduleName = null)
-        {
-            var sb = new StringBuilder();
-
-            var module = CompileModule(source);
-
-            using (var writer = new StringWriter(sb))
-            {
-                var csharp = new CSharpEmitter(writer);
-
-                if (moduleName != null)
-                {
-                    module.Name = moduleName;
-
-                    csharp.WriteModule(module);
-                }
-                else
-                {
-                    csharp.WriteModuleMembers(module);
-                }
-            }
-
-            return sb.ToString();
         }
     }
 }

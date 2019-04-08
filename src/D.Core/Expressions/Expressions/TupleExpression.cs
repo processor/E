@@ -19,9 +19,9 @@ namespace D.Expressions
     }
 
     // a: 100
-    public class NamedElement : IExpression
+    public sealed class TupleElement : IExpression
     {
-        public NamedElement(Symbol name, IExpression value)
+        public TupleElement(Symbol name, IExpression value)
         {
             Name = name;
             Value = value;
@@ -38,6 +38,6 @@ namespace D.Expressions
             value = Value;
         }
 
-        Kind IObject.Kind => Kind.NamedValue;
+        Kind IObject.Kind => Kind.TupleElement;
     }
 }

@@ -2,6 +2,11 @@
 {
     public class Diagnostic
     {
-        public string Message { get; set; }
+        public Diagnostic(string message)
+        {
+            Message = message;
+        }
+
+        public string Message { get; }
     }
 }

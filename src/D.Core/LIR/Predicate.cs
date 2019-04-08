@@ -27,9 +27,9 @@ namespace D
             var sb = new StringBuilder();
 
             sb.Append(Left.ToString());
-            sb.Append(" ");
+            sb.Append(' ');
             sb.Append(Operator.Name);
-            sb.Append(" ");
+            sb.Append(' ');
             sb.Append(Right.ToString());
 
             return sb.ToString();

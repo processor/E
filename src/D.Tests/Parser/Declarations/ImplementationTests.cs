@@ -275,7 +275,7 @@ Matrix4<T> implementation {
 }");
 
             Assert.Equal("Matrix4<T>", declaration.Type);
-            Assert.Equal(null, declaration.Protocol);
+            Assert.Null(declaration.Protocol);
             Assert.Equal(17, declaration.Members.Length);
 
             var indexer = (FunctionDeclarationSyntax)declaration[0];

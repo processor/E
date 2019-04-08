@@ -22,7 +22,9 @@ namespace D
 
         Mutable     = 1 << 13,
         Mutating    = 1 << 14,
-        Lazy        = 1 << 15
+        Lazy        = 1 << 15,
+
+        Lambda      = 1 << 20
 
         // Lambda = 1 << 3
     }

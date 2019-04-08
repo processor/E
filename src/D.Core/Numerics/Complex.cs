@@ -2,8 +2,8 @@
 
 namespace D
 {
-    public struct Complex<T> : INumber
-        where T: struct, IComparable<T>
+    public readonly struct Complex<T> : INumber
+        where T: unmanaged, IComparable<T>, IEquatable<T>
     {
         public Complex(T real, T imaginary)
         {
@@ -21,10 +21,7 @@ namespace D
 
         double INumber.Real => Convert.ToDouble(Real);
 
-        TA INumber.As<TA>()
-        {
-            throw new Exception("Complexes may not be cast");
-        }
+        TA INumber.As<TA>() => throw new Exception("Complexes may not be cast");
 
         #endregion
     }

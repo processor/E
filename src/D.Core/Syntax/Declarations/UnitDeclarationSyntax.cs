@@ -8,28 +8,28 @@ namespace D.Syntax
         public UnitDeclarationSyntax(
             Symbol name, 
             Symbol baseType, 
-            ArgumentSyntax[] properties)
+            ArgumentSyntax[] arguments)
         {
             Name       = name ?? throw new ArgumentNullException(nameof(name));
+            Arguments  = arguments;
             BaseType   = baseType;
-            Properties = properties; 
         }
 
         public Symbol Name { get; }
 
         public Symbol BaseType { get; }
         
-        public ArgumentSyntax[] Properties { get; }
+        public ArgumentSyntax[] Arguments { get; }
 
         #region Property Helpers
 
-        public ISyntaxNode Value => GetPropertyValue("value");
+        public ISyntaxNode Value => GetArgumentValue("value");
         
-        public ISyntaxNode Symbol => GetPropertyValue("symbol");
+        public ISyntaxNode Symbol => GetArgumentValue("symbol");
 
-        public ISyntaxNode GetPropertyValue(string name)
+        public ISyntaxNode GetArgumentValue(string name)
         {
-            foreach (var property in Properties)
+            foreach (var property in Arguments)
             {
                 if (property.Name == name)
                 {

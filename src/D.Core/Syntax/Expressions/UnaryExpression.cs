@@ -23,11 +23,11 @@ namespace D.Syntax
 
             sb.Append(Operator.ToString().ToLower());
 
-            sb.Append("(");
+            sb.Append('(');
 
             sb.Append(Argument.ToString());
 
-            sb.Append(")");
+            sb.Append(')');
 
             return sb.ToString();
         }

@@ -2,7 +2,7 @@
 
 namespace D
 {
-    public struct Number : INumeric<double>
+    public readonly struct Number : INumeric<double>
     {
         public Number(double value)
         {
@@ -10,10 +10,19 @@ namespace D
         }
 
         public double Value { get; }
+        
+        public static Number Parse(string text)
+        {
+            return new Number(double.Parse(text));
+        }
+
+        #region INumeric
 
         Kind IObject.Kind => Kind.Number;
 
         double INumber.Real => Value;
+
+        #endregion
 
         #region Casts
 
@@ -28,7 +37,7 @@ namespace D
         #endregion
 
         #region Arithmetic
-    
+
         public static Number operator + (Number x, Number y)
             => new Number(x.Value + y.Value);
 
@@ -46,7 +55,6 @@ namespace D
 
         #endregion
 
-        public override string ToString()
-            => Value.ToString();        
+        public override string ToString() => Value.ToString();        
     }
 }

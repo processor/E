@@ -4,6 +4,6 @@
     { 
         Parameter[] Parameters { get; }
 
-        IObject Invoke(IArguments args);
+        object Invoke(IArguments args);
     }
 }

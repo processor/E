@@ -1,19 +1,19 @@
 ﻿namespace D.Modules
 {
-    public class Primitives : Module
+    public sealed class Primitives : Module
     {
         public Primitives()
         {
-            Add(Type.Get(Kind.Object));
-            Add(Type.Get(Kind.Void));
-            Add(Type.Get(Kind.Decimal));
-            Add(Type.Get(Kind.String));
-            Add(Type.Get(Kind.Number));
-            Add(Type.Get(Kind.Float32));
-            Add(Type.Get(Kind.Float64));
-            Add(Type.Get(Kind.Int16));
-            Add(Type.Get(Kind.Int32));
-            Add(Type.Get(Kind.Int64));
+            AddExport(Type.Get(Kind.Object));
+            AddExport(Type.Get(Kind.Void));
+            AddExport(Type.Get(Kind.Decimal));
+            AddExport(Type.Get(Kind.String));
+            AddExport(Type.Get(Kind.Number));
+            AddExport(Type.Get(Kind.Float32));
+            AddExport(Type.Get(Kind.Float64));
+            AddExport(Type.Get(Kind.Int16));
+            AddExport(Type.Get(Kind.Int32));
+            AddExport(Type.Get(Kind.Int64));
         }
     }
 }

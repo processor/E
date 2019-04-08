@@ -15,49 +15,42 @@ namespace D
             Arguments = Array.Empty<Symbol>();
         }
 
-        public Symbol(string module, string name, Symbol[] arguments, SymbolFlags flags = SymbolFlags.None)
-        {
-            Module      = module;
-            Name        = name;
-            Arguments   = arguments;
-            Flags       = flags;
-        }
-
         public Symbol(string name, Symbol[] arguments, SymbolFlags flags = SymbolFlags.None)
         {
-            Name        = name;
-            Arguments   = arguments;
-            Flags       = flags;
+            Name = name;
+            Arguments = arguments;
+            Flags = flags;
         }
 
-        // AKA namespace
-        public string Module { get; }
+        public Symbol(
+            ModuleSymbol module, 
+            string name,
+            Symbol[] arguments,
+            SymbolFlags flags = SymbolFlags.None)
+        {
+            Module = module;
+            Name = name;
+            Arguments = arguments;
+            Flags = flags;
+        }
+
+        public ModuleSymbol Module { get; }
 
         public string Name { get; }
-        
-        // Declaration?
 
         public Symbol[] Arguments { get; }
 
         public SymbolFlags Flags { get; }
 
+        // Constructor + Self
         #region Initializization / Binding
 
-        public void Initialize(Type type)
-        {
-            ResolvedType = type;
+        public SymbolStatus Status { get; protected set; } = SymbolStatus.Unresolved;
+        
+        public Symbol ContainingType { get; set; } // if a member of a type
 
-            Status = SymbolStatus.Resolved;
-        }
+        public Symbol ContainingModule { get; set; } // if a member of a module
 
-        public SymbolStatus Status { get; set; } = SymbolStatus.Unresolved;
-
-        public Type ResolvedType { get; set; }
-
-        // ContainingType   (if a member of a type)
-
-        // ContainingModule (if a member of a module)
-       
         #endregion
 
         Kind IObject.Kind => Kind.Symbol;
@@ -81,37 +74,54 @@ namespace D
 
             if (Arguments.Length > 0)
             {
-                sb.Append("<");
+                sb.Append('<');
 
                 var i = 0;
 
                 foreach (var arg in Arguments)
                 {
-                    if (++i > 1) sb.Append(",");
+                    if (++i > 1)
+                    {
+                        sb.Append(',');
+                    }
 
                     sb.Append(arg.ToString());
                 }
 
-                sb.Append(">");
+                sb.Append('>');
             }
 
             return sb.ToString();
         }
 
-        public static LabelSymbol Label(string name) => 
+
+        public virtual bool TryGetValue(string name, out Symbol value)
+        {
+            value = default;
+
+            return false;
+        }
+
+        public virtual void Add(Symbol child)
+        {
+            throw new NotImplementedException();
+        }
+
+        public static LabelSymbol Label(string name) =>
             new LabelSymbol(name);
 
-        public static VariableSymbol Variable(string name) => 
+        public static VariableSymbol Variable(string name) =>
             new VariableSymbol(name);
 
         public static Symbol Argument(string name) =>
             new ArgumentSymbol(name);
 
-        public static TypeSymbol Type(string name) => 
+        public static TypeSymbol Type(string name) =>
             new TypeSymbol(name);
 
-        public static Symbol Type(string name, params Symbol[] arguments) => 
+        public static Symbol Type(string name, params Symbol[] arguments) =>
             new TypeSymbol(name, arguments);
+
         public static implicit operator string(Symbol symbol) => symbol?.ToString();
 
         SyntaxKind ISyntaxNode.Kind => SyntaxKind.Symbol;

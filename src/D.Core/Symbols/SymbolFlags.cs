@@ -11,19 +11,16 @@
 
         // Scope
         BlockScoped = 1 << 4, // { } 
-        Local       = 1 << 5, 
-        // for / while / ...
+        Local       = 1 << 5
+    }
 
+    public enum SymbolKind
 
-        /*
-        // Kinds
-        Variable = 1 << 20,
-        Argument = 1 << 21,
-        Type = 1 << 22, // class | struct
-        Function = 1 << 23,
-        Module = 1 << 24,
-        Label = 1 << 25, // State?
-        Operator = 1 << 25,
-        */
+    {
+        TypeParameter,
+        Label,
+        Module,
+        Property,
+        Method, // e.g. Function
     }
 }

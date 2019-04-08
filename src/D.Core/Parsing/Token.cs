@@ -1,6 +1,6 @@
 ﻿namespace D.Parsing
 {
-    public struct Token
+    public readonly struct Token
     {
         public Token(TokenKind kind, Location start, string text = null, string trailing = null)
         {
@@ -22,13 +22,9 @@
 
         public bool Is(TokenKind kind) => Kind == kind;
 
-        #region Casts
+        public override string ToString() => Kind.ToString() + ":" + Text;
 
         public static implicit operator string(Token token) => token.Text;
-
-        #endregion
-
-        public override string ToString() => Kind.ToString() + ":" + Text;
     }
 
     public enum TokenKind
@@ -62,12 +58,10 @@
         Dot                 = 108, // .
         DotDot              = 109, // ..
         DotDotDot           = 110, // ... spread operator
-        // Pound            = 111, // #     
         Semicolon           = 112, // ;
         Quote               = 113, // "
         Question            = 114, // ?
         Underscore          = 115, // _
-        // Exclamation      = 116, // !
         HalfOpenRange       = 117, // ..<
         // TripleQuote,     // """
 
@@ -75,10 +69,12 @@
         InterpolatedStringOpen  = 120, // $"
 
         // Tags
-        TagOpen                 = 151, // <
-        TagClose                = 152, // >
-
-        Character               = 200, // within '' 
+        TagStart            = 151, // <
+        TagEnd              = 152, // >
+        TagCloseStart       = 153, // </
+        TagSelfClosed       = 154, // />
+        
+        Character           = 200, // within '' 
 
         PipeForward,                    // |>
 
