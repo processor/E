@@ -5,15 +5,15 @@ namespace D
 {
     public sealed class ModuleSymbol : Symbol
     {
-        public ModuleSymbol(string name, ModuleSymbol parent = null)
+        private readonly Dictionary<string, Symbol> lookup = new Dictionary<string, Symbol>();
+
+        public ModuleSymbol(string name, ModuleSymbol? parent = null)
             : base(name, Array.Empty<Symbol>())
         {
             Parent = parent;
         }
         
-        public ModuleSymbol Parent { get; }
-
-        private readonly Dictionary<string, Symbol> lookup = new Dictionary<string, Symbol>();
+        public ModuleSymbol? Parent { get; }
 
         public IEnumerable<Symbol> Children => lookup.Values;
 

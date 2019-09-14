@@ -12,7 +12,7 @@ namespace D
         {
             Name = name;
             Flags = flags;
-            Arguments = Array.Empty<Symbol>();
+            Arguments = Array.Empty<ArgumentSymbol>();
         }
 
         public Symbol(string name, Symbol[] arguments, SymbolFlags flags = SymbolFlags.None)
@@ -23,7 +23,7 @@ namespace D
         }
 
         public Symbol(
-            ModuleSymbol module, 
+            ModuleSymbol? module,
             string name,
             Symbol[] arguments,
             SymbolFlags flags = SymbolFlags.None)
@@ -34,30 +34,33 @@ namespace D
             Flags = flags;
         }
 
-        public ModuleSymbol Module { get; }
+        public ModuleSymbol? Module { get; }
 
         public string Name { get; }
 
-        public Symbol[] Arguments { get; }
+        public Symbol[]? Arguments { get; }
 
         public SymbolFlags Flags { get; }
 
+        // TODO: Scope
+
         // Constructor + Self
+
         #region Initializization / Binding
 
         public SymbolStatus Status { get; protected set; } = SymbolStatus.Unresolved;
         
-        public Symbol ContainingType { get; set; } // if a member of a type
+        public Symbol? ContainingType { get; set; } // if a member of a type
 
-        public Symbol ContainingModule { get; set; } // if a member of a module
+        public Symbol? ContainingModule { get; set; } // if a member of a module
 
         #endregion
 
-        Kind IObject.Kind => Kind.Symbol;
+        ObjectType IObject.Kind => ObjectType.Symbol;
 
         public override string ToString()
         {
-            if (Module == null && Arguments.Length == 0)
+            if (Module is null && (Arguments == null || Arguments.Length == 0))
             {
                 return Name;
             }
@@ -72,7 +75,7 @@ namespace D
 
             sb.Append(Name);
 
-            if (Arguments.Length > 0)
+            if (Arguments != null && Arguments.Length > 0)
             {
                 sb.Append('<');
 
@@ -95,7 +98,7 @@ namespace D
         }
 
 
-        public virtual bool TryGetValue(string name, out Symbol value)
+        public virtual bool TryGetValue(string name, out Symbol? value)
         {
             value = default;
 
@@ -116,8 +119,7 @@ namespace D
         public static Symbol Argument(string name) =>
             new ArgumentSymbol(name);
 
-        public static TypeSymbol Type(string name) =>
-            new TypeSymbol(name);
+        public static TypeSymbol Type(string name) => new TypeSymbol(name);
 
         public static Symbol Type(string name, params Symbol[] arguments) =>
             new TypeSymbol(name, arguments);

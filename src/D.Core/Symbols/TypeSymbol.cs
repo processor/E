@@ -17,10 +17,12 @@
         public TypeSymbol(string name, params Symbol[] arguments)
            : base(name, arguments) { }
 
-        public TypeSymbol(ModuleSymbol module, string name, Symbol[] arguments)
+        public TypeSymbol(ModuleSymbol? module, string name, Symbol[] arguments)
             : base(module, name, arguments) { }
 
-        public TypeSymbol BaseType { get; set; }
+        public TypeSymbol? BaseType { get; set; }
+
+        public Type? ResolvedType { get; private set; }
 
         public void Initialize(Type type)
         {
@@ -28,9 +30,6 @@
 
             Status = SymbolStatus.Resolved;
         }
-
-        public Type ResolvedType { get; private set; }
-
 
         // Protocols       
     }
