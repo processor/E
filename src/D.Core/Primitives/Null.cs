@@ -1,8 +1,6 @@
 ﻿namespace D
 {
-    using Expressions;
-
-    public class Null : IExpression
+    public sealed class Null : IObject
     {
         public static readonly Null Instance = new Null();
 
