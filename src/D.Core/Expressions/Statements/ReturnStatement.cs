@@ -1,16 +1,14 @@
-﻿using System;
-
-namespace D.Expressions
+﻿namespace D.Expressions
 {
-    public class ReturnStatement : IExpression
+    public sealed class ReturnStatement : IExpression
     {
         public ReturnStatement(IExpression expression)
         {
-            Expression = expression ?? throw new ArgumentNullException(nameof(expression));
+            Expression = expression;
         }
 
         public IExpression Expression { get; }
 
-        Kind IObject.Kind => Kind.ReturnStatement;
+        ObjectType IObject.Kind => ObjectType.ReturnStatement;
     }
 }

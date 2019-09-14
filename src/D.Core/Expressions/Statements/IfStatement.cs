@@ -1,8 +1,8 @@
 ﻿namespace D.Expressions
 {
-    public class IfStatement : IExpression
+    public sealed class IfStatement : IExpression
     {
-        public IfStatement(IExpression condition, BlockExpression body, IExpression elseBranch)
+        public IfStatement(IExpression condition, BlockExpression body, IExpression? elseBranch)
         {
             Condition = condition;
             Body = body;
@@ -14,8 +14,8 @@
         public BlockExpression Body { get; }
 
         // Else | ElseIf
-        public IExpression ElseBranch { get; }
+        public IExpression? ElseBranch { get; }
 
-        Kind IObject.Kind => Kind.IfStatement;
+        ObjectType IObject.Kind => ObjectType.IfStatement;
     }
 }

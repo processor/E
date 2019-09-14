@@ -1,15 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace D.Expressions
 {
-    public class ImplementationDeclaration : IExpression
+    public sealed class ImplementationDeclaration : IExpression
     {
         public ImplementationDeclaration(Symbol protocol, TypeSymbol type, IExpression[] members)
         {
-            Protocol = protocol ?? throw new ArgumentNullException(nameof(protocol));
-            Type     = type     ?? throw new ArgumentNullException(nameof(type));
-            Members  = members  ?? throw new ArgumentNullException(nameof(members));
+            Protocol = protocol;
+            Type = type;
+            Members = members;
         }
 
         public Symbol Protocol { get; }
@@ -68,6 +67,6 @@ namespace D.Expressions
 
         #endregion
 
-        Kind IObject.Kind => Kind.ImplementationDeclaration;
+        ObjectType IObject.Kind => ObjectType.ImplementationDeclaration;
     }
 }

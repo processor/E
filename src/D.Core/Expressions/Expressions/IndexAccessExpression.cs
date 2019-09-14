@@ -15,6 +15,6 @@
         // [1, 2]
         public IArguments Arguments { get; set; }
 
-        Kind IObject.Kind => Kind.IndexAccessExpression;
+        ObjectType IObject.Kind => ObjectType.IndexAccessExpression;
     }
 }

@@ -1,6 +1,6 @@
 ﻿namespace D.Expressions
 {
-    public class ElseStatement : IExpression
+    public sealed class ElseStatement : IExpression
     {
         public ElseStatement(BlockExpression body)
         {
@@ -9,6 +9,6 @@
 
         public BlockExpression Body { get; }
 
-        Kind IObject.Kind => Kind.ElseStatement;
+        ObjectType IObject.Kind => ObjectType.ElseStatement;
     }
 }

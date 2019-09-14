@@ -6,7 +6,7 @@ namespace D.Expressions
     { 
         public StringLiteral(string text)
         {
-            Value = text ?? throw new ArgumentNullException(nameof(text));
+            Value = text;
         }
 
         public string Value { get; }
@@ -15,7 +15,7 @@ namespace D.Expressions
 
         public static implicit operator string(StringLiteral text) => text.Value;
 
-        Kind IObject.Kind => Kind.String;
+        ObjectType IObject.Kind => ObjectType.String;
 
         public override string ToString() => Value;
     }

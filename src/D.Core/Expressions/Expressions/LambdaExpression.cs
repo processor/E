@@ -10,7 +10,7 @@
 
         public IExpression Expression { get; }
 
-        Kind IObject.Kind => Kind.LambdaExpression;
+        ObjectType IObject.Kind => ObjectType.LambdaExpression;
     }
 }
 

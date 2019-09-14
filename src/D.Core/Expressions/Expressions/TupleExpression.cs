@@ -1,12 +1,10 @@
-﻿using System;
-
-namespace D.Expressions
+﻿namespace D.Expressions
 {
-    public class TupleExpression : IExpression
+    public sealed class TupleExpression : IExpression
     {
         public TupleExpression(IExpression[] elements)
         {
-            Elements = elements ?? throw new ArgumentNullException(nameof(elements));
+            Elements = elements;
         }
 
         public int Size => Elements.Length;
@@ -15,29 +13,6 @@ namespace D.Expressions
 
         public IExpression[] Elements { get; }
 
-        Kind IObject.Kind => Kind.TupleExpression;
-    }
-
-    // a: 100
-    public sealed class TupleElement : IExpression
-    {
-        public TupleElement(Symbol name, IExpression value)
-        {
-            Name = name;
-            Value = value;
-        }
-
-        public Symbol Name { get; }
-
-        // type or constant
-        public IExpression Value { get; }
-        
-        public void Deconstruct(out Symbol name, out IExpression value)
-        {
-            name  = Name;
-            value = Value;
-        }
-
-        Kind IObject.Kind => Kind.TupleElement;
+        ObjectType IObject.Kind => ObjectType.TupleExpression;
     }
 }

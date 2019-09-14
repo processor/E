@@ -1,12 +1,10 @@
-﻿using System;
-
-namespace D.Expressions
+﻿namespace D.Expressions
 {
     public class BlockExpression : IExpression
     {
         public BlockExpression(params IExpression[] statements)
         {
-            Statements = statements ?? throw new ArgumentNullException(nameof(statements));
+            Statements = statements;
         }
 
         public IExpression[] Statements { get; }
@@ -15,6 +13,6 @@ namespace D.Expressions
 
         public int Count => Statements.Length;
 
-        Kind IObject.Kind => Kind.BlockStatement;
+        ObjectType IObject.Kind => ObjectType.BlockStatement;
     }
 }

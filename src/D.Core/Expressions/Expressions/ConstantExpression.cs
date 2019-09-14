@@ -9,6 +9,6 @@
 
         public object Value { get; }
 
-        Kind IObject.Kind => Kind.ConstantExpression;
+        ObjectType IObject.Kind => ObjectType.ConstantExpression;
     }
 }

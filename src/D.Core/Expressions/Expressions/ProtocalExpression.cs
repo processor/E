@@ -1,13 +1,11 @@
-﻿using System;
-
-namespace D.Expressions
+﻿namespace D.Expressions
 {
-    public class ProtocolExpression : IExpression, INamedObject
+    public sealed class ProtocolExpression : IExpression, INamedObject
     {  
         public ProtocolExpression(Symbol name, FunctionExpression[] members)
         {
-            Name    = name    ?? throw new ArgumentNullException(nameof(name));
-            Members = members ?? throw new ArgumentNullException(nameof(members));
+            Name = name;
+            Members = members;
         }
 
         public Symbol Name { get; set; }
@@ -16,7 +14,7 @@ namespace D.Expressions
 
         // public IMessageDeclaration[] Channel { get; set; }
 
-        Kind IObject.Kind => Kind.Protocol;
+        ObjectType IObject.Kind => ObjectType.Protocol;
 
         string INamedObject.Name => Name;
 

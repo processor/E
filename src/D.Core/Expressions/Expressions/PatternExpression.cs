@@ -1,7 +1,7 @@
 ﻿namespace D.Expressions
 {
     // 1
-    public class ConstantPattern : IExpression
+    public sealed class ConstantPattern : IExpression
     {
         public ConstantPattern(IExpression constant)
         {
@@ -10,12 +10,12 @@
         
         public IExpression Constant { get; }
 
-        Kind IObject.Kind => Kind.ConstantPattern;
+        ObjectType IObject.Kind => ObjectType.ConstantPattern;
     }
 
     // 0...10
     // 0..<10       // Half open
-    public class RangePattern : IExpression
+    public sealed class RangePattern : IExpression
     {
         public RangePattern(IExpression start, IExpression end)
         {
@@ -27,24 +27,24 @@
 
         public IExpression End { get; }
 
-        Kind IObject.Kind => Kind.RangePattern;
+        ObjectType IObject.Kind => ObjectType.RangePattern;
     }
 
     // [ a, b ]
-    public class ArrayPattern : IExpression
+    public sealed class ArrayPattern : IExpression
     {
-        Kind IObject.Kind => Kind.ArrayPattern;
+        ObjectType IObject.Kind => ObjectType.ArrayPattern;
     }
 
     // { a, b }
-    public class ObjectPattern : IExpression
+    public sealed class ObjectPattern : IExpression
     {
-        Kind IObject.Kind => Kind.ObjectPattern;
+        ObjectType IObject.Kind => ObjectType.ObjectPattern;
     }
 
     // (i32, i32)
     // (a: 1, b: 2, c: 3)
-    public class TuplePattern : IExpression
+    public sealed class TuplePattern : IExpression
     {
         public TuplePattern(TupleExpression tuple)
         {
@@ -67,13 +67,13 @@
 
         public TupleElement[] Variables { get; }
 
-        Kind IObject.Kind => Kind.TuplePattern;
+        ObjectType IObject.Kind => ObjectType.TuplePattern;
     }
 
     // (fruit: Fruit)
     // Fruit | Walrus
 
-    public class TypePattern : IExpression
+    public sealed class TypePattern : IExpression
     {
         public TypePattern(Symbol typeExpression, Symbol variable)
         {
@@ -85,12 +85,12 @@
 
         public Symbol VariableName { get; }
 
-        Kind IObject.Kind => Kind.TypePattern;
+        ObjectType IObject.Kind => ObjectType.TypePattern;
     }
 
     // _
     public class AnyPattern : IExpression
     {
-        Kind IObject.Kind => Kind.AnyPattern;
+        ObjectType IObject.Kind => ObjectType.AnyPattern;
     }
 }

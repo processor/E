@@ -1,6 +1,6 @@
 ﻿namespace D.Expressions
 {
-    public class QueryExpression : IExpression
+    public sealed class QueryExpression : IExpression
     {
         public QueryExpression(
             IExpression collection,
@@ -30,16 +30,16 @@
 
         public OrderByStatement OrderBy { get; }     // orderby a desc
 
-        public IExpression Using { get; }            // using index_name
+        public IExpression? Using { get; }            // using index_name
 
         public long Skip { get; }
 
         public long Take { get; }
 
-        Kind IObject.Kind => Kind.QueryExpression;
+        ObjectType IObject.Kind => ObjectType.QueryExpression;
     }
 
-    public class OrderByStatement
+    public sealed class OrderByStatement
     {
         public OrderByStatement(IExpression member, bool isDescending)
         {

@@ -1,20 +1,18 @@
-﻿using System;
-
-namespace D.Expressions
+﻿namespace D.Expressions
 {
-    public class MatchExpression : IExpression
+    public sealed class MatchExpression : IExpression
     {
         public MatchExpression(IExpression expression, MatchCase[] cases)
         {
-            Expression = expression ?? throw new ArgumentNullException(nameof(expression));
-            Cases      = cases      ?? throw new ArgumentNullException(nameof(cases)); ;
+            Expression = expression;
+            Cases = cases;
         }
 
         public IExpression Expression { get; }
 
         public MatchCase[] Cases { get; }
 
-        Kind IObject.Kind => Kind.MatchExpression;
+        ObjectType IObject.Kind => ObjectType.MatchExpression;
     }
 
     public class MatchCase

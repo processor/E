@@ -1,12 +1,6 @@
 ﻿namespace D.Expressions
 {
-    // rust: loop { } 
-    // swift: repeat { } while condition, while condition
-
-    // onIteration  (i++)
-    // precondition
-    // postcondition
-    public class WhileStatement : IExpression
+    public sealed class WhileStatement : IExpression
     {
         public WhileStatement(IExpression condition, BlockExpression body)
         {
@@ -18,6 +12,13 @@
 
         public BlockExpression Body { get; }
 
-        Kind IObject.Kind => Kind.WhileStatement;
+        ObjectType IObject.Kind => ObjectType.WhileStatement;
     }
 }
+
+// rust: loop { } 
+// swift: repeat { } while condition
+
+// onIteration  (i++)
+// precondition
+// postcondition

@@ -1,8 +1,11 @@
 ﻿namespace D.Expressions
 {    
-    public class TernaryExpression : IExpression
+    public sealed class TernaryExpression : IExpression
     {
-        public TernaryExpression(IExpression condition, IExpression left, IExpression right)
+        public TernaryExpression(
+            IExpression condition,
+            IExpression left, 
+            IExpression right)
         {
             Condition = condition;
             Left = left;
@@ -15,6 +18,6 @@
 
         public IExpression Right { get; }
 
-        public Kind Kind => Kind.TernaryExpression;
+        public ObjectType Kind => ObjectType.TernaryExpression;
     }
 }

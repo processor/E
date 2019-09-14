@@ -29,6 +29,6 @@ namespace D.Expressions
             return sb.ToString();
         }
 
-        Kind IObject.Kind => Kind.MemberAccessExpression;
+        ObjectType IObject.Kind => ObjectType.MemberAccessExpression;
     }
 }

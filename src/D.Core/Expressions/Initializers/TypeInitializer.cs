@@ -1,13 +1,11 @@
-﻿using System;
-
-namespace D.Expressions
+﻿namespace D.Expressions
 {
-    public class TypeInitializer : IExpression
+    public sealed class TypeInitializer : IExpression
     {
         public TypeInitializer(TypeSymbol type, Argument[] arguments)
         {
-            Type      = type      ?? throw new ArgumentNullException(nameof(type));
-            Arguments = arguments ?? throw new ArgumentNullException(nameof(arguments));
+            Type = type;
+            Arguments = arguments;
         }
 
         public TypeSymbol Type { get; }
@@ -16,6 +14,6 @@ namespace D.Expressions
 
         public int Count => Arguments.Length;
 
-        Kind IObject.Kind => Kind.TypeInitializer; 
+        ObjectType IObject.Kind => ObjectType.TypeInitializer; 
     }
 }

@@ -1,6 +1,6 @@
 ﻿namespace D.Expressions
 {
-    public class ForStatement : IExpression
+    public sealed class ForStatement : IExpression
     {
         public ForStatement(IExpression variable, IExpression generator, BlockExpression body)
         {
@@ -19,6 +19,6 @@
 
         public BlockExpression Body { get; }
 
-        Kind IObject.Kind => Kind.ForStatement;
+        ObjectType IObject.Kind => ObjectType.ForStatement;
     }
 }

@@ -1,6 +1,6 @@
 ﻿namespace D.Expressions
 {
-    public class EmitStatement : IExpression
+    public sealed class EmitStatement : IExpression
     {
         public EmitStatement(IExpression expression)
         {
@@ -9,6 +9,6 @@
 
         public IExpression Expression { get; }
 
-        Kind IObject.Kind => Kind.EmitStatement;
+        ObjectType IObject.Kind => ObjectType.EmitStatement;
     }
 }

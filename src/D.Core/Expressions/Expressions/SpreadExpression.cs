@@ -1,6 +1,6 @@
 ﻿namespace D.Expressions
 {
-    public class SpreadExpression : IExpression
+    public sealed class SpreadExpression : IExpression
     {
         public SpreadExpression(IExpression symbol)
         {
@@ -9,6 +9,6 @@
 
         public IExpression Expression { get; }
 
-        Kind IObject.Kind => Kind.SpreadStatement;
+        ObjectType IObject.Kind => ObjectType.SpreadStatement;
     }
 }

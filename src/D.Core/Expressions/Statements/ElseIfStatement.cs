@@ -1,6 +1,6 @@
 ﻿namespace D.Expressions
 {
-    public class ElseIfStatement : IExpression
+    public sealed class ElseIfStatement : IExpression
     {
         public ElseIfStatement(IExpression condition, BlockExpression body, IExpression elseBranch)
         {
@@ -16,6 +16,6 @@
         // Else, ElseIf
         public IExpression ElseBranch { get; }
 
-        Kind IObject.Kind => Kind.ElseIfStatement;
+        ObjectType IObject.Kind => ObjectType.ElseIfStatement;
     }
 }

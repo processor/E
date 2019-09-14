@@ -1,10 +1,8 @@
-﻿using System;
-
-namespace D.Expressions
+﻿namespace D.Expressions
 {
     // let (a, b, c) = point
 
-    public class DestructuringAssignment : IExpression
+    public sealed class DestructuringAssignment : IExpression
     {
         public DestructuringAssignment(AssignmentElement[] elements, IExpression expression)
         {
@@ -16,7 +14,7 @@ namespace D.Expressions
 
         public IExpression Expression { get; }
 
-        Kind IObject.Kind => Kind.DestructuringAssignment;
+        ObjectType IObject.Kind => ObjectType.DestructuringAssignment;
     }
 
     /*
@@ -35,7 +33,7 @@ namespace D.Expressions
     {
         public AssignmentElement(string name, Type type)
         {
-            Name = name ?? throw new ArgumentNullException(nameof(name));
+            Name = name;
             Type = type;
         }
 

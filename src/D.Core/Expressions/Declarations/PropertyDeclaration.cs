@@ -2,9 +2,13 @@
 {
     // let a: Integer = 5
     // let a of type Integer equal 5
-    public class VariableDeclaration : IExpression
+    public sealed class VariableDeclaration : IExpression
     {
-        public VariableDeclaration(string name, Type type, ObjectFlags flags, IExpression value = null)
+        public VariableDeclaration(
+            string name, 
+            Type type, 
+            ObjectFlags flags, 
+            IExpression? value = null)
         {
             Name = name;
             Type = type;
@@ -18,23 +22,11 @@
 
         public ObjectFlags Flags { get; }
 
-        public IExpression Value { get; }
+        public IExpression? Value { get; }
 
         public bool IsMutable => Flags.HasFlag(ObjectFlags.Mutable);
 
-        Kind IObject.Kind => Kind.PropertyDeclaration;
-    }
-
-    public class CompoundVariableDeclaration : IExpression
-    {
-        public CompoundVariableDeclaration(VariableDeclaration[] declarations)
-        {
-            Declarations = declarations;
-        }
-
-        public VariableDeclaration[] Declarations { get; }
-
-        Kind IObject.Kind => Kind.CompoundPropertyDeclaration;
+        ObjectType IObject.Kind => ObjectType.PropertyDeclaration;
     }
 }
 

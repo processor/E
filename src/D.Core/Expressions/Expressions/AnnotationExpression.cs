@@ -1,6 +1,6 @@
 ﻿namespace D.Expressions
 {
-    public class AnnotationExpression : IExpression
+    public sealed class AnnotationExpression : IExpression
     {
         public AnnotationExpression(Symbol name, IArguments arguments)
         {
@@ -12,6 +12,6 @@
 
         public IArguments Arguments { get; }
 
-        Kind IObject.Kind => Kind.AnnotationExpression;
+        ObjectType IObject.Kind => ObjectType.AnnotationExpression;
     }
 }

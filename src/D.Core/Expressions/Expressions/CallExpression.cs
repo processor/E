@@ -1,18 +1,18 @@
 ﻿namespace D.Expressions
 {
-    public class CallExpression : IExpression
+    public sealed class CallExpression : IExpression
     {
-        public CallExpression(IExpression callee, Symbol functionName, IArguments arguments, bool piped)
+        public CallExpression(IExpression? callee, Symbol functionName, IArguments arguments, bool isPiped)
         {
             Callee       = callee;
             FunctionName = functionName;
             Arguments    = arguments;
-            IsPiped      = piped;
+            IsPiped      = isPiped;
         }
         
         // is constructor?
 
-        public IExpression /*?*/ Callee { get; }
+        public IExpression? Callee { get; }
 
         public Symbol FunctionName { get; }
 
@@ -20,8 +20,8 @@
 
         public bool IsPiped { get; }
 
-        Kind IObject.Kind => Kind.CallExpression;
+        ObjectType IObject.Kind => ObjectType.CallExpression;
 
-        public Type ReturnType { get; set; }
+        public Type? ReturnType { get; set; }
     }
 }

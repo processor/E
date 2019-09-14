@@ -2,7 +2,7 @@
 {
     // rad unit : Angle @name("Radian") = 1
 
-    public class UnitDeclaration : IExpression
+    public sealed class UnitDeclaration : IExpression
     {
         public UnitDeclaration(Symbol name, Symbol baseType, IExpression expression)
         {
@@ -15,7 +15,7 @@
 
         public Symbol BaseType { get; }
 
-        public Symbol Symbol { get; }
+        public Symbol? Symbol { get; }
 
         // Arithmetic relationship to another unit
         
@@ -23,6 +23,6 @@
 
         public IExpression Expression { get; }
 
-        Kind IObject.Kind => Kind.UnitDeclaration;
+        ObjectType IObject.Kind => ObjectType.UnitDeclaration;
     }
 }

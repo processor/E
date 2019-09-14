@@ -1,13 +1,11 @@
-﻿using System;
-
-namespace D.Expressions
+﻿namespace D.Expressions
 {
-    public class UnitValueLiteral : IExpression
+    public sealed class UnitValueLiteral : IExpression
     { 
         public UnitValueLiteral(IExpression expression, string unitName, int power = 1)
         {
-            Expression = expression ?? throw new ArgumentNullException(nameof(expression));
-            UnitName   = unitName ?? throw new ArgumentNullException(nameof(unitName));
+            Expression = expression;
+            UnitName = unitName;
             UnitPower  = power;
         }
 
@@ -17,7 +15,7 @@ namespace D.Expressions
 
         public int UnitPower { get; }
 
-        Kind IObject.Kind => Kind.UnitValue;
+        ObjectType IObject.Kind => ObjectType.UnitValue;
     }
 }
 

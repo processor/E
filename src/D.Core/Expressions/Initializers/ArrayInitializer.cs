@@ -4,9 +4,12 @@ namespace D.Expressions
 {
     public sealed class ArrayInitializer : IExpression
     {
-        public ArrayInitializer(IExpression[] elements, int? stride = null, Type elementType = null)
+        public ArrayInitializer(
+            IExpression[] elements, 
+            int? stride = null,
+            Type? elementType = null)
         {
-            Elements = elements ?? throw new ArgumentNullException(nameof(elements));
+            Elements = elements;
             Stride   = stride;
             ElementType = elementType;
         }
@@ -15,10 +18,10 @@ namespace D.Expressions
 
         public int? Stride { get; }
 
-        public Type ElementType { get; }
+        public Type? ElementType { get; }
 
         // ElementKind
 
-        Kind IObject.Kind => Kind.ArrayInitializer;
+        ObjectType IObject.Kind => ObjectType.ArrayInitializer;
     }
 }

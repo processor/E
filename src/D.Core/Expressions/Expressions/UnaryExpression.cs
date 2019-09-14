@@ -2,7 +2,7 @@
 
 namespace D.Expressions
 {
-    public class UnaryExpression : IExpression
+    public sealed class UnaryExpression : IExpression
     {
         public UnaryExpression(Operator op, IExpression arg)
         {
@@ -20,7 +20,7 @@ namespace D.Expressions
         {
             var sb = new StringBuilder();
 
-            sb.Append(Operator.ToString().ToLower());
+            sb.Append(Operator.ToString());
 
             sb.Append('(');
 
@@ -33,6 +33,6 @@ namespace D.Expressions
         
         #endregion
 
-        public Kind Kind => (Kind)Operator.OpKind;
+        public ObjectType Kind => Operator.OpKind;
     }
 }

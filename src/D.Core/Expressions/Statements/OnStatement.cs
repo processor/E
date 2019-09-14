@@ -2,7 +2,7 @@
 {
     // e.g. on bank Account'Opened opening { }
 
-    public class ObserveStatement : IExpression
+    public sealed class ObserveStatement : IExpression
     {
         public ObserveStatement(IExpression observable, Symbol eventType, string eventName, IExpression body, UntilExpression until)
         {
@@ -28,10 +28,10 @@
         // until gallary Detached
         public UntilExpression UntilExpression { get; set; }
 
-        Kind IObject.Kind => Kind.ObserveStatement;
+        ObjectType IObject.Kind => ObjectType.ObserveStatement;
     }
 
-    public class UntilExpression
+    public sealed class UntilExpression
     {
         public UntilExpression(IExpression observable, Symbol eventType)
         {
