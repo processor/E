@@ -7,13 +7,13 @@ namespace D.TypeSystem.Tests
         [Fact]
         public void A()
         {
-            Assert.Equal(Type.Get(Kind.Object), Type.Get(Kind.Int32).BaseType);
+            Assert.Equal(Type.Get(ObjectType.Object), Type.Get(ObjectType.Int32).BaseType);
         }
 
         [Fact]
         public void Names()
         {
-            Assert.Equal("Object", Type.Get(Kind.Object).Name);
+            Assert.Equal("Object", Type.Get(ObjectType.Object).Name);
         }
     }
 }

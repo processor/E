@@ -3,11 +3,11 @@ using System.Text;
 
 using Xunit;
 
+using D.Syntax;
+
 namespace D.Parsing.Tests
 {
     using static Operator;
-
-    using Syntax;
 
     public class BinaryExpressionTests : TestBase
     {
@@ -196,13 +196,13 @@ namespace D.Parsing.Tests
         [Fact]
         public void Groupings1()
         {
-            Assert.True(Parse<BinaryExpressionSyntax>("(4 ** 3)").Parenthesized);
-            Assert.False(Parse<BinaryExpressionSyntax>("4 ** 3").Parenthesized);
+            Assert.True(Parse<BinaryExpressionSyntax>("(4 ** 3)").IsParenthesized);
+            Assert.False(Parse<BinaryExpressionSyntax>("4 ** 3").IsParenthesized);
 
             var a = Parse<BinaryExpressionSyntax>("4 ** (3 * 16)");
 
-            Assert.False(a.Parenthesized);
-            Assert.True(((BinaryExpressionSyntax)a.Right).Parenthesized);
+            Assert.False(a.IsParenthesized);
+            Assert.True(((BinaryExpressionSyntax)a.Right).IsParenthesized);
 
             Assert.Equal("4 ** (3 * 16)", a.ToString());
         }

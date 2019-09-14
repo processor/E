@@ -44,6 +44,31 @@ namespace D.Compilation.Inference.Tests
         }
 
         [Fact]
+        public void ParameterFlow2()
+        {
+            var script = "same function(a: Number, b: Number) => a == b";
+
+            var node = ParseFunction(script);
+
+            Assert.Equal("same", node.Name);
+            Assert.Equal("a", node.Parameters[0].Name);
+            Assert.Equal("Number", node.Parameters[0].Type.Name);
+
+            Assert.Equal("b", node.Parameters[1].Name);
+            Assert.Equal("Number", node.Parameters[1].Type.Name);
+
+            var body = (BlockExpression)node.Body;
+            var returnStatement = (ReturnStatement)body[0];
+
+            var b = (BinaryExpression)returnStatement.Expression;
+
+            Assert.Equal(ObjectType.EqualsExpression, b.Operator.OpKind);
+            Assert.True(b.Operator.IsComparision);
+
+            Assert.Equal("Boolean", node.ReturnType.Name);
+        }
+
+        [Fact]
         public void InlineVariableFlow()
         {
             var script = "one function() { var one = 1; return one; }";
@@ -83,17 +108,12 @@ namespace D.Compilation.Inference.Tests
 
         public static IEnumerable<ISyntaxNode> Parse(string source)
         {
-            var compilier = new Compiler();
+            using var parser = new Parser(source);
 
-            using (var parser = new Parser(source))
+            foreach (var node in parser.Enumerate())
             {
-                var expressions = new List<IExpression>();
+                yield return node;
 
-                foreach (var node in parser.Enumerate())
-                {
-                    yield return node;
-
-                }
             }
         }
     }

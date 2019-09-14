@@ -550,8 +550,6 @@ Node protocol {
 "));
         }
 
-
-
         [Fact]
         public void Constructors()
         {

@@ -12,7 +12,7 @@ namespace D.Parsing.Tests
 
             Assert.Equal("div", element.Name);
 
-            Assert.Equal(1, element.Children.Length);
+            Assert.Single(element.Children);
         }
 
         [Fact]
@@ -26,7 +26,7 @@ namespace D.Parsing.Tests
 
             Assert.Equal("div", element.Name);
 
-            var text = element.Children[0] as TextSyntax;
+            var text = element.Children[0] as TextNodeSyntax;
 
             var block = element.Children[1] as BlockSyntax;
 
@@ -61,7 +61,7 @@ namespace D.Parsing.Tests
 
             var divEl = blockEl[0] as ElementSyntax;
 
-            var textNode = divEl[0] as TextSyntax;
+            var textNode = divEl[0] as TextNodeSyntax;
             
             var span1 = divEl[1] as ElementSyntax;
             var span2 = divEl[2] as ElementSyntax;

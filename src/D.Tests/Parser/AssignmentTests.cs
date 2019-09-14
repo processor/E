@@ -12,7 +12,7 @@ namespace D.Parsing.Tests
             var assignment = Parse<BinaryExpressionSyntax>($"i = 1");
 
             Assert.Equal("i",                       (Symbol)assignment.Left);
-            Assert.Equal(Kind.AssignmentExpression, assignment.Operator.OpKind);
+            Assert.Equal(ObjectType.AssignmentExpression, assignment.Operator.OpKind);
             Assert.Equal(1,                         (NumberLiteralSyntax)assignment.Right);
         }
 

@@ -1,4 +1,8 @@
-﻿using Xunit;
+﻿using System;
+
+using Carbon.Json;
+
+using Xunit;
 
 namespace D.Graph.Tests
 {
@@ -7,6 +11,24 @@ namespace D.Graph.Tests
 
     public class GraphTests : TestBase
     {
+        [Fact]
+        public void Nested()
+        {
+            var env = new Node();
+
+            env.Add("JSON", new Node());
+
+            var json = env.Get<Node>("JSON");
+
+            Func<object, JsonNode> func = (object instance) => JsonNode.FromObject(instance);
+
+            json.Add("encode", func);
+
+            var result = env.Get<Node>("JSON").Get<Func<object, JsonNode>>("encode").Invoke(new[] { 1 });
+
+            Assert.Equal("[ 1 ]", result.ToString());
+        }
+
         [Fact]
         public void Root() 
         {
@@ -24,15 +46,14 @@ namespace D.Graph.Tests
         [Fact]
         public void Child()
         {
-            var context = new Node();
+            var env = new Node();
 
-            context.Add("name", new StringLiteral("name"));
+            env.Add("name", new StringLiteral("name"));
 
-            var child = context.Nested("child");
+            var child = env.Nested("child");
 
             Assert.Equal("name", child.Get<StringLiteral>(Symbol.Variable("name")));
             Assert.Equal("Object",  child.Get<Type>(TypeSymbol.Object).Name);
-
         }
     }
 }

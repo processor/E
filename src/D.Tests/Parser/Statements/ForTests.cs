@@ -40,7 +40,7 @@ for _ in 0...100 {
 }");
 
             Assert.True(f.VariableExpression is AnyPatternSyntax);
-            Assert.True(f.GeneratorExpression  is RangeExpression);
+            Assert.True(f.GeneratorExpression  is RangeExpressionSyntax);
         }
 
         [Fact]
@@ -51,7 +51,7 @@ for 0 ... i8.max {
   a = a + 1
 }");
 
-            var sequence = f.GeneratorExpression as RangeExpression;
+            var sequence = f.GeneratorExpression as RangeExpressionSyntax;
 
             Assert.Null(f.VariableExpression);
             Assert.True(sequence.End is MemberAccessExpressionSyntax);
@@ -66,7 +66,7 @@ for x in 0...100 {
 }");
 
             Assert.Equal("x", f.VariableExpression.ToString());
-            Assert.True(f.GeneratorExpression is RangeExpression);
+            Assert.True(f.GeneratorExpression is RangeExpressionSyntax);
         }
 
         [Fact]

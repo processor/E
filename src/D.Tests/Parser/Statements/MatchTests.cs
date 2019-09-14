@@ -27,7 +27,7 @@ match x >> 4 {
                 }
             ");
 
-            Assert.Equal(1, match.Cases.Length);
+            Assert.Single(match.Cases);
             Assert.Equal("image", ((TypePatternSyntax)match.Cases[0].Pattern).VariableName);
 
         }

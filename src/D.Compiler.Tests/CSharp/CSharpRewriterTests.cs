@@ -1,14 +1,14 @@
 ﻿using System.Collections.Generic;
 using System.IO;
-using System.Text;
+
+using D.Expressions;
+using D.Parsing;
+using D.Syntax;
 
 using Xunit;
 
 namespace D.Compilation.Tests
 {
-    using Expressions;
-    using Parsing;
-
     public class CSharpRewriterTests
     {
         [Fact]
@@ -186,14 +186,14 @@ else {
         public void SwitchStatement()
         {
             Assert.Equal(@"
-switch (a)
+return a switch
 {
-    case 1: return 1 + 1;
-    case 2: return 1 - 2;
-    case 3: return 1 * 3;
-    case 4: return 1 / 4;
-    case 5: return 1 % 5;
-    case 6: return Math.Pow(1, 6);
+    1 => 1 + 1,
+    2 => 1 - 2,
+    3 => 1 * 3,
+    4 => 1 / 4,
+    5 => 1 % 5,
+    6 => Math.Pow(1, 6),
 }
 ".Trim(),
                 
@@ -237,28 +237,24 @@ let width = match media {
 
         public static string Rewrite(string source)
         {
-            var sb = new StringBuilder();
             var compilier = new Compiler();
 
-            using (var parser = new Parser(source))
+            using var parser = new Parser(source);
+
+            var expressions = new List<IExpression>();
+
+            foreach (ISyntaxNode node in parser.Enumerate())
             {
-                var expressions = new List<IExpression>();
-
-                foreach (var node in parser.Enumerate())
-                {
-                    expressions.Add(compilier.Visit(node));
-
-                }
-                
-                using (var writer = new StringWriter(sb))
-                {
-                    var csharp = new CSharpEmitter(writer);
-
-                    csharp.Visit(expressions);
-                }
+                expressions.Add(compilier.Visit(node));
             }
 
-            return sb.ToString();
+            using var writer = new StringWriter();
+
+            var csharp = new CSharpEmitter(writer);
+
+            csharp.Visit(expressions);
+
+            return writer.ToString();
         }
     }
 }

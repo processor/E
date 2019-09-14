@@ -11,16 +11,16 @@ namespace D.Inference
         {
             var flow = new Flow();
 
-            var number = flow.GetType(Kind.Number);
-            var boolean = flow.GetType(Kind.Boolean);
+            var number = flow.GetType(ObjectType.Number);
+            var boolean = flow.GetType(ObjectType.Boolean);
 
             var a = new VariableNode("a", null);
 
-            flow.Assign(a, Type.Get(Kind.Number));
+            flow.Assign(a, Type.Get(ObjectType.Number));
             
             Assert.Equal("Number", flow.Infer(a).Name);
 
-            flow.Assign(a, Type.Get(Kind.Boolean));
+            flow.Assign(a, Type.Get(ObjectType.Boolean));
 
             Assert.Equal("Boolean", flow.Infer(a).Name);
         }
@@ -60,8 +60,8 @@ namespace D.Inference
         {
             var flow = new Flow();
 
-            var listOfString = flow.GetListTypeOf(Kind.String);
-            var listOfFloat = flow.GetListTypeOf(Kind.Number);
+            var listOfString = flow.GetListTypeOf(ObjectType.String);
+            var listOfFloat = flow.GetListTypeOf(ObjectType.Number);
 
             Assert.Equal("String", flow.Infer(Apply(Variable("head"), new[] { Constant(listOfString) })).Name);
             Assert.Equal("Number", flow.Infer(Apply(Variable("head"), new[] { Constant(listOfFloat) })).Name);
@@ -73,12 +73,12 @@ namespace D.Inference
         {
             var system = new Flow();
 
-            system.Define("x",  Type.Get(Kind.Number));
-            system.Define("y",  Type.Get(Kind.Number));
-            system.Define("z",  Type.Get(Kind.Int32));
-            system.Define("x1", Type.Get(Kind.Float32));
+            system.Define("x",  Type.Get(ObjectType.Number));
+            system.Define("y",  Type.Get(ObjectType.Number));
+            system.Define("z",  Type.Get(ObjectType.Int32));
+            system.Define("x1", Type.Get(ObjectType.Float32));
 
-            system.Define("name", Type.Get(Kind.String));
+            system.Define("name", Type.Get(ObjectType.String));
 
             Assert.Equal("Number", system.Infer(Variable("x")).Name.ToString());
             Assert.Equal("Object", system.Infer(Variable("x")).Constructor.Name.ToString());
@@ -104,10 +104,10 @@ namespace D.Inference
         {
             var flow = new Flow();
 
-            flow.Define("a", Type.Get(Kind.Int64));
-            flow.Define("b", Type.Get(Kind.Number));
-            flow.Define("c", Type.Get(Kind.Number));
-            flow.Define("name", Type.Get(Kind.String));
+            flow.Define("a", Type.Get(ObjectType.Int64));
+            flow.Define("b", Type.Get(ObjectType.Number));
+            flow.Define("c", Type.Get(ObjectType.Number));
+            flow.Define("name", Type.Get(ObjectType.String));
 
             var any = flow.NewGeneric();
 
@@ -117,9 +117,9 @@ namespace D.Inference
             }, any, Variable("lhs"))));
 
             flow.AddFunction("concat", new[] {
-                new Parameter("lhs", Kind.String),
-                new Parameter("rhs", Kind.String),
-            }, Kind.String);
+                new Parameter("lhs", ObjectType.String),
+                new Parameter("rhs", ObjectType.String),
+            }, ObjectType.String);
 
             var a = flow.NewGeneric();
             var b = flow.NewGeneric();

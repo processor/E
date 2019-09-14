@@ -8,10 +8,9 @@ namespace D.Parsing.Tests
     {
         public static T Parse<T>(string text)
         {
-            using (var parser = new Parser(text))
-            {
-                return (T)parser.Next();
-            }
+            using var parser = new Parser(text);
+
+            return (T)parser.Next();
         }
 
         private static readonly string RootDirectory = new DirectoryInfo(AppContext.BaseDirectory).Parent.Parent.Parent.Parent.Parent.FullName;
@@ -24,8 +23,6 @@ namespace D.Parsing.Tests
         public IEnumerable<FileInfo> ReadDocuments(string path)
             => new DirectoryInfo(Path.Combine(RootDirectory, "modules", path)).EnumerateFiles();
 
-        public string ReadDocument(string name)
-             => GetDocument(name).OpenText().ReadToEnd();
-
+        public string ReadDocument(string name) => GetDocument(name).OpenText().ReadToEnd();
     }
 }

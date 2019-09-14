@@ -11,7 +11,7 @@ namespace D.Units.Tests
 
             Assert.Equal(50, percent.Value);
 
-            Assert.Equal(UnitInfo.Percent, percent.Unit);
+            Assert.Equal(UnitInfo.Percentage, percent.Unit);
 
             Assert.Equal(0.01, ((Number)percent.Unit.DefinitionUnit).Value);
 

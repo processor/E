@@ -9,7 +9,7 @@ namespace D.Parsing.Tests
         [Fact]
         public void RangeExpression()
         {
-            var range = Parse<RangeExpression>("0...(5 * 2)");
+            var range = Parse<RangeExpressionSyntax>("0...(5 * 2)");
 
             // Assert.Equal(0L, (Integer)range.Start);
             // Assert.Equal(SyntaxKind.MultiplyExpression, range.End.Kind);
@@ -20,7 +20,7 @@ namespace D.Parsing.Tests
         [InlineData("0 ... 10")]
         public void NumericRanges(string text)
         {
-            var range = Parse<RangeExpression>(text);
+            var range = Parse<RangeExpressionSyntax>(text);
 
             // Assert.Equal(0L,  (Integer)range.Start);
             // Assert.Equal(10L, (Integer)range.End);
@@ -31,7 +31,7 @@ namespace D.Parsing.Tests
         [InlineData("A...Z")]
         public void LetterRanges(string text)
         {
-            var range = Parse<RangeExpression>(text);
+            var range = Parse<RangeExpressionSyntax>(text);
 
             Assert.Equal("a", range.Start.ToString().ToLower());
             Assert.Equal("z", range.End.ToString().ToLower());

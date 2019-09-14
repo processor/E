@@ -117,11 +117,10 @@ Point<T> impl {
 }
 ";
 
-            using (var parser = new Parser(text))
-            {
-                var type = parser.Next();
-                var implementation = parser.Next();
-            }
+            using var parser = new Parser(text);
+
+            var type = parser.Next();
+            var implementation = parser.Next();
         }
 
         [Fact]

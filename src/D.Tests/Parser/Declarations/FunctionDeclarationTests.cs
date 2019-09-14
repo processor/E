@@ -183,7 +183,7 @@ f ƒ (
             // 'T / Generic arg
 
             Assert.Equal("dot",     func.Name);
-            Assert.Equal(1,         func.GenericParameters.Length);
+            Assert.Single(          func.GenericParameters);
             Assert.Equal("T",       func.GenericParameters[0].Name);
             Assert.Equal("Number",  func.GenericParameters[0].Type);
             Assert.Equal(2,         func.Parameters.Length);
@@ -194,8 +194,8 @@ f ƒ (
             Assert.Equal("Point",    func.Parameters[1].Type.Name);
             Assert.Equal("Point<T>", func.Parameters[1].Type.ToString());
 
-            Assert.Equal(1,         func.Parameters[0].Type.Arguments.Length);
-            Assert.Equal("T",       func.Parameters[0].Type.Arguments[0]);
+            Assert.Single(          func.Parameters[0].Type.Arguments);
+            Assert.Equal("T",       func.Parameters[0].Type.Arguments[0].Name);
         }
 
         [Fact]
@@ -216,7 +216,7 @@ clamp ƒ(p: geometry::Point<T>, min: Point<T>, max: Point<T>) => Point {
             Assert.Equal("geometry", func.Parameters[0].Type.Module);
 
             Assert.Equal("Point",    func.Parameters[0].Type.Name);
-            Assert.Equal("T",        func.Parameters[0].Type.Arguments[0]);
+            Assert.Equal("T",        func.Parameters[0].Type.Arguments[0].Name);
         }
 
         [Fact]
@@ -226,6 +226,7 @@ clamp ƒ(p: geometry::Point<T>, min: Point<T>, max: Point<T>) => Point {
 
             Assert.Equal("a > 0", func.Parameters[0].Condition.ToString());
         }
+
 
       
 
@@ -275,7 +276,7 @@ sum ƒ(a: Integer, b: Integer) {
 
             var returnStatement = (ReturnStatementSyntax)body.Statements[0];
 
-            Assert.Equal(1, body.Statements.Length);
+            Assert.Single(body.Statements);
         }
 
         [Fact]

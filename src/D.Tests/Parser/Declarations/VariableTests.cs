@@ -26,10 +26,10 @@ namespace D.Parsing.Tests
         [Fact]
         public void Strings()
         {
-            var let = Parse<PropertyDeclarationSyntax>("let hi = \"fox\"");
+            var declaration = Parse<PropertyDeclarationSyntax>("let hi = \"fox\"");
 
-            Assert.False(let.Flags.HasFlag(ObjectFlags.Mutable));
-            Assert.Equal("fox", (StringLiteralSyntax)let.Value);
+            Assert.False(declaration.IsMutable);
+            Assert.Equal("fox", (StringLiteralSyntax)declaration.Value);
         }
 
         [Fact]

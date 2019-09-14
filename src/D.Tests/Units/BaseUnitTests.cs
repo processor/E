@@ -83,6 +83,7 @@ namespace D.Units.Tests
             Assert.Equal(1, unit.Unit.Power);
         }
 
+        [Theory]
         [InlineData("deg")]
         [InlineData("px")]
         [InlineData("%")]
@@ -127,32 +128,23 @@ namespace D.Units.Tests
         }
         */
 
-        
-
-
         [Theory]
-        [InlineData(Dimension.Time, "s", "second")]
-        [InlineData(Dimension.ThermodynamicTemperature, "K", "kelvin")]
-        [InlineData(Dimension.ElectricCurrent, "A", "ampere")]
-        [InlineData(Dimension.Length, "m", "meter")]
+        [InlineData(Dimension.Time,                     "s")] // second
+        [InlineData(Dimension.ThermodynamicTemperature, "K")] // kelvin
+        [InlineData(Dimension.ElectricCurrent,          "A")] // ampere
+        [InlineData(Dimension.Length,                   "m")] // meter
         // [InlineData(UnitId.Mass, "kg", "kilogram")]
-        [InlineData(Dimension.AmountOfSubstance, "mol", null)]
-        [InlineData(Dimension.LuminousIntensity, "cd", "candela")]
-        public void BaseTypes(Dimension id, string text, string text2)
+        [InlineData(Dimension.AmountOfSubstance,        "mol")]
+        [InlineData(Dimension.LuminousIntensity,        "cd")] // candela
+        public void BaseTypes(Dimension id, string text)
         {
-
-            try
-            {
-                UnitSet.Default.AddRange(new ElectromagnetismUnitSet());
-            }
-            catch
-            {
-            }
-
+            UnitSet.Default.AddRange(new ElectromagnetismUnitSet());
+           
             UnitInfo.TryParse(text, out UnitInfo type);
 
             Assert.Equal(id, type.Dimension);
             Assert.True(type.IsBaseUnit);
+            Assert.True(type.IsMetric); // HasSI
 
             /*
             if (text2 != null)

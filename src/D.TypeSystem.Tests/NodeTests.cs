@@ -10,15 +10,15 @@ namespace D.Inference.Tests
         {
             var flow = new Flow();
 
-            var boolean = flow.GetType(Kind.Boolean);
-            var i32 = flow.GetType(Kind.Int32);
-            var i64 = flow.GetType(Kind.Int64);
+            var boolean = flow.GetType(ObjectType.Boolean);
+            var i32 = flow.GetType(ObjectType.Int32);
+            var i64 = flow.GetType(ObjectType.Int64);
 
             // var b = Node.Var("b");
 
             // var b = flow.AddVariable("b", Kind.Int32);
 
-            var b = flow.Define("b", Type.Get(Kind.Int64));
+            var b = flow.Define("b", Type.Get(ObjectType.Int64));
 
             var letNode = Node.Let(new[] {
                 Node.Define(Node.Variable("a", boolean), Node.Constant(boolean)),
@@ -37,7 +37,7 @@ namespace D.Inference.Tests
             var flow = new Flow();
 
             var binary = TypeSystem.NewGeneric();
-            var boolean = flow.GetType(Kind.Boolean);
+            var boolean = flow.GetType(ObjectType.Boolean);
 
             var a = Node.Define(Node.Variable("gt"), Node.Abstract(new[] {
                 Node.Variable("lhs", binary),
@@ -54,8 +54,8 @@ namespace D.Inference.Tests
             var flow = new Flow();
 
             var binary = TypeSystem.NewGeneric();
-            var i32 = flow.GetType(Kind.Int32);
-            var i64 = flow.GetType(Kind.Int64);
+            var i32 = flow.GetType(ObjectType.Int32);
+            var i64 = flow.GetType(ObjectType.Int64);
 
             var apply = Node.Apply(Node.Variable("+"), new[] { Node.Constant(i32), Node.Constant(i64) });
        

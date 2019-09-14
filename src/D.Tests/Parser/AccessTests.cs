@@ -35,7 +35,7 @@ var quant = Color[255]");
             var a = Parse<CallExpressionSyntax>("tree[500].bananas.pick()");
 
             Assert.Equal("pick", a.Name);
-            Assert.Equal(0, a.Arguments.Length);
+            Assert.Empty(a.Arguments);
         }
 
         [Fact]

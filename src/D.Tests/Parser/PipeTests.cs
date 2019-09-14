@@ -3,7 +3,6 @@
 namespace D.Parsing.Tests
 {
     using Syntax;
-    using Units;
 
     public class PipeTests : TestBase
     {
@@ -18,33 +17,36 @@ namespace D.Parsing.Tests
             Assert.Equal("function1", b.Name);
         }
 
+        [Theory]
         [InlineData("image |> resize(width: 800px, height: 600px)")]
-        [InlineData("image |> resize 800 px 600 px")]
-        [InlineData("image |> resize 800px 600px")]
+        [InlineData("image |> resize(800 px, 600 px)")]
+        [InlineData("image |> resize(800px, 600px)")]
         public void Funcs(string text)
         {
-            var pipe = Parse<CallExpressionSyntax>(text);
+            var expression = Parse<CallExpressionSyntax>(text);
 
-            Assert.Equal("image", pipe.Callee.ToString());
-            Assert.Equal("resize", pipe.Name);
+            Assert.Equal("image", expression.Callee.ToString());
+            Assert.Equal("resize", expression.Name);
 
-            // Assert.Equal(2, call.Function.Definition.Arguments.Length);
+            Assert.Equal(2, expression.Arguments.Length);
 
-            Assert.Equal(2, pipe.Arguments.Length);
+            var arg1 = (UnitValueSyntax)expression.Arguments[0].Value;
+            var arg2 = (UnitValueSyntax)expression.Arguments[1].Value;
 
-            var arg1 = (UnitValueSyntax)pipe.Arguments[0].Value;
-            var arg2 = (UnitValueSyntax)pipe.Arguments[1].Value;
-
-            Assert.Equal("800px", arg1.ToString());
-            Assert.Equal("600px", arg2.ToString());
+            Assert.Equal("800 px", arg1.ToString());
+            Assert.Equal("600 px", arg2.ToString());
         }       
 
         [Fact]
         public void Read3()
         {
-            var pipe = Parse<CallExpressionSyntax>("image |> resize (800px, 600px) |> format(Gif)");
+            var pipe = Parse<CallExpressionSyntax>("image |> resize (800px, 600px) |> GIF::encode");
 
-            Assert.Equal("format", pipe.Name);
+            var namePipe = (MethodSymbol)pipe.Name;
+            Assert.Equal("GIF::encode", pipe.Name);
+
+            Assert.Equal("GIF", namePipe.Module.Name);
+            Assert.Equal("encode", namePipe.Name);
 
             var resizePipe = (CallExpressionSyntax)pipe.Callee;
             
@@ -54,8 +56,18 @@ namespace D.Parsing.Tests
             Assert.Equal("600 px", ((UnitValueSyntax)resizePipe.Arguments[1].Value).ToString());
             Assert.Equal("image",  (Symbol)resizePipe.Callee);
 
-            Assert.Equal("Gif", pipe.Arguments[0].Value.ToString());
           
+        }
+
+        [Fact]
+        public void Read5()
+        {
+            var type = Parse<TypeSymbol>("GIF::encode");
+
+            // This should be a method symbol... lowercase call
+
+            Assert.Equal("GIF::encode", type.ToString());
+
         }
 
         [Fact]

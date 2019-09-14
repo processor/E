@@ -26,7 +26,7 @@ namespace D.Parsing.Tests
         {
             var call = Parse<CallExpressionSyntax>("calc(1px - 2 * 3em)");
 
-            Assert.Equal(1, call.Arguments.Length);
+            Assert.Single(call.Arguments);
 
             var inner = call.Arguments[0].Value as BinaryExpressionSyntax;
 
@@ -50,7 +50,6 @@ namespace D.Parsing.Tests
         {
             Assert.Equal("ceiling", Parse<CallExpressionSyntax>("ceiling(5.5)").Name);
             Assert.Equal("floor",   Parse<CallExpressionSyntax>("floor(5.9)").Name);
-
         }
 
         [Fact]

@@ -1,9 +1,10 @@
 ﻿using Xunit;
 
+using D.Protocols;
+using D.Syntax;
+
 namespace D.Parsing.Tests
 {
-    using Syntax;
-
     public class ProtocolDeclarationTests : TestBase
     {
         [Fact]
@@ -86,12 +87,12 @@ Bank protocol {
 }");
             Assert.Equal(2, protocol.Messages.Length);
             
-            Assert.Equal(6, ((MessageChoice)protocol.Messages[0]).Count);
+            Assert.Equal(6, ((ProtocolMessageChoice)protocol.Messages[0]).Count);
 
             var member = protocol.Members[0];
 
             Assert.Equal("openAccount",     member.Name);
-            Assert.Equal(1,                 member.Parameters.Length);
+            Assert.Single(                  member.Parameters);
             Assert.Equal("account",         member.Parameters[0].Name);
             Assert.Equal("Account",         member.Parameters[0].Type);
             Assert.Equal("Account",         member.ReturnType);
@@ -123,7 +124,7 @@ Bank protocol {
 
             Assert.Equal(2, protocol.Messages.Length);
 
-            var a = (MessageChoice)protocol.Messages[0];
+            var a = (ProtocolMessageChoice)protocol.Messages[0];
             var b = (ProtocolMessage)protocol.Messages[1];
 
             Assert.Equal(6, a.Count);
