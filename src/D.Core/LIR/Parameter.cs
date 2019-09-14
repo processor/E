@@ -1,24 +1,23 @@
-﻿using System;
-using System.Linq.Expressions;
+﻿using System.Linq.Expressions;
 
 namespace D
 {
-    public sealed class Parameter /* readonly struct? */
+    public sealed class Parameter
     {
-        public static readonly Parameter Object  = Get(Kind.Object);
-        public static readonly Parameter String  = Get(Kind.String);
-        public static readonly Parameter Byte    = Get(Kind.Byte);
-        public static readonly Parameter Number  = Get(Kind.Number);
-        public static readonly Parameter Decimal = Get(Kind.Decimal);
-        public static readonly Parameter Int64   = Get(Kind.Int64);
+        public static readonly Parameter Object  = Get(ObjectType.Object);
+        public static readonly Parameter String  = Get(ObjectType.String);
+        public static readonly Parameter Byte    = Get(ObjectType.Byte);
+        public static readonly Parameter Number  = Get(ObjectType.Number);
+        public static readonly Parameter Decimal = Get(ObjectType.Decimal);
+        public static readonly Parameter Int64   = Get(ObjectType.Int64);
 
         public Parameter(string name)
         {
             Name = name;
-            Type = new Type(Kind.Object);
+            Type = new Type(ObjectType.Object);
         }
 
-        public Parameter(string name, Kind kind)
+        public Parameter(string name, ObjectType kind)
         {
             Name = name;
             Type = new Type(kind);
@@ -28,10 +27,10 @@ namespace D
         public Parameter(string name, 
             Type type, 
             bool isOptional = false,
-            object defaultValue = null,
-            Annotation[] annotations = null,
+            object? defaultValue = null,
+            Annotation[]? annotations = null,
             ParameterDirection direction = ParameterDirection.In,
-            Expression condition = null)
+            Expression? condition = null)
         {
             Name         = name;
             Type         = type;
@@ -48,14 +47,14 @@ namespace D
 
         public Parameter(Type type)
         {
-            Type = type ?? throw new ArgumentNullException(nameof(type));
+            Type = type;
         }
         
-        public string Name { get; }
+        public string? Name { get; }
 
         public Type Type { get; }
         
-        public Annotation[] Annotations { get; }
+        public Annotation[]? Annotations { get; }
 
         // Annotations
 
@@ -63,16 +62,16 @@ namespace D
 
         public ParameterFlags Flags { get; }
 
-        public object DefaultValue { get; }
+        public object? DefaultValue { get; }
         
         // x: Integer where value > 0 && value < 4
         
-        public Expression Condition { get; }
+        public Expression? Condition { get; }
 
         public ParameterDirection Direction { get; }
 
         // TODO: cache on kind
-        public static Parameter Get(Kind kind) => new Parameter(new Type(kind));
+        public static Parameter Get(ObjectType kind) => new Parameter(new Type(kind));
 
         #region Flags
 
@@ -81,19 +80,5 @@ namespace D
         public bool IsReadOnly => Flags.HasFlag(ParameterFlags.ReadOnly);
 
         #endregion
-    }
-    
-    public enum ParameterFlags
-    {
-        None     = 0,
-        Optional = 1 << 0,
-        ReadOnly = 1 << 1
-    }
-
-    public enum ParameterDirection
-    {
-        In      = 1,
-        Out     = 2,
-        InOut   = 3
     }
 }
