@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 
 namespace D.Compilation
@@ -105,7 +104,7 @@ namespace D.Compilation
         {
             switch (value.Kind)
             {
-                case Kind.String:
+                case ObjectType.String:
                     WriteString(value.ToString());
 
                     break;
@@ -122,8 +121,6 @@ namespace D.Compilation
 
         public void WriteTypeSymbol(Symbol symbol)
         {
-            if (symbol == null) throw new ArgumentNullException(nameof(symbol));
-
             WriteTypeSymbol(graph.GetType(symbol));
         }
 

@@ -13,7 +13,7 @@
 
         public void VisitBinary(BinaryExpression be, bool a)
         {
-            if (be.Operator.OpKind == Kind.ExponentiationExpression)
+            if (be.Operator.OpKind == ObjectType.ExponentiationExpression)
             {
                 WriteCall("Math.Pow", be.Left, be.Right);
             }

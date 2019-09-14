@@ -19,19 +19,17 @@
         {
             Emit(start);
 
-            int i = 0;
-
-            foreach (var parameter in parameters)
+            for (int i = 0; i < parameters.Length; i++)
             {
+                Parameter parameter = parameters[i];
+
                 if (i > 0) Emit(", ");
 
                 WriteTypeSymbol(parameter.Type);
 
                 Emit(' ');
 
-                Emit(parameter.Name);
-
-                i++;
+                Emit(parameter.Name ?? "_" + i);
             }
 
             Emit(end);
@@ -212,7 +210,7 @@
         {
             // May need to nest in GET statement if it's a property
 
-            if (body[0].Kind == Kind.ReturnStatement)
+            if (body[0].Kind == ObjectType.ReturnStatement)
             {
                 var returnStatement = (ReturnStatement)body[0];
 

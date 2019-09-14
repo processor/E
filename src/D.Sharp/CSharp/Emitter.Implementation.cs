@@ -21,7 +21,7 @@
                 {
                     if (++ii != 1) Emit(", ");
 
-                    if (generic.Type != Type.Get(Kind.Object))
+                    if (generic.Type != Type.Get(ObjectType.Object))
                     {
                         needsWhere = true;
                     }
@@ -61,7 +61,7 @@
 
                 ii = 0;
 
-                foreach (var generic in type.GenericParameters)
+                foreach (Parameter generic in type.GenericParameters)
                 {
                     if (++ii != 1) Emit(", ");
 

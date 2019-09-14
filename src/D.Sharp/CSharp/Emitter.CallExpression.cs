@@ -90,7 +90,7 @@ namespace D.Compilation
             }
         }
 
-        public void WriteArguments(IExpression @this, IArguments args)
+        public void WriteArguments(IExpression? @this, IArguments args)
         {
             var i = 0;
 

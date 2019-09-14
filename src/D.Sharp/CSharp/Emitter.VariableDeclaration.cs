@@ -15,7 +15,7 @@
                 return declaration;
             }
 
-            WriteTypeSymbol(declaration.Type ?? Type.Get(Kind.Object));
+            WriteTypeSymbol(declaration.Type ?? Type.Get(ObjectType.Object));
          
             Emit(' ');
             Emit(declaration.Name);
@@ -28,7 +28,7 @@
 
         private void WriteVariableDeclarationWithMatch(VariableDeclaration expression)
         {
-            WriteTypeSymbol(expression.Type ?? Type.Get(Kind.Object));
+            WriteTypeSymbol(expression.Type ?? Type.Get(ObjectType.Object));
 
             Emit(' ');
 

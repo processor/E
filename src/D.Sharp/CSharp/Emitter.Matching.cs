@@ -7,9 +7,10 @@
         public override IExpression VisitMatch(MatchExpression match)
         {
             Indent(level);
-            Emit("switch (");
+            Emit("return ");
             Emit(match.Expression.ToString());
-            EmitLine(")");
+            Emit(" switch");
+            EmitLine();
             EmitLine("{", level);
 
             level++;
@@ -29,11 +30,10 @@
         public void WriteMatchCase(MatchCase c)
         {
             Indent(level);
-            Emit("case ");
             Visit(c.Pattern);
-            Emit(": return ");
+            Emit(" => ");
             Visit(c.Body.Expression);
-            EmitLine(";");
+            EmitLine(",");
         }
     }
 }
