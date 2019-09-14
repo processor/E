@@ -1,6 +1,6 @@
 ﻿namespace D.Syntax
 {
-    public class ArrayInitializerSyntax : ISyntaxNode
+    public sealed class ArrayInitializerSyntax : ISyntaxNode
     {
         public ArrayInitializerSyntax(ISyntaxNode[] elements, int? stride)
         {
