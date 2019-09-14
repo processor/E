@@ -11,12 +11,12 @@ namespace D.Mathematics
         // ceiling
         // floor
 
-        public static IArithmetic<T> GetProvider<T>()
+        public static Arithmetic<T> GetProvider<T>()
             where T: unmanaged
         {
-            if (typeof(T) == typeof(Number))  return (IArithmetic<T>)new RealArithmetic();
-            if (typeof(T) == typeof(int))     return (IArithmetic<T>)new Int32Arithmetic();
-            if (typeof(T) == typeof(long))    return (IArithmetic<T>)new Int64Arithmetic();
+            if (typeof(T) == typeof(Number))  return (Arithmetic<T>)((object)new RealArithmetic());
+            if (typeof(T) == typeof(int))     return (Arithmetic<T>)((object)new Int32Arithmetic());
+            if (typeof(T) == typeof(long))    return (Arithmetic<T>)((object)new Int64Arithmetic());
 
             throw new Exception("No arithmethic provider for:" + typeof(T).Name);
         }
