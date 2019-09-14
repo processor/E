@@ -3,13 +3,13 @@
 namespace D
 {
     [Flags]
-    public enum TypeFlags
+    public enum TypeFlags : byte
     {
         None   = 0,
-        Actor  = 1 << 1,
-        Record = 1 << 3,
-        Event  = 1 << 4,
-        Class  = 1 << 5,
-        Struct = 1 << 6
+        Actor  = 1 << 0,
+        Record = 1 << 1,
+        Event  = 1 << 2,
+        Class  = 1 << 3,
+        Struct = 1 << 4
     }
 }

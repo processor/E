@@ -1,17 +1,19 @@
-﻿using System;
-
-namespace D
+﻿namespace D
 {
     using Expressions;
 
-    public class ImplementationExpression : IExpression
+    public sealed class ImplementationExpression : IExpression
     {
-        public ImplementationExpression(ProtocolExpression protocol, Type type, VariableDeclaration[] variables, FunctionExpression[] members)
+        public ImplementationExpression(
+            ProtocolExpression protocol, 
+            Type type, 
+            VariableDeclaration[] variables,
+            FunctionExpression[] members)
         {
             Protocol  = protocol;
-            Type      = type ?? throw new ArgumentNullException(nameof(type));
+            Type = type;
             Variables = variables;
-            Methods   = members ?? throw new ArgumentNullException(nameof(members));
+            Methods = members;
         }
 
         // Struct | Class
@@ -24,6 +26,6 @@ namespace D
 
         public FunctionExpression[] Methods { get; }
         
-        Kind IObject.Kind => Kind.Implementation;
+        ObjectType IObject.Kind => ObjectType.Implementation;
     }
 }

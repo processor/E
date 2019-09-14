@@ -25,8 +25,6 @@ namespace D
         Lazy        = 1 << 15,
 
         Lambda      = 1 << 20
-
-        // Lambda = 1 << 3
     }
 
     // Declaration Modifiers?

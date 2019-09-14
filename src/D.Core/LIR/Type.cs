@@ -8,9 +8,9 @@ using D.Expressions;
 
 namespace D
 {
-    public class Type : INamedObject, IExpression, IEquatable<Type>
+    public sealed class Type : INamedObject, IExpression, IEquatable<Type>
     {
-        private static readonly ConcurrentDictionary<Kind, Type> cache = new ConcurrentDictionary<Kind, Type>();
+        private static readonly ConcurrentDictionary<ObjectType, Type> cache = new ConcurrentDictionary<ObjectType, Type>();
 
         private static long id = 10000000;
 
@@ -20,25 +20,25 @@ namespace D
             Name = name;
         }
 
-        public Type(Kind kind)
+        public Type(ObjectType kind)
         {
             Id = (long)kind;
             Name = kind.ToString();
 
-            if (kind != Kind.Object)
+            if (kind != ObjectType.Object)
             {
-                BaseType = Get(Kind.Object);
+                BaseType = Get(ObjectType.Object);
             }
         }
 
-        public Type(Kind kind, params Type[] args)
+        public Type(ObjectType kind, params Type[] args)
         {
             Id        = (long)kind;
             Name      = kind.ToString();
             Arguments = args;
         }
 
-        public Type(string @namespace, string name, Type[] args = null)
+        public Type(string? @namespace, string name, Type[]? args = null)
         {
             Id         = Interlocked.Increment(ref id);
             Namespace  = @namespace;
@@ -46,7 +46,12 @@ namespace D
             Arguments  = args ?? Array.Empty<Type>();
         }
 
-        public Type(string name, Type baseType, Property[] properties, Parameter[] genericParameters, TypeFlags flags = default)
+        public Type(
+            string name,
+            Type? baseType,
+            Property[]? properties, 
+            Parameter[]? genericParameters,
+            TypeFlags flags = default)
         {
             Id                = Interlocked.Increment(ref id);
             Name              = name;
@@ -57,22 +62,22 @@ namespace D
             Flags             = flags;
         }
         
-        public Type BaseType { get; } // aka constructor
+        public Type? BaseType { get; } // aka constructor
 
         // Universal
         public long Id { get; set; }
 
         // e.g. physics
-        public string Namespace { get; }
+        public string? Namespace { get; }
 
         // unique within domain
         public string Name { get; }
 
-        public Type[] Arguments { get; }
+        public Type[]? Arguments { get; }
 
-        public Property[] Properties { get; }
+        public Property[]? Properties { get; }
 
-        public Parameter[] GenericParameters { get; }
+        public Parameter[]? GenericParameters { get; }
 
         // public Annotation[] Annotations { get; }
 
@@ -80,14 +85,14 @@ namespace D
 
         public string FullName => ToString();
         
-        Kind IObject.Kind => Kind.Type;
+        ObjectType IObject.Kind => ObjectType.Type;
 
         // Implementations
         public List<ImplementationExpression> Implementations { get; } = new List<ImplementationExpression>();
 
-        public Property GetProperty(string name)
+        public Property? GetProperty(string name)
         {
-            if (Properties == null) return null;
+            if (Properties is null) return null;
 
             foreach (Property property in Properties)
             {
@@ -98,7 +103,7 @@ namespace D
             return null;
         }
 
-        public static Type Get(Kind kind)
+        public static Type Get(ObjectType kind)
         {
             if (!cache.TryGetValue(kind, out Type type))
             {
@@ -147,15 +152,9 @@ namespace D
 
         #region Equality
 
-        public bool Equals(Type other)
-        {
-            return this.Id == other.Id;
-        }
-
-        public override int GetHashCode()
-        {
-            return id.GetHashCode();
-        }
+        public bool Equals(Type other) => this.Id == other.Id;
+        
+        public override int GetHashCode() => id.GetHashCode();
 
         #endregion
     }

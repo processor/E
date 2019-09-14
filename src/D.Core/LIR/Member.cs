@@ -1,13 +1,11 @@
-﻿using System;
-
-namespace D
+﻿namespace D
 {
     public abstract class Member
     {
         public Member(string name, Type type, ObjectFlags modifiers)
         {
-            Name = name ?? throw new ArgumentNullException(nameof(name));
-            Type = type ?? throw new ArgumentNullException(nameof(type));
+            Name = name;
+            Type = type;
             Modifiers = modifiers;
         }
 

@@ -1,6 +1,6 @@
 ﻿namespace D.Expressions
 {
-    public class Equation : IExpression
+    public sealed class Equation : IExpression
     {
         public Equation(IObject lhs, IObject rhs, Symbol[] symbols)
         {
@@ -18,9 +18,9 @@
         // TODO: Invariants
         // x > 10
 
-        public Kind Kind => Kind.Equation;
+        public ObjectType Kind => ObjectType.Equation;
 
-        // Reduce / Simplify
+        // TODO: Simplify()
     }
 }
 

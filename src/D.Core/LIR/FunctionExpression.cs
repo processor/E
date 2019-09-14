@@ -1,18 +1,21 @@
 ﻿using System;
 using System.IO;
-using System.Text;
+
+using D.Expressions;
 
 namespace D
 {
-    using Expressions;
-
     public class FunctionExpression : INamedObject, IExpression
     {
-        public FunctionExpression(string name, Type returnType, params Parameter[] parameters)
+        public FunctionExpression(
+            string name, 
+            Type returnType, 
+            params Parameter[] parameters)
         {
-            Name       = name;
-            Parameters = parameters;
-            ReturnType = returnType;
+            Name              = name;
+            Parameters        = parameters;
+            GenericParameters = Array.Empty<Parameter>();
+            ReturnType        = returnType;
         }
 
         public FunctionExpression(
@@ -24,7 +27,7 @@ namespace D
         public FunctionExpression(
            Parameter[] parameters,
            IExpression body,
-           Type returnType,
+           Type? returnType,
            ObjectFlags flags = ObjectFlags.None)
         {
             Parameters = parameters;
@@ -39,7 +42,7 @@ namespace D
             Parameter[] genericParameters,
             Parameter[] parameters,
             Type returnType,
-            IExpression body,
+            IExpression? body,
             ObjectFlags flags = ObjectFlags.None)
         {
             Name = name;
@@ -50,38 +53,34 @@ namespace D
             Flags = flags;
         }
         
-        public string Name { get; }
+        public string? Name { get; }
 
         public Parameter[] Parameters { get; }
 
-        public Type ReturnType { get; }
+        public Parameter[] GenericParameters { get; }
+
+        public Type? ReturnType { get; }
         
         public override string ToString()
         {
-            var sb = new StringBuilder();
+            using var writer = new StringWriter();
 
-            using (var writer = new StringWriter(sb))
-            {
-                WriteTo(writer);    
-            }
+            WriteTo(writer);
 
-            return sb.ToString();
+            return writer.ToString();
         }
 
-        public virtual IObject Invoke(IArguments arguments)
+        public virtual IObject? Invoke(IArguments arguments)
         {
-
             return null;
         }
 
         #region Implementation
 
-        public Type DeclaringType { get; set; }
-
-        public Parameter[] GenericParameters { get; set; }
+        public Type? DeclaringType { get; set; }
 
         // Block or lambda
-        public IExpression Body { get; set; }
+        public IExpression? Body { get; set; }
 
         public ObjectFlags Flags { get; set; }
 
@@ -131,10 +130,13 @@ namespace D
 
             writer.Write(')');
 
-            writer.Write(Body.ToString());
+            if (Body != null)
+            {
+                writer.Write(Body.ToString());
+            }
         }
 
-        Kind IObject.Kind => Kind.Function;
+        ObjectType IObject.Kind => ObjectType.Function;
     }
 }
 

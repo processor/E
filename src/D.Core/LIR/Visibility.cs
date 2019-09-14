@@ -1,10 +1,13 @@
-﻿namespace D
+﻿using System;
+
+namespace D
 {
-    public enum Visibility
+    [Flags]
+    public enum Visibility : byte
     {
-        Public    = 1,
-        Private   = 2,
-        Internal  = 3,
-        Protected = 4
+        Public    = 1 << 0,
+        Private   = 1 << 1,
+        Internal  = 1 << 2,
+        Protected = 1 << 3
     }
 }

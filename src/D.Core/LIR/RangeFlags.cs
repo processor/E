@@ -1,6 +1,6 @@
 ﻿namespace D
 {
-    public enum RangeFlags
+    public enum RangeFlags : byte
     {
         Inclusive = 1, // Includes first and last
         Exlusive  = 2, // Excludes first and last

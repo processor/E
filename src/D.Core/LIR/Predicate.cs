@@ -5,7 +5,7 @@ namespace D
     // x > 10
     // x < 10
 
-    public class Predicate : IObject
+    public sealed class Predicate : IObject
     {
         public Predicate(Operator op, Symbol left, IObject right)
         {
@@ -20,7 +20,7 @@ namespace D
 
         public IObject Right { get; }
 
-        Kind IObject.Kind => Kind.Predicate;
+        ObjectType IObject.Kind => ObjectType.Predicate;
 
         public override string ToString()
         {
