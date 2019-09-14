@@ -12,7 +12,7 @@ namespace D
 
         private readonly int depth = 0;
 
-        public Node(string name = null, Node parent = null)
+        public Node(string? name = null, Node? parent = null)
         {
             Name = name;
             Parent = parent;
@@ -49,14 +49,13 @@ namespace D
             }
         }
 
-        public string Name { get; }
+        public string? Name { get; }
         
-        public Node Parent { get; }
+        public Node? Parent { get; }
 
         public OperatorCollection Operators => operators;
 
         public void Add(string name, object value)
-
         {
             if (!children.TryAdd(name, value))
             {
@@ -65,6 +64,7 @@ namespace D
         }
 
         public void Set<T>(string name, T value)
+            where T: notnull
         {
             children[name] = value;
         }
@@ -85,11 +85,6 @@ namespace D
 
         public bool TryGet(string name, out object kind)
         {
-            if (name == null)
-            {
-                throw new ArgumentNullException(nameof(name));
-            }
-
             if (children.TryGetValue(name, out kind))
             {
                 return true;
@@ -118,8 +113,6 @@ namespace D
 
         public Type GetType(Symbol symbol)
         {
-            if (symbol == null) throw new ArgumentNullException(nameof(symbol));
-
             if (TryGetType(symbol, out Type type))
             {
                 return type;
@@ -174,7 +167,7 @@ namespace D
             throw new NotImplementedException();
         }
        
-        public Node Nested(string name = null)
+        public Node Nested(string? name = null)
         {
             return new Node(name, this);
         }
