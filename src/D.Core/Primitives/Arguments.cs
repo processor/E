@@ -19,14 +19,14 @@ namespace D
     {
         public static readonly IArguments None = new ArgumentList(Array.Empty<Argument>());
 
-        public static IArguments Create(IList<Argument> items)
+        public static IArguments Create(Argument[] items)
         {
-            switch (items.Count)
+            return items.Length switch
             {
-                case 0  : return None;
-                case 1  : return items[0];
-                default : return new ArgumentList(items);
-            }
+                0 => None,
+                1 => items[0],
+                _ => new ArgumentList(items)
+            };
         }
 
         public static IArguments Create(object item)
@@ -55,23 +55,21 @@ namespace D
             Value = value;
         }
 
-        public Argument(Symbol name, object value)
+        public Argument(Symbol? name, object value)
         {
             Name = name;
             Value = value;
         }
 
-        public Symbol Name { get; }
+        public Symbol? Name { get; }
 
         public object Value { get; }
         
         // NameIsImplict?
 
-        public object this[int i] =>
-            i >= 0 ? Value : throw new ArgumentOutOfRangeException("Out of range");
+        public object this[int i] => i >= 0 ? Value : throw new ArgumentOutOfRangeException("Out of range");
 
-        public object this[string name] => 
-            Name == name ? Value : throw new ArgumentNullException(nameof(name));
+        public object this[string name] => Name == name ? Value : throw new ArgumentNullException(nameof(name));
 
         public int Count => 1;
 
@@ -87,11 +85,11 @@ namespace D
         #endregion
     }
 
-    internal class ArgumentList : IArguments
+    internal sealed class ArgumentList : IArguments
     {
-        private readonly IList<Argument> items = new List<Argument>();
+        private readonly Argument[] items;
 
-        public ArgumentList(IList<Argument> items)
+        public ArgumentList(Argument[] items)
         {
             this.items = items;
         }
@@ -111,11 +109,11 @@ namespace D
             }
         }
 
-        public int Count => items.Count;
+        public int Count => items.Length;
 
         #region IEnumerable
 
-        public IEnumerator<Argument> GetEnumerator() => items.GetEnumerator();
+        public IEnumerator<Argument> GetEnumerator() => ((IList<Argument>)items).GetEnumerator();
 
         IEnumerator IEnumerable.GetEnumerator() => items.GetEnumerator();
 

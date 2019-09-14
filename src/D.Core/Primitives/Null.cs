@@ -8,7 +8,7 @@
 
         private Null() { }
 
-        Kind IObject.Kind => Kind.Null;
+        ObjectType IObject.Kind => ObjectType.Null;
 
         public override string ToString() => "[none]";
     }

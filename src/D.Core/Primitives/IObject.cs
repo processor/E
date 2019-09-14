@@ -2,7 +2,7 @@
 {
     public interface IObject
     {
-        Kind Kind { get; }
+        ObjectType Kind { get; }
     }
 
     public interface INamedObject : IObject

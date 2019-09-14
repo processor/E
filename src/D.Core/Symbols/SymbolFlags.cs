@@ -1,6 +1,6 @@
 ﻿namespace D
 {
-    public enum SymbolFlags
+    public enum SymbolFlags : byte
     {
         None        = 0,
       
@@ -10,17 +10,6 @@
         Postfix     = 1 << 3,
 
         // Scope
-        BlockScoped = 1 << 4, // { } 
-        Local       = 1 << 5
-    }
-
-    public enum SymbolKind
-
-    {
-        TypeParameter,
-        Label,
-        Module,
-        Property,
-        Method, // e.g. Function
+        Local       = 1 << 4
     }
 }
