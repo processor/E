@@ -11,6 +11,6 @@ namespace D.Mathematics
 
         public IExpression Expression { get; }
 
-        Kind IObject.Kind => Kind.Derivative;
+        ObjectType IObject.Kind => ObjectType.Derivative;
     }
 }

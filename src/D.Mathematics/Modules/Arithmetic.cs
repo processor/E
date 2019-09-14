@@ -23,15 +23,12 @@ namespace D.Mathematics
 
         public static INumber Multiply(INumber x, INumber y)
         {
-            if (x == null) throw new ArgumentNullException(nameof(x));
-            if (y == null) throw new ArgumentNullException(nameof(y));
-
             if (!(x is IUnitValue) && !(y is IUnitValue))
             {
                 return new Number(x.Real * y.Real);
             }
 
-            var l = (x as IUnitValue);
+            var l = (IUnitValue)x;
             var r = (y as IUnitValue)?.To(l.Unit) ?? y.Real;
 
             return y is IUnitValue yValue
@@ -47,7 +44,7 @@ namespace D.Mathematics
                 return new Number(x.Real + y.Real);
             }
 
-            var l = (x as IUnitValue);
+            var l = (IUnitValue)x;
             var r = (y as IUnitValue)?.To(l.Unit) ?? y.Real;
 
             return UnitValue.Create(l.Real + r, l.Unit);
@@ -60,7 +57,7 @@ namespace D.Mathematics
                 return new Number(x.Real - y.Real);
             }
 
-            var l = x as IUnitValue;
+            var l = (IUnitValue)x;
             var r = (y as IUnitValue)?.To(l.Unit) ?? y.Real;
 
             return UnitValue.Create(l.Real - r, l.Unit);
@@ -73,7 +70,7 @@ namespace D.Mathematics
                 return new Number(x.Real / y.Real);
             }
 
-            var l = (x as IUnitValue);
+            var l = (IUnitValue)x;
             var r = (y as IUnitValue)?.To(l.Unit) ?? y.Real;
             
             return UnitValue.Create(l.Real / r, l.Unit);

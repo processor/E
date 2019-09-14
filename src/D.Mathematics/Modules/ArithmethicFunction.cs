@@ -32,7 +32,7 @@ namespace D.Mathematics
 
         public Parameter[] Parameters { get; }
 
-        public Kind Kind => Kind.Function; // TODO: Use function info...
+        public ObjectType Kind => ObjectType.Function; // TODO: Use function info...
 
         public object Invoke(IArguments args)
         {

@@ -1,4 +1,4 @@
-﻿namespace D.Numerics
+﻿namespace D.Mathematics
 {
     // Arithmetic expressions
     // Polynomial expressions	
@@ -9,26 +9,13 @@
 
     public enum EquationType
     {
-        Polynomial, //  for degree one
-        Linear, 
-        Cartesian,
-        Parametric,
-        Diophantine,
-        Differential,
-    }
-
-    public enum EquationDegree
-    {
-        Linear     = 1,
-        Quadratic  = 2,
-        Cubic      = 2,
-        Quartic    = 4,
-        Quintic    = 5,
-        Sextic     = 6,
-        Septic     = 7,
+        Polynomial = 1, //  for degree one
+        Linear = 2, 
+        Cartesian = 3,
+        Parametric = 4,
+        Diophantine = 5,
+        Differential = 6,
     }
 
     // univariate = 1 variable
-
-    // Linear System
 }

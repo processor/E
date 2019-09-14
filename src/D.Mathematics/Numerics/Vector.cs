@@ -21,6 +21,6 @@ namespace D.Numerics
 
         public int Count => impl.Count;
 
-        Kind IObject.Kind => Kind.Vector;
+        ObjectType IObject.Kind => ObjectType.Vector;
     }
 }

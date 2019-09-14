@@ -129,7 +129,7 @@ namespace D.Numerics
         */
         public static Matrix<T> Create(ArrayInitializer expression)
         {
-            if (expression.Stride == null)
+            if (expression.Stride is null)
                 throw new Exception("Missing stride");
 
             var stride = expression.Stride.Value;
@@ -163,6 +163,6 @@ namespace D.Numerics
             return new Matrix<T>(rows);
         }
 
-        Kind IObject.Kind => Kind.Matrix;
+        ObjectType IObject.Kind => ObjectType.Matrix;
     }
 }

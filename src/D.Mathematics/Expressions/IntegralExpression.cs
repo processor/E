@@ -5,7 +5,7 @@ namespace D.Mathematics
     // An integral assigns numbers to functions in a way that can describe displacement,
     // area, volume, and other concepts that arise by combining infinitesimal data. I
 
-    public class IntegralExpression : IExpression
+    public sealed class IntegralExpression : IExpression
     {
         public IntegralExpression(IExpression expression)
         {
@@ -15,9 +15,11 @@ namespace D.Mathematics
         public IExpression Expression { get; }
 
         public IExpression A { get; }
+
         public IExpression B { get; }
+
         public IExpression X { get; }
         
-        Kind IObject.Kind => Kind.Integral;
+        ObjectType IObject.Kind => ObjectType.Integral;
     }
 }

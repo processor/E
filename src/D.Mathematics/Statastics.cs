@@ -45,7 +45,7 @@ namespace D.Functions
     public class Min : FunctionExpression
     {
         public Min()
-            : base("min", new Type(Kind.Object)) { }
+            : base("min", new Type(ObjectType.Object)) { }
 
       
     }
@@ -53,7 +53,7 @@ namespace D.Functions
     public class Max : FunctionExpression
     {
         public Max()
-            : base("max", new Type(Kind.Object)) { }
+            : base("max", new Type(ObjectType.Object)) { }
 
     
     }
@@ -61,7 +61,7 @@ namespace D.Functions
     public class Percentile : FunctionExpression
     {
         public Percentile()
-            : base("percentile", new Type(Kind.Object)) { }
+            : base("percentile", new Type(ObjectType.Object)) { }
 
        
     } // range = 0-1
@@ -69,7 +69,7 @@ namespace D.Functions
     public class Quartile : FunctionExpression
     {
         public Quartile()
-            : base("quartile", new Type(Kind.Object)) { }
+            : base("quartile", new Type(ObjectType.Object)) { }
 
     
     } // range = 0-1
@@ -103,7 +103,7 @@ namespace D.Functions
     public class Forcast : FunctionExpression
     {
         public Forcast()
-            : base("forcast", new Type(Kind.Object)) { }
+            : base("forcast", new Type(ObjectType.Object)) { }
     }
   
 }

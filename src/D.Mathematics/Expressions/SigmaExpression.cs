@@ -2,7 +2,7 @@
 
 namespace D.Mathematics
 {
-    public class SigmaExpression : IExpression
+    public sealed class SigmaExpression : IExpression
     {
         public SigmaExpression(IExpression expression)
         {
@@ -11,7 +11,7 @@ namespace D.Mathematics
 
         public IExpression Expression { get; }
 
-        Kind IObject.Kind => Kind.Sigma;
+        ObjectType IObject.Kind => ObjectType.Sigma;
     }
 }
 

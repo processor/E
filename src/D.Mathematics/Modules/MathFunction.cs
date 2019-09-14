@@ -9,7 +9,7 @@ namespace D.Mathematics
         public MathFunction(string name, Func<double, double> func)
         {
             Name = name;
-            Parameters = new[] { Parameter.Get(Kind.Number) };
+            Parameters = new[] { Parameter.Get(ObjectType.Number) };
 
             this.func = func;
         }
@@ -18,7 +18,7 @@ namespace D.Mathematics
 
         public Parameter[] Parameters { get; }
 
-        Kind IObject.Kind => Kind.Function;
+        ObjectType IObject.Kind => ObjectType.Function;
 
         public object Invoke(IArguments args)
         { 
