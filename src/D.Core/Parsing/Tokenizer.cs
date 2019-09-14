@@ -6,12 +6,12 @@ namespace D.Parsing
 {
     using static TokenKind;
 
-    public class Tokenizer : IDisposable
+    public sealed class Tokenizer : IDisposable
     {
         private readonly SourceReader reader;
         private readonly Node env;
 
-        private readonly Stack<Mode> modes = new Stack<Mode>();
+        private readonly Stack<Mode> modes;
 
         public Tokenizer(string text)
             : this(new SourceReader(text), new Node()) { }
@@ -23,6 +23,7 @@ namespace D.Parsing
         {
             this.reader = reader;
             this.env = env;
+            this.modes = new Stack<Mode>();
 
             modes.Push(Mode.Default);
 
@@ -70,12 +71,12 @@ namespace D.Parsing
                 case '~': return Read(Op); // bitwise compliment
 
                 case '|':
-                    switch (reader.Peek())
+                    return reader.Peek() switch
                     {
-                        case '|': return Read(Op, 2);            // ||
-                        case '>': return Read(PipeForward, 2);   // |>
-                        default : return Read(Bar);              // |
-                    }
+                        '|' => Read(Op, 2),            // ||
+                        '>' => Read(PipeForward, 2),   // |>
+                        _   => Read(Bar)               // |
+                    };
 
                 case '<':
                     char peek = reader.Peek();
@@ -135,11 +136,11 @@ namespace D.Parsing
                     return Read(BraceClose);
 
                 case ':': // ::, :
-                    switch (reader.Peek())
+                    return reader.Peek() switch
                     {
-                        case ':' : return Read(ColonColon, 2); // ::
-                        default  : return Read(Colon);         // :
-                    }
+                        ':' => Read(ColonColon, 2), // ::
+                        _   => Read(Colon)          // :
+                    };
 
                 case ',': return Read(Comma);
                 case '$':
@@ -474,7 +475,7 @@ namespace D.Parsing
 
         private readonly StringBuilder sb = new StringBuilder();
 
-        private string ReadTrivia()
+        private string? ReadTrivia()
         {
             while (char.IsWhiteSpace(reader.Current) && !reader.IsEof)
             {
@@ -520,14 +521,14 @@ namespace D.Parsing
 
         public bool InMode(Mode mode) => modes.Peek() == mode;
 
-        public enum Mode
+        public enum Mode : byte
         {
-            Default,
-            Apostrophe,
-            Quotes,
-            InterpolatedString,
-            Expression,
-            Tag  // <tag
+            Default = 1,
+            Apostrophe = 2,
+            Quotes = 3,
+            InterpolatedString = 4,
+            Expression = 5,
+            Tag = 6 // <tag
         }
 
         #endregion

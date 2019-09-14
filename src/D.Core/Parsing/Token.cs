@@ -2,7 +2,7 @@
 {
     public readonly struct Token
     {
-        public Token(TokenKind kind, Location start, string text = null, string trailing = null)
+        public Token(TokenKind kind, Location start, string? text = null, string? trailing = null)
         {
             Kind = kind;
             Start = start;
@@ -16,9 +16,9 @@
 
         // End (calculate)
 
-        public string Text { get; }
+        public string? Text { get; }
 
-        public string Trailing { get; }
+        public string? Trailing { get; }
 
         public bool Is(TokenKind kind) => Kind == kind;
 

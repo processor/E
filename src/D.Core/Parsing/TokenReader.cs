@@ -3,7 +3,7 @@ using System.IO;
 
 namespace D.Parsing
 {
-    internal class TokenReader : IDisposable
+    internal sealed class TokenReader : IDisposable
     {
         private readonly Tokenizer tokenizer;
 
