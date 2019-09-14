@@ -1,12 +1,10 @@
-﻿using System;
-
-namespace D.Syntax
+﻿namespace D.Syntax
 {
-    public class BlockSyntax : ISyntaxNode
+    public sealed class BlockSyntax : ISyntaxNode
     {
         public BlockSyntax(params ISyntaxNode[] statements)
         {
-            Statements = statements ?? throw new ArgumentNullException(nameof(statements));
+            Statements = statements;
         }
 
         public ISyntaxNode[] Statements { get; }
