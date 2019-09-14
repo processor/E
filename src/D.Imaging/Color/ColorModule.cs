@@ -1,11 +1,14 @@
-﻿namespace D.Imaging
+﻿using Carbon.Color;
+
+namespace D.Imaging
 {
     public class ColorModule : Module
     {
         public ColorModule()
         {
-            Add("rgb", new RgbConstructor());
-            Add("transparent", new Rgba(0, 0, 0, 0));
+            AddExport("rgb", new RgbConstructor());
+            AddExport("transparent", NamedColor.Transparent);
+            // Add("adjust", new AdjustColorFunction());
         }
     }
 }
