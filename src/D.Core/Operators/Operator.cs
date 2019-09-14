@@ -2,24 +2,25 @@
 {
     using static Associativity;
 
-    public class Operator : INamedObject
+    public sealed class Operator : INamedObject
     {
         public Operator(
-            Kind kind, 
+            ObjectType kind, 
             string name, 
             OperatorType type, 
             int precedence = 1000,
             Associativity associativity = Left)
         {
-            OpKind     = kind;
-            Name       = name;
-            Type       = type;
-            Precedence = precedence;
+            OpKind        = kind;
+            Name          = name;
+            Type          = type;
+            Precedence    = precedence;
+            Associativity = associativity;
         }
 
         public string Name { get; }
 
-        public Kind OpKind { get; }
+        public ObjectType OpKind { get; }
 
         public int Precedence { get; }
 
@@ -27,57 +28,92 @@
 
         public OperatorType Type { get; }
 
-        public static Operator Prefix(Kind kind, string name, int precedence, Associativity associativity = Left) => 
-            new Operator(kind, name, OperatorType.Prefix, precedence, associativity);
+        public bool IsLogical
+        {
+            get
+            {
+                // &&
+                // ||
 
-        public static Operator Infix(Kind kind, string name, int precedence, Associativity associativity = Left) =>
-            new Operator(kind, name, OperatorType.Infix, precedence, associativity);
+                int kind = (int)OpKind;
+
+                return kind >= 6003 && kind <= 6004;
+            }
+
+        }
+        public bool IsComparision
+        {
+            get
+            {
+                // >
+                // >=
+                // <
+                // <=
+                // ==
+                // ===
+                // !=
+
+                int kind = (int)OpKind;
+
+                return kind >= 6020 && kind <= 6034;
+            }
+        }
+
+        public static Operator Prefix(ObjectType kind, string name, int precedence, Associativity associativity = Left)
+        {
+            return new Operator(kind, name, OperatorType.Prefix, precedence, associativity);
+        }
+        
+        public static Operator Infix(ObjectType kind, string name, int precedence, Associativity associativity = Left)
+        {
+            return new Operator(kind, name, OperatorType.Infix, precedence, associativity);
+        }
 
         // highest
-        public static readonly Operator Not                = Prefix(Kind.LogicalNotExpression,        "!",   precedence: 15, associativity: Right);
-        public static readonly Operator Negation           = Prefix(Kind.NegateExpression,            "-",   precedence: 15, associativity: Right);
-        public static readonly Operator UnaryPlus          = Prefix(Kind.UnaryPlusExpression,         "+",   precedence: 15, associativity: Right);
-        public static readonly Operator BitwiseNot         = Prefix(Kind.BitwiseNotExpression,        "~",   precedence: 15, associativity: Right);
+        public static readonly Operator Not                = Prefix(ObjectType.LogicalNotExpression,        "!",   precedence: 15, associativity: Right);
+        public static readonly Operator Negation           = Prefix(ObjectType.NegateExpression,            "-",   precedence: 15, associativity: Right);
+        public static readonly Operator UnaryPlus          = Prefix(ObjectType.UnaryPlusExpression,         "+",   precedence: 15, associativity: Right);
+        public static readonly Operator BitwiseNot         = Prefix(ObjectType.BitwiseNotExpression,        "~",   precedence: 15, associativity: Right);
 
-        public static readonly Operator Power              = Infix(Kind.ExponentiationExpression,     "**",  precedence: 14, associativity: Right);  
-        public static readonly Operator Multiply           = Infix(Kind.MultiplyExpression,           "*",   precedence: 14);                        
-        public static readonly Operator Divide             = Infix(Kind.DivideExpression,             "/",   precedence: 14);                        
-        public static readonly Operator Remainder          = Infix(Kind.ModuloExpression,             "%",   precedence: 14);                       
+        public static readonly Operator Power              = Infix(ObjectType.ExponentiationExpression,     "**",  precedence: 14, associativity: Right);  
+        public static readonly Operator Multiply           = Infix(ObjectType.MultiplyExpression,           "*",   precedence: 14);                        
+        public static readonly Operator Divide             = Infix(ObjectType.DivideExpression,             "/",   precedence: 14);                        
+        public static readonly Operator Remainder          = Infix(ObjectType.ModuloExpression,             "%",   precedence: 14);                       
 
-        public static readonly Operator Add                = Infix(Kind.AddExpression,                "+",   precedence: 13);
-        public static readonly Operator Subtract           = Infix(Kind.SubtractExpression,           "-",   precedence: 13);
-        public static readonly Operator LeftShift          = Infix(Kind.LeftShiftExpression,          "<<",  precedence: 12);
-        public static readonly Operator SignedRightShift   = Infix(Kind.RightShiftExpression,         ">>",  precedence: 12);
-        public static readonly Operator UnsignedRightShift = Infix(Kind.UnsignedRightShiftExpression, ">>>", precedence: 12);
+        public static readonly Operator Add                = Infix(ObjectType.AddExpression,                "+",   precedence: 13);
+        public static readonly Operator Subtract           = Infix(ObjectType.SubtractExpression,           "-",   precedence: 13);
+        public static readonly Operator LeftShift          = Infix(ObjectType.LeftShiftExpression,          "<<",  precedence: 12);
+        public static readonly Operator SignedRightShift   = Infix(ObjectType.RightShiftExpression,         ">>",  precedence: 12);
+        public static readonly Operator UnsignedRightShift = Infix(ObjectType.UnsignedRightShiftExpression, ">>>", precedence: 12);
 
-        public static readonly Operator GreaterThan        = Infix(Kind.GreaterThanExpression,        ">",   precedence: 11);
-        public static readonly Operator GreaterOrEqual     = Infix(Kind.GreaterThanOrEqualExpression, ">=",  precedence: 11);
-        public static readonly Operator LessThan           = Infix(Kind.LessThanExpression,           "<",   precedence: 11);
-        public static readonly Operator LessOrEqual        = Infix(Kind.LessThanOrEqualExpression,    "<=",  precedence: 11);     
+        public static readonly Operator GreaterThan        = Infix(ObjectType.GreaterThanExpression,        ">",   precedence: 11);
+        public static readonly Operator GreaterOrEqual     = Infix(ObjectType.GreaterThanOrEqualExpression, ">=",  precedence: 11);
+        public static readonly Operator LessThan           = Infix(ObjectType.LessThanExpression,           "<",   precedence: 11);
+        public static readonly Operator LessOrEqual        = Infix(ObjectType.LessThanOrEqualExpression,    "<=",  precedence: 11);     
                                                                                            
-        public static readonly Operator Equal              = Infix(Kind.EqualsExpression,             "==",  precedence: 10);
-        public static readonly Operator Identical          = Infix(Kind.IdenticalExpression,          "===", precedence: 10); 
-        public static readonly Operator NotEqual           = Infix(Kind.NotEqualsExpression,          "!=",  precedence: 10);
-        public static readonly Operator StrictNotEqual     = Infix(Kind.StrictNotEqual,               "!==", precedence: 10);
+        public static readonly Operator Equal              = Infix(ObjectType.EqualsExpression,             "==",  precedence: 10);
+        public static readonly Operator Identical          = Infix(ObjectType.IdenticalExpression,          "===", precedence: 10); 
+        public static readonly Operator NotEqual           = Infix(ObjectType.NotEqualsExpression,          "!=",  precedence: 10);
+        public static readonly Operator StrictNotEqual     = Infix(ObjectType.StrictNotEqual,               "!==", precedence: 10);
 
         // Bitwise
-        public static readonly Operator BitwiseXor         = Infix(Kind.XorExpression,                 "^",  precedence: 9);
+        public static readonly Operator BitwiseXor         = Infix(ObjectType.XorExpression,                 "^",  precedence: 9);
 
-        public static readonly Operator Coalesce           = Infix(Kind.CoalesceExpression,           "??", precedence: 1);
+        public static readonly Operator Coalesce           = Infix(ObjectType.CoalesceExpression,           "??", precedence: 1);
                                                            
-        public static readonly Operator LogicalAnd         = Infix(Kind.LogicalAndExpression,         "&&",  precedence: 6);
-        public static readonly Operator LogicalOr          = Infix(Kind.LogicalOrExpression,          "||",  precedence: 5);
+        public static readonly Operator LogicalAnd         = Infix(ObjectType.LogicalAndExpression,         "&&",  precedence: 6);
+        public static readonly Operator LogicalOr          = Infix(ObjectType.LogicalOrExpression,          "||",  precedence: 5);
 
-        public static readonly Operator Assign             = Infix(Kind.AssignmentExpression,         "=",   precedence: 3, associativity: Right);  
+        public static readonly Operator Assign             = Infix(ObjectType.AssignmentExpression,         "=",   precedence: 3, associativity: Right);  
 
-        public static readonly Operator Is                 = Infix(Kind.IsExpression,                 "is", precedence: 3, associativity: Right);
-        public static readonly Operator As                 = Infix(Kind.AsExpression,                 "as", precedence: 3, associativity: Right);
+        public static readonly Operator Is                 = Infix(ObjectType.IsExpression,                 "is", precedence: 3, associativity: Right);
+        public static readonly Operator As                 = Infix(ObjectType.AsExpression,                 "as", precedence: 3, associativity: Right);
 
-        public static readonly Operator BitwiseAnd         = Infix(Kind.BitwiseAndExpression,         "&",  precedence: 20); // check precedence
+        public static readonly Operator BitwiseAnd         = Infix(ObjectType.BitwiseAndExpression,         "&",  precedence: 20); // check precedence
 
         // lowest
 
-        Kind IObject.Kind => Kind.Operator;
+        ObjectType IObject.Kind => ObjectType.Operator;
 
         public static readonly Operator[] DefaultList = new[] {
             // Unary
@@ -123,29 +159,6 @@
             BitwiseAnd          // &
                                 // ~
         };
-    }
-
-    public enum OperatorCategory
-    {
-        Unknown = 0,
-        Arithmetic,
-        Comparison,
-        Logical,
-        Assignment
-    }
-    
-    // Determines the order in which operators with the same precedence are processed
-    public enum Associativity
-    {
-        Left,
-        Right
-    }
-
-    public enum OperatorType
-    {
-        Prefix  , // --1,    Unary
-        Postfix , // 1++     Unary
-        Infix   , // 1 + 1   Binary
     }
 }
 
