@@ -19,10 +19,9 @@ namespace D.Parsing.Tests
         [InlineData("&&")] // and
         public void Ops(string name)
         {
-            using (var tokenizer = new Tokenizer(name))
-            {
-                Assert.Equal(name, tokenizer.Read(Op));
-            }
+            using var tokenizer = new Tokenizer(name);
+
+            Assert.Equal(name, tokenizer.Read(Op));
         }
     }
 }

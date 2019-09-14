@@ -1,10 +1,12 @@
-﻿using Xunit;
+﻿using System;
+
+using D.Mathematics;
+
+using Xunit;
 
 namespace D.Parsing.Tests
 {
     using static TokenKind;
-
-    using Mathematics;
 
     public class TokenizerTests
     {
@@ -23,7 +25,7 @@ namespace D.Parsing.Tests
         [InlineData(',')]
         public void CharacterTokens(char c)
         {
-            var tokens = new Tokenizer($"'{c}'");
+            using var tokens = new Tokenizer($"'{c}'");
 
             Assert.Equal("'",           tokens.Read(Apostrophe));
             Assert.Equal(c.ToString(),  tokens.Read(Character));
@@ -36,7 +38,7 @@ namespace D.Parsing.Tests
         [InlineData("Compound\t'Word")]
         public void CompoundWords(string text)
         {
-            var tokens = new Tokenizer(text);
+            using var tokens = new Tokenizer(text);
 
             Assert.Equal("Compound",    tokens.Read(Identifier));
             Assert.Equal("'",           tokens.Read(Apostrophe));
@@ -46,7 +48,7 @@ namespace D.Parsing.Tests
         [Fact]
         public void StringTokens()
         {
-            var tokens = new Tokenizer("let animal = \"fox\"");
+            using var tokens = new Tokenizer("let animal = \"fox\"");
 
             Assert.Equal("let",    tokens.Read(Let));
             Assert.Equal("animal", tokens.Read(Identifier));
@@ -59,36 +61,34 @@ namespace D.Parsing.Tests
         [Fact]
         public void ReadLogical()
         {
-            using (var tokens = new Tokenizer("10 + 5 || 20 - 5", graph))
-            {
-                Assert.Equal("10", tokens.Read(Number));
-                Assert.Equal("+", tokens.Read(Op));
-                Assert.Equal("5", tokens.Read(Number));
+            using var tokens = new Tokenizer("10 + 5 || 20 - 5", graph);
 
-                Assert.Equal("||", tokens.Read(Op));
+            Assert.Equal("10", tokens.Read(Number));
+            Assert.Equal("+", tokens.Read(Op));
+            Assert.Equal("5", tokens.Read(Number));
 
-                Assert.Equal("20", tokens.Read(Number));
-                Assert.Equal("-", tokens.Read(Op));
-                Assert.Equal("5", tokens.Read(Number));
-            }
+            Assert.Equal("||", tokens.Read(Op));
+
+            Assert.Equal("20", tokens.Read(Number));
+            Assert.Equal("-", tokens.Read(Op));
+            Assert.Equal("5", tokens.Read(Number));
         }
 
         [Fact]
         public void OpAssign()
         {
-            using (var tokens = new Tokenizer("a %= 3"))
-            {
-                Assert.Equal("a", tokens.Read(Identifier));
-                Assert.Equal("%", tokens.Read(Op));
-                Assert.Equal("=", tokens.Read(Op));
-                Assert.Equal("3", tokens.Read(Number));
-            }
+            using var tokens = new Tokenizer("a %= 3");
+
+            Assert.Equal("a", tokens.Read(Identifier));
+            Assert.Equal("%", tokens.Read(Op));
+            Assert.Equal("=", tokens.Read(Op));
+            Assert.Equal("3", tokens.Read(Number));
         }
 
         [Fact]
         public void ReadTuple()
         {
-            var tokens = new Tokenizer("b = (10, 10) * 5 kg // comment!", graph);
+            using var tokens = new Tokenizer("b = (10, 10) * 5 kg // comment!", graph);
 
             Assert.Equal("b",  tokens.Read(Identifier));
 
@@ -116,7 +116,7 @@ namespace D.Parsing.Tests
         [Fact]
         public void ReadNumbers()
         {
-            var tokens = new Tokenizer("1 1.1 1.1e100 1.1e+100 1.1e-100");
+            using var tokens = new Tokenizer("1 1.1 1.1e100 1.1e+100 1.1e-100");
 
             Assert.Equal("1",        tokens.Read(Number));
             Assert.Equal("1.1",      tokens.Read(Number));
@@ -130,7 +130,7 @@ namespace D.Parsing.Tests
         [Fact]
         public void Read()
         {
-            var tokens = new Tokenizer("image |> resize 100 100");
+            using var tokens = new Tokenizer("image |> resize 100 100");
 
             Assert.Equal("image",     tokens.Read(Identifier));
             Assert.Equal(PipeForward, tokens.Next().Kind);
@@ -145,7 +145,7 @@ namespace D.Parsing.Tests
         [Fact]
         public void ReadPositions()
         {
-            var tokens = new Tokenizer(
+            using var tokens = new Tokenizer(
 @"image |> resize 100px
 |> format Gif
 |> stream");
@@ -167,7 +167,7 @@ namespace D.Parsing.Tests
         [Fact]
         public void Read2()
         {
-            var tokens = new Tokenizer(
+            using var tokens = new Tokenizer(
                 @"|> composite
                   = image");
 
@@ -181,8 +181,7 @@ namespace D.Parsing.Tests
         [Fact]
         public void Read3()
         {
-          
-            var tokens = new Tokenizer(
+            using var tokens = new Tokenizer(
                 @"let image = get source key
                   let faces = image |> detect Face
 
@@ -233,14 +232,16 @@ namespace D.Parsing.Tests
 
     public static class TokenizerExtensions
     {
-        public static TokenKind ReadKind(this Tokenizer tokenizer)
-            => tokenizer.Next().Kind;
+        public static TokenKind ReadKind(this Tokenizer tokenizer) => tokenizer.Next().Kind;
 
         public static string Read(this Tokenizer tokenizer, TokenKind kind)
         {
             var token = tokenizer.Next();
 
-            if (token.Kind != kind) throw new System.Exception("Expected:" + kind + ". Was " + token.ToString());
+            if (token.Kind != kind)
+            {
+                throw new Exception("Expected:" + kind + ". Was " + token.ToString());
+            }
 
             return token.Text;
         }

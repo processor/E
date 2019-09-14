@@ -1,5 +1,5 @@
 ﻿using System.Linq;
-
+using Carbon.Color;
 using D.Expressions;
 using D.Imaging;
 using D.Mathematics;
@@ -24,11 +24,11 @@ namespace D.Tests
         [Fact]
         public void ConstructColor()
         {
-            var rgb = (Rgb)Script.Evaluate("rgb(20%, 12%, 19%)", env);
+            var rgb = (Rgba128f)Script.Evaluate("rgb(20%, 12%, 19%)", env);
 
-            Assert.Equal(0.20, rgb.R);
-            Assert.Equal(0.12, rgb.G);
-            Assert.Equal(0.19, rgb.B);
+            Assert.Equal(0.20f, rgb.R);
+            Assert.Equal(0.12f, rgb.G);
+            Assert.Equal(0.19f, rgb.B);
         }
 
         [Fact]
@@ -36,7 +36,7 @@ namespace D.Tests
         {
             var evaulator = new Evaluator();
 
-            var parser = new Parser(
+            using var parser = new Parser(
 @"a = 1
   b = 2
 
@@ -126,16 +126,15 @@ namespace D.Tests
 
             var parser = new Parser(
 @"a = 11
-  a |> add 50
-  |> multiply 10
+  a |> add(50)
+  |> multiply(10)
 
 ");
-
             evaulator.Evaluate(parser.Next());
 
             Assert.Equal("11", evaulator.Scope.Get("a").ToString());
 
-            var pipe = (CallExpressionSyntax)parser.Next(); // left: (a |> add 50) |> multiply 10
+            var pipe = (CallExpressionSyntax)parser.Next(); // left: (a |> add(50)) |> multiply(10)
             var left = (CallExpressionSyntax)pipe.Callee;   // a |> add 50
 
             Assert.Equal("a", left.Callee.ToString());

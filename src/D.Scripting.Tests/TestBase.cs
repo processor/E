@@ -8,10 +8,9 @@ namespace D.Parsing.Tests
     {
         public T Parse<T>(string text)
         {
-            using (var parser = new Parser(text))
-            {
-                return (T)parser.Next();
-            }
+            using var parser = new Parser(text);
+
+            return (T)parser.Next();
         }
 
         private static readonly string RootDirectory = new DirectoryInfo(AppContext.BaseDirectory).Parent.Parent.Parent.Parent.Parent.FullName;

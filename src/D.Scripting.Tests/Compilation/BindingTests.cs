@@ -14,7 +14,7 @@ namespace D.Scripting.Tests
                 Point ƒ <T: Number>(x: T, y: T, z: T) => Point<T>(x, y, z)
             ");
 
-            Assert.Equal(null, func.ReturnType);
+            Assert.Null(func.ReturnType);
             
             var compiler = new Compiler();
 
@@ -35,7 +35,7 @@ namespace D.Scripting.Tests
 
             var f = compiler.VisitFunctionDeclaration(func);
 
-            Assert.Equal(Type.Get(Kind.String), f.ReturnType);
+            Assert.Equal(Type.Get(ObjectType.String), f.ReturnType);
         }
     }
 }
