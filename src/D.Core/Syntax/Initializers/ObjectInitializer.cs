@@ -1,13 +1,11 @@
-﻿using System;
-
-namespace D.Syntax
+﻿namespace D.Syntax
 {
-    public class ObjectInitializerSyntax : ISyntaxNode
+    public sealed class ObjectInitializerSyntax : ISyntaxNode
     {
         public ObjectInitializerSyntax(TypeSymbol type, ArgumentSyntax[] arguments)
         {
-            Type      = type ?? throw new ArgumentNullException(nameof(type));
-            Arguments = arguments ?? throw new ArgumentNullException(nameof(type));
+            Type = type;
+            Arguments = arguments;
         }
 
         public TypeSymbol Type { get; }
@@ -17,8 +15,6 @@ namespace D.Syntax
         SyntaxKind ISyntaxNode.Kind => SyntaxKind.TypeInitializer;
     }
 }
-
-
 
 // Tuple Based Syntax
 // (x: 1, y: 2)

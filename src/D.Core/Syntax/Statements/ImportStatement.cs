@@ -1,6 +1,6 @@
 ﻿namespace D.Syntax
 {
-    public class UsingStatement : ISyntaxNode
+    public sealed class UsingStatement : ISyntaxNode
     {
         public UsingStatement(Symbol[] domains)
         {

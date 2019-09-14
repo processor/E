@@ -1,12 +1,10 @@
-﻿using System;
-
-namespace D.Syntax
+﻿namespace D.Syntax
 {
-    public class StringLiteralSyntax : ISyntaxNode
+    public sealed class StringLiteralSyntax : ISyntaxNode
     {
         public StringLiteralSyntax(string value)
         {
-            Value = value ?? throw new ArgumentNullException(nameof(value));
+            Value = value;
         }
 
         public string Value { get; }
@@ -18,7 +16,7 @@ namespace D.Syntax
             text.Value;
 
         public override string ToString() => Value;
-        
+
         SyntaxKind ISyntaxNode.Kind => SyntaxKind.StringLiteral;
     }
 }

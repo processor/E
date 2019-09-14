@@ -1,15 +1,14 @@
-﻿using System;
-using System.Text;
+﻿using System.Text;
 
 namespace D.Syntax
 {
     // .member
-    public class MemberAccessExpressionSyntax : ISyntaxNode
+    public sealed class MemberAccessExpressionSyntax : ISyntaxNode
     {
         public MemberAccessExpressionSyntax(ISyntaxNode left, Symbol name)
         {
-            Left = left ?? throw new ArgumentNullException(nameof(left));
-            Name = name ?? throw new ArgumentNullException(nameof(name));
+            Left = left;
+            Name = name;
         }
 
         public ISyntaxNode Left { get; }

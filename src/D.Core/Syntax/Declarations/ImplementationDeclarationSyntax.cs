@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace D.Syntax
 {
-    public class ImplementationDeclarationSyntax : ISyntaxNode
+    public sealed class ImplementationDeclarationSyntax : ISyntaxNode
     {
         public ImplementationDeclarationSyntax(
             Symbol protocol,

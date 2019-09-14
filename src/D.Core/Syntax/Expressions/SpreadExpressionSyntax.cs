@@ -1,6 +1,6 @@
 ﻿namespace D.Syntax
 {
-    public class SpreadExpressionSyntax : ISyntaxNode
+    public sealed class SpreadExpressionSyntax : ISyntaxNode
     {
         public SpreadExpressionSyntax(ISyntaxNode symbol)
         {

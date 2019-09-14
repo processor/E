@@ -1,10 +1,9 @@
 ﻿using System;
 using System.IO;
-using System.Text;
 
 namespace D.Syntax
 {
-    public class FunctionDeclarationSyntax : IMemberSyntax, ISyntaxNode
+    public sealed class FunctionDeclarationSyntax : IMemberSyntax, ISyntaxNode
     {
         // TODO: Module
 
@@ -17,7 +16,7 @@ namespace D.Syntax
         public FunctionDeclarationSyntax(
            ParameterSyntax[] parameters,
            ISyntaxNode body,
-           Symbol returnType,
+           Symbol? returnType,
            ObjectFlags flags = ObjectFlags.None)
         {
             Parameters        = parameters;
@@ -32,7 +31,7 @@ namespace D.Syntax
             ParameterSyntax[] genericParameters,
             ParameterSyntax[] parameters,
             Symbol returnType,
-            ISyntaxNode body,
+            ISyntaxNode? body,
             ObjectFlags flags = ObjectFlags.None)
         {
             Name              = name;
@@ -43,33 +42,29 @@ namespace D.Syntax
             Flags             = flags;
         }
 
-        public Symbol Name { get; }
+        public Symbol? Name { get; }
 
         public ParameterSyntax[] GenericParameters { get; }
 
         public ParameterSyntax[] Parameters { get; }
 
-        public Symbol ReturnType { get; }
+        public Symbol? ReturnType { get; }
 
         // Class Or Interface
 
-        public ISyntaxNode DeclaringType { get; internal set; }
+        public ISyntaxNode? DeclaringType { get; internal set; }
 
         // Block or lambda
-        public ISyntaxNode Body { get; }
+        public ISyntaxNode? Body { get; }
 
         public override string ToString()
         {
-            var sb = new StringBuilder();
+            using var writer = new StringWriter();
 
-            using (var writer = new StringWriter(sb))
-            {
-                WriteTo(writer);    
-            }
+            WriteTo(writer);
 
-            return sb.ToString();
+            return writer.ToString();
         }
-
 
         public void WriteTo(TextWriter writer)
         {
@@ -82,7 +77,10 @@ namespace D.Syntax
 
             writer.Write(')');
 
-            writer.Write(Body.ToString());
+            if (Body != null)
+            {
+                writer.WriteLine(Body.ToString());
+            }
         }
 
         #region Flags
@@ -91,8 +89,9 @@ namespace D.Syntax
 
         // Mutating?
 
-        public bool IsStatic
-            => IsOperator || !Flags.HasFlag(ObjectFlags.Instance);
+        public bool IsStatic => IsOperator || !Flags.HasFlag(ObjectFlags.Instance);
+
+        public bool IsLambda => Flags.HasFlag(ObjectFlags.Lambda);
 
         public bool IsAbstract      => Flags.HasFlag(ObjectFlags.Abstract);
         public bool IsOperator      => Flags.HasFlag(ObjectFlags.Operator);

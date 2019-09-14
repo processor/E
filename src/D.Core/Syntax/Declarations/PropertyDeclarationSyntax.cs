@@ -1,11 +1,11 @@
 ﻿namespace D.Syntax
 {
-    public class PropertyDeclarationSyntax : IMemberSyntax, ISyntaxNode
+    public sealed class PropertyDeclarationSyntax : IMemberSyntax, ISyntaxNode
     {
         public PropertyDeclarationSyntax(
             Symbol name, 
             TypeSymbol type, 
-            ISyntaxNode value = null, 
+            ISyntaxNode? value = null, 
             ObjectFlags flags = ObjectFlags.None)
         {
             Name  = name;
@@ -21,7 +21,7 @@
         // A & B
         public TypeSymbol Type { get; }
 
-        public ISyntaxNode Value { get; }
+        public ISyntaxNode? Value { get; }
 
         public ObjectFlags Flags { get; }
 
@@ -32,7 +32,7 @@
 
     // a, b, c: Number
 
-    public class CompoundPropertyDeclaration : ISyntaxNode
+    public sealed class CompoundPropertyDeclaration : ISyntaxNode
     {
         public CompoundPropertyDeclaration(PropertyDeclarationSyntax[] declarations)
         {

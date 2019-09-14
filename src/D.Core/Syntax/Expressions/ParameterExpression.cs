@@ -1,13 +1,13 @@
 ﻿namespace D.Syntax
 {
-    public class ParameterSyntax
+    public sealed class ParameterSyntax
     {
         public ParameterSyntax(
             Symbol name, 
-            Symbol type = null,
-            ISyntaxNode defaultValue = null,
-            ISyntaxNode condition = null,
-            AnnotationSyntax[] annotations = null,
+            Symbol? type = null,
+            ISyntaxNode? defaultValue = null,
+            ISyntaxNode? condition = null,
+            AnnotationSyntax[]? annotations = null,
             int index = 0)
         {
             Name         = name;
@@ -20,14 +20,14 @@
 
         public Symbol Name { get; }
 
-        public Symbol Type { get; }
+        public Symbol? Type { get; }
 
         public int Index { get; }
 
-        public ISyntaxNode DefaultValue { get; }
+        public ISyntaxNode? DefaultValue { get; }
 
-        public ISyntaxNode Condition { get; }
+        public ISyntaxNode? Condition { get; }
 
-        public AnnotationSyntax[] Annotations { get; }
+        public AnnotationSyntax[]? Annotations { get; }
     }
 }

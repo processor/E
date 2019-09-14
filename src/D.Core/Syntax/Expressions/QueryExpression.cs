@@ -1,13 +1,13 @@
 ﻿namespace D.Syntax
 {
-    public class QueryExpression : ISyntaxNode
+    public sealed class QueryExpression : ISyntaxNode
     {
         public QueryExpression(
             ISyntaxNode collection,
-            ISyntaxNode variable,
+            ISyntaxNode? variable,
             ISyntaxNode filter,
             ISyntaxNode map,
-            OrderByStatement orderBy,
+            OrderByStatement? orderBy,
             long skip = 0,
             long take = 0)
         {
@@ -22,15 +22,15 @@
 
         public ISyntaxNode Collection { get; }       // from Y
 
-        public ISyntaxNode Variable { get; }         // from [x] in Y 
+        public ISyntaxNode? Variable { get; }         // from [x] in Y 
 
         public ISyntaxNode Filter { get; }           // where a > 100
 
         public ISyntaxNode Map { get; }              // select a || { a, b, c }  
 
-        public OrderByStatement OrderBy { get; }     // orderby a desc
+        public OrderByStatement? OrderBy { get; }    // orderby a desc
 
-        public ISyntaxNode Using { get; }            // using index_name
+        public ISyntaxNode? Using { get; }            // using index_name
 
         public long Skip { get; }
 

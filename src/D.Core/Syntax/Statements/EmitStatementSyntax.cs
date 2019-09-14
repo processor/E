@@ -1,6 +1,6 @@
 ﻿namespace D.Syntax
 {
-    public class EmitStatementSyntax : ISyntaxNode
+    public sealed class EmitStatementSyntax : ISyntaxNode
     {
         public EmitStatementSyntax(ISyntaxNode expression)
         {

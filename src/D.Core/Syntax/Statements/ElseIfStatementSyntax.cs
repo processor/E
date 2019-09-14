@@ -1,8 +1,8 @@
 ﻿namespace D.Syntax
 {
-    public class ElseIfStatementSyntax : ISyntaxNode
+    public sealed class ElseIfStatementSyntax : ISyntaxNode
     {
-        public ElseIfStatementSyntax(ISyntaxNode condition, BlockSyntax body, ISyntaxNode elseBranch)
+        public ElseIfStatementSyntax(ISyntaxNode condition, BlockSyntax body, ISyntaxNode? elseBranch)
         {
             Condition = condition;
             Body = body;
@@ -14,7 +14,7 @@
         public BlockSyntax Body { get; }
 
         // Else, ElseIf
-        public ISyntaxNode ElseBranch { get; }
+        public ISyntaxNode? ElseBranch { get; }
 
         SyntaxKind ISyntaxNode.Kind => SyntaxKind.ElseIfStatement;
     }

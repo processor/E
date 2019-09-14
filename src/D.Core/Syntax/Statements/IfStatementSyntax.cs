@@ -1,13 +1,11 @@
-﻿using System;
-
-namespace D.Syntax
+﻿namespace D.Syntax
 {
-    public class IfStatementSyntax : ISyntaxNode
+    public sealed class IfStatementSyntax : ISyntaxNode
     {
-        public IfStatementSyntax(ISyntaxNode condition, BlockSyntax body, ISyntaxNode elseBranch)
+        public IfStatementSyntax(ISyntaxNode condition, BlockSyntax body, ISyntaxNode? elseBranch)
         {
-            Condition  = condition ?? throw new ArgumentNullException(nameof(condition));
-            Body       = body ?? throw new ArgumentNullException(nameof(body));
+            Condition = condition;
+            Body = body;
             ElseBranch = elseBranch;
         }
 
@@ -16,7 +14,7 @@ namespace D.Syntax
         public BlockSyntax Body { get; }
 
         // Else | ElseIf
-        public ISyntaxNode ElseBranch { get; }
+        public ISyntaxNode? ElseBranch { get; }
 
         SyntaxKind ISyntaxNode.Kind => SyntaxKind.IfStatement;
     }

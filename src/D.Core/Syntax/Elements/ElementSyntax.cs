@@ -1,6 +1,6 @@
 ﻿namespace D.Syntax
 {
-    public class ElementSyntax : ISyntaxNode
+    public sealed class ElementSyntax : ISyntaxNode
     {
         public ElementSyntax(
             string ns,

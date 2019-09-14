@@ -1,14 +1,12 @@
-﻿using System;
-
-namespace D.Syntax
+﻿namespace D.Syntax
 {
     // [index]
-    public class IndexAccessExpressionSyntax : ISyntaxNode
+    public sealed class IndexAccessExpressionSyntax : ISyntaxNode
     {
         public IndexAccessExpressionSyntax(ISyntaxNode left, ArgumentSyntax[] arguments)
         {
             Left = left;
-            Arguments = arguments ?? throw new ArgumentNullException(nameof(arguments));
+            Arguments = arguments;
         }
 
         public ISyntaxNode Left { get; }

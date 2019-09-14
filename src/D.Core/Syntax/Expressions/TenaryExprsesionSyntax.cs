@@ -1,8 +1,11 @@
 ﻿namespace D.Syntax
 {    
-    public class TernaryExpressionSyntax : ISyntaxNode
+    public sealed class TernaryExpressionSyntax : ISyntaxNode
     {
-        public TernaryExpressionSyntax(ISyntaxNode condition, ISyntaxNode left, ISyntaxNode right)
+        public TernaryExpressionSyntax(
+            ISyntaxNode condition,
+            ISyntaxNode left, 
+            ISyntaxNode right)
         {
             Condition = condition;
             Left = left;

@@ -1,15 +1,14 @@
-﻿using System;
-using System.Text;
+﻿using System.Text;
 
 namespace D.Syntax
 {
-    public class BinaryExpressionSyntax : ISyntaxNode
+    public sealed class BinaryExpressionSyntax : ISyntaxNode
     {
         public BinaryExpressionSyntax(Operator op, ISyntaxNode lhs, ISyntaxNode rhs)
         {
             Operator = op;
-            Left     = lhs ?? throw new ArgumentNullException(nameof(lhs));
-            Right    = rhs ?? throw new ArgumentNullException(nameof(rhs));
+            Left = lhs;
+            Right = rhs;
         }
 
         public Operator Operator { get; }
@@ -18,7 +17,7 @@ namespace D.Syntax
 
         public ISyntaxNode Right { get; }
 
-        public bool Parenthesized { get; set; }
+        public bool IsParenthesized { get; set; }
 
         SyntaxKind ISyntaxNode.Kind => SyntaxKind.BinaryExpression;
 
@@ -28,7 +27,7 @@ namespace D.Syntax
         {
             var sb = new StringBuilder();
 
-            if (Parenthesized)
+            if (IsParenthesized)
             {
                 sb.Append('(');
             }
@@ -41,7 +40,7 @@ namespace D.Syntax
 
             sb.Append(Right.ToString());
 
-            if (Parenthesized)
+            if (IsParenthesized)
             {
                 sb.Append(')');
             }

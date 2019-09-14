@@ -1,6 +1,6 @@
 ﻿namespace D.Syntax
 {
-    public class FragmentNode : IObject
+    public sealed class FragmentNode : IObject
     {
         public FragmentNode(IObject[] children)
         {
@@ -9,6 +9,6 @@
 
         public IObject[] Children { get; }
 
-        Kind IObject.Kind => Kind.Fragment;
+        ObjectType IObject.Kind => ObjectType.Fragment;
     }
 }

@@ -2,7 +2,7 @@
 {
     // $"{expression}text"
 
-    public class InterpolatedStringExpressionSyntax : ISyntaxNode
+    public sealed class InterpolatedStringExpressionSyntax : ISyntaxNode
     {
         public InterpolatedStringExpressionSyntax(ISyntaxNode[] children)
         {

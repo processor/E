@@ -1,10 +1,8 @@
-﻿using System;
-
-namespace D.Syntax
+﻿namespace D.Syntax
 {
     // e.g. on bank Account'Opened opening { }
 
-    public class ObserveStatementSyntax : ISyntaxNode
+    public sealed class ObserveStatementSyntax : ISyntaxNode
     {
         public ObserveStatementSyntax(
             ISyntaxNode observable,
@@ -38,12 +36,12 @@ namespace D.Syntax
         SyntaxKind ISyntaxNode.Kind => SyntaxKind.ObserveStatement;
     }
 
-    public class UntilConditionSyntax
+    public sealed class UntilConditionSyntax
     {
         public UntilConditionSyntax(ISyntaxNode observable, Symbol @event)
         {
             Observable = observable;
-            Event      = @event ?? throw new ArgumentNullException(nameof(@event));
+            Event = @event;
         }
 
         public ISyntaxNode Observable { get; }

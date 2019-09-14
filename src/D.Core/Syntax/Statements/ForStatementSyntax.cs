@@ -1,6 +1,6 @@
 ﻿namespace D.Syntax
 {
-    public class ForStatementSyntax : ISyntaxNode
+    public sealed class ForStatementSyntax : ISyntaxNode
     {
         public ForStatementSyntax(ISyntaxNode variable, ISyntaxNode generator, BlockSyntax body)
         {

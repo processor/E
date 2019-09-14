@@ -1,19 +1,19 @@
 ﻿namespace D.Syntax
 {
-    public class ArgumentSyntax
+    public sealed class ArgumentSyntax
     {
         public ArgumentSyntax(ISyntaxNode value)
         {
             Value = value;
         }
 
-        public ArgumentSyntax(Symbol name, ISyntaxNode value)
+        public ArgumentSyntax(Symbol? name, ISyntaxNode value)
         {
             Name = name;
             Value = value;
         }
 
-        public Symbol Name { get; }
+        public Symbol? Name { get; }
 
         public ISyntaxNode Value { get; }
     }

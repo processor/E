@@ -82,6 +82,6 @@
 
 
         Element, // <element />
-        Text
+        TextNode
     }
 }

@@ -1,15 +1,13 @@
-﻿using System;
-
-namespace D.Syntax
+﻿namespace D.Syntax
 {
-    public class OperatorDeclarationSyntax : ISyntaxNode
+    public sealed class OperatorDeclarationSyntax : ISyntaxNode
     {
         public OperatorDeclarationSyntax(
             Symbol name, 
             ArgumentSyntax[] properties)
         {
-            Name       = name       ?? throw new ArgumentNullException(nameof(name));
-            Properties = properties ?? throw new ArgumentNullException(nameof(properties));
+            Name = name;
+            Properties = properties;
         }
 
         public Symbol Name { get; }
@@ -18,13 +16,13 @@ namespace D.Syntax
 
         #region Property Helpers
         
-        public ISyntaxNode Precedence => GetPropertyValue("precedence");
+        public ISyntaxNode? Precedence => GetPropertyValue("precedence");
         
-        public ISyntaxNode Associativity => GetPropertyValue("associativity");
+        public ISyntaxNode? Associativity => GetPropertyValue("associativity");
 
-        public ISyntaxNode GetPropertyValue(string name)
+        public ISyntaxNode? GetPropertyValue(string name)
         {
-            foreach (var property in Properties)
+            foreach (ArgumentSyntax property in Properties)
             {
                 if (property.Name == name)
                 {

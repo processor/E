@@ -1,6 +1,6 @@
 ﻿namespace D.Syntax
 {
-    public class ImportDeclarationSyntax : ISyntaxNode
+    public sealed class ImportDeclarationSyntax : ISyntaxNode
     {
         SyntaxKind ISyntaxNode.Kind => SyntaxKind.ImportDeclaration;
     }

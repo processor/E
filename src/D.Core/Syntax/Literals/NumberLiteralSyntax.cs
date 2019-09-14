@@ -1,12 +1,11 @@
 ﻿namespace D.Syntax
 {
-    public class NumberLiteralSyntax : ISyntaxNode
+    public sealed class NumberLiteralSyntax : ISyntaxNode
     {
         public NumberLiteralSyntax(string text)
         {
             Text = text;
         }
-        
         
         public string Text { get; }
 
@@ -21,6 +20,8 @@
         public static implicit operator decimal (NumberLiteralSyntax value) => decimal.Parse(value.Text);
 
         public override string ToString() => Text;
+
+        // postfix (u8, i8, i32, f32, d64, ..)
     }
 
     // Sign...

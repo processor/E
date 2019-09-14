@@ -5,17 +5,16 @@
     // .   memberAccess
     // ()  invoke
 
-    public class CallExpressionSyntax : ISyntaxNode
+    public sealed class CallExpressionSyntax : ISyntaxNode
     {
-        public CallExpressionSyntax(ISyntaxNode callee, Symbol name, ArgumentSyntax[] arguments)
+        public CallExpressionSyntax(ISyntaxNode? callee, Symbol name, ArgumentSyntax[] arguments)
         {
             Callee    = callee;
             Name      = name;
             Arguments = arguments;
         }
 
-        // Nullable 
-        public ISyntaxNode Callee { get; }  // Piper
+        public ISyntaxNode? Callee { get; } // The piper
         
         public Symbol Name { get; }
 
@@ -26,8 +25,6 @@
         SyntaxKind ISyntaxNode.Kind => SyntaxKind.CallExpression;
     }
 }
-
-// e.g.
 
 // resize(100, 100)
 // String("hello")

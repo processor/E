@@ -15,7 +15,7 @@ namespace D.Syntax
         public TypeDefinationBase(Symbol baseType, ISyntaxNode[] members, TypeFlags flags)
         {
             BaseType = baseType;
-            Members = members ?? throw new ArgumentNullException(nameof(members));
+            Members = members;
             Flags  = flags;
         }
 
@@ -65,12 +65,12 @@ namespace D.Syntax
 
     // Las `Vegas, New `York : State class { }
 
-    public class CompoundTypeDeclarationSyntax : TypeDefinationBase
+    public sealed class CompoundTypeDeclarationSyntax : TypeDefinationBase
     {
         public CompoundTypeDeclarationSyntax(Symbol[] names, TypeFlags flags, Symbol baseType, ISyntaxNode[] members)
              : base(baseType, members, flags)
         {
-            Names = names ?? throw new ArgumentNullException(nameof(names));
+            Names = names;
         }
 
         public Symbol[] Names { get; }

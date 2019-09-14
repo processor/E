@@ -1,13 +1,11 @@
-﻿using System;
-
-namespace D.Syntax
+﻿namespace D.Syntax
 {
-    public class AnnotationSyntax : ISyntaxNode
+    public sealed class AnnotationSyntax : ISyntaxNode
     {
         public AnnotationSyntax(Symbol name, ArgumentSyntax[] arguments)
         {
-            Name      = name ?? throw new ArgumentNullException(nameof(name));
-            Arguments = arguments ?? throw new ArgumentNullException(nameof(arguments));
+            Name = name;
+            Arguments = arguments;
         }
 
         public Symbol Name { get; }

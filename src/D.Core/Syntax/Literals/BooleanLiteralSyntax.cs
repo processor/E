@@ -1,6 +1,6 @@
 ﻿namespace D.Syntax
 {
-    public class BooleanLiteralSyntax : ISyntaxNode
+    public sealed class BooleanLiteralSyntax : ISyntaxNode
     {
         public static readonly BooleanLiteralSyntax True = new BooleanLiteralSyntax(true);
         public static readonly BooleanLiteralSyntax False = new BooleanLiteralSyntax(false);

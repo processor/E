@@ -1,6 +1,6 @@
 ﻿namespace D.Syntax
 {
-    public readonly struct CharacterLiteralSyntax : ISyntaxNode
+    public sealed class CharacterLiteralSyntax : ISyntaxNode
     { 
         public CharacterLiteralSyntax(char value)
         {

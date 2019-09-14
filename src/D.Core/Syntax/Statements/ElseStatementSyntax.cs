@@ -1,6 +1,6 @@
 ﻿namespace D.Syntax
 {
-    public class ElseStatementSyntax : ISyntaxNode
+    public sealed class ElseStatementSyntax : ISyntaxNode
     {
         public ElseStatementSyntax(BlockSyntax body)
         {

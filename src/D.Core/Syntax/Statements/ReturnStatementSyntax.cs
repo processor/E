@@ -1,12 +1,10 @@
-﻿using System;
-
-namespace D.Syntax
+﻿namespace D.Syntax
 {
-    public class ReturnStatementSyntax : ISyntaxNode
+    public sealed class ReturnStatementSyntax : ISyntaxNode
     {
         public ReturnStatementSyntax(ISyntaxNode expression)
         {
-            Expression = expression ?? throw new ArgumentNullException(nameof(expression));
+            Expression = expression;
         }
 
         public ISyntaxNode Expression { get; }

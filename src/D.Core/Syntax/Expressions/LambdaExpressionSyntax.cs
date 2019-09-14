@@ -1,13 +1,11 @@
-﻿using System;
-
-namespace D.Syntax
+﻿namespace D.Syntax
 {
     // => ...
-    public class LambdaExpressionSyntax : ISyntaxNode
+    public sealed class LambdaExpressionSyntax : ISyntaxNode
     {
         public LambdaExpressionSyntax(ISyntaxNode expression)
         {
-            Expression = expression ?? throw new ArgumentNullException(nameof(expression));
+            Expression = expression;
         }
 
         public ISyntaxNode Expression { get; }

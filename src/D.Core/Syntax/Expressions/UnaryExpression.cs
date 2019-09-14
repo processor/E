@@ -2,7 +2,7 @@
 
 namespace D.Syntax
 {
-    public class UnaryExpressionSyntax : ISyntaxNode
+    public sealed class UnaryExpressionSyntax : ISyntaxNode
     {
         public UnaryExpressionSyntax(Operator op, ISyntaxNode arg)
         {
@@ -21,7 +21,7 @@ namespace D.Syntax
         {
             var sb = new StringBuilder();
 
-            sb.Append(Operator.ToString().ToLower());
+            sb.Append(Operator.ToString());
 
             sb.Append('(');
 
