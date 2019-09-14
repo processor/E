@@ -6,11 +6,11 @@ using System.Linq;
 
 namespace D.Inference
 {
-    public class ApplyNode : Node
+    public sealed class ApplyNode : Node
     {
         private bool IsFunction(IType type)
         {
-            if (type == null) return false;
+            if (type is null) return false;
 
             return type.Constructor != null ? type.Constructor == TypeSystem.Function : IsFunction(type.Self);
         }
@@ -22,7 +22,7 @@ namespace D.Inference
                 : arg;
         }
 
-        private IType AsAnnotationType(Environment env, IReadOnlyList<IType> types)
+        private IType? AsAnnotationType(Environment env, IReadOnlyList<IType> types)
         {
             if (Spec is Node spec && spec.Type is IType ctor && !IsFunction(ctor))
             {
@@ -48,14 +48,14 @@ namespace D.Inference
 
         public override IType Infer(Environment env, IReadOnlyList<IType> types)
         {
-            if (Type == null && AsAnnotationType(env, types) is IType annotation)
+            if (Type is null && AsAnnotationType(env, types) is IType annotation)
             {
                 return annotation;
             }
 
             List<IType> args = Arguments.Select(arg => TypeSystem.Infer(env, ToFormal(env, types, arg), types)).ToList();
 
-            var expression = (Node)Spec;
+            var expression = (Node)Spec!;
 
             var self = TypeSystem.Infer(env, expression, types);
 

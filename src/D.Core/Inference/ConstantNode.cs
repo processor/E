@@ -10,18 +10,17 @@ namespace D.Inference
     {
         public ConstantNode(IType spec)
         {
-            Spec = spec ?? throw new ArgumentNullException(nameof(spec));
+            Spec = spec;
         }
 
         public override IType Infer(Environment env, IReadOnlyList<IType> types)
         {
-            switch (Spec)
+            return Spec switch
             {
-                case IType type  : return type;
-                case string name : return env[name]; 
-            }
-
-            throw new Exception("ConstantNode must be a type or name");
+                IType type => type,
+                string name => env[name],
+                _ => throw new Exception("ConstantNode must be a type or name")
+            };
         }
 
         public override string ToString() => "{ " + Spec + " }";

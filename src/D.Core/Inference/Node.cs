@@ -14,7 +14,7 @@ namespace D.Inference
 
         public static VariableNode Variable(string name) => Variable(name, null);
 
-        public static VariableNode Variable(string name, IType type)
+        public static VariableNode Variable(string name, IType? type)
         {
             return new VariableNode(name, type);
         }
@@ -40,7 +40,7 @@ namespace D.Inference
 
         public abstract IType Infer(Environment env, IReadOnlyList<IType> types);
 
-        public object Spec { get; protected set; }
+        public object? Spec { get; protected set; }
 
         public Node[] Arguments { get; private set; }
 

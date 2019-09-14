@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace D.Inference
+﻿namespace D.Inference
 {
     public class Flow
     {
@@ -15,17 +13,17 @@ namespace D.Inference
         public Flow()
         {
             var binary   = TypeSystem.NewGeneric();
-            var boolean  = Add(Type.Get(Kind.Boolean));
-            var i32      = Add(Type.Get(Kind.Int32));
-            var @string  = Add(Type.Get(Kind.String));
+            var boolean  = Add(Type.Get(ObjectType.Boolean));
+            var i32      = Add(Type.Get(ObjectType.Int32));
+            var @string  = Add(Type.Get(ObjectType.String));
 
-            Add(Type.Get(Kind.Int64));
-            Add(Type.Get(Kind.Float32));
-            Add(Type.Get(Kind.Float64));
-            Add(Type.Get(Kind.Decimal));
-            Add(Type.Get(Kind.Number));
+            Add(Type.Get(ObjectType.Int64));
+            Add(Type.Get(ObjectType.Float32));
+            Add(Type.Get(ObjectType.Float64));
+            Add(Type.Get(ObjectType.Decimal));
+            Add(Type.Get(ObjectType.Number));
 
-            any = GetType(Kind.Object);
+            any = GetType(ObjectType.Object);
 
             itemType = TypeSystem.NewGeneric();
             listType = TypeSystem.NewType("List", args: new[] { itemType });
@@ -76,22 +74,17 @@ namespace D.Inference
 
         public IType NewGeneric() => TypeSystem.NewGeneric();
 
-        public IType GetListTypeOf(Kind elementKind)
+        public IType GetListTypeOf(ObjectType elementKind)
         {
             var item = GetType(elementKind);
 
             return TypeSystem.NewType(listType, "List<" + elementKind.ToString() + ">", new[] { item });
         }
 
-        public IType GetType(Kind kind)
-        {
-            return GetType(new Type(kind));
-        }
+        public IType GetType(ObjectType kind) => GetType(new Type(kind));
 
         private IType GetType(Type kind)
-        {
-            if (kind == null) throw new ArgumentNullException(nameof(kind));
-           
+        {           
             if (!env.TryGetValue(kind.Name, out IType type))
             {
                 type = Add(kind);
@@ -122,15 +115,15 @@ namespace D.Inference
             return type;
         }
 
-        public void AddFunction(string name, Parameter[] parameters, Kind returnKind)
+        public void AddFunction(string name, Parameter[] parameters, ObjectType returnKind)
         {
             var nodes = new Node[parameters.Length];
 
-            for (var i = 0; i < parameters.Length; i++)
+            for (int i = 0; i < parameters.Length; i++)
             {
-                var parameter = parameters[i];
+                Parameter parameter = parameters[i];
 
-                nodes[i] = Node.Variable(parameter.Name, GetType(parameter.Type));
+                nodes[i] = Node.Variable(parameter.Name ?? "_" + i, GetType(parameter.Type));
             }
 
             var type = GetType(new Type(returnKind));
@@ -146,11 +139,11 @@ namespace D.Inference
         {
             var nodes = new Node[parameters.Length];
 
-            for (var i = 0; i < parameters.Length; i++)
+            for (int i = 0; i < parameters.Length; i++)
             {
-                var parameter = parameters[i];
+                Parameter parameter = parameters[i];
 
-                nodes[i] = Node.Variable(parameter.Name, GetType(parameter.Type));
+                nodes[i] = Node.Variable(parameter.Name ?? "_" + i, GetType(parameter.Type));
             }
 
             AddFunction(name, nodes, body);
@@ -187,14 +180,8 @@ namespace D.Inference
             return TypeSystem.Infer(env, node);
         }
 
-        public IType Infer(Node node)
-        {
-            return TypeSystem.Infer(env, node);
-        }
-
-        public IType Infer(string name)
-        {
-            return TypeSystem.Infer(env, Node.Variable(name));
-        }
+        public IType Infer(Node node) => TypeSystem.Infer(env, node);
+       
+        public IType Infer(string name) => TypeSystem.Infer(env, Node.Variable(name));
     }
 }

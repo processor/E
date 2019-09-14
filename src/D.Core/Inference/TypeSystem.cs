@@ -19,10 +19,10 @@ namespace D.Inference
                 Name = name;
             }
 
-            protected TypeBase(string name, IType[] args)
+            protected TypeBase(string name, IType[] arguments)
                 : this(name)
             {
-                Arguments = args ?? Array.Empty<IType>();
+                Arguments = arguments ?? Array.Empty<IType>();
             }
 
             public override string ToString() => Name;
@@ -34,7 +34,7 @@ namespace D.Inference
             public IType[] Arguments { get; }
 
             // AKA Instance
-            public IType Self { get; internal set; }
+            public IType? Self { get; internal set; }
 
             public IType Value => Self != null ? Self.Value : this;
         }
@@ -82,8 +82,6 @@ namespace D.Inference
             internal Type(IType constructor, string name, IType[] args)
                 : base(name, args)
             {
-                if (name == null) throw new ArgumentNullException(nameof(name));
-
                 Constructor = constructor ?? this;
             }
 
@@ -165,7 +163,7 @@ namespace D.Inference
 
         public static IType NewType(IType constructor, IType[] args) => new Type(constructor, constructor.Name, args);
 
-        public static IType NewType(IType constructor, string id, IType[] args) => new Type(constructor, id, args);
+        public static IType NewType(IType constructor, string id, IType[]? args) => new Type(constructor, id, args);
 
         public static void Unify(IType t, IType s)
         {

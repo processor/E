@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace D.Inference
 {
-    public class DefineNode : Node
+    public sealed class DefineNode : Node
     {
         public DefineNode(Node spec, Node body)
         {
