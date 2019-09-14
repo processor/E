@@ -57,7 +57,7 @@ namespace D.Operators.Tests
 
         public class Func : IFunction
         {
-            public Kind Kind => Kind.Function;
+            public ObjectType Kind => ObjectType.Function;
 
             public string Name => "hi";
 
@@ -71,7 +71,7 @@ namespace D.Operators.Tests
         {
             var env = new Node();
 
-            var op = Operator.Infix(Kind.Function, "#", 0);
+            var op = Operator.Infix(ObjectType.Function, "#", 0);
 
             env.Add("#", new Func());
 
@@ -79,7 +79,7 @@ namespace D.Operators.Tests
 
             var eval = new Evaluator(env);
 
-            Assert.Equal("hello 5 2", (string)eval.Evaluate("5 # 2"));
+            Assert.Equal("hello 5 2", eval.Evaluate("5 # 2"));
         }
     }
 }
