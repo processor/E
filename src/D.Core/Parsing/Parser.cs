@@ -589,7 +589,7 @@ namespace D.Parsing
                 ? ReadTypeSymbol()
                 : null;
 
-            var value = ConsumeIf("=")       // ? =
+            var value = ConsumeIf('=')       // ? =
                 ? IsKind(Function) ? ReadFunctionDeclaration(name) : ReadExpression()
                 : null;
 
@@ -731,7 +731,7 @@ namespace D.Parsing
                         : null;
 
 
-                    TypeSymbol defaultValue = ConsumeIf("=") ? ReadTypeSymbol() : null;
+                    TypeSymbol? defaultValue = ConsumeIf('=') ? ReadTypeSymbol() : null;
 
                     list.Add(new ParameterSyntax(genericName, genericType, defaultValue));
 
@@ -747,17 +747,14 @@ namespace D.Parsing
             return Array.Empty<ParameterSyntax>();
         }
 
-        private ISyntaxNode ReadBody()
+        private ISyntaxNode ReadBody() => Current.Kind switch
         {
-            return Current.Kind switch
-            {
-                LambdaOperator => ReadLambda(), // expression bodied?
-                BraceOpen      => ReadBlock(),
+            LambdaOperator => ReadLambda(), // expression bodied?
+            BraceOpen      => ReadBlock(),
 
-                _              => throw new UnexpectedTokenException("Expected block or lambda reading lambda", Current),
-            };
-        }
-
+            _              => throw new UnexpectedTokenException("Expected block or lambda reading lambda", Current),
+        };
+        
         private FunctionDeclarationSyntax ReadAnonymousFunctionDeclaration(Symbol parameterName)
         {
             // TODO: determine whether it captures any outside variables 
@@ -802,11 +799,11 @@ namespace D.Parsing
                 ? ReadTypeSymbol()
                 : null;
             
-            var defaultValue = ConsumeIf("=") // ? = {defaultValue}
+            ISyntaxNode? defaultValue = ConsumeIf('=') // ? = {defaultValue}
                 ? ReadExpression()
                 : null;
             
-            ISyntaxNode condition = null;
+            ISyntaxNode? condition = null;
 
             if (ConsumeIf(Where))                       // where value > 0 && value < 10
             {
@@ -991,7 +988,7 @@ namespace D.Parsing
             var messages = new List<IProtocolMessage>();
             var options = new List<ProtocolMessage>();
 
-            while (ConsumeIf("*"))  // ! ∙
+            while (ConsumeIf('*'))  // ! ∙
             {
                 ConsumeIf(Bar);     // ? |  // Optional leading bar in a oneof set
 
@@ -1241,15 +1238,13 @@ namespace D.Parsing
         #region Symbols
 
         /*
-        A, B type { }
-        A type { }
-        A type : B {
-
-        }
+        A, B type   { }
+        A type      { }
+        A type : B  { }
         */
         public Symbol ReadDollarSymbol()
         {
-            reader.Consume(Dollar); // !$
+            reader.Consume(Dollar); // read $
 
             var number = reader.Consume(Number);
 
@@ -1261,8 +1256,7 @@ namespace D.Parsing
             return new LabelSymbol(ReadName());
         }
 
-        // e.g. i
-
+        // i
         public VariableSymbol ReadVariableSymbol(SymbolFlags flags)
         {
             return new VariableSymbol(ReadName(), flags);
@@ -1374,9 +1368,9 @@ namespace D.Parsing
 
             // Async?
 
-            if (ConsumeIf("*"))
+            if (ConsumeIf('*'))
             {
-                return new TypeSymbol("Channel",  arguments: ReadTypeSymbol());
+                return new TypeSymbol("Channel", arguments: ReadTypeSymbol());
             }
 
             ModuleSymbol? module = null;
@@ -1437,7 +1431,7 @@ namespace D.Parsing
             {
                 var list = new List<Symbol> { result };
 
-                while (ConsumeIf("&"))
+                while (ConsumeIf('&'))
                 {
                     list.Add(ReadTypeSymbol());
                 }
@@ -1458,7 +1452,7 @@ namespace D.Parsing
             
 
             // Optional ?
-            if (name.Trailing is null && ConsumeIf("?")) // ? 
+            if (name.Trailing is null && ConsumeIf('?')) // ? 
             {
                 return new TypeSymbol("Optional", arguments: result);
             }
@@ -1586,7 +1580,7 @@ namespace D.Parsing
 
             reader.Next();
 
-            var text = literal.Text.Contains("_") ? literal.Text.Replace("_", "") : literal.Text;
+            string text = literal.Text.Contains("_") ? literal.Text.Replace("_", "") : literal.Text;
 
             int eIndex = text.IndexOf('e');
 
@@ -1600,7 +1594,7 @@ namespace D.Parsing
                 text = result.ToString();
             }
 
-            if (literal.Trailing is null && ConsumeIf("%"))
+            if (literal.Trailing is null && ConsumeIf('%'))
             {
                 return new UnitValueSyntax(new NumberLiteralSyntax(text), "%", 1);
             }
@@ -1881,7 +1875,7 @@ namespace D.Parsing
                 reader.Consume(Op);
 
                 // *-, +=, ...
-                if (ConsumeIf("="))
+                if (ConsumeIf('='))
                 {
                     var r = new BinaryExpressionSyntax(op, left, rhs: ReadExpression());
 
@@ -2411,6 +2405,20 @@ namespace D.Parsing
         bool ConsumeIf(string text)
         {
             if (reader.Current.Text == text)
+            {
+                reader.Consume();
+
+                return true;
+            }
+
+            return false;
+        }
+
+        bool ConsumeIf(char text)
+        {
+            if (reader.Current.Text != null &&
+                reader.Current.Text.Length == 1 && 
+                reader.Current.Text[0] == text)
             {
                 reader.Consume();
 

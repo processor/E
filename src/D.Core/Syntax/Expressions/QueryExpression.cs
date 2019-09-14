@@ -5,7 +5,7 @@
         public QueryExpression(
             ISyntaxNode collection,
             ISyntaxNode? variable,
-            ISyntaxNode filter,
+            ISyntaxNode? filter,
             ISyntaxNode map,
             OrderByStatement? orderBy,
             long skip = 0,
@@ -24,7 +24,7 @@
 
         public ISyntaxNode? Variable { get; }         // from [x] in Y 
 
-        public ISyntaxNode Filter { get; }           // where a > 100
+        public ISyntaxNode? Filter { get; }           // where a > 100
 
         public ISyntaxNode Map { get; }              // select a || { a, b, c }  
 

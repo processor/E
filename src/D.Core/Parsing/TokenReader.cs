@@ -30,7 +30,7 @@ namespace D.Parsing
 
         public Token Consume()
         {
-            var c = Current;
+            Token c = Current;
 
             Next();
 
