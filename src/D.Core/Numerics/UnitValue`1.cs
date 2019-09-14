@@ -7,11 +7,7 @@ namespace D.Units
 {
     public readonly struct UnitValue<T> : IUnitValue<T>, IEquatable<UnitValue<T>>
         where T : struct, IComparable<T>, IEquatable<T>, IFormattable
-    {
-        private static readonly T one = (T)Convert.ChangeType(1, typeof(T));
-
-        public static readonly UnitValue<T> One = new UnitValue<T>(one, UnitInfo.None);
-        
+    {        
         public UnitValue(T value, UnitInfo unit)
         {
             Value = value; // 1
@@ -60,18 +56,17 @@ namespace D.Units
 
         #region INumber
 
-        Kind IObject.Kind => Kind.UnitValue;
+        ObjectType IObject.Kind => ObjectType.UnitValue;
 
         double INumber.Real
         {
-
             get
             {
                 var result = Convert.ToDouble(Value);
 
                 if (Unit.DefinitionUnit is Number definationUnit)
                 {
-                    result = result * definationUnit.Value;
+                    result *= definationUnit.Value;
                 }
 
                 return result;
@@ -114,13 +109,13 @@ namespace D.Units
                     // 1.1g
                     // 1px
 
-                    double value = double.Parse((unitValue.Expression as NumberLiteralSyntax).Text);
+                    double value = double.Parse(((NumberLiteralSyntax)unitValue.Expression).Text);
 
                     var type = UnitInfo.TryParse(unitValue.UnitName, out UnitInfo unitType)
                         ? unitType
                         : new UnitInfo(unitValue.UnitName);
 
-                    return new UnitValue<T>((T)Convert.ChangeType(value, typeof(T)), type.WithExponent(unitValue.UnitPower));
+                    return new UnitValue<T>((T)Convert.ChangeType(value, typeof(T)), type!.WithExponent(unitValue.UnitPower));
                 }
                 else if (syntax is NumberLiteralSyntax number)
                 {
@@ -135,15 +130,15 @@ namespace D.Units
             }
             else
             {
-                var type = UnitInfo.TryParse(text, out UnitInfo unitType)
+                UnitInfo type = UnitInfo.TryParse(text, out UnitInfo? unitType)
                    ? unitType
                    : new UnitInfo(text);
 
-                return new UnitValue<T>(one, type);
+                return new UnitValue<T>(UnitConstants<T>.One, type);
             }
         }
 
-        public void Deconstruct(out T value, string unitName)
+        public void Deconstruct(out T value, out string unitName)
         {
             (value, unitName) = (Value, Unit.Name);
         }

@@ -17,13 +17,13 @@ namespace D
         public static int Parse(string text)
         {
             int value = 0;
-            var multiplier = 1;
+            int multiplier = 1;
 
             for (var i = text.Length - 1; i >= 0; i--)
             {
-                var digit = text[i];
+                char digit = text[i];
 
-                var number = Array.IndexOf(digits, digit);
+                int number = Array.IndexOf(digits, digit);
 
                 value += number * multiplier;
 
@@ -42,8 +42,8 @@ namespace D
 
             var sb = new Stack<char>();
 
-            var v = Value;
-            var r = 0;
+            int v = Value;
+            int r = 0;
 
             while (v > 0)
             {

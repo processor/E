@@ -15,7 +15,7 @@ namespace D
 
         public T Imaginary { get; }
    
-        Kind IObject.Kind => Kind.Complex;
+        ObjectType IObject.Kind => ObjectType.Complex;
 
         #region INumeric
 

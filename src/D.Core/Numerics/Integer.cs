@@ -15,7 +15,7 @@ namespace D
 
         public int BitCount => 64;
 
-        Kind IObject.Kind => Kind.Int64;
+        ObjectType IObject.Kind => ObjectType.Int64;
 
         public static implicit operator int(Integer value)
           => (int)value.Value;

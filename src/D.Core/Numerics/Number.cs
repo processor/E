@@ -18,7 +18,7 @@ namespace D
 
         #region INumeric
 
-        Kind IObject.Kind => Kind.Number;
+        ObjectType IObject.Kind => ObjectType.Number;
 
         double INumber.Real => Value;
 

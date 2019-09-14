@@ -16,7 +16,7 @@ namespace D
 
         public long Denominator { get; }
 
-        Kind IObject.Kind => Kind.Rational;
+        ObjectType IObject.Kind => ObjectType.Rational;
 
         #region INumeric
 
@@ -28,7 +28,7 @@ namespace D
 
         #region Helpers
 
-        private Rational Reduce()
+        public Rational Reduce()
         {
             var n = Numerator;
             var d = Denominator;

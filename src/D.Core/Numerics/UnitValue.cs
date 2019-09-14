@@ -4,10 +4,11 @@ namespace D.Units
 {
     public static class UnitValue
     {
+        public static Number Number(double value) => new Number(value);
+
         #region CSS
 
-        public static Number            Number(double value)  => new Number(value);
-        public static UnitValue<double> Percent(double value) => new UnitValue<double>(value, UnitInfo.Percent);
+        public static UnitValue<double> Percent(double value) => new UnitValue<double>(value, UnitInfo.Percentage);
 
         // <length>
         public static UnitValue<double> Em(double value)   => new UnitValue<double>(value, CssUnits.Em);
@@ -32,27 +33,27 @@ namespace D.Units
         public static UnitValue<double> Px(double value)   => new UnitValue<double>(value, CssUnits.Px);
         
         // <angle>
-        public static UnitValue<double> Deg(double value) => new UnitValue<double>(value, UnitInfo.Degree);
-        public static UnitValue<double> Grad(double value) => new UnitValue<double>(value, UnitInfo.Gradian);
-        public static UnitValue<double> Rad(double value) => new UnitValue<double>(value, UnitInfo.Radian);
-        public static UnitValue<double> Turn(double value) => new UnitValue<double>(value, UnitInfo.Turn);
+        public static UnitValue<double> Deg(double value)   => new UnitValue<double>(value, UnitInfo.Degree);
+        public static UnitValue<double> Grad(double value)  => new UnitValue<double>(value, UnitInfo.Gradian);
+        public static UnitValue<double> Rad(double value)   => new UnitValue<double>(value, UnitInfo.Radian);
+        public static UnitValue<double> Turn(double value)  => new UnitValue<double>(value, UnitInfo.Turn);
 
         // <time>
-        public static UnitValue<double> S(double value) => new UnitValue<double>(value, CssUnits.Px);
-        public static UnitValue<double> Ms(double value) => new UnitValue<double>(value, CssUnits.Px);
+        public static UnitValue<double> S(double value)     => new UnitValue<double>(value, CssUnits.Px);
+        public static UnitValue<double> Ms(double value)    => new UnitValue<double>(value, CssUnits.Px);
 
 
         // <frequency>
-        public static UnitValue<double> Hz(double value) => new UnitValue<double>(value, UnitInfo.Hertz);
-        public static UnitValue<double> KHz(double value) => new UnitValue<double>(value, UnitInfo.kHz);
+        public static UnitValue<double> Hz(double value)    => new UnitValue<double>(value, UnitInfo.Hertz);
+        public static UnitValue<double> KHz(double value)   => new UnitValue<double>(value, UnitInfo.kHz);
 
         // <resolution>
-        public static UnitValue<double> Dpi(double value) => new UnitValue<double>(value, CssUnits.Dpi);
-        public static UnitValue<double> Dpcm(double value) => new UnitValue<double>(value, CssUnits.Dpcm);
-        public static UnitValue<double> Dppx(double value) => new UnitValue<double>(value, CssUnits.Dppx);
+        public static UnitValue<double> Dpi(double value)   => new UnitValue<double>(value, CssUnits.Dpi);
+        public static UnitValue<double> Dpcm(double value)  => new UnitValue<double>(value, CssUnits.Dpcm);
+        public static UnitValue<double> Dppx(double value)  => new UnitValue<double>(value, CssUnits.Dppx);
 
         // <flex>
-        public static UnitValue<double> Fr(double value) => new UnitValue<double>(value, CssUnits.Fr);
+        public static UnitValue<double> Fr(double value)    => new UnitValue<double>(value, CssUnits.Fr);
 
         #endregion
 
