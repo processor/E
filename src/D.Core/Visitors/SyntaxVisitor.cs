@@ -35,7 +35,7 @@ namespace D.Syntax
         {
             i++;
 
-            if (i > 1000) throw new Exception("rerucssion???");
+            if (i > 10_000) throw new Exception("excedeed 10,000 visits");
 
             switch (syntax)
             {
@@ -69,10 +69,10 @@ namespace D.Syntax
                 case SyntaxKind.TypePattern               : return VisitTypePattern((TypePatternSyntax)syntax);
                 case SyntaxKind.AnyPattern                : return VisitAnyPattern((AnyPatternSyntax)syntax);
 
-                case SyntaxKind.Symbol: return VisitSymbol((Symbol)syntax);
+                case SyntaxKind.Symbol                    : return VisitSymbol((Symbol)syntax);
                     
-                case SyntaxKind.NumberLiteral: return VisitNumberLiteral((NumberLiteralSyntax)syntax);
-                case SyntaxKind.StringLiteral: return VisitStringLiteral((StringLiteralSyntax)syntax);
+                case SyntaxKind.NumberLiteral             : return VisitNumberLiteral((NumberLiteralSyntax)syntax);
+                case SyntaxKind.StringLiteral             : return VisitStringLiteral((StringLiteralSyntax)syntax);
 
                     
                 default: throw new Exception("unexpected expression:" + syntax.GetType().Name);

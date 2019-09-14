@@ -26,49 +26,51 @@ namespace D.Expressions
         public virtual IExpression VisitConstant(IExpression expression)                            => throw new NotImplementedException();
         public virtual IExpression VisitFor(ForStatement expression)                                => throw new NotImplementedException();
         public virtual IExpression VisitFunction(FunctionExpression function)                       => throw new NotImplementedException();
+        public virtual IExpression VisitTypeDeclaration(TypeDeclaration declaration)                => throw new NotImplementedException();
 
         public IExpression Visit(IObject expression)
         {
             switch (expression.Kind)
             {
                 // Declarations
-                case Kind.PropertyDeclaration     : return VisitVariableDeclaration((VariableDeclaration)expression);
-                case Kind.Function                : return VisitFunction((FunctionExpression)expression);   
-                case Kind.TypeInitializer         : return VisitTypeInitializer((TypeInitializer)expression);
-                case Kind.DestructuringAssignment : return VisitDestructuringAssignment((DestructuringAssignment)expression);
-                case Kind.CallExpression          : return VisitCall((CallExpression)expression);
-                case Kind.MatchExpression         : return VisitMatch((MatchExpression)expression);
-                case Kind.MemberAccessExpression  : return VisitMemberAccess((MemberAccessExpression)expression);
-                case Kind.IndexAccessExpression   : return VisitIndexAccess((IndexAccessExpression)expression);
-                case Kind.LambdaExpression        : return VisitLambda((LambdaExpression)expression); 
+                case ObjectType.PropertyDeclaration     : return VisitVariableDeclaration((VariableDeclaration)expression);
+                case ObjectType.Function                : return VisitFunction((FunctionExpression)expression);
+                case ObjectType.TypeDeclaration         : return VisitTypeDeclaration((TypeDeclaration)expression);
+                case ObjectType.TypeInitializer         : return VisitTypeInitializer((TypeInitializer)expression);
+                case ObjectType.DestructuringAssignment : return VisitDestructuringAssignment((DestructuringAssignment)expression);
+                case ObjectType.CallExpression          : return VisitCall((CallExpression)expression);
+                case ObjectType.MatchExpression         : return VisitMatch((MatchExpression)expression);
+                case ObjectType.MemberAccessExpression  : return VisitMemberAccess((MemberAccessExpression)expression);
+                case ObjectType.IndexAccessExpression   : return VisitIndexAccess((IndexAccessExpression)expression);
+                case ObjectType.LambdaExpression        : return VisitLambda((LambdaExpression)expression); 
 
                 // Statements
-                case Kind.BlockStatement          : return VisitBlock((BlockExpression)expression);
-                case Kind.ForStatement            : return VisitFor((ForStatement)expression);     
-                case Kind.IfStatement             : return VisitIf((IfStatement)expression);
-                case Kind.ElseIfStatement         : return VisitElseIf((ElseIfStatement)expression);
-                case Kind.ElseStatement           : return VisitElse((ElseStatement)expression);
-                case Kind.ReturnStatement         : return VisitReturn((ReturnStatement)expression);
+                case ObjectType.BlockStatement          : return VisitBlock((BlockExpression)expression);
+                case ObjectType.ForStatement            : return VisitFor((ForStatement)expression);     
+                case ObjectType.IfStatement             : return VisitIf((IfStatement)expression);
+                case ObjectType.ElseIfStatement         : return VisitElseIf((ElseIfStatement)expression);
+                case ObjectType.ElseStatement           : return VisitElse((ElseStatement)expression);
+                case ObjectType.ReturnStatement         : return VisitReturn((ReturnStatement)expression);
 
                 // Patterns
-                case Kind.ConstantPattern         : return VisitConstantPattern((ConstantPattern)expression);
-                case Kind.TypePattern             : return VisitTypePattern((TypePattern)expression);
+                case ObjectType.ConstantPattern         : return VisitConstantPattern((ConstantPattern)expression);
+                case ObjectType.TypePattern             : return VisitTypePattern((TypePattern)expression);
 
-                case Kind.Symbol                  : return VisitSymbol((Symbol)expression);
+                case ObjectType.Symbol                  : return VisitSymbol((Symbol)expression);
 
-                case Kind.Number:
-                case Kind.Int64:
-                case Kind.String                  : return VisitConstant((IExpression)expression);
+                case ObjectType.Number:
+                case ObjectType.Int64:
+                case ObjectType.String                  : return VisitConstant((IExpression)expression);
             }
 
-            switch (expression)
+            return expression switch
             {
-                case UnaryExpression unary     : return VisitUnary(unary);
-                case BinaryExpression binary   : return VisitBinary(binary);
-                case TernaryExpression ternary : return VisitTernary(ternary);
-            }
+                UnaryExpression unary     => VisitUnary(unary),
+                BinaryExpression binary   => VisitBinary(binary),
+                TernaryExpression ternary => VisitTernary(ternary),
 
-            throw new Exception("Unexpected expression:" + expression.GetType().Name);
+                _ => throw new Exception("Unexpected expression:" + expression.GetType().Name),
+            };
         }
     }
 }
