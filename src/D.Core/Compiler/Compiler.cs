@@ -17,7 +17,7 @@ namespace D
         // - Transform to ExpressionTree
 
         private Node env;
-        private Flow flow = new Flow();
+        private readonly Flow flow = new Flow();
 
         public Compiler()
             : this(new Node()) { }
@@ -27,7 +27,7 @@ namespace D
             this.env = env;
         }
 
-        public Compilation Compile(IEnumerable<ISyntaxNode> nodes, string moduleName = null)
+        public Compilation Compile(IEnumerable<ISyntaxNode> nodes, string? moduleName = null)
         {
             var compilation = new Compilation();
 
@@ -71,11 +71,11 @@ namespace D
 
         public IExpression Visit(ISyntaxNode syntax)
         {
+            if (syntax is null) throw new ArgumentNullException(nameof(syntax));
+
             i++;
 
             if (i > 300) throw new Exception("recursion???");
-
-            if (syntax == null) return null;
 
             switch (syntax)
             {
@@ -83,66 +83,54 @@ namespace D
                 case BinaryExpressionSyntax binary   : return VisitBinary(binary);
                 case TernaryExpressionSyntax ternary : return VisitTernary(ternary);
                 case BlockSyntax block               : return VisitBlock(block);
-
                 case CallExpressionSyntax call       : return VisitCall(call);
                 case MatchExpressionSyntax match     : return VisitMatch(match);
                 case ModuleSyntax module             : return VisitModule(module);
             }
 
-            switch (syntax.Kind)
+            return syntax.Kind switch
             {
-                case SyntaxKind.TypeDeclaration:
-                    return VisitTypeDeclaration((TypeDeclarationSyntax)syntax);
-
-                case SyntaxKind.FunctionDeclaration:
-                    return VisitFunctionDeclaration((FunctionDeclarationSyntax)syntax);
-
-                case SyntaxKind.ProtocolDeclaration:
-                    return VisitProtocol((ProtocolDeclarationSyntax)syntax);
-
-                case SyntaxKind.LambdaExpression:
-                    return VisitLambda((LambdaExpressionSyntax)syntax);
-
-                case SyntaxKind.ImplementationDeclaration:
-                    return VisitImplementation((ImplementationDeclarationSyntax)syntax);
-
-                case SyntaxKind.InterpolatedStringExpression:
-                    return VisitInterpolatedStringExpression((InterpolatedStringExpressionSyntax)syntax);
+                SyntaxKind.LambdaExpression             => VisitLambda((LambdaExpressionSyntax)syntax),
+                SyntaxKind.ImplementationDeclaration    => VisitImplementation((ImplementationDeclarationSyntax)syntax),
+                SyntaxKind.InterpolatedStringExpression => VisitInterpolatedStringExpression((InterpolatedStringExpressionSyntax)syntax),
 
                 // Declarations
-                case SyntaxKind.PropertyDeclaration     : return VisitVariableDeclaration((PropertyDeclarationSyntax)syntax);
-                case SyntaxKind.TypeInitializer         : return VisitObjectInitializer((ObjectInitializerSyntax)syntax);
-                case SyntaxKind.DestructuringAssignment : return VisitDestructuringAssignment((DestructuringAssignmentSyntax)syntax);
-                case SyntaxKind.MemberAccessExpression  : return VisitMemberAccess((MemberAccessExpressionSyntax)syntax);
-                case SyntaxKind.IndexAccessExpression   : return VisitIndexAccess((IndexAccessExpressionSyntax)syntax);
+                SyntaxKind.TypeDeclaration              => VisitTypeDeclaration((TypeDeclarationSyntax)syntax),
+                SyntaxKind.FunctionDeclaration          => VisitFunctionDeclaration((FunctionDeclarationSyntax)syntax),
+                SyntaxKind.ProtocolDeclaration          => VisitProtocol((ProtocolDeclarationSyntax)syntax),
+                SyntaxKind.PropertyDeclaration          => VisitVariableDeclaration((PropertyDeclarationSyntax)syntax),
+                SyntaxKind.TypeInitializer              => VisitObjectInitializer((ObjectInitializerSyntax)syntax),
+                SyntaxKind.DestructuringAssignment      => VisitDestructuringAssignment((DestructuringAssignmentSyntax)syntax),
+                SyntaxKind.MemberAccessExpression       => VisitMemberAccess((MemberAccessExpressionSyntax)syntax),
+                SyntaxKind.IndexAccessExpression        => VisitIndexAccess((IndexAccessExpressionSyntax)syntax),
 
-                // Statements
-                case SyntaxKind.ForStatement            : return VisitFor((ForStatementSyntax)syntax);
-                case SyntaxKind.IfStatement             : return VisitIf((IfStatementSyntax)syntax);
-                case SyntaxKind.ElseIfStatement         : return VisitElseIf((ElseIfStatementSyntax)syntax);
-                case SyntaxKind.ElseStatement           : return VisitElse((ElseStatementSyntax)syntax);
-                case SyntaxKind.ReturnStatement         : return VisitReturn((ReturnStatementSyntax)syntax);
-             
-                // Patterns
-                case SyntaxKind.ConstantPattern         : return VisitConstantPattern((ConstantPatternSyntax)syntax);
-                case SyntaxKind.TypePattern             : return VisitTypePattern((TypePatternSyntax)syntax);
-                case SyntaxKind.AnyPattern              : return VisitAnyPattern((AnyPatternSyntax)syntax);
+                // Statements                                 
+                SyntaxKind.ForStatement                 => VisitFor((ForStatementSyntax)syntax),
+                SyntaxKind.IfStatement                  => VisitIf((IfStatementSyntax)syntax),
+                SyntaxKind.ElseIfStatement              => VisitElseIf((ElseIfStatementSyntax)syntax),
+                SyntaxKind.ElseStatement                => VisitElse((ElseStatementSyntax)syntax),
+                SyntaxKind.ReturnStatement              => VisitReturn((ReturnStatementSyntax)syntax),
 
-                case SyntaxKind.Symbol                  : return VisitSymbol((Symbol)syntax);
-                case SyntaxKind.NumberLiteral           : return VisitNumber((NumberLiteralSyntax)syntax);
-                case SyntaxKind.UnitValueLiteral        : return VisitUnitValue((UnitValueSyntax)syntax);
-                case SyntaxKind.StringLiteral           : return new StringLiteral(syntax.ToString());
-                case SyntaxKind.ArrayInitializer        : return VisitNewArray((ArrayInitializerSyntax)syntax);
-            }
+                // Patterns                                   
+                SyntaxKind.ConstantPattern              => VisitConstantPattern((ConstantPatternSyntax)syntax),
+                SyntaxKind.TypePattern                  => VisitTypePattern((TypePatternSyntax)syntax),
+                SyntaxKind.AnyPattern                   => VisitAnyPattern((AnyPatternSyntax)syntax),
 
-            throw new Exception("Unexpected node:" + syntax.Kind + "/" + syntax.GetType().ToString());
+                SyntaxKind.Symbol                       => VisitSymbol((Symbol)syntax),
+                SyntaxKind.NumberLiteral                => VisitNumber((NumberLiteralSyntax)syntax),
+                SyntaxKind.UnitValueLiteral             => VisitUnitValue((UnitValueSyntax)syntax),
+                SyntaxKind.StringLiteral                => new StringLiteral(syntax.ToString()),
+                SyntaxKind.ArrayInitializer             => VisitNewArray((ArrayInitializerSyntax)syntax),
+
+                _ => throw new Exception("Unexpected syntax:" + syntax.Kind + "/" + syntax.GetType().ToString()),
+            };
         }
 
         public ArrayInitializer VisitNewArray(ArrayInitializerSyntax syntax)
         {
             var elements = new IExpression[syntax.Elements.Length];
 
-            Type bestElementType = null;
+            Type? bestElementType = null;
 
             for (var i = 0; i < elements.Length; i++)
             {
@@ -152,7 +140,7 @@ namespace D
 
                 var type = GetType(element);
                 
-                if (bestElementType == null)
+                if (bestElementType is null)
                 {
                     bestElementType = type;
                 }
@@ -160,9 +148,9 @@ namespace D
                 {
                     // TODO: Find the best common base type...
 
-                    if (type.BaseType == null)
+                    if (type.BaseType is null)
                     {
-                        bestElementType = Type.Get(Kind.Object);
+                        bestElementType = Type.Get(ObjectType.Object);
                     }
                     else if (bestElementType.BaseType == type.BaseType)
                     {
@@ -221,7 +209,7 @@ namespace D
         }
 
         public virtual BinaryExpression VisitBinary(BinaryExpressionSyntax syntax)
-            => new BinaryExpression(syntax.Operator, Visit(syntax.Left), Visit(syntax.Right)) { Grouped = syntax.Parenthesized };
+            => new BinaryExpression(syntax.Operator, Visit(syntax.Left), Visit(syntax.Right)) { Grouped = syntax.IsParenthesized };
       
         public virtual UnaryExpression VisitUnary(UnaryExpressionSyntax syntax)
             => new UnaryExpression(syntax.Operator, arg: Visit(syntax.Argument));
@@ -233,14 +221,18 @@ namespace D
 
         public virtual CallExpression VisitCall(CallExpressionSyntax syntax)
         {
-            Type objectType = null;
+            Type? objectType = null;
 
             if (char.IsUpper(syntax.Name.Name[0]))
             {
                 objectType = env.GetType(syntax.Name);
             }
            
-            return new CallExpression(Visit(syntax.Callee), syntax.Name, VisitArguments(syntax.Arguments), syntax.IsPiped) {
+            return new CallExpression(
+                callee       : syntax.Callee != null ? Visit(syntax.Callee) : null,
+                functionName : syntax.Name,
+                arguments    : VisitArguments(syntax.Arguments),
+                isPiped      : syntax.IsPiped) {
                 ReturnType = objectType
             };
         }
@@ -281,10 +273,10 @@ namespace D
             {
                 var m = syntax.Arguments[i];
 
-                Symbol name = m.Name;
+                Symbol? name = m.Name;
 
                 // Infer the name from the value symbol
-                if (name == null && m.Value is Symbol valueName)
+                if (name is null && m.Value is Symbol valueName)
                 {
                     name = valueName;
                 }
@@ -303,7 +295,7 @@ namespace D
             {
                 var m = syntax.Variables[i];
 
-                elements[i] = new AssignmentElement(m.Name, Type.Get(Kind.Object));
+                elements[i] = new AssignmentElement(m.Name, Type.Get(ObjectType.Object));
             }
 
             return new DestructuringAssignment(elements, Visit(syntax.Instance));
@@ -332,11 +324,11 @@ namespace D
             return new MatchExpression(Visit(syntax.Expression), cases);
         }
 
-        public virtual MatchCase VisitCase(CaseSyntax syntax)
+        public virtual MatchCase VisitCase(MatchCaseSyntax syntax)
         {
             return new MatchCase(
                 pattern   : Visit(syntax.Pattern), 
-                condition : Visit(syntax.Condition),
+                condition : syntax.Condition != null ? Visit(syntax.Condition) : null,
                 body      : VisitLambda(syntax.Body)
             );
         }
@@ -374,7 +366,7 @@ namespace D
 
                 var type = parameter.Type != null
                     ? env.Get<Type>(parameter.Type)
-                    : new Type(Kind.Object); // TODO: Introduce generic or infer from body?
+                    : new Type(ObjectType.Object); // TODO: Introduce generic or infer from body?
 
                 // Any
 

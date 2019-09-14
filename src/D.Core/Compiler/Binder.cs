@@ -38,47 +38,47 @@ namespace D
                 */
             }
 
-          
-
             switch (expression)
             {
                 case MemberAccessExpression access:
-                    var type = GetType(access.Left);
-
-                    if (type == null) throw new Exception("no type found for left");
+                    Type type = GetType(access.Left) ?? throw new Exception("no type found for left");
 
                     var member = type.GetProperty(access.MemberName);
 
-                    if (member == null) return Type.Get(Kind.Object);
+                    if (member is null) return Type.Get(ObjectType.Object);
 
-                    if (member == null) throw new Exception($"{type.Name}::{access.MemberName} not found");
+                    // if (member is null) throw new Exception($"{type.Name}::{access.MemberName} not found");
 
                     return member.Type;
                     
                 case CallExpression call:
-                    return call.ReturnType ?? Type.Get(Kind.Object);
+                    return call.ReturnType ?? Type.Get(ObjectType.Object);
 
                 case InterpolatedStringExpression _:
-                    return Type.Get(Kind.String);
+                    return Type.Get(ObjectType.String);
 
                 case TypeSymbol symbol:
-                    return new Type(symbol.Name, Type.Get(Kind.Object), null, null);
+                    return new Type(symbol.Name, Type.Get(ObjectType.Object), null, null);
 
-                case BinaryExpression _:
+                case BinaryExpression b:
+                    return (b.Operator.IsComparision || b.Operator.IsLogical)
+                        ? Type.Get(ObjectType.Boolean)
+                        : Type.Get(ObjectType.Object);
+
                 case UnaryExpression _:
                 case IndexAccessExpression _:
                 case Symbol _:
                 case MatchExpression _:
-                    return Type.Get(Kind.Object);
+                    return Type.Get(ObjectType.Object);
 
                 case TypeInitializer initializer:
                     return env.Get<Type>(initializer.Type);
 
                 case ArrayInitializer array:
-                    return new Type(Kind.Array, (Type)array.ElementType);
+                    return new Type(ObjectType.Array, (Type)array.ElementType);
             }
 
-            if (expression.Kind != Kind.Object)
+            if (expression.Kind != ObjectType.Object)
             {
                 return Type.Get(expression.Kind);
             }

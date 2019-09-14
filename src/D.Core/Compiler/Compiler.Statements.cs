@@ -6,7 +6,11 @@
     public partial class Compiler
     {
         public virtual IfStatement VisitIf(IfStatementSyntax syntax) =>
-           new IfStatement(Visit(syntax.Condition), VisitBlock(syntax.Body), Visit(syntax.ElseBranch));
+           new IfStatement(
+               condition  : Visit(syntax.Condition), 
+               body       : VisitBlock(syntax.Body),
+               elseBranch : syntax.ElseBranch != null ? Visit(syntax.ElseBranch) : null
+            );
 
         public virtual ElseStatement VisitElse(ElseStatementSyntax syntax) =>
             new ElseStatement(VisitBlock(syntax.Body));

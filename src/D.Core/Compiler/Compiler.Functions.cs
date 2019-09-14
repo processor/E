@@ -1,27 +1,29 @@
 ﻿using System;
 
+using D.Expressions;
+using D.Syntax;
+
 namespace D
 {
-    using Expressions;
-    using Syntax;
-
     public partial class Compiler
     {
-        public FunctionExpression VisitFunctionDeclaration(FunctionDeclarationSyntax syntax, Type declaringType = null)
+        public FunctionExpression VisitFunctionDeclaration(FunctionDeclarationSyntax syntax, Type? declaringType = null)
         {
             // TODO: create a nested scope...
 
             var paramaters = ResolveParameters(syntax.Parameters);
 
-            foreach (var p in paramaters)
+            for (int i = 0; i < paramaters.Length; i++)
             {
-                flow.Define(p.Name, p.Type);
+                Parameter p = paramaters[i];
+
+                flow.Define(p.Name ?? "_" + i, p.Type);
             }
 
             // NOTE: protocol functions are abstract and do not define a body
-            var body = Visit(syntax.Body);
+            IExpression? body = syntax.Body != null ? Visit(syntax.Body) : null;
             
-            Type returnType = null;
+            Type? returnType;
 
             if (syntax.ReturnType != null)
             {
@@ -42,10 +44,14 @@ namespace D
                 throw new Exception("unexpected function body type:" + syntax.Body.Kind);
             }
 
-            var result = new FunctionExpression(syntax.Name, returnType, paramaters) {
-                GenericParameters = ResolveParameters(syntax.GenericParameters),
-                Flags = syntax.Flags,
-                Body = body,
+            var result = new FunctionExpression(
+                name              : syntax.Name,
+                genericParameters : ResolveParameters(syntax.GenericParameters),
+                parameters        : paramaters,
+                returnType        : returnType,
+                body              : body,
+                flags             : syntax.Flags) {
+
                 DeclaringType = declaringType
             };
 
