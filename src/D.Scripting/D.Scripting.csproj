@@ -1,9 +1,9 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <VersionPrefix>0.0.1-alpha3</VersionPrefix>
-    <TargetFramework>netcoreapp2.1</TargetFramework>
+    <VersionPrefix>0.0.1-alpha4</VersionPrefix>
+    <TargetFramework>netcoreapp3.0</TargetFramework>
     <AssemblyName>D.Scripting</AssemblyName>
-    <LangVersion>7.2</LangVersion>
+    <Nullable>enable</Nullable>
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\D.Core\D.Core.csproj" />
