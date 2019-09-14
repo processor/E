@@ -13,12 +13,12 @@
         public void Add(params Operator[] ops)
         {
             foreach (var op in ops)
-            { 
+            {
                 trie.Add(AsSymbol(op.Type) + op.Name, op);
             }
         }
 
-        public Operator this[OperatorType type, string name]  => trie[AsSymbol(type) + name];
+        public Operator this[OperatorType type, string name] => trie[AsSymbol(type) + name];
 
         public bool Maybe(OperatorType type, char ch, out Trie<Operator>.Node node)
         {
@@ -27,15 +27,11 @@
             return node.TryGetNode(ch, out node);
         }
 
-        private static string AsSymbol(OperatorType type)
-        {
-            switch (type)
-            {
-                case OperatorType.Infix   : return "infix_";
-                case OperatorType.Prefix  : return "prefix_";
-                case OperatorType.Postfix : return "postfix_";
-                default                   : return string.Empty;
-            }
-        }
+        private static string AsSymbol(OperatorType type) => type switch { 
+            OperatorType.Infix   => "infix_",
+            OperatorType.Prefix  => "prefix_",
+            OperatorType.Postfix => "postfix_",
+            _                    => string.Empty
+        };       
     }
 }
