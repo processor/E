@@ -3,18 +3,18 @@ using static D.Units.UnitInfo;
 
 namespace D.Units
 {
-    public class GeneralUnitSet : UnitSet
+    public sealed class GeneralUnitSet : UnitSet
     {
         public GeneralUnitSet()
         {
             // TODO: Primary Units 
 
-            Add("m", Meter);  // Length
-            Add("s", Second); // Time
-            Add("g", Gram);   // Mass
+            Add("m",    Meter);  // Length
+            Add("s",    Second); // Time
+            Add("g",    Gram);   // Mass
 
-            Add("Pa",    Pascal);
-            Add("sr",    Steradian); // Square radian (㏛)
+            Add("Pa",   Pascal);
+            Add("sr",   Steradian); // Square radian (㏛)
            
             // Add("J",     Joule);
             // Add("N",     Newton);
@@ -50,7 +50,7 @@ namespace D.Units
             Add("lb", Pound);
 
             // Dimensionless
-            Add("%", Percent);
+            Add("%", Percentage);
         }
     }
 }

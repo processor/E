@@ -9,6 +9,7 @@
         public static readonly UnitInfo Dpi  = new UnitInfo("dpi",  Resolution); // dots per inch
         public static readonly UnitInfo Dpcm = new UnitInfo("dpcm", Resolution); // dots per cm
         public static readonly UnitInfo Dppx = new UnitInfo("dppx", Resolution); // dots per px
+        public static readonly UnitInfo X    = new UnitInfo("x",    Resolution);
         
         // Absolute lengths
         public static readonly UnitInfo Q    = new UnitInfo("q",  Length); // quarter-millimeters

@@ -9,7 +9,7 @@ namespace D.Units
     using static Expression;
     using static UnitFlags;
 
-    public class UnitInfo : IEquatable<UnitInfo>, IObject
+    public sealed class UnitInfo : IEquatable<UnitInfo>, IObject
     {
         public static readonly UnitInfo None = new UnitInfo(string.Empty, Dimension.None);
 
@@ -30,7 +30,7 @@ namespace D.Units
 
         #region Frequency
 
-        public static readonly UnitInfo Hertz = new UnitInfo("Hz", Frequency);
+        public static readonly UnitInfo Hertz = new UnitInfo("Hz", Frequency, SI);
         public static readonly UnitInfo kHz   = Hertz.WithPrefix(SIPrefix.k); // kHz
 
         // rpm
@@ -40,6 +40,7 @@ namespace D.Units
         #region Length
 
         public static readonly UnitInfo Meter = new UnitInfo("m", Length, SI | Base);  // m
+        public static readonly UnitInfo Mm    = Meter.WithPrefix(SIPrefix.m);          // mm
         public static readonly UnitInfo Cm    = Meter.WithPrefix(SIPrefix.c);          // cm
 
         public static readonly UnitInfo Inch  = new UnitInfo("in", Length, Imperial);
@@ -65,7 +66,9 @@ namespace D.Units
 
         #endregion
 
-        // Temperature (Thermodynamics) 
+        #region Temperature (Thermodynamics) 
+
+        #endregion
 
         #region Time
 
@@ -96,7 +99,7 @@ namespace D.Units
 
         // Dimensionless
 
-        public static readonly UnitInfo Percent = new UnitInfo("%", Dimension.None, 1, new Number(0.01)); // 1/100
+        public static readonly UnitInfo Percentage = new UnitInfo("%", Dimension.None, 1, new Number(0.01)); // 1/100
 
         public UnitInfo(string name) // e.g. px
         {
@@ -165,13 +168,13 @@ namespace D.Units
                 
         public double DefinitionValue { get; }
 
-        public IObject DefinitionUnit { get; }
+        public IObject? DefinitionUnit { get; }
 
         public IConverter<double, double> BaseConverter => new UnitConverter(DefinitionValue);
 
         private UnitFlags Flags { get; }
 
-        Kind IObject.Kind => Kind.Unit;
+        ObjectType IObject.Kind => ObjectType.Unit;
 
         public bool IsMetric => Flags.HasFlag(SI);
 
@@ -187,7 +190,7 @@ namespace D.Units
             return new UnitInfo(Prefix, Name, Dimension, DefinitionValue, exponent);
         }
 
-        public static bool TryParse(string name, out UnitInfo type)
+        public static bool TryParse(string name, out UnitInfo? type)
         {
             if (UnitSet.Default.TryGet(name, out type))
             {
@@ -238,32 +241,3 @@ namespace D.Units
 }
 
 // Note: Only SI units may be prefixed.
-
-/*
-
-
-
-// Luminance                = 1068, // candela per square meter  cd/m^2
-// LuminiousFlux            = 1069,
-
-
-// Wavenumber                  = 1070, 
-
-// RefractiveIndex             = 1073,
-// RelactivePermeability       = 1074,
-
-MagneticFieldStrength = 1065,
-                                      
-MolarEnergy                 = 1066,
-MolarEntropy                = 1067,
-                                    
-HeatCapasity          
-ThermalConductivity   
-SurfaceChargeDensity  
-HeatFluxDensity       
-SurfaceTension        
-                       
-Radiance              
-RadiantIntensity      
-
-*/

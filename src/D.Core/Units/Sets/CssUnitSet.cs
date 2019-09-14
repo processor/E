@@ -1,7 +1,8 @@
 ﻿using static D.Units.CssUnits;
+
 namespace D.Units
 {
-    public class CssUnitSet : UnitSet
+    public sealed class CssUnitSet : UnitSet
     {
         public CssUnitSet()
         {

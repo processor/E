@@ -19,7 +19,6 @@
         public static readonly UnitInfo Watt    = new UnitInfo("W",  Power);
         public static readonly UnitInfo Weber   = new UnitInfo("Wb", MagneticFlux);                     // magnetic flux
 
-
         // Electromagnetic radiation
 
         public static readonly UnitInfo Sievert   = new UnitInfo("Sv", Energy, SI); // Radioactivity

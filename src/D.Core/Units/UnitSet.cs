@@ -10,6 +10,8 @@ namespace D.Units
             new CssUnitSet()
         );
 
+        private readonly Dictionary<string, UnitInfo> items = new Dictionary<string, UnitInfo>();
+
         public UnitSet() { }
 
         public UnitSet(params UnitSet[] collections)
@@ -19,8 +21,6 @@ namespace D.Units
                 AddRange(set);
             }
         }
-
-        private readonly Dictionary<string, UnitInfo> items = new Dictionary<string, UnitInfo>();
 
         public bool Contains(string name) => items.ContainsKey(name);
 

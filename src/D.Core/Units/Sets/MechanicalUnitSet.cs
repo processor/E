@@ -1,6 +1,6 @@
 ﻿namespace D.Units
 {
-    public class MechanicalUnitSet : UnitSet
+    public sealed class MechanicalUnitSet : UnitSet
     {
         public MechanicalUnitSet()
         {

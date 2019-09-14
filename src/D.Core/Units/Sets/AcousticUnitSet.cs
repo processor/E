@@ -1,6 +1,6 @@
 ﻿namespace D.Units
 {
-    public class AcousticSet : UnitSet
+    public sealed class AcousticUnitSet : UnitSet
     {
     }
 }
