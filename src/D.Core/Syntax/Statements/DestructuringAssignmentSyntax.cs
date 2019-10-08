@@ -21,7 +21,7 @@ namespace D.Syntax
 
     public readonly struct AssignmentElementSyntax
     {
-        public AssignmentElementSyntax(Symbol name, Symbol type)
+        public AssignmentElementSyntax(Symbol name, Symbol? type)
         {
             Name = name;
             Type = type;
@@ -29,6 +29,6 @@ namespace D.Syntax
 
         public Symbol Name { get; }
 
-        public Symbol Type { get; }
+        public Symbol? Type { get; }
     }
 }

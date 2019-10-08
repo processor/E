@@ -79,7 +79,7 @@ namespace D.Inference
 
         internal sealed class Type : TypeBase
         {
-            internal Type(IType constructor, string name, IType[] args)
+            internal Type(IType constructor, string name, IType[]? args)
                 : base(name, args)
             {
                 Constructor = constructor ?? this;
