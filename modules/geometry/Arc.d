@@ -1,4 +1,4 @@
-Arc<T: ℝ = Float64> struct : Curve { 
+Arc<T: ℝ = f64> struct : Curve { 
   x            : T            // circle center x
   y            : T            // circle center y
   x `Radius    : T            // circle radius x

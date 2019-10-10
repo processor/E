@@ -18,7 +18,6 @@ Employment protocol {
   dismiss   () -> Employment`Termination
 }
 
-
 Employment actor {
   employer : Entity
   employee : Entity

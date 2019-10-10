@@ -1,4 +1,4 @@
-Ray<T: ℝ = Float64> struct { 
+Ray<T: ℝ = f64> struct { 
   throughpoint : Vector3<T>
   direction    : Vector3<T> // normal?
 }

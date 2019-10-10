@@ -6,10 +6,8 @@ Corporation protocol {
   * | resolve
     | issue`Stock
     | issue`Bond
-
-  resolve      (motion: Motion)    : Resolution
-  issue`Stock  (quantity: Decimal) : Stock
-
+  
+  resolve (motion: Motion)    : Resolution
   jurisdiction :   Place
   officers     : [ Officer ]
   stockholders : [ Stockholder ]
@@ -20,5 +18,9 @@ Corporation actor : Organization {
 
   
 }
+
+// TODO: Issue / allocate / modify shares
+
+// TODO: Authorized Shares
 
 // Stockholders are provided with 1 vote per share

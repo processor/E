@@ -4,8 +4,8 @@
 }
 
 Canvas class {
-  width  :   Int32 > 0
-  height :   Int32 > 0
+  width  :   i32 > 0
+  height :   i32 > 0
   pixels : [ Pixel ]
 }
 

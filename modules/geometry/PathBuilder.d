@@ -1,4 +1,4 @@
-Path `Builder<T: ℝ & Blittable: Float64> protocol {
+Path `Builder<T: ℝ & Blittable: f64> protocol {
   arc   (to: Vector3<T>)
   curve (to: Vector3<T>)     // quadratic
   close ()         

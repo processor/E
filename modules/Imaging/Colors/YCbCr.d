@@ -1,3 +1,3 @@
-YCbCr<T: ℝ & Blittable = Float32> struct : Color { 
+YCbCr<T: ℝ & Blittable = f32> struct : Color { 
   y, cB, cR : T 
 }

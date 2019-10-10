@@ -56,7 +56,7 @@ Gallery class : Block {
 
   }
 
-  on Pointer `pressed press {
+  on Pointer press {
     observe gallary Pointer_move {
       // Drag the slide
 

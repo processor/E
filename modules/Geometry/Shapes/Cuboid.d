@@ -1,4 +1,4 @@
-Cuboid<T: ℝ = Float64> struct { 
+Cuboid<T: ℝ = f64> struct { 
   polygons: [ Polygon ]
 
   let definition = [

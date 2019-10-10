@@ -1,4 +1,4 @@
-Polyhedron<T: ℝ> = Float64> struct { 
+Polyhedron<T: ℝ> = f64> struct { 
   
 }
 

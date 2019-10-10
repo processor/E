@@ -1,7 +1,7 @@
 Block record {
-  index  : Int64 ≥ 0
-  offset : Int64 ≥ 0
-  length : Int64 ≥ 0
+  index  : i64 ≥ 0
+  offset : i64 ≥ 0
+  length : i64 ≥ 0
   sha256 : [ Byte ]
 }
 

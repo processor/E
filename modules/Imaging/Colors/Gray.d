@@ -1,3 +1,3 @@
-Gray<T: ℝ = Float32> struct : Color {
+Gray<T: ℝ = f32> struct : Color {
   y: T
 }

@@ -8,7 +8,7 @@ Person protocol {
   marry     (person: Person)                                                  -> Marriage
 
   marriage    ->   Marriage?
-  contracts   -> [ Contract]    // Contracts(contractee).contractor
+  contracts   -> [ Contract ]   // Contracts(contractee).contractor
   employments -> [ Employment ] // Employments(employer).employee
 }
 

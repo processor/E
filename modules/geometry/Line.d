@@ -1,4 +1,4 @@
-Line<T: ℝ & Blittable = Float64> struct : Blittable, Equatable<Self> { 
+Line<T: ℝ & Blittable = f64> struct : Blittable, Equatable<Self> { 
   start : Vector3<T>
   end   : Vector3<T>
 

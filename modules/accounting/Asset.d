@@ -25,7 +25,7 @@ Asset protocol {
 
   dispose () -> Asset`Disposal
   
-  book`value -> (Currency, Decimal)
+  book_value -> (Currency, Decimal)
 
   writedowns -> [ Writedown ]
 

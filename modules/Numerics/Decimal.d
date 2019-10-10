@@ -1,3 +1,3 @@
 Decimal procotol {
-  precision: Int32
+  precision: i32
 }

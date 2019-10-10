@@ -1,4 +1,4 @@
-Ellipse<T: ℝ & Blittable = Float64> struct { 
+Ellipse<T: ℝ & Blittable = f64> struct { 
 
 
 }

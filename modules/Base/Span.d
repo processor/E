@@ -1,7 +1,7 @@
 Span<T:Blittable> struct {
   contains(value: T)      -> Boolean
-  index`Of(value: T)      -> Int64?
-  last`Index`Of(value: T) -> Int64?
+  index`Of(value: T)      -> i64?
+  last`Index`Of(value: T) -> i64?
 
-  slice(start: Int64, count: Int64) -> Span<T>
+  slice(start: i64, count: i64) -> Span<T>
 }

@@ -1,6 +1,6 @@
-Plane<T: ℝ = Float64> struct : Clonable {
-  normal : (x: T, y: T, z: T)
-  d      : T              // also known as w | constant
+Plane<T: ℝ = f64> struct : Clonable {
+  normal : Vector3<T>
+  d      : T          // also known as w | constant
 
   // from Points
   from (a: Vector3, b: Vector3, c: Vector3) {
@@ -24,7 +24,7 @@ Plane<T: ℝ = Float64> struct : Clonable {
 
   }
 
-  project(point: (x: T, y: T, z: T)) {
+  project(point: Vector3<T>) {
     
   }
 
