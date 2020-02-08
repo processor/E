@@ -7,6 +7,8 @@ namespace D.Units
         public static readonly UnitSet Default = new UnitSet(
             new GeneralUnitSet(),
             new ThermodynamicUnitSet(),
+            new ElectromagismUnitSet(),
+            new MechanicalUnitSet(),
             new CssUnitSet()
         );
 
@@ -29,6 +31,11 @@ namespace D.Units
         public void Add(string name, UnitInfo type)
         {
             items[name] = type;
+        }
+
+        public void Add(UnitInfo type)
+        {
+            items[type.Name] = type;
         }
 
         public void AddRange(UnitSet collection)

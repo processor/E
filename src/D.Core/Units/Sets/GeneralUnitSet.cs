@@ -5,6 +5,9 @@ namespace D.Units
 {
     public sealed class GeneralUnitSet : UnitSet
     {
+        // NOTE: Joule is apart of Eletromagnism Units
+        // NOTE: Netwon is apart of Force Units
+
         public GeneralUnitSet()
         {
             // TODO: Primary Units 
@@ -15,9 +18,6 @@ namespace D.Units
 
             Add("Pa",   Pascal);
             Add("sr",   Steradian); // Square radian (㏛)
-           
-            // Add("J",     Joule);
-            // Add("N",     Newton);
 
             // Add("gray",  Gray);
             Add("mole",  Mole);

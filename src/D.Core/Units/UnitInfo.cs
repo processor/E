@@ -26,7 +26,11 @@ namespace D.Units
 
         #endregion
 
-        // Electromagism / Energy
+        #region Electromagism / Energy
+
+        // Defined Under ElectromagismUnits
+
+        #endregion
 
         #region Frequency
 
