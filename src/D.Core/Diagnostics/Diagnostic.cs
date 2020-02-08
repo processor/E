@@ -1,6 +1,6 @@
 ﻿namespace D.Diagnostics
 {
-    public class Diagnostic
+    public sealed class Diagnostic
     {
         public Diagnostic(string message)
         {
