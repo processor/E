@@ -1,11 +1,11 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>netcoreapp3.0</TargetFramework>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
     <AssemblyName>D.Mathematics</AssemblyName>
     <Nullable>enable</Nullable>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="MathNet.Numerics" Version="4.8.1" />
+    <PackageReference Include="MathNet.Numerics" Version="4.9.0" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\D.Core\D.Core.csproj" />
