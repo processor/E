@@ -12,10 +12,10 @@
 
         public Flow()
         {
-            var binary   = TypeSystem.NewGeneric();
-            var boolean  = Add(Type.Get(ObjectType.Boolean));
-            var i32      = Add(Type.Get(ObjectType.Int32));
-            var @string  = Add(Type.Get(ObjectType.String));
+            var binary = TypeSystem.NewGeneric();
+            var boolean = Add(Type.Get(ObjectType.Boolean));
+            var i32 = Add(Type.Get(ObjectType.Int32));
+            var @string = Add(Type.Get(ObjectType.String));
 
             Add(Type.Get(ObjectType.Int64));
             Add(Type.Get(ObjectType.Float32));
@@ -27,7 +27,7 @@
 
             itemType = TypeSystem.NewGeneric();
             listType = TypeSystem.NewType("List", args: new[] { itemType });
-            
+
             env.Infer(Node.Define(Node.Variable("contains"), Node.Abstract(new[] {
                 Node.Variable("list", listType)
             }, Node.Constant(boolean))));
@@ -63,7 +63,7 @@
             env.Infer(Node.Define(Node.Variable("if"), Node.Abstract(new[] {
                 Node.Variable("condition", boolean),
                 Node.Variable("then", ifThenElse),
-                Node.Variable("else", ifThenElse) }, 
+                Node.Variable("else", ifThenElse) },
             ifThenElse, Node.Variable("then"))));
 
             // ! {expression}
@@ -84,7 +84,7 @@
         public IType GetType(ObjectType kind) => GetType(new Type(kind));
 
         private IType GetType(Type kind)
-        {           
+        {
             if (!env.TryGetValue(kind.Name, out IType type))
             {
                 type = Add(kind);
@@ -129,8 +129,8 @@
             var type = GetType(new Type(returnKind));
 
             TypeSystem.Infer(env, Node.Define(Node.Variable(name), Node.Abstract(
-                nodes, 
-                type: type, 
+                nodes,
+                type: type,
                 body: Node.Constant(type))
            ));
         }
@@ -163,7 +163,7 @@
             var variable = Node.Variable(name);
 
             Infer(Node.Define(variable, Node.Constant(typeNode)));
-            
+
             // nodes.Add(new Let(variable.Name, Node.Constant(variable.Type)));
 
             return variable;
@@ -181,7 +181,7 @@
         }
 
         public IType Infer(Node node) => TypeSystem.Infer(env, node);
-       
+
         public IType Infer(string name) => TypeSystem.Infer(env, Node.Variable(name));
     }
 }
