@@ -5,7 +5,6 @@ Restricted`Stock`Unit protocol {
   holder   : Entity
   maturity : DateTime
   terms    : [ Legal::Term ]
-
 }
 
 R`S`U = Restricted`Stock`Unit

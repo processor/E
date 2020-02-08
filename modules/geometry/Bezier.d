@@ -1,4 +1,4 @@
-Bezier<T: ℝ = Float64> struct : Curve { 
+Bezier<T: ℝ = f64> struct : Curve { 
   c1: (x: T, y: T) // anchor point coordinates
   c2: (x: T, y: T) // first control point
   c3: (x: T, y: T) // second control point

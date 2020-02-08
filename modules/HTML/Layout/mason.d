@@ -2,7 +2,7 @@ Masonary class {
   gap     :   Number
   columns : [ Box ]
 
-  init (columnCount: Int32, columnWidth: Float32, gap: Float64 = 10) {
+  init (columnCount: i32, columnWidth: f32, gap: f32 = 10) {
     var left = 0
     
     gap     = gap

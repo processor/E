@@ -11,5 +11,5 @@ Blob protocol {
 }
 
 Blob record { 
-  size: Int64 > 0
+  size: i64 > 0
 }

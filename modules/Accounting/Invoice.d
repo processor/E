@@ -3,18 +3,18 @@
 Receipt := Invoice when closed  // friendly name for a paid invoice
 
 Invoice protocol {
-  * created     : created
+  * create      : created
   * | bill      : billed
     | pay       : paying 
     ↺
   * | close   ∎ : closed
     | abandon ∎ : abandoned
 
-  create  ()                                 -> Invoice
-  pay     (Payment `Method, amount: Decimal) -> Payment
-  bill    (recipient: Entity)                -> Bill
-  close   ()                                 -> Closure
-  abandon ()                                 -> Abandonment
+  create  ()                                                -> Invoice
+  pay     (instrument: Payment`Instrument, amount: Decimal) -> Payment
+  bill    (recipient: Entity)                               -> Bill
+  close   ()
+  abandon ()
 
   bills    -> [ Bill ]           // an invoice may be billed mutiple times 
   payments -> [ Payment ] 
@@ -33,9 +33,6 @@ Bill event {
 }
 
 // todo: Acceptance
-
-Invoice`Closure event { } 
-Invoice`Abandonment event { } 
 
 Invoice`Adjustment struct {
   description : String

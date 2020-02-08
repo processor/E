@@ -1,17 +1,12 @@
 Drag struct { 
   element  : Element
-  position : Vector2
+  position : vec2
 }
 
-Drag`Start event { 
-  element: Element
-}
-
-Drag`End event { 
-
-}
+// start event
+// end event
 
 Drag protocol { 
-   * start
-   * drop
+   * start : dragging
+   * drop 
 }

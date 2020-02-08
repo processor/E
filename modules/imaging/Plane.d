@@ -1,4 +1,4 @@
 Plane struct {
   pixels  : [ Color ]
-  stride  : Int32
+  stride  : i32
 }

@@ -1,3 +1,1 @@
-Year struct { 
-  value: Int32
-}
+Year : i32 > 0

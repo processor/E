@@ -1,7 +1,7 @@
 let container          = Storage::Container(145234)
 
-let template`Processor = Templating::Processor(container)
-let image`Processor    = Imaging::Processor()
+let template_processor = Templating::Processor(container)
+let image_processor    = Imaging::Processor()
 
 let handler = ƒ(context: HTTP::Context) {
   let path = Path(context.request.path)
@@ -16,7 +16,7 @@ let handler = ƒ(context: HTTP::Context) {
 
       | "png" 
       | "jpeg" 
-      | "gif" => image`Processor.process(object)
+      | "gif" => image_processor.process(object)
     }
 
     $"Unsupported format: {path.format}" |> context.response.write 
@@ -25,9 +25,9 @@ let handler = ƒ(context: HTTP::Context) {
   }
   
   match path {
-    | "/" 		      => template`Processor.process("/home/index")
-    | $"/{section}" => template`Processor.process($"/{section}/index")
-    | _             => template`Processor.process("/errors/404")
+    | "/" 		      => template_processor.process("/home/index")
+    | $"/{section}" => template_processor.process($"/{section}/index")
+    | _             => template_processor.process("/errors/404")
   }
 }
 

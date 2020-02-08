@@ -1,4 +1,1 @@
-Pointer struct {
-
-  
-}
+Pointer : i64 ≥ 0 { }

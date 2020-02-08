@@ -8,8 +8,8 @@ Animation protocol {
 Animation class {
   delay        :   Duration
   duration     :   Duration
-  from         :   Float64 | Color
-  to           :   Float64 | Color
+  from         :   f64 | Color
+  to           :   f64 | Color
   properties   : [ Tweenable ]
   direction    :   Forwards | Backwards
   interpolator :   Interpolator

@@ -1,6 +1,6 @@
-﻿Matrix<T> protocol {
-  [ index: Int64 ]              -> T
-  [ row: Int64, column: Int64 ] -> T
+﻿Matrix<T: Number & Blittable> protocol {
+  [ index: i64 ]              -> T
+  [ row: i64, column: i64 ] -> T
 
   transpose() -> Matrix<T>
 }

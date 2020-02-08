@@ -1,4 +1,4 @@
 Timestamp struct(size: 12) {
-  seconds     : Int64 ≥ 0  
-  nanoseconds : Int32 ≥ 0
+  seconds     : i64 ≥ 0  
+  nanoseconds : i32 ≥ 0
 }

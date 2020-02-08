@@ -1,4 +1,4 @@
-Quaternion<T: ℝ & Blittable = Float64> struct {
+Quaternion<T: ℝ & Blittable = f64> struct {
   w, x, y, z: T
 
   dot (v: Quaternion<T>) => x * v.x + y * v.y + z * v.z + w * v.w

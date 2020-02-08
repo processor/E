@@ -1,6 +1,5 @@
 Memory<T:Blittable = Byte> class {
-  allocate(length: Int64) -> Memory<T> {
+  allocate(length: i64) -> Memory<T> {
 
   }
-
 }

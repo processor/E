@@ -5,7 +5,7 @@ File : Blob {
 
 File protocol {
   delete  () -> Deleted
-  mutate  () -> Channel `Writer of byte
+  mutate  () -> Channel`Writer of byte
   
   key ≡ (volume: Volume, name: String)
 }

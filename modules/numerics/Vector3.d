@@ -1,4 +1,4 @@
-Vector3<T: ℝ & Blittable = Float64> struct { 
+Vector3<T: ℝ & Blittable = f64> struct { 
   x: T = 0
   y: T = 0
   z: T = 0
@@ -103,15 +103,12 @@ Vector3<T: ℝ & Blittable = Float64> struct {
 
 // Geometric Functions
 
-
-
 // <
 // <=
 // >
 // >=
 // ==
 // != 
-
 
 // matrixCompMult
 

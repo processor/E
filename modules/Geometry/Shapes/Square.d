@@ -1,4 +1,4 @@
-Square<T: ℝ = Float64> struct {
+Square<T: ℝ = f64> struct {
   length: T
 
   height => length

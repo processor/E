@@ -9,11 +9,11 @@ Diagnosis protocol {
 
 Diagnosis record { }
 
-  Disease
-, Disorder,
-, Syndrome
-: Diagnosis {
-  
-}
+Disease : Diagnosis { }
+Disorder : Diagnosis { }
+Syndrome : Diagnosis { }
+
+
+
 
 // protected Organism   // rule for unmasking? i.e. until 50 years after Death

@@ -29,7 +29,7 @@ Loan`Payment : Transaction {
 Collatoral record {
   asset       : Asset
   quantity    : Decimal
-  preference  : Int64 ≥ 0
+  preference  : i64 ≥ 0
 }
 
 Loan`Application {  }

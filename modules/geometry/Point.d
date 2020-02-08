@@ -1,4 +1,4 @@
-Point<T = Float64> = Vector3<T>
+Point<T = f64> = Vector3<T>
 
 // dimension (2 or 3)
 

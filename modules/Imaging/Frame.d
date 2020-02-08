@@ -1,12 +1,12 @@
 Frame<T: Color> class {
-  height  : Int32 > 0
-  width   : Int32 > 0
-  planes  : [ Plane ]
+  height : i32 > 0
+  width  : i32 > 0
+  planes : [ Plane ]
 }
 
 // Planar Formats...
 
 Plane struct {
   pixels  : [ Color ]
-  stride  : Int32
+  stride  : i32
 }

@@ -1,4 +1,4 @@
-Circle<T: ℝ & Blittable: Float64> struct {
-  center : Vector3<T>
+Circle<T: ℝ & Blittable: f64> struct {
+  center : vec3<T>
   radius : T
 }

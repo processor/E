@@ -3,7 +3,7 @@
 
 Channel protocol { 
   status -> Channel`Status
-  unread -> Int64 ≥ 0
+  unread -> i64 ≥ 0
 
   read () -> 
     | * 
@@ -25,7 +25,7 @@ Channel`Status enum {
 }
 
 Readable`Channel protocol {
-  available : Int64 ≥ 0
+  available : i64 ≥ 0
   read ƒ    -> Message | Backpressure
 }
 

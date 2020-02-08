@@ -1,4 +1,4 @@
-Rectangle<T: ℝ = Float64> struct {
+Rectangle<T: ℝ = f64> struct {
   width, height: T
 }
 

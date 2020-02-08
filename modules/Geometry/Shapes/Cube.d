@@ -1,4 +1,4 @@
-Cube<T: ℝ = Float64> struct { 
+Cube<T: ℝ = f64> struct { 
   width  : T = 1
   height : T = 1
   length : T = 1 // depth?
