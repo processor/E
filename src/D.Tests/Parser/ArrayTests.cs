@@ -1,4 +1,6 @@
-﻿using Xunit;
+﻿using System;
+
+using Xunit;
 
 namespace D.Parsing.Tests
 {
@@ -6,6 +8,22 @@ namespace D.Parsing.Tests
 
     public class ArrayTests : TestBase
     {
+        [Fact]
+        public void Initialize()
+        {
+            var statement = Parse<TypeSymbol>(@"[] Pixel");
+
+            Assert.Equal("Array<Pixel>", statement.ToString());
+        }
+
+        [Fact]
+        public void Initialize_Fixed()
+        {
+            var statement = Parse<ArrayInitializerSyntax>(@"[5] Pixel");
+
+            // Assert.Equal("Array<Pixel>", statement.);
+        }
+
         [Fact]
         public void Array1x4()
         {

@@ -124,7 +124,7 @@ namespace D.Tests
         {
             var evaulator = new Evaluator();
 
-            var parser = new Parser(
+            using var parser = new Parser(
 @"a = 11
   a |> add(50)
   |> multiply(10)
@@ -147,7 +147,7 @@ namespace D.Tests
         {
             var evaulator = new Evaluator();
 
-            var parser = new Parser(@"a = 1");
+            using var parser = new Parser(@"a = 1");
 
             foreach (var statement in parser.Enumerate())
             {
@@ -265,7 +265,7 @@ namespace D.Tests
         [Fact]
         public void Eval3()
         {
-            var parser = new Parser(@"1kg * 1lb * 4kg", env);
+            using var parser = new Parser(@"1kg * 1lb * 4kg", env);
 
             var statement = (BinaryExpressionSyntax)parser.Next();
 

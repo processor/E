@@ -20,7 +20,7 @@ namespace D.Parsing
 
         public SourceReader(TextReader reader)
         {
-            this.reader = reader ?? throw new ArgumentNullException(nameof(reader));
+            this.reader = reader;
         }
 
         public int Line => line;
@@ -40,7 +40,6 @@ namespace D.Parsing
             Consume();
 
             return true;
-
         }
 
         public string Consume(int count)

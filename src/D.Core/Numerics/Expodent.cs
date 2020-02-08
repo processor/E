@@ -43,7 +43,7 @@ namespace D
             var sb = new Stack<char>();
 
             int v = Value;
-            int r = 0;
+            int r;
 
             while (v > 0)
             {

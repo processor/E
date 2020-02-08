@@ -13,7 +13,7 @@
 
             evaulator.Evaluate(text);
 
-            return evaulator.This;
+            return evaulator.This!;
         }
     }
 }

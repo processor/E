@@ -96,7 +96,7 @@ namespace D
 
         public IObject EvaluateUnit(UnitValueLiteral expression)
         {
-            if (!UnitInfo.TryParse(expression.UnitName, out UnitInfo unit))
+            if (!UnitInfo.TryParse(expression.UnitName, out UnitInfo? unit))
             {
                 throw new Exception($"Unit '{expression.UnitName}' was not found");
             }

@@ -2,7 +2,7 @@
 
 namespace D.Parsing
 {
-    internal class UnexpectedTokenException : Exception
+    internal sealed class UnexpectedTokenException : Exception
     {
         public UnexpectedTokenException(string message, Token token)
            : base(message + $". Was {token} @ {{ line: {token.Start.Line}:, column: {token.Start.Column} }}")
@@ -17,6 +17,6 @@ namespace D.Parsing
         public UnexpectedTokenException(string message, Exception innerException)
             : base(message, innerException)
         {
-        }
+        } 
     }
 }

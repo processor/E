@@ -26,7 +26,10 @@ var quant = Color[255]");
 
             Assert.Equal("quant", declaration.Name.ToString());
 
-            Assert.True(declaration.Flags.HasFlag(ObjectFlags.Mutable));
+            var value = (IndexAccessExpressionSyntax)declaration.Value;
+
+
+            Assert.True(declaration.IsMutable);
         }
 
         [Fact]

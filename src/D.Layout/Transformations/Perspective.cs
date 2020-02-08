@@ -9,5 +9,4 @@
 
         public INumeric<double> Length { get; }
     }
-
 }

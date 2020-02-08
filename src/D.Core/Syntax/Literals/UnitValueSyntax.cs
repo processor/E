@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace D.Syntax
+﻿namespace D.Syntax
 {
     public sealed class UnitValueSyntax : ISyntaxNode
     {

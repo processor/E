@@ -26,7 +26,9 @@ namespace D
 
         public object this[int i] => i >= 0 ? Value : throw new ArgumentOutOfRangeException("Out of range");
 
-        public object this[string name] => Name == name ? Value : throw new ArgumentNullException(nameof(name));
+        public object this[string name] => Name != null && Name == name 
+            ? Value 
+            : throw new ArgumentNullException(nameof(name));
 
         public int Count => 1;
 

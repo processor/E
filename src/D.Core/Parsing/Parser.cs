@@ -498,7 +498,7 @@ namespace D.Parsing
                 {
                     var name = ReadTypeSymbol();
 
-                    var type = ConsumeIf(Colon)
+                    TypeSymbol? type = ConsumeIf(Colon)
                         ? ReadTypeSymbol()
                         : null;
 
@@ -1473,6 +1473,8 @@ namespace D.Parsing
             return new ObjectInitializerSyntax(type, args);
         }
 
+
+        // []
         public ISyntaxNode ReadArrayInitializer()
         {
             Consume(BracketOpen); // [
@@ -1482,6 +1484,7 @@ namespace D.Parsing
             {
                 return Symbol.Type("Array", ReadTypeSymbol());
             }
+
 
             var rows = 0;
             var stride = 0;
@@ -2257,7 +2260,7 @@ namespace D.Parsing
 
                     // read member or type...
 
-                    Symbol symbol = char.IsUpper(reader.Current.Text[0])
+                    Symbol symbol = char.IsUpper(reader.Current.Text![0])
                         ? (Symbol)ReadTypeSymbol()
                         : (Symbol)ReadMemberSymbol();
 
