@@ -1,4 +1,1 @@
-Color protocol { 
-
-  
-}
+Color protocol { }

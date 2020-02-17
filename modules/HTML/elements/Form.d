@@ -20,12 +20,23 @@ Input<T> class : Inline {
   value: T
 }
 
-Form class : Element {
-  status : Unknown | Validated | Sending | Sent
-  action : Function
-  fields : [ Field ]
+Form protocol { 
+  * validate : validating
+  * send : sending
+  * sent
+}
 
-  from (fields: [ Field ]) => Form(children: fields)
 
-  fields (this Form) -> [ Field ] => children
+
+Form process : Element {
+  action :    Function
+  fields : [] Field
+
+  from (fields: [] Field) => Form(children: fields)
+
+  fields (this Form) -> [] Field => children
+
+  // validate
+  // send
+  
 }

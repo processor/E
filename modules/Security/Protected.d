@@ -5,4 +5,3 @@ Protected<T> struct {
   policy : Policy
 }
 
-// seal / unseal?

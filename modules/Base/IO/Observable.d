@@ -1,5 +1,5 @@
 Observerable<T> protocol {
-  subscriptions -> [ Subscription<T> ]
+  subscriptions -> [] Subscription<T>
 
   subscribe(Function<Message|∎>) -> Subscription<T>
 }

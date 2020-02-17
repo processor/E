@@ -1,6 +1,6 @@
 Force protocol { }
 
-Newton unit(symbol: "N", value: kg m / s) : Force { }
+Newton unit(symbol: "N", definition: kg m / s) : Force { }
 
 Dyne unit { }
 

@@ -1,0 +1,3 @@
+Cooperative actor : Entity { 
+
+}

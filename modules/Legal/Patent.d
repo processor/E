@@ -1,5 +1,5 @@
-Patent class {
-  holder    :   Entity
-  inventors : [ Inventor ]
-  issued    :   DateTime?
+Patent record {
+  holder    :    Entity
+  inventors : [] Inventor
+  issued    :    DateTime?
 }

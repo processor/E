@@ -1,3 +1,3 @@
-Carbon struct : Element {
+Carbon : Element {
   let atomic `Number = 6
 }

@@ -1,6 +1,6 @@
 ﻿Building protocol {
-  geometry : [ Geometry ]
-  units    : [ Unit ]
+  geometry : [] Geometry
+  units    : [] Unit
 }
 
 Building class : Place {
@@ -21,9 +21,9 @@ Room      : Building `Unit { }
 Lobby	    : Building `Unit { }
 
 Land `Lot protocol {
-  zone      : [ Building` Zone ]
-  geometry  : [ Geometry ]
-  buildings : [ Building ]
+  zone      : [] Building` Zone
+  geometry  : [] Geometry
+  buildings : [] Building
 }
 
 Building `Permit record {

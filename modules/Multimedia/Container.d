@@ -1,4 +1,4 @@
 Container protocol { 
-  metadata : [ String: Object ], 
-  streams  : [ Stream ]
+  metadata :    Dictionary<String, Object>, 
+  streams  : [] Stream
 }

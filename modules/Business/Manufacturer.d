@@ -1,3 +1,3 @@
 ﻿Manufacturer actor : Entity {
-  products: * Product
+  products: [] Product
 }

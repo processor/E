@@ -1,7 +1,12 @@
 Death event {
   entity   : Organism,
-  cause    : Death`Cause
+  cause    : Cause
   registar : Registrar
+
+  Cause class { 
+
+
+  }
 }
 
 // only living things may die 

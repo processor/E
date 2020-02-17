@@ -1,5 +1,10 @@
-Dissolution event {
+Dissolution process {
   entity    : Organization
-  reason    : Reason		// for dissolution
+  reason    : Reason
   registrar : Registrar
+  
+  Reason enum {
+
+
+  }
 }

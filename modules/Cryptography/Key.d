@@ -6,5 +6,5 @@ Key struct {
 }
 
 Secret struct { 
-  value: [ Byte ]
+  value: [] Byte
 }

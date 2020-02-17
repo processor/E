@@ -1,4 +1,8 @@
-Mutation struct {
+Mutation record {
 
 
 }
+
+
+// UPDATE A = 100
+// DELETE A

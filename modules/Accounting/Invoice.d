@@ -6,35 +6,45 @@ Invoice protocol {
   * create      : created
   * | bill      : billed
     | pay       : paying 
-    ↺
+    ↺ : processing
   * | close   ∎ : closed
+    | forgive ∎ : forgiven
     | abandon ∎ : abandoned
 
-  create  ()                                                -> Invoice
-  pay     (instrument: Payment`Instrument, amount: Decimal) -> Payment
-  bill    (recipient: Entity)                               -> Bill
+  send    (recipient: Entity)
   close   ()
-  abandon ()
+  forgive ()
 
-  bills    -> [ Bill ]           // an invoice may be billed mutiple times 
-  payments -> [ Payment ] 
+  payments -> [] Payment 
 }
 
-Invoice actor {
-  amount :   Decimal
-  issuer :   Entity
-  terms  : [ Invoice`Term ]
-  lines  : [ Line ]
+Invoice process {
+  currency :    Currency
+  amount   :    Decimal
+  issuer   :    Entity
+  payments : [] Payment
+  terms    : [] Legal::Term
+  lines    : [] Sale | Tax | Adjustment
+
+
+  // Messages
+  recieve(payment: Payment) -> Accepted | Refused { 
+
+
+  }
 }
 
-Bill event {
-  invoice   : Invoice
-  recipient : Person      // e.g. Sue in accounting @ Google
+// Specifies how to pay the invoice
+Payable impl for Invoice {
+  
+
 }
 
-// todo: Acceptance
+// An invoice is paid through a payment processor
 
-Invoice`Adjustment struct {
-  description : String
-  amount      : Decimal
-}
+
+
+
+// WIKIPEDIA: An invoice, bill or tab is a commercial document issued by a seller to a buyer, 
+//            relating to a sale transaction and indicating the products, quantities, and 
+//            agreed prices for products or services the seller had provided the buyer.

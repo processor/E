@@ -1,6 +1,6 @@
-Node<T> class {
+Node<T: record> class {
   id       :   Identity
   value    :   T
-  incoming : [ Node<T> ]
-  outgoing : [ Node<T> ]
+  incoming : [] Edge
+  outgoing : [] Edge
 }

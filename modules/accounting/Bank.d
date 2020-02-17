@@ -1,35 +1,32 @@
 Bank protocol { 
-  * | open       `Account       
-    | close      `Account     
-    | settle     `Transaction
-    | refuse     `Transaction 
-    | underwrite `Loan        
-    | process    `Transaction 
-    ↺            : acting     
-  * dissolve ∎   : dissolved
+  * form       : active
+  * act ↺      : acting
+  * dissolve ∎ : dissolved
 
-  open       `Account     (Account)     -> Account
-  close      `Account     (Account)     -> Account`Closure
-  settle     `Transaction (Transaction) -> Transaction`Settlement
-  refuse     `Transaction (Transaction) -> Transaction`Refusal
-  reverse    `Transaction (Transaction) -> Transaction`Reversed
-  underwrite `Loan        (Loan)        -> Transaction`Underwriting
+  // Actions
+  open       ($0: Account)
+  close      ($0: Account)
+  settle     ($0: Charge) 
+  refuse     ($0: Charge) 
+  reverse    ($0: Charge) 
+  underwrite ($0: Loan)      -> Underwriting
+  accept     ($0: Deposit)
 
-  deposit() -> Deposit
+  transfer (source: Account, destination: Account, amount: Decimal) -> Transfer
 
+  // Messages
+  recieve($0: Charge)  -> Accepted | Refused
+  recieve($0: Payment) -> Accepted | Refused
 }
 
 Bank actor {
-  entity : Entity,
+  entity : Entity
   code   : String
 }
 
+
+// Central banks
+
+// - May create or destroy money (demoninated in a urrency)
+
 // A bank maintains accounts, underwrites, and services loans
-// A payment processor may also act as an intermedary in a dispute
-
-
-  Account `Closed
-  Authorization `Expired
-  Unauthorized
-, Insufficient `Funds 
-: Refusal `Reason term

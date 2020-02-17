@@ -10,6 +10,6 @@ Connection protocol : Channel {
 }
 
 
-Connection actor {
+Connection process {
   
 }

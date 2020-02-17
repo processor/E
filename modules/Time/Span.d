@@ -1,0 +1,8 @@
+module Time {
+
+
+  Span struct { 
+
+    
+  }
+}

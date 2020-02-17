@@ -1,7 +1,7 @@
 Schema record {
   name         : String
-  collections  : [ Schema `Collection   ]
-  relationship : [ Schema `Relationship ]
+  collections  : [] Schema `Collection
+  relationship : [] Schema `Relationship
 }
 
 Schema`Collection record {

@@ -1,4 +1,4 @@
-Trademark class {
-  let term   : String
-  let issued : DateTime
+Trademark record {
+  let term   : Period<DateTime>
+  let issued : DateTime?
 }

@@ -1,4 +1,4 @@
-Silver type {
+Silver : Element {
 
 
 }

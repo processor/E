@@ -1,3 +1,3 @@
 Node class { 
-  children: [ Node ]
+  children: [] Node
 }

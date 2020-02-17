@@ -1,8 +1,8 @@
-Cheque protocol : Payment`Instrument {
+Cheque protocol : Payment::Instrument {
   amount    -> Decimal
   currency  -> Currency
   signature -> Signature // what are we agreeing too?
-  deposit   -> Deposit
+  clearing  -> Clearing
 }
 
 // We should generalize this to a Promise

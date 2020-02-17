@@ -11,7 +11,7 @@ Touch protocol {
     ↺
   * release ∎
 
-  move ([ vec3 ])
+  move (vec3[]) { }
 
   press (point: vec3, force: Force) -> Press
 }

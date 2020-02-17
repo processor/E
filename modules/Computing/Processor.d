@@ -1,6 +1,12 @@
 Processor class {
-  frequency    :   f32
-  instructions : [ Instruction ]
+  frequency    :    f32
+  instructions : [] Instruction
+
+
+  Instruction class { 
+
+
+  }
 }
 
 // cores, frequency

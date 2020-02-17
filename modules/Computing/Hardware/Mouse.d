@@ -7,22 +7,24 @@ Mouse protocol {
 
   // what element is below?
   
-  move  (Position) -> Mouse `Moved
-  press (Button)   -> Mouse `Pressed 
+  move  (Position) emits Wheel
+  press (Button) emits Pressed
+
+  // Events 
+
+  Click event {
+    // start
+    // end
+    button   : Mouse `Button
+    position : vec2
+  }
+
+  Wheel event {
+    delta: vec3
+  }
 }
 
   Left   `Button
 , Middle `Button :
 , Right  `Button :
 : Mouse  `Button : Mouse `Button class { }
-
-Mouse`Clicked event {
-  // start
-  // end
-  button   : Mouse `Button
-  position : vec3
-}
-
-Mouse `Wheel event {
-  delta: vec3
-}

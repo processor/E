@@ -8,7 +8,4 @@ Salary struct : Compensation {
   interval : Interval
 }
 
-Fixed : Compensation {
-  currency : Currency
-  amount   : Decimal
-}
+// Salary, contrasted with piece wages, where each job, hour, or other unit is paid separately, rather than on a periodic basis.

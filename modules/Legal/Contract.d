@@ -1,8 +1,8 @@
-from Legal import Term
-
 Contract procotol {
-  terms: [ Term ]
+  terms    : [] Legal::Term
 }
 
 // one or more conditions
 // one or more promises 
+
+// terms may include payments

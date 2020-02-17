@@ -2,3 +2,8 @@ Inflation protocol {
 
   
 }
+
+Inflation process { 
+
+  
+}

@@ -1,28 +1,27 @@
 ﻿Host protocol {
-  * terminate : terminated
+  * run(Process)
+  * terminate ∎ : terminated
 
-  processors         : [ Processor ]
-  network`Interfaces : [ Network`Interface ]
-  mounts             : [ Mount ]
-  processes          : [ Process ]
-
+  processors : [] Processor
+  memory     : [] Memory
+  interfaces : [] Networking::Interface
+  volumes    : [] Storage::Volume
+  processes  : [] Process
 
   // run -> Process
 }
 
-
 Host actor {
-  addresses: [ IP `Address ]
+  addresses: [] IP::Address
 
-  run(entryPoint: Function) -> Process
+  run(entry_point: Function) -> Process
 }
 
-Host `Termination event { 
-  host: Host
-}
 
 Mount mount {
-  path  : String
-  host  : Host
-  drive : Drive
+  path   : String
+  host   : Host
+  volume : Volume
 }
+
+// A volume is "Mounted" to a host to a specific path

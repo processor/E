@@ -5,21 +5,22 @@ Content class {
 }
 
 Parentable<T> protocol {
-  children : [ T ]
+  children : [] T
 }
 
 Document class : Element, Parentable<Element> {
   title: String
+
+  // Events -
+  Add event      : Mutation { } 
+  Wrap event     : Mutation { }
+  Unwap event    : Mutation { }
+  Detached event : Mutation { }
+
 }
 
 Node enum = Element | Content;
 
-  Added<T>
-, Wrapped<T>
-, Unwrapped<T>
-, Detached<T> 
-: Document `Mutation event { }
-
 Document protocol : Interactive {
-  add`Child (Node) -> Added
+  add`Child (Node) emits Add
 }

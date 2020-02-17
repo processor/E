@@ -1,5 +1,6 @@
 Principal protocol {
-  claims: [ Claim ]
+  actor  ->    Actor
+  claims -> [] Claim
 }
 
 // authenticated

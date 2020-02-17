@@ -41,7 +41,7 @@
 Neighborhood : Place, Inhabitable 
 
 Inhabitable protocol {
-  inhabitants -> [ Inhabitant ]
+  inhabitants -> [] Inhabitant
 }
 
 State record : Place {

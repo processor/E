@@ -5,9 +5,9 @@ Blob protocol {
   unlink (record: Record)          -> * Unlinked ∎ | Failed   ∎
 
                                    // sql -----------------------------------------------------
-  blocks     -> [ Blob `Block ]   // select block     from Blob'blocks        where blob = $0
-  hashes     -> [ Hash ]
-  attributes -> [ Attribute ]
+  blocks     -> [] Blob::Block     // select block     from Blob'blocks        where blob = $0
+  hashes     -> [] Hash
+  attributes -> [] Attribute
 }
 
 Blob record { 

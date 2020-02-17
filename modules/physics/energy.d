@@ -6,9 +6,9 @@
       
 Joule unit(symbol: "J") : Energy
 
-Calorie               unit                  : Energy {  }
-ThermochemicalCalorie unit(value: 4.1840 J) : Energy { }
-TableCalorie          unit(value: 4.1868 J) : Energy { }
+Calorie               unit                       : Energy {  }
+ThermochemicalCalorie unit(definition: 4.1840 J) : Energy { }
+TableCalorie          unit(definition: 4.1868 J) : Energy { }
 
 BTU   unit : Energy { }
 Therm unit : Energy { }

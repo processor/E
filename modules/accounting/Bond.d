@@ -6,10 +6,12 @@ Bond protocol : Asset {
   quantity -> Decimal
 }
 
-Bond actor : Asset {
-  asset    : Asset,  // e.g. USD, Gold
+Bond<TAsset> actor : Asset {
   quantity : Decimal
   price	   : Decimal.
   interest : Percent/Period,
   maturity : DateTime?  
 }
+
+
+// Bond<Gold> { quantity: 500 }

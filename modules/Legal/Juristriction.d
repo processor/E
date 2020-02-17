@@ -1,3 +1,3 @@
-Juristriction record {
+Juristriction actor {
   let place: Place
 }

@@ -7,13 +7,31 @@ Stock protocol : Asset {
   series : String
 }
 
+
 Stock actor : Asset {
-  entity   :   Entity
-  name     :   String
-  series   :   String
-  quantity :   Decimal
-  rights   : [ Right ]
+  entity    :    Entity
+  name      :    String
+  series    :    String
+  shares    :    Decimal      // Outstanding
+  issued    :    Decimal
+  quantity  :    Decimal  
+  rights    : [] Right
+  splits    : [] Split
+  exchanges : [] Exchange<Stock, Self>
+  
+  // take a single note, and split it into two
+  Split event { 
+ 
+  }
 }
+
+// Clarify: shares { issued, oustanding, authorized }
+
+// A stock may be created by a corporation
+// A stock may be traded on an exchange
+
+AMZN: Stock { }
+
 
 
 // `class           `series

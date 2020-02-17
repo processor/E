@@ -1,4 +1,4 @@
-Trustee {
+Trustee actor {
 
 
 }

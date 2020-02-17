@@ -1,6 +1,6 @@
-Network `Interface actor {
-  addresses: [ Address ]
+Interface actor {
+  addresses: [] Network::Address
 
-  send (packet: Packet)
-  recieve (packet: Packet)  
+  send    ƒ(packet: Packet) { }
+  recieve ƒ(packet: Packet) { }
 }

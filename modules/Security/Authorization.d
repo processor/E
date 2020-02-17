@@ -1,6 +1,5 @@
 Authorization class {
-  // subject? 
+  subject: Subject
 }
 
-// A document giving permission or authority.
-
+// A document giving permission or authority

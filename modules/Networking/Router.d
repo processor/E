@@ -1,5 +1,5 @@
 Router actor {
-  routes: [ Route ]
+  routes: [] Route
 
-  route ƒ(packet: Packet)
+  route ƒ(packet: Packet) { }
 }

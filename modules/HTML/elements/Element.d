@@ -20,8 +20,8 @@ Element protocol : Interactive { 
 }
 
 Element class : Node {
-  parent   :   Node?
-  children : [ Node ]
+  parent   :    Node
+  children : [] Node
 }
 
 Element impl for Parentable<Element> 
