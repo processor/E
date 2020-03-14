@@ -1,1 +1,1 @@
-Pointer : i64 ≥ 0 { }
+Pointer : i64 > 0 { }

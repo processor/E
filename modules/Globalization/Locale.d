@@ -4,7 +4,5 @@ Locale struct {
 
 en`US : Locale { }
 
-  en
-, fr
-, de 
-: Locale { }
+de : Locale { }
+fr : Locale { }

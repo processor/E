@@ -21,10 +21,8 @@ sign ƒ(x: i64) -> i64;
 min  ƒ(x: Self, y: Self) where Self : Comparable -> Self;
 max  ƒ(x: Self, y: Self) where Self : Comparable -> Self;
 
-// Logarithmic functions
-log   ƒ(x: f64) -> f64;    // the power to which the constant e has to be raised to produce x.
-log2  ƒ(x: f64) -> f64;    
-log10 ƒ(x: f64) -> f64;
+min  ƒ(values: Self*) where Self : Comparable -> Self;
+max  ƒ(values: Self*) where Self : Comparable -> Self;
 
 // Exponentiation functions
 pow   intrinsic ƒ(x: f64, exponent: f64) -> f64;              // exponentiation
@@ -33,7 +31,12 @@ cbrt  intrinsic ƒ(x: f64) -> f64;                             // cube root
 exp   intrinsic ƒ(x: f64) -> f64;                             // exponential      -- the constant e raised to the power of x
 exp2  intrinsic ƒ(x: f64) => pow(2, x)
 mod   ƒ(x: f64, y: f64) -> f64;
-                                                                          
+
+// Logarithmic functions
+log   ƒ(x: f64) -> f64;    // the power to which the constant e has to be raised to produce x.
+log2  ƒ(x: f64) -> f64;    
+log10 ƒ(x: f64) -> f64;
+
 // Trigonometric functions
 sin   intrinsic ƒ(x: f64) -> f64;                                  // sine                    
 cos   intrinsic ƒ(x: f64) -> f64;                                  // cosine                  
@@ -71,3 +74,8 @@ atan2  ƒ(x: f64, y: f64) -> f64;
 // inversesqrt   // inverse square root (opengl)
 
 // fma // Fused Mutiply Add
+
+
+
+
+// 

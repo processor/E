@@ -1,12 +1,12 @@
 ﻿Canvas protocol {
   draw (buffer : Image, position: Vector2) -> *Done
-  draw (shape  : Drawable)
+  draw ($0     : Drawable)
 }
 
 Canvas class {
-  width  :   i32 > 0
-  height :   i32 > 0
-  pixels : [ Pixel ]
+  width  :    i32 > 0
+  height :    i32 > 0
+  pixels : [] Pixel
 }
 
 Drawable impl for Circle {

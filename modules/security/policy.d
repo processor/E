@@ -1,30 +1,23 @@
 Policy protocol {
-  allow ( 
-    principal  :   Principal, 
-    actions    : [ Action ], 
-    resource   :   Resource,
-    predicate  :   Expression
-  ) -> * Rule 
-
-  forbid (
-    principal :   Principal, 
-    actions   : [ Action ], 
-    resource  :   Resource,
-    predicate :   Predicate
-  ) -> * Rule
+  rules -> [] Rule
 }
 
-/*
-allow (
-  entity    : Corporation(name: Carbonmade), 
-  action    : Blob::open | Blob::link, 
-  resource  : Blob(id: 1000)
-  predicate : time in "jp/toyko" > 5pm
+Policy record {
+  evaulate(context: Context) -> Allow | Forbid | Indeterminate
+
+  rules: [] Rule
+
+  Rule record {
+    principals : [] Principal,
+    actions    : [] Action,
+    resources  : [] Resource,
+    predicate  :    Predicate
+    effect     :    Allow | Forbid
+  }
 }
 
-// get, read, write: verb
-
-Permissions enum = read | write
-
-// Time as a Channel
-*/
+// entity    : US-CA:corporations/Carbonmade, 
+// action    : Blob::open | Blob::link, 
+// resource  : Carbonmade::blobs/100
+// predicate : time in "jp/toyko" > 5pm
+// effect    : Allow

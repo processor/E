@@ -1,5 +1,5 @@
 Polygon struct {
-  vertices: [ Vertex ]
+  vertices: [] Vertex
 }
 
 // is closed 

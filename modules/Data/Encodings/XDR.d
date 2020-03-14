@@ -1,4 +1,4 @@
-X`D`R class {
+XDR class {
 
 
 }

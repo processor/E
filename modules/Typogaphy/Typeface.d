@@ -1,4 +1,4 @@
-Typeface class { }
+Typeface record { }
 
-Arial class     : Typeface
-Helvetica class : Typeface
+Arial     : Typeface
+Helvetica : Typeface

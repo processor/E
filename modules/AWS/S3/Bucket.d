@@ -1,8 +1,8 @@
 Bucket protocol {
-  list(prefix: String) -> [ Object ]
+  list(prefix: String) -> [] Object
 }
 
 Bucket actor {
-   account : Amazon `Account
-   grants  : [ Grant ]
+   account :    Amazon::Account
+   grants  : [] Grant
 }

@@ -1,8 +1,10 @@
 Scene class {
-  elements : [ Element ]
-  lights   : [ Light ]
-  camea    :   Camera
+  elements : [] Element
+  lights   : [] Light
+  camea    :    Camera
 }
+
+// Illuminate ?
 
 Light class {
   direction: Vector3

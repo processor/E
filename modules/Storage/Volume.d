@@ -1,6 +1,6 @@
 Volume record {
-  size      i64 of byte ≥ 0,
-  available i64 of byte ≥ 0 | ∞
+  size      : i64 ≥ 0,
+  available : i64 ≥ 0 | ∞
 }
 
 Volume protocol {
@@ -10,6 +10,6 @@ Volume protocol {
   unlink (name   : String)                  -> * Unlinked ∎ | Error ∎
   link   (source : File, destination: File) -> * Linked   ∎ | Error ∎
 
-  files  -> [ Files ]
-  drives -> [ Drives ]
+  files  -> [] Files
+  drives -> [] Drives
 }

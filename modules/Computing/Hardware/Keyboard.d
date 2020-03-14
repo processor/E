@@ -5,8 +5,8 @@ Keyboard protocol {
     ↺
   * detach ∎  : detached
    
-  press   (key: Keyboard::Key) emits Key::Press
-  release (key: Keyboard::Key) emits Key::Release
+  press   ($0: Keyboard::Key) emits Key::Press
+  release ($0: Keyboard::Key) emits Key::Release
 
   depressed -> [] Keyboard::Key
   capturing ->     Element

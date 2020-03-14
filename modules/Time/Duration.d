@@ -1,9 +1,5 @@
 Duration struct {
-  from (milliseconds: Milliseconds) {
+  from (time: Time::Span) {
 
-  }
-
-  from (seconds: Seconds) {
-    
   }
 }

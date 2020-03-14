@@ -2,12 +2,13 @@ Practitioner protocol {
   exam     (organism: Organism) -> Examimation                // Uncovers symptoms
   diagnose (organism: Organism) -> Diagnosis | Inconclusive
 
-  perscribe (organism: Organism, drug: Drug, for: Medical `Diagnosis) -> Perscription
-  perform   (procedure: Procedure)                                  -> Procedure
-  treat     (Organism, Treatment)                        -> Treatment
+  perscribe (drug: Drug, for: Medical `Diagnosis, recipient: Organism) -> Perscription
+  perform   (procedure: Procedure)                                     -> Procedure
+  treat     (Organism, Treatment)                                      -> Treatment
 
-  displines -> [ Displine ]
+  displines -> [] Displine
 }
+
 
 Practitioner actor { 
   person: Entity
@@ -15,3 +16,5 @@ Practitioner actor {
 
 // A practitioner pratices medicine and:
 // - diagnoses and treats syptoms, dieases, disorders, ...
+
+// 

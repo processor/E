@@ -1,8 +1,13 @@
-Hospital protocol {
-  admit   (human: Human) -> Admission
-  dismiss (human: Human) -> Dismissal
+Hospital actor { 
+  admit   (human: Organism)
+  dismiss (human: Organism)
+
+  // Records
+  Patient   record { }
+  Admission record { }
+  Dismissal record { }
 }
 
-Hospital actor { 
-  
-}
+
+
+// May be an animal hospital

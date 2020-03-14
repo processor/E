@@ -3,25 +3,6 @@
 
 // Branches of knolwedge
 
-// Multidisciplinary knowledge is associated with more than one existing academic discipline or profession.
-
-// https://en.wikipedia.org/wiki/Discipline_(academia)
-
-// studies of the physics of music or the politics of literature.
-
-// These people are engaged in working together as equal stakeholders in addressing a common challenge.
-// Fields as organizations w/ "professional" members
-
-// A multidisciplinary community or project is made up of people from different academic disciplines and professions. 
-
-// Branches of knolwedge
-
-// Interdisciplinary knowledge is the extent of knowledge that exists between or beyond existing academic disciplines or professions.
-// The new knowledge may be claimed by members of none, one, both, or an emerging new academic discipline or profession.
-
-// Multidisciplinary knowledge is associated with more than one existing academic discipline or profession.
-
-A multidisciplinary community or project is made up of people from different academic disciplines and professions.
 
 These people are engaged in working together as equal stakeholders in addressing a common challenge. A multidisciplinary person is one with degrees from two or more academic disciplines. This one person can take the place of two or more people in a multidisciplinary community
 

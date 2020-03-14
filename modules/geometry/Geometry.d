@@ -1,6 +1,6 @@
 Geometry protocol { 
-  centroid ->   Point
-  vertices -> [ Vertex ]
+  centroid ->    Point
+  vertices -> [] Vertex
 }
 
 

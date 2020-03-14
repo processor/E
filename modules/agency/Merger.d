@@ -1,6 +1,6 @@
 from Governance import Resolution
 
-Merger event { 
+Merger process {
   aquirer    : Entity
   aquiree    : Entity
   resolution : Resolution

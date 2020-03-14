@@ -1,9 +1,17 @@
-  MTA
-, CTA 
-: Transit `Provider record {
+Authority protocol {
+  routes = [] Transit::Route
+}
+
+
+
+
+MTA : Transportation::Authority { 
+
 
 }
 
-Provider protocol {
-  routes = Transit `Routes(provider)
+
+CTA : Transportation::Authority { 
+
+
 }

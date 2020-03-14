@@ -1,4 +1,4 @@
 Scheduler protocol { 
-  schedule(action: Action) -> Task
-  schedule(action: Action, time: Time) -> Task
+  schedule($0: Action)           -> Task
+  schedule($0: Action, $1: Time) -> Task
 }

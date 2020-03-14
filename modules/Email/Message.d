@@ -1,6 +1,6 @@
 ﻿Message record {
-  to   : [ Address ]
-  from :   Address
-  cc   : [ Address ]
+  to   : [] Address
+  from :    Address
+  cc   : [] Address
   body :   Body
 }

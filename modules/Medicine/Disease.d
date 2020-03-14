@@ -4,6 +4,9 @@ Disease protocol {
   treat() -> Treatment
 }
 
+
+// A disease takes actions against an organism
+
 Disease actor {
 
 }
@@ -12,7 +15,7 @@ Disease actor {
 // A diease may be treated
 
 // IDC-10 (14,400 codes)
-//  
+// -----------------------
 // A General and unspecified
 // B Blood, blood forming organs, lymphatics, spleen
 // D Digestive

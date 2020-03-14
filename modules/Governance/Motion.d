@@ -1,22 +1,40 @@
 Motion protocal {
- * vote : Vote
 
-  decision : Decision
+  * ammend
+  * withdrawl : withdrawn
+  * vote      
+  * resolve   : resolved
 
-  votes: [ Vote ]
+  votes    : [] Vote
+  decision :    Decision
 
   vote(actor: Actor) -> Vote
+  
 }
 
-// cast
+
+// Motions are a statement of a proposal for an action.
+
+
 // quorum
 // proxy
 
 
-Motion actor { 
-  vote(Entity) { } 
+Motion process { 
+  document: Document
 
-  votes : [ Vote ] 
+  cast(vote: Vote)   { } 
+  ammend(Ammendment) { }
+  withdraw()         { }
+
+  votes : [] Vote 
+
+  Amendment record { }
 }
+
+// A document may have one or more articles
+
+
+// A motion that isn't seconded dies without further consideration
 
 // for | against

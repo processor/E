@@ -1,3 +1,3 @@
-Box<T> class {
+Box<T:Bittable> class {
   value: T
 }

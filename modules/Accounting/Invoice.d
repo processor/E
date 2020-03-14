@@ -26,10 +26,8 @@ Invoice process {
   terms    : [] Legal::Term
   lines    : [] Sale | Tax | Adjustment
 
-
   // Messages
-  recieve(payment: Payment) -> Accepted | Refused { 
-
+  recieve($0: Payment) -> Accepted | Refused { 
 
   }
 }

@@ -2,34 +2,34 @@ Employment protocol {
   * commence : employed
   * | work   : working          
     | vacate : vacating
-    | sick   : sick
-    ↺
+    | leave  : left       // sick leave
+    ↺ : acting
   * | quit    ∎ : quit
     | dismiss ∎ : dimissed
     | retire  ∎ : retired
   
   level         -> Employment`Level
-  position      -> Employment`Position
-  compensations -> [ Compensation ] 
-  terms         -> [ Legal::Term ] // * Employment Terms */ CREATE TABLE k100452345 (m1 key long, m2 key long)
+  position      -> Employment`Position // role?
+  compensations -> [] Compensation
+  terms         -> [] Legal::Term      // * Employment Terms */ CREATE TABLE k100452345 (m1 key long, m2 key long)
 
-  retire    () -> Retirement
-  leave     () -> Employment`Termination
-  dismiss   () -> Employment`Termination
+  // either party may terminate the employment under it's terms
+  terminate() { }
 }
 
-Employment actor {
+Employment process {
   employer : Entity
   employee : Entity
+
+  // events
+  Terminated event {
+    reason: Quit | Dismissed
+  }
 }
 
 // notes: 
 // An employment has state
 // - work & compensation takes place through an employment
-
-Employment`Termination event { 
-  reason: Quit | Dismissed
-}
 
 /* .e.g. -----------------------------------
 Expected        `Work (40 hours,  Weekly)

@@ -6,18 +6,20 @@ Organism protocol {
   birth : Birth
   death : Death?
 
-  die (reason: Reason) : Death
+  die ($0: Reason) : Death
 
-  relations : [ Relation ]
+  relations : [] Relation
   
   registar => birth.registar
-
-  alive if acting
 
   on death {
 	  // some code that runs at death
   }
 }
+
+// states ---
+Organism is alive when acting
+
 
 Organism actor : Entity { 
 

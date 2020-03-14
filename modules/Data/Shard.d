@@ -1,10 +1,8 @@
 Shard record {
-  ranges    : [ Range<i64> ],
-  capacity  :   i64 > 0,
-  flags     :   Shard `Flags
-}
+  ranges    : [] Range<i64> ,
+  capacity  :    i64 > 0,
 
-Shard `Flags enum {
-  Master  = 1
-  Replica = 2 
+  // - Flags
+  is master  : Boolean
+  is replica : Boolean
 }

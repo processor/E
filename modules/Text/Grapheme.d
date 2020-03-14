@@ -1,6 +1,5 @@
 Grapheme class {
-
-
+  
   Cluster {
 
   }

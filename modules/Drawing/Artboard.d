@@ -3,5 +3,5 @@ Artboard class {
   height    :  i32 of Length
    
   position  : Position, 
-  objects   : [ (Position, Geometry) ]
+  objects   : [] (Position, Geometry)å
 }

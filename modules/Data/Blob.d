@@ -1,8 +1,8 @@
 Blob protocol {
   open   ()                        -> * Byte ↺     | Error    ∎ | End ∎
   slice  (offset: i64, count: i64) -> * Byte ↺     | Error    ∎ | End ∎
-  link   (record: Record)          -> * Linked   ∎ | Failed   ∎
-  unlink (record: Record)          -> * Unlinked ∎ | Failed   ∎
+  link   ($0: Record)              -> * Linked   ∎ | Failed   ∎
+  unlink ($0: Record)              -> * Unlinked ∎ | Failed   ∎
 
                                    // sql -----------------------------------------------------
   blocks     -> [] Blob::Block     // select block     from Blob'blocks        where blob = $0

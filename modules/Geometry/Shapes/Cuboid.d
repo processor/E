@@ -1,5 +1,5 @@
 Cuboid<T: ℝ = f64> struct { 
-  polygons: [ Polygon ]
+  polygons: [] Polygon
 
   let definition = [
       // faces       normals (aka direction)

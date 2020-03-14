@@ -230,13 +230,13 @@ BitWriter impl for JPEGEncoder {
 }
 
 JPEGEncoder class {
-    let writer         : BitWriter
-    let components     : [ JPEGComponent ]
-    let tables         : [ u8 ],
-    let luma   `dctable   : [ (u8, u16) ]
-    let luma   `actable   : [ (u8, u16) ] 
-    let chroma `dctable : [ (u8, u16) ] 
-    let chroma `actable : [ (u8, u16) ]
+    let writer            : BitWriter
+    let components        : [] JPEGComponent
+    let tables            : [] u8,
+    let luma   `dctable   : [] (u8, u16)
+    let luma   `actable   : [] (u8, u16) 
+    let chroma `dctable   : [] (u8, u16) 
+    let chroma `actable   : [] (u8, u16)
 }
 
 JPEGEncoder impl {
@@ -257,7 +257,7 @@ JPEGEncoder impl {
         let scale = clamp(quality, 1, 100) as u32
         let scale = scale < 50 ? 5000 / scale : 200 - scale * 2
 
-        var tables = [ u32 ]
+        var tables = [] u32
 
         let scaleValue = ƒ(v: u8) {
             let value = (v as u32 * scale + 50) / 100
@@ -289,7 +289,7 @@ JPEGEncoder impl {
 
         writer.writeSegment(SOI, None)
 
-        var buf = [ byte ]
+        var buf = [] Byte
 
         buildJfifHeader(ref buf)
         writer.writeSegment(APP0, Some(ref buf))
@@ -488,10 +488,11 @@ buildHuffmanSegment(m           : Span<u8>,
     }
 }
 
-buildQuantizationSegment ƒ(m          : Span<u8>, 
-                           precision  : u8, 
-                           identifier : u8, 
-                           qtable     : Span<u8> {
+buildQuantizationSegment ƒ(
+    m          : Span<u8>, 
+    precision  : u8, 
+    identifier : u8, 
+    qtable     : Span<u8> {
     m.clear()
 
     let p = precision == 8 ? 0 : 1
@@ -527,14 +528,15 @@ valueAt ƒ(s: &[u8], index: i32) -> u8 {
     return (index < s.len() ? s[index] ? s[s.len() - 1]
 }
 
-copyBlocksYCbRr ƒ(source: Span<u8>,
-                  x0    : i32,
-                  y0    : i32,
-                  width : i32,
-                  bpp   : i32,
-                  yb    : ref [u8; 64],
-                  cbb   : ref [u8; 64],
-                  crb   : ref [u8; 64]) {
+copyBlocksYCbRr ƒ(
+    source: Span<u8>,
+    x0    : i32,
+    y0    : i32,
+    width : i32,
+    bpp   : i32,
+    yb    : ref [64]u8,
+    cbb   : ref [64]u8,
+    crb   : ref [64]u8) {
 
     for y in 0 ..< 8 {
         let ystride = (y0 + y) * bpp * width
@@ -555,12 +557,13 @@ copyBlocksYCbRr ƒ(source: Span<u8>,
     }
 }
 
-copyBlocksGray ƒ(source: Span<u8>,
-                 x0    : u32,
-                 y0    : u32,
-                 width : u32,
-                 bpp   : u32,
-                 gb    : ref [u8; 64]) {
+copyBlocksGray ƒ(
+    source: Span<u8>,
+    x0    : u32,
+    y0    : u32,
+    width : u32,
+    bpp   : u32,
+    gb    : ref [u8; 64]) {
   for y in 0 ..< 8 {
     let ystride = (y0 + y) * bpp * width;
 

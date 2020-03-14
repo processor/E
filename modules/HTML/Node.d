@@ -1,3 +1,3 @@
 Node protocol {
-  children: [ Node ]
+  children: [] Node
 }

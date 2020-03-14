@@ -1,1 +1,1 @@
-UTF8  protocol { * Character ↺ | * End }
+UTF8 protocol { * Character ↺ | * End }

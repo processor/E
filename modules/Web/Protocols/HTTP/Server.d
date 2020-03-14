@@ -1,7 +1,7 @@
 Server protocol {
-  listen ƒ(port) { }
+  listen ƒ(port: i16 > 0) { }
 
-  process ƒ(context: Context) {
+  process ƒ($0: Context) {
 
   }
 }

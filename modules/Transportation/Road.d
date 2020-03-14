@@ -1,0 +1,3 @@
+  Street
+, Avenue
+, Boulvard : Road

@@ -7,7 +7,7 @@ Schema record {
 Schema`Collection record {
   name      : String
   type      : Type
-  size      : i32?
+  size      : i32? > 0
   precision : i32?
   members   : Schema `Member
 }
