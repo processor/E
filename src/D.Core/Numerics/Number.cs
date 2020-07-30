@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 
 namespace D
 {
@@ -13,20 +14,20 @@ namespace D
         
         public static Number Parse(string text)
         {
-            return new Number(double.Parse(text));
+            return new Number(double.Parse(text, CultureInfo.InvariantCulture));
         }
 
         #region INumeric
 
-        ObjectType IObject.Kind => ObjectType.Number;
+        readonly ObjectType IObject.Kind => ObjectType.Number;
 
-        double INumber.Real => Value;
+        readonly double INumber.Real => Value;
 
         #endregion
 
         #region Casts
 
-        T INumber.As<T>() => (T)Convert.ChangeType(Value, typeof(T));
+        readonly T INumber.As<T>() => (T)Convert.ChangeType(Value, typeof(T));
 
         public static implicit operator double(Number d) => d.Value;
 
@@ -55,6 +56,6 @@ namespace D
 
         #endregion
 
-        public override string ToString() => Value.ToString();        
+        public readonly override string ToString() => Value.ToString(CultureInfo.InvariantCulture);        
     }
 }

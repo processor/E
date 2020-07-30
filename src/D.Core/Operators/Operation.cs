@@ -9,7 +9,7 @@
 
         public string Name { get; }
 
-        ObjectType IObject.Kind => ObjectType.Operation;
+        readonly ObjectType IObject.Kind => ObjectType.Operation;
     }
 
     // provide

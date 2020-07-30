@@ -83,11 +83,11 @@ namespace D.Units
             Value = value;
         }
 
-        public string Name { get; }
+        public readonly string Name { get; }
 
-        public double Value { get; }
+        public readonly double Value { get; }
 
-        public int Length => Name.Length;
+        public readonly int Length => Name.Length;
 
         public static SIPrefix Parse(string text)
         {

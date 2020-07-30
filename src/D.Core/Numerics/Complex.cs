@@ -14,14 +14,14 @@ namespace D
         public T Real { get; }
 
         public T Imaginary { get; }
-   
-        ObjectType IObject.Kind => ObjectType.Complex;
+
+        readonly ObjectType IObject.Kind => ObjectType.Complex;
 
         #region INumeric
 
-        double INumber.Real => Convert.ToDouble(Real);
+        readonly double INumber.Real => Convert.ToDouble(Real);
 
-        TA INumber.As<TA>() => throw new Exception("Complexes may not be cast");
+        readonly TA INumber.As<TA>() => throw new Exception("Complexes may not be cast");
 
         #endregion
     }

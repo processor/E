@@ -45,38 +45,32 @@ namespace D.Syntax
                 case BlockSyntax block               : return VisitBlock(block);
                 case ModuleSyntax module             : return VisitModule(module);
             }
-            
-            switch (syntax.Kind)
+
+            return syntax.Kind switch
             {
                 // Declarations
-                case SyntaxKind.PropertyDeclaration       : return VisitVariableDeclaration((PropertyDeclarationSyntax)syntax);
-                case SyntaxKind.TypeInitializer           : return VisitTypeInitializer((ObjectInitializerSyntax)syntax);
-                case SyntaxKind.DestructuringAssignment   : return VisitDestructuringAssignment((DestructuringAssignmentSyntax)syntax);
-                case SyntaxKind.MemberAccessExpression    : return VisitMemberAccess((MemberAccessExpressionSyntax)syntax);
-                case SyntaxKind.IndexAccessExpression     : return VisitIndexAccess((IndexAccessExpressionSyntax)syntax);          
-                case SyntaxKind.LambdaExpression          : return VisitLambda((LambdaExpressionSyntax)syntax); 
-                    
-                case SyntaxKind.CallExpression            : return VisitCall((CallExpressionSyntax)syntax);
-                    
-                case SyntaxKind.MatchExpression           : return VisitMatch((MatchExpressionSyntax)syntax);
-                case SyntaxKind.IfStatement               : return VisitIf((IfStatementSyntax)syntax);
-                case SyntaxKind.ElseIfStatement           : return VisitElseIf((ElseIfStatementSyntax)syntax);
-                case SyntaxKind.ElseStatement             : return VisitElse((ElseStatementSyntax)syntax);
-                case SyntaxKind.ReturnStatement           : return VisitReturn((ReturnStatementSyntax)syntax);
-
+                SyntaxKind.PropertyDeclaration      => VisitVariableDeclaration((PropertyDeclarationSyntax)syntax),
+                SyntaxKind.TypeInitializer          => VisitTypeInitializer((ObjectInitializerSyntax)syntax),
+                SyntaxKind.DestructuringAssignment  => VisitDestructuringAssignment((DestructuringAssignmentSyntax)syntax),
+                SyntaxKind.MemberAccessExpression   => VisitMemberAccess((MemberAccessExpressionSyntax)syntax),
+                SyntaxKind.IndexAccessExpression    => VisitIndexAccess((IndexAccessExpressionSyntax)syntax),
+                SyntaxKind.LambdaExpression         => VisitLambda((LambdaExpressionSyntax)syntax),
+                SyntaxKind.CallExpression           => VisitCall((CallExpressionSyntax)syntax),
+                SyntaxKind.MatchExpression          => VisitMatch((MatchExpressionSyntax)syntax),
+                SyntaxKind.IfStatement              => VisitIf((IfStatementSyntax)syntax),
+                SyntaxKind.ElseIfStatement          => VisitElseIf((ElseIfStatementSyntax)syntax),
+                SyntaxKind.ElseStatement            => VisitElse((ElseStatementSyntax)syntax),
+                SyntaxKind.ReturnStatement          => VisitReturn((ReturnStatementSyntax)syntax),
+                
                 // Patterns
-                case SyntaxKind.ConstantPattern           : return VisitConstantPattern((ConstantPatternSyntax)syntax);
-                case SyntaxKind.TypePattern               : return VisitTypePattern((TypePatternSyntax)syntax);
-                case SyntaxKind.AnyPattern                : return VisitAnyPattern((AnyPatternSyntax)syntax);
-
-                case SyntaxKind.Symbol                    : return VisitSymbol((Symbol)syntax);
-                    
-                case SyntaxKind.NumberLiteral             : return VisitNumberLiteral((NumberLiteralSyntax)syntax);
-                case SyntaxKind.StringLiteral             : return VisitStringLiteral((StringLiteralSyntax)syntax);
-
-                    
-                default: throw new Exception("unexpected expression:" + syntax.GetType().Name);
-            }
+                SyntaxKind.ConstantPattern          => VisitConstantPattern((ConstantPatternSyntax)syntax),
+                SyntaxKind.TypePattern              => VisitTypePattern((TypePatternSyntax)syntax),
+                SyntaxKind.AnyPattern               => VisitAnyPattern((AnyPatternSyntax)syntax),
+                SyntaxKind.Symbol                   => VisitSymbol((Symbol)syntax),
+                SyntaxKind.NumberLiteral            => VisitNumberLiteral((NumberLiteralSyntax)syntax),
+                SyntaxKind.StringLiteral            => VisitStringLiteral((StringLiteralSyntax)syntax),
+                _                                   => throw new Exception("Unexpected expression:" + syntax.GetType().Name),
+            };
         }
     }
 }

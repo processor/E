@@ -194,7 +194,7 @@ namespace D.Units
             return new UnitInfo(Prefix, Name, Dimension, DefinitionValue, exponent);
         }
 
-        public static bool TryParse(string name, out UnitInfo? type)
+        public static bool TryParse(string name, /* [NotNullWhen(true)] */ out UnitInfo? type)
         {
             if (UnitSet.Default.TryGet(name, out type))
             {

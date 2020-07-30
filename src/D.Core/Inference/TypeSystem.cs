@@ -67,7 +67,7 @@ namespace D.Inference
 
             private string GetName()
             {
-                return Self?.Name ?? string.Concat('`', alpha ?? (alpha = Alpha()));
+                return Self?.Name ?? string.Concat('`', alpha ??= Alpha());
             }
             
             internal readonly int Uid;
@@ -104,7 +104,7 @@ namespace D.Inference
 
         private static bool OccursIn(IType t, IType s)
         {
-            return ((s = Prune(s)) != t) ? (s is Type ? OccursIn(t, s.Arguments) : false) : true;
+            return (s = Prune(s)) == t || (s is Type && OccursIn(t, s.Arguments));
         }
 
         private static bool OccursIn(IType t, IReadOnlyList<IType> types)

@@ -15,23 +15,21 @@ namespace D
 
         public int BitCount => 64;
 
-        ObjectType IObject.Kind => ObjectType.Int64;
+        readonly ObjectType IObject.Kind => ObjectType.Int64;
 
-        public static implicit operator int(Integer value)
-          => (int)value.Value;
+        public static implicit operator int(Integer value) => (int)value.Value;
 
-        public static implicit operator long(Integer value)
-            => value.Value;
+        public static implicit operator long(Integer value) => value.Value;
 
         #region INumeric
 
-        T INumber.As<T>() => (T)Convert.ChangeType(Value, typeof(T));
+        readonly T INumber.As<T>() => (T)Convert.ChangeType(Value, typeof(T));
 
-        double INumber.Real => Value;
+        readonly double INumber.Real => Value;
 
         #endregion
 
-        public override string ToString() => Value.ToString();
+        public readonly override string ToString() => Value.ToString();
     }
 }
 

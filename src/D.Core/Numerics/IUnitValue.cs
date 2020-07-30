@@ -10,7 +10,7 @@ namespace D.Units
     }
 
     public interface IUnitValue<T> : IUnitValue
-        where T : struct, IComparable<T>, IEquatable<T>, IFormattable
+        where T : unmanaged, IComparable<T>, IEquatable<T>, IFormattable
     {
         UnitValue<T> With(T quantity);
 

@@ -962,7 +962,7 @@ namespace D.Parsing
 
             if (!IsKind(BraceClose))
             {
-                channelProtocol = reader.Current.Text == "*"
+                channelProtocol = reader.Current.Equals("*")
                     ? ReadProtocolChannel().ToArray()
                     : Array.Empty<IProtocolMessage>();
 
@@ -1427,7 +1427,7 @@ namespace D.Parsing
 
                 return new TypeSymbol("Variant", list.ToArray());
             }
-            else if (reader.Current == "&")
+            else if (reader.Current.Equals("&"))
             {
                 var list = new List<Symbol> { result };
 
@@ -1482,9 +1482,8 @@ namespace D.Parsing
             // Maybe symbol?
             if (ConsumeIf(BracketClose))
             {
-                return Symbol.Type("Array", ReadTypeSymbol());
+                return Symbol.Type("Array", ReadTypeSymbol()); // Array of T
             }
-
 
             var rows = 0;
             var stride = 0;
@@ -1496,11 +1495,11 @@ namespace D.Parsing
 
             while (!IsKind(BracketClose))
             {
-                var element = ReadPrimary();
+                var elementSyntax = ReadPrimary();
 
                 #region Check for uniformity
 
-                if (uniform && element is ArrayInitializerSyntax nestedArray)
+                if (uniform && elementSyntax is ArrayInitializerSyntax nestedArray)
                 {
                     if (rows == 0)
                     {
@@ -1530,7 +1529,7 @@ namespace D.Parsing
 
                 #endregion
 
-                elements.Add(element);
+                elements.Add(elementSyntax);
 
                 if (!ConsumeIf(Comma)) break;
             }
@@ -1557,7 +1556,14 @@ namespace D.Parsing
                 s = stride;
             }
 
-            return new ArrayInitializerSyntax(elements.Extract(), stride: s);
+            TypeSymbol? elementType = null;
+
+            if (reader.Current.Kind == Identifier)
+            {
+                elementType = ReadTypeSymbol();
+            }
+
+            return new ArrayInitializerSyntax(elements.Extract(), stride: s) { ElementType = elementType };
         }
 
 
@@ -2407,7 +2413,7 @@ namespace D.Parsing
 
         bool ConsumeIf(string text)
         {
-            if (reader.Current.Text == text)
+            if (reader.Current.Equals(text))
             {
                 reader.Consume();
 

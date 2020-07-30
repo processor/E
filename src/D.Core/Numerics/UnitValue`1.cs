@@ -6,7 +6,7 @@ using D.Syntax;
 namespace D.Units
 {
     public readonly struct UnitValue<T> : IUnitValue<T>, IEquatable<UnitValue<T>>
-        where T : struct, IComparable<T>, IEquatable<T>, IFormattable
+        where T : unmanaged, IComparable<T>, IEquatable<T>, IFormattable
     {        
         public UnitValue(T value, UnitInfo unit)
         {
@@ -20,15 +20,15 @@ namespace D.Units
 
         #region With
 
-        public UnitValue<T> With(T quantity) => new UnitValue<T>(quantity, Unit);
+        public readonly UnitValue<T> With(T quantity) => new UnitValue<T>(quantity, Unit);
 
-        public UnitValue<T> With(T quantity, UnitInfo type) => new UnitValue<T>(quantity, type);
+        public readonly UnitValue<T> With(T quantity, UnitInfo type) => new UnitValue<T>(quantity, type);
 
         #endregion
 
         #region Conversions
 
-        public double To(UnitInfo targetUnit)
+        public readonly double To(UnitInfo targetUnit)
         {
             if (Unit.Dimension != targetUnit.Dimension)
             {
@@ -79,7 +79,7 @@ namespace D.Units
 
         // No space between units...
 
-        public override string ToString()
+        public readonly override string ToString()
         {
             var sb = new StringBuilder();
             
@@ -111,8 +111,8 @@ namespace D.Units
 
                     double value = double.Parse(((NumberLiteralSyntax)unitValue.Expression).Text);
 
-                    var type = UnitInfo.TryParse(unitValue.UnitName, out UnitInfo unitType)
-                        ? unitType
+                    var type = UnitInfo.TryParse(unitValue.UnitName, out UnitInfo? unitType)
+                        ? unitType!
                         : new UnitInfo(unitValue.UnitName);
 
                     return new UnitValue<T>((T)Convert.ChangeType(value, typeof(T)), type!.WithExponent(unitValue.UnitPower));
@@ -131,7 +131,7 @@ namespace D.Units
             else
             {
                 UnitInfo type = UnitInfo.TryParse(text, out UnitInfo? unitType)
-                   ? unitType
+                   ? unitType!
                    : new UnitInfo(text);
 
                 return new UnitValue<T>(UnitConstants<T>.One, type);

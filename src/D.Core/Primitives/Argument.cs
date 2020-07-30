@@ -24,22 +24,22 @@ namespace D
         
         // NameIsImplict?
 
-        public object this[int i] => i >= 0 ? Value : throw new ArgumentOutOfRangeException("Out of range");
+        public readonly object this[int i] => i >= 0 ? Value : throw new ArgumentOutOfRangeException("Out of range");
 
-        public object this[string name] => Name != null && Name == name 
+        public readonly object this[string name] => Name != null && Name == name 
             ? Value 
             : throw new ArgumentNullException(nameof(name));
 
-        public int Count => 1;
+        public readonly int Count => 1;
 
         #region IEnumerable
 
-        public IEnumerator<Argument> GetEnumerator()
+        public readonly IEnumerator<Argument> GetEnumerator()
         {
             yield return this;
         }
 
-        IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
+        readonly IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
     
         #endregion
     }

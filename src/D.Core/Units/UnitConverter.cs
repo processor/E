@@ -1,6 +1,6 @@
 ﻿namespace D.Units
 {
-    public readonly struct UnitConverter : IConverter<double, double>
+    public sealed class UnitConverter : IConverter<double, double>
     {
         public static readonly UnitConverter None = new UnitConverter(1); 
 

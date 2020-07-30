@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 
 namespace D
 {
@@ -16,19 +17,19 @@ namespace D
 
         public long Denominator { get; }
 
-        ObjectType IObject.Kind => ObjectType.Rational;
+        readonly ObjectType IObject.Kind => ObjectType.Rational;
 
         #region INumeric
 
-        double INumber.Real => (double)Numerator / Denominator;
+        readonly double INumber.Real => (double)Numerator / Denominator;
 
-        T INumber.As<T>() => (T)Convert.ChangeType((double)Numerator / Denominator, typeof(T));
+        readonly T INumber.As<T>() => (T)Convert.ChangeType((double)Numerator / Denominator, typeof(T));
 
         #endregion
 
         #region Helpers
 
-        public Rational Reduce()
+        public readonly Rational Reduce()
         {
             var n = Numerator;
             var d = Denominator;
@@ -74,6 +75,6 @@ namespace D
 
         #endregion
 
-        public override string ToString() => Numerator + " / " + Denominator;
+        public readonly override string ToString() => Numerator.ToString(CultureInfo.InvariantCulture) + " / " + Denominator.ToString(CultureInfo.InvariantCulture);
     }
 }

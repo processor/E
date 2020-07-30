@@ -1,4 +1,6 @@
-﻿namespace D.Parsing
+﻿using System;
+
+namespace D.Parsing
 {
     public readonly struct Token
     {
@@ -6,25 +8,30 @@
         {
             Kind = kind;
             Start = start;
-            Text = text;
+            Text = text!;
             Trailing = trailing;
         }
 
-        public TokenKind Kind { get; }
+        public readonly TokenKind Kind { get; }
 
-        public Location Start { get; }
+        public readonly Location Start { get; }
 
         // End (calculate)
 
-        public string? Text { get; }
+        public readonly string Text { get; }
 
-        public string? Trailing { get; }
+        public readonly string? Trailing { get; }
 
-        public bool Is(TokenKind kind) => Kind == kind;
+        public readonly bool Is(TokenKind kind) => Kind == kind;
 
-        public override string ToString() => Kind.ToString() + ":" + Text;
+        public readonly override string ToString() => Kind.ToString() + ":" + Text;
 
-        public static implicit operator string(Token token) => token.Text;
+        public static implicit operator string(Token token) => token.Text!;
+
+        public readonly bool Equals(string? value)
+        {
+            return string.Equals(Text, value, StringComparison.Ordinal);
+        }
     }
 
     public enum TokenKind
