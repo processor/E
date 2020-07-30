@@ -150,12 +150,8 @@ namespace D
 
         #endregion
 
-        #region Equality
-
         public bool Equals(Type other) => this.Id == other.Id;
         
         public override int GetHashCode() => id.GetHashCode();
-
-        #endregion
     }
 }
