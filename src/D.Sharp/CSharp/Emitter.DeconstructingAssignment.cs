@@ -1,7 +1,9 @@
-﻿namespace D.Compilation
-{
-    using Expressions;
+﻿using System;
 
+using D.Expressions;
+
+namespace D.Compilation
+{
     public partial class CSharpEmitter
     {
         public override IExpression VisitDestructuringAssignment(DestructuringAssignment expression)
@@ -10,7 +12,7 @@
 
             foreach (var a in expression.Variables)
             {
-                if (a.Name == "_") continue;
+                if (a.Name.Equals("_", StringComparison.Ordinal)) continue;
 
                 if (i != 0) EmitLine();
 

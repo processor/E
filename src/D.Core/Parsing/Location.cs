@@ -17,7 +17,7 @@ namespace D.Parsing
 
         public int Position { get; }
 
-        public override bool Equals(object obj) => Equals((Location)obj);
+        public override bool Equals(object obj) => obj is Location other && Equals(other);
 
         public readonly bool Equals(Location other)
         {

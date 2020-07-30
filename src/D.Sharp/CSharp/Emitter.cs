@@ -63,7 +63,7 @@ namespace D.Compilation
 
         public static string ToPascalCase(string text)
         {
-           return text.Substring(0, 1).ToUpper() + text.Substring(1);
+           return text.Substring(0, 1).ToUpperInvariant() + text.Substring(1);
         }
 
         public override IExpression VisitSymbol(Symbol symbol)
@@ -73,7 +73,7 @@ namespace D.Compilation
                 Emit('_');
                 Emit(symbol.Name.Substring(1));
             }
-            else if (symbol.Name == "π")
+            else if (symbol.Name.Equals("π"))
             {
                 Emit("Math.PI");
             }
@@ -132,7 +132,7 @@ namespace D.Compilation
             {
                 var i = 0;
 
-                if (type.Name == "Array")
+                if (type.Name.Equals("Array", System.StringComparison.Ordinal))
                 {
                     Emit("List");
                 }
