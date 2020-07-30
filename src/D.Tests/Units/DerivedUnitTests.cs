@@ -24,4 +24,3 @@ namespace D.Units.Tests
         }
     }
 }
-

@@ -6,8 +6,6 @@ namespace D.Parsing.Tests
 
     public class FunctionDeclarationTests : TestBase
     {
-        private static readonly Compiler compiler = new Compiler();
-
         [Fact]
         public void IndexAssignment()
         {
