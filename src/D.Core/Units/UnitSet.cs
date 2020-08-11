@@ -12,7 +12,7 @@ namespace D.Units
             new CssUnitSet()
         );
 
-        private readonly Dictionary<string, UnitInfo> items = new Dictionary<string, UnitInfo>();
+        private readonly Dictionary<string, UnitInfo> items = new ();
 
         public UnitSet() { }
 

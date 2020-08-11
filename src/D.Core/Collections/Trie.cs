@@ -174,7 +174,7 @@ namespace D.Collections
 
             private Node? Parent { get; }
 
-            public Dictionary<char, Node> Children = new Dictionary<char, Node>();
+            public Dictionary<char, Node> Children = new ();
 
             internal Node Add(char key)
             {

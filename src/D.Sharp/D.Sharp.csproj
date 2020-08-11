@@ -2,6 +2,7 @@
   <PropertyGroup>
     <VersionPrefix>0.0.1-alpha2</VersionPrefix>
     <TargetFramework>netcoreapp3.1</TargetFramework>
+    <LangVersion>9</LangVersion>
     <AssemblyName>D.Sharp</AssemblyName>
     <Nullable>enable</Nullable>
   </PropertyGroup>

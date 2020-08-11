@@ -7,7 +7,7 @@ namespace D.Units
 
     public readonly struct SIPrefix : IEquatable<SIPrefix>
     {
-        public static readonly SIPrefix None = new SIPrefix(null!, 1);
+        public static readonly SIPrefix None = new (null!, 1);
 
         private readonly static double yocto = Pow(10, -24); // 10^-24
         private readonly static double zepto = Pow(10, -21); // 10^-21
@@ -53,7 +53,7 @@ namespace D.Units
         public static readonly SIPrefix Z =  new SIPrefix("Z" ,  zetta); // 10^21
         public static readonly SIPrefix Y =  new SIPrefix("Y" ,  yotta); // 10^24
 
-        private readonly static Dictionary<string, double> scales = new Dictionary<string, double> {
+        private readonly static Dictionary<string, double> scales = new (20) {
             { "yocto",  yocto },
             { "zepto",  zepto },
             { "atto",   atto  },
@@ -152,8 +152,10 @@ namespace D.Units
             return false;
         }
 
-        public bool Equals(SIPrefix other) =>
-            Name == other.Name &&
-            Value == other.Value;
+        public bool Equals(SIPrefix other)
+        {
+            return Name.Equals(other.Name, StringComparison.Ordinal) 
+                && Value == other.Value;
+        }
     }
 }

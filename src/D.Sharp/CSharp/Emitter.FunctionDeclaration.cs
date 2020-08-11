@@ -56,9 +56,9 @@
             {
                 EmitLine();
 
-                if (statement is ReturnStatement)
+                if (statement is ReturnStatement returnStatement)
                 {
-                    var type = (TypeInitializer)((ReturnStatement)statement).Expression;
+                    var type = (TypeInitializer)returnStatement.Expression;
 
                     WriteTypeInitializerBody(type, level);
                 }

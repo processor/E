@@ -4,7 +4,7 @@ namespace D
 {
     public class Scope
     {
-        private readonly Dictionary<string, object> items = new Dictionary<string, object>();
+        private readonly Dictionary<string, object> items = new ();
 
         private readonly Scope? parent;
         

@@ -308,7 +308,7 @@ namespace D.Parsing
             return new Token(Identifier, start, text, ReadTrivia());
         }
 
-        public static readonly Dictionary<string, TokenKind> keywords = new Dictionary<string, TokenKind> {
+        public static readonly Dictionary<string, TokenKind> keywords = new () {
             { "ƒ"              , Function },
             { "as"             , Op },
             { "ascending"      , Ascending },

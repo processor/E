@@ -5,7 +5,7 @@ namespace D
 {
     public sealed class ModuleSymbol : Symbol
     {
-        private readonly Dictionary<string, Symbol> lookup = new Dictionary<string, Symbol>();
+        private readonly Dictionary<string, Symbol> lookup = new ();
 
         public ModuleSymbol(string name, ModuleSymbol? parent = null)
             : base(name, Array.Empty<Symbol>())

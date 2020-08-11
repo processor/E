@@ -7,7 +7,7 @@ namespace D.Compilation
     public partial class CSharpEmitter
     {
         // Fully qualify
-        private static readonly Dictionary<string, string> funcMap = new Dictionary<string, string> {
+        private static readonly Dictionary<string, string> funcMap = new (12) {
             { "abs"     , "Math.Abs" },
             { "acos"    , "Math.Acos" },
             { "asin"    , "Math.Asin" },
@@ -57,10 +57,9 @@ namespace D.Compilation
             return call;
         }
 
-
         private string GetFunctionName(string name)
         {
-            if (funcMap.TryGetValue(name, out string result))
+            if (funcMap.TryGetValue(name, out string? result))
             {
                 return result;
             }
@@ -80,9 +79,9 @@ namespace D.Compilation
 
         public void WriteArg(IObject arg)
         {
-            if (arg is BinaryExpression)
+            if (arg is BinaryExpression b)
             {
-                VisitBinary((BinaryExpression)arg, true);
+                VisitBinary(b, true);
             }
             else
             {
