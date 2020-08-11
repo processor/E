@@ -1,6 +1,4 @@
-﻿using D.Collections;
-
-using Xunit;
+﻿using Xunit;
 
 namespace D.Operators.Tests
 {
@@ -13,17 +11,15 @@ namespace D.Operators.Tests
         {
             var env = new Node();
 
-            Trie<Operator>.Node node;
-
-            Assert.True(env.Operators.Maybe(Infix, '%', out node)); // %
-            Assert.True(env.Operators.Maybe(Infix, '=', out node)); // =
-            Assert.True(env.Operators.Maybe(Infix, '=', out node)); // ==
-            Assert.True(env.Operators.Maybe(Infix, '=', out node)); // ===
-            Assert.True(env.Operators.Maybe(Infix, '>', out node)); // >
+            Assert.True(env.Operators.Maybe(Infix, '%', out _)); // %
+            Assert.True(env.Operators.Maybe(Infix, '=', out _)); // =
+            Assert.True(env.Operators.Maybe(Infix, '=', out _)); // ==
+            Assert.True(env.Operators.Maybe(Infix, '=', out _)); // ===
+            Assert.True(env.Operators.Maybe(Infix, '>', out _)); // >
 
             // >>>
 
-            Assert.False(env.Operators.Maybe(Infix, 'm', out node));
+            Assert.False(env.Operators.Maybe(Infix, 'm', out _));
         }
 
         [Fact]

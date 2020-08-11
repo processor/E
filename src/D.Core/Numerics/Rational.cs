@@ -21,9 +21,9 @@ namespace D
 
         #region INumeric
 
-        readonly double INumber.Real => (double)Numerator / Denominator;
+        double INumber.Real => (double)Numerator / Denominator;
 
-        readonly T INumber.As<T>() => (T)Convert.ChangeType((double)Numerator / Denominator, typeof(T));
+        T INumber.As<T>() => (T)Convert.ChangeType((double)Numerator / Denominator, typeof(T));
 
         #endregion
 

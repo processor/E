@@ -63,8 +63,8 @@ namespace D.Parsing.Tests
 
             var textNode = divEl[0] as TextNodeSyntax;
             
-            var span1 = divEl[1] as ElementSyntax;
-            var span2 = divEl[2] as ElementSyntax;
+            var span1 = (ElementSyntax)divEl[1];
+            var span2 = (ElementSyntax)divEl[2];
 
             Assert.Equal("A few words ", textNode.Content);
         }
