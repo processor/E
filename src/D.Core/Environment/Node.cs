@@ -71,7 +71,7 @@ namespace D
 
         public bool TryGetValue<T>(string key, out T value)
         {
-            if (!TryGet(key, out object r))
+            if (!TryGet(key, out object? r))
             {
                 value = default;
 
@@ -97,7 +97,7 @@ namespace D
             return false;
         }
 
-        private bool TryGetType(Symbol symbol, out Type type)
+        private bool TryGetType(Symbol symbol, out Type? type)
         {
             if (TryGet(symbol.Name, out object t))
             {
@@ -113,7 +113,7 @@ namespace D
 
         public Type GetType(Symbol symbol)
         {
-            if (TryGetType(symbol, out Type type))
+            if (TryGetType(symbol, out Type? type))
             {
                 return type;
             }

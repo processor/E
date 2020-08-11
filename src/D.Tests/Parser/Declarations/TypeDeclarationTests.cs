@@ -49,7 +49,7 @@ Point struct {
   x, y, z: T
 }
 ");
-            Assert.Equal(1, a.Members.Length);
+            Assert.Single(a.Members);
 
             var members = ((CompoundPropertyDeclaration)a.Members[0]).Members;
 
@@ -114,7 +114,7 @@ Graphic class {
             Assert.Equal("id",       members[1].Name);
             Assert.Equal("Identity", members[1].Type.ToString());
 
-            Assert.Equal(0, type.GenericParameters.Length);
+            Assert.Empty(type.GenericParameters);
         }
 
         [Fact]
@@ -131,7 +131,7 @@ Point struct <T: Number> : Vector3<T> {
             Assert.Equal("T", declaration.BaseType.Arguments[0].Name);
 
             
-            Assert.Equal(1, declaration.GenericParameters.Length);
+            Assert.Single(declaration.GenericParameters);
 
             Assert.Equal("T",      declaration.GenericParameters[0].Name);
             Assert.Equal("Number", declaration.GenericParameters[0].Type);

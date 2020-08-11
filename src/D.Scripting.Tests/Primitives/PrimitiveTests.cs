@@ -22,7 +22,7 @@ namespace D.Parsing.Tests
             var a = Parse<TypeDeclarationSyntax>("Int64 struct @size(8)");
 
             Assert.Equal("Int64", a.Name);
-            Assert.Equal(1, a.Annotations.Length);
+            Assert.Single(a.Annotations);
             Assert.Equal("size", a.Annotations[0].Name);
             Assert.Equal(8, (NumberLiteralSyntax)a.Annotations[0].Arguments[0].Value);
         }

@@ -11,7 +11,7 @@ namespace D.Inference
 
         IType[] Arguments { get; }
 
-        IType Self { get; }
+        IType? Self { get; }
 
         IType Value { get; }
     }

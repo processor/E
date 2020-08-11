@@ -7,9 +7,16 @@ namespace D.Mathematics
 
     public sealed class IntegralExpression : IExpression
     {
-        public IntegralExpression(IExpression expression)
+        public IntegralExpression(
+            IExpression expression,
+            IExpression a, 
+            IExpression b, 
+            IExpression x)
         {
             Expression = expression;
+            A = a;
+            B = b;
+            X = x;
         }
 
         public IExpression Expression { get; }

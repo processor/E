@@ -16,17 +16,17 @@ namespace D.Imaging
         // Blenda
         // Contrast
 
-        ColorFunction AdjustAlpha(IColor source, double amount) => new ColorFunction("alpha");
-        ColorFunction AdjustHue(IColor source, double amount) => new ColorFunction("hue");
+        ColorFunction AdjustAlpha(IColor source, double amount)      => new ColorFunction("alpha");
+        ColorFunction AdjustHue(IColor source, double amount)        => new ColorFunction("hue");
         ColorFunction AdjustSaturation(IColor source, double amount) => new ColorFunction("saturation");
-        ColorFunction AdjustLightness(IColor source, double amount) => new ColorFunction("lightness");
-        ColorFunction AdjustWhiteness(IColor source, double amount) => new ColorFunction("whiteness");
-        ColorFunction AdjustBlackness(IColor source, double amount) => new ColorFunction("blackness");
-        ColorFunction AdjustTint(IColor source, double amount) => new ColorFunction("tint");
-        ColorFunction AdjustShade(IColor source, double amount) => new ColorFunction("shade");
-        ColorFunction Blend(IColor lhs, IColor rhs, double amount) => new ColorFunction("blend");
-        ColorFunction Blenda(IColor source, double amount) => new ColorFunction("blenda");
-        ColorFunction AdjustContrast(IColor source, double amount) => new ColorFunction("contrast");
+        ColorFunction AdjustLightness(IColor source, double amount)  => new ColorFunction("lightness");
+        ColorFunction AdjustWhiteness(IColor source, double amount)  => new ColorFunction("whiteness");
+        ColorFunction AdjustBlackness(IColor source, double amount)  => new ColorFunction("blackness");
+        ColorFunction AdjustTint(IColor source, double amount)       => new ColorFunction("tint");
+        ColorFunction AdjustShade(IColor source, double amount)      => new ColorFunction("shade");
+        ColorFunction Blend(IColor lhs, IColor rhs, double amount)   => new ColorFunction("blend");
+        ColorFunction Blenda(IColor source, double amount)           => new ColorFunction("blenda");
+        ColorFunction AdjustContrast(IColor source, double amount)   => new ColorFunction("contrast");
     }
 
     public sealed class ColorFunction : IFunction

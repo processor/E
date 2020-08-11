@@ -13,7 +13,7 @@
             var needsWhere = false;
             var ii = 0;
 
-            if (type.GenericParameters.Length > 0)
+            if (type.GenericParameters != null && type.GenericParameters.Length > 0)
             {
                 Emit('<');
 

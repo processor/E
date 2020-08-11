@@ -11,7 +11,7 @@ namespace D.Parsing.Tests
         {
             var s = Parse<InterpolatedStringExpressionSyntax>(@"$""hello""");
 
-            Assert.Equal(1, s.Children.Length);
+            Assert.Single(s.Children);
             Assert.Equal("hello", (StringLiteralSyntax)s[0]);
         }
         

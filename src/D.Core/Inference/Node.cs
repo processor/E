@@ -21,7 +21,7 @@ namespace D.Inference
 
         public static ApplyNode Apply(Node expr, Node[] args) => Apply(expr, args, null);
 
-        public static ApplyNode Apply(Node expr, Node[] args, IType ctor)
+        public static ApplyNode Apply(Node expr, Node[] args, IType? ctor)
         {
             return new ApplyNode { Spec = expr, Arguments = args, Type = ctor };
         }
@@ -46,6 +46,6 @@ namespace D.Inference
 
         public Node Body { get; protected set; }
 
-        public IType Type { get; protected set; }
+        public IType? Type { get; protected set; }
     }
 }

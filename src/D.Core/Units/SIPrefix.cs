@@ -154,7 +154,7 @@ namespace D.Units
 
         public bool Equals(SIPrefix other)
         {
-            return Name.Equals(other.Name, StringComparison.Ordinal) 
+            return string.Equals(Name, other.Name, StringComparison.Ordinal) 
                 && Value == other.Value;
         }
     }

@@ -1466,7 +1466,7 @@ namespace D.Parsing
 
         // (a: 1, b: 2)
         // (a, b)
-        public ObjectInitializerSyntax ReadObjectInitializer(TypeSymbol type)
+        public ObjectInitializerSyntax ReadObjectInitializer(TypeSymbol? type)
         {
             var args = ReadArguments();
             
@@ -2005,7 +2005,7 @@ namespace D.Parsing
                 case TagStart  : return ReadElement(); // <
             }
 
-            StringBuilder sb = null;
+            StringBuilder? sb = null;
             
             while (!IsOneOf(TagStart, TagCloseStart, EOF) && !IsKind(BraceOpen))
             {
@@ -2027,10 +2027,10 @@ namespace D.Parsing
             return new TextNodeSyntax(sb?.ToString() ?? string.Empty);
         }
 
-        private (string, string) ReadElementName()
+        private (string?, string) ReadElementName()
         {
             string name = ReadName();
-            string module = null;
+            string? module = null;
             
             if (ConsumeIf(Colon))
             {
