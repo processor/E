@@ -143,9 +143,11 @@ namespace D.Units
             (value, unitName) = (Value, Unit.Name);
         }
 
-        public bool Equals(UnitValue<T> other) =>
-            Value.Equals(other.Value) &&
-            Unit.Equals(other.Unit);
+        public bool Equals(UnitValue<T> other)
+        {
+            return Value.Equals(other.Value)
+                && Unit.Equals(other.Unit);
+        }
     }
 }
 

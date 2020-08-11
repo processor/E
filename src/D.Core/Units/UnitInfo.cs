@@ -11,7 +11,7 @@ namespace D.Units
 
     public sealed class UnitInfo : IEquatable<UnitInfo>, IObject
     {
-        public static readonly UnitInfo None = new UnitInfo(string.Empty, Dimension.None);
+        public static readonly UnitInfo None = new (string.Empty, Dimension.None);
 
         #region Angles (Plane & Solid)
 
@@ -228,6 +228,8 @@ namespace D.Units
 
         public bool Equals(UnitInfo other)
         {
+            if (ReferenceEquals(this, other)) return true;
+
             return Prefix.Equals(other.Prefix) 
                 && string.Equals(Name, other.Name, StringComparison.Ordinal) 
                 && Power == other.Power;
