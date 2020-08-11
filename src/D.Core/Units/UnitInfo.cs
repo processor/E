@@ -17,12 +17,12 @@ namespace D.Units
 
         private static readonly Symbol π = Symbol.Variable("π");
 
-        public static readonly UnitInfo Radian    = new UnitInfo("rad", Angle, Base);
-        public static readonly UnitInfo Steradian = new UnitInfo("sr",  SolidAngle, Base);
+        public static readonly UnitInfo Radian    = new ("rad", Angle, Base);
+        public static readonly UnitInfo Steradian = new ("sr",  SolidAngle, Base);
 
-        public static readonly UnitInfo Degree    = new UnitInfo("deg",  Angle, 1,     Divide(π, UnitValue.Create(180, Radian))); // π / 180 rad
-        public static readonly UnitInfo Gradian   = new UnitInfo("grad", Angle, 0.9,   Degree); // 400 per circle
-        public static readonly UnitInfo Turn      = new UnitInfo("turn", Angle, 360,   Degree); // 1 per circle
+        public static readonly UnitInfo Degree    = new ("deg",  Angle, 1,   Divide(π, UnitValue.Create(180, Radian))); // π / 180 rad
+        public static readonly UnitInfo Gradian   = new ("grad", Angle, 0.9, Degree); // 400 per circle
+        public static readonly UnitInfo Turn      = new ("turn", Angle, 360, Degree); // 1 per circle
 
         #endregion
 
@@ -34,7 +34,7 @@ namespace D.Units
 
         #region Frequency
 
-        public static readonly UnitInfo Hertz = new UnitInfo("Hz", Frequency, SI);
+        public static readonly UnitInfo Hertz = new ("Hz", Frequency, SI);
         public static readonly UnitInfo kHz   = Hertz.WithPrefix(SIPrefix.k); // kHz
 
         // rpm
@@ -43,67 +43,57 @@ namespace D.Units
 
         #region Length
 
-        public static readonly UnitInfo Meter = new UnitInfo("m", Length, SI | Base);  // m
-        public static readonly UnitInfo Mm    = Meter.WithPrefix(SIPrefix.m);          // mm
-        public static readonly UnitInfo Cm    = Meter.WithPrefix(SIPrefix.c);          // cm
+        public static readonly UnitInfo Meter = new ("m", Length, SI | Base);  // m
+        public static readonly UnitInfo Mm    = Meter.WithPrefix(SIPrefix.m);  // mm
+        public static readonly UnitInfo Cm    = Meter.WithPrefix(SIPrefix.c);  // cm
 
-        public static readonly UnitInfo Inch  = new UnitInfo("in", Length, Imperial);
+        public static readonly UnitInfo Inch  = new ("in", Length, Imperial);
 
         #endregion
 
         #region Mass
 
-        public static readonly UnitInfo Gram     = new UnitInfo("g", Mass, SI | Base);
+        public static readonly UnitInfo Gram     = new ("g", Mass, SI | Base);
         public static readonly UnitInfo Kilogram = Gram.WithPrefix(SIPrefix.k);
 
         // Standard is KG
 
-        public static readonly UnitInfo Pound = new UnitInfo("lb", Mass, 453.592d); // lb = 453.592g
+        public static readonly UnitInfo Pound = new ("lb", Mass, 453.592d); // lb = 453.592g
 
         #endregion
 
-        public static readonly UnitInfo Mole = new UnitInfo("mol", AmountOfSubstance, SI | Base);
+        public static readonly UnitInfo Mole = new ("mol", AmountOfSubstance, SI | Base);
 
-        #region Luminocity
 
-        public static readonly UnitInfo Candela = new UnitInfo("cd", LuminousIntensity, SI | Base);
+        // Luminocity -
 
-        #endregion
-
-        #region Temperature (Thermodynamics) 
-
-        #endregion
+        public static readonly UnitInfo Candela = new ("cd", LuminousIntensity, SI | Base);
 
         #region Time
 
         // 5.39 x 10−44 s
 
-        public static readonly UnitInfo Second  = new UnitInfo("s",    Time, SI | Base);  // s
-        public static readonly UnitInfo Minute  = new UnitInfo("min",  Time, 60d);
-        public static readonly UnitInfo Hour    = new UnitInfo("h",    Time, 60d * 60d);
-        public static readonly UnitInfo Week    = new UnitInfo("wk",   Time, 60d * 60d * 24 * 7);
+        public static readonly UnitInfo Second  = new ("s",    Time, SI | Base);  // s
+        public static readonly UnitInfo Minute  = new ("min",  Time, 60d);
+        public static readonly UnitInfo Hour    = new ("h",    Time, 60d * 60d);
+        public static readonly UnitInfo Week    = new ("wk",   Time, 60d * 60d * 24 * 7);
 
         #endregion
 
-        #region Pressure
+        // Pressure - 
+        public static readonly UnitInfo Pascal = new ("Pa", Pressure);
+     
+        // Volume - 
+        public static UnitInfo Liter = new ("L", Length); //  1,000 cubic centimeters
 
-        public static readonly UnitInfo Pascal = new UnitInfo("Pa", Pressure);
 
-        #endregion
-
-        #region Volume
-
-        public static UnitInfo Liter = new UnitInfo("L", Length); //  1,000 cubic centimeters
-
-        #endregion
-
-        public static readonly UnitInfo Katal = new UnitInfo("kat", CatalyticActivity);
+        public static readonly UnitInfo Katal = new ("kat", CatalyticActivity);
 
         public static readonly UnitInfo SquareMeters = new UnitInfo("m", Length).WithExponent(2);
 
         // Dimensionless
 
-        public static readonly UnitInfo Percentage = new UnitInfo("%", Dimension.None, 1, new Number(0.01)); // 1/100
+        public static readonly UnitInfo Percentage = new ("%", Dimension.None, 1, new Number(0.01)); // 1/100
 
         public UnitInfo(string name) // e.g. px
         {
@@ -230,16 +220,18 @@ namespace D.Units
 
             if (Power != 1)
             {
-                sb.Append(new Superscript(Power).ToString());
+                new Superscript(Power).WriteTo(sb);
             }
 
             return sb.ToString();
         }
 
-        public bool Equals(UnitInfo other) =>
-            Prefix.Equals(other.Prefix) &&
-            Name == other.Name &&
-            Power == other.Power;
+        public bool Equals(UnitInfo other)
+        {
+            return Prefix.Equals(other.Prefix) 
+                && string.Equals(Name, other.Name, StringComparison.Ordinal) 
+                && Power == other.Power;
+        }
 
     }
 }

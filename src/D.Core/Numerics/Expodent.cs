@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text;
 
 namespace D
 {
@@ -19,7 +20,7 @@ namespace D
             int value = 0;
             int multiplier = 1;
 
-            for (var i = text.Length - 1; i >= 0; i--)
+            for (int i = text.Length - 1; i >= 0; i--)
             {
                 char digit = text[i];
 
@@ -57,6 +58,34 @@ namespace D
 
             return new string(sb.ToArray());
         }
+
+        internal void WriteTo(StringBuilder output)
+        {
+            if (Value < 10)
+            {
+                output.Append(GetChar(Value));
+
+                return;
+            }
+
+            var sb = new Stack<char>();
+
+            int v = Value;
+            int r;
+
+            while (v > 0)
+            {
+                r = v % 10;
+
+                v -= r;
+                v /= 10;
+
+                sb.Push(GetChar(r));
+            }
+
+            output.Append(sb.ToArray());
+        }
+
 
         public static char GetChar(int exponent) => exponent >= 0 && exponent <= 9
             ? digits[exponent]

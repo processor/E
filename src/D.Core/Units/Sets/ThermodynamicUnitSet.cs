@@ -9,5 +9,4 @@ namespace D.Units
             Add(ThermodynamicUnits.Celsius);
         }
     }
-
 }

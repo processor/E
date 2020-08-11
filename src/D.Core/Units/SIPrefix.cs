@@ -31,27 +31,27 @@ namespace D.Units
         private readonly static double zetta = Pow(10, 21); // 10^21
         private readonly static double yotta = Pow(10, 24); // 10^24
            
-        public static readonly SIPrefix y =  new SIPrefix("y" ,  yocto); // 10^-24
-        public static readonly SIPrefix z =  new SIPrefix("z" ,  zepto); // 10^-21
-        public static readonly SIPrefix a =  new SIPrefix("a" ,  atto ); // 10^-18
-        public static readonly SIPrefix f =  new SIPrefix("f" ,  femto); // 10^-15
-        public static readonly SIPrefix p =  new SIPrefix("p" ,  pico ); // 10^-12
-        public static readonly SIPrefix n =  new SIPrefix("n" ,  nano ); // 10^-9
-        public static readonly SIPrefix µ =  new SIPrefix("µ",   micro); // 10^-6
-        public static readonly SIPrefix m =  new SIPrefix("m" ,  milli); // 10−3
-        public static readonly SIPrefix c =  new SIPrefix("c" ,  centi); // 10^-2
-        public static readonly SIPrefix d =  new SIPrefix("d" ,  deci ); // 10^-1
-                                                          
-        public static readonly SIPrefix da = new SIPrefix("da",  deca ); // 10^1 
-        public static readonly SIPrefix h =  new SIPrefix("h" ,  hecto); // 10^2
-        public static readonly SIPrefix k =  new SIPrefix("k" ,  kilo ); // 10^3
-        public static readonly SIPrefix M =  new SIPrefix("M" ,  mega ); // 10^6
-        public static readonly SIPrefix G =  new SIPrefix("G" ,  giga ); // 10^9
-        public static readonly SIPrefix T =  new SIPrefix("T" ,  tera ); // 10^12
-        public static readonly SIPrefix P =  new SIPrefix("P" ,  peta ); // 10^15
-        public static readonly SIPrefix E =  new SIPrefix("E" ,  exa  ); // 10^18
-        public static readonly SIPrefix Z =  new SIPrefix("Z" ,  zetta); // 10^21
-        public static readonly SIPrefix Y =  new SIPrefix("Y" ,  yotta); // 10^24
+        public static readonly SIPrefix y =  new ("y" ,  yocto); // 10^-24
+        public static readonly SIPrefix z =  new ("z" ,  zepto); // 10^-21
+        public static readonly SIPrefix a =  new ("a" ,  atto ); // 10^-18
+        public static readonly SIPrefix f =  new ("f" ,  femto); // 10^-15
+        public static readonly SIPrefix p =  new ("p" ,  pico ); // 10^-12
+        public static readonly SIPrefix n =  new ("n" ,  nano ); // 10^-9
+        public static readonly SIPrefix µ =  new ("µ",   micro); // 10^-6
+        public static readonly SIPrefix m =  new ("m" ,  milli); // 10−3
+        public static readonly SIPrefix c =  new ("c" ,  centi); // 10^-2
+        public static readonly SIPrefix d =  new ("d" ,  deci ); // 10^-1
+                                                  
+        public static readonly SIPrefix da = new ("da",  deca ); // 10^1 
+        public static readonly SIPrefix h =  new ("h" ,  hecto); // 10^2
+        public static readonly SIPrefix k =  new ("k" ,  kilo ); // 10^3
+        public static readonly SIPrefix M =  new ("M" ,  mega ); // 10^6
+        public static readonly SIPrefix G =  new ("G" ,  giga ); // 10^9
+        public static readonly SIPrefix T =  new ("T" ,  tera ); // 10^12
+        public static readonly SIPrefix P =  new ("P" ,  peta ); // 10^15
+        public static readonly SIPrefix E =  new ("E" ,  exa  ); // 10^18
+        public static readonly SIPrefix Z =  new ("Z" ,  zetta); // 10^21
+        public static readonly SIPrefix Y =  new ("Y" ,  yotta); // 10^24
 
         private readonly static Dictionary<string, double> scales = new (20) {
             { "yocto",  yocto },

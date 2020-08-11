@@ -12,22 +12,22 @@ namespace D.Units
         {
             // TODO: Primary Units 
 
-            Add("m",    Meter);  // Length
-            Add("s",    Second); // Time
-            Add("g",    Gram);   // Mass
-
-            Add("Pa",   Pascal);
-            Add("sr",   Steradian); // Square radian (㏛)
+            Add("m",     Meter);  // Length
+            Add("s",     Second); // Time
+            Add("g",     Gram);   // Mass
+                         
+            Add("Pa",    Pascal);
+            Add("sr",    Steradian); // Square radian (㏛)
 
             // Add("gray",  Gray);
             Add("mole",  Mole);
             Add("katal", Katal);
 
             // Angles (Plane)
-            Add("rad",    Radian);
-            Add("grad",   Gradian);
-            Add("deg",    Degree);
-            Add("turn",   Turn);
+            Add("rad",   Radian);
+            Add("grad",  Gradian);
+            Add("deg",   Degree);
+            Add("turn",  Turn);
 
             // Frequency
             Add("Hz",    Hertz);

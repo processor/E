@@ -4,6 +4,6 @@ namespace D.Units
 {
     public static class MechanicalUnits
     {
-        public static readonly UnitInfo Newton = new UnitInfo("N", Dimension.Force, SI); // mechanical force | kg⋅m/s²
+        public static readonly UnitInfo Newton = new ("N", Dimension.Force, SI); // mechanical force | kg⋅m/s²
     }
 }
