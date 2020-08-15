@@ -2,7 +2,6 @@ Sale protocol {
   * | tax              
   * | complete ∎ : completed
 
-
   tax () -> [] Sales`Tax  // called by the taxing authorities at the point of sale
 }
 

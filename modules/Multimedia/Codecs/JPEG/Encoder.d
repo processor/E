@@ -539,21 +539,21 @@ copyBlocksYCbRr ƒ(
     crb   : ref [64]u8) {
 
     for y in 0 ..< 8 {
-        let ystride = (y0 + y) * bpp * width
+      let ystride = (y0 + y) * bpp * width
 
-        for x in 0 ..< 8 {
-            let xstride = x0 * bpp + x * bpp
+      for x in 0 ..< 8 {
+        let xstride = x0 * bpp + x * bpp
 
-            let r = valueAt(source, ystride + xstride + 0)
-            let g = valueAt(source, ystride + xstride + 1)
-            let b = valueAt(source, ystride + xstride + 2)
+        let r = valueAt(source, ystride + xstride + 0)
+        let g = valueAt(source, ystride + xstride + 1)
+        let b = valueAt(source, ystride + xstride + 2)
 
-            let (yc, cb, cr) = Color:RGB(r, g, b) to Color:YCbCr
+        let (yc, cb, cr) = Color:RGB(r, g, b) to Color:YCbCr
 
-            yb[y * 8 + x]  = yc
-            cbb[y * 8 + x] = cb
-            crb[y * 8 + x] = cr
-        }
+        yb[y * 8 + x]  = yc
+        cbb[y * 8 + x] = cb
+        crb[y * 8 + x] = cr
+      }
     }
 }
 

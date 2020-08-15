@@ -1,5 +1,5 @@
 Clearinghouse agency {
-  process ƒ ($0: transaction) -> Clearing 
+  process ƒ ($0: Transaction) -> Clearing 
 }
 
 // an agency or organization which collects and distributes something, especially information.
