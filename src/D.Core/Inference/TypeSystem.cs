@@ -159,7 +159,7 @@ namespace D.Inference
 
         public static IType NewGeneric() => new TypeParameter();
 
-        public static IType NewType(string id, IType[] args) => new Type(null, id, args);
+        public static IType NewType(string id, IType[]? args) => new Type(null, id, args);
 
         public static IType NewType(IType constructor, IType[] args) => new Type(constructor, constructor.Name, args);
 

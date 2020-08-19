@@ -10,18 +10,14 @@
         private readonly IType itemType;
         private readonly IType any;
 
+        private static readonly string[] binaryOperatorSymbols = { "+", "-", "/", "**", "*", "%" };
+        private static readonly string[] comparisionSymbols = { ">", ">=", "==", "!=", "<", "<=" };
+
         public Flow()
         {
-            var binary = TypeSystem.NewGeneric();
+            // var binary = TypeSystem.NewGeneric();
             var boolean = Add(Type.Get(ObjectType.Boolean));
-            var i32 = Add(Type.Get(ObjectType.Int32));
-            var @string = Add(Type.Get(ObjectType.String));
-
-            Add(Type.Get(ObjectType.Int64));
-            Add(Type.Get(ObjectType.Float32));
-            Add(Type.Get(ObjectType.Float64));
-            Add(Type.Get(ObjectType.Decimal));
-            Add(Type.Get(ObjectType.Number));
+          
 
             any = GetType(ObjectType.Object);
 
@@ -37,7 +33,7 @@
             }, itemType, Node.Constant(itemType))));
 
             // Binary Operators
-            foreach (var op in new[] { "+", "-", "/", "**", "*", "%" })
+            foreach (var op in binaryOperatorSymbols)
             {
                 var g = TypeSystem.NewGeneric();
 
@@ -48,7 +44,7 @@
             }
 
             // Comparisions
-            foreach (var op in new[] { ">", ">=", "==", "!=", "<", "<=" })
+            foreach (var op in comparisionSymbols)
             {
                 var g = TypeSystem.NewGeneric();
 
@@ -100,9 +96,9 @@
             if (kind.BaseType != null)
             {
                 type = TypeSystem.NewType(
-                    constructor: GetType(kind.BaseType),
-                    id: kind.Name,
-                    args: null
+                    constructor : GetType(kind.BaseType),
+                    id          : kind.Name,
+                    args        : null
                 );
             }
             else
@@ -180,7 +176,7 @@
             return TypeSystem.Infer(env, node);
         }
 
-        public IType Infer(Node node) => TypeSystem.Infer(env, node);
+        public IType? Infer(Node node) => TypeSystem.Infer(env, node);
 
         public IType Infer(string name) => TypeSystem.Infer(env, Node.Variable(name));
     }
