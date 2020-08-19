@@ -21,6 +21,8 @@
 
         public bool IsRecord => Flags.HasFlag(TypeFlags.Record);
 
+        public bool IsRole => Flags.HasFlag(TypeFlags.Role);
+
         public bool IsEvent => Flags.HasFlag(TypeFlags.Event);
 
         ObjectType IObject.Kind => ObjectType.TypeDeclaration;

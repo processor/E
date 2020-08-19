@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 
 namespace D.Parsing
@@ -365,7 +366,9 @@ namespace D.Parsing
 
             // Types
             { "class"          , Class },
-            { "struct"         , Struct }
+            { "struct"         , Struct },
+            { "actor"          , Actor },
+            { "role"           , Role }
         };
 
         public Token ReadQuotedString()
@@ -422,7 +425,7 @@ namespace D.Parsing
         {
             sb.Append(reader.Consume()); // ! e
 
-            if (reader.Current == '-' || reader.Current == '+')
+            if (reader.Current is '-' or '+')
             {
                 sb.Append(reader.Consume());
             }
@@ -461,10 +464,8 @@ namespace D.Parsing
             return new Token(Superscript, start, sb.Extract(), ReadTrivia());
         }
 
-        // TODO: c# 7, use local function
-        private bool IsSuperscript(char c)
-            => (c == '⁰' || c == '¹' || c == '²'|| c == '³'|| c == '⁴'
-             || c == '⁵'|| c == '⁶'|| c == '⁷'|| c == '⁸' || c == '⁹');               
+        private static bool IsSuperscript(char c)
+            => c is '⁰' or '¹' or '²' or '³' or '⁴' or '⁵' or '⁶' or '⁷' or '⁸' or '⁹';               
 
         public void Dispose()
         {

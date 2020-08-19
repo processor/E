@@ -166,9 +166,11 @@ namespace D.Parsing
         Internal,
 
         // Types
-        Class,
-        Struct,
-        Record,
-        Protocol
+        Class    = 1000,
+        Struct   = 1001,
+        Actor    = 1002,
+        Record   = 1003,
+        Role     = 1004,
+        Protocol = 1005
     }
 }
