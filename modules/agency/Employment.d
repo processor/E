@@ -1,29 +1,34 @@
 Employment protocol {
-  * commence : employed
-  * | work   : working          
-    | vacate : vacating
-    | leave  : left       // sick leave
-    ↺ : acting
-  * | quit    ∎ : quit
-    | dismiss ∎ : dimissed
-    | retire  ∎ : retired
+  * commence    : employed
+  * act ↺       : acting
+  * terminate ∎ : terminated // may be mutal or one sided 
   
-  level         -> Employment`Level
-  position      -> Employment`Position // role?
+  roles         -> [] Role
+  absences      -> [] Absence
   compensations -> [] Compensation
-  terms         -> [] Legal::Term      // * Employment Terms */ CREATE TABLE k100452345 (m1 key long, m2 key long)
+  terms         -> [] Legal::Term
 
   // either party may terminate the employment under it's terms
   terminate() { }
 }
 
+Absence record { 
+  paid: boolean
+  reason: Reason
+   
+  Reason enum { Vacation, Sick }
+}
+
 Employment process {
+  commence : DateTime
   employer : Entity
   employee : Entity
 
   // events
   Terminated event {
-    reason: Quit | Dismissed
+    reason: Reason
+    
+    Reason enum { Quit, Dismissed, Retired }
   }
 }
 

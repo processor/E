@@ -5,9 +5,4 @@ Authority actor {
   recieve(payment: Payment) { }
 }
 
-
-
-
 // US`Treasury
-
-

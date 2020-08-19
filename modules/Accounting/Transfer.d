@@ -3,3 +3,6 @@ Transfer<TSource, TDestination> process {
   source        : TSource
   destination   : TDestination
 }
+
+
+// Transfers are processed by one or more intermediary Banks

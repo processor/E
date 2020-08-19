@@ -1,4 +1,4 @@
-Right right {
+Right class {
 
 
 }

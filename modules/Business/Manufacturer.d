@@ -1,3 +1,3 @@
-﻿Manufacturer actor : Entity {
+﻿Manufacturer role of Organization {
   products: [] Product
 }

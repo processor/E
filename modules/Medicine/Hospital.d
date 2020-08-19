@@ -1,4 +1,4 @@
-Hospital actor { 
+Hospital role of Organization { 
   admit   (human: Organism)
   dismiss (human: Organism)
 

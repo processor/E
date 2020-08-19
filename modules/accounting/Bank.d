@@ -19,9 +19,8 @@ Bank protocol {
   recieve($0: Payment) -> Accepted | Refused
 }
 
-Bank actor {
-  entity : Entity
-  code   : String
+Bank role of Organization {
+  code : String
 }
 
 

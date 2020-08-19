@@ -6,14 +6,14 @@ Loan protocol {
 
   asset       ->    Asset              // e.g. USD, Gold
   balance     ->    Decimal
-  payments    -> [] Loan`Payment
+  payments    -> [] Loan::Payment
   signers     -> [] Signer
   collatoral  -> [] Collatoral
   underwriter ->    Entity
   processor   ->    Entity
 
   // - Events
-  Default event { }
+  Defaulted event { }
   Forgiven event { }
 }
 

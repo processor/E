@@ -1,16 +1,10 @@
-Operating       `Director actor { }       // Managing director?
-Finance         `Director actor { } 
-Marketing       `Director actor { } 
-Manufacturing   `Director actor { } 
-Human `Resource `Director actor { }
-
 // NED
 
-CEO actor { }  // Chief Executivie Officer
-COO actor { }  // Cheif Operating Officer
-CFO actor { }  // Chief Finance Officer
+CEO role : Officer { }  // Chief Executivie Officer
+COO role : Officer { }  // Cheif Operating Officer
+CFO role : Officer { }  // Chief Finance Officer
 
-
+Director 
 // is executive
 // is director
 

@@ -1,6 +1,6 @@
 Connection class {
   id          : String
-  address     : IP`Address
+  address     : IP::Address
   certificate : Cryptography::Certificate
   protocol    : Protocol
 }

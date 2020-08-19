@@ -1,8 +1,5 @@
 Wages record : Compensation { 
-
-  payments: [] Payments
+  payments: [] Payment
 }
 
 Payable impl for Wages { } 
-
-

@@ -6,5 +6,3 @@ Restricted`Stock`Unit protocol {
   maturity :    DateTime
   terms    : [] Legal::Term
 }
-
-R`S`U = Restricted`Stock`Unit

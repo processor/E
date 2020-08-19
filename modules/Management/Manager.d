@@ -1,7 +1,7 @@
 // of Quality
 // of Production
 
-Manager actor { 
+Manager role of Person { 
 
   
 }

@@ -1,8 +1,14 @@
 Security : Asset { 
-
   identities: [ UID ]
+
+  Filling record {
+    // SEC...
+  }
 }
 
+
+// A security is something which gives you an underlying interest in the possession of an asset or income stream 
+// but not the asset or income stream itself.
 
 // UID = CUSIP | 
 
@@ -13,7 +19,6 @@ Security : Asset {
 // - Mutal Fund
 // - Stock Option
 // - Future Option
-
 
 // Equities (E)
 // Collective investment vehicles (C)

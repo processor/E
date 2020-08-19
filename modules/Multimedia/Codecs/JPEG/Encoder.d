@@ -230,19 +230,19 @@ BitWriter impl for JPEGEncoder {
 }
 
 JPEGEncoder class {
-    let writer            : BitWriter
-    let components        : [] JPEGComponent
-    let tables            : [] u8,
-    let luma   `dctable   : [] (u8, u16)
-    let luma   `actable   : [] (u8, u16) 
-    let chroma `dctable   : [] (u8, u16) 
-    let chroma `actable   : [] (u8, u16)
+    let writer         : BitWriter
+    let components     : [] JPEGComponent
+    let tables         : [] u8,
+    let luma_dctable   : [] (u8, u16)
+    let luma_actable   : [] (u8, u16) 
+    let chroma_dctable : [] (u8, u16) 
+    let chroma_actable : [] (u8, u16)
 }
 
 JPEGEncoder impl {
     from (w: &mut W, quality: u8 = 75) {
-        let luma `dctable = buildHuff `lut(LUMA_DC_CODE_LENGTHS, LUMA_DC_VALUES)
-        let luma `actable = buildHuff `lut(LUMA_AC_CODE_LENGTHS, LUMA_AC_VALUES)
+        let luma `dctable = buildHuff_lut(LUMA_DC_CODE_LENGTHS, LUMA_DC_VALUES)
+        let luma `actable = buildHuff_lut(LUMA_AC_CODE_LENGTHS, LUMA_AC_VALUES)
 
         let chroma `dctable = buildHuff `lut(CHROMA_DC_CODE_LENGTHS, CHROMA_DC_VALUES)
         let chroma `actable = buildHuff `lut(CHROMA_AC_CODE_LENGTHS, CHROMA_AC_VALUES)

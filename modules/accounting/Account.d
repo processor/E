@@ -5,26 +5,27 @@ Account protocol {
     ↺ : acting
   * close ∎ : closed
 
-  asset          : Asset
-  balance        : Decimal
+  asset           : Asset
+  balance         : Decimal
+  sequence_number : i64
 
-  entries        : [] Entry
-  signers        : [] Signer                // agents authorized to transact
-  authorizations : [] Authorization
-  beneficiaries  : [] Beneficiary
-  instruments    : [] Payment::Instrument  // An account may be Charged through Instruments
-  liabilities    : [] Liability
+  entries         : [] Entry
+  signers         : [] Signer                // agents authorized to transact
+  authorizations  : [] Authorization
+  beneficiaries   : [] Beneficiary
+  instruments     : [] Payment::Instrument  // An account may be Charged through Instruments
+  liabilities     : [] Liability
 
   // A securities, or brokerage account may hold financial assets (securities) on behalf of the investor
 
   holdings       : [] Holding
 
   Entry {
-    transaction    : Transaction
-    sequenceNumber : i64
-    source         : Account
-    balance        : Balance
-    quantity       : Decimal     // credit | debit
+    transaction     : Transaction
+    sequence_number : i64
+    source          : Account
+    balance         : Balance
+    quantity        : Decimal     // credit | debit
   }
 
   // - Events
@@ -33,17 +34,13 @@ Account protocol {
   }
 }
 
-
 // Cash
 // Margin
-
-// Transfers are processed by one or more intermediary Banks
-
 
 
 // Stellar: Accounts control the access rights to balances.
 
-// A Brockage account may have mutiple holdings
+// A brokerage account may have mutiple holdings
 
 // Account Type
 // - Assets
@@ -52,21 +49,13 @@ Account protocol {
 // - Expenses
 // - Capital
 
-
 // Real accounts consist of all those accounts which are related to assets. 
 // Intangible assets are also considered as Real Accounts.
 
 
 // Nominal accounts consist of all those accounts which are related to expenses, losses, Income and Gains.
 
-
-
-
 // An account may have one or more holdings
-// A holding may be any type of Asset, including a currency or title to a Car, house, etc.
-
-// Holding is the process of ownership (aqusition, amortization, disposal, etc)...
-
 
 
 // A holding is a record of Account for an Asset

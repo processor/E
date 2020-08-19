@@ -5,7 +5,7 @@ Channel<T> protocol {
   * open     : active
   * complete : completed
 
-  status -> Channel`Status
+  status -> Status
   unread -> i64 ≥ 0
 
   read () -> 
@@ -13,10 +13,12 @@ Channel<T> protocol {
 	  | Awaiter
 	  | ∎
 
-  write (T) async -> 
+  write (T) -> 
     | Commited 
-	  | Awaiter 
+	  | Awaiter
 	  | NotConnectedError
+
+  Status enum { Open, Closed }
 
 }
 
