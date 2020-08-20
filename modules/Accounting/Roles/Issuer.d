@@ -1,7 +1,15 @@
-Issuer role { 
+Issuer role of Entity { 
   security : Security
   balance  : i64
 }
+
+
+
+// The company or other entity issuing the security is called the issuer.
+
+
+
+
 
 // Corporations may 
 
@@ -17,4 +25,5 @@ Issuer role {
 // Banks may issue currency credits ?
 
 
-// A company issues a share only once; after that, investors may sell it to another investor. W
+// A company issues a share only once; after that, investors may sell it to another investor. 
+// 

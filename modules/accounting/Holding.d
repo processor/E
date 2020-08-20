@@ -1,10 +1,5 @@
-// Known as a trustline in Stellar
 
-// A securities account sometimes known as a brokerage account is an
-// account that holds financial assets such as securities on behalf of an investor with a bank, broker or custodian. 
-// Investors and traders typically have a securities account with the broker or bank they use to buy and sell securities.[1]
-
-Holding record { 
+Holding concept { 
   security : Security
   balance  : Decimal
   limit    : Decimal
@@ -13,9 +8,9 @@ Holding record {
 }
 
 
-
-
 // A holding may be any type of Asset, including a currency or title to a Car, house, etc.
+
+// A holding is recorded in the general ledger
 
 // Holding is the process of ownership (aqusition, amortization, disposal, etc)...
 

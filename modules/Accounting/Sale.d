@@ -9,16 +9,16 @@ Sale process {
   price		 :    Decimal
 
   // 
-  quantity :    Decimal
-  location :    Place                // used to determine tax
-  terms    : [] Legal::Term
+  quantity      :    Decimal
+  jurisdictions : [] Jurisdiction   // used to determine tax
+  terms         : [] Legal::Term
 }
 
 
 // Subject To
 // Excise Tax
 // Sales Tax
-// by various taxation uthorities at the point of sale
+// by various taxation authorities (Jurisdictions) at the point of sale
 
 Taxable impl for Sale {
   

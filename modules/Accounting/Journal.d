@@ -1,7 +1,15 @@
 Journal actor {
 
   
+  entries: [] Entry 
+
+  Entry record { 
+    asset  : Asset.type
+    amount : Decimal
+    balance: Decimal
+  }
 }
+
 
 // Journal -> Ledger
 

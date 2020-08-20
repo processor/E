@@ -19,13 +19,15 @@ Bank protocol {
   recieve($0: Payment) -> Accepted | Refused
 }
 
-Bank role of Organization {
+Bank role {
   code : String
 }
 
 
-// Central banks
+// An organization may "play" a bank
 
-// - May create or destroy money (demoninated in a urrency)
+// Central banks    | May create or destroy money (demoninated in a currency)
+// Merchant banks   | Acts as an intermediaty to process charges, chargebacks, etc.
+
 
 // A bank maintains accounts, underwrites, and services loans

@@ -1,12 +1,15 @@
-Bond protocol : Asset {
-  * issue
-
-  interest -> Percent/Period,
+Bond protocol : Security {
+  terms: [ ] Term
   maturity -> DateTime?  
   quantity -> Decimal
+
+  // Terms include
+
+  // Interest (Percent / Period)
 }
 
-Bond<TAsset> actor : Asset {
+Bond actor : Asset {
+  security : Security.type
   quantity : Decimal
   price	   : Decimal.
   interest : Percent/Period,

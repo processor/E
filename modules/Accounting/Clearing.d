@@ -1,13 +1,8 @@
-Clearing process {
-  * settle : Settled
-
-  clearinghouse : Clearinghouse
-  instrument    : Payment::Instrument
+Clearing process { 
+  
 }
 
-// of securities  
-// of cheques
-// of derivatives
+
 
 // Clearing is the process of updating the accounts of the trading parties 
 // and arranging for the transfer of money and securities. 

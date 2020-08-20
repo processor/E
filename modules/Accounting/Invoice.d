@@ -1,6 +1,4 @@
-﻿Line = Sale | Adjustment | Fee | Service
-
-
+﻿
 Invoice protocol {
   * create      : created
   * | bill      : billed
@@ -29,6 +27,8 @@ Invoice process {
   recieve($0: Payment) -> Accepted | Refused { 
 
   }
+
+  Line = Sale | Adjustment | Fee | Service
 }
 
 

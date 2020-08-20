@@ -1,3 +1,6 @@
+// A security is a tradable financial asset. 
+// Property (itself) is not a security
+
 Security : Asset { 
   identities: [ UID ]
 
@@ -5,6 +8,35 @@ Security : Asset {
     // SEC...
   }
 }
+
+Security certificate {
+  
+}
+
+
+
+// In the United States, a security is a tradable financial asset of any kind.
+//  Securities are broadly categorized into:
+
+// - debt securities (e.g., banknotes, bonds and debentures
+// - equity securities (e.g., common stocks)
+// - derivatives (e.g., forwards, futures, options, and swaps).
+
+// Debt securities may be called debentures, bonds, deposits, notes or commercial paper depending on their maturity, collateral and other characteristics. 
+
+
+
+// Securities may be represented by a certificate or, more typically, "non-certificated",
+// that is in electronic (dematerialized) or "book entry" only form. 
+
+
+
+// In the United States, a security is a tradable financial asset of any kind.[2] Securities are broadly categorized into:
+
+// debt securities (e.g., banknotes, bonds and debentures)
+// equity securities (e.g., common stocks)
+// derivatives (e.g., forwards, futures, options, and swaps).
+
 
 
 // A security is something which gives you an underlying interest in the possession of an asset or income stream 

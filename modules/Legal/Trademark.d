@@ -10,5 +10,4 @@ Trademark application {
 
 Trademark certificate { 
 
-  
 }

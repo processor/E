@@ -1,7 +1,9 @@
 Authorization protocol {
-  * revoke : revoked
-  * cancel : canceled
+  * revoke   : revoked
+  * cancel   : canceled
+  * complete : 
 
+  terms     : [] Term
   account   : Account 
   signature : Signature  // A signature from an account holder
 }

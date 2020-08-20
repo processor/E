@@ -1,5 +1,5 @@
 Offer protocol {
- * created      : open
+ * initialize   : initialized
  * cancel     ∎ : canceled
  * execute () ∎ : executed
 }

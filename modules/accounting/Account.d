@@ -34,6 +34,13 @@ Account protocol {
   }
 }
 
+
+
+// A securities account sometimes known as a brokerage account is an
+// account that holds financial assets such as securities on behalf of an investor with a bank, broker or custodian. 
+// Investors and traders typically have a securities account with the broker or bank they use to buy and sell securities.[1]
+
+
 // Cash
 // Margin
 

@@ -1,5 +1,4 @@
 Motion protocal {
-
   * ammend
   * withdrawl : withdrawn
   * vote      
@@ -9,7 +8,6 @@ Motion protocal {
   decision :    Decision
 
   vote(actor: Actor) -> Vote
-  
 }
 
 

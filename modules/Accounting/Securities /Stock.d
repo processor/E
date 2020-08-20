@@ -1,20 +1,24 @@
 Stock protocol : Asset {
   entity : Entity
   name   : String
-  series : String
+  series : Stock::Series
 }
 
-Stock actor : Asset {
-  entity    :    Entity
-  name      :    String
-  series    :    String
-  shares    :    Decimal      // Outstanding
-  issued    :    Decimal
-  quantity  :    Decimal  
-  rights    : [] Right
-  splits    : [] Split
-  exchanges : [] Exchange<Stock, Self>
+Stock type : Asset {
+  entity       :    Entity
+  name         :    String
+  series       :    Series
+  share_count  :    Decimal      // Outstanding
+  issued       :    Decimal
+  quantity     :    Decimal  
+  rights       : [] Right
+  splits       : [] Split
+  exchanges    : [] Exchange<Stock, Self>
   
+  Series type { 
+
+  }
+
   // take a single note, and split it into two
   Split event { 
  
@@ -51,3 +55,13 @@ AMZN: Stock { }
 
 
 // a financial security
+
+
+// Common/ordinary shares
+// Preferred/preference shares
+// Common/ordinary convertible shares
+// Preferred/preference convertible shares
+// Limited partnership units
+// Depositary receipts on equities
+// Structured instruments (participation)
+// Others (miscellaneous)

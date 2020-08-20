@@ -1,7 +1,10 @@
-﻿Citizen record { 
-  person     :    Person
-  government :    Government
-  rights     : [] Legal::Right
+﻿Citizen role of Person { 
+  government : Government
+}
+
+
+Citizen protocol {
+  vote ƒ() { }
 }
 
 // A citizen is a member of a sovereign group of people that have certain rights.

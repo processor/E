@@ -1,4 +1,4 @@
-Meeting record { 
+Meeting event { 
 
 
 }

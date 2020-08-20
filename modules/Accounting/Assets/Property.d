@@ -6,7 +6,6 @@ Property record : Asset {
   is personal     : Boolean  // Everything else (clothing, furniture, money, negotiable instruments, securities, and intangible assets) [movable]
 }
 
-
 // Ownership of property may change
 
 // Ownership is a claim verified through records managed by an authority
