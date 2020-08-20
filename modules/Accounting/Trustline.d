@@ -1,5 +1,6 @@
 Trustline record {
-  source  : Actor
-  target  : Actor
-  revoked : DateTime
+  source    : Actor
+  target    : Actor
+  revoked   : DateTime
+  signature : Signature
 }

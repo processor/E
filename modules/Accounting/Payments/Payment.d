@@ -12,6 +12,7 @@ Payment record {
   charge      :   Charge?  // to the instrument
 }
 
+
 // Used to indicate the person or thing that something is sent or given to.
 
 

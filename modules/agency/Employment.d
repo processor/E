@@ -32,6 +32,15 @@ Employment process {
   }
 }
 
+
+Wages record : Compensation { 
+  payments: [] Payment
+}
+
+Payable impl for Wages { } 
+
+
+
 // notes: 
 // An employment has state
 // - work & compensation takes place through an employment
