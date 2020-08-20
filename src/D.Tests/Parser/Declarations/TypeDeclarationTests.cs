@@ -13,6 +13,9 @@ namespace D.Parsing.Tests
         [InlineData("Vehicle record             { name: String     }", TypeFlags.Record)]
         [InlineData("Vehicle`Crash event        { vehicle: Vehicle }", TypeFlags.Event)]
         [InlineData("Vehicle`Crash event record { vehicle: Vehicle }", TypeFlags.Event | TypeFlags.Record)]
+        [InlineData("Bank role                  { name: String     }", TypeFlags.Role)]
+        [InlineData("Bank actor                 { name: String     }", TypeFlags.Actor)]
+
         public void Subtypes(string text, TypeFlags flags)
         {
             var type = Parse<TypeDeclarationSyntax>(text);
