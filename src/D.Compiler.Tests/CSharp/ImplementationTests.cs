@@ -71,7 +71,7 @@ public struct Bezier : Curve
 
     private object B4(double t) => (1 - t) * (1 - t) * (1 - t);
 }
-".Trim(), r);
+".Trim().Replace("\r\n", "\n"), r);
         }
 
         [Fact]
@@ -87,7 +87,7 @@ public class Cuboid
 
     public List<Polygon> Polygons { get; }
 }
-".Trim(),
+".Trim().Replace("\r\n", "\n"),
 
             Helper.Transpile(@"
 Cuboid class {
@@ -117,7 +117,7 @@ public static string A(Point<T> point)
     var x = point.X;
     var y = point.Y;
     var z = point.Z;
-}".Trim(),
+}".Trim().Replace("\r\n", "\n"),
 
 Transpile(@"
 a ƒ(point: Point<T>) -> String {
@@ -139,7 +139,7 @@ public static double Linear(double x) => x;
 public static object SinIn(double x) => Math.Sin(x * Math.PI * 0.5);
 
 public static object SinOut(double x) => -Math.Cos(Math.PI * x) / 2 + 0.5;
-".Trim(),
+".Trim().Replace("\r\n", "\n"),
 
             Transpile(@"
 cubicIn  ƒ(x: Number) => x * x * x;
@@ -219,7 +219,7 @@ namespace Namespaced
         public double G(Sphere sphere) => sphere.Center.X;
     }
 }
-".Trim(),
+".Trim().Replace("\r\n", "\n"),
 
         Transpile(@"
 
@@ -266,7 +266,7 @@ namespace Banking
         public string Name { get; }
     }
 }
-".Trim(),
+".Trim().Replace("\r\n", "\n"),
 
 Transpile(@"
 Bank class { 
@@ -296,7 +296,7 @@ public class Account
     public DateTime Created { get; }
 }
 
-".Trim(),
+".Trim().Replace("\r\n", "\n"),
 
 Transpile(@"
 
@@ -359,7 +359,8 @@ public struct Matrix4<T>
     public object M44 => this[15];
 }
 
-".Trim(),
+".Trim().Replace("\r\n", "\n"),
+
 Transpile(@"
 Matrix4 struct <T> {
   elements: [T] 
@@ -414,7 +415,7 @@ public struct Point
 
     public static Point operator -(Point a, Point b) => new Point(x: a.X - b.X, y: a.Y - b.Y, z: a.Z - b.Z);
 }
-".Trim(),
+".Trim().Replace("\r\n", "\n"),
 
 Transpile(@"
 Point struct { x, y, z: Number }
@@ -442,7 +443,7 @@ public struct Point
 
     public static Point operator -(Point p1, Point p2) => new Point(x: p1.X - p2.X, y: p1.Y - p2.Y, z: p1.Z - p2.Z);
 }
-".Trim(),
+".Trim().Replace("\r\n", "\n"),
 
 Transpile(@"
 Point struct { }
@@ -477,7 +478,7 @@ public struct Point<T>
 
     public T Z { get; }
 }
-".Trim(),
+".Trim().Replace("\r\n", "\n"),
 
 Transpile(@"
 
@@ -498,7 +499,7 @@ public interface Curve
 {
     Point GetPoint(double t);
 }
-".Trim(),
+".Trim().Replace("\r\n", "\n"),
 
 Transpile(@"
 Curve protocol { 
@@ -519,7 +520,7 @@ public interface Observer
     Function<A,B> Next { get; }
     Function<A,Function<B,C>> Next { get; }
 }
-".Trim(),
+".Trim().Replace("\r\n", "\n"),
 
 Transpile(@"
 Observer protocol { 
@@ -540,7 +541,7 @@ public interface Node
     Kind Kind { get; }
     List<Node> Children { get; }
 }
-".Trim(),
+".Trim().Replace("\r\n", "\n"),
 
 Transpile(@"
 Node protocol { 
@@ -592,7 +593,7 @@ public struct Point : Geometry
 
     Point Geometry.Center => this;
 }
-".Trim(),
+".Trim().Replace("\r\n", "\n"),
 
 
 Transpile(@"

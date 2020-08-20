@@ -23,7 +23,8 @@
 
             Visit(expression.Condition);
 
-            writer.WriteLine(")");
+            writer.Write(')');
+            writer.Write('\n');
 
             VisitBlock(expression.Body);
 
@@ -43,13 +44,14 @@
 
             Visit(type.Condition);
 
-            writer.WriteLine(")");
+            writer.Write(')');
+            writer.Write('\n');
 
             VisitBlock(type.Body);
 
             if (type.ElseBranch != null)
             {
-                writer.WriteLine();
+                writer.Write('\n');
 
                 Visit(type.ElseBranch);
             }
@@ -66,7 +68,8 @@
 
             writer.Write(" in ");
             writer.Write(statement.GeneratorExpression);
-            writer.WriteLine(")");
+            writer.Write(')');
+            writer.Write('\n');
 
             VisitBlock(statement.Body);
             
@@ -76,7 +79,7 @@
         public override IExpression VisitElse(ElseStatement type)
         {
             Emit("else");
-            writer.WriteLine();
+            writer.Write('\n');
 
             VisitBlock(type.Body);
 

@@ -167,7 +167,7 @@ else
     return 5;
 }
 
-".Trim(),
+".Trim().Replace("\r\n", "\n"),
 
 Rewrite(@"
 if a > 5 { 
@@ -195,7 +195,7 @@ return a switch
     5 => 1 % 5,
     6 => Math.Pow(1, 6),
 }
-".Trim(),
+".Trim().Replace("\r\n", "\n"),
                 
 Rewrite(@"
 match a {
@@ -223,7 +223,7 @@ switch (media)
     default: width = 0; break;
 }
 
-".Trim(),
+".Trim().Replace("\r\n", "\n"),
 
 Rewrite(@"
 let width = match media {
