@@ -1,5 +1,7 @@
 ﻿using System;
 
+using D.Symbols;
+
 namespace D.Expressions
 {
     public abstract class ExpressionVisitor

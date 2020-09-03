@@ -3,6 +3,8 @@ using System.Collections.Generic;
 
 namespace D
 {
+    using D.Symbols;
+
     using Expressions;
     using Inference;
     using Syntax;

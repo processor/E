@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace D
+namespace D.Symbols
 {
     public sealed class MethodSymbol : Symbol
     {

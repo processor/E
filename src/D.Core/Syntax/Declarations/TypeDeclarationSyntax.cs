@@ -1,4 +1,4 @@
-﻿using System;
+﻿using D.Symbols;
 
 namespace D.Syntax
 {
@@ -33,7 +33,7 @@ namespace D.Syntax
         SyntaxKind ISyntaxNode.Kind => SyntaxKind.TypeDeclaration;
     }
 
-    public class TypeDeclarationSyntax : TypeDefinationBase
+    public sealed class TypeDeclarationSyntax : TypeDefinationBase
     {
         public TypeDeclarationSyntax(
             Symbol name,

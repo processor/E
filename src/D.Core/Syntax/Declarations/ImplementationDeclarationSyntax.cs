@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
+using D.Symbols;
+
 namespace D.Syntax
 {
     public sealed class ImplementationDeclarationSyntax : ISyntaxNode
@@ -30,11 +32,11 @@ namespace D.Syntax
         {
             get
             {
-                foreach (var method in Members.OfType<FunctionDeclarationSyntax>())
+                foreach (var method in Members)
                 {
-                    if (method.IsInitializer)
+                    if (method is FunctionDeclarationSyntax func && func.IsInitializer)
                     {
-                        yield return method;
+                        yield return func;
                     }
                 }
             }
@@ -44,11 +46,11 @@ namespace D.Syntax
         {
             get
             {
-                foreach (var method in Members.OfType<FunctionDeclarationSyntax>())
+                foreach (var method in Members)
                 {
-                    if (!method.IsInitializer)
+                    if (method is FunctionDeclarationSyntax func && !func.IsInitializer)
                     {
-                        yield return method;
+                        yield return func;
                     }
                 }
             }

@@ -1,9 +1,10 @@
 ﻿using System.Collections.Generic;
 
+using D.Symbols;
+using D.Syntax;
+
 namespace D
 {
-    using Syntax;
-
     public partial class Compiler
     {
         public Type VisitTypeDeclaration(TypeDeclarationSyntax syntax)

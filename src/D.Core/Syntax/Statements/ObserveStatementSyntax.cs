@@ -1,4 +1,7 @@
-﻿namespace D.Syntax
+﻿
+using D.Symbols;
+
+namespace D.Syntax
 {
     // e.g. on bank Account'Opened opening { }
 

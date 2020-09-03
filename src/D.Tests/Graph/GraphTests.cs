@@ -2,11 +2,13 @@
 
 using Carbon.Json;
 
+using D.Expressions;
+using D.Symbols;
+
 using Xunit;
 
 namespace D.Graph.Tests
 {
-    using Expressions;
     using Parsing.Tests;
 
     public class GraphTests : TestBase

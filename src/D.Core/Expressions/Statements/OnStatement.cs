@@ -1,10 +1,17 @@
-﻿namespace D.Expressions
+﻿using D.Symbols;
+
+namespace D.Expressions
 {
     // e.g. on bank Account'Opened opening { }
 
     public sealed class ObserveStatement : IExpression
     {
-        public ObserveStatement(IExpression observable, Symbol eventType, string eventName, IExpression body, UntilExpression until)
+        public ObserveStatement(
+            IExpression observable, 
+            Symbol eventType,
+            string eventName,
+            IExpression body,
+            UntilExpression until)
         {
             Observable = observable;
             EventType = eventType;

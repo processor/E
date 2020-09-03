@@ -1,6 +1,6 @@
 ﻿namespace D.Protocols
 {
-    public enum ProtocolMessageFlags : byte
+    public enum ProtocolMessageFlags
     {
         None        = 0,
         Repeats     = 1 << 1,

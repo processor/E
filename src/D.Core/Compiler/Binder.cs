@@ -1,6 +1,7 @@
 ﻿using System;
 
 using D.Expressions;
+using D.Symbols;
 
 namespace D
 {

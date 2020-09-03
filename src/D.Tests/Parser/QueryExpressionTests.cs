@@ -2,6 +2,8 @@
 
 namespace D.Parsing.Tests
 {
+    using D.Symbols;
+
     using Syntax;
 
     public class QueryExpressionTests : TestBase

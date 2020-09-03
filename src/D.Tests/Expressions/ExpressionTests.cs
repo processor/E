@@ -1,4 +1,6 @@
 ﻿using D.Expressions;
+using D.Symbols;
+
 using Xunit;
 
 namespace D.Tests.Expressions

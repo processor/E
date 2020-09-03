@@ -1,6 +1,8 @@
 ﻿using System;
 using System.IO;
 
+using D.Symbols;
+
 namespace D.Syntax
 {
     public sealed class FunctionDeclarationSyntax : IMemberSyntax, ISyntaxNode

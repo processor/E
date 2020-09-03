@@ -1,4 +1,5 @@
-﻿
+﻿using D.Symbols;
+
 using Xunit;
 
 namespace D.Parsing.Tests

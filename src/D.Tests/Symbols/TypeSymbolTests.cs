@@ -1,8 +1,9 @@
-﻿using Xunit;
+﻿using D.Symbols;
+
+using Xunit;
 
 namespace D.Parsing.Tests
 {
-
     public class TypeSymbolTests
     {
         [Fact]

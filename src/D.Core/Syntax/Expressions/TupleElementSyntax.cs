@@ -1,4 +1,6 @@
-﻿namespace D.Syntax
+﻿using D.Symbols;
+
+namespace D.Syntax
 {
     // a: 100
     public sealed class TupleElementSyntax : ISyntaxNode

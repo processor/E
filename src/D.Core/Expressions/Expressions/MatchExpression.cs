@@ -15,7 +15,7 @@
         ObjectType IObject.Kind => ObjectType.MatchExpression;
     }
 
-    public class MatchCase
+    public sealed class MatchCase
     {
         public MatchCase(IExpression pattern, IExpression condition, LambdaExpression body)
         {

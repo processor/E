@@ -1,4 +1,6 @@
-﻿namespace D.Syntax
+﻿using D.Symbols;
+
+namespace D.Syntax
 {
     // 1
     public sealed class ConstantPatternSyntax : ISyntaxNode

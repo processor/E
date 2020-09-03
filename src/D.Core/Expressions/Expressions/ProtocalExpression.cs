@@ -1,4 +1,6 @@
-﻿namespace D.Expressions
+﻿using D.Symbols;
+
+namespace D.Expressions
 {
     public sealed class ProtocolExpression : IExpression, INamedObject
     {  

@@ -1,5 +1,7 @@
 ﻿using Xunit;
 
+using D.Symbols;
+
 namespace D.Parsing.Tests
 {
     public class SymbolTableTests
@@ -13,7 +15,7 @@ namespace D.Parsing.Tests
             
             var result = table.TryGetValue("Int32", out var symbol);
 
-            Assert.Equal(TypeSymbol.Int32, symbol);
+            Assert.Same(TypeSymbol.Int32, symbol);
         }
 
         [Fact]

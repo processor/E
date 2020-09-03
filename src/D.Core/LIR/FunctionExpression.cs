@@ -2,6 +2,7 @@
 using System.IO;
 
 using D.Expressions;
+using D.Symbols;
 
 namespace D
 {

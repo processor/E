@@ -1,4 +1,4 @@
-﻿namespace D
+﻿namespace D.Symbols
 {
 
     // Int32

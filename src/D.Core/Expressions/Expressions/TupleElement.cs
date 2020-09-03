@@ -1,4 +1,6 @@
-﻿namespace D.Expressions
+﻿using D.Symbols;
+
+namespace D.Expressions
 {
     // a: 100
     public sealed class TupleElement : IExpression

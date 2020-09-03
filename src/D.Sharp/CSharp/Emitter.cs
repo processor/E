@@ -1,10 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 
+using D.Expressions;
+using D.Symbols;
+
 namespace D.Compilation
 {
-    using Expressions;
-
     public partial class CSharpEmitter : ExpressionVisitor
     {
         private int level = 0;

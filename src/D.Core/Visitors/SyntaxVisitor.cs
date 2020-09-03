@@ -1,5 +1,7 @@
 ﻿using System;
 
+using D.Symbols;
+
 namespace D.Syntax
 {
     public abstract class SyntaxVisitor

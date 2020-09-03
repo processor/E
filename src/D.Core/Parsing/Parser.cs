@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 
 using D.Protocols;
+using D.Symbols;
 using D.Syntax;
 
 namespace D.Parsing
@@ -683,7 +684,7 @@ namespace D.Parsing
 
                 // Note: parameters MUST not begin with an uppercase letter.
 
-                parameters = new[] { new ParameterSyntax(parameterName) };
+                parameters = new ParameterSyntax[] { new (parameterName) };
             }
             else
             {

@@ -1,4 +1,6 @@
-﻿namespace D.Expressions
+﻿using D.Symbols;
+
+namespace D.Expressions
 {
     // 1
     public sealed class ConstantPattern : IExpression
@@ -89,7 +91,7 @@
     }
 
     // _
-    public class AnyPattern : IExpression
+    public sealed class AnyPattern : IExpression
     {
         ObjectType IObject.Kind => ObjectType.AnyPattern;
     }

@@ -1,15 +1,16 @@
-﻿namespace D
+﻿namespace D.Symbols
 {
     public sealed class TypeSymbol : Symbol
     {
-        public static readonly TypeSymbol Object  = new TypeSymbol("Object"); // Object | None
-        public static readonly TypeSymbol String  = new TypeSymbol("String");
-        public static readonly TypeSymbol Number  = new TypeSymbol("Number");
-        public static readonly TypeSymbol Void    = new TypeSymbol("Void");   // unit '()' in rust
-        public static readonly TypeSymbol Int32   = new TypeSymbol("Int32");
-        public static readonly TypeSymbol Int64   = new TypeSymbol("Int64");
-        public static readonly TypeSymbol Float32 = new TypeSymbol("Float32");
-        public static readonly TypeSymbol Float64 = new TypeSymbol("Float64");
+        public static readonly TypeSymbol Object  = new ("Object"); // Object | None
+        public static readonly TypeSymbol String  = new ("String");
+        public static readonly TypeSymbol Number  = new ("Number");
+        public static readonly TypeSymbol Void    = new ("Void");    // unit '()' in rust
+        public static readonly TypeSymbol Int32   = new ("Int32");   // i32
+        public static readonly TypeSymbol Int64   = new ("Int64");   // i64
+        public static readonly TypeSymbol Float17 = new ("Float16"); // f16
+        public static readonly TypeSymbol Float32 = new ("Float32"); // f32
+        public static readonly TypeSymbol Float64 = new ("Float64"); // f64
 
         public TypeSymbol(string name)
             : base(name, SymbolFlags.None) { }

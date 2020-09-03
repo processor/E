@@ -1,4 +1,5 @@
 ﻿using D.Protocols;
+using D.Symbols;
 
 namespace D.Syntax
 {

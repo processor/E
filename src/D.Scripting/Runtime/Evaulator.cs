@@ -3,6 +3,7 @@ using System.Collections.Generic;
 
 using D.Expressions;
 using D.Parsing;
+using D.Symbols;
 using D.Syntax;
 using D.Units;
 

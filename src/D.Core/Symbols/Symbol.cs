@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Text;
 
-namespace D
-{
-    using Expressions;
-    using Syntax;
+using D.Expressions;
+using D.Syntax;
 
+namespace D.Symbols
+{
     public abstract class Symbol : IExpression, ISyntaxNode
     {
         public Symbol(string name, SymbolFlags flags = SymbolFlags.None)

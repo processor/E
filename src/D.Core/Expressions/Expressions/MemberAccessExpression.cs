@@ -1,9 +1,11 @@
 ﻿using System.Text;
 
+using D.Symbols;
+
 namespace D.Expressions
 {
     // .member
-    public class MemberAccessExpression : IExpression
+    public sealed class MemberAccessExpression : IExpression
     {
         public MemberAccessExpression(IExpression left, Symbol memberName)
         {

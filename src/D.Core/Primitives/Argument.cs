@@ -2,6 +2,8 @@
 using System.Collections;
 using System.Collections.Generic;
 
+using D.Symbols;
+
 namespace D
 {
     public readonly struct Argument : IArguments

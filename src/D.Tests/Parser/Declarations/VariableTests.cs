@@ -1,9 +1,10 @@
 ﻿using Xunit;
 
+using D.Symbols;
+using D.Syntax;
+
 namespace D.Parsing.Tests
 {
-    using Syntax;
-
     public class VariableDeclarationTests : TestBase
     {
         [Fact]

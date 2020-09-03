@@ -1,9 +1,9 @@
-﻿namespace D
+﻿namespace D.Symbols
 {
-    public enum SymbolStatus : byte
+    public enum SymbolStatus
     {
         Unresolved = 0,
-        Resoliving = 1,
+        Resolving = 1,
         Resolved   = 2
     }
 }

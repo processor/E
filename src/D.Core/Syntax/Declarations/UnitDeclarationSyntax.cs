@@ -1,4 +1,6 @@
-﻿namespace D.Syntax
+﻿using D.Symbols;
+
+namespace D.Syntax
 {
     // Kelvin unit: Temperature { symbol: "K", value: 1 }
     public sealed class UnitDeclarationSyntax : ISyntaxNode

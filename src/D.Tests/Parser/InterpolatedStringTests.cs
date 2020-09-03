@@ -1,9 +1,10 @@
-﻿using Xunit;
+﻿using D.Symbols;
+using D.Syntax;
+
+using Xunit;
 
 namespace D.Parsing.Tests
 {
-    using Syntax;
-
     public class InterpolatedStringTests : TestBase
     {
         [Fact]

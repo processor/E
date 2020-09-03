@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace D
+namespace D.Symbols
 {
     public sealed class PropertySymbol : Symbol
     {

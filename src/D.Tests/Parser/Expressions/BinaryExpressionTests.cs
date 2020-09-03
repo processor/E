@@ -4,6 +4,7 @@ using System.Text;
 using Xunit;
 
 using D.Syntax;
+using D.Symbols;
 
 namespace D.Parsing.Tests
 {

@@ -1,6 +1,6 @@
-﻿namespace D
+﻿namespace D.Symbols
 {
-    public enum SymbolType : byte
+    public enum SymbolType
     {
         TypeParameter = 1,
         Label         = 2,

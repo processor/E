@@ -1,4 +1,6 @@
-﻿namespace D.Syntax
+﻿using D.Symbols;
+
+namespace D.Syntax
 {
     // |>  pipe
     // [ ] indexAccess

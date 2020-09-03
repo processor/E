@@ -2,6 +2,7 @@
 using System.Text;
 
 using D.Expressions;
+using D.Symbols;
 
 namespace D.Units
 {

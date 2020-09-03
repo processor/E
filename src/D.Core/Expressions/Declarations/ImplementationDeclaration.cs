@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
 
+using D.Symbols;
+
 namespace D.Expressions
 {
     public sealed class ImplementationDeclaration : IExpression

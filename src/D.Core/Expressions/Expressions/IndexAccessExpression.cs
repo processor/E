@@ -1,7 +1,7 @@
 ﻿namespace D.Expressions
 {
     // [index]
-    public class IndexAccessExpression : IExpression
+    public sealed class IndexAccessExpression : IExpression
     {
         public IndexAccessExpression(IExpression left, IArguments arguments)
         {

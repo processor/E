@@ -1,4 +1,5 @@
 ﻿using D.Parsing;
+using D.Symbols;
 
 namespace D.Expressions
 {

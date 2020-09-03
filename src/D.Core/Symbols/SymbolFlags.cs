@@ -1,6 +1,6 @@
-﻿namespace D
+﻿namespace D.Symbols
 {
-    public enum SymbolFlags : byte
+    public enum SymbolFlags
     {
         None        = 0,
       

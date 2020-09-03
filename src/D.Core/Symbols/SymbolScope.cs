@@ -1,6 +1,6 @@
-﻿namespace D
+﻿namespace D.Symbols
 {
-    public enum SymbolScope : byte
+    public enum SymbolScope
     {
         Root = 1,
         Module = 2,

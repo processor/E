@@ -4,6 +4,8 @@ using Xunit;
 
 namespace D.Parsing.Tests
 {
+    using D.Symbols;
+
     using Syntax;
 
     public class TypeDeclarationTests : TestBase
@@ -154,7 +156,7 @@ Point struct <T: Number & Blittable = Float64> : Vector3<T> {
 
             Assert.Equal("T",                               t1.Name);
             Assert.Equal("Intersection<Number,Blittable>",  t1.Type);
-            Assert.Equal("Float64",                         (t1.DefaultValue as TypeSymbol).Name);
+            Assert.Equal("Float64",                         ((TypeSymbol)t1.DefaultValue).Name);
 
             Assert.Equal(SyntaxKind.CompoundPropertyDeclaration, declaration.Members[0].Kind);
         }

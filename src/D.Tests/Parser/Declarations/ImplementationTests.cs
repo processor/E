@@ -4,6 +4,8 @@ using Xunit;
 
 namespace D.Parsing.Tests
 {
+    using D.Symbols;
+
     using Syntax;
 
     public class ImplementationTests : TestBase

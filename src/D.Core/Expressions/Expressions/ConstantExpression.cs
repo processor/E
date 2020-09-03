@@ -1,6 +1,6 @@
 ﻿namespace D.Expressions
 {
-    public class ConstantExpression : IExpression
+    public sealed class ConstantExpression : IExpression
     {
         public ConstantExpression(object value)
         {
