@@ -1,4 +1,4 @@
-from diagnostics import Diagnostic
+from Diagnostics import Diagnostic
 
 Application protocol { 
   network     :    Network

@@ -230,22 +230,22 @@ BitWriter impl for JPEGEncoder {
 }
 
 JPEGEncoder class {
-    let writer            : BitWriter
-    let components        : [] JPEGComponent
-    let tables            : [] u8,
-    let luma   `dctable   : [] (u8, u16)
-    let luma   `actable   : [] (u8, u16) 
-    let chroma `dctable   : [] (u8, u16) 
-    let chroma `actable   : [] (u8, u16)
+    let writer         : BitWriter
+    let components     : [] JPEGComponent
+    let tables         : [] u8,
+    let luma_dctable   : [] (u8, u16)
+    let luma_actable   : [] (u8, u16) 
+    let chroma_dctable : [] (u8, u16) 
+    let chroma_actable : [] (u8, u16)
 }
 
 JPEGEncoder impl {
     from (w: &mut W, quality: u8 = 75) {
-        let luma `dctable = buildHuff `lut(LUMA_DC_CODE_LENGTHS, LUMA_DC_VALUES)
-        let luma `actable = buildHuff `lut(LUMA_AC_CODE_LENGTHS, LUMA_AC_VALUES)
+        let luma_dctable = buildHuff_lut(LUMA_DC_CODE_LENGTHS, LUMA_DC_VALUES)
+        let luma_actable = buildHuff_lut(LUMA_AC_CODE_LENGTHS, LUMA_AC_VALUES)
 
-        let chroma `dctable = buildHuff `lut(CHROMA_DC_CODE_LENGTHS, CHROMA_DC_VALUES)
-        let chroma `actable = buildHuff `lut(CHROMA_AC_CODE_LENGTHS, CHROMA_AC_VALUES)
+        let chroma_dctable = buildHuff_lut(CHROMA_DC_CODE_LENGTHS, CHROMA_DC_VALUES)
+        let chroma_actable = buildHuff_lut(CHROMA_AC_CODE_LENGTHS, CHROMA_AC_VALUES)
 
         let components = [
             JPEGComponent(id: LUMAID,       h: 1, v: 1, tq: LUMADESTINATION,   dcTable: LUMADESTINATION,   acTable: LUMADESTINATION,   dcPred: 0),
@@ -265,17 +265,17 @@ JPEGEncoder impl {
             return clamp(value, 1, u8:maxValue) as u32) as u8
         }
 
-        tables.extend(LUMA `QTABLE.map(scaleValue))
-        tables.extend(CHROMA `QTABLE.map(scaleValue))
+        tables.extend(LUMA_QTABLE.map(scaleValue))
+        tables.extend(CHROMA_QTABLE.map(scaleValue))
 
         return JPEGEncoder {
             writer : BitWriter:new(w),
             components,
             tables,
-            luma `dctable,
-            luma `actable,
-            chroma `dctable,
-            chroma `actable
+            luma_dctable,
+            luma_actable,
+            chroma_dctable,
+            chroma_actable
         }
     }
 
@@ -340,7 +340,7 @@ JPEGEncoder impl {
                  bpp: u32) {
         var yblock     = Array(0u8, 64)
         var ydcprev    = 0
-        var dct_yblock = Array(0i32, 64)
+        var dct_yblock = Array(0_i32, 64)
 
         for y in range_step(0, height, 8) {
             for x in range_step(0, width, 8) {
@@ -353,7 +353,7 @@ JPEGEncoder impl {
 
                 // Quantization
                 for i in 0 ..< 64 {
-                    dct_yblock[i]  = ((dct_yblock[i] / 8)   as f32 / tables[i] as f32).round() as i32;
+                    dct_yblock[i]  = ((dct_yblock[i] / 8) as f32 / tables[i] as f32).round() as i32;
                 }
 
                 let la = &*luma_actable
@@ -367,17 +367,17 @@ JPEGEncoder impl {
     }
 
     encodeRGB ƒ(bitmap: Span<u8>, width: u32, height: u32, bpp: u32) {
-        var y  `dcprev = 0
-        var cb `dcprev = 0
-        var cr `dcprev = 0
+        var y_dcprev  = 0
+        var cb_dcprev = 0
+        var cr_dcprev = 0
 
-        var dct `y  `block   = Array(0i32, 64)
-        var dct `cb `block = Array(0i32, 64)
-        var dct `cr `block = Array(0i32, 64)
+        var dct_y_block  = Array<i32>(64)
+        var dct_cb_block = Array<i32>(64)
+        var dct_cr_block = Array<i32>(64)
 
-        var y  `block = Array(0u8, 64)
-        var cb `block = Array(0u8, 64)
-        var cr `block = Array(0u8, 64)
+        var y_block = Array(0u8, 64)
+        var cb_block = Array(0u8, 64)
+        var cr_block = Array(0u8, 64)
         
         for y in rangeStep(0, height, 8) {
             for x in rangeStep(0, width, 8) {
@@ -539,21 +539,21 @@ copyBlocksYCbRr ƒ(
     crb   : ref [64]u8) {
 
     for y in 0 ..< 8 {
-        let ystride = (y0 + y) * bpp * width
+      let ystride = (y0 + y) * bpp * width
 
-        for x in 0 ..< 8 {
-            let xstride = x0 * bpp + x * bpp
+      for x in 0 ..< 8 {
+        let xstride = x0 * bpp + x * bpp
 
-            let r = valueAt(source, ystride + xstride + 0)
-            let g = valueAt(source, ystride + xstride + 1)
-            let b = valueAt(source, ystride + xstride + 2)
+        let r = value_at(source, ystride + xstride + 0)
+        let g = value_at(source, ystride + xstride + 1)
+        let b = value_at(source, ystride + xstride + 2)
 
-            let (yc, cb, cr) = Color:RGB(r, g, b) to Color:YCbCr
+        let (yc, cb, cr) = Color:RGB(r, g, b) to Color:YCbCr
 
-            yb[y * 8 + x]  = yc
-            cbb[y * 8 + x] = cb
-            crb[y * 8 + x] = cr
-        }
+        yb[y * 8 + x]  = yc
+        cbb[y * 8 + x] = cb
+        crb[y * 8 + x] = cr
+      }
     }
 }
 

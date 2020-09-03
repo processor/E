@@ -1,4 +1,0 @@
-Trustee actor {
-
-
-}

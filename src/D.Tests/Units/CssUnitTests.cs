@@ -39,13 +39,13 @@ namespace D.Units.Tests
   ""width"": ""1920px"",
   ""height"": ""1080px"",
   ""flex"": ""100%""
-}", json.ToString());
+}", json.ToString().Replace("\r\n", "\n"));
 
             var el = json.As<Element>();
 
             Assert.Equal("1920px", el.Width.ToString());
             Assert.Equal("1080px", el.Height.ToString());
-            Assert.Equal("100%", el.Flex.ToString());
+            Assert.Equal("100%",   el.Flex.ToString());
         }
 
         [Fact]

@@ -3,10 +3,12 @@ Incorporation process {
   regitar	   	  : Registrar
   jurisitrction : Entity
 
-  Certificate record { 
-
-
-  }
+  
 )
+
+// Certificate of incorporation / AKA articles of organization
+Incorporation certificate { 
+  authority: Authority
+}
 
 // An entity is formed through incorporation

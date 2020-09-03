@@ -1,8 +1,3 @@
-module Payment {
-  Authorization process { }
-}
-
-
 Payment record {
   payer       :   Entity
   payee       :   Entity
@@ -16,7 +11,6 @@ Payment record {
   for         :   Invoice | Security`Deposit
   charge      :   Charge?  // to the instrument
 }
-
 
 
 // Used to indicate the person or thing that something is sent or given to.

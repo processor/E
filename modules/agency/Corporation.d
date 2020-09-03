@@ -4,10 +4,11 @@ from Geography  import Place
 
 Corporation protocol {
   * | resolve
-    | issue(Stock)
-    | issue(Bond)
   
-  resolve ƒ(motion: Motion) : Resolution
+  resolve ƒ($0: Motion) : Resolution
+
+  plays Issuer<Stock>
+  plays Issuer<Bond>
 }
 
 Corporation actor : Organization {
@@ -25,6 +26,7 @@ Qualitification {
 
 
 }
+
 
 
 // The stock (also capital stock) of a corporation is all of the shares into which ownership of the corporation is divided

@@ -1,8 +1,0 @@
-President actor { 
-
-
-
-}
-
-// Officer
-// Director

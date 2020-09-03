@@ -3,3 +3,7 @@ Patent record {
   inventors : [] Inventor
   issued    :    DateTime?
 }
+
+Patent certificate { 
+  
+}

@@ -1,0 +1,4 @@
+Ballot class { 
+
+
+}

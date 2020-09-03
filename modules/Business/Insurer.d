@@ -1,0 +1,4 @@
+Insurer role of Entity { 
+
+  
+}

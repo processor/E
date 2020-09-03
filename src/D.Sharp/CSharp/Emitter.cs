@@ -35,19 +35,21 @@ namespace D.Compilation
 
         public void EmitLine()
         {
-            writer.WriteLine();
+            writer.Write('\n');
         }
 
         public void EmitLine(string text)
         {
-            writer.WriteLine(text);
+            writer.Write(text);
+            writer.Write('\n');
         }
 
         public void EmitLine(string text, int level)
         {
             Indent(level);
 
-            writer.WriteLine(text);
+            writer.Write(text);
+            writer.Write('\n');
         }
 
         public void Visit(IEnumerable<IExpression> expressions)

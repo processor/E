@@ -1,6 +1,5 @@
 Transaction record : Base::Transaction {
 
-  
 }
 
 

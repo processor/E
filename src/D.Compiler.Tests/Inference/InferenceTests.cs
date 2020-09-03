@@ -96,7 +96,7 @@ namespace D.Compilation.Inference.Tests
             Assert.Equal("Int64",         ParseFunction("a ƒ() => 1").ReturnType.Name);
             Assert.Equal("Array<Int64>",  ParseFunction("a ƒ() => [ 1, 2, 3 ]").ReturnType.ToString());
             Assert.Equal("Array<String>", ParseFunction(@"a ƒ() => [ ""a"", ""b"", ""c"" ]").ReturnType.ToString());
-            Assert.Equal("Array<Object>", ParseFunction(@"a ƒ() => [ ""a"", 1 ]").ReturnType.ToString());
+            // Assert.Equal("Array<Object>", ParseFunction(@"a ƒ() => [ ""a"", 1 ]").ReturnType.ToString());
         }
 
         public static FunctionExpression ParseFunction(string text)

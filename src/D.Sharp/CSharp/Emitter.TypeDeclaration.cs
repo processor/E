@@ -56,7 +56,8 @@ namespace D.Compilation
                 Emit(property.Name);
             }
 
-            writer.WriteLine(")");
+            writer.Write(')');
+            writer.Write('\n');
 
             EmitLine("{", level);
 

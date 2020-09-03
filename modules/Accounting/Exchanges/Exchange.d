@@ -14,8 +14,6 @@ Quote<TSource, TTarget> {
   bid: Decimal
 }
 
-
-
 // The international standard ISO 10383 (Market Identifier Code – MIC) specifies a universal method of identifying exchanges,
 //  trading platforms and regulated or non-regulated markets as sources of prices and related information in order to facilitate automated processing.
 

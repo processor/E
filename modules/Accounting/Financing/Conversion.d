@@ -1,7 +1,5 @@
-Conversion record { 
-   price      : Decimal,
-   ratio      : Rational,
-   cap        : Decimal,          //  actual ration based based on cap
-   discount   : Percentage,
-   expiration : DateTime?
+Conversion<TSource, TTarger> record { 
+   source      : TSource
+   target      : TTarget
+   transaction : Transaction
 }

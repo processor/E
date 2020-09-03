@@ -1,4 +1,7 @@
 Divorce event {
-  partners  : (Entity, Entity)
-  registrar : Registrar
+  partners: (Entity, Entity)
+}
+
+Divorce certificate { 
+  signatures: [] Signature
 }

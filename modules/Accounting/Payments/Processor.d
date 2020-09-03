@@ -1,4 +1,4 @@
-Payment::Processor actor : Authority {
+Payment::Processor role {
   initiate  ($0: Charge) -> Authorization
   authorize ($0: Charge)
   capture   ($0: Charge)
@@ -6,7 +6,7 @@ Payment::Processor actor : Authority {
   cancel    ($0: Charge)
 
   // Messages
-  process   ($0: Chargeback) { 
+  process ($0: Chargeback) { 
 
   }
 }

@@ -1,6 +1,7 @@
 Government actor { 
 
   
+  
 }
 
 Authority impl for Government { 

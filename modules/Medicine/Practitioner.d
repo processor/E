@@ -10,11 +10,7 @@ Practitioner protocol {
 }
 
 
-Practitioner actor { 
-  person: Entity
-}
+Practitioner role of Person { }
 
 // A practitioner pratices medicine and:
 // - diagnoses and treats syptoms, dieases, disorders, ...
-
-// 

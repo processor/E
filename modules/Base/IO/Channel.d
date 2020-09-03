@@ -1,22 +1,24 @@
 ﻿// Channels replace sequences, streams,
 // * byte.. :≡ Readable`Channel of zero or more bytes
 
-Channel protocol { 
+Channel<T> protocol { 
   * open     : active
   * complete : completed
 
-  status -> Channel`Status
+  status -> Status
   unread -> i64 ≥ 0
 
   read () -> 
-    | * 
+    | T
 	  | Awaiter
 	  | ∎
 
-  write async -> 
+  write (T) -> 
     | Commited 
-	  | Awaiter 
+	  | Awaiter
 	  | NotConnectedError
+
+  Status enum { Open, Closed }
 
 }
 

@@ -1,4 +1,5 @@
-﻿using Xunit;
+﻿
+using Xunit;
 
 namespace D.Inference
 {
@@ -7,12 +8,23 @@ namespace D.Inference
     public class FlowTests
     {
         [Fact]
-        public void Var()
+        public void Q()
         {
             var flow = new Flow();
 
-            var number = flow.GetType(ObjectType.Number);
-            var boolean = flow.GetType(ObjectType.Boolean);
+            Assert.Equal(flow.GetType(ObjectType.Number).Name,  Type.Get(ObjectType.Number).Name);
+            Assert.Equal(flow.GetType(ObjectType.Boolean).Name, Type.Get(ObjectType.Boolean).Name);
+
+            Assert.Same(flow.GetType(ObjectType.Boolean), flow.GetType(ObjectType.Boolean));
+            Assert.Same(flow.GetType(ObjectType.Int64),   flow.GetType(ObjectType.Int64));
+
+
+        }
+
+        [Fact]
+        public void Var()
+        {
+            var flow = new Flow();
 
             var a = new VariableNode("a", null);
 
@@ -30,9 +42,13 @@ namespace D.Inference
         {
             var flow = new Flow();
 
-            Assert.Equal("Boolean", flow.Infer(Apply(Variable("!"), new[] {
-                Variable("Boolean")
-            })).Name);
+            var bv = flow.Define("bv", Type.Get(ObjectType.Boolean));
+
+            var r = flow.Infer(Apply(Variable("!"), new[] {
+                bv
+            }));
+
+            Assert.Equal("Boolean", r.Name);
         }
 
         [Fact]
@@ -63,8 +79,8 @@ namespace D.Inference
             var listOfString = flow.GetListTypeOf(ObjectType.String);
             var listOfFloat = flow.GetListTypeOf(ObjectType.Number);
 
-            Assert.Equal("String", flow.Infer(Apply(Variable("head"), new[] { Constant(listOfString) })).Name);
-            Assert.Equal("Number", flow.Infer(Apply(Variable("head"), new[] { Constant(listOfFloat) })).Name);
+            Assert.Equal("String",   flow.Infer(Apply(Variable("head"), new[] { Constant(listOfString) })).Name);
+            Assert.Equal("Number",  flow.Infer(Apply(Variable("head"), new[] { Constant(listOfFloat) })).Name);
             Assert.Equal("Boolean", flow.Infer(Apply(Variable("contains"), new[] { Constant(listOfFloat) })).Name);
         }
 

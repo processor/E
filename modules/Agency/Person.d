@@ -17,9 +17,3 @@ Employable protocol {
   // employee under terms -> Employment
 
 }
-
-// acts as Contractor
-// acts as Employee
-// acts as Director
-// acts as Officer
-// act in role of Manager

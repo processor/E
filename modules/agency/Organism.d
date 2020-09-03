@@ -10,8 +10,6 @@ Organism protocol {
 
   relations : [] Relation
   
-  registar => birth.registar
-
   on death {
 	  // some code that runs at death
   }

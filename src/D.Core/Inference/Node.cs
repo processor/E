@@ -42,7 +42,7 @@ namespace D.Inference
 
         public object? Spec { get; protected set; }
 
-        public Node[] Arguments { get; private set; }
+        public Node[]? Arguments { get; private set; }
 
         public Node Body { get; protected set; }
 

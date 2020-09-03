@@ -1,7 +1,4 @@
-﻿Line = Sale | Adjustment | Fee | Service
-
-Receipt := Invoice when closed  // friendly name for a paid invoice
-
+﻿
 Invoice protocol {
   * create      : created
   * | bill      : billed
@@ -30,7 +27,10 @@ Invoice process {
   recieve($0: Payment) -> Accepted | Refused { 
 
   }
+
+  Line = Sale | Adjustment | Fee | Service
 }
+
 
 // Specifies how to pay the invoice
 Payable impl for Invoice {

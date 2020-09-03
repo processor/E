@@ -1,9 +1,5 @@
-Sale protocol {
-  * | tax              
+Sale protocol {         
   * | complete ∎ : completed
-
-
-  tax () -> [] Sales`Tax  // called by the taxing authorities at the point of sale
 }
 
 Sale process {
@@ -13,19 +9,22 @@ Sale process {
   price		 :    Decimal
 
   // 
-  quantity :    Decimal
-  location :    Place                // used to determine tax
-  terms    : [] Legal::Term
+  quantity      :    Decimal
+  jurisdictions : [] Jurisdiction   // used to determine tax
+  terms         : [] Legal::Term
 }
 
-// Sale from sellers pespective
-// Purchase from buyers perspective
-
-Purchase := Sale					       // reverse of a sale is a purchase
 
 // Subject To
 // Excise Tax
 // Sales Tax
+// by various taxation authorities (Jurisdictions) at the point of sale
 
+Taxable impl for Sale {
+  
+}
+
+// Sale from sellers pespective
+// Purchase from buyers perspective
 
 // A "sale" consists in the passing of title from the seller to the buyer for a price (Section 2-401). 

@@ -1,6 +1,6 @@
-Cheque protocol : Payment::Instrument {
+Cheque instrument {
   amount    -> Decimal
-  currency  -> Currency
+  currency  -> Currency.type
   signature -> Signature // what are we agreeing too?
   clearing  -> Clearing
 }

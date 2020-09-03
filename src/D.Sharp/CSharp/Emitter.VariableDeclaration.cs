@@ -40,8 +40,8 @@
           
             Emit("switch (");
             Visit(match.Expression);
-            writer.WriteLine(")");
-            writer.WriteLine("{");
+            EmitLine(")");
+            EmitLine("{");
 
             foreach (var c in match.Cases)
             {

@@ -30,6 +30,10 @@ namespace D.Syntax
 
         public bool IsEvent => Flags.HasFlag(TypeFlags.Event);
 
+        public bool IsRole => Flags.HasFlag(TypeFlags.Role);
+
+        public bool IsActor => Flags.HasFlag(TypeFlags.Actor);
+
         SyntaxKind ISyntaxNode.Kind => SyntaxKind.TypeDeclaration;
     }
 

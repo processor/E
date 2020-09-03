@@ -419,7 +419,7 @@ namespace D.Parsing
         // Point struct (size: 16, align: 1, layout: Explict)
         public TypeDeclarationSyntax ReadTypeDeclaration(Symbol typeName)
         {
-            // record, struct
+            // record, struct, event, role, actor
             var flags = ReadTypeModifiers();
             
             var args = IsKind(ParenthesisOpen) ? ReadArguments() : Array.Empty<ArgumentSyntax>();
@@ -838,6 +838,8 @@ namespace D.Parsing
             if (ConsumeIf(Record)) flags |= TypeFlags.Record;
             if (ConsumeIf(Struct)) flags |= TypeFlags.Struct;
             if (ConsumeIf(Class))  flags |= TypeFlags.Class;
+            if (ConsumeIf(Role))   flags |= TypeFlags.Role;
+            if (ConsumeIf(Actor))  flags |= TypeFlags.Actor;
 
             return flags;
         }
@@ -2142,6 +2144,8 @@ namespace D.Parsing
                     case Record :
                     case Struct :
                     case Class  :
+                    case Role   :
+                    case Actor  :
                         return symbolList.Count > 0
                             ? (ISyntaxNode)ReadCompoundTypeDeclaration(symbolList.Extract())
                             : ReadTypeDeclaration(name);  // type : hello
