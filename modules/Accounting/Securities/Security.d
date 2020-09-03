@@ -13,8 +13,6 @@ Security certificate {
   
 }
 
-
-
 // In the United States, a security is a tradable financial asset of any kind.
 //  Securities are broadly categorized into:
 
@@ -25,14 +23,11 @@ Security certificate {
 // Debt securities may be called debentures, bonds, deposits, notes or commercial paper depending on their maturity, collateral and other characteristics. 
 
 
-
 // Securities may be represented by a certificate or, more typically, "non-certificated",
 // that is in electronic (dematerialized) or "book entry" only form. 
 
-
-
-// In the United States, a security is a tradable financial asset of any kind.[2] Securities are broadly categorized into:
-
+// In the United States, a security is a tradable financial asset of any kind.
+// Securities are broadly categorized into:
 // debt securities (e.g., banknotes, bonds and debentures)
 // equity securities (e.g., common stocks)
 // derivatives (e.g., forwards, futures, options, and swaps).

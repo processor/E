@@ -23,11 +23,9 @@ Bank role {
   code : String
 }
 
-
 // An organization may "play" a bank
 
 // Central banks    | May create or destroy money (demoninated in a currency)
 // Merchant banks   | Acts as an intermediaty to process charges, chargebacks, etc.
-
 
 // A bank maintains accounts, underwrites, and services loans

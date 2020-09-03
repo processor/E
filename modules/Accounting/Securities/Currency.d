@@ -44,6 +44,4 @@ _£   operator (amount: Decimal) |> GBP
 
 // Central Bank
 
-
-
 // Banknote?
