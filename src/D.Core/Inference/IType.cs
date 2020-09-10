@@ -7,9 +7,9 @@ namespace D.Inference
     {
         string Name { get; }
 
-        IType Constructor { get; }
+        IType BaseType { get; }
 
-        IType[] Arguments { get; }
+        IType[] ArgumentTypes { get; }
 
         IType? Self { get; }
 

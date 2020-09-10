@@ -22,16 +22,16 @@ namespace D.Inference
             protected TypeBase(string name, IType[] arguments)
                 : this(name)
             {
-                Arguments = arguments ?? Array.Empty<IType>();
+                ArgumentTypes = arguments ?? Array.Empty<IType>();
             }
 
             public override string ToString() => Name;
 
             public virtual string Name { get; }
 
-            public IType Constructor { get; protected set; }
+            public IType BaseType { get; protected set; }
 
-            public IType[] Arguments { get; }
+            public IType[] ArgumentTypes { get; }
 
             // AKA Instance
             public IType? Self { get; internal set; }
@@ -82,14 +82,14 @@ namespace D.Inference
             internal Type(IType constructor, string name, IType[]? args)
                 : base(name, args)
             {
-                Constructor = constructor ?? this;
+                BaseType = constructor ?? this;
             }
 
             public override string ToString()
             {
-                if (Arguments.Length == 0) return Name;
+                if (ArgumentTypes.Length == 0) return Name;
 
-                var args = string.Join<IType>(", ", Arguments);
+                var args = string.Join<IType>(", ", ArgumentTypes);
 
                 return string.Format($"{Name}<{args}>");
             }
@@ -104,7 +104,7 @@ namespace D.Inference
 
         private static bool OccursIn(IType t, IType s)
         {
-            return (s = Prune(s)) == t || (s is Type && OccursIn(t, s.Arguments));
+            return (s = Prune(s)) == t || (s is Type && OccursIn(t, s.ArgumentTypes));
         }
 
         private static bool OccursIn(IType t, IReadOnlyList<IType> types)
@@ -145,7 +145,7 @@ namespace D.Inference
             }
             else if (t is Type type)
             {
-                return NewType(type.Constructor, type.Name, type.Arguments.Select(arg => Fresh(arg, types, variables)).ToArray());
+                return NewType(type.BaseType, type.Name, type.ArgumentTypes.Select(arg => Fresh(arg, types, variables)).ToArray());
             }
             else
             {
@@ -188,14 +188,14 @@ namespace D.Inference
             }
             else if (t is Type t_type && s is Type s_type)
             {
-                if (t_type.Constructor.Name != s_type.Constructor.Name || t_type.Arguments.Length != s_type.Arguments.Length)
+                if (t_type.BaseType.Name != s_type.BaseType.Name || t_type.ArgumentTypes.Length != s_type.ArgumentTypes.Length)
                 {
                     throw new InvalidOperationException($"{t_type} is not compatible with {s_type}");
                 }
 
-                for (var i = 0; i < t_type.Arguments.Length; i++)
+                for (var i = 0; i < t_type.ArgumentTypes.Length; i++)
                 {
-                    Unify(t_type.Arguments[i], s_type.Arguments[i]);
+                    Unify(t_type.ArgumentTypes[i], s_type.ArgumentTypes[i]);
                 }
             }
             else

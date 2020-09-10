@@ -2,9 +2,10 @@
 {
     public class Flow
     {
-        private readonly Environment env = new Environment();
+        // TODO: Merge Node & Environment
 
-        public static long kindId = 1000000;
+        private readonly Environment env = new Environment();
+        public static long kindId = 1_000_000;
 
         private readonly IType listType;
         private readonly IType itemType;
@@ -15,20 +16,29 @@
 
         public Flow()
         {
-            // var binary = TypeSystem.NewGeneric();
+            // Base Types
+            GetType(ObjectType.Int32);
+            GetType(ObjectType.Int64);
+            GetType(ObjectType.String);
+            GetType(ObjectType.Float32);
+            GetType(ObjectType.Float64);
+            GetType(ObjectType.String);
+            GetType(ObjectType.Decimal);
+            GetType(ObjectType.Number);
+
+
             var boolean = Add(Type.Get(ObjectType.Boolean));
           
-
             any = GetType(ObjectType.Object);
 
             itemType = TypeSystem.NewGeneric();
             listType = TypeSystem.NewType("List", args: new[] { itemType });
 
-            env.Infer(Node.Define(Node.Variable("contains"), Node.Abstract(new[] {
+            TypeSystem.Infer(env, Node.Define(Node.Variable("contains"), Node.Abstract(new[] {
                 Node.Variable("list", listType)
             }, Node.Constant(boolean))));
 
-            env.Infer(Node.Define(Node.Variable("head"), Node.Abstract(new[] {
+            TypeSystem.Infer(env, Node.Define(Node.Variable("head"), Node.Abstract(new[] {
                 Node.Variable("list", listType)
             }, itemType, Node.Constant(itemType))));
 
@@ -48,7 +58,7 @@
             {
                 var g = TypeSystem.NewGeneric();
 
-                env.Infer(Node.Define(Node.Variable(op), Node.Abstract(new[] {
+                TypeSystem.Infer(env, Node.Define(Node.Variable(op), Node.Abstract(new[] {
                     Node.Variable("lhs", g),
                     Node.Variable("rhs", g)
                 }, Node.Constant(boolean))));
@@ -56,14 +66,14 @@
 
             var ifThenElse = TypeSystem.NewGeneric();
 
-            env.Infer(Node.Define(Node.Variable("if"), Node.Abstract(new[] {
+            TypeSystem.Infer(env, Node.Define(Node.Variable("if"), Node.Abstract(new[] {
                 Node.Variable("condition", boolean),
                 Node.Variable("then", ifThenElse),
                 Node.Variable("else", ifThenElse) },
             ifThenElse, Node.Variable("then"))));
 
             // ! {expression}
-            env.Infer(Node.Define(Node.Variable("!"), Node.Abstract(new[] {
+            TypeSystem.Infer(env, Node.Define(Node.Variable("!"), Node.Abstract(new[] {
                 Node.Variable("expression", boolean)
             }, boolean, Node.Constant(boolean))));
         }
@@ -108,6 +118,25 @@
 
             env[kind.Name] = type;
 
+
+            // Alias HACK
+            if (kind.Name is "Int32")
+            {
+                env["i32"] = type;
+            }
+            else if (kind.Name is "Int64")
+            {
+                env["i64"] = type;
+            }
+            else if (kind.Name is "Float64")
+            {
+                env["f64"] = type;
+            }
+            else if (kind.Name is "Float32")
+            {
+                env["f32"] = type;
+            }
+
             return type;
         }
 
@@ -147,7 +176,7 @@
 
         public void AddFunction(string name, Node[] args, Node body)
         {
-            env.Infer(Node.Define(Node.Variable(name), Node.Abstract(args, body)));
+            TypeSystem.Infer(env, Node.Define(Node.Variable(name), Node.Abstract(args, body)));
         }
 
         public VariableNode Define(string name, Type type)

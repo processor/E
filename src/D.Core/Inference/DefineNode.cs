@@ -19,7 +19,7 @@ namespace D.Inference
         {
             var known = new List<IType>(types);
             var type = TypeSystem.NewGeneric();
-            var varNode = (VariableNode)Spec;
+            var varNode = (VariableNode)Spec!;
             
             env[varNode.Id] = type;
 
