@@ -38,7 +38,7 @@ namespace D.Parsing
 
         #region Mode
 
-        internal enum Mode : byte
+        internal enum Mode
         {
             Root = 1,
             Statement = 2,
@@ -1378,7 +1378,7 @@ namespace D.Parsing
 
             ModuleSymbol? module = null;
 
-            var name = ReadName(); // Identifer | This | Operator
+            Token name = ReadName(); // Identifer | This | Operator
 
             // :: Module
             while (ConsumeIf(ColonColon))
@@ -1410,7 +1410,7 @@ namespace D.Parsing
                 parameters = Array.Empty<ParameterSymbol>();
             }
 
-            var result = new TypeSymbol(module, name, parameters);
+            TypeSymbol result = new TypeSymbol(module, name, parameters);
 
             // Variant      : A | B 
             // Intersection : A & B
@@ -1475,7 +1475,6 @@ namespace D.Parsing
             
             return new ObjectInitializerSyntax(type, args);
         }
-
 
         // []
         public ISyntaxNode ReadArrayInitializer()
@@ -2045,7 +2044,6 @@ namespace D.Parsing
         }
 
         #endregion
-
 
         #region Primary Expressions
 

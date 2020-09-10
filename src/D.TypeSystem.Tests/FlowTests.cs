@@ -17,8 +17,6 @@ namespace D.Inference
 
             Assert.Same(flow.GetType(ObjectType.Boolean), flow.GetType(ObjectType.Boolean));
             Assert.Same(flow.GetType(ObjectType.Int64),   flow.GetType(ObjectType.Int64));
-
-
         }
 
         [Fact]
@@ -97,7 +95,7 @@ namespace D.Inference
             system.Define("name", Type.Get(ObjectType.String));
 
             Assert.Equal("Number", system.Infer(Variable("x")).Name.ToString());
-            Assert.Equal("Object", system.Infer(Variable("x")).Constructor.Name.ToString());
+            Assert.Equal("Object", system.Infer(Variable("x")).BaseType.Name.ToString());
 
             Assert.Equal("Number", system.Infer(Apply(Variable("+"), new[] {
                 Variable("x"),

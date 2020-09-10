@@ -17,7 +17,7 @@ namespace D.Inference.Tests
 
             // Assert.Equal("Complex<`af>", complex.ToString());
 
-            Assert.Equal(num, complex.Constructor);
+            Assert.Equal(num, complex.BaseType);
 
             // throw new System.Exception(complex.ToString());
         }

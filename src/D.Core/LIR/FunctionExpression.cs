@@ -39,7 +39,7 @@ namespace D
         }
 
         public FunctionExpression(
-            Symbol name,
+            Symbol? name,
             Parameter[] genericParameters,
             Parameter[] parameters,
             Type returnType,

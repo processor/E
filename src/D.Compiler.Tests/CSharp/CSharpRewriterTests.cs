@@ -141,6 +141,7 @@ Account(
         public void SingleStatements()
         {
             Assert.Equal("long a = 100;",       Rewrite("let a: Int64 = 100"));
+            Assert.Equal("long a = 100;",       Rewrite("let a: i64 = 100"));
             Assert.Equal("int a = 100;",        Rewrite("let a: Int32 = 100"));
             Assert.Equal("decimal a = 100;",    Rewrite("let a: Decimal = 100"));
             Assert.Equal("double a = 1;",       Rewrite("var a: Float64 = 1.0"));

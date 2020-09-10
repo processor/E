@@ -17,7 +17,10 @@
 
     public sealed class MatchCase
     {
-        public MatchCase(IExpression pattern, IExpression condition, LambdaExpression body)
+        public MatchCase(
+            IExpression pattern,
+            IExpression? condition,
+            LambdaExpression body)
         {
             Pattern     = pattern;
             Condition   = condition;
@@ -26,7 +29,7 @@
         
         public IExpression Pattern { get; }
 
-        public IExpression Condition { get; }
+        public IExpression? Condition { get; }
 
         public LambdaExpression Body { get; }
     }

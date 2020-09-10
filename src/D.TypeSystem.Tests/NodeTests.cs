@@ -36,7 +36,7 @@ namespace D.Inference.Tests
         {
             var flow = new Flow();
 
-            var binary = TypeSystem.NewGeneric();
+            var binary = flow.NewGeneric();
             var boolean = flow.GetType(ObjectType.Boolean);
 
             var a = Node.Define(Node.Variable("gt"), Node.Abstract(new[] {
@@ -53,7 +53,7 @@ namespace D.Inference.Tests
         {
             var flow = new Flow();
 
-            var binary = TypeSystem.NewGeneric();
+            var binary = flow.NewGeneric();
             var i32 = flow.GetType(ObjectType.Int32);
             var i64 = flow.GetType(ObjectType.Int64);
 
@@ -63,5 +63,7 @@ namespace D.Inference.Tests
 
             Assert.Equal("Int32", flow.Infer(apply).ToString());
         }
+
+      
     }
 }

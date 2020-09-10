@@ -25,7 +25,7 @@ namespace D
             return GetType(lambda.Expression);
         }
 
-        public Type GetType(IExpression expression)
+        public Type GetType(IObject expression)
         {
             if (expression is Symbol name)
             {
@@ -62,9 +62,37 @@ namespace D
                     return new Type(symbol.Name, Type.Get(ObjectType.Object), null, null);
 
                 case BinaryExpression b:
-                    return (b.Operator.IsComparision || b.Operator.IsLogical)
-                        ? Type.Get(ObjectType.Boolean)
-                        : Type.Get(ObjectType.Object);
+                    if (b.Operator.IsComparision || b.Operator.IsLogical)
+                    {
+                        return Type.Get(ObjectType.Boolean);
+                    }
+                    else
+                    {
+                        // throw new Exception(b.Left.GetType().ToString() + "/" + b.Right.GetType().ToString());
+
+                        var lhsType = GetType(b.Left);
+                        var rhsType = GetType(b.Right);
+
+                        /*
+                        var apply = D.Inference.Node.Apply(D.Inference.Node.Variable("operator-symbol"), new[] { 
+                            D.Inference.Node.Constant(lhs), // lhs
+                            D.Inference.Node.Constant(rhs)  // rhs
+                        });
+
+
+                        var r = flow.Infer(apply);
+                        */
+
+                        if (ReferenceEquals(lhsType, rhsType))
+                        {
+                            return lhsType;
+                        }
+                        else
+                        {
+                            return Type.Get(ObjectType.Object);
+                        }
+                    }
+
 
                 case UnaryExpression _:
                 case IndexAccessExpression _:

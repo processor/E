@@ -63,7 +63,7 @@ public struct Bezier : Curve
 
     Vector2 Curve.GetPoint(double t) => new Vector2(x: c1.X * b1(t) + c2.X * b2(t) + c3.X * b3(t) + c4.X * c4(t), y: c1.Y * b1(t) + c2.Y * b2(t) + c3.Y * b3(t) + c4.Y * b4(t));
 
-    private object B1(double t) => t * t * t;
+    private double B1(double t) => t * t * t;
 
     private object B2(double t) => 3 * t * t * (1 - t);
 
@@ -130,7 +130,7 @@ a ƒ(point: Point<T>) -> String {
         public void X()
         {
             Assert.Equal(@"
-public static object CubicIn(double x) => x * x * x;
+public static double CubicIn(double x) => x * x * x;
 
 public static object CubicOut(double x) => Math.Pow(x - 1, 3) + 1;
 
@@ -589,7 +589,7 @@ public struct Point : Geometry
 
     public double Z { get; }
 
-    public object Length => x + y + z;
+    public double Length => x + y + z;
 
     Point Geometry.Center => this;
 }
@@ -602,12 +602,12 @@ Geometry protocol {
 }
 
 Point struct { 
-  x, y, z: Float
+  x, y, z: f64
 }
 
 Point impl {
-  from (x: Float, y: Float) => Point(x, y, z: 0)
-  from (v: Float)           => Point(x: v, y: v, z: v)
+  from (x: f64, y: f64) => Point(x, y, z: 0)
+  from (v: f64)         => Point(x: v, y: v, z: v)
  
   length => x + y + z;
 }

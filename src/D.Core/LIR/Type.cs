@@ -10,9 +10,9 @@ namespace D
 {
     public sealed class Type : INamedObject, IExpression, IEquatable<Type>
     {
-        private static readonly ConcurrentDictionary<ObjectType, Type> cache = new ConcurrentDictionary<ObjectType, Type>();
+        private static readonly ConcurrentDictionary<ObjectType, Type> cache = new ();
 
-        private static long id = 10000000;
+        private static long id = 10_000_000;
 
         public Type(string name)
         {
@@ -38,10 +38,10 @@ namespace D
             Arguments = args;
         }
 
-        public Type(string? @namespace, string name, Type[]? args = null)
+        public Type(string? moduleName, string name, Type[]? args = null)
         {
             Id         = Interlocked.Increment(ref id);
-            Namespace  = @namespace;
+            ModuleName = moduleName;
             Name       = name;
             Arguments  = args ?? Array.Empty<Type>();
         }
@@ -68,9 +68,9 @@ namespace D
         public long Id { get; set; }
 
         // e.g. physics
-        public string? Namespace { get; }
+        public string? ModuleName { get; }
 
-        // unique within domain
+        // unique within a module / domain
         public string Name { get; }
 
         public Type[]? Arguments { get; }
@@ -121,9 +121,9 @@ namespace D
         {
             var sb = new StringBuilder();
 
-            if (Namespace != null)
+            if (ModuleName is not null)
             {
-                sb.Append(Namespace);
+                sb.Append(ModuleName);
                 sb.Append("::");
             }
 

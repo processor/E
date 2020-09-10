@@ -2,13 +2,14 @@
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 
+using D.Modules;
 using D.Symbols;
 
 namespace D
 {
     public class Node
     {
-        private readonly ConcurrentDictionary<string, object> children = new ConcurrentDictionary<string, object>();
+        private readonly ConcurrentDictionary<string, object> children = new ();
 
         private readonly OperatorCollection operators = new OperatorCollection();
 
@@ -26,7 +27,7 @@ namespace D
 
             operators.Add(Operator.DefaultList);
 
-            AddModule(new Modules.Primitives());
+            AddModule(new BaseModule());
         }
 
         public Node(params Module[] modules)
@@ -91,7 +92,7 @@ namespace D
             {
                 return true;
             }
-            else if (Parent != null && Parent.TryGet(name, out kind))
+            else if (Parent is not null && Parent.TryGet(name, out kind))
             {
                 return true;
             }
@@ -120,7 +121,7 @@ namespace D
                 return type;
             }
 
-            if (symbol.Arguments.Length > 0)
+            if (symbol.Arguments != null && symbol.Arguments.Length > 0)
             {
                 var args = new Type[symbol.Arguments.Length];
 
@@ -139,7 +140,7 @@ namespace D
 
         public T Get<T>(string name)
         {
-            if (!TryGetValue<T>(name, out T value))
+            if (!TryGetValue(name, out T value))
             {
                 throw new KeyNotFoundException($"Node does not contain {name} of {typeof(T).Name}");
             }
@@ -149,7 +150,7 @@ namespace D
 
         public T Get<T>(Symbol symbol)
         {
-            if (!TryGetValue<T>(symbol, out T value))
+            if (!TryGetValue(symbol, out T value))
             {
                 if (typeof(T) == typeof(Type))
                 {

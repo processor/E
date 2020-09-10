@@ -1,15 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 
+using D.Expressions;
+using D.Inference;
+using D.Symbols;
+using D.Syntax;
+using D.Units;
+
 namespace D
 {
-    using D.Symbols;
-
-    using Expressions;
-    using Inference;
-    using Syntax;
-    using Units;
-
     public partial class Compiler
     {
         // Phases:
@@ -88,6 +87,7 @@ namespace D
                 case CallExpressionSyntax call       : return VisitCall(call);
                 case MatchExpressionSyntax match     : return VisitMatch(match);
                 case ModuleSyntax module             : return VisitModule(module);
+                case TupleExpressionSyntax tuple     : return VisitTuple(tuple);
             }
 
             return syntax.Kind switch
@@ -211,14 +211,32 @@ namespace D
         }
 
         public virtual BinaryExpression VisitBinary(BinaryExpressionSyntax syntax)
-            => new BinaryExpression(syntax.Operator, Visit(syntax.Left), Visit(syntax.Right)) { Grouped = syntax.IsParenthesized };
-      
+        {
+            return new BinaryExpression(syntax.Operator, Visit(syntax.Left), Visit(syntax.Right)) { Grouped = syntax.IsParenthesized };
+        }
+
         public virtual UnaryExpression VisitUnary(UnaryExpressionSyntax syntax)
-            => new UnaryExpression(syntax.Operator, arg: Visit(syntax.Argument));
+        {
+            return new UnaryExpression(syntax.Operator, arg: Visit(syntax.Argument));
+        }
 
         public virtual TernaryExpression VisitTernary(TernaryExpressionSyntax syntax)
         {
             return new TernaryExpression(Visit(syntax.Condition), Visit(syntax.Left), Visit(syntax.Right));
+        }
+
+        public virtual TupleExpression VisitTuple(TupleExpressionSyntax syntax)
+        {
+            var elements = new IExpression[syntax.Elements.Length];
+
+            for (int i = 0; i < elements.Length; i++)
+            {
+                var elementSyntax = syntax.Elements[i];
+
+                elements[i] = Visit(elementSyntax);
+            }
+
+            return new TupleExpression(elements);
         }
 
         public virtual CallExpression VisitCall(CallExpressionSyntax syntax)
