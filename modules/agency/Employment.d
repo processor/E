@@ -13,8 +13,8 @@ Employment protocol {
 }
 
 Absence record { 
-  paid: boolean
-  reason: Reason
+  paid   : boolean
+  reason : Reason
    
   Reason enum { Vacation, Sick }
 }
@@ -32,13 +32,11 @@ Employment process {
   }
 }
 
-
 Wages record : Compensation { 
   payments: [] Payment
 }
 
 Payable impl for Wages { } 
-
 
 
 // notes: 
