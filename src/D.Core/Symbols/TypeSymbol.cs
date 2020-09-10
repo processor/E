@@ -8,7 +8,7 @@
         public static readonly TypeSymbol Void    = new ("Void");    // unit '()' in rust
         public static readonly TypeSymbol Int32   = new ("Int32");   // i32
         public static readonly TypeSymbol Int64   = new ("Int64");   // i64
-        public static readonly TypeSymbol Float17 = new ("Float16"); // f16
+        public static readonly TypeSymbol Float16 = new ("Float16"); // f16
         public static readonly TypeSymbol Float32 = new ("Float32"); // f32
         public static readonly TypeSymbol Float64 = new ("Float64"); // f64
 
