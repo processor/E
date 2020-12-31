@@ -1,8 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <VersionPrefix>0.0.1-alpha2</VersionPrefix>
-    <TargetFramework>netcoreapp3.1</TargetFramework>
-    <LangVersion>9</LangVersion>
+    <TargetFramework>net5.0</TargetFramework>
     <AssemblyName>D.Sharp</AssemblyName>
     <Nullable>enable</Nullable>
   </PropertyGroup>
