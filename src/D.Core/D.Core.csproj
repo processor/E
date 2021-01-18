@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <Version>0.0.7</Version>
-    <TargetFrameworks>netstandard2.0</TargetFrameworks>
+    <Version>0.0.8</Version>
+    <TargetFramework>netstandard2.1</TargetFramework>
     <AssemblyName>D.Core</AssemblyName>
     <LangVersion>9</LangVersion>
     <Nullable>enable</Nullable>
