@@ -107,7 +107,7 @@ namespace Fancy
         var x = point.X;
     }
 }
-".Trim(),
+".Trim().Replace("\r", ""),
 
 Helper.Transpile(@"
 
@@ -141,7 +141,7 @@ namespace Fancy
             var z = point.Z;
         }
     }
-}".Trim(),
+}".Trim().Replace("\r", string.Empty),
 
     Helper.Transpile(@"
 Fancy module {

@@ -17,7 +17,7 @@ namespace D.Units.Tests
         [InlineData(Dimension.ElectricConductance, "S")]
         public void DerivedTypes(Dimension id, string text)
         {
-            UnitInfo.TryParse(text, out UnitInfo? type);
+            Assert.True(UnitInfo.TryParse(text, out UnitInfo type));
 
             Assert.Equal(id, type.Dimension);
             Assert.Equal(1, type.DefinitionValue);

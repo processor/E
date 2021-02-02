@@ -9,8 +9,13 @@ namespace D.Parsing.Tests
         [Fact]
         public void Numbers()
         {
-            Assert.Equal(1,   Parse<NumberLiteralSyntax>(@"1"));
-            Assert.Equal(1.1, Parse<NumberLiteralSyntax>(@"1.1"));
+            Assert.Equal(1,          Parse<NumberLiteralSyntax>("1"));
+            Assert.Equal(1.1,        Parse<NumberLiteralSyntax>("1.1"));
+            Assert.Equal(1234567890, Parse<NumberLiteralSyntax>("1234567890"));
+            Assert.Equal(9876543210, Parse<NumberLiteralSyntax>("9876543210"));
+
+            Assert.Equal(-1234567890, Parse<NumberLiteralSyntax>("-1234567890"));
+            Assert.Equal(-9876543210, Parse<NumberLiteralSyntax>("-9876543210"));
         }
 
         [Fact]

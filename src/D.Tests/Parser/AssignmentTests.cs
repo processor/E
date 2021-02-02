@@ -46,6 +46,8 @@ namespace D.Parsing.Tests
             Assert.Equal(Operator.Assign, assignment.Operator);
             
             var right = ((BinaryExpressionSyntax)assignment.Right);
+
+            Assert.NotNull(right);
         }
 
         [Fact]

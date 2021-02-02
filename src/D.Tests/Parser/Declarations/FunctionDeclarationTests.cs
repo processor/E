@@ -88,7 +88,7 @@ fromTranslation ƒ <T: Number>(x: T, y: T, z: T) => Matrix4<T>(
 
             foreach (var member in newObject.Arguments)
             {
-                Assert.True(member.Value != null);
+                Assert.True(member.Value is not null);
             }
         }
 

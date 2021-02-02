@@ -24,8 +24,7 @@ namespace D.Units.Tests
             // margin = new (20px, 20px)
             // margin = new (100px)
 
-            var a = new Element
-            {
+            var a = new Element {
                 Width = UnitValue.Parse("1920px"),
                 Height = UnitValue.Px(1080),
                 Flex = UnitValue.Percent(100)
@@ -39,7 +38,7 @@ namespace D.Units.Tests
   ""width"": ""1920px"",
   ""height"": ""1080px"",
   ""flex"": ""100%""
-}", json.ToString().Replace("\r\n", "\n"));
+}", json.ToString());
 
             var el = json.As<Element>();
 
@@ -80,7 +79,7 @@ namespace D.Units.Tests
         [InlineData("turn")]
         public void Angles(string text)
         {
-            UnitInfo.TryParse(text, out UnitInfo type);
+            Assert.True(UnitInfo.TryParse(text, out UnitInfo type));
 
             Assert.Equal(Dimension.Angle, type.Dimension);
         }
@@ -90,7 +89,7 @@ namespace D.Units.Tests
         [InlineData(0.001, "ms")]
         public void Durations(double scale, string text)
         {
-            UnitInfo.TryParse(text, out UnitInfo type);
+            Assert.True(UnitInfo.TryParse(text, out UnitInfo type));
 
             Assert.Equal(text, type.ToString());
             Assert.Equal(Dimension.Time, type.Dimension);
@@ -116,7 +115,7 @@ namespace D.Units.Tests
         [InlineData("vh")]
         public void Lengths(string text)
         {
-            UnitInfo.TryParse(text, out UnitInfo type);
+            Assert.True(UnitInfo.TryParse(text, out UnitInfo type));
 
             Assert.Equal(Dimension.Length, type.Dimension);
         }
@@ -126,7 +125,7 @@ namespace D.Units.Tests
         [InlineData(1000, "kHz")]
         public void Frequency(double scale, string text)
         {
-            UnitInfo.TryParse(text, out UnitInfo type);
+            Assert.True(UnitInfo.TryParse(text, out UnitInfo type));
 
             Assert.Equal(scale, type.Prefix.Value);
             Assert.Equal(Dimension.Frequency, type.Dimension);
@@ -138,7 +137,7 @@ namespace D.Units.Tests
         [InlineData("dppx")]
         public void Resolution(string text)
         {
-            UnitInfo.TryParse(text, out UnitInfo type);
+            Assert.True(UnitInfo.TryParse(text, out UnitInfo type));
 
             Assert.Equal(1, type.Prefix.Value);
             Assert.Equal(Dimension.Resolution, type.Dimension);

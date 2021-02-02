@@ -14,7 +14,7 @@ namespace D.Compilation.Tests
 
             var csharp = new CSharpEmitter(writer);
 
-            if (moduleName != null)
+            if (moduleName is not null)
             {
                 csharp.WriteModule(module);
             }
