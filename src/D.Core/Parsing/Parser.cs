@@ -298,7 +298,7 @@ namespace D.Parsing
                 ? ReadElse()
                 : null;
 
-            return condition != null
+            return condition is not null
                 ? (ISyntaxNode)new ElseIfStatementSyntax(condition, body, elseBranch)
                 : new ElseStatementSyntax(body);
         }
@@ -330,7 +330,7 @@ namespace D.Parsing
             ISyntaxNode generatorExpression;
             ISyntaxNode? variableExpression = null;  // variable | pattern
 
-            var first = IsOneOf(ParenthesisOpen, Underscore, BraceOpen)
+            var first = reader.Current.Kind is ParenthesisOpen or Underscore or BraceOpen
                 ? ReadPattern()
                 : ReadExpression();
 
@@ -486,7 +486,7 @@ namespace D.Parsing
 
             var modifiers = ReadModifiers(); // mutable
 
-            if (kind == Var)
+            if (kind is Var)
             {
                 modifiers |= ObjectFlags.Mutable;
             }
@@ -556,8 +556,7 @@ namespace D.Parsing
             if (inferedFromLast)
             {
                 var l = new List<PropertyDeclarationSyntax>(properties.Count);
-
-                var k = properties[properties.Count - 1].Type;
+                var k = properties[^1].Type;
 
                 foreach (var var in properties)
                 {
@@ -662,7 +661,7 @@ namespace D.Parsing
         {
             ConsumeIf(Function); // ? ƒ | function
 
-            if (name != null && char.IsUpper(name.Name[0]))
+            if (name is not null && char.IsUpper(name.Name[0]))
             {
                 flags |= ObjectFlags.Initializer;
             }
@@ -810,7 +809,7 @@ namespace D.Parsing
             {
                 condition = ReadExpression();
             }
-            else if (IsKind(Op) && Current.Text != "=")  // > 0
+            else if (IsKind(Op) && Current.Text is not "=")  // > 0
             {
                 condition = MaybeBinary(name, 0);
             }
@@ -1003,7 +1002,7 @@ namespace D.Parsing
 
                     options.Add(message);
 
-                    while (message.Fallthrough && !IsKind(Repeats) && reader.Current.Text != "*")
+                    while (message.Fallthrough && !IsKind(Repeats) && reader.Current.Text is not "*")
                     {
                         options.Add(ReadProtocolMessage());
                     }
@@ -1200,32 +1199,32 @@ namespace D.Parsing
                 switch (Current.Kind)
                 {
                     case Mutable:
-                        reader.Next();
+                        reader.Advance();
 
                         flags |= ObjectFlags.Mutable;
                         break;
 
                     case Mutating:
-                        reader.Next();
+                        reader.Advance();
 
                         flags |= ObjectFlags.Mutating;
                         break;
 
                     case Public:
-                        reader.Next();
+                        reader.Advance();
 
                         flags |= ObjectFlags.Public;
 
                         continue;
                     case Private:
-                        reader.Next();
+                        reader.Advance();
 
                         flags |= ObjectFlags.Private;
 
                         continue;
 
                     case Internal:
-                        reader.Next();
+                        reader.Advance();
 
                         flags |= ObjectFlags.Internal;
 
@@ -1392,7 +1391,7 @@ namespace D.Parsing
 
             // <generic parameter list>
 
-            if (Current.Kind == TagStart) // <A:Number, B:Number=Int>
+            if (Current.Kind is TagStart) // <A:Number, B:Number=Int>
             {
                 var genericParameters = ReadGenericParameters();
 
@@ -1560,7 +1559,7 @@ namespace D.Parsing
 
             TypeSymbol? elementType = null;
 
-            if (reader.Current.Kind == Identifier)
+            if (reader.Current.Kind is Identifier)
             {
                 elementType = ReadTypeSymbol();
             }
@@ -1589,7 +1588,7 @@ namespace D.Parsing
 
             var literal = reader.Current;
 
-            reader.Next();
+            reader.Advance();
 
             string text = literal.Text.Contains("_") ? literal.Text.Replace("_", "") : literal.Text;
 
@@ -1597,8 +1596,8 @@ namespace D.Parsing
 
             if (eIndex > 0)
             {
-                var a = double.Parse(text.Substring(0, eIndex));
-                var b = double.Parse(text.Substring(eIndex + 1));
+                var a = double.Parse(text.AsSpan(0, eIndex));
+                var b = double.Parse(text.AsSpan(eIndex + 1));
 
                 var result = a * Math.Pow(10, b);
 
@@ -1832,7 +1831,7 @@ namespace D.Parsing
                 case ParenthesisOpen:
                     var tuple = ReadTuple();
 
-                    if (tuple.Size == 1)
+                    if (tuple.Size is 1)
                     {
                         var element = (TupleElementSyntax)tuple.Elements[0];
 
@@ -1954,10 +1953,10 @@ namespace D.Parsing
 
             ArgumentSyntax[]? args = null;
 
-            while (Current.Kind != TagEnd && Current.Kind != TagSelfClosed)
+            while (!(Current.Kind is TagEnd or TagSelfClosed))
             {
                 // read optional arguments
-                if (Current.Kind == ParenthesisOpen)
+                if (Current.Kind is ParenthesisOpen)
                 {
                     args = ReadArguments();
                 }
@@ -1968,7 +1967,7 @@ namespace D.Parsing
                 }
             }
             
-            bool isSelfClosed = Consume().Kind == TagSelfClosed;
+            bool isSelfClosed = Consume().Kind is TagSelfClosed;
 
             ISyntaxNode[]? children = null;
 
@@ -2018,7 +2017,7 @@ namespace D.Parsing
             
                 sb.Append(Current.Text);
 
-                if (Current.Trailing != null)
+                if (Current.Trailing is not null)
                 {
                     sb.Append(Current.Trailing);
                 }
@@ -2171,7 +2170,7 @@ namespace D.Parsing
 
             // Maybe member access
      
-            while (IsOneOf(Dot, BracketOpen, ParenthesisOpen, PipeForward))
+            while (reader.Current.Kind is Dot or BracketOpen or ParenthesisOpen or PipeForward)
             {
                 if (IsKind(PipeForward))
                 {
@@ -2250,7 +2249,7 @@ namespace D.Parsing
                     // Check if there's a unit
                     // e.g. (5 / 5) m
 
-                    if (reader.Current.Kind == Identifier && reader.Current.Start.Line == position.Line)
+                    if (reader.Current.Kind is Identifier && reader.Current.Start.Line == position.Line)
                     {
                         var (unitName, unitPower) = ReadUnitSymbol();
 
@@ -2270,8 +2269,8 @@ namespace D.Parsing
                     // read member or type...
 
                     Symbol symbol = char.IsUpper(reader.Current.Text![0])
-                        ? (Symbol)ReadTypeSymbol()
-                        : (Symbol)ReadMemberSymbol();
+                        ? ReadTypeSymbol()
+                        : ReadMemberSymbol();
 
                     if (IsKind(LambdaOperator) && InMode(Mode.Arguments))  // ? =>
                     {
@@ -2367,16 +2366,17 @@ namespace D.Parsing
 
         private bool MoreArguments()
         {
-            switch (Current.Kind)
+            return Current.Kind switch
             {
-                case EOF              :   
-                case Bar              : // |
-                case PipeForward      : // |>
-                case ParenthesisClose : // )
-                case BracketClose     : // ]
-                case Semicolon        : return false;
-                default               : return true;
-            }
+                EOF              or 
+                Bar              or // |
+                PipeForward      or // |>
+                ParenthesisClose or // )
+                BracketClose     or // ]
+                Semicolon           // ;
+                    => false,
+                _                => true
+            };
         }
 
         public CallExpressionSyntax ReadCall(ISyntaxNode callee)
@@ -2428,8 +2428,7 @@ namespace D.Parsing
 
         bool ConsumeIf(char text)
         {
-            if (reader.Current.Text != null &&
-                reader.Current.Text.Length == 1 && 
+            if (reader.Current.Text is { Length: 1 } && 
                 reader.Current.Text[0] == text)
             {
                 reader.Consume();
@@ -2448,12 +2447,6 @@ namespace D.Parsing
                reader.Current.Kind == a 
             || reader.Current.Kind == b 
             || reader.Current.Kind == c;
-
-        bool IsOneOf(TokenKind a, TokenKind b, TokenKind c, TokenKind d) =>
-            reader.Current.Kind == a
-         || reader.Current.Kind == b
-         || reader.Current.Kind == c
-         || reader.Current.Kind == d;
 
         bool IsKind(TokenKind kind) => reader.Current.Kind == kind;
 

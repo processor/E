@@ -78,7 +78,7 @@ namespace D
                 Symbol symbol                => EvaluateSymbol(symbol),    
                 CallExpression call          => EvaluateCall(call),        
                 UnitValueLiteral unit        => EvaluateUnit(unit),        
-                IUnitValue unitValue when unitValue.Unit.Dimension == Dimension.None => new Number(unitValue.Real),
+                IUnitValue unitValue when unitValue.Unit.Dimension is Dimension.None => new Number(unitValue.Real),
                 _                           => expression // if ((long)expression.Kind > 255) throw new Exception($"expected kind: was {expression.Kind}");
 
             };
@@ -102,14 +102,14 @@ namespace D
                 throw new Exception($"Unit '{expression.UnitName}' was not found");
             }
 
-            if (expression.UnitPower != 0 && expression.UnitPower != 1)
+            if (expression.UnitPower is not 0 && expression.UnitPower is not 1)
             {
                 unit = unit.WithExponent(expression.UnitPower);
             }
 
             double value = ((INumber)expression.Expression).Real;
 
-            if (unit.Dimension == Dimension.None && unit.DefinitionUnit is INumber definationUnit)
+            if (unit.Dimension is Dimension.None && unit.DefinitionUnit is INumber definationUnit)
             {
                 return new Number(value * definationUnit.Real);
             }
@@ -206,7 +206,7 @@ namespace D
             var l = Evaluate(expression.Left);
             var r = Evaluate(expression.Right);
 
-            if (l is Symbol lSymbol && expression.Kind == ObjectType.AssignmentExpression)
+            if (l is Symbol lSymbol && expression.Kind is ObjectType.AssignmentExpression)
             {
                 scope.Set(lSymbol.Name, r);
 
@@ -217,7 +217,7 @@ namespace D
 
             // Simplify logic here?
 
-            if (l is Symbol || l is FunctionExpression || r is Symbol || r is FunctionExpression)
+            if ((l is Symbol or FunctionExpression) || (r is Symbol or FunctionExpression))
             {
                 var args = new List<Parameter>();
 

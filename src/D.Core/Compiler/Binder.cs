@@ -107,7 +107,7 @@ namespace D
                     return new Type(ObjectType.Array, (Type)array.ElementType);
             }
 
-            if (expression.Kind != ObjectType.Object)
+            if (expression.Kind is not ObjectType.Object)
             {
                 return Type.Get(expression.Kind);
             }

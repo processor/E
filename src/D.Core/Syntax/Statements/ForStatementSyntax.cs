@@ -2,16 +2,19 @@
 {
     public sealed class ForStatementSyntax : ISyntaxNode
     {
-        public ForStatementSyntax(ISyntaxNode variable, ISyntaxNode generator, BlockSyntax body)
+        public ForStatementSyntax(
+            ISyntaxNode? variableExpression, 
+            ISyntaxNode generatorExpression,
+            BlockSyntax body)
         {
-            VariableExpression = variable;
-            GeneratorExpression = generator;
+            VariableExpression = variableExpression;
+            GeneratorExpression = generatorExpression;
             Body = body;
         }
 
         // name | tuple pattern
         //  x   |    (x, x)
-        public ISyntaxNode VariableExpression { get; set; }
+        public ISyntaxNode? VariableExpression { get; set; }
 
         // variable |  range
         //    c     | 1...100

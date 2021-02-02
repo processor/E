@@ -16,11 +16,11 @@ namespace D.Inference
 
         private IType Get(string id)
         {
-            if (TryGetValue(id, out IType value))
+            if (TryGetValue(id, out IType? value))
             {
                 return value;
             }
-            else if (parent != null && parent.TryGetValue(id, out value))
+            else if (parent is not null && parent.TryGetValue(id, out value))
             {
                 return value;
             }

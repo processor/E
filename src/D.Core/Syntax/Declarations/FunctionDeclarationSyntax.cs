@@ -79,7 +79,7 @@ namespace D.Syntax
 
             writer.Write(')');
 
-            if (Body != null)
+            if (Body is not null)
             {
                 writer.WriteLine(Body.ToString());
             }

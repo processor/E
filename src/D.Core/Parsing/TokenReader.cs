@@ -25,14 +25,16 @@ namespace D.Parsing
                 throw new Exception($"Expected {kind}. Was {Current.Kind}");
             }
 
-            return Next();
+            Advance();
+
+            return Current;
         }
 
         public Token Consume()
         {
             Token c = Current;
 
-            Next();
+            Advance();
 
             return c;
         }
@@ -41,7 +43,7 @@ namespace D.Parsing
         {
             if (Current.Kind == kind)
             {
-                Next();
+                Advance();
 
                 return true;
             }
@@ -51,14 +53,14 @@ namespace D.Parsing
 
         public Token Consume(string text)
         {
-            if (Current.Text != text)
+            if (!Current.Text.Equals(text, StringComparison.Ordinal))
             {
                 throw new UnexpectedTokenException($"Expected {text}. Was {Current} @{Current.Start.Line}");
             }
 
             var c = Current;
 
-            Next();
+            Advance();
 
             return c;
         }
@@ -72,20 +74,18 @@ namespace D.Parsing
 
             var c = Current;
 
-            Next();
+            Advance();
 
             return c;
         }
 
         public bool IsEof => Current.Kind == TokenKind.EOF;
 
-        public Token Next()
+        public void Advance()
         {
             if (IsEof) throw new EndOfStreamException("Cannot read past EOF");
 
             Current = tokenizer.Next();
-
-            return Current;
         }
 
         public void Dispose()

@@ -25,9 +25,8 @@ namespace D.Parsing
 
         public int Line => line;
 
-        public Location Location => 
-            new Location(line, column - 1, position - 1);
-
+        public Location Location => new Location(line, column - 1, position - 1);
+   
         public char Current => current;
 
         public char Peek() => (char)reader.Peek();

@@ -21,11 +21,11 @@ namespace D
             }
 
             // NOTE: protocol functions are abstract and do not define a body
-            IExpression? body = syntax.Body != null ? Visit(syntax.Body) : null;
+            IExpression? body = syntax.Body is not null ? Visit(syntax.Body) : null;
             
             Type? returnType;
 
-            if (syntax.ReturnType != null)
+            if (syntax.ReturnType is not null)
             {
                 returnType = env.Get<Type>(syntax.ReturnType);
             }
@@ -57,7 +57,7 @@ namespace D
 
             // TODO: Leave scope
 
-            if (result.Name != null)
+            if (result.Name is not null)
             {
                 env.Add(result.Name, result);
             }

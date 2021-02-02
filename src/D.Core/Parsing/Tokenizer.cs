@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Security.Cryptography.X509Certificates;
 using System.Text;
 
 namespace D.Parsing
@@ -110,18 +109,12 @@ namespace D.Parsing
                     return Read(LambdaOperator, 2);     
 
                 case '-':
-                    switch (reader.Peek())
+                    return (reader.Peek()) switch
                     {
-                        case '>': return Read(ReturnArrow, 2);  // ->
-
-                        case '0': case '1': case '2': case '3': case '4':
-                        case '5': case '6': case '7': case '8': case '9':
-                            return ReadNumber(); // -{number}
-
-                        default : return Read(Op); // -
-                    }
-
- 
+                        '>'               => Read(ReturnArrow, 2), // ->
+                        >= '0' and <= '9' => ReadNumber(),         // -{number}
+                        _                 => Read(Op),             // -
+                    };
                 case '[': return Read(BracketOpen);
                 case ']': return Read(BracketClose);
 
@@ -217,25 +210,15 @@ namespace D.Parsing
                 case '_': return Read(Underscore);
                 case '?': return Read(Question);
                 case ';': return Read(Semicolon);
-        
-                case '0':
-                case '1':
-                case '2':
-                case '3':
-                case '4':
-                case '5':
-                case '6':
-                case '7':
-                case '8':
-                case '9':
-                    return ReadNumber();
 
-                // Superscript
-                case '⁰': 
-                case '¹': 
-                case '²': 
-                case '³': 
-                case '⁴': 
+                case >= '0' and <= '9': return ReadNumber(); // 0-9
+
+                // Superscript (non-continuous code points)
+                case '⁰':
+                case '¹':
+                case '²':
+                case '³':
+                case '⁴':
                 case '⁵': 
                 case '⁶': 
                 case '⁷': 
@@ -243,23 +226,24 @@ namespace D.Parsing
                 case '⁹':
                     return ReadSuperscript();
 
-                case '/' when reader.Peek() == '/': // //
-                    ReadComment();
-
-                    goto start;
-
-                case '/' when reader.Peek() == '>': // />
-                    if (InMode(Mode.Tag))
+                case '/':
+                    switch (reader.Peek())
                     {
-                        modes.Pop();
+                        case '/': // //
+                            ReadComment();
+
+                            goto start;
+                        case '>': // />
+                            if (InMode(Mode.Tag)) modes.Pop();
+
+                            return Read(TagSelfClosed, 2);
                     }
 
-                    return Read(TagSelfClosed, 2);
+                    break;
 
-                case '\n':
-                case '\r':
-                case '\t':
-                case ' ': ReadTrivia(); goto start;
+                case '\n' or '\r' or '\t' or ' ': 
+                    ReadTrivia(); 
+                    goto start;
             }
 
             // Operators 
@@ -401,12 +385,12 @@ namespace D.Parsing
 
             ReadDigits();
 
-            if (reader.Current == 'e' && IsSignOrDigit(reader.Peek()))
+            if (reader.Current is 'e' && IsSignOrDigit(reader.Peek()))
             {
                 ReadExponent();
             }
 
-            if (reader.Current == '.' && char.IsDigit(reader.Peek()))
+            if (reader.Current is '.' && char.IsDigit(reader.Peek()))
             {
                 sb.Append(reader.Consume()); // .
 
@@ -435,7 +419,7 @@ namespace D.Parsing
 
         private static bool IsSignOrDigit(char value)
         {
-            return value == '-' || value == '+' || char.IsDigit(value);
+            return value is '-' or '+' || char.IsDigit(value);
         }
 
         private void ReadDigits()

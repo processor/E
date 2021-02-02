@@ -57,7 +57,7 @@ namespace D.Compilation
             return call;
         }
 
-        private string GetFunctionName(string name)
+        private static string GetFunctionName(string name)
         {
             if (funcMap.TryGetValue(name, out string? result))
             {
@@ -95,7 +95,7 @@ namespace D.Compilation
 
             Emit('(');
 
-            if (@this != null)
+            if (@this is not null)
             {
                 Visit(@this);
 

@@ -1,10 +1,12 @@
 ﻿namespace D
 {
+    using System.Diagnostics.CodeAnalysis;
+
     using Collections;
 
     public class OperatorCollection
     {
-        private readonly Trie<Operator> trie = new Trie<Operator>();
+        private readonly Trie<Operator> trie = new ();
 
         public bool Contains(string symbol) => trie.ContainsKey(symbol);
 
@@ -20,7 +22,7 @@
 
         public Operator this[OperatorType type, string name] => trie[AsSymbol(type) + name];
 
-        public bool Maybe(OperatorType type, char ch, out Trie<Operator>.Node node)
+        public bool Maybe(OperatorType type, char ch, [NotNullWhen(true)] out Trie<Operator>.Node? node)
         {
             trie.TryGetNode(AsSymbol(type), out node);
 

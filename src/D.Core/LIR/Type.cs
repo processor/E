@@ -105,7 +105,7 @@ namespace D
 
         public static Type Get(ObjectType kind)
         {
-            if (!cache.TryGetValue(kind, out Type type))
+            if (!cache.TryGetValue(kind, out Type? type))
             {
                 type = new Type(kind);
 
@@ -129,7 +129,7 @@ namespace D
 
             sb.Append(Name);
 
-            if (Arguments != null && Arguments.Length > 0)
+            if (Arguments is not null && Arguments.Length > 0)
             {
                 sb.Append('<');
 
@@ -150,8 +150,13 @@ namespace D
 
         #endregion
 
-        public bool Equals(Type other) => this.Id == other.Id;
+        public bool Equals(Type? other)
+        {
+            if (other is null) return this is null;
         
+            return this.Id == other.Id;
+        }
+
         public override int GetHashCode() => id.GetHashCode();
     }
 }

@@ -9,7 +9,7 @@
            new IfStatement(
                condition  : Visit(syntax.Condition), 
                body       : VisitBlock(syntax.Body),
-               elseBranch : syntax.ElseBranch != null ? Visit(syntax.ElseBranch) : null
+               elseBranch : syntax.ElseBranch is not null ? Visit(syntax.ElseBranch) : null
             );
 
         public virtual ElseStatement VisitElse(ElseStatementSyntax syntax) =>

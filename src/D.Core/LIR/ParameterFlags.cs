@@ -1,6 +1,9 @@
-﻿namespace D
+﻿using System;
+
+namespace D
 {
-    public enum ParameterFlags : byte
+    [Flags]
+    public enum ParameterFlags
     {
         None     = 0,
         Optional = 1 << 0,

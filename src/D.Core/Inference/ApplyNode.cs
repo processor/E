@@ -12,7 +12,7 @@ namespace D.Inference
         {
             if (type is null) return false;
 
-            return type.BaseType != null ? type.BaseType == TypeSystem.Function : IsFunction(type.Self);
+            return type.BaseType is not null ? type.BaseType == TypeSystem.Function : IsFunction(type.Self);
         }
 
         private static Node ToFormal(Environment env, IReadOnlyList<IType> types, Node arg)
@@ -26,10 +26,16 @@ namespace D.Inference
         {
             if (Spec is Node spec && spec.Type is IType ctor && !IsFunction(ctor))
             {
-                Arguments.Select((arg, i) => arg is VariableNode argVar
-                    ? TypeSystem.Infer(env, Define(argVar, Constant(ctor.ArgumentTypes[i])), types)
-                    : null
-                ).ToArray();
+                for (int i = 0; i < Arguments.Length; i++)
+                {
+                    var arg = Arguments[i];
+
+                    if (arg is VariableNode argVar)
+                    {
+                        TypeSystem.Infer(env, Define(argVar, Constant(ctor.ArgumentTypes[i])), types);
+                    }
+                }
+
 
                 return TypeSystem.NewType(ctor, Arguments.Select(arg => TypeSystem.Infer(env, ToFormal(env, types, arg), types)).ToArray());
             }
@@ -61,7 +67,7 @@ namespace D.Inference
 
             IType result;
 
-            if (Type != null)
+            if (Type is not null)
             {
                 var ctor = Type;
                 result = TypeSystem.Infer(env, Apply(Variable(ctor.Name, ctor), args.Select(arg => Constant(arg)).ToArray()), types);

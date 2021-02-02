@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Text;
 
 using D.Expressions;
@@ -60,14 +61,28 @@ namespace D.Symbols
 
         public override string ToString()
         {
-            if (Module is null && (Arguments == null || Arguments.Length == 0))
+            if (Module is null && (Arguments is null || Arguments.Length == 0))
             {
                 return Name;
             }
 
             var sb = new StringBuilder();
 
-            if (Module != null)
+            WriteTo(sb);
+
+            return sb.ToString();
+        }
+
+        public void WriteTo(StringBuilder sb)
+        {
+            if (Module is null && (Arguments is null || Arguments.Length == 0))
+            {
+                sb.Append(Name);
+
+                return;
+            }
+
+            if (Module is not null)
             {
                 sb.Append(Module);
                 sb.Append("::");
@@ -75,7 +90,7 @@ namespace D.Symbols
 
             sb.Append(Name);
 
-            if (Arguments != null && Arguments.Length > 0)
+            if (Arguments is { Length: > 0 })
             {
                 sb.Append('<');
 
@@ -88,15 +103,12 @@ namespace D.Symbols
                         sb.Append(',');
                     }
 
-                    sb.Append(arg.ToString());
+                    arg.WriteTo(sb);
                 }
 
                 sb.Append('>');
             }
-
-            return sb.ToString();
         }
-
 
         public virtual bool TryGetValue(string name, out Symbol? value)
         {
@@ -124,7 +136,8 @@ namespace D.Symbols
         public static Symbol Type(string name, params Symbol[] arguments) =>
             new TypeSymbol(name, arguments);
 
-        public static implicit operator string(Symbol symbol) => symbol?.ToString();
+        [return:NotNullIfNotNull("symbol")]
+        public static implicit operator string? (Symbol? symbol) => symbol?.ToString();
 
         SyntaxKind ISyntaxNode.Kind => SyntaxKind.Symbol;
     }

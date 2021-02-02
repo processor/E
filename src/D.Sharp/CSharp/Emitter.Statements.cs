@@ -28,7 +28,7 @@
 
             VisitBlock(expression.Body);
 
-            if (expression.ElseBranch != null)
+            if (expression.ElseBranch is not null)
             {
                 EmitLine();
 
@@ -49,7 +49,7 @@
 
             VisitBlock(type.Body);
 
-            if (type.ElseBranch != null)
+            if (type.ElseBranch is not null)
             {
                 writer.Write('\n');
 

@@ -15,7 +15,7 @@
         {
             Emit(expression.TypeExpression.ToString());
             Emit(' ');
-            Emit(expression.VariableName);
+            Emit(expression.VariableName.Name);
 
             return expression;
         }

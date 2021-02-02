@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 
 using D.Expressions;
@@ -16,7 +17,7 @@ namespace D.Compilation
             this.writer = writer;
         }
 
-        public void Emit(string text, int level)
+        public void Emit(ReadOnlySpan<char> text, int level)
         {
             Indent(level);
 
@@ -28,7 +29,7 @@ namespace D.Compilation
             writer.Write(text);
         }
 
-        public void Emit(string text)
+        public void Emit(ReadOnlySpan<char> text)
         {
             writer.Write(text);
         }
@@ -66,15 +67,15 @@ namespace D.Compilation
 
         public static string ToPascalCase(string text)
         {
-           return text.Substring(0, 1).ToUpperInvariant() + text.Substring(1);
+           return string.Concat(stackalloc char[1] { char.ToUpper(text[0]) }, text.AsSpan(1));
         }
 
         public override IExpression VisitSymbol(Symbol symbol)
         {
-            if (symbol.Name[0] == '$')
+            if (symbol.Name[0] is '$')
             {
                 Emit('_');
-                Emit(symbol.Name.Substring(1));
+                Emit(symbol.Name.AsSpan(1));
             }
             else if (symbol.Name.Equals("π"))
             {
@@ -131,7 +132,7 @@ namespace D.Compilation
         {
             // Determine if the domain is being used
 
-            if (type.Arguments != null && type.Arguments.Length > 0)
+            if (type.Arguments is { Length: > 0 })
             {
                 var i = 0;
 

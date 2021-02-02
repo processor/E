@@ -187,7 +187,7 @@ namespace D
 
             if (UnitSet.Default.TryGet(value.UnitName, out var unit))
             {
-                if (unit.Dimension == Dimension.None && unit.DefinitionUnit is Number definationUnit)
+                if (unit.Dimension is Dimension.None && unit.DefinitionUnit is Number definationUnit)
                 {
                     return new BinaryExpression(Operator.Multiply, lhs, definationUnit) { Grouped = true };
                 }
@@ -249,7 +249,7 @@ namespace D
             }
            
             return new CallExpression(
-                callee       : syntax.Callee != null ? Visit(syntax.Callee) : null,
+                callee       : syntax.Callee is not null ? Visit(syntax.Callee) : null,
                 functionName : syntax.Name,
                 arguments    : VisitArguments(syntax.Arguments),
                 isPiped      : syntax.IsPiped) {
@@ -348,7 +348,7 @@ namespace D
         {
             return new MatchCase(
                 pattern   : Visit(syntax.Pattern), 
-                condition : syntax.Condition != null ? Visit(syntax.Condition) : null,
+                condition : syntax.Condition is not null ? Visit(syntax.Condition) : null,
                 body      : VisitLambda(syntax.Body)
             );
         }
@@ -361,7 +361,7 @@ namespace D
 
         public virtual Symbol VisitSymbol(Symbol symbol)
         {
-            if (symbol is TypeSymbol typeSymbol && typeSymbol.Status == SymbolStatus.Unresolved)
+            if (symbol is TypeSymbol typeSymbol && typeSymbol.Status is SymbolStatus.Unresolved)
             {
                 if (env.TryGetValue<Type>(typeSymbol, out var value))
                 {
@@ -384,7 +384,7 @@ namespace D
             {
                 var parameter = parameters[i];
 
-                var type = parameter.Type != null
+                var type = parameter.Type is not null
                     ? env.Get<Type>(parameter.Type)
                     : new Type(ObjectType.Object); // TODO: Introduce generic or infer from body?
 

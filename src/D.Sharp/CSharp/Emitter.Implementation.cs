@@ -13,7 +13,7 @@
             var needsWhere = false;
             var ii = 0;
 
-            if (type.GenericParameters != null && type.GenericParameters.Length > 0)
+            if (type.GenericParameters is not null && type.GenericParameters.Length > 0)
             {
                 Emit('<');
 
@@ -34,7 +34,7 @@
 
             var a = 0;
 
-            if (type.BaseType != null)
+            if (type.BaseType is not null)
             {
                 Emit(" : ");
 
@@ -45,11 +45,11 @@
 
             foreach (var impl in type.Implementations)
             {
-                if (impl.Protocol != null)
+                if (impl.Protocol is not null)
                 {
                     Emit(a == 0 ? " : " : ",");
 
-                    Emit(impl.Protocol.Name);
+                    Emit(impl.Protocol.Name.Name);
 
                     a++;
                 }
@@ -81,7 +81,7 @@
 
             var i = 0;
             
-            if (type.Properties.Length > 0)
+            if (type.Properties is { Length: > 0 })
             {
                 VisitConstructor(type.Name, type.Properties);
 
@@ -104,7 +104,7 @@
                 }
             }
 
-            if (type.Properties.Length > 0)
+            if (type.Properties is { Length: > 0 })
             {
                 WriteProperties(type.Properties);
 
@@ -134,7 +134,7 @@
                         EmitLine();
                     }
 
-                    if (impl.Protocol != null)
+                    if (impl.Protocol is not null)
                     {
                         WriteProtocolFunction(impl.Protocol, method);
                     }

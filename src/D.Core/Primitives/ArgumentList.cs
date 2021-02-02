@@ -20,7 +20,7 @@ namespace D
             {
                 foreach (var arg in items)
                 {
-                    if (arg.Name != null && arg.Name == name)
+                    if (arg.Name is not null && arg.Name == name)
                     {
                         return arg.Value;
                     }

@@ -39,7 +39,7 @@
         SyntaxKind ISyntaxNode.Kind => SyntaxKind.QueryExpression;
     }
 
-    public class OrderByStatement
+    public sealed class OrderByStatement
     {
         public OrderByStatement(ISyntaxNode member, bool descending)
         {

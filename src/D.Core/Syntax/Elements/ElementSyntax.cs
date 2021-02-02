@@ -3,7 +3,7 @@
     public sealed class ElementSyntax : ISyntaxNode
     {
         public ElementSyntax(
-            string ns,
+            string? ns,
             string name, 
             ArgumentSyntax[] arguments,
             ISyntaxNode[] children,
@@ -16,7 +16,7 @@
             SelfClosed = selfClosed;
         }
 
-        public string Namespace { get; }
+        public string ?Namespace { get; }
 
         public string Name { get; }
         

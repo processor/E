@@ -18,7 +18,7 @@
             {
                 if (++i != 1) Emit(", ");
 
-                Emit(member.Name);
+                Emit(member.Name.Name);
 
                 Emit(": ");
 

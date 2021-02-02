@@ -12,13 +12,13 @@ namespace D
             env = env.Nested("impl");
 
             var type = env.GetType(syntax.Type);
-            var protocol = syntax.Protocol != null ? env.Get<ProtocolExpression>(syntax.Protocol) : null;
+            var protocol = syntax.Protocol is not null ? env.Get<ProtocolExpression>(syntax.Protocol) : null;
 
             #region Flow
 
             flow.Define("this", type);
 
-            if (type.Properties != null)
+            if (type.Properties is not null)
             {
                 foreach (var property in type.Properties)
                 {

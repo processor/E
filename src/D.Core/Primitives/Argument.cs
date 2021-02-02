@@ -26,9 +26,9 @@ namespace D
         
         // NameIsImplict?
 
-        public readonly object this[int i] => i >= 0 ? Value : throw new ArgumentOutOfRangeException("Out of range");
+        public readonly object this[int index] => index >= 0 ? Value : throw new ArgumentOutOfRangeException(nameof(index), "Out of range");
 
-        public readonly object this[string name] => Name != null && Name == name 
+        public readonly object this[string name] => Name is not null && Name == name 
             ? Value 
             : throw new ArgumentNullException(nameof(name));
 

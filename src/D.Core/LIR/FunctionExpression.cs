@@ -131,7 +131,7 @@ namespace D
 
             writer.Write(')');
 
-            if (Body != null)
+            if (Body is not null)
             {
                 writer.Write(Body.ToString());
             }

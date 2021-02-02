@@ -19,7 +19,7 @@ namespace D.Inference
                 Name = name;
             }
 
-            protected TypeBase(string name, IType[] arguments)
+            protected TypeBase(string name, IType[]? arguments)
                 : this(name)
             {
                 ArgumentTypes = arguments ?? Array.Empty<IType>();
@@ -36,7 +36,7 @@ namespace D.Inference
             // AKA Instance
             public IType? Self { get; internal set; }
 
-            public IType Value => Self != null ? Self.Value : this;
+            public IType Value => Self is not null ? Self.Value : this;
         }
 
         internal sealed class TypeParameter : TypeBase
@@ -79,7 +79,7 @@ namespace D.Inference
 
         internal sealed class Type : TypeBase
         {
-            internal Type(IType constructor, string name, IType[]? args)
+            internal Type(IType? constructor, string name, IType[]? args)
                 : base(name, args)
             {
                 BaseType = constructor ?? this;
@@ -97,7 +97,7 @@ namespace D.Inference
 
         private static IType Prune(IType type)
         {
-            return type is TypeParameter var && var.Self != null 
+            return type is TypeParameter var && var.Self is not null 
                 ? (var.Self = Prune(var.Self)) 
                 : type;
         }
@@ -188,7 +188,7 @@ namespace D.Inference
             }
             else if (t is Type t_type && s is Type s_type)
             {
-                if (t_type.BaseType.Name != s_type.BaseType.Name || t_type.ArgumentTypes.Length != s_type.ArgumentTypes.Length)
+                if (!t_type.BaseType.Name.Equals(s_type.BaseType.Name, StringComparison.Ordinal) || t_type.ArgumentTypes.Length != s_type.ArgumentTypes.Length)
                 {
                     throw new InvalidOperationException($"{t_type} is not compatible with {s_type}");
                 }

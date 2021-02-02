@@ -103,7 +103,7 @@
         {
             IType type;
 
-            if (kind.BaseType != null)
+            if (kind.BaseType is not null)
             {
                 type = TypeSystem.NewType(
                     constructor : GetType(kind.BaseType),

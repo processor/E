@@ -1,5 +1,8 @@
-﻿namespace D.Protocols
+﻿using System;
+
+namespace D.Protocols
 {
+    [Flags]
     public enum ProtocolMessageFlags
     {
         None        = 0,

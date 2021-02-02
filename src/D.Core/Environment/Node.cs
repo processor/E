@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 
 using D.Modules;
 using D.Symbols;
@@ -20,7 +21,7 @@ namespace D
             Name = name;
             Parent = parent;
 
-            if (parent != null)
+            if (parent is not null)
             {
                 this.depth = parent.depth + 1;
             }
@@ -72,7 +73,8 @@ namespace D
             children[name] = value;
         }
 
-        public bool TryGetValue<T>(string key, out T value)
+        public bool TryGetValue<T>(string key, [NotNullWhen(true)] out T? value)
+            where T: notnull
         {
             if (!TryGet(key, out object? r))
             {
@@ -86,7 +88,7 @@ namespace D
             return true;
         }
 
-        public bool TryGet(string name, out object kind)
+        public bool TryGet(string name, out object? kind)
         {
             if (children.TryGetValue(name, out kind))
             {
@@ -100,9 +102,9 @@ namespace D
             return false;
         }
 
-        private bool TryGetType(Symbol symbol, out Type? type)
+        private bool TryGetType(Symbol symbol, [NotNullWhen(true)] out Type? type)
         {
-            if (TryGet(symbol.Name, out object t))
+            if (TryGet(symbol.Name, out object? t))
             {
                 type = (Type)t;
 
@@ -121,7 +123,7 @@ namespace D
                 return type;
             }
 
-            if (symbol.Arguments != null && symbol.Arguments.Length > 0)
+            if (symbol.Arguments is { Length: > 0 })
             {
                 var args = new Type[symbol.Arguments.Length];
 
@@ -139,6 +141,7 @@ namespace D
         }
 
         public T Get<T>(string name)
+            where T: notnull
         {
             if (!TryGetValue(name, out T value))
             {
@@ -149,6 +152,7 @@ namespace D
         }
 
         public T Get<T>(Symbol symbol)
+            where T : notnull
         {
             if (!TryGetValue(symbol, out T value))
             {

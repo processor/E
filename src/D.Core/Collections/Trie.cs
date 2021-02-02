@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 
 namespace D.Collections
 {
     public sealed class Trie<T>
+        where T: notnull
     {
         private int count;
 
@@ -90,9 +92,9 @@ namespace D.Collections
             return true;
         }
 
-        public bool TryGetValue(string key, out T value)
+        public bool TryGetValue(string key, [NotNullWhen(true)] out T? value)
         {
-            if (!TryGetNode(key, out Node node) || !node.IsLeaf)
+            if (!TryGetNode(key, out Node? node) || !node.IsLeaf)
             {
                 value = default;
 
@@ -110,7 +112,7 @@ namespace D.Collections
             count--;
         }
 
-        public bool TryGetNode(string key, out Node node)
+        public bool TryGetNode(string key, [NotNullWhen(true)] out Node? node)
         {
             node = Root;
 
@@ -152,7 +154,7 @@ namespace D.Collections
 
                     Node node = this;
 
-                    while ((node = node.Parent).Parent != null)
+                    while ((node = node.Parent).Parent is not null)
                     {
                         stack.Push(node.Character);
                     }
@@ -178,7 +180,7 @@ namespace D.Collections
 
             internal Node Add(char key)
             {
-                if (!Children.TryGetValue(key, out Node childNode))
+                if (!Children.TryGetValue(key, out Node? childNode))
                 {
                     childNode = new Node(key, parent: this);
 
@@ -236,7 +238,7 @@ namespace D.Collections
 
                 isLeaf = false;
 
-                if (Children.Count == 0 && Parent != null)
+                if (Children.Count == 0 && Parent is not null)
                 {
                     Parent.Children.Remove(Character);
 
@@ -249,7 +251,7 @@ namespace D.Collections
 
             public bool Contains(char key) =>  Children.ContainsKey(key);
 
-            public bool TryGetNode(char key, out Node node) => Children.TryGetValue(key, out node);
+            public bool TryGetNode(char key, [NotNullWhen(true)] out Node? node) => Children.TryGetValue(key, out node);
         }
 
         #endregion

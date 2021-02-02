@@ -27,7 +27,7 @@ namespace D.Inference
                 IType type;
                 if (arg is VariableNode variable)
                 {
-                    if (variable.Type != null)
+                    if (variable.Type is not null)
                     {
                         type = variable.Type as IType;
                     }
@@ -59,11 +59,11 @@ namespace D.Inference
                 */
             }
 
-            args.Add(TypeSystem.Infer(scope, Body is LetNode ? Body.Arguments[Body.Arguments.Length - 1] : Body, known));
+            args.Add(TypeSystem.Infer(scope, Body is LetNode ? Body.Arguments[^1] : Body, known));
 
-            if (Type != null)
+            if (Type is not null)
             {
-                TypeSystem.Unify(args[args.Count - 1], Type);
+                TypeSystem.Unify(args[^1], Type);
             }
 
             return TypeSystem.NewType(TypeSystem.Function, args.ToArray());

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using System.Text;
 
 using D.Expressions;
@@ -85,7 +86,7 @@ namespace D.Units
         public static readonly UnitInfo Pascal = new ("Pa", Pressure);
      
         // Volume - 
-        public static UnitInfo Liter = new ("L", Length); //  1,000 cubic centimeters
+        public static readonly UnitInfo Liter = new ("L", Length); //  1,000 cubic centimeters
 
 
         public static readonly UnitInfo Katal = new ("kat", CatalyticActivity);
@@ -173,6 +174,8 @@ namespace D.Units
 
         public bool IsMetric => Flags.HasFlag(SI);
 
+        public bool HasDimension => Dimension != Dimension.None;
+
         public UnitInfo WithPrefix(SIPrefix prefix)
         {
             return new UnitInfo(prefix, Name, Dimension, DefinitionValue, Power);
@@ -185,7 +188,7 @@ namespace D.Units
             return new UnitInfo(Prefix, Name, Dimension, DefinitionValue, exponent);
         }
 
-        public static bool TryParse(string name, /* [NotNullWhen(true)] */ out UnitInfo? type)
+        public static bool TryParse(string name, [NotNullWhen(true)] out UnitInfo? type)
         {
             if (UnitSet.Default.TryGet(name, out type))
             {
@@ -210,6 +213,11 @@ namespace D.Units
 
         public override string ToString()
         {
+            if (Prefix.Value is 1 && Power is 1)
+            {
+                return Name;
+            }
+
             var sb = new StringBuilder();
 
             if (Prefix.Value != 1)
@@ -219,7 +227,7 @@ namespace D.Units
 
             sb.Append(Name);   // e.g. g
 
-            if (Power != 1)
+            if (Power is not 1)
             {
                 new Superscript(Power).WriteTo(sb);
             }
@@ -227,13 +235,20 @@ namespace D.Units
             return sb.ToString();
         }
 
-        public bool Equals(UnitInfo other)
+        public bool Equals(UnitInfo? other)
         {
+            if (other is null) return this is null;
+
             if (ReferenceEquals(this, other)) return true;
 
             return Prefix.Equals(other.Prefix) 
                 && string.Equals(Name, other.Name, StringComparison.Ordinal) 
                 && Power == other.Power;
+        }
+
+        public override bool Equals(object? obj)
+        {
+            return obj is UnitInfo other && Equals(other);
         }
 
     }

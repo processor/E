@@ -12,7 +12,7 @@ namespace D.Syntax
             Symbol eventType, 
             Symbol eventName,
             ISyntaxNode body,
-            UntilConditionSyntax untilExpression)
+            UntilConditionSyntax? untilExpression)
         {
             Observable = observable;
             EventType = eventType;
@@ -34,7 +34,7 @@ namespace D.Syntax
         public ISyntaxNode Body { get; }
 
         // until gallary Detached
-        public UntilConditionSyntax UntilExpression { get; set; }
+        public UntilConditionSyntax? UntilExpression { get; set; }
 
         SyntaxKind ISyntaxNode.Kind => SyntaxKind.ObserveStatement;
     }

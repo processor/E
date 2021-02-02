@@ -28,11 +28,15 @@ namespace D.Inference
 
         public static AbstractNode Abstract(Node[] args, Node body) => Abstract(args, null, body);
 
-        public static AbstractNode Abstract(Node[] args, IType type, Node body) => new AbstractNode {
-            Arguments = args,
-            Body = body,
-            Type = type
-        };
+        public static AbstractNode Abstract(Node[] args, IType? type, Node body)
+        {
+            return new AbstractNode
+            {
+                Arguments = args,
+                Body = body,
+                Type = type
+            };
+        }
 
         public static DefineNode Define(VariableNode var, Node body) => new DefineNode(spec: var, body: body);
 
@@ -40,12 +44,12 @@ namespace D.Inference
 
         public abstract IType Infer(Environment env, IReadOnlyList<IType> types);
 
-        public object? Spec { get; protected set; }
+        public object? Spec { get; init; }
 
-        public Node[]? Arguments { get; private set; }
+        public Node[]? Arguments { get; init; }
 
-        public Node Body { get; protected set; }
+        public Node Body { get; init; }
 
-        public IType? Type { get; protected set; }
+        public IType? Type { get; init; }
     }
 }

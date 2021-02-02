@@ -110,7 +110,7 @@
 
             if (protocol.Contains(func.Name))
             {
-                Emit(protocol.Name);
+                Emit(protocol.Name.Name);
                 Emit(".");
             }
 

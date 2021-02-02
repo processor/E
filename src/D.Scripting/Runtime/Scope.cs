@@ -24,7 +24,7 @@ namespace D
 
         public object Get(string name)
         {
-            if (!items.TryGetValue(name, out object variable) && parent != null)
+            if (!items.TryGetValue(name, out object? variable) && parent is not null)
             {
                 variable = parent.Get(name); // check parent
             }
