@@ -1,18 +1,21 @@
 ﻿using System.Linq;
+
 using Carbon.Color;
-using D.Expressions;
-using D.Imaging;
-using D.Mathematics;
-using D.Parsing;
-using D.Syntax;
-using D.Units;
+
+using E.Expressions;
+using E.Imaging;
+using E.Mathematics;
+using E.Parsing;
+using E.Syntax;
+using E.Units;
 
 using Xunit;
 
-using static D.Units.UnitValue;
+using static E.Units.UnitValue;
 
-namespace D.Tests
+namespace E.Tests
 {
+
     public class EvaulatorTests
     {
         private static readonly Node env = new Node(
@@ -20,6 +23,8 @@ namespace D.Tests
             new TrigonometryModule(),
             new ColorModule()
         );
+
+
 
         [Fact]
         public void ConstructColor()

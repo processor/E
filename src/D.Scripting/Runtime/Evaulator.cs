@@ -1,18 +1,20 @@
-﻿using System;
+﻿#pragma warning disable CA1822 // Mark members as static
+
+using System;
 using System.Collections.Generic;
 
-using D.Expressions;
-using D.Parsing;
-using D.Symbols;
-using D.Syntax;
-using D.Units;
+using E.Expressions;
+using E.Parsing;
+using E.Symbols;
+using E.Syntax;
+using E.Units;
 
-namespace D
+namespace E
 {   
     public class Evaluator
     {
-        private readonly Scope scope = new Scope();
-        private readonly Compiler compiler = new Compiler();
+        private readonly Scope scope = new ();
+        private readonly Compiler compiler = new ();
 
         private readonly Node env;
 
@@ -153,7 +155,7 @@ namespace D
                 return new FunctionExpression(parameters.ToArray(), new LambdaExpression(expression));
             }
 
-            if (env.TryGetValue(expression.FunctionName, out IFunction func))
+            if (env.TryGetValue(expression.FunctionName, out IFunction? func))
             {
                 return func.Invoke(args);
             }
@@ -203,8 +205,9 @@ namespace D
         
         public object EvaluateBinary(BinaryExpression expression)
         {
-            var l = Evaluate(expression.Left);
-            var r = Evaluate(expression.Right);
+            IObject l = (IObject)Evaluate(expression.Left);
+            IObject r = (IObject)Evaluate(expression.Right);
+
 
             if (l is Symbol lSymbol && expression.Kind is ObjectType.AssignmentExpression)
             {
@@ -217,13 +220,13 @@ namespace D
 
             // Simplify logic here?
 
-            if ((l is Symbol or FunctionExpression) || (r is Symbol or FunctionExpression))
+            if ((l.Kind is ObjectType.Symbol or ObjectType.Expression) || (r.Kind is ObjectType.Symbol or ObjectType.Expression))
             {
                 var args = new List<Parameter>();
 
-                if (l is Symbol)
+                if (l is Symbol lhsSymbol)
                 {
-                    args.Add(Expression.Parameter(l.ToString()));
+                    args.Add(Expression.Parameter(lhsSymbol.ToString()));
                 }
                 else if (l is FunctionExpression lf)
                 {
@@ -250,18 +253,18 @@ namespace D
 
                 if (l is Symbol name && (expression.Operator.IsComparision))
                 {
-                    return new Predicate(expression.Operator, name, (IObject)r);
+                    return new Predicate(expression.Operator, name, r);
                 }
 
                 return new FunctionExpression(
                     parameters : args.ToArray(), 
-                    body       : new BinaryExpression(expression.Operator, (IObject)l, (IObject)r)
+                    body       : new BinaryExpression(expression.Operator, l, r)
                 );
             }
 
             #endregion
 
-            if (env.TryGetValue(expression.Operator.Name, out IFunction func))
+            if (env.TryGetValue(expression.Operator.Name, out IFunction? func))
             {
                 return func.Invoke(Arguments.Create(l, r));
             }

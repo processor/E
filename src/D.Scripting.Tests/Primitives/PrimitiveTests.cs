@@ -1,8 +1,7 @@
-﻿using System.Linq;
-
+﻿
 using Xunit;
 
-namespace D.Parsing.Tests
+namespace E.Parsing.Tests
 {
     using Syntax;
 

@@ -1,16 +1,16 @@
 ﻿using System;
 
-using D.Mathematics;
+using E.Mathematics;
 
 using Xunit;
 
-namespace D.Parsing.Tests
+namespace E.Parsing.Tests
 {
     using static TokenKind;
 
     public class TokenizerTests
     {
-        private static readonly Node graph = new Node(new ArithmeticModule());
+        private static readonly Node env = new Node(new ArithmeticModule());
 
         [Theory]
         [InlineData('a')]
@@ -61,7 +61,7 @@ namespace D.Parsing.Tests
         [Fact]
         public void ReadLogical()
         {
-            using var tokens = new Tokenizer("10 + 5 || 20 - 5", graph);
+            using var tokens = new Tokenizer("10 + 5 || 20 - 5", env);
 
             Assert.Equal("10", tokens.Read(Number));
             Assert.Equal("+", tokens.Read(Op));
@@ -88,7 +88,7 @@ namespace D.Parsing.Tests
         [Fact]
         public void ReadTuple()
         {
-            using var tokens = new Tokenizer("b = (10, 10) * 5 kg // comment!", graph);
+            using var tokens = new Tokenizer("b = (10, 10) * 5 kg // comment!", env);
 
             Assert.Equal("b",  tokens.Read(Identifier));
 

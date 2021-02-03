@@ -1,8 +1,9 @@
 ﻿using Xunit;
 
-namespace D.Scripting.Tests
+using E.Syntax;
+
+namespace E.Scripting.Tests
 {
-    using Syntax;
     using Parsing.Tests;
 
     public class BindingTests : TestBase
