@@ -1,4 +1,4 @@
-﻿namespace D.Transformations
+﻿namespace E.Transformations
 {
     public readonly struct Scale : ITransform
     {

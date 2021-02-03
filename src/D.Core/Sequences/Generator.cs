@@ -1,4 +1,4 @@
-﻿namespace D.Primitives
+﻿namespace E.Primitives
 {
     public interface IGenerator<T>
     {

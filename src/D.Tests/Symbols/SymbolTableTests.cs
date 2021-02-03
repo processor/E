@@ -1,8 +1,8 @@
 ﻿using Xunit;
 
-using D.Symbols;
+using E.Symbols;
 
-namespace D.Parsing.Tests
+namespace E.Parsing.Tests
 {
     public class SymbolTableTests
     {

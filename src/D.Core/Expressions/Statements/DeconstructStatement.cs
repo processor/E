@@ -1,4 +1,4 @@
-﻿namespace D.Expressions
+﻿namespace E.Expressions
 {
     // let (a, b, c) = point
 

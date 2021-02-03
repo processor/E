@@ -3,10 +3,10 @@ using System.Text;
 
 using Xunit;
 
-using D.Syntax;
-using D.Symbols;
+using E.Syntax;
+using E.Symbols;
 
-namespace D.Parsing.Tests
+namespace E.Parsing.Tests
 {
     using static Operator;
 

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace D.Numerics
+namespace E.Numerics
 {
     using Expressions;
 

@@ -1,6 +1,6 @@
 ﻿using Xunit;
 
-namespace D.Parsing.Tests
+namespace 𐌄.Parsing.Tests
 {
     using static TokenKind;
 

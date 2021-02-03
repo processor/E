@@ -3,10 +3,10 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 
-using D.Modules;
-using D.Symbols;
+using E.Modules;
+using E.Symbols;
 
-namespace D
+namespace E
 {
     public class Node
     {

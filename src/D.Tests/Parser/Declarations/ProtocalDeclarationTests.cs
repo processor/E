@@ -1,9 +1,9 @@
 ﻿using Xunit;
 
-using D.Protocols;
-using D.Syntax;
+using E.Protocols;
+using E.Syntax;
 
-namespace D.Parsing.Tests
+namespace E.Parsing.Tests
 {
     public class ProtocolDeclarationTests : TestBase
     {

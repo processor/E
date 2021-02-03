@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace D.Units
+namespace E.Units
 {
     public interface IUnitValue : INumber
     {

@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 
-namespace D.Inference
+namespace E.Inference
 {
     public static class TypeSystem
     {

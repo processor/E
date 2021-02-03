@@ -1,6 +1,6 @@
-﻿using D.Units;
+﻿using E.Units;
 
-namespace D.Transformations
+namespace E.Transformations
 {
     public readonly struct SkewY : ITransform
     {

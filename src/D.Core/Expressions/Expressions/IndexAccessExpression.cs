@@ -1,4 +1,4 @@
-﻿namespace D.Expressions
+﻿namespace E.Expressions
 {
     // [index]
     public sealed class IndexAccessExpression : IExpression

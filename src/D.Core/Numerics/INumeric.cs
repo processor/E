@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace D
+namespace E
 {
     public interface INumeric<T> : INumber
         where T : struct, IComparable<T>, IEquatable<T>

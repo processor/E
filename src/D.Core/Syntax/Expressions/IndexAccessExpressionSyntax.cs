@@ -1,4 +1,4 @@
-﻿namespace D.Syntax
+﻿namespace E.Syntax
 {
     // [index]
     public sealed class IndexAccessExpressionSyntax : ISyntaxNode

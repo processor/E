@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 
-using D.Symbols;
-using D.Syntax;
+using E.Symbols;
+using E.Syntax;
 
-namespace D
+namespace E
 {
     public partial class Compiler
     {

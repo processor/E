@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace D.Units
+namespace E.Units
 {
     using static Math;
 

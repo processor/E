@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace D.Expressions
+namespace E.Expressions
 {
     public readonly struct StringLiteral : IExpression
     { 

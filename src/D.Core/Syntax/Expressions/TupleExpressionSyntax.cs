@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace D.Syntax
+namespace E.Syntax
 {
     public sealed class TupleExpressionSyntax : ISyntaxNode
     {

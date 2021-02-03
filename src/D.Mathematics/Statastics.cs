@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace D.Functions
+namespace E.Functions
 {
     // Functions
 

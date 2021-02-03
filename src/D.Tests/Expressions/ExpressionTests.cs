@@ -1,9 +1,9 @@
-﻿using D.Expressions;
-using D.Symbols;
+﻿using E.Expressions;
+using E.Symbols;
 
 using Xunit;
 
-namespace D.Tests.Expressions
+namespace E.Tests.Expressions
 {
     public class ExpressionTests
     {

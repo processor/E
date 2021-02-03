@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 
-namespace D
+namespace E
 {
     [StructLayout(LayoutKind.Sequential, Size = 8)]
     public readonly struct Integer : IObject, INumber

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Globalization;
 
-namespace D
+namespace E
 {
     public readonly struct Number : INumeric<double>
     {

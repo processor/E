@@ -1,10 +1,10 @@
 ﻿using System;
 using System.IO;
 
-using D.Expressions;
-using D.Symbols;
+using E.Expressions;
+using E.Symbols;
 
-namespace D
+namespace E
 {
     public class FunctionExpression : INamedObject, IExpression
     {

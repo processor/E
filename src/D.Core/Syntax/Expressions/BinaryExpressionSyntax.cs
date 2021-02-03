@@ -1,6 +1,6 @@
 ﻿using System.Text;
 
-namespace D.Syntax
+namespace E.Syntax
 {
     public sealed class BinaryExpressionSyntax : ISyntaxNode
     {

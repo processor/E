@@ -1,4 +1,4 @@
-﻿namespace D.Modules
+﻿namespace E.Modules
 {
     public sealed class BaseModule : Module
     {

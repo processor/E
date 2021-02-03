@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 
-namespace D.Collections
+namespace E.Collections
 {
     public sealed class Trie<T>
         where T: notnull

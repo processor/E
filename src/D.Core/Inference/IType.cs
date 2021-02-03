@@ -1,7 +1,7 @@
 ﻿// Based on code by Cyril Jandia http://www.cjandia.com/ 
 // LICENCE: https://github.com/ysharplanguage/System.Language/blob/master/LICENSE.md
 
-namespace D.Inference
+namespace E.Inference
 {
     public interface IType
     {

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace D.Units
+namespace E.Units
 {
     public class UnitSet
     {

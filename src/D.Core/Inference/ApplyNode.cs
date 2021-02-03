@@ -4,7 +4,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace D.Inference
+namespace E.Inference
 {
     public sealed class ApplyNode : Node
     {

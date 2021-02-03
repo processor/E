@@ -2,10 +2,10 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Text;
 
-using D.Expressions;
-using D.Syntax;
+using E.Expressions;
+using E.Syntax;
 
-namespace D.Symbols
+namespace E.Symbols
 {
     public abstract class Symbol : IExpression, ISyntaxNode
     {

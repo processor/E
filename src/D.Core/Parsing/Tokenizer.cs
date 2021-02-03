@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace D.Parsing
+namespace E.Parsing
 {
     using static TokenKind;
 

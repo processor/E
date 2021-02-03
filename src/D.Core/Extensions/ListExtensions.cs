@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace D.Parsing
+namespace E.Parsing
 {
     internal static class ListExtensions
     {

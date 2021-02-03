@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace D.Symbols
+namespace E.Symbols
 {
     public sealed class ModuleSymbol : Symbol
     {

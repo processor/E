@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace D
+namespace E
 {
     [Flags]
     public enum ObjectFlags

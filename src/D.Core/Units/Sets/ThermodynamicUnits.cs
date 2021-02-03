@@ -1,8 +1,8 @@
 ﻿
-using static D.Units.Dimension;
-using static D.Units.UnitFlags;
+using static E.Units.Dimension;
+using static E.Units.UnitFlags;
 
-namespace D.Units
+namespace E.Units
 {
     // Temperature (Thermodynamics) 
     public static class ThermodynamicUnits

@@ -1,7 +1,7 @@
 ﻿
-using D.Symbols;
+using E.Symbols;
 
-namespace D.Syntax
+namespace E.Syntax
 {
     // let (a, b, c) = point
 

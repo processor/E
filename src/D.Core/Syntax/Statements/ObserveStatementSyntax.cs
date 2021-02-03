@@ -1,7 +1,7 @@
 ﻿
-using D.Symbols;
+using E.Symbols;
 
-namespace D.Syntax
+namespace E.Syntax
 {
     // e.g. on bank Account'Opened opening { }
 

@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 
-using D.Symbols;
+using E.Symbols;
 
-namespace D.Expressions
+namespace E.Expressions
 {
     public sealed class ImplementationDeclaration : IExpression
     {

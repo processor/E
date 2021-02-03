@@ -1,4 +1,4 @@
-﻿namespace D.Units
+﻿namespace E.Units
 {
     public static class DataUnits
     {

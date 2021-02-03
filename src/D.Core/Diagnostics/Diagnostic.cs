@@ -1,4 +1,4 @@
-﻿namespace D.Diagnostics
+﻿namespace E.Diagnostics
 {
     public sealed class Diagnostic
     {

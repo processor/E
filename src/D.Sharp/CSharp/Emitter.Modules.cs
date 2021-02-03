@@ -1,4 +1,4 @@
-﻿namespace D.Compilation
+﻿namespace E.Compilation
 {
     using System;
     using Expressions;
@@ -38,7 +38,7 @@
                 switch (statement)
                 {
                     case ProtocolExpression protocol : VisitProtocal(protocol);   break;
-                    case D.Type type                 : WriteImplementation(type); break;
+                    case E.Type type                 : WriteImplementation(type); break;
                     case FunctionExpression func     : VisitFunction(func);       break;
                     case Module mod:
                         WriteModule(mod);

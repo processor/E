@@ -1,6 +1,6 @@
 ﻿using System.Linq.Expressions;
 
-namespace D
+namespace E
 {
     public sealed class Parameter
     {

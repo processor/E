@@ -1,4 +1,4 @@
-﻿namespace D.Expressions
+﻿namespace E.Expressions
 {
     // $"{expression}text"
     public sealed class InterpolatedStringExpression : IExpression

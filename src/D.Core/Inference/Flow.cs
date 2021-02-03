@@ -1,4 +1,4 @@
-﻿namespace D.Inference
+﻿namespace E.Inference
 {
     public class Flow
     {

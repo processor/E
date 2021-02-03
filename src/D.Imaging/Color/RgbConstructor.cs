@@ -1,6 +1,6 @@
 ﻿using Carbon.Color;
 
-namespace D.Imaging
+namespace E.Imaging
 {
     public sealed class RgbConstructor : IFunction
     {

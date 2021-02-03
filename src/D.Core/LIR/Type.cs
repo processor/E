@@ -4,9 +4,9 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading;
 
-using D.Expressions;
+using E.Expressions;
 
-namespace D
+namespace E
 {
     public sealed class Type : INamedObject, IExpression, IEquatable<Type>
     {

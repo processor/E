@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 
-namespace D
+namespace E
 {
     public sealed class ArgumentList : IArguments
     {

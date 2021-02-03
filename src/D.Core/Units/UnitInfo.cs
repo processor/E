@@ -2,10 +2,10 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Text;
 
-using D.Expressions;
-using D.Symbols;
+using E.Expressions;
+using E.Symbols;
 
-namespace D.Units
+namespace E.Units
 {
     using static Dimension;
     using static Expression;

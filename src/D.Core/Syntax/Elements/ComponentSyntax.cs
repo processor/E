@@ -1,4 +1,4 @@
-﻿namespace D.Core
+﻿namespace E.Core
 {
     internal class ComponentSyntax
     {

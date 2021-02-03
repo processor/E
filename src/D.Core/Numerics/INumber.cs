@@ -1,8 +1,8 @@
 ﻿using System;
 
-using D.Expressions;
+using E.Expressions;
 
-namespace D
+namespace E
 {
     public interface INumber : IExpression
     {

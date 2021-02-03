@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace D.Protocols
+namespace E.Protocols
 {
     [Flags]
     public enum ProtocolMessageFlags

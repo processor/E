@@ -1,10 +1,10 @@
-﻿using D.Expressions;
-using D.Parsing;
-using D.Syntax;
+﻿using E.Expressions;
+using E.Parsing;
+using E.Syntax;
 
 using Xunit;
 
-namespace D.Compilation.Tests
+namespace E.Compilation.Tests
 {
     public class GenericTests
     {

@@ -2,12 +2,12 @@
 
 using Carbon.Json;
 
-using D.Expressions;
-using D.Symbols;
+using E.Expressions;
+using E.Symbols;
 
 using Xunit;
 
-namespace D.Graph.Tests
+namespace E.Graph.Tests
 {
     using Parsing.Tests;
 

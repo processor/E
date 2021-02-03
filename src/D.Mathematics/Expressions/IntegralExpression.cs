@@ -1,6 +1,6 @@
-﻿using D.Expressions;
+﻿using E.Expressions;
 
-namespace D.Mathematics
+namespace E.Mathematics
 {
     // An integral assigns numbers to functions in a way that can describe displacement,
     // area, volume, and other concepts that arise by combining infinitesimal data. I

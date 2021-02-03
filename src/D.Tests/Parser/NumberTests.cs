@@ -1,8 +1,8 @@
 ﻿using Xunit;
 
-using D.Syntax;
+using E.Syntax;
 
-namespace D.Parsing.Tests
+namespace E.Parsing.Tests
 {
     public class NumberTests : TestBase
     {

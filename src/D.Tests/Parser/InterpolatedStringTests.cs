@@ -1,9 +1,9 @@
-﻿using D.Symbols;
-using D.Syntax;
+﻿using E.Symbols;
+using E.Syntax;
 
 using Xunit;
 
-namespace D.Parsing.Tests
+namespace E.Parsing.Tests
 {
     public class InterpolatedStringTests : TestBase
     {

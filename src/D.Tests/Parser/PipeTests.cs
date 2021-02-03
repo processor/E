@@ -1,8 +1,8 @@
 ﻿using Xunit;
 
-namespace D.Parsing.Tests
+namespace E.Parsing.Tests
 {
-    using D.Symbols;
+    using E.Symbols;
 
     using Syntax;
 

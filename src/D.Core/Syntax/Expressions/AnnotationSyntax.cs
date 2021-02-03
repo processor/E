@@ -1,6 +1,6 @@
-﻿using D.Symbols;
+﻿using E.Symbols;
 
-namespace D.Syntax
+namespace E.Syntax
 {
     public sealed class AnnotationSyntax : ISyntaxNode
     {

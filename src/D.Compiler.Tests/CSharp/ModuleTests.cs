@@ -1,6 +1,6 @@
 ﻿using Xunit;
 
-namespace D.Compilation.Tests
+namespace E.Compilation.Tests
 {
     public class MasonaryTest
     {

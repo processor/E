@@ -1,6 +1,6 @@
 ﻿using Xunit;
 
-namespace D.Inference
+namespace E.Inference
 {
     using static Node;
 

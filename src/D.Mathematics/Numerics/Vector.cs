@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace D.Numerics
+namespace E.Numerics
 {
     public class Vector<T> : IObject
         where T : struct, IEquatable<T>, IFormattable

@@ -1,7 +1,7 @@
 ﻿
-using static D.Units.UnitInfo;
+using static E.Units.UnitInfo;
 
-namespace D.Units
+namespace E.Units
 {
     public sealed class GeneralUnitSet : UnitSet
     {

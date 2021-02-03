@@ -1,7 +1,7 @@
 ﻿
 using Xunit;
 
-namespace D.Compilation.Tests
+namespace E.Compilation.Tests
 {
     using static Helper;
 

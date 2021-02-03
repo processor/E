@@ -1,6 +1,6 @@
-﻿using D.Symbols;
+﻿using E.Symbols;
 
-namespace D.Syntax
+namespace E.Syntax
 {
     // a: 100
     public sealed class TupleElementSyntax : ISyntaxNode

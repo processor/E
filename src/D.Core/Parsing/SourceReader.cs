@@ -1,7 +1,7 @@
 ﻿using System;
 using System.IO;
 
-namespace D.Parsing
+namespace E.Parsing
 {
     internal class SourceReader : IDisposable
     {

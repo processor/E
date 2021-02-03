@@ -1,5 +1,5 @@
 ﻿
-namespace D.Units
+namespace E.Units
 {
     public sealed class ThermodynamicUnitSet : UnitSet
     {

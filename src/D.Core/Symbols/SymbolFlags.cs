@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace D.Symbols
+namespace E.Symbols
 {
     [Flags]
     public enum SymbolFlags

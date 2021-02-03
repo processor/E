@@ -1,4 +1,4 @@
-﻿namespace D.Expressions
+﻿namespace E.Expressions
 {
     // let a: Integer = 5
     // let a of type Integer equal 5

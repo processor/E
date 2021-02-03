@@ -1,6 +1,6 @@
 ﻿using Xunit;
 
-namespace D.Collections.Tests
+namespace E.Collections.Tests
 {
     public class TrieTests
     {

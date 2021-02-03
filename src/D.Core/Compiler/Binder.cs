@@ -1,9 +1,9 @@
 ﻿using System;
 
-using D.Expressions;
-using D.Symbols;
+using E.Expressions;
+using E.Symbols;
 
-namespace D
+namespace E
 {
     public partial class Compiler
     {

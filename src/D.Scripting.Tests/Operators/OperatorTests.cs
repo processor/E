@@ -1,6 +1,6 @@
 ﻿using Xunit;
 
-namespace D.Operators.Tests
+namespace E.Operators.Tests
 {
     using static OperatorType;
 

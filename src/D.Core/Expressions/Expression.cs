@@ -1,7 +1,7 @@
-﻿using D.Parsing;
-using D.Symbols;
+﻿using E.Parsing;
+using E.Symbols;
 
-namespace D.Expressions
+namespace E.Expressions
 {
     public static class Expression
     {

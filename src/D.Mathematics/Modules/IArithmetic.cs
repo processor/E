@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace D.Mathematics
+namespace E.Mathematics
 {
     public abstract class Arithmetic<T>
         where T: unmanaged

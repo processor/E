@@ -1,6 +1,6 @@
-﻿using D.Symbols;
+﻿using E.Symbols;
 
-namespace D.Expressions
+namespace E.Expressions
 {
     // 1
     public sealed class ConstantPattern : IExpression

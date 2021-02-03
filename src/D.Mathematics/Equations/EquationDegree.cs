@@ -1,4 +1,4 @@
-﻿namespace D.Mathematics
+﻿namespace E.Mathematics
 {
     public enum EquationDegree
     {

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace D
+namespace E
 {
     public readonly struct Complex<T> : INumber
         where T: unmanaged, IComparable<T>, IEquatable<T>

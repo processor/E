@@ -1,8 +1,8 @@
 ﻿using System.IO;
 
-using D.Parsing;
+using E.Parsing;
 
-namespace D.Compilation.Tests
+namespace E.Compilation.Tests
 {
     public static class Helper
     {

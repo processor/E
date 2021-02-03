@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-using D.Symbols;
+using E.Symbols;
 
-namespace D.Syntax
+namespace E.Syntax
 {
     public sealed class ImplementationDeclarationSyntax : ISyntaxNode
     {

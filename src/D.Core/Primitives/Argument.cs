@@ -2,9 +2,9 @@
 using System.Collections;
 using System.Collections.Generic;
 
-using D.Symbols;
+using E.Symbols;
 
-namespace D
+namespace E
 {
     public readonly struct Argument : IArguments
     {

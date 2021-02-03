@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 
-namespace D.Parsing.Tests
+namespace E.Parsing.Tests
 {
     public class TestBase
     {

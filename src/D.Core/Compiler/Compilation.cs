@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using D.Expressions;
+using E.Expressions;
 
-namespace D
+namespace E
 {
     public class Compilation
     {

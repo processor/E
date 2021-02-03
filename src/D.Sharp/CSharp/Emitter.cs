@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.IO;
 
-using D.Expressions;
-using D.Symbols;
+using E.Expressions;
+using E.Symbols;
 
-namespace D.Compilation
+namespace E.Compilation
 {
     public partial class CSharpEmitter : ExpressionVisitor
     {

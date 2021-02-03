@@ -1,8 +1,8 @@
-﻿using D.Mathematics;
+﻿using E.Mathematics;
 
 using Xunit;
 
-namespace D.Tests
+namespace E.Tests
 {
     public class CustomOperatorTests
     {

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace D
+namespace E
 {
     public static class Arguments
     {

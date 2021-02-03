@@ -1,4 +1,4 @@
-﻿namespace D.Symbols
+﻿namespace E.Symbols
 {
     public sealed class ParameterSymbol : Symbol
     {

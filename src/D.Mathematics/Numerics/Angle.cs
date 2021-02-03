@@ -1,4 +1,4 @@
-﻿namespace D.Mathematics
+﻿namespace E.Mathematics
 {
     public readonly struct Angle
     {

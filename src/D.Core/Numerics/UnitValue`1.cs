@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Text;
 
-using D.Syntax;
+using E.Syntax;
 
-namespace D.Units
+namespace E.Units
 {
     public readonly struct UnitValue<T> : IUnitValue<T>, IEquatable<UnitValue<T>>
         where T : unmanaged, IComparable<T>, IEquatable<T>, IFormattable

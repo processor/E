@@ -1,8 +1,8 @@
 ﻿using System.Text;
 
-using D.Symbols;
+using E.Symbols;
 
-namespace D
+namespace E
 {
     // x > 10
     // x < 10

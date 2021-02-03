@@ -1,8 +1,8 @@
 ﻿using System;
 
-using D.Expressions;
+using E.Expressions;
 
-namespace D.Compilation
+namespace E.Compilation
 {
     public partial class CSharpEmitter
     {

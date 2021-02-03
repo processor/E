@@ -1,4 +1,4 @@
-﻿namespace D.Syntax
+﻿namespace E.Syntax
 {
     public sealed class MatchExpressionSyntax : ISyntaxNode
     {

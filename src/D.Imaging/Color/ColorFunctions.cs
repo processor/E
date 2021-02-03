@@ -1,7 +1,7 @@
 ﻿using System;
 using Carbon.Color;
 
-namespace D.Imaging
+namespace E.Imaging
 {
     public class ColorFunctions
     {

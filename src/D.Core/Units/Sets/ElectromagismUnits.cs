@@ -1,4 +1,4 @@
-﻿namespace D.Units
+﻿namespace E.Units
 {
     using static Dimension;
     using static UnitFlags;

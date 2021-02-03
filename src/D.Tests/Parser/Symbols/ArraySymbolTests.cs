@@ -1,8 +1,8 @@
-﻿using D.Symbols;
+﻿using E.Symbols;
 
 using Xunit;
 
-namespace D.Parsing.Tests
+namespace E.Parsing.Tests
 {
     public class ArraySymbolTests : TestBase
     {

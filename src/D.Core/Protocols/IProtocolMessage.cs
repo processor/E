@@ -1,4 +1,4 @@
-﻿namespace D.Protocols
+﻿namespace E.Protocols
 {
     public interface IProtocolMessage
     {

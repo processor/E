@@ -1,8 +1,8 @@
 ﻿using System.Text;
 
-using D.Symbols;
+using E.Symbols;
 
-namespace D.Expressions
+namespace E.Expressions
 {
     // .member
     public sealed class MemberAccessExpression : IExpression

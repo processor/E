@@ -4,7 +4,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace D.Inference
+namespace E.Inference
 {
     public sealed class ConstantNode : Node
     {

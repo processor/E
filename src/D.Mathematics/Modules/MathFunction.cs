@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace D.Mathematics
+namespace E.Mathematics
 {
     public class MathFunction : IFunction
     {

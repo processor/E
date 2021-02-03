@@ -1,6 +1,6 @@
-﻿using static D.Units.CssUnits;
+﻿using static E.Units.CssUnits;
 
-namespace D.Units
+namespace E.Units
 {
     public sealed class CssUnitSet : UnitSet
     {

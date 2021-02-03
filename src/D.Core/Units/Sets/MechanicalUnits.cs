@@ -1,6 +1,6 @@
-﻿using static D.Units.UnitFlags;
+﻿using static E.Units.UnitFlags;
 
-namespace D.Units
+namespace E.Units
 {
     public static class MechanicalUnits
     {

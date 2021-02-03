@@ -1,4 +1,4 @@
-﻿namespace D
+﻿namespace E
 {
     using System.Diagnostics.CodeAnalysis;
 

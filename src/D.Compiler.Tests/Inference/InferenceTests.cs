@@ -1,13 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 
-using D.Expressions;
-using D.Parsing;
-using D.Syntax;
+using E.Expressions;
+using E.Parsing;
+using E.Syntax;
 
 using Xunit;
 
-namespace D.Compilation.Inference.Tests
+namespace E.Compilation.Inference.Tests
 {
     public class InferenceTests
     {

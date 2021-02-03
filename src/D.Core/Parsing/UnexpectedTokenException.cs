@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace D.Parsing
+namespace E.Parsing
 {
     internal sealed class UnexpectedTokenException : Exception
     {

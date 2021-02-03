@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 
-using D.Expressions;
-using D.Inference;
-using D.Symbols;
-using D.Syntax;
-using D.Units;
+using E.Expressions;
+using E.Inference;
+using E.Symbols;
+using E.Syntax;
+using E.Units;
 
-namespace D
+namespace E
 {
     public partial class Compiler
     {

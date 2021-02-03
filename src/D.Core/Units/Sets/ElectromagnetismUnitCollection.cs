@@ -1,7 +1,7 @@
 ﻿
-using static D.Units.ElectromagismUnits;
+using static E.Units.ElectromagismUnits;
 
-namespace D.Units
+namespace E.Units
 {
     public class ElectromagnetismUnitSet : UnitSet
     {

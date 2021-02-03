@@ -1,6 +1,6 @@
 ﻿using Xunit;
 
-namespace D.Units
+namespace E.Units
 {
     public class SIPrefixTests
     {

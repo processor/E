@@ -1,6 +1,6 @@
-﻿using D.Expressions;
+﻿using E.Expressions;
 
-namespace D.Mathematics
+namespace E.Mathematics
 {
     public sealed class SigmaExpression : IExpression
     {

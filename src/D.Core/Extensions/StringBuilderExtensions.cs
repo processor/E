@@ -1,6 +1,6 @@
 ﻿using System.Text;
 
-namespace D.Parsing
+namespace E.Parsing
 {
     internal static class StringBuilderExtensions
     {

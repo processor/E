@@ -3,9 +3,9 @@ using System.Linq;
 
 using Xunit;
 
-namespace D.Parsing.Tests
+namespace E.Parsing.Tests
 {
-    using D.Symbols;
+    using E.Symbols;
 
     using Syntax;
 
@@ -105,7 +105,7 @@ namespace D.Parsing.Tests
             Assert.Equal("y", args[1].Name);
             Assert.Equal("z", args[2].Name);
 
-            var complier = new D.Compiler();
+            var complier = new E.Compiler();
 
             var call = complier.VisitCall(syntax);
 

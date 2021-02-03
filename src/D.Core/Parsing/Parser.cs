@@ -4,11 +4,11 @@ using System.IO;
 using System.Linq;
 using System.Text;
 
-using D.Protocols;
-using D.Symbols;
-using D.Syntax;
+using E.Protocols;
+using E.Symbols;
+using E.Syntax;
 
-namespace D.Parsing
+namespace E.Parsing
 {
     using static OperatorType;
     using static TokenKind;
@@ -1631,7 +1631,7 @@ namespace D.Parsing
 
             if (IsKind(Superscript))
             {
-                pow = D.Superscript.Parse(reader.Consume().Text);
+                pow = E.Superscript.Parse(reader.Consume().Text);
             }
 
             return (name, pow);
@@ -1889,7 +1889,7 @@ namespace D.Parsing
                 {
                     var r = new BinaryExpressionSyntax(op, left, rhs: ReadExpression());
 
-                    return new BinaryExpressionSyntax(D.Operator.Assign, left, r);
+                    return new BinaryExpressionSyntax(E.Operator.Assign, left, r);
                 }
 
                 var o = op;

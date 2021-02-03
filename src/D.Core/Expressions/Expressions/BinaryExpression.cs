@@ -1,6 +1,6 @@
 ﻿using System.Text;
 
-namespace D.Expressions
+namespace E.Expressions
 {
     public class BinaryExpression : IExpression
     {

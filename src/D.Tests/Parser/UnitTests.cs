@@ -1,8 +1,8 @@
 ﻿using Xunit;
 
-namespace D.Parsing.Units.Tests
+namespace E.Parsing.Units.Tests
 {
-    using D.Parsing.Tests;
+    using E.Parsing.Tests;
     using Syntax;
 
     public class UnitTests : TestBase

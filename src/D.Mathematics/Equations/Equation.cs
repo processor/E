@@ -1,4 +1,4 @@
-﻿namespace D.Mathematics
+﻿namespace E.Mathematics
 {
     // Arithmetic expressions
     // Polynomial expressions	

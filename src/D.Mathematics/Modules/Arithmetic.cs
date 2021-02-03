@@ -1,8 +1,8 @@
 ﻿using System;
 
-using D.Units;
+using E.Units;
 
-namespace D.Mathematics
+namespace E.Mathematics
 {
     public static class Arithmetic
     {

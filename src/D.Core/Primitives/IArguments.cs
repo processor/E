@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace D
+namespace E
 {
     public interface IArguments : IEnumerable<Argument>
     {

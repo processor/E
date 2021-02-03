@@ -1,7 +1,7 @@
-﻿using D.Syntax;
+﻿using E.Syntax;
 using Xunit;
 
-namespace D.Parsing.Tests
+namespace E.Parsing.Tests
 {
     public class PercentageTests : TestBase
     {

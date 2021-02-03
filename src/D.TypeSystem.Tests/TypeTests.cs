@@ -1,6 +1,6 @@
 ﻿using Xunit;
 
-namespace D.Inference.Tests
+namespace E.Inference.Tests
 {
     public class TypeTests
     {

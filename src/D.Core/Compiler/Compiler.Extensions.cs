@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace D
+namespace E
 {
     public partial class Compiler
     {

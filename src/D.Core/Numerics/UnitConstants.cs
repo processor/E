@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace D.Units
+namespace E.Units
 {
     internal static class UnitConstants<T>
     {

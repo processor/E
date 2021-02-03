@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace D.Expressions
+namespace E.Expressions
 {
     public sealed class ArrayInitializer : IExpression
     {

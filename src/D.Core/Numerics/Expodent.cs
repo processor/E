@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace D
+namespace E
 {
     public readonly struct Superscript
     {

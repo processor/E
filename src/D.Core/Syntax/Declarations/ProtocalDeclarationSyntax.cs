@@ -1,7 +1,7 @@
-﻿using D.Protocols;
-using D.Symbols;
+﻿using E.Protocols;
+using E.Symbols;
 
-namespace D.Syntax
+namespace E.Syntax
 {
     // A protocol { }
 

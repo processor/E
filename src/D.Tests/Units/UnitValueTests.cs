@@ -1,6 +1,6 @@
 ﻿using Xunit;
 
-namespace D.Units.Tests
+namespace E.Units.Tests
 {
     public class UnitValueTests
     {

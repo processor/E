@@ -1,4 +1,4 @@
-﻿namespace D.Compilation
+﻿namespace E.Compilation
 {
     public partial class CSharpEmitter
     {        

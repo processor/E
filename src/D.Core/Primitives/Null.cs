@@ -1,4 +1,4 @@
-﻿namespace D
+﻿namespace E
 {
     public sealed class Null : IObject
     {

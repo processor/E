@@ -3,7 +3,7 @@
 
 using System.Collections.Generic;
 
-namespace D.Inference
+namespace E.Inference
 {
     public abstract class Node
     {
