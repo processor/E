@@ -638,7 +638,7 @@ Point impl {
             // Assert.Equal(1, unit.Members.Count);
 
             Assert.Equal("Point", pointType.Name);
-            Assert.Equal(3, pointType.Properties.Length);
+            Assert.Equal(3, pointType.Properties.Count);
 
             // Assert.Equal(1, unit.Implementations[unit.Types[0]].Count);
             // Assert.Equal(2, unit.Implementations.First()[0].Members.Length);

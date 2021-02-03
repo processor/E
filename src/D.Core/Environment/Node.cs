@@ -123,9 +123,9 @@ namespace E
                 return type;
             }
 
-            if (symbol.Arguments is { Length: > 0 })
+            if (symbol.Arguments is { Count: > 0 })
             {
-                var args = new Type[symbol.Arguments.Length];
+                var args = new Type[symbol.Arguments.Count];
 
                 for (var i = 0; i < args.Length; i++)
                 {

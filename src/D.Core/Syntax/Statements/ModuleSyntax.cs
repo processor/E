@@ -1,10 +1,12 @@
-﻿using E.Symbols;
+﻿using System.Collections.Generic;
+
+using E.Symbols;
 
 namespace E.Syntax
 {
     public sealed class ModuleSyntax : ISyntaxNode
     {
-        public ModuleSyntax(Symbol name, ISyntaxNode[] statements)
+        public ModuleSyntax(Symbol name, IReadOnlyList<ISyntaxNode> statements)
         {
             Name = name;
             Statements = statements;
@@ -12,7 +14,7 @@ namespace E.Syntax
 
         public Symbol Name { get; }
 
-        public ISyntaxNode[] Statements { get; }
+        public IReadOnlyList<ISyntaxNode> Statements { get; }
 
         public ISyntaxNode this[int index] => Statements[index];
 

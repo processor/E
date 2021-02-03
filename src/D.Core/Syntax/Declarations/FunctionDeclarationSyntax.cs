@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 
 using E.Symbols;
@@ -10,13 +11,13 @@ namespace E.Syntax
         // TODO: Module
 
         public FunctionDeclarationSyntax(
-            ParameterSyntax[] parameters,
+            IReadOnlyList<ParameterSyntax> parameters,
             ISyntaxNode body,
             ObjectFlags flags = ObjectFlags.None)
             : this(parameters, body, null, flags) { }
 
         public FunctionDeclarationSyntax(
-           ParameterSyntax[] parameters,
+           IReadOnlyList<ParameterSyntax> parameters,
            ISyntaxNode body,
            Symbol? returnType,
            ObjectFlags flags = ObjectFlags.None)
@@ -30,8 +31,8 @@ namespace E.Syntax
 
         public FunctionDeclarationSyntax(
             Symbol name, 
-            ParameterSyntax[] genericParameters,
-            ParameterSyntax[] parameters,
+            IReadOnlyList<ParameterSyntax> genericParameters,
+            IReadOnlyList<ParameterSyntax> parameters,
             Symbol returnType,
             ISyntaxNode? body,
             ObjectFlags flags = ObjectFlags.None)
@@ -46,9 +47,9 @@ namespace E.Syntax
 
         public Symbol? Name { get; }
 
-        public ParameterSyntax[] GenericParameters { get; }
+        public IReadOnlyList<ParameterSyntax> GenericParameters { get; }
 
-        public ParameterSyntax[] Parameters { get; }
+        public IReadOnlyList<ParameterSyntax> Parameters { get; }
 
         public Symbol? ReturnType { get; }
 
@@ -109,11 +110,11 @@ namespace E.Syntax
 
         TypeSymbol IMemberSyntax.Type => new TypeSymbol("Function", GetParameterTypeSymbols(this.Parameters));
 
-        private static Symbol[] GetParameterTypeSymbols(ParameterSyntax[] parameters)
+        private static Symbol[] GetParameterTypeSymbols(IReadOnlyList<ParameterSyntax> parameters)
         {
-            var typeSymbols = new Symbol[parameters.Length];
+            var typeSymbols = new Symbol[parameters.Count];
 
-            for (var i = 0; i < parameters.Length; i++)
+            for (var i = 0; i < parameters.Count; i++)
             {
                 typeSymbols[i] = parameters[i].Type;
             }

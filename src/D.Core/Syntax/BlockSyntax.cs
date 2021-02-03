@@ -1,13 +1,15 @@
-﻿namespace E.Syntax
+﻿using System.Collections.Generic;
+
+namespace E.Syntax
 {
     public sealed class BlockSyntax : ISyntaxNode
     {
-        public BlockSyntax(params ISyntaxNode[] statements)
+        public BlockSyntax(IReadOnlyList<ISyntaxNode> statements)
         {
             Statements = statements;
         }
 
-        public ISyntaxNode[] Statements { get; }
+        public IReadOnlyList<ISyntaxNode> Statements { get; }
 
         public ISyntaxNode this[int index] => Statements[index];
 

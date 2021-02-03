@@ -1,10 +1,12 @@
-﻿using E.Symbols;
+﻿using System.Collections.Generic;
+
+using E.Symbols;
 
 namespace E.Syntax
 {
     public sealed class ObjectInitializerSyntax : ISyntaxNode
     {
-        public ObjectInitializerSyntax(TypeSymbol type, ArgumentSyntax[] arguments)
+        public ObjectInitializerSyntax(TypeSymbol type, IReadOnlyList<ArgumentSyntax> arguments)
         {
             Type = type;
             Arguments = arguments;
@@ -12,7 +14,7 @@ namespace E.Syntax
 
         public TypeSymbol Type { get; }
 
-        public ArgumentSyntax[] Arguments { get; }
+        public IReadOnlyList<ArgumentSyntax> Arguments { get; }
 
         SyntaxKind ISyntaxNode.Kind => SyntaxKind.TypeInitializer;
     }

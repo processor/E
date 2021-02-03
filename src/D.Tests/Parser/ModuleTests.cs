@@ -18,7 +18,7 @@ Color module {
 }
 ");
 
-            Assert.Equal(4, array.Statements.Length);
+            Assert.Equal(4, array.Statements.Count);
         }
     }
 }

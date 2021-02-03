@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 
 using E.Expressions;
@@ -20,13 +21,13 @@ namespace E
         }
 
         public FunctionExpression(
-           Parameter[] parameters,
+           IReadOnlyList<Parameter> parameters,
            IExpression body,
            ObjectFlags flags = ObjectFlags.None)
             : this(parameters, body, null, flags) { }
 
         public FunctionExpression(
-           Parameter[] parameters,
+           IReadOnlyList<Parameter> parameters,
            IExpression body,
            Type? returnType,
            ObjectFlags flags = ObjectFlags.None)
@@ -40,8 +41,8 @@ namespace E
 
         public FunctionExpression(
             Symbol? name,
-            Parameter[] genericParameters,
-            Parameter[] parameters,
+            IReadOnlyList<Parameter> genericParameters,
+            IReadOnlyList<Parameter> parameters,
             Type returnType,
             IExpression? body,
             ObjectFlags flags = ObjectFlags.None)
@@ -56,9 +57,9 @@ namespace E
         
         public string? Name { get; }
 
-        public Parameter[] Parameters { get; }
+        public IReadOnlyList<Parameter> Parameters { get; }
 
-        public Parameter[] GenericParameters { get; }
+        public IReadOnlyList<Parameter> GenericParameters { get; }
 
         public Type? ReturnType { get; }
         

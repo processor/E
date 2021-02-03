@@ -1,5 +1,7 @@
 ﻿namespace E.Compilation
-{ 
+{
+    using System.Collections.Generic;
+
     using Expressions;
 
     public partial class CSharpEmitter
@@ -15,11 +17,11 @@
             return lambda;
         }
 
-        public void WriteParameters(Parameter[] parameters, char start = '(', char end = ')')
+        public void WriteParameters(IReadOnlyList<Parameter> parameters, char start = '(', char end = ')')
         {
             Emit(start);
 
-            for (int i = 0; i < parameters.Length; i++)
+            for (int i = 0; i < parameters.Count; i++)
             {
                 Parameter parameter = parameters[i];
 
@@ -116,7 +118,7 @@
 
             Emit(ToPascalCase(func.Name));
 
-            if (func.GenericParameters.Length > 0)
+            if (func.GenericParameters is { Count: > 0 })
             {
                 WriteGenericParameters(func.GenericParameters);
             }
@@ -177,7 +179,7 @@
 
             Emit(ToPascalCase(func.Name));
 
-            if (func.GenericParameters.Length > 0)
+            if (func.GenericParameters.Count > 0)
             {
                 WriteGenericParameters(func.GenericParameters);
             }
@@ -192,11 +194,11 @@
             return func;
         }
 
-        private void WriteGenericParameters(Parameter[] parameters)
+        private void WriteGenericParameters(IReadOnlyList<Parameter> parameters)
         {
             Emit('<');
 
-            for (var i = 0; i < parameters.Length; i++)
+            for (var i = 0; i < parameters.Count; i++)
             {
                 if (i > 0) Emit(",");
 

@@ -1,4 +1,6 @@
-﻿using E.Symbols;
+﻿using System.Collections.Generic;
+
+using E.Symbols;
 
 namespace E.Syntax
 {
@@ -6,7 +8,7 @@ namespace E.Syntax
     {
         public OperatorDeclarationSyntax(
             Symbol name, 
-            ArgumentSyntax[] properties)
+            IReadOnlyList<ArgumentSyntax> properties)
         {
             Name = name;
             Properties = properties;
@@ -14,7 +16,7 @@ namespace E.Syntax
 
         public Symbol Name { get; }
         
-        public ArgumentSyntax[] Properties { get; }
+        public IReadOnlyList<ArgumentSyntax> Properties { get; }
 
         #region Property Helpers
         

@@ -216,7 +216,7 @@ namespace E.Parsing
 
             ConsumeIf(Semicolon); // ? ;
 
-            return new UsingStatement(domains.ToArray());
+            return new UsingStatement(domains);
         }
 
         public LambdaExpressionSyntax ReadLambda()
@@ -398,7 +398,7 @@ namespace E.Parsing
 
             LeaveMode(Mode.Block);
 
-            return new BlockSyntax(statements.ToArray());
+            return new BlockSyntax(statements);
         }
 
         public SpreadExpressionSyntax ReadSpread()
@@ -515,7 +515,7 @@ namespace E.Parsing
 
                 ConsumeIf(Semicolon); // ? ;
 
-                return new DestructuringAssignmentSyntax(list.ToArray(), right);
+                return new DestructuringAssignmentSyntax(list, right);
             }
 
             var declaration = ReadVariableDeclaration(modifiers);
@@ -714,11 +714,11 @@ namespace E.Parsing
             return new FunctionDeclarationSyntax(name, genericParameters, parameters, returnType, body, flags);
         }
 
-        private ParameterSyntax[] ReadGenericParameters()
+        private IReadOnlyList<ParameterSyntax> ReadGenericParameters()
         {
             if (ConsumeIf(TagStart))
             {
-                var i = 0;
+                int i = 0;
 
                 var list = new List<ParameterSyntax>();
 
@@ -741,7 +741,7 @@ namespace E.Parsing
 
                 Consume(TagEnd);
 
-                return list.ToArray();
+                return list;
             }
            
             return Array.Empty<ParameterSyntax>();
@@ -874,7 +874,7 @@ namespace E.Parsing
             return new OperatorDeclarationSyntax(name, properties);
         }
 
-        public ArgumentSyntax[] ReadUnitDeclarationProperties()
+        public IReadOnlyList<ArgumentSyntax> ReadUnitDeclarationProperties()
         {
             Consume(BraceOpen);
 
@@ -889,7 +889,7 @@ namespace E.Parsing
 
             Consume(BraceClose);
 
-            return properties.ToArray();
+            return properties;
         }
 
         public ArgumentSyntax ReadUnitDeclarationProperty()
@@ -904,7 +904,7 @@ namespace E.Parsing
 
         }
 
-        private ISyntaxNode[] ReadTypeDeclarationBody()
+        private IReadOnlyList<ISyntaxNode> ReadTypeDeclarationBody()
         {
             if (ConsumeIf(BraceOpen)) // ! {
             {
@@ -921,7 +921,7 @@ namespace E.Parsing
 
                 Consume(BraceClose); // ! }
 
-                return members.ToArray();
+                return members;
             }
 
             return Array.Empty<ISyntaxNode>();
@@ -1119,7 +1119,7 @@ namespace E.Parsing
         {
             Consume(Implementation); // ! implementation  
 
-            Symbol protocol = null;
+            Symbol? protocol = null;
             Symbol type;
 
             if (ConsumeIf(For)) // ? for
@@ -1356,7 +1356,7 @@ namespace E.Parsing
                     args.Add(ReadTypeSymbol());
                 }
 
-                return new TypeSymbol(wasFunction ? "Function" : "Tuple", args.ToArray());
+                return new TypeSymbol(wasFunction ? "Function" : "Tuple", args);
             }
             
             if ((ConsumeIf(BracketOpen))) // [
@@ -1365,14 +1365,14 @@ namespace E.Parsing
      
                 Consume(BracketClose); // ]
 
-                return new TypeSymbol("Array", arguments: type);
+                return new TypeSymbol("Array", arguments: new[] { type });
             }
 
             // Async?
 
             if (ConsumeIf('*'))
             {
-                return new TypeSymbol("Channel", arguments: ReadTypeSymbol());
+                return new TypeSymbol("Channel", arguments: new[] { ReadTypeSymbol() });
             }
 
             ModuleSymbol? module = null;
@@ -1395,7 +1395,7 @@ namespace E.Parsing
             {
                 var genericParameters = ReadGenericParameters();
 
-                parameters = new ParameterSymbol[genericParameters.Length];
+                parameters = new ParameterSymbol[genericParameters.Count];
 
                 for (int i = 0; i < parameters.Length; i++)
                 {
@@ -1427,7 +1427,7 @@ namespace E.Parsing
 
                 LeaveMode(Mode.Variant);
 
-                return new TypeSymbol("Variant", list.ToArray());
+                return new TypeSymbol("Variant", list);
             }
             else if (reader.Current.Equals("&"))
             {
@@ -1438,7 +1438,7 @@ namespace E.Parsing
                     list.Add(ReadTypeSymbol());
                 }
 
-                return new TypeSymbol("Intersection", list.ToArray());
+                return new TypeSymbol("Intersection", list);
             }
 
             else if (IsKind(ReturnArrow))
@@ -1449,14 +1449,14 @@ namespace E.Parsing
 
                 list.Add(ReadTypeSymbol());
 
-                return new TypeSymbol("Function", list.ToArray());
+                return new TypeSymbol("Function", list);
             }
-            
+
 
             // Optional ?
             if (name.Trailing is null && ConsumeIf('?')) // ? 
             {
-                return new TypeSymbol("Optional", arguments: result);
+                return new TypeSymbol("Optional", arguments: new[] { result });
             }
 
             return result;
@@ -1951,7 +1951,7 @@ namespace E.Parsing
 
             var (moduleName, elementName) = ReadElementName();
 
-            ArgumentSyntax[]? args = null;
+            IReadOnlyList<ArgumentSyntax>? args = null;
 
             while (!(Current.Kind is TagEnd or TagSelfClosed))
             {
@@ -2298,7 +2298,7 @@ namespace E.Parsing
         // (arg1, arg2, arg3)
         // (a: 1, a: 2, a: 3)
 
-        private ArgumentSyntax[] ReadArguments()
+        private IReadOnlyList<ArgumentSyntax> ReadArguments()
         {
             if (!MoreArguments()) return Array.Empty<ArgumentSyntax>();
 
@@ -2311,7 +2311,7 @@ namespace E.Parsing
 
             EnterMode(Mode.Arguments);
 
-            ArgumentSyntax[] args;
+            IReadOnlyList<ArgumentSyntax> args;
 
             var arg = ReadArgument();
 
@@ -2326,7 +2326,7 @@ namespace E.Parsing
                     arguments.Add(ReadArgument());
                 }
 
-                args = arguments.ToArray();
+                args = arguments;
             }
             else
             {

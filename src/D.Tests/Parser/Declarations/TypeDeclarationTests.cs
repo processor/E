@@ -76,7 +76,7 @@ Size<T:Number> struct {
   height : Number
 }
 ");
-            Assert.Equal(2, type.Members.Length);
+            Assert.Equal(2, type.Members.Count);
 
             var members = type.Members.OfType<PropertyDeclarationSyntax>().ToArray();
 
@@ -141,7 +141,7 @@ Point struct <T: Number> : Vector3<T> {
             Assert.Equal("T",      declaration.GenericParameters[0].Name);
             Assert.Equal("Number", declaration.GenericParameters[0].Type);
 
-            Assert.Equal(3, declaration.Members.Length);
+            Assert.Equal(3, declaration.Members.Count);
         }
 
         [Fact]
@@ -163,7 +163,6 @@ Point struct <T: Number & Blittable = Float64> : Vector3<T> {
 
             Assert.Equal(SyntaxKind.CompoundPropertyDeclaration, declaration.Members[0].Kind);
         }
-
 
         [Fact]
         public void BlittableType()

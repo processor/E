@@ -1,4 +1,6 @@
-﻿using E.Symbols;
+﻿using System.Collections.Generic;
+
+using E.Symbols;
 
 namespace E.Syntax
 {
@@ -10,9 +12,9 @@ namespace E.Syntax
       b: Number
     }     
     */
-    public class TypeDefinationBase : ISyntaxNode
+    public abstract class TypeDefinationBase : ISyntaxNode
     {
-        public TypeDefinationBase(Symbol baseType, ISyntaxNode[] members, TypeFlags flags)
+        public TypeDefinationBase(Symbol baseType, IReadOnlyList<ISyntaxNode> members, TypeFlags flags)
         {
             BaseType = baseType;
             Members = members;
@@ -24,7 +26,7 @@ namespace E.Syntax
 
         public TypeFlags Flags { get; }
 
-        public ISyntaxNode[] Members { get; }
+        public IReadOnlyList<ISyntaxNode> Members { get; }
 
         public bool IsRecord => Flags.HasFlag(TypeFlags.Record);
 
@@ -41,11 +43,11 @@ namespace E.Syntax
     {
         public TypeDeclarationSyntax(
             Symbol name,
-            ParameterSyntax[] genericParameters,
+            IReadOnlyList<ParameterSyntax> genericParameters,
             Symbol baseType,
-            ArgumentSyntax[] arguments,
+            IReadOnlyList<ArgumentSyntax> arguments,
             AnnotationSyntax[] annotations,
-            ISyntaxNode[] members,
+            IReadOnlyList<ISyntaxNode> members,
             TypeFlags flags = TypeFlags.None)
             : base(baseType, members, flags)
         {
@@ -60,18 +62,18 @@ namespace E.Syntax
         // Vehicle 'Crash 
         public Symbol Name { get; }
 
-        public ArgumentSyntax[] Arguments { get; }
+        public IReadOnlyList<ArgumentSyntax> Arguments { get; }
 
         public AnnotationSyntax[] Annotations { get; }
 
-        public ParameterSyntax[] GenericParameters { get; }
+        public IReadOnlyList<ParameterSyntax> GenericParameters { get; }
     }
 
     // Las `Vegas, New `York : State class { }
 
     public sealed class CompoundTypeDeclarationSyntax : TypeDefinationBase
     {
-        public CompoundTypeDeclarationSyntax(Symbol[] names, TypeFlags flags, Symbol baseType, ISyntaxNode[] members)
+        public CompoundTypeDeclarationSyntax(Symbol[] names, TypeFlags flags, Symbol baseType, IReadOnlyList<ISyntaxNode> members)
              : base(baseType, members, flags)
         {
             Names = names;

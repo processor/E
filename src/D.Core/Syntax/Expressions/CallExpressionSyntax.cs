@@ -1,4 +1,6 @@
-﻿using E.Symbols;
+﻿using System.Collections.Generic;
+
+using E.Symbols;
 
 namespace E.Syntax
 {
@@ -9,7 +11,10 @@ namespace E.Syntax
 
     public sealed class CallExpressionSyntax : ISyntaxNode
     {
-        public CallExpressionSyntax(ISyntaxNode? callee, Symbol name, ArgumentSyntax[] arguments)
+        public CallExpressionSyntax(
+            ISyntaxNode? callee, 
+            Symbol name, 
+            IReadOnlyList<ArgumentSyntax> arguments)
         {
             Callee    = callee;
             Name      = name;
@@ -20,7 +25,7 @@ namespace E.Syntax
         
         public Symbol Name { get; }
 
-        public ArgumentSyntax[] Arguments { get; }
+        public IReadOnlyList<ArgumentSyntax> Arguments { get; }
 
         public bool IsPiped { get; set; }
 

@@ -9,9 +9,9 @@ namespace E
     {
         public Type VisitTypeDeclaration(TypeDeclarationSyntax syntax)
         {
-            var genericParameters = new Parameter[syntax.GenericParameters.Length];
+            var genericParameters = new Parameter[syntax.GenericParameters.Count];
 
-            for (var i = 0; i < syntax.GenericParameters.Length; i++)
+            for (var i = 0; i < syntax.GenericParameters.Count; i++)
             {
                 var member = syntax.GenericParameters[i];
 
@@ -43,7 +43,7 @@ namespace E
                 ? env.Get<Type>(syntax.BaseType)
                 : null;
 
-            var type = new Type(syntax.Name, baseType, properties.ToArray(), genericParameters, syntax.Flags);
+            var type = new Type(syntax.Name, baseType, properties, genericParameters, syntax.Flags);
 
             env.Add(syntax.Name, type);
 

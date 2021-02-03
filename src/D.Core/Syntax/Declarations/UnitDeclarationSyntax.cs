@@ -1,4 +1,6 @@
-﻿using E.Symbols;
+﻿using System.Collections.Generic;
+
+using E.Symbols;
 
 namespace E.Syntax
 {
@@ -8,7 +10,7 @@ namespace E.Syntax
         public UnitDeclarationSyntax(
             Symbol name,
             Symbol? baseType,
-            ArgumentSyntax[] arguments)
+            IReadOnlyList<ArgumentSyntax> arguments)
         {
             Name = name;
             Arguments = arguments;
@@ -19,7 +21,7 @@ namespace E.Syntax
 
         public Symbol? BaseType { get; }
 
-        public ArgumentSyntax[] Arguments { get; }
+        public IReadOnlyList<ArgumentSyntax> Arguments { get; }
 
         #region Property Helpers
 

@@ -1,4 +1,6 @@
 ﻿
+using System.Collections.Generic;
+
 using E.Symbols;
 
 namespace E.Syntax
@@ -7,13 +9,13 @@ namespace E.Syntax
 
     public sealed class DestructuringAssignmentSyntax : ISyntaxNode
     {
-        public DestructuringAssignmentSyntax(AssignmentElementSyntax[] elements, ISyntaxNode instance)
+        public DestructuringAssignmentSyntax(IReadOnlyList<AssignmentElementSyntax> elements, ISyntaxNode instance)
         {
             Variables = elements;
             Instance = instance;
         }
 
-        public AssignmentElementSyntax[] Variables { get; }
+        public IReadOnlyList<AssignmentElementSyntax> Variables { get; }
 
         public ISyntaxNode Instance { get; }
 

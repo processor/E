@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 
 using Xunit;
 
@@ -75,7 +74,7 @@ namespace E.Parsing.Tests
 
             Assert.Equal("run", call.Name);
 
-            Assert.Equal(3, call.Arguments.Length);
+            Assert.Equal(3, call.Arguments.Count);
 
             Assert.Equal("x", (Symbol)call.Arguments[0].Value);
             Assert.Equal("y", (Symbol)call.Arguments[1].Value);
@@ -89,13 +88,13 @@ namespace E.Parsing.Tests
 
             Assert.Equal("move", syntax.Name);
 
-            Assert.Equal(3, syntax.Arguments.Length);
+            Assert.Equal(3, syntax.Arguments.Count);
 
             Assert.Equal(1, (NumberLiteralSyntax)syntax.Arguments[0].Value);
             Assert.Equal(2, (NumberLiteralSyntax)syntax.Arguments[1].Value);
             Assert.Equal(3, (NumberLiteralSyntax)syntax.Arguments[2].Value);
 
-            var args = syntax.Arguments.ToArray();
+            var args = syntax.Arguments;
 
             Assert.Equal(1, (NumberLiteralSyntax)args[0].Value);
             Assert.Equal(2, (NumberLiteralSyntax)args[1].Value);
@@ -105,7 +104,7 @@ namespace E.Parsing.Tests
             Assert.Equal("y", args[1].Name);
             Assert.Equal("z", args[2].Name);
 
-            var complier = new E.Compiler();
+            var complier = new Compiler();
 
             var call = complier.VisitCall(syntax);
 

@@ -1,9 +1,11 @@
-﻿namespace E.Syntax
+﻿using System.Collections.Generic;
+
+namespace E.Syntax
 {
     // [index]
     public sealed class IndexAccessExpressionSyntax : ISyntaxNode
     {
-        public IndexAccessExpressionSyntax(ISyntaxNode left, ArgumentSyntax[] arguments)
+        public IndexAccessExpressionSyntax(ISyntaxNode left, IReadOnlyList<ArgumentSyntax> arguments)
         {
             Left = left;
             Arguments = arguments;
@@ -13,7 +15,7 @@
 
         // [1]
         // [1, 2]
-        public ArgumentSyntax[] Arguments { get; }
+        public IReadOnlyList<ArgumentSyntax> Arguments { get; }
 
         SyntaxKind ISyntaxNode.Kind => SyntaxKind.IndexAccessExpression;
     }

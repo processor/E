@@ -199,7 +199,7 @@ Point impl {
 
             var l = (LambdaExpressionSyntax)((FunctionDeclarationSyntax)a.Members[0]).Body;
 
-            Assert.Equal(3, ((ObjectInitializerSyntax)l.Expression).Arguments.Length);
+            Assert.Equal(3, ((ObjectInitializerSyntax)l.Expression).Arguments.Count);
 
             foreach (var member in a.Members.OfType<FunctionDeclarationSyntax>())
             {
@@ -247,7 +247,7 @@ A implementation {
 
             Assert.Equal("Point", t.Type.Name);
             Assert.True(f.IsProperty);
-            Assert.Equal(3, t.Arguments.Length);
+            Assert.Equal(3, t.Arguments.Count);
         }
 
         [Fact]
@@ -349,7 +349,7 @@ Curve <T> implementation for Arc<T> {
 
             var body     = (BlockSyntax)f.Body;
 
-            var returnStatement = (ReturnStatementSyntax)body[body.Statements.Length - 1];
+            var returnStatement = (ReturnStatementSyntax)body.Statements[^1];
             var initializer     = (ObjectInitializerSyntax)returnStatement.Expression;
 
             Assert.Equal("Point<T>", initializer.Type);

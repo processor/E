@@ -152,7 +152,7 @@ namespace E
                     }
                 }
 
-                return new FunctionExpression(parameters.ToArray(), new LambdaExpression(expression));
+                return new FunctionExpression(parameters, new LambdaExpression(expression));
             }
 
             if (env.TryGetValue(expression.FunctionName, out IFunction? func))

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Text;
 
@@ -16,7 +17,7 @@ namespace E.Symbols
             Arguments = Array.Empty<ArgumentSymbol>();
         }
 
-        public Symbol(string name, Symbol[] arguments, SymbolFlags flags = SymbolFlags.None)
+        public Symbol(string name, IReadOnlyList<Symbol> arguments, SymbolFlags flags = SymbolFlags.None)
         {
             Name = name;
             Arguments = arguments;
@@ -26,7 +27,7 @@ namespace E.Symbols
         public Symbol(
             ModuleSymbol? module,
             string name,
-            Symbol[] arguments,
+            IReadOnlyList<Symbol> arguments,
             SymbolFlags flags = SymbolFlags.None)
         {
             Module = module;
@@ -39,7 +40,7 @@ namespace E.Symbols
 
         public string Name { get; }
 
-        public Symbol[]? Arguments { get; }
+        public IReadOnlyList<Symbol>? Arguments { get; }
 
         public SymbolFlags Flags { get; }
 
@@ -61,7 +62,7 @@ namespace E.Symbols
 
         public override string ToString()
         {
-            if (Module is null && (Arguments is null || Arguments.Length == 0))
+            if (Module is null && (Arguments is null || Arguments.Count == 0))
             {
                 return Name;
             }
@@ -75,7 +76,7 @@ namespace E.Symbols
 
         public void WriteTo(StringBuilder sb)
         {
-            if (Module is null && (Arguments is null || Arguments.Length == 0))
+            if (Module is null && (Arguments is null || Arguments.Count == 0))
             {
                 sb.Append(Name);
 
@@ -90,7 +91,7 @@ namespace E.Symbols
 
             sb.Append(Name);
 
-            if (Arguments is { Length: > 0 })
+            if (Arguments is { Count: > 0 })
             {
                 sb.Append('<');
 

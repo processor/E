@@ -49,7 +49,7 @@ namespace E
         public Type(
             string name,
             Type? baseType,
-            Property[]? properties, 
+            IReadOnlyList<Property>? properties, 
             Parameter[]? genericParameters,
             TypeFlags flags = default)
         {
@@ -75,7 +75,7 @@ namespace E
 
         public Type[]? Arguments { get; }
 
-        public Property[]? Properties { get; }
+        public IReadOnlyList<Property>? Properties { get; }
 
         public Parameter[]? GenericParameters { get; }
 
@@ -88,7 +88,7 @@ namespace E
         ObjectType IObject.Kind => ObjectType.Type;
 
         // Implementations
-        public List<ImplementationExpression> Implementations { get; } = new List<ImplementationExpression>();
+        public List<ImplementationExpression> Implementations { get; } = new ();
 
         public Property? GetProperty(string name)
         {
@@ -96,7 +96,10 @@ namespace E
 
             foreach (Property property in Properties)
             {
-                if (property.Name == name) return property;
+                if (property.Name.Equals(name, StringComparison.Ordinal))
+                {
+                    return property;
+                }
 
             }
 

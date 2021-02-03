@@ -1,15 +1,17 @@
-﻿using E.Symbols;
+﻿using System.Collections.Generic;
+
+using E.Symbols;
 
 namespace E.Syntax
 {
     public sealed class UsingStatement : ISyntaxNode
     {
-        public UsingStatement(Symbol[] domains)
+        public UsingStatement(IReadOnlyList<Symbol> domains)
         {
             Domains = domains;
         }
 
-        public Symbol[] Domains { get; }
+        public IReadOnlyList<Symbol> Domains { get; }
 
         public Symbol this[int i] => Domains[i];
 

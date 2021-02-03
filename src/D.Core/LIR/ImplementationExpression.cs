@@ -1,14 +1,16 @@
 ﻿namespace E
 {
+    using System.Collections.Generic;
+
     using Expressions;
 
     public sealed class ImplementationExpression : IExpression
     {
         public ImplementationExpression(
             ProtocolExpression protocol, 
-            Type type, 
-            VariableDeclaration[] variables,
-            FunctionExpression[] members)
+            Type type,
+            IReadOnlyList<VariableDeclaration> variables,
+            IReadOnlyList<FunctionExpression> members)
         {
             Protocol  = protocol;
             Type = type;
@@ -22,9 +24,9 @@
 
         public ProtocolExpression Protocol { get; }
 
-        public VariableDeclaration[] Variables { get; }
+        public IReadOnlyList<VariableDeclaration> Variables { get; }
 
-        public FunctionExpression[] Methods { get; }
+        public IReadOnlyList<FunctionExpression> Methods { get; }
         
         ObjectType IObject.Kind => ObjectType.Implementation;
     }

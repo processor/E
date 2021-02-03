@@ -38,7 +38,7 @@ namespace E.Parsing.Tests
         {
             var var = Parse<DestructuringAssignmentSyntax>("let (x, y, z) = point");
 
-            Assert.Equal(3, var.Variables.Length);
+            Assert.Equal(3, var.Variables.Count);
             Assert.Equal("point", (Symbol)var.Instance);
 
             Assert.Equal("x", var.Variables[0].Name);

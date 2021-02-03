@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 
+using E.Expressions;
+using E.Syntax;
+
 namespace E
 {
-    using Expressions;
-    using Syntax;
-
     public partial class Compiler
     {
         public ImplementationExpression VisitImplementation(ImplementationDeclarationSyntax syntax)
@@ -53,7 +53,7 @@ namespace E
 
             env = env.Parent;
 
-            var result = new ImplementationExpression(protocol, type, variables.ToArray(), methods.ToArray());
+            var result = new ImplementationExpression(protocol, type, variables, methods);
 
             result.Type.Implementations.Add(result);
 

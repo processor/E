@@ -46,7 +46,7 @@ namespace E
 
         public BlockExpression VisitBlock(BlockSyntax syntax)
         {
-            var statements = new IExpression[syntax.Statements.Length];
+            var statements = new IExpression[syntax.Statements.Count];
 
             for (int i = 0; i < statements.Length; i++)
             { 
@@ -60,7 +60,7 @@ namespace E
         {
             var module = new Module(syntax.Name);
 
-            for (var i = 0; i < syntax.Statements.Length; i++)
+            for (var i = 0; i < syntax.Statements.Count; i++)
             {                
                 module.Add(Visit(syntax.Statements[i]));   
             }
@@ -257,11 +257,11 @@ namespace E
             };
         }
 
-        private IArguments VisitArguments(ArgumentSyntax[] arguments)
+        private IArguments VisitArguments(IReadOnlyList<ArgumentSyntax> arguments)
         {
-            if (arguments.Length == 0) return Arguments.None;
+            if (arguments.Count == 0) return Arguments.None;
             
-            var items = new Argument[arguments.Length];
+            var items = new Argument[arguments.Count];
 
             for (int i = 0; i < items.Length; i++)
             {
@@ -287,7 +287,7 @@ namespace E
 
         public virtual TypeInitializer VisitObjectInitializer(ObjectInitializerSyntax syntax)
         {
-            var members = new Argument[syntax.Arguments.Length];
+            var members = new Argument[syntax.Arguments.Count];
 
             for (var i = 0; i < members.Length; i++)
             {
@@ -309,7 +309,7 @@ namespace E
 
         public virtual DestructuringAssignment VisitDestructuringAssignment(DestructuringAssignmentSyntax syntax)
         {
-            var elements = new AssignmentElement[syntax.Variables.Length];
+            var elements = new AssignmentElement[syntax.Variables.Count];
 
             for (var i = 0; i < elements.Length; i++)
             {
@@ -374,13 +374,13 @@ namespace E
             return symbol;
         }
 
-        public Parameter[] ResolveParameters(ParameterSyntax[] parameters)
+        public Parameter[] ResolveParameters(IReadOnlyList<ParameterSyntax> parameters)
         {
-            var result = new Parameter[parameters.Length];
+            var result = new Parameter[parameters.Count];
 
             // nested function...
 
-            for (var i = 0; i < parameters.Length; i++)
+            for (var i = 0; i < parameters.Count; i++)
             {
                 var parameter = parameters[i];
 

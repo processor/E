@@ -1,10 +1,12 @@
-﻿using E.Symbols;
+﻿using System.Collections.Generic;
+
+using E.Symbols;
 
 namespace E.Syntax
 {
     public sealed class AnnotationSyntax : ISyntaxNode
     {
-        public AnnotationSyntax(Symbol name, ArgumentSyntax[] arguments)
+        public AnnotationSyntax(Symbol name, IReadOnlyList<ArgumentSyntax> arguments)
         {
             Name = name;
             Arguments = arguments;
@@ -12,7 +14,7 @@ namespace E.Syntax
 
         public Symbol Name { get; }
 
-        public ArgumentSyntax[] Arguments { get; }
+        public IReadOnlyList<ArgumentSyntax> Arguments { get; }
 
         SyntaxKind ISyntaxNode.Kind => SyntaxKind.AnnotationExpression;
     }

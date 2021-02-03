@@ -48,7 +48,7 @@ fromTranslation ƒ <T: Number>(x: T, y: T, z: T) => Matrix4<T>(
             Assert.Equal("T", func.GenericParameters[0].Name);
             Assert.Equal("Number", func.GenericParameters[0].Type);
 
-            Assert.Equal(3, func.Parameters.Length);
+            Assert.Equal(3, func.Parameters.Count);
             
             // Assert.Equal("Matrix4", func.ReturnType.Name);
 
@@ -103,7 +103,7 @@ clamp ƒ <T> (p: Point<T>, min: Point<T>, max: Point<T>) => Point<T> {
 }");
             Assert.Equal("clamp", func.Name);
 
-            Assert.Equal(3,            func.Parameters.Length);
+            Assert.Equal(3,            func.Parameters.Count);
             Assert.Equal("p",          func.Parameters[0].Name);
             Assert.Equal("min",        func.Parameters[1].Name);
             Assert.Equal("max",        func.Parameters[2].Name);
@@ -186,7 +186,7 @@ f ƒ (
             Assert.Single(          func.GenericParameters);
             Assert.Equal("T",       func.GenericParameters[0].Name);
             Assert.Equal("Number",  func.GenericParameters[0].Type);
-            Assert.Equal(2,         func.Parameters.Length);
+            Assert.Equal(2,         func.Parameters.Count);
 
             Assert.Equal("Point",    func.Parameters[0].Type.Name);
             Assert.Equal("Point<T>", func.Parameters[0].Type.ToString());
@@ -210,7 +210,7 @@ clamp ƒ(p: geometry::Point<T>, min: Point<T>, max: Point<T>) => Point {
 ");
 
             Assert.Equal("clamp", func.Name);
-            Assert.Equal(3, func.Parameters.Length);
+            Assert.Equal(3, func.Parameters.Count);
 
             Assert.Equal("p",        func.Parameters[0].Name);
             Assert.Equal("geometry", func.Parameters[0].Type.Module);
@@ -268,7 +268,7 @@ sum ƒ(a: Integer, b: Integer) {
 }
 ");
 
-            Assert.Equal(2,         w.Parameters.Length);
+            Assert.Equal(2,         w.Parameters.Count);
             Assert.Equal("a",       w.Parameters[0].Name);
             Assert.Equal("Integer", w.Parameters[0].Type.ToString());
 
@@ -287,7 +287,7 @@ sum ƒ(a, b) {
   return a + b
 }");
 
-            Assert.Equal(2, w.Parameters.Length);
+            Assert.Equal(2, w.Parameters.Count);
             Assert.Equal("a", w.Parameters[0].Name);
             Assert.Equal("b", w.Parameters[1].Name);
         }
@@ -297,7 +297,7 @@ sum ƒ(a, b) {
         {
             var w = Parse<FunctionDeclarationSyntax>("sum ƒ(a, b) => a + b");
 
-            Assert.Equal(2, w.Parameters.Length);
+            Assert.Equal(2, w.Parameters.Count);
             Assert.Equal("a", w.Parameters[0].Name);
             Assert.Equal("b", w.Parameters[1].Name);
         }
@@ -310,7 +310,7 @@ add100 ƒ(a, b: Integer = 100) => a + b
 ");
 
             Assert.Equal("add100",   w.Name.ToString());
-            Assert.Equal(2,          w.Parameters.Length);
+            Assert.Equal(2,          w.Parameters.Count);
             Assert.Equal("100",      ((NumberLiteralSyntax)w.Parameters[1].DefaultValue).Text);
 
             Assert.True(w.Body is LambdaExpressionSyntax);

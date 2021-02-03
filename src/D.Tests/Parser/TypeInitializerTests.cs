@@ -18,7 +18,7 @@ Account(
 ");
 
             Assert.Equal("Account", type.Type);
-            Assert.Equal(3, type.Arguments.Length);
+            Assert.Equal(3, type.Arguments.Count);
 
             var dateObject = (ObjectInitializerSyntax)type.Arguments[2].Value;
 
@@ -34,7 +34,7 @@ Point(
   z: 3
 )");
             Assert.Equal("Point", type.Type.Name);
-            Assert.Equal(3, type.Arguments.Length);
+            Assert.Equal(3, type.Arguments.Count);
         }
 
         [Fact]
@@ -65,7 +65,7 @@ if 1 + 1 == 3 {
 
             Assert.Equal("Point", type.Type.Name);
 
-            Assert.Equal(3, type.Arguments.Length);
+            Assert.Equal(3, type.Arguments.Count);
 
             Assert.Equal("x", type.Arguments[0].Name);
             Assert.Equal("y", type.Arguments[1].Name);

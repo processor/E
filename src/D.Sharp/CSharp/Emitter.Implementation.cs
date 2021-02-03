@@ -81,7 +81,7 @@
 
             var i = 0;
             
-            if (type.Properties is { Length: > 0 })
+            if (type.Properties is { Count: > 0 })
             {
                 VisitConstructor(type.Name, type.Properties);
 
@@ -104,7 +104,7 @@
                 }
             }
 
-            if (type.Properties is { Length: > 0 })
+            if (type.Properties is { Count: > 0 })
             {
                 WriteProperties(type.Properties);
 
