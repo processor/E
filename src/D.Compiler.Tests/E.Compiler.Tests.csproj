@@ -3,9 +3,9 @@
     <TargetFramework>net5.0</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
-    <ProjectReference Include="..\D.Core\D.Core.csproj" />
-    <ProjectReference Include="..\D.Sharp\D.Sharp.csproj" />
-    <ProjectReference Include="..\D.Scripting\D.Scripting.csproj" />
+    <ProjectReference Include="..\D.Core\E.Core.csproj" />
+    <ProjectReference Include="..\D.Sharp\E.Sharp.csproj" />
+    <ProjectReference Include="..\D.Scripting\E.Scripting.csproj" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="16.8.3" />

@@ -4,7 +4,7 @@
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <ItemGroup>
-    <ProjectReference Include="..\D.Scripting\D.Scripting.csproj" />
+    <ProjectReference Include="..\D.Scripting\E.Scripting.csproj" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Carbon.Json" Version="4.1.0" />

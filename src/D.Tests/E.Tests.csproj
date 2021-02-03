@@ -3,8 +3,8 @@
     <TargetFramework>net5.0</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
-    <ProjectReference Include="..\D.Core\D.Core.csproj" />
-    <ProjectReference Include="..\D.Mathematics\D.Mathematics.csproj" />
+    <ProjectReference Include="..\D.Core\E.Core.csproj" />
+    <ProjectReference Include="..\D.Mathematics\E.Mathematics.csproj" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Carbon.Json" Version="4.1.0" />
