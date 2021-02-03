@@ -12,7 +12,7 @@ namespace D
     {
         private readonly ConcurrentDictionary<string, object> children = new ();
 
-        private readonly OperatorCollection operators = new OperatorCollection();
+        private readonly OperatorCollection operators = new ();
 
         private readonly int depth = 0;
 
@@ -46,9 +46,9 @@ namespace D
             {
                 children.TryAdd(pair.Key, pair.Value);
 
-                if (pair.Value is Operator op)
+                if (pair.Value is Operator @operator)
                 {
-                    operators.Add(op);
+                    operators.Add(@operator);
                 }
             }
         }
@@ -83,12 +83,12 @@ namespace D
                 return false;
             }
 
-            value = (T)r;
+            value = (T)r!;
 
             return true;
         }
 
-        public bool TryGet(string name, out object? kind)
+        public bool TryGet(string name, [NotNullWhen(true)] out object? kind)
         {
             if (children.TryGetValue(name, out kind))
             {

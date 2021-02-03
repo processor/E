@@ -28,7 +28,7 @@ namespace D.Collections
 
             set
             {
-                if (TryGetNode(key, out Node node))
+                if (TryGetNode(key, out Node? node))
                 {
                     node.Value = value;
                 }
@@ -77,7 +77,7 @@ namespace D.Collections
 
         public bool Remove(string key)
         {
-            if (!TryGetNode(key, out Node node))
+            if (!TryGetNode(key, out Node? node))
             {
                 return false;
             }
@@ -152,9 +152,9 @@ namespace D.Collections
 
                     stack.Push(Character);
 
-                    Node node = this;
+                    Node? node = this;
 
-                    while ((node = node.Parent).Parent is not null)
+                    while ((node = node.Parent)?.Parent is not null)
                     {
                         stack.Push(node.Character);
                     }
