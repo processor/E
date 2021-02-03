@@ -1,6 +1,6 @@
 ﻿using Xunit;
 
-namespace D.Units.Tests
+namespace E.Units.Tests
 {
     public class BaseUnitTypeTests
     {
@@ -147,7 +147,7 @@ namespace D.Units.Tests
             Assert.True(type.IsMetric); // HasSI
 
             /*
-            if (text2 != null)
+            if (text2 is not null)
             {
                 var kind2 = UnitType.Parse(text2);
 

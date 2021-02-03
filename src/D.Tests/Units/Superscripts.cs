@@ -1,6 +1,6 @@
 ﻿using Xunit;
 
-namespace D
+namespace E
 {
     public class SuperscriptTests
     {

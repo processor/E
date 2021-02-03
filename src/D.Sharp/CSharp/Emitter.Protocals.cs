@@ -1,7 +1,7 @@
-﻿namespace E.Compilation
-{
-    using Expressions;
+﻿using E.Expressions;
 
+namespace E.Compilation
+{
     public partial class CSharpEmitter
     {
         public void VisitProtocal(ProtocolExpression protocol)
