@@ -1,23 +1,21 @@
-﻿namespace D.Mathematics
+﻿namespace E.Mathematics
 {
-    using static ArithmethicFunction;
-
-    public class ArithmeticModule : Module
+    public sealed class ArithmeticModule : Module
     {
         public ArithmeticModule()
         {
             AddExport(ArithmethicFunction.Add);
-            AddExport(Subtract);
-            AddExport(Multiply);
-            AddExport(Divide);
-            AddExport(Modulus);
-            AddExport(Power);
+            AddExport(ArithmethicFunction.Subtract);
+            AddExport(ArithmethicFunction.Multiply);
+            AddExport(ArithmethicFunction.Divide);
+            AddExport(ArithmethicFunction.Modulus);
+            AddExport(ArithmethicFunction.Power);
 
             // Generic
-            AddExport(Floor);
-            AddExport(SquareRoot);
-            AddExport(Log);
-            AddExport(Log10);
+            AddExport(ArithmethicFunction.Floor);
+            AddExport(ArithmethicFunction.SquareRoot);
+            AddExport(ArithmethicFunction.Log);
+            AddExport(ArithmethicFunction.Log10);
         }
     }
 }
