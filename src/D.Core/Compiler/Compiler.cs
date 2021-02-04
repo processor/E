@@ -334,7 +334,7 @@ namespace E
 
         public virtual MatchExpression VisitMatch(MatchExpressionSyntax syntax)
         {
-            var cases = new MatchCase[syntax.Cases.Length];
+            var cases = new MatchCase[syntax.Cases.Count];
 
             for (var i = 0; i < cases.Length; i++)
             {
