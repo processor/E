@@ -1807,7 +1807,7 @@ namespace E.Parsing
 
             LeaveMode(Mode.Statement);
 
-            return new MatchExpressionSyntax(expression, cases.Extract());
+            return new MatchExpressionSyntax(expression, cases);
         }
 
         #endregion

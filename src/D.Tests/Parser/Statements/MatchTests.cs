@@ -9,12 +9,13 @@ namespace E.Parsing.Tests
         [Fact]
         public void X()
         {
-            var m = Parse<MatchExpressionSyntax>(@"
+            var match = Parse<MatchExpressionSyntax>(@"
 match x >> 4 { 
   1 => true
 }");
+            Assert.Single(match.Cases);
 
-            Assert.True(m.Expression is BinaryExpressionSyntax);
+            Assert.True(match.Expression is BinaryExpressionSyntax);
         }
 
         [Fact]
@@ -23,21 +24,22 @@ match x >> 4 {
 
             var match = Parse<MatchExpressionSyntax>(
                 @"match instance { 
-                  (image: Image) => image.resize(100, 100)
+                  (image: Image) => image.resize(100, 100);
+                  (video: Video) => video.resize(100, 100);
                 }
             ");
 
-            Assert.Single(match.Cases);
             Assert.Equal("image", ((TypePatternSyntax)match.Cases[0].Pattern).VariableName);
+            Assert.Equal("video", ((TypePatternSyntax)match.Cases[1].Pattern).VariableName);
 
         }
 
-        /*
+
         [Fact]
         public void Match()
         {
             // ... |> format mp4
-            var pipe = Parse<PipeStatementSyntax>(
+            var pipe = Parse<CallExpressionSyntax>(
                 @"image 
                   |> split 1s
                   |> group a
@@ -48,18 +50,9 @@ match x >> 4 {
                   }
                   |> format mp4
                 ");
-
-
-            var match = (MatchExpressionSyntax)((PipeStatementSyntax)pipe.Callee).Expression;
-
-            Assert.Equal(3, match.Cases.Length);
-
-            var pattern1 = (TypePatternSyntax)match.Cases[0].Pattern;
-
-            Assert.Equal("Audio", pattern1.TypeExpression.ToString());
-            Assert.Equal("a",    pattern1.VariableName);
         }
-        */
+      
+
         [Fact]
         public void MatchWhen()
         {
@@ -81,7 +74,7 @@ match x >> 4 {
             Assert.Equal("i", a.Name.ToString());
             Assert.Equal("debug", b.Name.ToString());
 
-            Assert.Equal(2, c.Cases.Length);
+            Assert.Equal(2, c.Cases.Count);
 
             var pattern1 = (RangePatternSyntax)c.Cases[0].Pattern;
 
