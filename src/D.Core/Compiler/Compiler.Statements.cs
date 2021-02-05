@@ -18,8 +18,10 @@
         public virtual ElseIfStatement VisitElseIf(ElseIfStatementSyntax syntax) =>
             new ElseIfStatement(Visit(syntax.Condition), VisitBlock(syntax.Body), Visit(syntax.ElseBranch));
 
-        public virtual ReturnStatement VisitReturn(ReturnStatementSyntax syntax) =>
-            new ReturnStatement(Visit(syntax.Expression));
+        public virtual ReturnStatement VisitReturnStatement(ReturnStatementSyntax syntax)
+        {
+            return new ReturnStatement(Visit(syntax.Expression));
+        }
 
         public virtual ForStatement VisitFor(ForStatementSyntax syntax)
         {

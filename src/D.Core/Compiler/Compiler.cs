@@ -111,7 +111,7 @@ namespace E
                 SyntaxKind.IfStatement                  => VisitIf((IfStatementSyntax)syntax),
                 SyntaxKind.ElseIfStatement              => VisitElseIf((ElseIfStatementSyntax)syntax),
                 SyntaxKind.ElseStatement                => VisitElse((ElseStatementSyntax)syntax),
-                SyntaxKind.ReturnStatement              => VisitReturn((ReturnStatementSyntax)syntax),
+                SyntaxKind.ReturnStatement              => VisitReturnStatement((ReturnStatementSyntax)syntax),
 
                 // Patterns                                   
                 SyntaxKind.ConstantPattern              => VisitConstantPattern((ConstantPatternSyntax)syntax),
@@ -140,27 +140,26 @@ namespace E
 
                 elements[i] = element;
 
-                var type = GetType(element);
+                Type type = GetType(element);
                 
                 if (bestElementType is null)
                 {
                     bestElementType = type;
                 }
-                else if (bestElementType != type)
+                else if (bestElementType.Id != type.Id)
                 {
-                    // TODO: Find the best common base type...
-
-                    if (type.BaseType is null)
+                    if (type.BaseType is null || bestElementType.BaseType is null)
                     {
                         bestElementType = Type.Get(ObjectType.Object);
                     }
-                    else if (bestElementType.BaseType == type.BaseType)
+                    else if (bestElementType.BaseType.Id == type.BaseType.Id)
                     {
                         bestElementType = type.BaseType;
                     }
-
-                    // throw new Exception($"array initialized with different types... {bestElementType} + {type}");
                 }
+
+                // TODO | If object, find by common implementation
+
             }
 
             return new ArrayInitializer(elements, 
