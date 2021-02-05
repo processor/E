@@ -31,6 +31,7 @@
         // Collections
         Array          = 101,
         Set            = 102,
+        Tuple          = 103,
 
         // Numerics
         Rational       = 111, // 1/3
@@ -40,12 +41,18 @@
         Matrix         = 116,
 
         // Integers {…, -2, -1, 0, 1, 2,…}  
-        Byte            = 118,
+        Byte            = 117,
+        Int8            = 118, // sbyte
         Int16           = 119,
         Int32           = 120,
         Int64           = 121,
-        Float32         = 122,
-        Float64         = 123,
+        Float16         = 122,
+        Float32         = 123,
+        Float64         = 124,
+
+
+        // Brain Floats
+        BFloat16        = 130,
 
         // Vectors
         Vector64        = 200,
