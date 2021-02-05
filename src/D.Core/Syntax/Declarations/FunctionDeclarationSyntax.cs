@@ -8,19 +8,17 @@ namespace E.Syntax
 {
     public sealed class FunctionDeclarationSyntax : IMemberSyntax, ISyntaxNode
     {
-        // TODO: Module
-
         public FunctionDeclarationSyntax(
             IReadOnlyList<ParameterSyntax> parameters,
             ISyntaxNode body,
-            ObjectFlags flags = ObjectFlags.None)
+            ObjectFlags flags = default)
             : this(parameters, body, null, flags) { }
 
         public FunctionDeclarationSyntax(
            IReadOnlyList<ParameterSyntax> parameters,
            ISyntaxNode body,
            Symbol? returnType,
-           ObjectFlags flags = ObjectFlags.None)
+           ObjectFlags flags = default)
         {
             Parameters        = parameters;
             GenericParameters = Array.Empty<ParameterSyntax>();
@@ -35,7 +33,7 @@ namespace E.Syntax
             IReadOnlyList<ParameterSyntax> parameters,
             Symbol returnType,
             ISyntaxNode? body,
-            ObjectFlags flags = ObjectFlags.None)
+            ObjectFlags flags = default)
         {
             Name              = name;
             GenericParameters = genericParameters;
@@ -96,13 +94,13 @@ namespace E.Syntax
 
         public bool IsLambda => Flags.HasFlag(ObjectFlags.Lambda);
 
-        public bool IsAbstract      => Flags.HasFlag(ObjectFlags.Abstract);
-        public bool IsOperator      => Flags.HasFlag(ObjectFlags.Operator);
-        public bool IsAnonymous     => Flags.HasFlag(ObjectFlags.Anonymous);
-        public bool IsInitializer   => Flags.HasFlag(ObjectFlags.Initializer);
-        public bool IsProperty      => Flags.HasFlag(ObjectFlags.Property);
-        public bool IsIndexer       => Flags.HasFlag(ObjectFlags.Indexer);
-        public bool IsConverter     => Flags.HasFlag(ObjectFlags.Converter);
+        public bool IsAbstract    => Flags.HasFlag(ObjectFlags.Abstract);
+        public bool IsOperator    => Flags.HasFlag(ObjectFlags.Operator);
+        public bool IsAnonymous   => Flags.HasFlag(ObjectFlags.Anonymous);
+        public bool IsInitializer => Flags.HasFlag(ObjectFlags.Initializer);
+        public bool IsProperty    => Flags.HasFlag(ObjectFlags.Property);
+        public bool IsIndexer     => Flags.HasFlag(ObjectFlags.Indexer);
+        public bool IsConverter   => Flags.HasFlag(ObjectFlags.Converter);
 
         #endregion
 

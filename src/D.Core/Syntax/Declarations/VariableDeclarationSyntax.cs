@@ -8,7 +8,7 @@ namespace E.Syntax
             Symbol name, 
             TypeSymbol type, 
             ISyntaxNode? value = null, 
-            ObjectFlags flags = ObjectFlags.None)
+            ObjectFlags flags = default)
         {
             Name  = name;
             Type  = type;
@@ -22,6 +22,8 @@ namespace E.Syntax
         // String | Number
         // A & B
         public TypeSymbol Type { get; }
+
+        // TODO: Condition
 
         public ISyntaxNode? Value { get; }
 
