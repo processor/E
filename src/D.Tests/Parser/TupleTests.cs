@@ -34,14 +34,24 @@ namespace E.Parsing.Tests
         }
 
         [Fact]
-        public void NestedTuple()
+        public void NestedNamedTuple()
         {
             var tuple = Parse<TupleExpressionSyntax>(@"(
                 width: (1, 2),
                 height: height
             )");
 
-            var a = tuple.Elements[0] as TupleElementSyntax;
+            _ = (TupleElementSyntax)tuple.Elements[0];
+        }
+
+        [Fact]
+        public void NestedTuple()
+        {
+            var tuple = Parse<TupleExpressionSyntax>(@"(1, 2, (2, 3))");
+
+            _ = (NumberLiteralSyntax)tuple.Elements[0];
+            _ = (NumberLiteralSyntax)tuple.Elements[1];
+            _ = (TupleExpressionSyntax)tuple.Elements[2];
         }
 
         [Fact]

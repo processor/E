@@ -1731,9 +1731,19 @@ namespace E.Parsing
                 first
             };
 
+
             while (ConsumeIf(Comma)) // ? ,
             {
-                elements.Add(ReadTupleElement());
+                if (reader.Current.Kind is ParenthesisOpen)
+                {
+                    // nested tuple
+                    elements.Add(ReadTuple());
+                }
+                else
+                {
+                    elements.Add(ReadTupleElement());
+                }
+
             }
 
             Consume(ParenthesisClose); // ! )
