@@ -1,4 +1,0 @@
-String class : Node {
-
-  
-}

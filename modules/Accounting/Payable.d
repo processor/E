@@ -1,5 +1,0 @@
-Payable protocol {
-
-
-  
-}

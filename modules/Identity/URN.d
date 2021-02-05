@@ -1,6 +1,0 @@
-URN { 
-
-
-}
-
-// universal resource name

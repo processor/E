@@ -1,4 +1,0 @@
-Accelerometer actor {
-
-
-}

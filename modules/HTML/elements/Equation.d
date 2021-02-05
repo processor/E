@@ -1,4 +1,0 @@
-Equation : Block { 
-
-  
-}

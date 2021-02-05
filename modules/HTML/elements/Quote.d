@@ -1,5 +1,0 @@
-// <Quote />
-
-Quote class : Element { 
-
-}

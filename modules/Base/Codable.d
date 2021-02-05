@@ -1,1 +1,0 @@
-Codable<Self, T> type = Encodable<Self, T> & Decodable<Self, T>;

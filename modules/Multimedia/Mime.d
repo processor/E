@@ -1,4 +1,0 @@
-MIME struct {
-
-  
-}

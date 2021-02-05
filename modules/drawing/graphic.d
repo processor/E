@@ -1,5 +1,0 @@
-﻿Graphic class {
-
-}
-
-// <graphic />

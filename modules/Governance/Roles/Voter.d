@@ -1,3 +1,0 @@
-Voter role { 
-  vote ƒ() { }
-}

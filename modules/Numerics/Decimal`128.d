@@ -1,1 +1,0 @@
-Decimal128 struct(size: 16) : Decimal

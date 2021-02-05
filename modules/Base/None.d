@@ -1,5 +1,0 @@
-// AKA void
-None struct {
-
-
-}

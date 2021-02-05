@@ -1,1 +1,0 @@
-Float32 struct(size: 4, epsilon: 5.96e-08): Float { }

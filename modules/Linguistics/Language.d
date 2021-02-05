@@ -1,3 +1,0 @@
-Language protocol {
-  name -> String
-}

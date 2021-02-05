@@ -1,3 +1,0 @@
-Regulation record {
-  
-}

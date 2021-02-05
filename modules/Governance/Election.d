@@ -1,4 +1,0 @@
-Election process { 
-
-  
-}

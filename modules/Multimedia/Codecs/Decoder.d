@@ -1,3 +1,0 @@
-Decoder<TSource, TTarget> protocol { 
-
-}

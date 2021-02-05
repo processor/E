@@ -1,7 +1,0 @@
-Conversion price: The nominal price per share at which conversion takes place, this number is fixed at the issuance but could be adjusted under some circumstance described in the issuance prospectus (e.g. Underlying stock split). You could have more than one conversion price for non-vanilla convertible issuances.
-Issuance premium: Difference between the conversion price and the stock price at the issuance.
-Conversion ratio: The number of shares each convertible bond converts into. It may be expressed per bond or on a per centum (per 100) basis.
-Maturity/redemption date: Final payment date of a loan or other financial instrument, at which point the principal (and all remaining interest) is due to be paid. In some cases, there is no maturity date (i.e. perpetual), this is often the case with preferred convertibles (e.g. US0605056821).
-Final conversion date: Final date at which the holder can request the conversion into shares. Might be different from the redemption date.
-Coupon: Periodic interest payment paid to the convertible bond holder from the issuer. Could be fixed or variable or equal to zero.
-Yield: Yield of the convertible bond at the issuance date, could be different from the coupon value if the bond is offering a premium redemption. In those cases the yield value would determine the premium redemption value and intermediary put redemption value.

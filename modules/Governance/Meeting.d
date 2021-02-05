@@ -1,6 +1,0 @@
-Meeting event { 
-
-
-}
-
-// minutes

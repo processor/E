@@ -1,4 +1,0 @@
-Reaction actor {
-
-
-}

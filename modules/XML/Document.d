@@ -1,3 +1,0 @@
-﻿Document class {
-  children: [] Node
-}

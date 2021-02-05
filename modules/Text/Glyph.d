@@ -1,3 +1,0 @@
-Glyph class : Graphic { 
-
-}

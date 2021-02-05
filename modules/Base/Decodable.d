@@ -1,3 +1,0 @@
-Decodable<Self, T> protocol {
-
-}

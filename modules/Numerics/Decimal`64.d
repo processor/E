@@ -1,1 +1,0 @@
-Decimal64 struct(size: 8) : Decimal

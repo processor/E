@@ -1,7 +1,0 @@
-Procedure protocol { 
-
-}
-
-Procedure record { 
-
-}

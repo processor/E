@@ -1,1 +1,0 @@
-ISBN identity(scope: Global) { }

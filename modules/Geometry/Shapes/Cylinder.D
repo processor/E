@@ -1,3 +1,0 @@
-Cylinder struct {
-
-}

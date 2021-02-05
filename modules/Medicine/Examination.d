@@ -1,5 +1,0 @@
-Examination process {
-
-
-
-}

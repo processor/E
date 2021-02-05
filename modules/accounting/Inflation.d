@@ -1,9 +1,0 @@
-Inflation protocol {
-
-  
-}
-
-Inflation process { 
-
-  
-}

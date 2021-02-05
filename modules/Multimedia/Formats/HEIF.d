@@ -1,3 +1,0 @@
-HEIF struct {
-  
-}

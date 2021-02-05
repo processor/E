@@ -1,3 +1,0 @@
-Zlib class { 
-
-}

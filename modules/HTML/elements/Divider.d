@@ -1,4 +1,0 @@
-Divider class : Block {
-
-  
-}

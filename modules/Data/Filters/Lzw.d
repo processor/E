@@ -1,3 +1,0 @@
-Lzw class {
-  
-}

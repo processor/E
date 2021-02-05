@@ -1,1 +1,0 @@
-Expirable protocol { }

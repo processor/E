@@ -1,7 +1,0 @@
-Drive class {
-
-
-}
-
-// SSD
-// Spinning

@@ -1,3 +1,0 @@
-Path struct { 
-  // rules...
-}

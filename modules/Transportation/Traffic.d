@@ -1,5 +1,0 @@
-Traffic { 
-
-
-  Law : Legal::Rule { }
-}

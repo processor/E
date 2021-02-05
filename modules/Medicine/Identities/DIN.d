@@ -1,1 +1,0 @@
-Drug`Identification`Number : UID { }

@@ -1,9 +1,0 @@
-Deposit record {
-
-
-}
-
-
-Deposit certificate { 
-  
-}

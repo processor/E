@@ -1,3 +1,0 @@
-Convex`Hull protocol {
-  calculate() { }
-}

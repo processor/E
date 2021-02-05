@@ -1,4 +1,0 @@
-Window class {
-  view: View
-
-}

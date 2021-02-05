@@ -1,4 +1,0 @@
-Term protocol {
-
-  
-}

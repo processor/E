@@ -1,4 +1,0 @@
-Gzip class { 
-
-
-}

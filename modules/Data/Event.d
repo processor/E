@@ -1,3 +1,0 @@
-Event<T> {
-  timestamp: Timestamp
-}

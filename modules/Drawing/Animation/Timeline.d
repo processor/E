@@ -1,3 +1,0 @@
-Timeline class {
-  position: Time
-}

@@ -1,3 +1,0 @@
-
-// UNII
-// Unique Ingredient Identifier

@@ -1,4 +1,0 @@
-Element class : Node {
-
-
-}

@@ -1,4 +1,0 @@
-Seizure process { 
-
-  
-}

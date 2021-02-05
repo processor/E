@@ -1,1 +1,0 @@
-SKU identity (scope: Entity) { }
