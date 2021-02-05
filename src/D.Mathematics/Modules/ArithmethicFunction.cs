@@ -2,21 +2,19 @@
 
 namespace E.Mathematics
 {
-    public class ArithmethicFunction : IFunction
+    public sealed class ArithmethicFunction : IFunction
     {
-        public static readonly IFunction Add        = new ArithmethicFunction("+",  Arithmetic.Add);
-        public static readonly IFunction Multiply   = new ArithmethicFunction("*",  Arithmetic.Multiply);
+        public static readonly ArithmethicFunction Add      = new ("+",  Arithmetic.Add);
+        public static readonly ArithmethicFunction Multiply = new ("*",  Arithmetic.Multiply);
+        public static readonly ArithmethicFunction Subtract = new ("-",  Arithmetic.Subtract);
+        public static readonly ArithmethicFunction Divide   = new ("/",  Arithmetic.Divide);
+        public static readonly ArithmethicFunction Power    = new ("**", Arithmetic.Pow);
+        public static readonly ArithmethicFunction Modulus  = new ("%",  Arithmetic.Modulus);
 
-        public static readonly IFunction Subtract   = new ArithmethicFunction("-",  Arithmetic.Subtract);
-
-        public static readonly IFunction Divide     = new ArithmethicFunction("/",  Arithmetic.Divide);
-        public static readonly IFunction Power      = new ArithmethicFunction("**", Arithmetic.Pow);
-        public static readonly IFunction Modulus    = new ArithmethicFunction("%",  Arithmetic.Modulus);
-
-        public static readonly IFunction Floor      = new MathFunction("floor", x => Math.Floor(x));
-        public static readonly IFunction Log        = new MathFunction("log",   x => Math.Log(x));
-        public static readonly IFunction Log10      = new MathFunction("log10", x => Math.Log10(x));
-        public static readonly IFunction SquareRoot = new MathFunction("sqrt",  x => Math.Sqrt(x));
+        public static readonly MathFunction Floor           = new ("floor", x => Math.Floor(x));
+        public static readonly MathFunction Log             = new ("log",   x => Math.Log(x));
+        public static readonly MathFunction Log10           = new ("log10", x => Math.Log10(x));
+        public static readonly MathFunction SquareRoot      = new ("sqrt",  x => Math.Sqrt(x));
 
         private readonly Func<INumber, INumber, INumber> func;
 
