@@ -4,7 +4,7 @@ namespace E.Parsing.Tests
 {
     using Syntax;
 
-    public class PatternTests : TestBase
+    public class MatchTests : TestBase
     {
         [Fact]
         public void X()
@@ -17,6 +17,61 @@ match x >> 4 {
 
             Assert.True(match.Expression is BinaryExpressionSyntax);
         }
+
+
+        [Fact]
+        public void MatchLiterals()
+        {
+
+            var match = Parse<MatchExpressionSyntax>(
+                @"match instance { 
+                  1        => 1,
+                  2        => 2,
+                  ""text"" => 3,
+                  50 m     => ""really far""
+                }
+            ");
+
+            Assert.Equal("1",    ((ConstantPatternSyntax)match.Cases[0].Pattern).Constant.ToString());
+            Assert.Equal("2",    ((ConstantPatternSyntax)match.Cases[1].Pattern).Constant.ToString());
+            Assert.Equal("text", ((ConstantPatternSyntax)match.Cases[2].Pattern).Constant.ToString());
+            Assert.Equal("50 m", ((ConstantPatternSyntax)match.Cases[3].Pattern).Constant.ToString());
+
+        }
+
+
+        [Fact]
+        public void MatchVariant()
+        {
+
+            var match = Parse<MatchExpressionSyntax>(
+                @"match instance { 
+                  A | B => 1,
+                  _     => ""*""
+                }
+            ");
+
+            Assert.Equal("Variant<A,B>", ((ConstantPatternSyntax)match.Cases[0].Pattern).Constant.ToString());
+
+            Assert.True(match.Cases[1].Pattern is AnyPatternSyntax);
+        }
+
+        /*
+        [Fact]
+        public void MatchRecord()
+        {
+
+            var match = Parse<MatchExpressionSyntax>(
+                @"match instance { 
+                   { x, b } => 1
+                }
+            ");
+
+            Assert.Equal("Variant<A,B>", ((ConstantPatternSyntax)match.Cases[0].Pattern).Constant.ToString());
+
+            Assert.True(match.Cases[1].Pattern is AnyPatternSyntax);
+        }
+        */
 
         [Fact]
         public void MatchTypes()

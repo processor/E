@@ -191,7 +191,7 @@ namespace E.Parsing.Tests
 
         private string Debug(string text)
         {
-            return BEWriter.Write(Parse<BinaryExpressionSyntax>(text));
+            return BinaryExpressionWriter.Write(Parse<BinaryExpressionSyntax>(text));
         }
 
         [Fact]
@@ -350,7 +350,7 @@ namespace E.Parsing.Tests
     }
 
 
-    public class BEWriter
+    public class BinaryExpressionWriter
     {
         public static string Write(BinaryExpressionSyntax be)
         {
