@@ -3,7 +3,6 @@
     <Version>0.0.1</Version>
     <TargetFramework>net5.0</TargetFramework>
     <AssemblyName>E.Core</AssemblyName>
-    <LangVersion>9</LangVersion>
     <Nullable>enable</Nullable>
   </PropertyGroup>
 </Project>
