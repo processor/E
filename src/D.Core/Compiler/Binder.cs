@@ -103,6 +103,18 @@ namespace E
                 case TypeInitializer initializer:
                     return env.Get<Type>(initializer.Type);
 
+                case TupleExpression tuple:
+                    {
+                        var args = new Type[tuple.Elements.Length];
+
+                        for (var i = 0; i < tuple.Elements.Length; i++)
+                        {
+                            args[i] = GetType(tuple.Elements[i]);
+                        }
+
+                        return new Type(ObjectType.Tuple, args);
+                    }
+
                 case ArrayInitializer array:
                     return new Type(ObjectType.Array, (Type)array.ElementType);
             }

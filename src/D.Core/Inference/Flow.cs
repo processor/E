@@ -91,7 +91,7 @@
 
         private IType GetType(Type kind)
         {
-            if (!env.TryGetValue(kind.Name, out IType type))
+            if (!env.TryGetValue(kind.Name, out IType? type))
             {
                 type = Add(kind);
             }

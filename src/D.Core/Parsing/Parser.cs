@@ -1731,7 +1731,6 @@ namespace E.Parsing
                 first
             };
 
-
             while (ConsumeIf(Comma)) // ? ,
             {
                 if (reader.Current.Kind is ParenthesisOpen)
@@ -1743,7 +1742,6 @@ namespace E.Parsing
                 {
                     elements.Add(ReadTupleElement());
                 }
-
             }
 
             Consume(ParenthesisClose); // ! )

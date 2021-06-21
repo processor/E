@@ -132,7 +132,7 @@ namespace E
 
             sb.Append(Name);
 
-            if (Arguments is not null && Arguments.Length > 0)
+            if (Arguments is { Length: > 0 })
             {
                 sb.Append('<');
 

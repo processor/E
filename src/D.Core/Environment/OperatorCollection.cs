@@ -1,16 +1,16 @@
-﻿namespace E
+﻿using System.Diagnostics.CodeAnalysis;
+
+using E.Collections;
+
+namespace E
 {
-    using System.Diagnostics.CodeAnalysis;
-
-    using Collections;
-
     public class OperatorCollection
     {
         private readonly Trie<Operator> trie = new ();
 
         public bool Contains(string symbol) => trie.ContainsKey(symbol);
 
-        public bool TryGet(string symbol, out Operator op) => trie.TryGetValue(symbol, out op);
+        public bool TryGet(string symbol, [NotNullWhen(true)] out Operator? op) => trie.TryGetValue(symbol, out op);
 
         public void Add(params Operator[] ops)
         {
