@@ -14,8 +14,8 @@ namespace E.Syntax
     }
 }
 
-// geometry.curve.getPoint(Number)->Point
-// geography.earth.eccentricity->Number
+// geometry.curve.get_point(Number) -> Point
+// geography.earth.eccentricity     -> Number
 
 // Value
 
