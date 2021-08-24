@@ -18,7 +18,6 @@ match x >> 4 {
             Assert.True(match.Expression is BinaryExpressionSyntax);
         }
 
-
         [Fact]
         public void MatchLiterals()
         {
@@ -36,9 +35,7 @@ match x >> 4 {
             Assert.Equal("2",    ((ConstantPatternSyntax)match.Cases[1].Pattern).Constant.ToString());
             Assert.Equal("text", ((ConstantPatternSyntax)match.Cases[2].Pattern).Constant.ToString());
             Assert.Equal("50 m", ((ConstantPatternSyntax)match.Cases[3].Pattern).Constant.ToString());
-
         }
-
 
         [Fact]
         public void MatchVariant()
