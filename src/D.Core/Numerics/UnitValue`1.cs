@@ -148,6 +148,11 @@ namespace E.Units
             return Value.Equals(other.Value)
                 && Unit.Equals(other.Unit);
         }
+
+        public override bool Equals(object obj)
+        {
+            return obj is UnitValue<T> other && Equals(other);
+        }
     }
 }
 
