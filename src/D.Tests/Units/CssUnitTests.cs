@@ -1,25 +1,27 @@
-﻿using System.Runtime.Serialization;
+﻿using System.Text.Json.Serialization;
+
 using Carbon.Json;
+
 using Xunit;
 
 namespace E.Units.Tests
 {
     public class CssUnitTests
     {
-        public class Element
+        public sealed class Element
         {
-            [DataMember(Name = "width")]
+            [JsonPropertyName("width")]
             public UnitValue<double> Width { get; set; }
 
-            [DataMember(Name = "height")]
+            [JsonPropertyName("height")]
             public UnitValue<double> Height { get; set; }
 
-            [DataMember(Name = "flex")]
+            [JsonPropertyName("flex")]
             public UnitValue<double> Flex { get; set; }
         }
 
         [Fact]
-        public void Serialize()
+        public void Serializable()
         {
             // margin = new (20px, 20px)
             // margin = new (100px)
@@ -38,7 +40,7 @@ namespace E.Units.Tests
   ""width"": ""1920px"",
   ""height"": ""1080px"",
   ""flex"": ""100%""
-}", json.ToString());
+}", json.ToString(), ignoreLineEndingDifferences: true);
 
             var el = json.As<Element>();
 
