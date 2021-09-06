@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 
 using E.Expressions;
 using E.Inference;
@@ -201,11 +202,11 @@ namespace E
         {
             if (syntax.Text.IndexOf('.') > -1)
             {
-                return new Number(double.Parse(syntax.Text));
+                return new Number(double.Parse(syntax.Text, CultureInfo.InvariantCulture));
             }
             else
             {
-                return new Integer(long.Parse(syntax.Text));
+                return new Integer(long.Parse(syntax.Text, CultureInfo.InvariantCulture));
             }
         }
 
@@ -276,7 +277,7 @@ namespace E
 
         public virtual VariableDeclaration VisitVariableDeclaration(PropertyDeclarationSyntax syntax)
         {
-            var value = Visit(syntax.Value);
+            var value = Visit(syntax.Value!);
             var type  = GetType(syntax.Type ?? value);
             
             flow.Define(syntax.Name, type);
