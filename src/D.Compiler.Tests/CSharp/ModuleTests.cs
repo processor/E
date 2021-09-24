@@ -1,13 +1,11 @@
-﻿using Xunit;
+﻿namespace E.Compilation.Tests;
 
-namespace E.Compilation.Tests
+public class MasonaryTest
 {
-    public class MasonaryTest
+    [Fact]
+    public void A()
     {
-        [Fact]
-        public void A()
-        {
-            var a = Helper.Transpile(@"
+        var a = Helper.Transpile(@"
 
 Layout protocol {
   layout (nodes: [ Node ] ) -> Size
@@ -74,16 +72,16 @@ Layout impl for Masonary {
   }
 }
 ");
-            // throw new System.Exception(a.ToString());
-        }
+        // throw new System.Exception(a.ToString());
     }
+}
 
-    public class ModuleTests
+public class ModuleTests
+{
+    [Fact]
+    public void A()
     {
-        [Fact]
-        public void A()
-        {
-            Assert.Equal(@"
+        Assert.Equal(@"
 namespace Fancy
 {
     public struct Point
@@ -124,12 +122,12 @@ Fancy module {
     }
 }
 "));
-        }
+    }
 
-        [Fact]
-        public void B()
-        {
-            Assert.Equal(@"
+    [Fact]
+    public void B()
+    {
+        Assert.Equal(@"
 namespace Fancy
 {
     namespace Fancier
@@ -143,7 +141,7 @@ namespace Fancy
     }
 }".Trim().Replace("\r", string.Empty),
 
-    Helper.Transpile(@"
+Helper.Transpile(@"
 Fancy module {
   Fancier module {
     a ƒ(point: Point<T>) -> String {
@@ -152,6 +150,5 @@ Fancy module {
   }
 }
 "));
-        }
     }
 }

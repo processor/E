@@ -1,16 +1,13 @@
-﻿
-using Xunit;
+﻿namespace E.Compilation.Tests;
 
-namespace E.Compilation.Tests
+using static Helper;
+
+public class ImplementationTests
 {
-    using static Helper;
-
-    public class ImplementationTests
+    [Fact]
+    public void BezierType()
     {
-        [Fact]
-        public void BezierType()
-        {
-            var r = Transpile(@"
+        var r = Transpile(@"
 Curve protocol {
   getPoint (position: Number) -> Vector2
 }
@@ -35,9 +32,9 @@ Curve impl for Bezier {
 }
 ");
 
-            // throw new System.Exception(r);
+        // throw new System.Exception(r);
 
-            Assert.Equal(@"
+        Assert.Equal(@"
 public interface Curve
 {
     Vector2 GetPoint(double position);
@@ -72,12 +69,12 @@ public struct Bezier : Curve
     private object B4(double t) => (1 - t) * (1 - t) * (1 - t);
 }
 ".Trim().Replace("\r\n", "\n"), r);
-        }
+    }
 
-        [Fact]
-        public void Var()
-        {
-            Assert.Equal(@"
+    [Fact]
+    public void Var()
+    {
+        Assert.Equal(@"
 public class Cuboid
 {
     public Cuboid(List<Polygon> polygons)
@@ -89,7 +86,7 @@ public class Cuboid
 }
 ".Trim().Replace("\r\n", "\n"),
 
-            Helper.Transpile(@"
+        Helper.Transpile(@"
 Cuboid class {
   polygons: [ Polygon ]
 }
@@ -106,12 +103,12 @@ Cuboid impl
         [ [ 4, 5, 7, 6 ], [  0,  0, +1 ] ]
     ]
 }"));
-        }
+    }
 
-        [Fact]
-        public void Z()
-        {
-            Assert.Equal(@"
+    [Fact]
+    public void Z()
+    {
+        Assert.Equal(@"
 public static string A(Point<T> point)
 {
     var x = point.X;
@@ -124,12 +121,12 @@ a ƒ(point: Point<T>) -> String {
   let (x, y, z) = point
 }
 "));
-        }
+    }
 
-        [Fact]
-        public void X()
-        {
-            Assert.Equal(@"
+    [Fact]
+    public void X()
+    {
+        Assert.Equal(@"
 public static double CubicIn(double x) => x * x * x;
 
 public static object CubicOut(double x) => Math.Pow(x - 1, 3) + 1;
@@ -141,25 +138,25 @@ public static object SinIn(double x) => Math.Sin(x * Math.PI * 0.5);
 public static object SinOut(double x) => -Math.Cos(Math.PI * x) / 2 + 0.5;
 ".Trim().Replace("\r\n", "\n"),
 
-            Transpile(@"
+        Transpile(@"
 cubicIn  ƒ(x: Number) => x * x * x;
 cubicOut ƒ(x: Number) => (x - 1) ** 3 + 1;
 linear   ƒ(x: Number) => x;
 sinIn    ƒ(x: Number) => sin(x * π * 0.5);
 sinOut   ƒ(x: Number) => - cos(π * x) / 2 + 0.5;
 "));
-        }
+    }
 
 
-        [Fact]
-        public void Q()
-        {
-            Assert.Equal(@"
+    [Fact]
+    public void Q()
+    {
+        Assert.Equal(@"
 public static Point<T> Clamp<T>(Point<T> p, Point<T> min, Point<T> max) => new Point<T>(x: Math.Max(min.X, Math.Min(max.X, p.X)), y: Math.Max(min.Y, Math.Min(max.Y, p.Y)), z: Math.Max(min.Z, Math.Min(max.Z, p.Z)));
 
 ".Trim(),
 
-            Transpile(@"
+        Transpile(@"
 clamp ƒ <T> (p: Point<T>, min: Point<T>, max: Point<T>) => Point<T>(
   x: max(min.x, min(max.x, p.x)),
   y: max(min.y, min(max.y, p.y)),
@@ -167,12 +164,12 @@ clamp ƒ <T> (p: Point<T>, min: Point<T>, max: Point<T>) => Point<T>(
 )
 
 "));
-        }
+    }
 
-        [Fact]
-        public void SimpleProperties()
-        {
-            Assert.Equal(@"
+    [Fact]
+    public void SimpleProperties()
+    {
+        Assert.Equal(@"
 
 namespace Namespaced
 {
@@ -221,7 +218,7 @@ namespace Namespaced
 }
 ".Trim().Replace("\r\n", "\n"),
 
-        Transpile(@"
+    Transpile(@"
 
 Vector3 struct {
   x, y, z: Float64
@@ -246,13 +243,13 @@ Class impl {
 }
 
 ", "Namespaced"));
-        }
+    }
 
 
-        [Fact]
-        public void WriteModule()
-        {
-            Assert.Equal(@"
+    [Fact]
+    public void WriteModule()
+    {
+        Assert.Equal(@"
 
 namespace Banking
 {
@@ -272,14 +269,14 @@ Transpile(@"
 Bank class { 
   name: String
 }", "Banking"));
-        }
+    }
 
-        [Fact]
-        public void RewriteType()
-        {
-            // [Record]
+    [Fact]
+    public void RewriteType()
+    {
+        // [Record]
 
-            Assert.Equal(@"
+        Assert.Equal(@"
 public class Account
 {
     public Account(decimal balance, Entity owner, DateTime created)
@@ -309,12 +306,12 @@ Account record {
 Account impl { }
 
 "));
-        }
+    }
 
-        [Fact]
-        public void Z1()
-        {
-            Assert.Equal(@"
+    [Fact]
+    public void Z1()
+    {
+        Assert.Equal(@"
 public struct Matrix4<T>
 {
     public Matrix4(List<T> elements)
@@ -386,12 +383,12 @@ Matrix4 impl {
   m43 => this[11] // 4, 3
   m44 => this[15] // 4, 4
 }"));
-        }
+    }
 
-        [Fact]
-        public void RewriteOperatorsMin()
-        {
-            Assert.Equal(@"
+    [Fact]
+    public void RewriteOperatorsMin()
+    {
+        Assert.Equal(@"
 public struct Point
 {
     public Point(double x, double y, double z)
@@ -427,12 +424,12 @@ Point impl {
   - (a: Point, b: Point)  => Point(x: a.x - b.x, y: a.y - b.y, z: a.z - b.z);
 }
 "));
-        }
+    }
 
-        [Fact]
-        public void RewriteOperators()
-        {
-            Assert.Equal(@"
+    [Fact]
+    public void RewriteOperators()
+    {
+        Assert.Equal(@"
 public struct Point
 {
     public static Point operator *(Point a, double b) => new Point(x: a.X * b, y: a.Y * b, z: a.Z * b);
@@ -456,13 +453,13 @@ Point impl {
 }
 
 "));
-        }
+    }
 
 
-        [Fact]
-        public void GenericPoint()
-        {
-            Assert.Equal(@"
+    [Fact]
+    public void GenericPoint()
+    {
+        Assert.Equal(@"
 public struct Point<T>
 {
     public Point(T x, T y, T z)
@@ -487,14 +484,14 @@ Point struct <T> {
 }
 
 "));
-        }
+    }
 
 
 
-        [Fact]
-        public void WriteProtocol()
-        {
-            Assert.Equal(@"
+    [Fact]
+    public void WriteProtocol()
+    {
+        Assert.Equal(@"
 public interface Curve
 {
     Point GetPoint(double t);
@@ -506,14 +503,14 @@ Curve protocol {
   getPoint (t: Number) -> Point
 }
 "));
-        }
+    }
 
 
 
-        [Fact]
-        public void WriteProtocol3()
-        {
-            Assert.Equal(@"
+    [Fact]
+    public void WriteProtocol3()
+    {
+        Assert.Equal(@"
 public interface Observer
 {
     Function<A,B,C,D> Next { get; }
@@ -530,12 +527,12 @@ Observer protocol {
 }
 "));
 
-        }
+    }
 
-        [Fact]
-        public void WriteProtocol2()
-        {
-            Assert.Equal(@"
+    [Fact]
+    public void WriteProtocol2()
+    {
+        Assert.Equal(@"
 public interface Node
 {
     Kind Kind { get; }
@@ -549,12 +546,12 @@ Node protocol {
   children -> [ Node ]
 }
 "));
-        }
+    }
 
-        [Fact]
-        public void Constructors()
-        {
-            Assert.Equal(@"
+    [Fact]
+    public void Constructors()
+    {
+        Assert.Equal(@"
 public interface Geometry
 {
     Point Center { get; }
@@ -617,12 +614,12 @@ Geometry impl for Point {
 }
 
 "));
-        }
+    }
 
-        [Fact]
-        public void Unit()
-        {
-            var unit = Helper.CompileModule(@"
+    [Fact]
+    public void Unit()
+    {
+        var unit = Helper.CompileModule(@"
 Point struct { 
   x, y, z: Number
 }
@@ -633,22 +630,22 @@ Point impl {
 }
 ");
 
-            var pointType = unit.Statements[0] as Type;
+        var pointType = unit.Statements[0] as Type;
 
-            // Assert.Equal(1, unit.Members.Count);
+        // Assert.Equal(1, unit.Members.Count);
 
-            Assert.Equal("Point", pointType.Name);
-            Assert.Equal(3, pointType.Properties.Count);
+        Assert.Equal("Point", pointType.Name);
+        Assert.Equal(3, pointType.Properties.Count);
 
-            // Assert.Equal(1, unit.Implementations[unit.Types[0]].Count);
-            // Assert.Equal(2, unit.Implementations.First()[0].Members.Length);
-        }
+        // Assert.Equal(1, unit.Implementations[unit.Types[0]].Count);
+        // Assert.Equal(2, unit.Implementations.First()[0].Members.Length);
+    }
 
 
-        [Fact]
-        public void Y()
-        {
-            Assert.Equal(
+    [Fact]
+    public void Y()
+    {
+        Assert.Equal(
 @"public static Point<T> Negate<T>(Point<T> value) => new Point<T>(x: -value.X, y: -value.Y, z: -value.Z);",
 
 Transpile(
@@ -657,6 +654,5 @@ Transpile(
   y: - value.y, 
   z: - value.z 
 )"));
-        }
     }
 }

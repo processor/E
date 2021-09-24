@@ -5,63 +5,61 @@ using E.Expressions;
 using E.Parsing;
 using E.Syntax;
 
-using Xunit;
+namespace E.Compilation.Tests;
 
-namespace E.Compilation.Tests
+public class CSharpRewriterTests
 {
-    public class CSharpRewriterTests
+    [Fact]
+    public void Percent()
     {
-        [Fact]
-        public void Percent()
-        {
-            Assert.Equal(
-                expected: "object a = 2 * (50 * 0.01);",
-                actual: Rewrite("let a = 2 * 50%")
-            );
-        }
+        Assert.Equal(
+            expected: "object a = 2 * (50 * 0.01);",
+            actual: Rewrite("let a = 2 * 50%")
+        );
+    }
 
-        [Fact]
-        public void Access3()
-        {
-            Assert.Equal(
-                expected : "a[0].B[1].C[2]",
-                actual   : Rewrite("a[0].b[1].c[2]")
-            );
-        }
+    [Fact]
+    public void Access3()
+    {
+        Assert.Equal(
+            expected: "a[0].B[1].C[2]",
+            actual: Rewrite("a[0].b[1].c[2]")
+        );
+    }
 
-        [Fact]
-        public void Access2()
-        {
-            Assert.Equal(
-                expected    : "a[0][1][2][3][4][5]",
-                actual      : Rewrite("a[0][1][2][3][4][5]")
-            );
-        }
+    [Fact]
+    public void Access2()
+    {
+        Assert.Equal(
+            expected: "a[0][1][2][3][4][5]",
+            actual: Rewrite("a[0][1][2][3][4][5]")
+        );
+    }
 
-        [Fact]
-        public void Access1()
-        {
-            Assert.Equal(
-                expected: "a.B.C.D.E.F.G.H",
-                actual: Rewrite("a.b.c.d.e.f.g.h")
-            );
-        }
+    [Fact]
+    public void Access1()
+    {
+        Assert.Equal(
+            expected: "a.B.C.D.E.F.G.H",
+            actual: Rewrite("a.b.c.d.e.f.g.h")
+        );
+    }
 
-        [Fact]
-        public void RewritePipe()
-        {
-            Assert.Equal(
-                expected : "D(C(B(A, 100), 17))",
-                actual   : Rewrite("A |> B(100) |> C(17) |> D")
-            );
-        }
-        
-        // TODO: JavaScript...
+    [Fact]
+    public void RewritePipe()
+    {
+        Assert.Equal(
+            expected: "D(C(B(A, 100), 17))",
+            actual: Rewrite("A |> B(100) |> C(17) |> D")
+        );
+    }
 
-        // [Fact]
-        public void RewriteObserver()
-        {
-            Assert.Equal(@"
+    // TODO: JavaScript...
+
+    // [Fact]
+    public void RewriteObserver()
+    {
+        Assert.Equal(@"
 class Gallery extends HTMLElement {
   constructor(slides) {
     super();
@@ -109,12 +107,12 @@ Gallery impl {
   }
 }
 "));
-        }       
+    }
 
-        [Fact]
-        public void RewriteTypeInitiziation()
-        {
-            Assert.Equal(@"
+    [Fact]
+    public void RewriteTypeInitiziation()
+    {
+        Assert.Equal(@"
 new Account(balance: 100, owner: ""me"", created: new Date(year: 2000, month: 1, day: 1))
 ".Trim(),
 
@@ -127,34 +125,34 @@ Account(
 )
 
 "));
-        }
+    }
 
-        [Fact]
-        public void Ternary()
-        {
-            Assert.Equal(
-                        "x < 0.5 ? Math.Pow(x * 2, 3) / 2 : (Math.Pow((x - 1) * 2, 3) + 2) / 2", 
-                Rewrite("x < 0.5 ? ((x * 2) ** 3) / 2 : ((((x - 1) * 2) ** 3) + 2) / 2"));
-        }
+    [Fact]
+    public void Ternary()
+    {
+        Assert.Equal(
+                    "x < 0.5 ? Math.Pow(x * 2, 3) / 2 : (Math.Pow((x - 1) * 2, 3) + 2) / 2",
+            Rewrite("x < 0.5 ? ((x * 2) ** 3) / 2 : ((((x - 1) * 2) ** 3) + 2) / 2"));
+    }
 
-        [Fact]
-        public void SingleStatements()
-        {
-            Assert.Equal("long a = 100;",       Rewrite("let a: Int64 = 100"));
-            Assert.Equal("long a = 100;",       Rewrite("let a: i64 = 100"));
-            Assert.Equal("int a = 100;",        Rewrite("let a: Int32 = 100"));
-            Assert.Equal("decimal a = 100;",    Rewrite("let a: Decimal = 100"));
-            Assert.Equal("double a = 1;",       Rewrite("var a: Float64 = 1.0"));
-            Assert.Equal("double a = 1.9;",     Rewrite("var a: Number = 1.9"));
-            Assert.Equal("double a = 1.9;",     Rewrite("var a = 1.9"));
+    [Fact]
+    public void SingleStatements()
+    {
+        Assert.Equal("long a = 100;", Rewrite("let a: Int64 = 100"));
+        Assert.Equal("long a = 100;", Rewrite("let a: i64 = 100"));
+        Assert.Equal("int a = 100;", Rewrite("let a: Int32 = 100"));
+        Assert.Equal("decimal a = 100;", Rewrite("let a: Decimal = 100"));
+        Assert.Equal("double a = 1;", Rewrite("var a: Float64 = 1.0"));
+        Assert.Equal("double a = 1.9;", Rewrite("var a: Number = 1.9"));
+        Assert.Equal("double a = 1.9;", Rewrite("var a = 1.9"));
 
-            Assert.Equal("string s = \"hi\";",  Rewrite("let s = \"hi\""));
-        }
+        Assert.Equal("string s = \"hi\";", Rewrite("let s = \"hi\""));
+    }
 
-        [Fact]
-        public void IfElseIfElse()
-        {
-            Assert.Equal(@"
+    [Fact]
+    public void IfElseIfElse()
+    {
+        Assert.Equal(@"
 if (a > 5)
 {
     return 3;
@@ -181,12 +179,12 @@ else {
   return 5
 }
 "));
-        }
+    }
 
-        [Fact]
-        public void SwitchStatement()
-        {
-            Assert.Equal(@"
+    [Fact]
+    public void SwitchStatement()
+    {
+        Assert.Equal(@"
 return a switch
 {
     1 => 1 + 1,
@@ -197,7 +195,7 @@ return a switch
     6 => Math.Pow(1, 6),
 }
 ".Trim().Replace("\r\n", "\n"),
-                
+
 Rewrite(@"
 match a {
   1 => 1 + 1
@@ -208,13 +206,13 @@ match a {
   6 => 1 ** 6
 }
 "));
-        }
+    }
 
 
-        [Fact]
-        public void SwitchTypeStatement()
-        {
-            Assert.Equal(@"
+    [Fact]
+    public void SwitchTypeStatement()
+    {
+        Assert.Equal(@"
 object width;
 
 switch (media)
@@ -234,28 +232,27 @@ let width = match media {
 }
 
 "));
-        }
+    }
 
-        public static string Rewrite(string source)
+    public static string Rewrite(string source)
+    {
+        var compilier = new Compiler();
+
+        using var parser = new Parser(source);
+
+        var expressions = new List<IExpression>();
+
+        foreach (ISyntaxNode node in parser.Enumerate())
         {
-            var compilier = new Compiler();
-
-            using var parser = new Parser(source);
-
-            var expressions = new List<IExpression>();
-
-            foreach (ISyntaxNode node in parser.Enumerate())
-            {
-                expressions.Add(compilier.Visit(node));
-            }
-
-            using var writer = new StringWriter();
-
-            var csharp = new CSharpEmitter(writer);
-
-            csharp.Visit(expressions);
-
-            return writer.ToString();
+            expressions.Add(compilier.Visit(node));
         }
+
+        using var writer = new StringWriter();
+
+        var csharp = new CSharpEmitter(writer);
+
+        csharp.Visit(expressions);
+
+        return writer.ToString();
     }
 }

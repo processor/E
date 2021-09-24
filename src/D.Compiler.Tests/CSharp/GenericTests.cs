@@ -2,16 +2,14 @@
 using E.Parsing;
 using E.Syntax;
 
-using Xunit;
+namespace E.Compilation.Tests;
 
-namespace E.Compilation.Tests
+public class GenericTests
 {
-    public class GenericTests
+    [Fact]
+    public void X()
     {
-        [Fact]
-        public void X()
-        {
-            var text = @"
+        var text = @"
 let matrix = [
     [ [ 0, 4, 6, 2 ], [ -1,  0,  0 ] ],
     [ [ 1, 3, 7, 5 ], [ +1,  0,  0 ] ],
@@ -21,16 +19,15 @@ let matrix = [
     [ [ 4, 5, 7, 6 ], [  0,  0, +1 ] ]
 ]";
 
-            var def = (PropertyDeclarationSyntax)new Parser(text).Next();
+        var def = (PropertyDeclarationSyntax)new Parser(text).Next();
 
-            Assert.Equal("matrix", def.Name);
+        Assert.Equal("matrix", def.Name);
 
-            var compiler = new Compiler();
+        var compiler = new Compiler();
 
-            var declaration = (VariableDeclaration)compiler.Visit(def);
+        var declaration = (VariableDeclaration)compiler.Visit(def);
 
-            Assert.Equal("matrix", declaration.Name);
+        Assert.Equal("matrix", declaration.Name);
 
-        }
     }
 }

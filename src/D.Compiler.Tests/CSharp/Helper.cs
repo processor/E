@@ -2,37 +2,36 @@
 
 using E.Parsing;
 
-namespace E.Compilation.Tests
+namespace E.Compilation.Tests;
+
+public static class Helper
 {
-    public static class Helper
+    public static string Transpile(string source, string moduleName = null)
     {
-        public static string Transpile(string source, string moduleName = null)
+        var module = CompileModule(source, moduleName);
+
+        using var writer = new StringWriter();
+
+        var csharp = new CSharpEmitter(writer);
+
+        if (moduleName is not null)
         {
-            var module = CompileModule(source, moduleName);
-
-            using var writer = new StringWriter();
-
-            var csharp = new CSharpEmitter(writer);
-
-            if (moduleName is not null)
-            {
-                csharp.WriteModule(module);
-            }
-            else
-            {
-                csharp.WriteModuleMembers(module);
-            }
-
-            return writer.ToString();
+            csharp.WriteModule(module);
+        }
+        else
+        {
+            csharp.WriteModuleMembers(module);
         }
 
-        public static Module CompileModule(string source, string moduleName = null)
-        {
-            var compilier = new Compiler();
+        return writer.ToString();
+    }
 
-            using var parser = new Parser(source);
+    public static Module CompileModule(string source, string moduleName = null)
+    {
+        var compilier = new Compiler();
 
-            return compilier.Compile(parser.Enumerate(), moduleName).Expressions[0] as Module;
-        }
+        using var parser = new Parser(source);
+
+        return compilier.Compile(parser.Enumerate(), moduleName).Expressions[0] as Module;
     }
 }
