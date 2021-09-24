@@ -1,42 +1,39 @@
-﻿using Xunit;
+﻿using E.Syntax;
 
-using E.Syntax;
+namespace E.Scripting.Tests;
 
-namespace E.Scripting.Tests
+using Parsing.Tests;
+
+public class BindingTests : TestBase
 {
-    using Parsing.Tests;
-
-    public class BindingTests : TestBase
+    [Fact]
+    public void Constructor()
     {
-        [Fact]
-        public void Constructor() 
-        {
-            var func = Parse<FunctionDeclarationSyntax>(@"
+        var func = Parse<FunctionDeclarationSyntax>(@"
                 Point ƒ <T: Number>(x: T, y: T, z: T) => Point<T>(x, y, z)
             ");
 
-            Assert.Null(func.ReturnType);
-            
-            var compiler = new Compiler();
+        Assert.Null(func.ReturnType);
 
-            var f = compiler.VisitFunctionDeclaration(func);
+        var compiler = new Compiler();
 
-            Assert.Equal("Point", f.ReturnType.Name);
-            Assert.Equal("T", f.ReturnType.Arguments[0].Name);
-        }
+        var f = compiler.VisitFunctionDeclaration(func);
 
-        [Fact]
-        public void FuncToString()
-        {
-            var func = Parse<FunctionDeclarationSyntax>("toString ƒ () => $\"{x},{y},{z}\"");
+        Assert.Equal("Point", f.ReturnType.Name);
+        Assert.Equal("T", f.ReturnType.Arguments[0].Name);
+    }
 
-            Assert.Equal("toString", func.Name);
+    [Fact]
+    public void FuncToString()
+    {
+        var func = Parse<FunctionDeclarationSyntax>("toString ƒ () => $\"{x},{y},{z}\"");
 
-            var compiler = new Compiler();
+        Assert.Equal("toString", func.Name);
 
-            var f = compiler.VisitFunctionDeclaration(func);
+        var compiler = new Compiler();
 
-            Assert.Equal(Type.Get(ObjectType.String), f.ReturnType);
-        }
+        var f = compiler.VisitFunctionDeclaration(func);
+
+        Assert.Equal(Type.Get(ObjectType.String), f.ReturnType);
     }
 }
