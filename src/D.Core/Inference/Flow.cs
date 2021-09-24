@@ -84,7 +84,7 @@
         {
             var item = GetType(elementKind);
 
-            return TypeSystem.NewType(listType, "List<" + elementKind.ToString() + ">", new[] { item });
+            return TypeSystem.NewType(listType, $"List<{elementKind}>", new[] { item });
         }
 
         public IType GetType(ObjectType kind) => GetType(new Type(kind));

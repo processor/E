@@ -125,7 +125,7 @@ namespace E
                 SyntaxKind.StringLiteral                => new StringLiteral(syntax.ToString()),
                 SyntaxKind.ArrayInitializer             => VisitNewArray((ArrayInitializerSyntax)syntax),
 
-                _ => throw new Exception("Unexpected syntax:" + syntax.Kind + "/" + syntax.GetType().ToString()),
+                _ => throw new Exception($"Unexpected syntax:{syntax.Kind}/{syntax.GetType()}"),
             };
         }
 

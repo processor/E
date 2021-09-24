@@ -35,6 +35,6 @@ namespace E.Parsing
             => !left.Equals(right);
 
         public readonly override string ToString()
-            => "(" + Line + "," + Column + "," + Position + ")";
+            => $"({Line},{Column},{Position})";
     }
 }

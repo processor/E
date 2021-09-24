@@ -124,7 +124,7 @@ namespace E
                 return Type.Get(expression.Kind);
             }
 
-            throw new Exception("Unexpected expression:" + expression.Kind + "/" + expression.ToString());
+            throw new Exception($"Unexpected expression:{expression.Kind}/{expression}");
         }
     }
 }

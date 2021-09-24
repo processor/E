@@ -270,7 +270,7 @@ namespace E
             }
             else
             {
-                throw new Exception(expression.Operator.Name + " has no function");
+                throw new Exception($"{expression.Operator.Name} has no function");
             }
         }
     }
