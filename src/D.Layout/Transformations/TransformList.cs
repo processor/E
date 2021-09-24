@@ -1,7 +1,6 @@
-﻿namespace E.Transformations
+﻿namespace E.Transformations;
+
+public class TransformList
 {
-    public class TransformList
-    {
-        public ITransform this[int index] => null;
-    }
+    public ITransform this[int index] => null;
 }

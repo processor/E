@@ -1,7 +1,6 @@
-﻿namespace E.Transformations
+﻿namespace E.Transformations;
+
+public struct SkewX : ITransform
 {
-    public struct SkewX : ITransform
-    {
-        public INumeric<double> Ax { get; set; }
-    }
+    public INumeric<double> Ax { get; set; }
 }

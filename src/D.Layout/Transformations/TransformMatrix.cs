@@ -1,8 +1,7 @@
-﻿namespace E.Transformations
+﻿namespace E.Transformations;
+
+public struct TransformMatrix : ITransform
 {
-    public struct TransformMatrix : ITransform
-    {
-        // equivalent 4x4 transform matrix
-        public double[] Value { get; set; }
-    }
+    // equivalent 4x4 transform matrix
+    public double[] Value { get; set; }
 }
