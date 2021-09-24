@@ -3,58 +3,58 @@ using System.Linq;
 
 using Xunit;
 
-namespace E.Parsing.Tests
-{
-    public class ProgramTests : TestBase
-    {
-        // [Fact]
-        public void Geometry()
-        {
-            foreach (var doc in ReadDocuments("geometry"))
-            {
-                try
-                {
-                    using var program = new Parser(doc.OpenText().ReadToEnd());
+namespace E.Parsing.Tests;
 
-                    var statements = program.Enumerate().ToArray();
-                }
-                catch (Exception ex)
-                {
-                    throw new Exception("error in " + doc.Name, ex);
-                }
+public class ProgramTests : TestBase
+{
+    // [Fact]
+    public void Geometry()
+    {
+        foreach (var doc in ReadDocuments("geometry"))
+        {
+            try
+            {
+                using var program = new Parser(doc.OpenText().ReadToEnd());
+
+                var statements = program.Enumerate().ToArray();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("error in " + doc.Name, ex);
             }
         }
+    }
 
-        // [Fact]
-        public void Math()
-        {
-            var text = ReadDocument("math/Functions.d");
+    // [Fact]
+    public void Math()
+    {
+        var text = ReadDocument("math/Functions.d");
 
-            using var program = new Parser(text);
+        using var program = new Parser(text);
 
-            var statements = program.Enumerate().ToArray();
+        var statements = program.Enumerate().ToArray();
 
-            Assert.Equal(52, statements.Length);
-        }
+        Assert.Equal(52, statements.Length);
+    }
 
-        // [Fact]
-        public void Vector3()
-        {
-            var text = ReadDocument("numerics/Vector3.d");
+    // [Fact]
+    public void Vector3()
+    {
+        var text = ReadDocument("numerics/Vector3.d");
 
-            using var program = new Parser(text);
+        using var program = new Parser(text);
 
-            var statements = program.Enumerate().ToArray();
+        var statements = program.Enumerate().ToArray();
 
-            Assert.Equal(2, statements.Length);
-        }
+        Assert.Equal(2, statements.Length);
+    }
 
-        [Fact]
-        public void Masonary()
-        {
-            // implementation
+    [Fact]
+    public void Masonary()
+    {
+        // implementation
 
-            using var program = new Parser(@"
+        using var program = new Parser(@"
 Masonary`Layout class {
   columnWidth :   Number
   columnGap   :   Number
@@ -127,14 +127,14 @@ Masonary`Layout implementation {
   }
 }");
 
-            var statements = program.Enumerate().ToArray();
+        var statements = program.Enumerate().ToArray();
 
-            Assert.Equal(2, statements.Length);
-        }
-        [Fact]
-        public void JpegDecoder()
-        {
-            using var program = new Parser(@"
+        Assert.Equal(2, statements.Length);
+    }
+    [Fact]
+    public void JpegDecoder()
+    {
+        using var program = new Parser(@"
 from Imaging import Image
 
 Image class { 
@@ -194,10 +194,6 @@ decode ƒ (data: JPEG) -> Image {
 }
 ");
 
-            var statements = program.Enumerate().ToArray();
-        }
+        var statements = program.Enumerate().ToArray();
     }
-
-
-        
 }

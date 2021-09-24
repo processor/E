@@ -1,17 +1,15 @@
 ﻿using E.Syntax;
-using Xunit;
 
-namespace E.Parsing.Tests
+namespace E.Parsing.Tests;
+
+public class PercentageTests : TestBase
 {
-    public class PercentageTests : TestBase
+    [Fact]
+    public void CanParse()
     {
-        [Fact]
-        public void A()
-        {
-            var node = Parse<UnitValueSyntax>("100%");
+        var node = Parse<UnitValueSyntax>("100%");
 
-            Assert.Equal("100", node.Expression.ToString());
-            Assert.Equal("%", node.UnitName);
-        }
+        Assert.Equal("100", node.Expression.ToString());
+        Assert.Equal("%", node.UnitName);
     }
 }

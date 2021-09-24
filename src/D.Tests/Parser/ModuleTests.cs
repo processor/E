@@ -1,15 +1,13 @@
-﻿using Xunit;
+﻿using E.Syntax;
 
-namespace E.Parsing.Tests
+namespace E.Parsing.Tests;
+
+public class ModuleTests : TestBase
 {
-    using Syntax;
-
-    public class ModuleTests : TestBase
+    [Fact]
+    public void DefaultModule()
     {
-        [Fact]
-        public void DefaultModule()
-        {
-            var array = Parse<ModuleSyntax>(@"
+        var array = Parse<ModuleSyntax>(@"
 Color module { 
   CMYK  struct { c, m, y, k: i8 }
   RGBA  struct { r, g, b, a: i8 }
@@ -18,7 +16,6 @@ Color module {
 }
 ");
 
-            Assert.Equal(4, array.Statements.Count);
-        }
+        Assert.Equal(4, array.Statements.Count);
     }
 }

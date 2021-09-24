@@ -2,147 +2,145 @@
 
 using Carbon.Json;
 
-using Xunit;
+namespace E.Units.Tests;
 
-namespace E.Units.Tests
+public class CssUnitTests
 {
-    public class CssUnitTests
+    public sealed class Element
     {
-        public sealed class Element
+        [JsonPropertyName("width")]
+        public UnitValue<double> Width { get; set; }
+
+        [JsonPropertyName("height")]
+        public UnitValue<double> Height { get; set; }
+
+        [JsonPropertyName("flex")]
+        public UnitValue<double> Flex { get; set; }
+    }
+
+    [Fact]
+    public void Serializable()
+    {
+        // margin = new (20px, 20px)
+        // margin = new (100px)
+
+        var a = new Element
         {
-            [JsonPropertyName("width")]
-            public UnitValue<double> Width { get; set; }
+            Width = UnitValue.Parse("1920px"),
+            Height = UnitValue.Px(1080),
+            Flex = UnitValue.Percent(100)
+        };
 
-            [JsonPropertyName("height")]
-            public UnitValue<double> Height { get; set; }
+        // Element(width: 100px, margin: (100px, 80px))
 
-            [JsonPropertyName("flex")]
-            public UnitValue<double> Flex { get; set; }
-        }
+        var json = JsonObject.FromObject(a);
 
-        [Fact]
-        public void Serializable()
-        {
-            // margin = new (20px, 20px)
-            // margin = new (100px)
-
-            var a = new Element {
-                Width = UnitValue.Parse("1920px"),
-                Height = UnitValue.Px(1080),
-                Flex = UnitValue.Percent(100)
-            };
-
-            // Element(width: 100px, margin: (100px, 80px))
-
-            var json = JsonObject.FromObject(a);
-
-            Assert.Equal(@"{
+        Assert.Equal(@"{
   ""width"": ""1920px"",
   ""height"": ""1080px"",
   ""flex"": ""100%""
 }", json.ToString(), ignoreLineEndingDifferences: true);
 
-            var el = json.As<Element>();
+        var el = json.As<Element>();
 
-            Assert.Equal("1920px", el.Width.ToString());
-            Assert.Equal("1080px", el.Height.ToString());
-            Assert.Equal("100%",   el.Flex.ToString());
-        }
+        Assert.Equal("1920px", el.Width.ToString());
+        Assert.Equal("1080px", el.Height.ToString());
+        Assert.Equal("100%", el.Flex.ToString());
+    }
 
-        [Fact]
-        public void Parse1()
-        {
-            var val = UnitValue.Parse("11.5px");
+    [Fact]
+    public void Parse1()
+    {
+        var val = UnitValue.Parse("11.5px");
 
-            Assert.Equal((11.5, CssUnits.Px), (val.Value, val.Unit));
-        }
+        Assert.Equal((11.5, CssUnits.Px), (val.Value, val.Unit));
+    }
 
-        [Fact]
-        public void Parse2()
-        {
-            var val = UnitValue.Parse("3turn");
+    [Fact]
+    public void Parse2()
+    {
+        var val = UnitValue.Parse("3turn");
 
-            Assert.Equal(3, val.Value);
-            Assert.Equal(UnitInfo.Turn, val.Unit);
-        }
+        Assert.Equal(3, val.Value);
+        Assert.Equal(UnitInfo.Turn, val.Unit);
+    }
 
-        [Fact]
-        public void Parse3()
-        {
-            var val = UnitValue.Parse("-0.5turn");
-            
-            Assert.Equal((-0.5d, UnitInfo.Turn), (val.Value, val.Unit));
-        }
+    [Fact]
+    public void Parse3()
+    {
+        var val = UnitValue.Parse("-0.5turn");
 
-        [Theory]
-        [InlineData("deg")]
-        [InlineData("grad")]
-        [InlineData("rad")]
-        [InlineData("turn")]
-        public void Angles(string text)
-        {
-            Assert.True(UnitInfo.TryParse(text, out UnitInfo type));
+        Assert.Equal((-0.5d, UnitInfo.Turn), (val.Value, val.Unit));
+    }
 
-            Assert.Equal(Dimension.Angle, type.Dimension);
-        }
+    [Theory]
+    [InlineData("deg")]
+    [InlineData("grad")]
+    [InlineData("rad")]
+    [InlineData("turn")]
+    public void Angles(string text)
+    {
+        Assert.True(UnitInfo.TryParse(text, out UnitInfo type));
 
-        [Theory]
-        [InlineData(1, "s")]
-        [InlineData(0.001, "ms")]
-        public void Durations(double scale, string text)
-        {
-            Assert.True(UnitInfo.TryParse(text, out UnitInfo type));
+        Assert.Equal(Dimension.Angle, type.Dimension);
+    }
 
-            Assert.Equal(text, type.ToString());
-            Assert.Equal(Dimension.Time, type.Dimension);
-            Assert.Equal(scale, type.Prefix.Value);
-        }
+    [Theory]
+    [InlineData(1, "s")]
+    [InlineData(0.001, "ms")]
+    public void Durations(double scale, string text)
+    {
+        Assert.True(UnitInfo.TryParse(text, out UnitInfo type));
 
-        [Theory]
+        Assert.Equal(text, type.ToString());
+        Assert.Equal(Dimension.Time, type.Dimension);
+        Assert.Equal(scale, type.Prefix.Value);
+    }
 
-        // Absolute
-        [InlineData("cm")]
-        [InlineData("mm")]
-        [InlineData("in")]
-        [InlineData("pt")]
-        [InlineData("pc")]
-        [InlineData("px")]
+    [Theory]
 
-        // Relative
-        [InlineData("em")]
-        [InlineData("ex")]
-        [InlineData("ch")]
-        [InlineData("rem")]
-        [InlineData("vw")]
-        [InlineData("vh")]
-        public void Lengths(string text)
-        {
-            Assert.True(UnitInfo.TryParse(text, out UnitInfo type));
+    // Absolute
+    [InlineData("cm")]
+    [InlineData("mm")]
+    [InlineData("in")]
+    [InlineData("pt")]
+    [InlineData("pc")]
+    [InlineData("px")]
 
-            Assert.Equal(Dimension.Length, type.Dimension);
-        }
+    // Relative
+    [InlineData("em")]
+    [InlineData("ex")]
+    [InlineData("ch")]
+    [InlineData("rem")]
+    [InlineData("vw")]
+    [InlineData("vh")]
+    public void Lengths(string text)
+    {
+        Assert.True(UnitInfo.TryParse(text, out UnitInfo type));
 
-        [Theory]
-        [InlineData(1, "Hz")]
-        [InlineData(1000, "kHz")]
-        public void Frequency(double scale, string text)
-        {
-            Assert.True(UnitInfo.TryParse(text, out UnitInfo type));
+        Assert.Equal(Dimension.Length, type.Dimension);
+    }
 
-            Assert.Equal(scale, type.Prefix.Value);
-            Assert.Equal(Dimension.Frequency, type.Dimension);
-        }
+    [Theory]
+    [InlineData(1, "Hz")]
+    [InlineData(1000, "kHz")]
+    public void Frequency(double scale, string text)
+    {
+        Assert.True(UnitInfo.TryParse(text, out UnitInfo type));
 
-        [Theory]
-        [InlineData("dpi")]
-        [InlineData("dpcm")]
-        [InlineData("dppx")]
-        public void Resolution(string text)
-        {
-            Assert.True(UnitInfo.TryParse(text, out UnitInfo type));
+        Assert.Equal(scale, type.Prefix.Value);
+        Assert.Equal(Dimension.Frequency, type.Dimension);
+    }
 
-            Assert.Equal(1, type.Prefix.Value);
-            Assert.Equal(Dimension.Resolution, type.Dimension);
-        }
+    [Theory]
+    [InlineData("dpi")]
+    [InlineData("dpcm")]
+    [InlineData("dppx")]
+    public void Resolution(string text)
+    {
+        Assert.True(UnitInfo.TryParse(text, out UnitInfo type));
+
+        Assert.Equal(1, type.Prefix.Value);
+        Assert.Equal(Dimension.Resolution, type.Dimension);
     }
 }

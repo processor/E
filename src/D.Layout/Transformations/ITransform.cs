@@ -1,6 +1,5 @@
-﻿namespace E.Transformations
+﻿namespace E.Transformations;
+
+public interface ITransform
 {
-    public interface ITransform
-    {
-    }
 }

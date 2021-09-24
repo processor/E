@@ -1,31 +1,28 @@
-﻿using Xunit;
+﻿namespace E.Parsing.Tests;
 
-namespace E.Parsing.Tests
+using E.Symbols;
+
+using Syntax;
+
+public class TernaryExpressionTests : TestBase
 {
-    using E.Symbols;
-
-    using Syntax;
-
-    public class TernaryExpressionTests : TestBase
+    [Fact]
+    public void A()
     {
-        [Fact]
-        public void A()
-        {
-            var ternary = Parse<TernaryExpressionSyntax>("a ? 1 : b");
+        var ternary = Parse<TernaryExpressionSyntax>("a ? 1 : b");
 
-            // Assert.Equal(Kind.TernaryExpression, ternary.Kind);
+        // Assert.Equal(Kind.TernaryExpression, ternary.Kind);
 
-            Assert.Equal("a", (Symbol)ternary.Condition);
-            // Assert.Equal(1,   (Integer)ternary.Left);
-            Assert.Equal("b", (Symbol)ternary.Right);
-        }
+        Assert.Equal("a", (Symbol)ternary.Condition);
+        // Assert.Equal(1,   (Integer)ternary.Left);
+        Assert.Equal("b", (Symbol)ternary.Right);
+    }
 
-        [Fact]
-        public void B()
-        {
-            var ternary = Parse<TernaryExpressionSyntax>("x < 0.5 ? (x * 2) ** 3 / 2 : ((x - 1) * 2) ** 3 + 2) / 2");
+    [Fact]
+    public void B()
+    {
+        var ternary = Parse<TernaryExpressionSyntax>("x < 0.5 ? (x * 2) ** 3 / 2 : ((x - 1) * 2) ** 3 + 2) / 2");
 
-            Assert.Equal(Operator.LessThan, (ternary.Condition as BinaryExpressionSyntax).Operator);
-        }
+        Assert.Equal(Operator.LessThan, (ternary.Condition as BinaryExpressionSyntax).Operator);
     }
 }

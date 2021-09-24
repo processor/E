@@ -240,7 +240,7 @@ namespace E.Parsing.Tests
 
             if (token.Kind != kind)
             {
-                throw new Exception($"Expected:{kind}. Was {token");
+                throw new Exception($"Expected:{kind}. Was {token}");
             }
 
             return token.Text;

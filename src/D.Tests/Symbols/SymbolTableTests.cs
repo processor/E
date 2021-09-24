@@ -1,40 +1,37 @@
-﻿using Xunit;
+﻿using E.Symbols;
 
-using E.Symbols;
+namespace E.Parsing.Tests;
 
-namespace E.Parsing.Tests
+public class SymbolTableTests
 {
-    public class SymbolTableTests
+    [Fact]
+    public void A()
     {
-        [Fact]
-        public void A()
-        {
-            var table = new ModuleSymbol("root");
+        var table = new ModuleSymbol("root");
 
-            table.Add(TypeSymbol.Int32);
-            
-            var result = table.TryGetValue("Int32", out var symbol);
+        table.Add(TypeSymbol.Int32);
 
-            Assert.Same(TypeSymbol.Int32, symbol);
-        }
+        var result = table.TryGetValue("Int32", out var symbol);
 
-        [Fact]
-        public void B()
-        {
-            var table = new ModuleSymbol("root");
+        Assert.Same(TypeSymbol.Int32, symbol);
+    }
 
-            table.Add(new ModuleSymbol("Geometry"));
-            table.Add(new ModuleSymbol("Imaging"));
-            table.Add(new ModuleSymbol("JSON"));
+    [Fact]
+    public void B()
+    {
+        var table = new ModuleSymbol("root");
 
-            table.TryGetValue("Geometry", out var geometry);
+        table.Add(new ModuleSymbol("Geometry"));
+        table.Add(new ModuleSymbol("Imaging"));
+        table.Add(new ModuleSymbol("JSON"));
 
-            geometry.Add(new TypeSymbol("Circle"));
+        table.TryGetValue("Geometry", out var geometry);
 
-            table.TryGetValue("JSON", out var json);
+        geometry.Add(new TypeSymbol("Circle"));
 
-            json.Add(new MethodSymbol("parse"));
-            json.Add(new MethodSymbol("stringify"));
-        }
+        table.TryGetValue("JSON", out var json);
+
+        json.Add(new MethodSymbol("parse"));
+        json.Add(new MethodSymbol("stringify"));
     }
 }

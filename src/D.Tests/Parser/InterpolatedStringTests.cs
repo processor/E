@@ -1,45 +1,41 @@
 ﻿using E.Symbols;
 using E.Syntax;
 
-using Xunit;
+namespace E.Parsing.Tests;
 
-namespace E.Parsing.Tests
+public class InterpolatedStringTests : TestBase
 {
-    public class InterpolatedStringTests : TestBase
+    [Fact]
+    public void A()
     {
-        [Fact]
-        public void A()
-        {
-            var s = Parse<InterpolatedStringExpressionSyntax>(@"$""hello""");
+        var s = Parse<InterpolatedStringExpressionSyntax>(@"$""hello""");
 
-            Assert.Single(s.Children);
-            Assert.Equal("hello", (StringLiteralSyntax)s[0]);
-        }
-        
-        [Fact]
-        public void B()
-        {
-            var s = Parse<InterpolatedStringExpressionSyntax>(@"$""dear {name}:""");
+        Assert.Single(s.Children);
+        Assert.Equal("hello", (StringLiteralSyntax)s[0]);
+    }
 
-            Assert.Equal(3, s.Children.Length);
-            Assert.Equal("dear ", (StringLiteralSyntax)s[0]);
-            Assert.Equal("name",  (Symbol)s[1]);
-            Assert.Equal(":",     (StringLiteralSyntax)s[2]);
-        }
+    [Fact]
+    public void B()
+    {
+        var s = Parse<InterpolatedStringExpressionSyntax>(@"$""dear {name}:""");
 
-        [Fact]
-        public void C()
-        {
-            var s = Parse<InterpolatedStringExpressionSyntax>(@"$""{x},{y},{z}""");
+        Assert.Equal(3, s.Children.Length);
+        Assert.Equal("dear ", (StringLiteralSyntax)s[0]);
+        Assert.Equal("name", (Symbol)s[1]);
+        Assert.Equal(":", (StringLiteralSyntax)s[2]);
+    }
 
-            Assert.Equal(5, s.Children.Length);
+    [Fact]
+    public void C()
+    {
+        var s = Parse<InterpolatedStringExpressionSyntax>(@"$""{x},{y},{z}""");
 
-            Assert.Equal("x", (Symbol)s[0] as Symbol);
-            Assert.Equal(",", (StringLiteralSyntax)s[1]);
-            Assert.Equal("y", (Symbol)s[2]);
-            Assert.Equal(",", (StringLiteralSyntax)s[3]);
-            Assert.Equal("z", (Symbol)s[4]);
-        }
+        Assert.Equal(5, s.Children.Length);
 
+        Assert.Equal("x", (Symbol)s[0] as Symbol);
+        Assert.Equal(",", (StringLiteralSyntax)s[1]);
+        Assert.Equal("y", (Symbol)s[2]);
+        Assert.Equal(",", (StringLiteralSyntax)s[3]);
+        Assert.Equal("z", (Symbol)s[4]);
     }
 }

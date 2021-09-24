@@ -1,22 +1,19 @@
 ﻿using E.Symbols;
 
-using Xunit;
+namespace E.Parsing.Tests;
 
-namespace E.Parsing.Tests
+public class ArraySymbolTests : TestBase
 {
-    public class ArraySymbolTests : TestBase
+    [Fact]
+    public void ArraySymbols()
     {
-        [Fact]
-        public void ArraySymbols()
-        {
-            Assert.Equal("Array<Pixel>", Parse<TypeSymbol>("[] Pixel").ToString());
-            Assert.Equal("Array<Shape>", Parse<TypeSymbol>("[] Shape").ToString());
-        }
+        Assert.Equal("Array<Pixel>", Parse<TypeSymbol>("[] Pixel").ToString());
+        Assert.Equal("Array<Shape>", Parse<TypeSymbol>("[] Shape").ToString());
+    }
 
-        [Fact]
-        public void SimpleSimple()
-        {
-            Assert.Equal("Fruit", Parse<TypeSymbol>("Fruit").ToString());
-        }
+    [Fact]
+    public void SimpleSimple()
+    {
+        Assert.Equal("Fruit", Parse<TypeSymbol>("Fruit").ToString());
     }
 }

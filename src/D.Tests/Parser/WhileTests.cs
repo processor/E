@@ -1,18 +1,15 @@
-﻿using Xunit;
+﻿using E.Syntax;
 
-namespace E.Parsing.Tests
+namespace E.Parsing.Tests;
+
+public class BlockTests : TestBase
 {
-    using Syntax;
-
-    public class BlockTests : TestBase
+    [Fact]
+    public void While()
     {
-        [Fact]
-        public void While()
-        {
-            var statement = Parse<WhileStatementSyntax>(@"
+        var statement = Parse<WhileStatementSyntax>(@"
 while a > 1 {
   a = a + 1
 }");
-        }
     }
 }

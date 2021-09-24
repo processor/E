@@ -1,74 +1,72 @@
-﻿using Xunit;
-
-using E.Protocols;
+﻿using E.Protocols;
 using E.Syntax;
 
-namespace E.Parsing.Tests
+namespace E.Parsing.Tests;
+
+public class ProtocolDeclarationTests : TestBase
 {
-    public class ProtocolDeclarationTests : TestBase
+    [Fact]
+    public void EmptyBody()
     {
-        [Fact]
-        public void EmptyBody()
-        {
-            var protocol = Parse<ProtocolDeclarationSyntax>("SVG protocol { }");
+        var protocol = Parse<ProtocolDeclarationSyntax>("SVG protocol { }");
 
-            Assert.Equal("SVG", protocol.Name.ToString());
-        }
+        Assert.Equal("SVG", protocol.Name.ToString());
+    }
 
-        [Fact]
-        public void PropertyTests2()
-        {
-            var protocol = Parse<ProtocolDeclarationSyntax>(@"
+    [Fact]
+    public void PropertyTests2()
+    {
+        var protocol = Parse<ProtocolDeclarationSyntax>(@"
 Node protocol { 
   kind     -> Kind
   children -> [ Node ]
 }");
 
-            var a = protocol.Members[0];
+        var a = protocol.Members[0];
 
-            Assert.Equal("kind", a.Name);
-            Assert.Equal("Kind", a.ReturnType.Name);
+        Assert.Equal("kind", a.Name);
+        Assert.Equal("Kind", a.ReturnType.Name);
 
-            var b = protocol.Members[1];
+        var b = protocol.Members[1];
 
-            Assert.Equal("children", b.Name);
-            Assert.Equal("Array",    b.ReturnType.Name);
-            Assert.Equal("Node",     b.ReturnType.Arguments[0].Name);
-        }
+        Assert.Equal("children", b.Name);
+        Assert.Equal("Array", b.ReturnType.Name);
+        Assert.Equal("Node", b.ReturnType.Arguments[0].Name);
+    }
 
 
-        [Fact]
-        public void VoidTests()
-        {
+    [Fact]
+    public void VoidTests()
+    {
 
-            var protocol = Parse<ProtocolDeclarationSyntax>(@"
+        var protocol = Parse<ProtocolDeclarationSyntax>(@"
 Memory protocol { 
   free()
 }");
 
-            Assert.Equal("free", protocol.Members[0].Name);
-            Assert.Equal("Void", protocol.Members[0].ReturnType);
-        }
+        Assert.Equal("free", protocol.Members[0].Name);
+        Assert.Equal("Void", protocol.Members[0].ReturnType);
+    }
 
-        [Fact]
-        public void PropertyTests()
-        {
+    [Fact]
+    public void PropertyTests()
+    {
 
-            var protocol = Parse<ProtocolDeclarationSyntax>(@"
+        var protocol = Parse<ProtocolDeclarationSyntax>(@"
 Point protocol { 
   length -> Number
 }");
 
-            var length = protocol.Members[0];
+        var length = protocol.Members[0];
 
-            Assert.Equal("length", length.Name);
-            Assert.Equal("Number", length.ReturnType);
-        }
+        Assert.Equal("length", length.Name);
+        Assert.Equal("Number", length.ReturnType);
+    }
 
-        [Fact]
-        public void ChannelAndActions()
-        {
-            var protocol = Parse<ProtocolDeclarationSyntax>(@"
+    [Fact]
+    public void ChannelAndActions()
+    {
+        var protocol = Parse<ProtocolDeclarationSyntax>(@"
 Bank protocol { 
   * | open       `Account       
     | close      `Account     
@@ -85,30 +83,30 @@ Bank protocol {
   refuse  `Transaction (transaction: Transaction) -> Transaction`Refusal
   reverse `Transaction (transaction: Transaction) -> Transaction`Reversed
 }");
-            Assert.Equal(2, protocol.Messages.Length);
-            
-            Assert.Equal(6, ((ProtocolMessageChoice)protocol.Messages[0]).Count);
+        Assert.Equal(2, protocol.Messages.Length);
 
-            var member = protocol.Members[0];
+        Assert.Equal(6, ((ProtocolMessageChoice)protocol.Messages[0]).Count);
 
-            Assert.Equal("openAccount",     member.Name);
-            Assert.Single(                  member.Parameters);
-            Assert.Equal("account",         member.Parameters[0].Name);
-            Assert.Equal("Account",         member.Parameters[0].Type);
-            Assert.Equal("Account",         member.ReturnType);
+        var member = protocol.Members[0];
 
-            member = protocol.Members[1];
+        Assert.Equal("openAccount", member.Name);
+        Assert.Single(member.Parameters);
+        Assert.Equal("account", member.Parameters[0].Name);
+        Assert.Equal("Account", member.Parameters[0].Type);
+        Assert.Equal("Account", member.ReturnType);
 
-            Assert.Equal("closeAccount",   member.Name);
-            Assert.Equal("AccountClosure", member.ReturnType);
+        member = protocol.Members[1];
 
-            Assert.Equal(5, protocol.Members.Length);
-        }
+        Assert.Equal("closeAccount", member.Name);
+        Assert.Equal("AccountClosure", member.ReturnType);
 
-        [Fact]
-        public void B()
-        {
-            var protocol = Parse<ProtocolDeclarationSyntax>(@"
+        Assert.Equal(5, protocol.Members.Length);
+    }
+
+    [Fact]
+    public void B()
+    {
+        var protocol = Parse<ProtocolDeclarationSyntax>(@"
 Bank protocol { 
   * | open       `Account
     | close      `Account 
@@ -120,28 +118,26 @@ Bank protocol {
   * dissolve ∎   : dissolved
 }");
 
-            Assert.Equal("Bank", protocol.Name.ToString());
+        Assert.Equal("Bank", protocol.Name.ToString());
 
-            Assert.Equal(2, protocol.Messages.Length);
+        Assert.Equal(2, protocol.Messages.Length);
 
-            var a = (ProtocolMessageChoice)protocol.Messages[0];
-            var b = (ProtocolMessage)protocol.Messages[1];
+        var a = (ProtocolMessageChoice)protocol.Messages[0];
+        var b = (ProtocolMessage)protocol.Messages[1];
 
-            Assert.Equal(6, a.Count);
-            Assert.True(a.Repeats);
-            Assert.False(a.IsEnd);
+        Assert.Equal(6, a.Count);
+        Assert.True(a.Repeats);
+        Assert.False(a.IsEnd);
 
-            Assert.Equal("openAccount",        a[0].Name);
-            Assert.Equal("closeAccount",       a[1].Name);
-            Assert.Equal("settleTransaction",  a[2].Name);
-            Assert.Equal("refuseTransaction",  a[3].Name);
-            Assert.Equal("underwriteLoan",     a[4].Name);
-            Assert.Equal("processTransaction", a[5].Name);
+        Assert.Equal("openAccount", a[0].Name);
+        Assert.Equal("closeAccount", a[1].Name);
+        Assert.Equal("settleTransaction", a[2].Name);
+        Assert.Equal("refuseTransaction", a[3].Name);
+        Assert.Equal("underwriteLoan", a[4].Name);
+        Assert.Equal("processTransaction", a[5].Name);
 
-            Assert.Equal("dissolve", b.Name);
-            Assert.Equal("dissolved", b.Label);
-            Assert.True(b.IsEnd);
-        }
+        Assert.Equal("dissolve", b.Name);
+        Assert.Equal("dissolved", b.Label);
+        Assert.True(b.IsEnd);
     }
 }
-
