@@ -1,16 +1,15 @@
 ﻿using System.Text;
 
-namespace E.Parsing
+namespace E.Parsing;
+
+internal static class StringBuilderExtensions
 {
-    internal static class StringBuilderExtensions
+    public static string Extract(this StringBuilder sb)
     {
-        public static string Extract(this StringBuilder sb)
-        {
-            var text = sb.ToString();
+        var text = sb.ToString();
 
-            sb.Clear();
+        sb.Clear();
 
-            return text;
-        }
+        return text;
     }
 }

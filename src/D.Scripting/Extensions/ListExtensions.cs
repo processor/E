@@ -1,16 +1,15 @@
 ﻿using System.Collections.Generic;
 
-namespace E.Parsing
+namespace E.Parsing;
+
+internal static class ListExtensions
 {
-    internal static class ListExtensions
+    public static T[] Extract<T>(this List<T> list)
     {
-        public static T[] Extract<T>(this List<T> list)
-        {
-            var array = list.ToArray();
+        var array = list.ToArray();
 
-            list.Clear();
+        list.Clear();
 
-            return array;
-        }
+        return array;
     }
 }

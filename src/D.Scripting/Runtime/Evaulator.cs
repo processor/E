@@ -9,269 +9,268 @@ using E.Symbols;
 using E.Syntax;
 using E.Units;
 
-namespace E
-{   
-    public class Evaluator
+namespace E;
+
+public class Evaluator
+{
+    private readonly Scope scope = new ();
+    private readonly Compiler compiler = new ();
+
+    private readonly Node env;
+
+    int count = 0;
+
+    public Evaluator()
+        : this(new Node()) { }
+
+    public Evaluator(Node env)
     {
-        private readonly Scope scope = new ();
-        private readonly Compiler compiler = new ();
+        this.env = env;
+    }
 
-        private readonly Node env;
+    public Evaluator(IObject start, Node env)
+    {
+        scope.This = start;
 
-        int count = 0;
+        this.env = env;
+    }
 
-        public Evaluator()
-            : this(new Node()) { }
+    public object? This
+    {
+        get => scope.This;
+        set => scope.This = value;
+    }
 
-        public Evaluator(Node env)
+    public Scope Scope => scope;
+
+    public object? Evaluate(string script)
+    {
+        object? last = null;
+
+        using (var parser = new Parser(script, env))
         {
-            this.env = env;
-        }
-
-        public Evaluator(IObject start, Node env)
-        {
-            scope.This = start;
-
-            this.env = env;
-        }
-
-        public object? This
-        {
-            get => scope.This;
-            set => scope.This = value;
-        }
-
-        public Scope Scope => scope;
-
-        public object? Evaluate(string script)
-        {
-            object? last = null;
-
-            using (var parser = new Parser(script, env))
+            foreach (var syntax in parser.Enumerate())
             {
-                foreach (var syntax in parser.Enumerate())
-                {
-                    last = Evaluate(syntax);
-                }
+                last = Evaluate(syntax);
             }
-
-            return last;
         }
 
-        public object Evaluate(ISyntaxNode sytax)
-        {
-            if (sytax is null) return null!;
+        return last;
+    }
 
-            var expression = compiler.Visit(sytax);
+    public object Evaluate(ISyntaxNode sytax)
+    {
+        if (sytax is null) return null!;
 
-            return Evaluate(expression);
-        }
+        var expression = compiler.Visit(sytax);
 
-        public object Evaluate(object expression)
-        {
-            if (count > 1000) throw new Exception("too many calls");
+        return Evaluate(expression);
+    }
 
-            count++;
+    public object Evaluate(object expression)
+    {
+        if (count > 1000) throw new Exception("too many calls");
+
+        count++;
             
-            object? result = expression switch
-            {
-                BinaryExpression binary      => EvaluateBinary(binary),    
-                ConstantExpression constant  => EvaluateConstant(constant),
-                Symbol symbol                => EvaluateSymbol(symbol),    
-                CallExpression call          => EvaluateCall(call),        
-                UnitValueLiteral unit        => EvaluateUnit(unit),        
-                IUnitValue unitValue when unitValue.Unit.Dimension is Dimension.None => new Number(unitValue.Real),
-                _                           => expression // if ((long)expression.Kind > 255) throw new Exception($"expected kind: was {expression.Kind}");
+        object? result = expression switch
+        {
+            BinaryExpression binary      => EvaluateBinary(binary),    
+            ConstantExpression constant  => EvaluateConstant(constant),
+            Symbol symbol                => EvaluateSymbol(symbol),    
+            CallExpression call          => EvaluateCall(call),        
+            UnitValueLiteral unit        => EvaluateUnit(unit),        
+            IUnitValue unitValue when unitValue.Unit.Dimension is Dimension.None => new Number(unitValue.Real),
+            _                           => expression // if ((long)expression.Kind > 255) throw new Exception($"expected kind: was {expression.Kind}");
 
-            };
+        };
 
-            scope.This = result;
+        scope.This = result;
 
-            return result;
-        }
+        return result;
+    }
         
-        public IObject EvaluateConstant(ConstantExpression expression)
-        {
-            // Pull out the value
+    public IObject EvaluateConstant(ConstantExpression expression)
+    {
+        // Pull out the value
 
-            return (IObject)expression.Value; 
+        return (IObject)expression.Value; 
+    }
+
+    public IObject EvaluateUnit(UnitValueLiteral expression)
+    {
+        if (!UnitInfo.TryParse(expression.UnitName, out UnitInfo? unit))
+        {
+            throw new Exception($"Unit '{expression.UnitName}' was not found");
         }
 
-        public IObject EvaluateUnit(UnitValueLiteral expression)
+        if (expression.UnitPower is not 0 && expression.UnitPower is not 1)
         {
-            if (!UnitInfo.TryParse(expression.UnitName, out UnitInfo? unit))
-            {
-                throw new Exception($"Unit '{expression.UnitName}' was not found");
-            }
-
-            if (expression.UnitPower is not 0 && expression.UnitPower is not 1)
-            {
-                unit = unit.WithExponent(expression.UnitPower);
-            }
-
-            double value = ((INumber)expression.Expression).Real;
-
-            if (unit.Dimension is Dimension.None && unit.DefinitionUnit is INumber definationUnit)
-            {
-                return new Number(value * definationUnit.Real);
-            }
-
-            return UnitValue.Create(value, unit);
+            unit = unit.WithExponent(expression.UnitPower);
         }
 
-        public object EvaluateSymbol(Symbol expression)
+        double value = ((INumber)expression.Expression).Real;
+
+        if (unit.Dimension is Dimension.None && unit.DefinitionUnit is INumber definationUnit)
         {
-            var value = scope.Get(expression.Name);
+            return new Number(value * definationUnit.Real);
+        }
 
-            // Make sure this isn't called again...
+        return UnitValue.Create(value, unit);
+    }
 
-            if (value is null) return expression;
+    public object EvaluateSymbol(Symbol expression)
+    {
+        var value = scope.Get(expression.Name);
 
-            if (value is IObject vo && (long)vo.Kind < 255)
-            {
-                return value;
-            }
+        // Make sure this isn't called again...
+
+        if (value is null) return expression;
+
+        if (value is IObject vo && (long)vo.Kind < 255)
+        {
+            return value;
+        }
             
-            return Evaluate((IExpression)value);
-        }
+        return Evaluate((IExpression)value);
+    }
       
-        public object EvaluateCall(CallExpression expression)
+    public object EvaluateCall(CallExpression expression)
+    {
+        var argList = EvaluateArguments(expression.Arguments, expression.IsPiped);
+        var args = argList.Arguments;
+
+        if (argList.ContainsUnresolvedSymbols)
         {
-            var argList = EvaluateArguments(expression.Arguments, expression.IsPiped);
-            var args = argList.Arguments;
+            var parameters = new List<Parameter>();
 
-            if (argList.ContainsUnresolvedSymbols)
+            foreach (var arg in expression.Arguments)
             {
-                var parameters = new List<Parameter>();
-
-                foreach (var arg in expression.Arguments)
+                if (arg.Value is Symbol name)
                 {
-                    if (arg.Value is Symbol name)
-                    {
-                        parameters.Add(Expression.Parameter(name.ToString()));
-                    }
+                    parameters.Add(Expression.Parameter(name.ToString()));
                 }
-
-                return new FunctionExpression(parameters, new LambdaExpression(expression));
             }
 
-            if (env.TryGetValue(expression.FunctionName, out IFunction? func))
-            {
-                return func.Invoke(args);
-            }
-
-            throw new Exception($"function {expression.FunctionName} not found");
+            return new FunctionExpression(parameters, new LambdaExpression(expression));
         }
 
-        private readonly struct ArgumentEvaluationResult
+        if (env.TryGetValue(expression.FunctionName, out IFunction? func))
         {
-            public ArgumentEvaluationResult(IArguments args, bool hasSymbols)
-            {
-                Arguments = args;
-                ContainsUnresolvedSymbols = hasSymbols;
-            }
-
-            public IArguments Arguments { get; }
-
-            public bool ContainsUnresolvedSymbols { get; }
+            return func.Invoke(args);
         }
 
-        private ArgumentEvaluationResult EvaluateArguments(IArguments args, bool includeThis = false)
+        throw new Exception($"function {expression.FunctionName} not found");
+    }
+
+    private readonly struct ArgumentEvaluationResult
+    {
+        public ArgumentEvaluationResult(IArguments args, bool hasSymbols)
         {
-            var result = new object?[args.Count + (includeThis ? 1 : 0)];
-
-            int offset = 0;
-            int unresolvedSymbolCount = 0;
-
-            if (includeThis)
-            {
-                offset = 1;
-                result[0] = scope.This;
-            }
-
-            for (int i = 0; i < args.Count; i++)
-            {
-                var arg = Evaluate(args[i]);
-
-                result[i + offset] = arg;
-
-                if (arg is Symbol) unresolvedSymbolCount++;
-            }
-
-            return new ArgumentEvaluationResult(
-                Arguments.Create(result), 
-                hasSymbols: unresolvedSymbolCount > 0);
+            Arguments = args;
+            ContainsUnresolvedSymbols = hasSymbols;
         }
+
+        public IArguments Arguments { get; }
+
+        public bool ContainsUnresolvedSymbols { get; }
+    }
+
+    private ArgumentEvaluationResult EvaluateArguments(IArguments args, bool includeThis = false)
+    {
+        var result = new object?[args.Count + (includeThis ? 1 : 0)];
+
+        int offset = 0;
+        int unresolvedSymbolCount = 0;
+
+        if (includeThis)
+        {
+            offset = 1;
+            result[0] = scope.This;
+        }
+
+        for (int i = 0; i < args.Count; i++)
+        {
+            var arg = Evaluate(args[i]);
+
+            result[i + offset] = arg;
+
+            if (arg is Symbol) unresolvedSymbolCount++;
+        }
+
+        return new ArgumentEvaluationResult(
+            Arguments.Create(result), 
+            hasSymbols: unresolvedSymbolCount > 0);
+    }
         
-        public object EvaluateBinary(BinaryExpression expression)
+    public object EvaluateBinary(BinaryExpression expression)
+    {
+        IObject l = (IObject)Evaluate(expression.Left);
+        IObject r = (IObject)Evaluate(expression.Right);
+
+
+        if (l is Symbol lSymbol && expression.Kind is ObjectType.AssignmentExpression)
         {
-            IObject l = (IObject)Evaluate(expression.Left);
-            IObject r = (IObject)Evaluate(expression.Right);
+            scope.Set(lSymbol.Name, r);
 
+            return r;
+        }
 
-            if (l is Symbol lSymbol && expression.Kind is ObjectType.AssignmentExpression)
+        #region Maybe function
+
+        // Simplify logic here?
+
+        if ((l.Kind is ObjectType.Symbol or ObjectType.Expression) || (r.Kind is ObjectType.Symbol or ObjectType.Expression))
+        {
+            var args = new List<Parameter>();
+
+            if (l is Symbol lhsSymbol)
             {
-                scope.Set(lSymbol.Name, r);
+                args.Add(Expression.Parameter(lhsSymbol.ToString()));
+            }
+            else if (l is FunctionExpression lf)
+            {
+                args.AddRange(lf.Parameters);
 
-                return r;
+                l = lf.Body!;
             }
 
-            #region Maybe function
-
-            // Simplify logic here?
-
-            if ((l.Kind is ObjectType.Symbol or ObjectType.Expression) || (r.Kind is ObjectType.Symbol or ObjectType.Expression))
+            if (r is Symbol parameterSymbol)
             {
-                var args = new List<Parameter>();
+                args.Add(Expression.Parameter(parameterSymbol.Name));
+            }
+            else if (r is FunctionExpression rf)
+            {
+                args.AddRange(rf.Parameters);
 
-                if (l is Symbol lhsSymbol)
-                {
-                    args.Add(Expression.Parameter(lhsSymbol.ToString()));
-                }
-                else if (l is FunctionExpression lf)
-                {
-                    args.AddRange(lf.Parameters);
-
-                    l = lf.Body!;
-                }
-
-                if (r is Symbol parameterSymbol)
-                {
-                    args.Add(Expression.Parameter(parameterSymbol.Name));
-                }
-                else if (r is FunctionExpression rf)
-                {
-                    args.AddRange(rf.Parameters);
-
-                    r = rf.Body!;
-                }
-
-                // Check if it's a predicate
-                // x > 5
-                // y < 100
-                // y == 1
-
-                if (l is Symbol name && (expression.Operator.IsComparision))
-                {
-                    return new Predicate(expression.Operator, name, r);
-                }
-
-                return new FunctionExpression(
-                    parameters : args.ToArray(), 
-                    body       : new BinaryExpression(expression.Operator, l, r)
-                );
+                r = rf.Body!;
             }
 
-            #endregion
+            // Check if it's a predicate
+            // x > 5
+            // y < 100
+            // y == 1
 
-            if (env.TryGetValue(expression.Operator.Name, out IFunction? func))
+            if (l is Symbol name && (expression.Operator.IsComparision))
             {
-                return func.Invoke(Arguments.Create(l, r));
+                return new Predicate(expression.Operator, name, r);
             }
-            else
-            {
-                throw new Exception($"{expression.Operator.Name} has no function");
-            }
+
+            return new FunctionExpression(
+                parameters : args.ToArray(), 
+                body       : new BinaryExpression(expression.Operator, l, r)
+            );
+        }
+
+        #endregion
+
+        if (env.TryGetValue(expression.Operator.Name, out IFunction? func))
+        {
+            return func.Invoke(Arguments.Create(l, r));
+        }
+        else
+        {
+            throw new Exception($"{expression.Operator.Name} has no function");
         }
     }
 }

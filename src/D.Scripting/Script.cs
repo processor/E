@@ -1,19 +1,18 @@
-﻿namespace E
+﻿namespace E;
+
+public class Script
 {
-    public class Script
+    public static object Evaluate(string text)
     {
-        public static object Evaluate(string text)
-        {
-            return Evaluate(text, new Node());
-        }
+        return Evaluate(text, new Node());
+    }
 
-        public static object Evaluate(string text, Node env)
-        {
-            var evaulator = new Evaluator(env);
+    public static object Evaluate(string text, Node env)
+    {
+        var evaulator = new Evaluator(env);
 
-            evaulator.Evaluate(text);
+        evaulator.Evaluate(text);
 
-            return evaulator.This!;
-        }
+        return evaulator.This!;
     }
 }
