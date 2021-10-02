@@ -1,20 +1,19 @@
-﻿namespace E.Expressions
+﻿namespace E.Expressions;
+
+// [index]
+public sealed class IndexAccessExpression : IExpression
 {
-    // [index]
-    public sealed class IndexAccessExpression : IExpression
+    public IndexAccessExpression(IExpression left, IArguments arguments)
     {
-        public IndexAccessExpression(IExpression left, IArguments arguments)
-        {
-            Left = left;
-            Arguments = arguments;
-        }
-
-        public IExpression Left { get; set; }
-
-        // [1]
-        // [1, 2]
-        public IArguments Arguments { get; set; }
-
-        ObjectType IObject.Kind => ObjectType.IndexAccessExpression;
+        Left = left;
+        Arguments = arguments;
     }
+
+    public IExpression Left { get; set; }
+
+    // [1]
+    // [1, 2]
+    public IArguments Arguments { get; set; }
+
+    ObjectType IObject.Kind => ObjectType.IndexAccessExpression;
 }

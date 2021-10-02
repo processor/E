@@ -2,20 +2,19 @@
 
 using E.Symbols;
 
-namespace E.Syntax
+namespace E.Syntax;
+
+public sealed class AnnotationSyntax : ISyntaxNode
 {
-    public sealed class AnnotationSyntax : ISyntaxNode
+    public AnnotationSyntax(Symbol name, IReadOnlyList<ArgumentSyntax> arguments)
     {
-        public AnnotationSyntax(Symbol name, IReadOnlyList<ArgumentSyntax> arguments)
-        {
-            Name = name;
-            Arguments = arguments;
-        }
-
-        public Symbol Name { get; }
-
-        public IReadOnlyList<ArgumentSyntax> Arguments { get; }
-
-        SyntaxKind ISyntaxNode.Kind => SyntaxKind.AnnotationExpression;
+        Name = name;
+        Arguments = arguments;
     }
+
+    public Symbol Name { get; }
+
+    public IReadOnlyList<ArgumentSyntax> Arguments { get; }
+
+    SyntaxKind ISyntaxNode.Kind => SyntaxKind.AnnotationExpression;
 }

@@ -1,16 +1,15 @@
-﻿namespace E
+﻿namespace E;
+
+public readonly struct Annotation
 {
-    public readonly struct Annotation
+    public Annotation(string name, IObject value)
     {
-        public Annotation(string name, IObject value)
-        {
-            Name = name;
+        Name = name;
 
-            Value = value;
-        }
-        
-        public string Name { get; }
-
-        public IObject Value { get; }  
+        Value = value;
     }
- }
+
+    public string Name { get; }
+
+    public IObject Value { get; }
+}

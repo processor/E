@@ -1,9 +1,8 @@
-﻿namespace E
+﻿namespace E;
+
+public enum ParameterDirection : byte
 {
-    public enum ParameterDirection : byte
-    {
-        In      = 1,
-        Out     = 2,
-        InOut   = 3
-    }
+    In      = 1,
+    Out     = 2,
+    InOut   = 3
 }

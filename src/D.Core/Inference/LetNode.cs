@@ -4,26 +4,25 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace E.Inference
+namespace E.Inference;
+
+public sealed class LetNode : Node
 {
-    public sealed class LetNode : Node
+    public override string ToString()
     {
-        public override string ToString()
-        {
-            var args = string.Join<Node>("; ", Arguments);
+        var args = string.Join<Node>("; ", Arguments);
 
-            return $"({args}) {Body}";
-        }
-
-        public override IType Infer(Environment env, IReadOnlyList<IType> types)
-        {
-            env = env.Nested();
-
-            return Arguments.Select(define => TypeSystem.Infer(env, define, types)).Concat(new[] {
-                TypeSystem.Infer(env, Body, types)
-            }).Last();
-        }
+        return $"({args}) {Body}";
     }
 
-    // let a = TYPE
+    public override IType Infer(Environment env, IReadOnlyList<IType> types)
+    {
+        env = env.Nested();
+
+        return Arguments.Select(define => TypeSystem.Infer(env, define, types)).Concat(new[] {
+            TypeSystem.Infer(env, Body, types)
+        }).Last();
+    }
 }
+
+// let a = TYPE

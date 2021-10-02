@@ -1,12 +1,11 @@
-﻿namespace E.Symbols
+﻿namespace E.Symbols;
+
+
+// Int32
+// Geometry (Circle)
+// Geometry (Circle (radius))
+public interface ISymbolTableNode
 {
-
-    // Int32
-    // Geometry (Circle)
-    // Geometry (Circle (radius))
-    public interface ISymbolTableNode
-    {
-    }
-
-    // Symbol | SymbolTable
 }
+
+// Symbol | SymbolTable

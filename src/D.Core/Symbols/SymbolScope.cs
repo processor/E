@@ -1,10 +1,9 @@
-﻿namespace E.Symbols
+﻿namespace E.Symbols;
+
+public enum SymbolScope
 {
-    public enum SymbolScope
-    {
-        Root = 1,
-        Module = 2,
-        Type = 3,
-        Block = 4
-    }
+    Root = 1,
+    Module = 2,
+    Type = 3,
+    Block = 4
 }

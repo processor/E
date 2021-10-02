@@ -1,11 +1,9 @@
-﻿namespace E.Protocols
-{
-    public interface IProtocolMessage
-    {
-        bool Fallthrough { get; }
-    }
-}
+﻿namespace E.Protocols;
 
+public interface IProtocolMessage
+{
+    bool Fallthrough { get; }
+}
 
 /*
    ∙ | open       `Account       

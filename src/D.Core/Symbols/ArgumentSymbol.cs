@@ -1,8 +1,7 @@
-﻿namespace E.Symbols
+﻿namespace E.Symbols;
+
+public sealed class ArgumentSymbol : Symbol
 {
-    public sealed class ArgumentSymbol : Symbol
-    {
-        public ArgumentSymbol(string name)
-            : base(name) { }
-    }
+    public ArgumentSymbol(string name)
+        : base(name) { }
 }

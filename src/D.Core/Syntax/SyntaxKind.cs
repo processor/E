@@ -1,87 +1,86 @@
-﻿namespace E.Syntax
+﻿namespace E.Syntax;
+
+public enum SyntaxKind
 {
-    public enum SyntaxKind
-    {
-        Object = 1,
-        Symbol = 6,
+    Object = 1,
+    Symbol = 6,
 
-        // Literal Expressions
-        NullLiteral,
-        BooleanLiteral,
-        CharacterLiteral,
-        RangeLiteral,
-        NumberLiteral,
-        StringLiteral,
-        UnitValueLiteral,
+    // Literal Expressions
+    NullLiteral,
+    BooleanLiteral,
+    CharacterLiteral,
+    RangeLiteral,
+    NumberLiteral,
+    StringLiteral,
+    UnitValueLiteral,
 
-        // Declarations
-        TypeDeclaration,
-        FunctionDeclaration,
-        ObserverDeclaration,
-        PropertyDeclaration,
-        CompoundPropertyDeclaration,
-        VariableDeclaration,
-        CompoundVariableDeclaration,
-        ProtocolDeclaration,
-        ChannelDeclaration,
-        ImplementationDeclaration,
-        UnitDeclaration,
-        OperatorDeclaration,
-        ImportDeclaration,
+    // Declarations
+    TypeDeclaration,
+    FunctionDeclaration,
+    ObserverDeclaration,
+    PropertyDeclaration,
+    CompoundPropertyDeclaration,
+    VariableDeclaration,
+    CompoundVariableDeclaration,
+    ProtocolDeclaration,
+    ChannelDeclaration,
+    ImplementationDeclaration,
+    UnitDeclaration,
+    OperatorDeclaration,
+    ImportDeclaration,
 
-        DestructuringAssignment,
+    DestructuringAssignment,
 
-        InterpolatedStringExpression,
-        PipeStatement,  // Merge with Call?
-        SpreadStatement,
+    InterpolatedStringExpression,
+    PipeStatement,  // Merge with Call?
+    SpreadStatement,
 
-        // Patterns
-        AnyPattern,
-        ArrayPattern,
-        ConstantPattern,
-        RangePattern,
-        ObjectPattern,
-        TuplePattern,
-        TypePattern,
-        TupleElement,
+    // Patterns
+    AnyPattern,
+    ArrayPattern,
+    ConstantPattern,
+    RangePattern,
+    ObjectPattern,
+    TuplePattern,
+    TypePattern,
+    TupleElement,
 
-        // Statements
-        Block, // { ... }
-        ForStatement, // for x in y
-        IfStatement,
-        ElseIfStatement,
-        ElseStatement,
-        UsingStatement,
-        ObserveStatement,
-        EmitStatement,
-        ReturnStatement,
-        YieldStatement,
+    // Statements
+    Block, // { ... }
+    ForStatement, // for x in y
+    IfStatement,
+    ElseIfStatement,
+    ElseStatement,
+    ImportStatement,
+    ObserveStatement,
+    EmitStatement,
+    ReturnStatement,
+    YieldStatement,
 
-        WhileStatement,
-        ModuleStatement,
+    WhileStatement,
+    ModuleStatement,
 
-        // Expressions
-        CoalesceExpression, // ??               
-        AnnotationExpression,
-        CallExpression,
-        TupleExpression,
-        LambdaExpression,
-        MatchExpression,
-        QueryExpression,
+    // Expressions
+    CoalesceExpression, // ??               
+    AnnotationExpression,
+    CallExpression,
+    TupleExpression,
+    LambdaExpression,
+    MatchExpression,
+    QueryExpression,
 
-        ArrayInitializer,
-        TypeInitializer,
+    ArrayInitializer,
+    TypeInitializer,
 
-        // Unary             
-        UnaryExpression,
-        BinaryExpression, // +
-        TernaryExpression,  // ? :             
+    // Unary             
+    UnaryExpression,
+    BinaryExpression, // +
+    TernaryExpression,  // ? :             
 
-        MemberAccessExpression, // a.b
-        IndexAccessExpression, // a[b]
+    MemberAccessExpression, // a.b
+    IndexAccessExpression, // a[b]
 
 
-        Element, // <element />
-        TextNode
-    }
+    Element, // <element />
+    TextNode
 }

@@ -1,40 +1,39 @@
 ﻿using System.Collections.Generic;
 
-namespace E.Syntax
+namespace E.Syntax;
+
+public sealed class ElementSyntax : ISyntaxNode
 {
-    public sealed class ElementSyntax : ISyntaxNode
+    public ElementSyntax(
+        string? ns,
+        string name,
+        IReadOnlyList<ArgumentSyntax> arguments,
+        ISyntaxNode[] children,
+        bool selfClosed)
     {
-        public ElementSyntax(
-            string? ns,
-            string name,
-            IReadOnlyList<ArgumentSyntax> arguments,
-            ISyntaxNode[] children,
-            bool selfClosed)
-        {
-            Namespace  = ns;
-            Name       = name;
-            Arguments  = arguments;
-            Children   = children;
-            SelfClosed = selfClosed;
-        }
-
-        public string ?Namespace { get; }
-
-        public string Name { get; }
-        
-        public IReadOnlyList<ArgumentSyntax> Arguments { get; }
-
-        // TextContent | Element | Expression
-        public ISyntaxNode[] Children { get; }
-        
-        public ISyntaxNode this[int index] => Children[index];
-
-        public bool SelfClosed { get; }
-
-        // IsClosed???
-
-        public SyntaxKind Kind => SyntaxKind.Element;
+        Namespace  = ns;
+        Name       = name;
+        Arguments  = arguments;
+        Children   = children;
+        SelfClosed = selfClosed;
     }
+
+    public string? Namespace { get; }
+
+    public string Name { get; }
+        
+    public IReadOnlyList<ArgumentSyntax> Arguments { get; }
+
+    // TextContent | Element | Expression
+    public ISyntaxNode[] Children { get; }
+        
+    public ISyntaxNode this[int index] => Children[index];
+
+    public bool SelfClosed { get; }
+
+    // IsClosed???
+
+    public SyntaxKind Kind => SyntaxKind.Element;
 }
 
 /*

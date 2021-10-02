@@ -1,7 +1,6 @@
-﻿namespace E
+﻿namespace E;
+
+public interface IObject
 {
-    public interface IObject
-    {
-        ObjectType Kind { get; }
-    }
+    ObjectType Kind { get; }
 }

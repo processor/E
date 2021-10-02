@@ -1,6 +1,5 @@
-﻿namespace E.Expressions
+﻿namespace E.Expressions;
+
+public interface IExpression : IObject
 {
-    public interface IExpression : IObject
-    {
-    }
 }

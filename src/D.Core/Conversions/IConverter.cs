@@ -1,7 +1,6 @@
-﻿namespace E
+﻿namespace E;
+
+public interface IConverter<S, T>
 {
-    public interface IConverter<S, T>
-    {
-        T Convert(S value);
-    }
+    T Convert(S value);
 }

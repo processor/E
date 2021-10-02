@@ -1,14 +1,13 @@
-﻿namespace E.Syntax
+﻿namespace E.Syntax;
+
+public sealed class FragmentNode : IObject
 {
-    public sealed class FragmentNode : IObject
+    public FragmentNode(IObject[] children)
     {
-        public FragmentNode(IObject[] children)
-        {
-            Children = children;
-        }
-
-        public IObject[] Children { get; }
-
-        ObjectType IObject.Kind => ObjectType.Fragment;
+        Children = children;
     }
+
+    public IObject[] Children { get; }
+
+    ObjectType IObject.Kind => ObjectType.Fragment;
 }

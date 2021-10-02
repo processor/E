@@ -1,14 +1,13 @@
-﻿namespace E.Expressions
+﻿namespace E.Expressions;
+
+public sealed class ElseStatement : IExpression
 {
-    public sealed class ElseStatement : IExpression
+    public ElseStatement(BlockExpression body)
     {
-        public ElseStatement(BlockExpression body)
-        {
-            Body = body;
-        }
-
-        public BlockExpression Body { get; }
-
-        ObjectType IObject.Kind => ObjectType.ElseStatement;
+        Body = body;
     }
+
+    public BlockExpression Body { get; }
+
+    ObjectType IObject.Kind => ObjectType.ElseStatement;
 }

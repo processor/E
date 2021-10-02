@@ -1,12 +1,12 @@
-﻿
-namespace E.Units
+﻿namespace E.Units;
+
+using static ThermodynamicUnits;
+
+public sealed class ThermodynamicUnitSet : UnitSet
 {
-    public sealed class ThermodynamicUnitSet : UnitSet
+    public ThermodynamicUnitSet()
     {
-        public ThermodynamicUnitSet()
-        {
-            Add(ThermodynamicUnits.Kelvin);
-            Add(ThermodynamicUnits.Celsius);
-        }
+        Add(Kelvin);
+        Add(Celsius);
     }
 }

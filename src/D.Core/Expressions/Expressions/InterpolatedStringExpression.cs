@@ -1,17 +1,16 @@
-﻿namespace E.Expressions
+﻿namespace E.Expressions;
+
+// $"{expression}text"
+public sealed class InterpolatedStringExpression : IExpression
 {
-    // $"{expression}text"
-    public sealed class InterpolatedStringExpression : IExpression
+    public InterpolatedStringExpression(IExpression[] children)
     {
-        public InterpolatedStringExpression(IExpression[] children)
-        {
-            Children = children;
-        }
-
-        public IExpression[] Children { get; }
-
-        public IExpression this[int index] => Children[index];
-
-        ObjectType IObject.Kind => ObjectType.InterpolatedStringExpression;
+        Children = children;
     }
+
+    public IExpression[] Children { get; }
+
+    public IExpression this[int index] => Children[index];
+
+    ObjectType IObject.Kind => ObjectType.InterpolatedStringExpression;
 }

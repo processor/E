@@ -1,13 +1,14 @@
-﻿namespace E.Units
+﻿namespace E.Units;
+
+using static DataUnits;
+
+public sealed class DataUnitSet : UnitSet
 {
-    public sealed class DataUnitSet : UnitSet
+    public DataUnitSet()
     {
-        public DataUnitSet()
-        {
-            Add("B",  DataUnits.Byte);
-            Add("kB", DataUnits.Byte.WithPrefix(SIPrefix.k));
-            Add("MB", DataUnits.Byte.WithPrefix(SIPrefix.M));
-            Add("GB", DataUnits.Byte.WithPrefix(SIPrefix.G));
-        }
+        Add("B",  Byte);
+        Add("kB", Byte.WithPrefix(SIPrefix.k));
+        Add("MB", Byte.WithPrefix(SIPrefix.M));
+        Add("GB", Byte.WithPrefix(SIPrefix.G));
     }
 }

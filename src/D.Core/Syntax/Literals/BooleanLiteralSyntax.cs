@@ -1,19 +1,18 @@
-﻿namespace E.Syntax
+﻿namespace E.Syntax;
+
+public sealed class BooleanLiteralSyntax : ISyntaxNode
 {
-    public sealed class BooleanLiteralSyntax : ISyntaxNode
+    public static readonly BooleanLiteralSyntax True  = new (true);
+    public static readonly BooleanLiteralSyntax False = new (false);
+
+    public BooleanLiteralSyntax(bool value)
     {
-        public static readonly BooleanLiteralSyntax True = new BooleanLiteralSyntax(true);
-        public static readonly BooleanLiteralSyntax False = new BooleanLiteralSyntax(false);
-
-        public BooleanLiteralSyntax(bool value)
-        {
-            Value = value;
-        }
-
-        public bool Value { get; }
-
-        SyntaxKind ISyntaxNode.Kind => SyntaxKind.BooleanLiteral;
-
-        public override string ToString() => Value ? "true": "false";
+        Value = value;
     }
+
+    public bool Value { get; }
+
+    SyntaxKind ISyntaxNode.Kind => SyntaxKind.BooleanLiteral;
+
+    public override string ToString() => Value ? "true": "false";
 }

@@ -3,156 +3,160 @@ using System.Text;
 
 using E.Syntax;
 
-namespace E.Units
-{
-    public readonly struct UnitValue<T> : IUnitValue<T>, IEquatable<UnitValue<T>>
-        where T : unmanaged, IComparable<T>, IEquatable<T>, IFormattable
-    {        
-        public UnitValue(T value, UnitInfo unit)
+namespace E.Units;
+
+public readonly struct UnitValue<T> : IUnitValue<T>, IEquatable<UnitValue<T>>
+    where T : unmanaged, IComparable<T>, IEquatable<T>, IFormattable
+{        
+    public UnitValue(T value, UnitInfo unit)
+    {
+        Value = value; // 1
+        Unit  = unit;  // g
+    }
+
+    public T Value { get; }   
+
+    public UnitInfo Unit { get; }
+
+    #region With
+
+    public readonly UnitValue<T> With(T quantity) => new UnitValue<T>(quantity, Unit);
+
+    public readonly UnitValue<T> With(T quantity, UnitInfo type) => new UnitValue<T>(quantity, type);
+
+    #endregion
+
+    #region Conversions
+
+    public readonly double To(UnitInfo targetUnit)
+    {
+        if (Unit.Dimension != targetUnit.Dimension)
         {
-            Value = value; // 1
-            Unit  = unit;  // g
+            throw new Exception("Must be the same dimension. Was " + targetUnit.Dimension.ToString() + ".");
         }
 
-        public T Value { get; }   
+        // kg   = 1000
+        // g    = 0
+        // mg   = 0.001
 
-        public UnitInfo Unit { get; }
+        // kg -> mg = 1,000,000     kg.units / mg.units
+        // mg -> kg = .0000001      mg.units / kg.units
 
-        #region With
+        // Type Conversions ft -> m, etc 
 
-        public readonly UnitValue<T> With(T quantity) => new UnitValue<T>(quantity, Unit);
+        double q = Convert.ToDouble(Value);
 
-        public readonly UnitValue<T> With(T quantity, UnitInfo type) => new UnitValue<T>(quantity, type);
+        return q * (
+            (Unit.Prefix.Value * Unit.DefinitionValue) /
+            (targetUnit.Prefix.Value * targetUnit.DefinitionValue)
+        );
+    }
 
-        #endregion
+    #endregion
 
-        #region Conversions
+    #region INumber
 
-        public readonly double To(UnitInfo targetUnit)
+    ObjectType IObject.Kind => ObjectType.UnitValue;
+
+    double INumber.Real
+    {
+        get
         {
-            if (Unit.Dimension != targetUnit.Dimension)
+            var result = Convert.ToDouble(Value);
+
+            if (Unit.DefinitionUnit is Number definationUnit)
             {
-                throw new Exception("Must be the same dimension. Was " + targetUnit.Dimension.ToString() + ".");
+                result *= definationUnit.Value;
             }
 
-            // kg   = 1000
-            // g    = 0
-            // mg   = 0.001
-
-            // kg -> mg = 1,000,000     kg.units / mg.units
-            // mg -> kg = .0000001      mg.units / kg.units
-
-            // Type Conversions ft -> m, etc 
-
-            double q = Convert.ToDouble(Value);
-
-            return q * (
-                (Unit.Prefix.Value * Unit.DefinitionValue) /
-                (targetUnit.Prefix.Value * targetUnit.DefinitionValue)
-            );
+            return result;
         }
+    }
 
-        #endregion
+    T1 INumber.As<T1>() => (T1)Convert.ChangeType(Value, typeof(T1));
 
-        #region INumber
+    #endregion
 
-        ObjectType IObject.Kind => ObjectType.UnitValue;
+    // No space between units...
 
-        double INumber.Real
-        {
-            get
-            {
-                var result = Convert.ToDouble(Value);
-
-                if (Unit.DefinitionUnit is Number definationUnit)
-                {
-                    result *= definationUnit.Value;
-                }
-
-                return result;
-            }
-        }
-
-        T1 INumber.As<T1>() => (T1)Convert.ChangeType(Value, typeof(T1));
-
-        #endregion
-
-        // No space between units...
-
-        public readonly override string ToString()
-        {
-            var sb = new StringBuilder();
+    public readonly override string ToString()
+    {
+        var sb = new StringBuilder();
             
-            sb.Append(Value);
+        sb.Append(Value);
             
-            sb.Append(Unit.ToString());   // e.g. kg
+        sb.Append(Unit.ToString());   // e.g. kg
     
-            return sb.ToString();
-        }
+        return sb.ToString();
+    }
 
-        public static UnitValue<T> Wrap(T value)
-        {
-            return new UnitValue<T>(value, UnitInfo.None);
-        }        
+    public static UnitValue<T> Wrap(T value)
+    {
+        return new UnitValue<T>(value, UnitInfo.None);
+    }        
 
-        public static UnitValue<T> Parse(string text)
+    public static UnitValue<T> Parse(string text)
+    {
+        if ((char.IsDigit(text[0]) || text[0] == '-'))
         {
-            if ((char.IsDigit(text[0]) || text[0] == '-'))
+            var syntax = Parsing.Parser.Parse(text);
+
+            if (syntax is UnitValueSyntax unitValue)
             {
-                var syntax = Parsing.Parser.Parse(text);
 
-                if (syntax is UnitValueSyntax unitValue)
-                {
+                // 1 g
+                // 1g
+                // 1.1g
+                // 1px
 
-                    // 1 g
-                    // 1g
-                    // 1.1g
-                    // 1px
+                double value = double.Parse(((NumberLiteralSyntax)unitValue.Expression).Text);
 
-                    double value = double.Parse(((NumberLiteralSyntax)unitValue.Expression).Text);
+                var type = UnitInfo.TryParse(unitValue.UnitName, out UnitInfo? unitType)
+                    ? unitType!
+                    : new UnitInfo(unitValue.UnitName);
 
-                    var type = UnitInfo.TryParse(unitValue.UnitName, out UnitInfo? unitType)
-                        ? unitType!
-                        : new UnitInfo(unitValue.UnitName);
+                return new UnitValue<T>((T)Convert.ChangeType(value, typeof(T)), type!.WithExponent(unitValue.UnitPower));
+            }
+            else if (syntax is NumberLiteralSyntax number)
+            {
+                var value = (T)Convert.ChangeType(double.Parse(number.Text), typeof(T));
 
-                    return new UnitValue<T>((T)Convert.ChangeType(value, typeof(T)), type!.WithExponent(unitValue.UnitPower));
-                }
-                else if (syntax is NumberLiteralSyntax number)
-                {
-                    var value = (T)Convert.ChangeType(double.Parse(number.Text), typeof(T));
-
-                    return new UnitValue<T>(value, UnitInfo.None);
-                }
-                else
-                {
-                    throw new Exception("Invalid unit:" + text);
-                }
+                return new UnitValue<T>(value, UnitInfo.None);
             }
             else
             {
-                UnitInfo type = UnitInfo.TryParse(text, out UnitInfo? unitType)
-                   ? unitType!
-                   : new UnitInfo(text);
-
-                return new UnitValue<T>(UnitConstants<T>.One, type);
+                throw new Exception("Invalid unit:" + text);
             }
         }
-
-        public void Deconstruct(out T value, out string unitName)
+        else
         {
-            (value, unitName) = (Value, Unit.Name);
-        }
+            UnitInfo type = UnitInfo.TryParse(text, out UnitInfo? unitType)
+                ? unitType!
+                : new UnitInfo(text);
 
-        public bool Equals(UnitValue<T> other)
-        {
-            return Value.Equals(other.Value)
-                && Unit.Equals(other.Unit);
+            return new UnitValue<T>(UnitConstants<T>.One, type);
         }
+    }
 
-        public override bool Equals(object obj)
-        {
-            return obj is UnitValue<T> other && Equals(other);
-        }
+    public void Deconstruct(out T value, out string unitName)
+    {
+        (value, unitName) = (Value, Unit.Name);
+    }
+
+    public bool Equals(UnitValue<T> other)
+    {
+        return Value.Equals(other.Value)
+            && Unit.Equals(other.Unit);
+    }
+
+    public override bool Equals(object? obj)
+    {
+        return obj is UnitValue<T> other && Equals(other);
+    }
+
+    public override int GetHashCode()
+    {
+        return HashCode.Combine(Value, Unit);
     }
 }
 

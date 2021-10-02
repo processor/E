@@ -1,18 +1,17 @@
-﻿namespace E
+﻿namespace E;
+
+public enum NumericType
 {
-    public enum NumericType
-    {
-        Integer     = ObjectType.Int64,       // {…, -2, -1, 0, 1, 2,…}
-        Rational    = ObjectType.Rational,    // ratio (i.e. 1/3)
-        Float       = ObjectType.Float64,     // represents a physical quantity along a continuous line
+    Integer     = ObjectType.Int64,       // {…, -2, -1, 0, 1, 2,…}
+    Rational    = ObjectType.Rational,    // ratio (i.e. 1/3)
+    Float       = ObjectType.Float64,     // represents a physical quantity along a continuous line
 
-        // Irrational  = Kind.Irrational,
-        // Imaginary   = Kind.Imaginary,
-        // Complex     = Kind.Complex
-    }
-
-    // PI is an irrational number
+    // Irrational  = Kind.Irrational,
+    // Imaginary   = Kind.Imaginary,
+    // Complex     = Kind.Complex
 }
+
+// PI is an irrational number
 
 // 
 /*

@@ -1,13 +1,12 @@
 ﻿using System;
 
-namespace E
+namespace E;
+
+[Flags]
+public enum Visibility : byte
 {
-    [Flags]
-    public enum Visibility : byte
-    {
-        Public    = 1 << 0,
-        Private   = 1 << 1,
-        Internal  = 1 << 2,
-        Protected = 1 << 3
-    }
+    Public    = 1 << 0,
+    Private   = 1 << 1,
+    Internal  = 1 << 2,
+    Protected = 1 << 3
 }

@@ -1,7 +1,6 @@
-﻿namespace E.Primitives
+﻿namespace E.Primitives;
+
+public interface IGenerator<T>
 {
-    public interface IGenerator<T>
-    {
-        T Next(); // Change return to ValueTask<T>
-    }
+    T Next(); // Change return to ValueTask<T>
 }

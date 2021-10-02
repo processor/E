@@ -1,22 +1,21 @@
 ﻿using E.Symbols;
 
-namespace E.Syntax
+namespace E.Syntax;
+
+public sealed class ArgumentSyntax
 {
-    public sealed class ArgumentSyntax
+    public ArgumentSyntax(ISyntaxNode value)
     {
-        public ArgumentSyntax(ISyntaxNode value)
-        {
-            Value = value;
-        }
-
-        public ArgumentSyntax(Symbol? name, ISyntaxNode value)
-        {
-            Name = name;
-            Value = value;
-        }
-
-        public Symbol? Name { get; }
-
-        public ISyntaxNode Value { get; }
+        Value = value;
     }
+
+    public ArgumentSyntax(Symbol? name, ISyntaxNode value)
+    {
+        Name = name;
+        Value = value;
+    }
+
+    public Symbol? Name { get; }
+
+    public ISyntaxNode Value { get; }
 }

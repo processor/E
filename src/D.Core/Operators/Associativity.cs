@@ -1,9 +1,8 @@
-﻿namespace E
+﻿namespace E;
+
+// Determines the order in which operators with the same precedence are processed
+public enum Associativity
 {
-    // Determines the order in which operators with the same precedence are processed
-    public enum Associativity
-    {
-        Left = 1,
-        Right = 2
-    }
+    Left = 1,
+    Right = 2
 }

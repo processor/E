@@ -1,17 +1,16 @@
 ﻿using E.Symbols;
 
-namespace E.Syntax
+namespace E.Syntax;
+
+public interface IMemberSyntax
 {
-    public interface IMemberSyntax
-    {
-        Symbol Name { get; }
-        
-        // The type of the node value...
+    Symbol Name { get; }
 
-        TypeSymbol Type { get; }
+    // The type of the node value...
 
-        // Parent
-    }
+    TypeSymbol Type { get; }
+
+    // Parent
 }
 
 // geometry.curve.get_point(Number) -> Point

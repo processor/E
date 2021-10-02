@@ -1,43 +1,42 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 
-namespace E
+namespace E;
+
+public sealed class ArgumentList : IArguments
 {
-    public sealed class ArgumentList : IArguments
+    private readonly Argument[] _items;
+
+    public ArgumentList(Argument[] items)
     {
-        private readonly Argument[] items;
-
-        public ArgumentList(Argument[] items)
-        {
-            this.items = items;
-        }
-
-        public object this[int i] => items[i].Value;
-
-        public object this[string name]
-        {
-            get
-            {
-                foreach (var arg in items)
-                {
-                    if (arg.Name is not null && arg.Name == name)
-                    {
-                        return arg.Value;
-                    }
-                }
-
-                throw new KeyNotFoundException(name ?? "null");
-            }
-        }
-
-        public int Count => items.Length;
-
-        #region IEnumerable
-
-        public IEnumerator<Argument> GetEnumerator() => ((IList<Argument>)items).GetEnumerator();
-
-        IEnumerator IEnumerable.GetEnumerator() => items.GetEnumerator();
-
-        #endregion
+        _items = items;
     }
+
+    public object this[int i] => _items[i].Value;
+
+    public object this[string name]
+    {
+        get
+        {
+            foreach (var arg in _items)
+            {
+                if (arg.Name is not null && arg.Name == name)
+                {
+                    return arg.Value;
+                }
+            }
+
+            throw new KeyNotFoundException(name ?? "null");
+        }
+    }
+
+    public int Count => _items.Length;
+
+    #region IEnumerable
+
+    public IEnumerator<Argument> GetEnumerator() => ((IList<Argument>)_items).GetEnumerator();
+
+    IEnumerator IEnumerable.GetEnumerator() => _items.GetEnumerator();
+
+    #endregion
 }

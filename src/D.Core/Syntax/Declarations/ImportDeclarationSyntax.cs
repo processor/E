@@ -1,9 +1,8 @@
-﻿namespace E.Syntax
+﻿namespace E.Syntax;
+
+public sealed class ImportDeclarationSyntax : ISyntaxNode
 {
-    public sealed class ImportDeclarationSyntax : ISyntaxNode
-    {
-        SyntaxKind ISyntaxNode.Kind => SyntaxKind.ImportDeclaration;
-    }
+    SyntaxKind ISyntaxNode.Kind => SyntaxKind.ImportDeclaration;
 }
 
 // from Module import Name

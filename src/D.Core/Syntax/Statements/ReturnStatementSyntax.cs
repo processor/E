@@ -1,14 +1,13 @@
-﻿namespace E.Syntax
+﻿namespace E.Syntax;
+
+public sealed class ReturnStatementSyntax : ISyntaxNode
 {
-    public sealed class ReturnStatementSyntax : ISyntaxNode
+    public ReturnStatementSyntax(ISyntaxNode expression)
     {
-        public ReturnStatementSyntax(ISyntaxNode expression)
-        {
-            Expression = expression;
-        }
-
-        public ISyntaxNode Expression { get; }
-
-        SyntaxKind ISyntaxNode.Kind => SyntaxKind.ReturnStatement;
+        Expression = expression;
     }
+
+    public ISyntaxNode Expression { get; }
+
+    SyntaxKind ISyntaxNode.Kind => SyntaxKind.ReturnStatement;
 }

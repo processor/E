@@ -1,14 +1,13 @@
-﻿namespace E.Syntax
+﻿namespace E.Syntax;
+
+public sealed class ElseStatementSyntax : ISyntaxNode
 {
-    public sealed class ElseStatementSyntax : ISyntaxNode
+    public ElseStatementSyntax(BlockSyntax body)
     {
-        public ElseStatementSyntax(BlockSyntax body)
-        {
-            Body = body;
-        }
-
-        public BlockSyntax Body { get; }
-
-        SyntaxKind ISyntaxNode.Kind => SyntaxKind.ElseStatement;
+        Body = body;
     }
+
+    public BlockSyntax Body { get; }
+
+    SyntaxKind ISyntaxNode.Kind => SyntaxKind.ElseStatement;
 }

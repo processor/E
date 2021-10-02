@@ -1,27 +1,26 @@
 ﻿using E.Symbols;
 
-namespace E.Expressions
+namespace E.Expressions;
+
+// a: 100
+public sealed class TupleElement : IExpression
 {
-    // a: 100
-    public sealed class TupleElement : IExpression
+    public TupleElement(Symbol name, IExpression? value)
     {
-        public TupleElement(Symbol name, IExpression? value)
-        {
-            Name = name;
-            Value = value;
-        }
-
-        public Symbol Name { get; }
-
-        // type or constant
-        public IExpression? Value { get; }
-
-        public void Deconstruct(out Symbol name, out IExpression? value)
-        {
-            name = Name;
-            value = Value;
-        }
-
-        ObjectType IObject.Kind => ObjectType.TupleElement;
+        Name = name;
+        Value = value;
     }
+
+    public Symbol Name { get; }
+
+    // type or constant
+    public IExpression? Value { get; }
+
+    public void Deconstruct(out Symbol name, out IExpression? value)
+    {
+        name = Name;
+        value = Value;
+    }
+
+    ObjectType IObject.Kind => ObjectType.TupleElement;
 }

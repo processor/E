@@ -1,7 +1,6 @@
-﻿namespace E.Syntax
+﻿namespace E.Syntax;
+
+public interface ISyntaxNode
 {
-    public interface ISyntaxNode
-    {
-        SyntaxKind Kind { get; }
-    }   
-}
+    SyntaxKind Kind { get; }
+}   

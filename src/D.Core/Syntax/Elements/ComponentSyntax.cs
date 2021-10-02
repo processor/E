@@ -1,20 +1,19 @@
-﻿namespace E.Core
+﻿namespace E.Core;
+
+internal class ComponentSyntax
 {
-    internal class ComponentSyntax
+    public ComponentSyntax(string name)
     {
-        public ComponentSyntax(string name)
-        {
-            Name = name;
-        }
-
-        public string Name { get; }
-
-        // Functions
-
-        // Styles
-
-        // ...
+        Name = name;
     }
+
+    public string Name { get; }
+
+    // Functions
+
+    // Styles
+
+    // ...
 }
 
 // Look at Mint for Style Syntax

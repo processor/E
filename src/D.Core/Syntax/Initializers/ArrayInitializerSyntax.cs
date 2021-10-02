@@ -1,23 +1,22 @@
 ﻿using E.Symbols;
 
-namespace E.Syntax
+namespace E.Syntax;
+
+public sealed class ArrayInitializerSyntax : ISyntaxNode
 {
-    public sealed class ArrayInitializerSyntax : ISyntaxNode
+    public ArrayInitializerSyntax(ISyntaxNode[] elements, int? stride)
     {
-        public ArrayInitializerSyntax(ISyntaxNode[] elements, int? stride)
-        {
-            Elements = elements;
-            Stride = stride;
-        }
-
-        public ISyntaxNode[] Elements { get; }
-
-        public int? Stride { get; }
-
-        public TypeSymbol? ElementType { get; set; }
-
-        SyntaxKind ISyntaxNode.Kind => SyntaxKind.ArrayInitializer;
+        Elements = elements;
+        Stride = stride;
     }
+
+    public ISyntaxNode[] Elements { get; }
+
+    public int? Stride { get; }
+
+    public TypeSymbol? ElementType { get; set; }
+
+    SyntaxKind ISyntaxNode.Kind => SyntaxKind.ArrayInitializer;
 }
 
 

@@ -1,12 +1,11 @@
-﻿namespace E.Symbols
+﻿namespace E.Symbols;
+
+public sealed class VariableSymbol : Symbol
 {
-    public sealed class VariableSymbol : Symbol
-    {
-        public VariableSymbol(string name, SymbolFlags flags = SymbolFlags.None)
-            : base(name, flags) { }
+    public VariableSymbol(string name, SymbolFlags flags = SymbolFlags.None)
+        : base(name, flags) { }
 
-        // Scope = Local OR Block
+    // Scope = Local OR Block
 
-        public bool IsLocal => Flags.HasFlag(SymbolFlags.Local);
-    }
+    public bool IsLocal => Flags.HasFlag(SymbolFlags.Local);
 }

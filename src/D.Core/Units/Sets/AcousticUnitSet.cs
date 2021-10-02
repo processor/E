@@ -1,6 +1,5 @@
-﻿namespace E.Units
+﻿namespace E.Units;
+
+public sealed class AcousticUnitSet : UnitSet
 {
-    public sealed class AcousticUnitSet : UnitSet
-    {
-    }
 }

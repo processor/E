@@ -1,96 +1,95 @@
 ﻿using System;
 using System.IO;
 
-namespace E.Parsing
+namespace E.Parsing;
+
+internal sealed class TokenReader : IDisposable
 {
-    internal sealed class TokenReader : IDisposable
+    private readonly Tokenizer tokenizer;
+
+    public TokenReader(Tokenizer tokenizer)
     {
-        private readonly Tokenizer tokenizer;
+        this.tokenizer = tokenizer;
 
-        public TokenReader(Tokenizer tokenizer)
+        Current = tokenizer.Next();
+    }
+
+    public int Line => Current.Start.Line;
+
+    public Token Current { get; set; }
+
+    public Token Read(TokenKind kind)
+    {
+        if (Current.Kind != kind)
         {
-            this.tokenizer = tokenizer;
-
-            Current = tokenizer.Next();
+            throw new Exception($"Expected {kind}. Was {Current.Kind}");
         }
 
-        public int Line => Current.Start.Line;
+        Advance();
 
-        public Token Current { get; set; }
+        return Current;
+    }
 
-        public Token Read(TokenKind kind)
+    public Token Consume()
+    {
+        Token c = Current;
+
+        Advance();
+
+        return c;
+    }
+
+    public bool ConsumeIf(TokenKind kind)
+    {
+        if (Current.Kind == kind)
         {
-            if (Current.Kind != kind)
-            {
-                throw new Exception($"Expected {kind}. Was {Current.Kind}");
-            }
-
             Advance();
 
-            return Current;
+            return true;
         }
 
-        public Token Consume()
+        return false;
+    }
+
+    public Token Consume(string text)
+    {
+        if (!Current.Text.Equals(text, StringComparison.Ordinal))
         {
-            Token c = Current;
-
-            Advance();
-
-            return c;
+            throw new UnexpectedTokenException($"Expected {text}. Was {Current} @{Current.Start.Line}");
         }
 
-        public bool ConsumeIf(TokenKind kind)
+        var c = Current;
+
+        Advance();
+
+        return c;
+    }
+
+    public Token Consume(TokenKind kind)
+    {
+        if (Current.Kind != kind)
         {
-            if (Current.Kind == kind)
-            {
-                Advance();
-
-                return true;
-            }
-
-            return false;
+            throw new UnexpectedTokenException($"Expected {kind}. Was {Current} @{Current.Start.Line}:{Current.Start.Column}");
         }
 
-        public Token Consume(string text)
-        {
-            if (!Current.Text.Equals(text, StringComparison.Ordinal))
-            {
-                throw new UnexpectedTokenException($"Expected {text}. Was {Current} @{Current.Start.Line}");
-            }
+        var c = Current;
 
-            var c = Current;
+        Advance();
 
-            Advance();
+        return c;
+    }
 
-            return c;
-        }
+    public bool IsEof => Current.Kind == TokenKind.EOF;
 
-        public Token Consume(TokenKind kind)
-        {
-            if (Current.Kind != kind)
-            {
-                throw new UnexpectedTokenException($"Expected {kind}. Was {Current} @{Current.Start.Line}:{Current.Start.Column}");
-            }
+    public void Advance()
+    {
+        if (IsEof) throw new EndOfStreamException("Cannot read past EOF");
 
-            var c = Current;
+        Current = tokenizer.Next();
+    }
 
-            Advance();
-
-            return c;
-        }
-
-        public bool IsEof => Current.Kind == TokenKind.EOF;
-
-        public void Advance()
-        {
-            if (IsEof) throw new EndOfStreamException("Cannot read past EOF");
-
-            Current = tokenizer.Next();
-        }
-
-        public void Dispose()
-        {
-            tokenizer.Dispose();
-        }
+    public void Dispose()
+    {
+        tokenizer.Dispose();
     }
 }

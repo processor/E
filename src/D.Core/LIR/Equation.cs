@@ -1,31 +1,29 @@
 ﻿using E.Symbols;
 
-namespace E.Expressions
+namespace E.Expressions;
+
+public sealed class Equation : IExpression
 {
-    public sealed class Equation : IExpression
+    public Equation(IObject lhs, IObject rhs, Symbol[] symbols)
     {
-        public Equation(IObject lhs, IObject rhs, Symbol[] symbols)
-        {
-            Left    = lhs;
-            Right   = rhs;
-            Symbols = symbols;
-        }
-
-        public IObject Left { get; }
-
-        public IObject Right { get; }
-
-        public Symbol[] Symbols { get; }
-
-        // TODO: Invariants
-        // x > 10
-
-        public ObjectType Kind => ObjectType.Equation;
-
-        // TODO: Simplify()
+        Left    = lhs;
+        Right   = rhs;
+        Symbols = symbols;
     }
-}
 
+    public IObject Left { get; }
+
+    public IObject Right { get; }
+
+    public Symbol[] Symbols { get; }
+
+    // TODO: Invariants
+    // x > 10
+
+    public ObjectType Kind => ObjectType.Equation;
+
+    // TODO: Simplify()
+}
 
 // a + 5    =  a → a + 5
 // a + 5^2  =  a → a^2

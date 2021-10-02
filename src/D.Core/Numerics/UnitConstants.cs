@@ -1,12 +1,11 @@
 ﻿using System;
 
-namespace E.Units
-{
-    internal static class UnitConstants<T>
-    {
-        public static readonly T One = (T)Convert.ChangeType(1, typeof(T));
+namespace E.Units;
 
-    }
+internal static class UnitConstants<T>
+{
+    public static readonly T One = (T)Convert.ChangeType(1, typeof(T));
+
 }
 
 // 1s   = (1)(1)second

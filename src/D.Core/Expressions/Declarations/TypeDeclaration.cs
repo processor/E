@@ -1,27 +1,23 @@
 ﻿using E.Symbols;
 
-namespace E.Expressions
+namespace E.Expressions;
+
+public sealed class TypeDeclaration : TypeDeclarationBase
 {
-    public sealed class TypeDeclaration : TypeDeclarationBase
+    public TypeDeclaration(Symbol name, Parameter[] genericParameters, Symbol baseType, Property[] members, TypeFlags flags)
+        : base (baseType, members, flags)
     {
-        public TypeDeclaration(Symbol name, Parameter[] genericParameters, Symbol baseType, Property[] members, TypeFlags flags)
-            : base (baseType, members, flags)
-        {
-            Name = name;
-            GenericParameters = genericParameters;
-        }
-
-        // e.g.
-        // Crash 
-        // Vehicle 'Crash   term
-        public Symbol Name { get; }
-
-        public Parameter[] GenericParameters { get; }
+        Name = name;
+        GenericParameters = genericParameters;
     }
 
-    // MAP = * -> *
-}
+    // e.g.
+    // Crash 
+    // Vehicle 'Crash   term
+    public Symbol Name { get; }
 
+    public Parameter[] GenericParameters { get; }
+}
 
 /*
 type Person = {

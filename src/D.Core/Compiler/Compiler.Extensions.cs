@@ -1,34 +1,33 @@
 ﻿using System;
 
-namespace E
+namespace E;
+
+public partial class Compiler
 {
-    public partial class Compiler
+    public NestedScope EnterScope(string name)
     {
-        public Nested EnterScope(string name)
-        {
-            env = env.Nested(name);
+        env = env.Nested(name);
 
-            return new Nested(this);
-        }
-
-        internal void LeaveScope()
-        {
-            env = env.Parent;
-        }
+        return new NestedScope(this);
     }
 
-    public readonly struct Nested : IDisposable
+    internal void LeaveScope()
     {
-        private readonly Compiler compiler;
+        env = env.Parent!;
+    }
+}
 
-        public Nested(Compiler compiler)
-        {
-            this.compiler = compiler;
-        }
+public readonly struct NestedScope : IDisposable
+{
+    private readonly Compiler _compiler;
 
-        public void Dispose()
-        {
-            compiler.LeaveScope();
-        }
+    public NestedScope(Compiler compiler)
+    {
+        _compiler = compiler;
+    }
+
+    public void Dispose()
+    {
+        _compiler.LeaveScope();
     }
 }

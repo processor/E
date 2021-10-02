@@ -1,9 +1,8 @@
-﻿namespace E.Symbols
+﻿namespace E.Symbols;
+
+public enum SymbolStatus
 {
-    public enum SymbolStatus
-    {
-        Unresolved = 0,
-        Resolving = 1,
-        Resolved   = 2
-    }
+    Unresolved = 0,
+    Resolving = 1,
+    Resolved = 2
 }

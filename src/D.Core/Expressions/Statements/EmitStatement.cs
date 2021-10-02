@@ -1,14 +1,13 @@
-﻿namespace E.Expressions
+﻿namespace E.Expressions;
+
+public sealed class EmitStatement : IExpression
 {
-    public sealed class EmitStatement : IExpression
+    public EmitStatement(IExpression expression)
     {
-        public EmitStatement(IExpression expression)
-        {
-            Expression = expression;
-        }
-
-        public IExpression Expression { get; }
-
-        ObjectType IObject.Kind => ObjectType.EmitStatement;
+        Expression = expression;
     }
+
+    public IExpression Expression { get; }
+
+    ObjectType IObject.Kind => ObjectType.EmitStatement;
 }

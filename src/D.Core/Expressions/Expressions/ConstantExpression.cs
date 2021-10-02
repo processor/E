@@ -1,14 +1,13 @@
-﻿namespace E.Expressions
+﻿namespace E.Expressions;
+
+public sealed class ConstantExpression : IExpression
 {
-    public sealed class ConstantExpression : IExpression
+    public ConstantExpression(object value)
     {
-        public ConstantExpression(object value)
-        {
-            Value = value;
-        }
-
-        public object Value { get; }
-
-        ObjectType IObject.Kind => ObjectType.ConstantExpression;
+        Value = value;
     }
+
+    public object Value { get; }
+
+    ObjectType IObject.Kind => ObjectType.ConstantExpression;
 }

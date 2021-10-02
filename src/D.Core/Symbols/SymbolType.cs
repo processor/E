@@ -1,11 +1,10 @@
-﻿namespace E.Symbols
+﻿namespace E.Symbols;
+
+public enum SymbolType
 {
-    public enum SymbolType
-    {
-        TypeParameter = 1,
-        Label         = 2,
-        Module        = 3,
-        Property      = 4,
-        Method        = 5, // Method | Function
-    }
+    TypeParameter = 1,
+    Label         = 2,
+    Module        = 3,
+    Property      = 4,
+    Method        = 5, // Method | Function
 }

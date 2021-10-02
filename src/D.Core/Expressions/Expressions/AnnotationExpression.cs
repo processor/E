@@ -1,19 +1,18 @@
 ﻿using E.Symbols;
 
-namespace E.Expressions
+namespace E.Expressions;
+
+public sealed class AnnotationExpression : IExpression
 {
-    public sealed class AnnotationExpression : IExpression
+    public AnnotationExpression(Symbol name, IArguments arguments)
     {
-        public AnnotationExpression(Symbol name, IArguments arguments)
-        {
-            Name = name;
-            Arguments = arguments;
-        }
-
-        public Symbol Name { get; }
-
-        public IArguments Arguments { get; }
-
-        ObjectType IObject.Kind => ObjectType.AnnotationExpression;
+        Name = name;
+        Arguments = arguments;
     }
+
+    public Symbol Name { get; }
+
+    public IArguments Arguments { get; }
+
+    ObjectType IObject.Kind => ObjectType.AnnotationExpression;
 }

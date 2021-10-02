@@ -1,10 +1,9 @@
-﻿namespace E.Units
+﻿namespace E.Units;
+
+public sealed class MechanicalUnitSet : UnitSet
 {
-    public sealed class MechanicalUnitSet : UnitSet
+    public MechanicalUnitSet()
     {
-        public MechanicalUnitSet()
-        {
-            Add("N", MechanicalUnits.Newton);
-        }
+        Add("N", MechanicalUnits.Newton);
     }
 }

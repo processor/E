@@ -3,128 +3,127 @@
 using E.Expressions;
 using E.Symbols;
 
-namespace E
+namespace E;
+
+public partial class Compiler
 {
-    public partial class Compiler
+    public Type GetReturnType(BlockExpression block)
     {
-        public Type GetReturnType(BlockExpression block)
+        foreach (var expression in block.Statements)
         {
-            foreach (var expression in block.Statements)
+            if (expression is ReturnStatement returnStatement)
             {
-                if (expression is ReturnStatement returnStatement)
-                {
-                    return GetType(returnStatement.Expression);
-                }
+                return GetType(returnStatement.Expression);
             }
-
-            throw new Exception("Block has no return statement:" + block[0].ToString());
         }
 
-        public Type GetReturnType(LambdaExpression lambda)
+        throw new Exception($"Block has no return statement: {block[0]}");
+    }
+
+    public Type GetReturnType(LambdaExpression lambda)
+    {
+        return GetType(lambda.Expression);
+    }
+
+    public Type GetType(IObject expression)
+    {
+        if (expression is Symbol name)
         {
-            return GetType(lambda.Expression);
+            return env.Get<Type>(flow.Infer(name.Name).Name);
+
+            /*
+            if (env.TryGetValue(name, out Type obj))
+            {
+                return obj;
+            }
+            */
         }
 
-        public Type GetType(IObject expression)
+        switch (expression)
         {
-            if (expression is Symbol name)
-            {
-                return env.Get<Type>(flow.Infer(name.Name).Name);
+            case MemberAccessExpression access:
+                Type type = GetType(access.Left) ?? throw new Exception("no type found for left");
 
-                /*
-                if (env.TryGetValue(name, out Type obj))
+                var member = type.GetProperty(access.MemberName);
+
+                if (member is null) return Type.Get(ObjectType.Object);
+
+                // if (member is null) throw new Exception($"{type.Name}::{access.MemberName} not found");
+
+                return member.Type;
+
+            case CallExpression call:
+                return call.ReturnType ?? Type.Get(ObjectType.Object);
+
+            case InterpolatedStringExpression _:
+                return Type.Get(ObjectType.String);
+
+            case TypeSymbol symbol:
+                return new Type(symbol.Name, Type.Get(ObjectType.Object), null, null);
+
+            case BinaryExpression b:
+                if (b.Operator.IsComparision || b.Operator.IsLogical)
                 {
-                    return obj;
+                    return Type.Get(ObjectType.Boolean);
                 }
-                */
-            }
+                else
+                {
+                    // throw new Exception(b.Left.GetType().ToString() + "/" + b.Right.GetType().ToString());
 
-            switch (expression)
-            {
-                case MemberAccessExpression access:
-                    Type type = GetType(access.Left) ?? throw new Exception("no type found for left");
+                    var lhsType = GetType(b.Left);
+                    var rhsType = GetType(b.Right);
 
-                    var member = type.GetProperty(access.MemberName);
+                    /*
+                    var apply = D.Inference.Node.Apply(D.Inference.Node.Variable("operator-symbol"), new[] { 
+                        D.Inference.Node.Constant(lhs), // lhs
+                        D.Inference.Node.Constant(rhs)  // rhs
+                    });
 
-                    if (member is null) return Type.Get(ObjectType.Object);
 
-                    // if (member is null) throw new Exception($"{type.Name}::{access.MemberName} not found");
+                    var r = flow.Infer(apply);
+                    */
 
-                    return member.Type;
-                    
-                case CallExpression call:
-                    return call.ReturnType ?? Type.Get(ObjectType.Object);
-
-                case InterpolatedStringExpression _:
-                    return Type.Get(ObjectType.String);
-
-                case TypeSymbol symbol:
-                    return new Type(symbol.Name, Type.Get(ObjectType.Object), null, null);
-
-                case BinaryExpression b:
-                    if (b.Operator.IsComparision || b.Operator.IsLogical)
+                    if (ReferenceEquals(lhsType, rhsType))
                     {
-                        return Type.Get(ObjectType.Boolean);
+                        return lhsType;
                     }
                     else
                     {
-                        // throw new Exception(b.Left.GetType().ToString() + "/" + b.Right.GetType().ToString());
-
-                        var lhsType = GetType(b.Left);
-                        var rhsType = GetType(b.Right);
-
-                        /*
-                        var apply = D.Inference.Node.Apply(D.Inference.Node.Variable("operator-symbol"), new[] { 
-                            D.Inference.Node.Constant(lhs), // lhs
-                            D.Inference.Node.Constant(rhs)  // rhs
-                        });
-
-
-                        var r = flow.Infer(apply);
-                        */
-
-                        if (ReferenceEquals(lhsType, rhsType))
-                        {
-                            return lhsType;
-                        }
-                        else
-                        {
-                            return Type.Get(ObjectType.Object);
-                        }
+                        return Type.Get(ObjectType.Object);
                     }
+                }
 
 
-                case UnaryExpression _:
-                case IndexAccessExpression _:
-                case Symbol _:
-                case MatchExpression _:
-                    return Type.Get(ObjectType.Object);
+            case UnaryExpression _:
+            case IndexAccessExpression _:
+            case Symbol _:
+            case MatchExpression _:
+                return Type.Get(ObjectType.Object);
 
-                case TypeInitializer initializer:
-                    return env.Get<Type>(initializer.Type);
+            case TypeInitializer initializer:
+                return env.Get<Type>(initializer.Type);
 
-                case TupleExpression tuple:
+            case TupleExpression tuple:
+                {
+                    var args = new Type[tuple.Elements.Length];
+
+                    for (var i = 0; i < tuple.Elements.Length; i++)
                     {
-                        var args = new Type[tuple.Elements.Length];
-
-                        for (var i = 0; i < tuple.Elements.Length; i++)
-                        {
-                            args[i] = GetType(tuple.Elements[i]);
-                        }
-
-                        return new Type(ObjectType.Tuple, args);
+                        args[i] = GetType(tuple.Elements[i]);
                     }
 
-                case ArrayInitializer array:
-                    return new Type(ObjectType.Array, (Type)array.ElementType);
-            }
+                    return new Type(ObjectType.Tuple, args);
+                }
 
-            if (expression.Kind is not ObjectType.Object)
-            {
-                return Type.Get(expression.Kind);
-            }
-
-            throw new Exception($"Unexpected expression:{expression.Kind}/{expression}");
+            case ArrayInitializer array:
+                return new Type(ObjectType.Array, array.ElementType!);
         }
+
+        if (expression.Kind is not ObjectType.Object)
+        {
+            return Type.Get(expression.Kind);
+        }
+
+        throw new Exception($"Unexpected expression:{expression.Kind}/{expression}");
     }
 }

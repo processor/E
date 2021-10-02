@@ -3,44 +3,43 @@
 
 using System.Collections.Generic;
 
-namespace E.Inference
+namespace E.Inference;
+
+public sealed class Environment : Dictionary<string, IType>
 {
-    public sealed class Environment : Dictionary<string, IType>
+    private readonly Environment? parent;
+
+    public Environment(Environment? parent = null)
     {
-        private readonly Environment? parent;
+        this.parent = parent;
+    }
 
-        public Environment(Environment? parent = null)
+    private IType Get(string id)
+    {
+        if (TryGetValue(id, out IType? value))
         {
-            this.parent = parent;
+            return value;
         }
-
-        private IType Get(string id)
+        else if (parent is not null && parent.TryGetValue(id, out value))
         {
-            if (TryGetValue(id, out IType? value))
-            {
-                return value;
-            }
-            else if (parent is not null && parent.TryGetValue(id, out value))
-            {
-                return value;
-            }
-            else
-            {
-                throw new KeyNotFoundException(id + " was not found");
-            }
+            return value;
         }
-
-        private void Set(string id, IType type)
+        else
         {
-            base[id] = type;
+            throw new KeyNotFoundException($"{id} was not found");
         }
+    }
 
-        public Environment Nested() => new Environment(this);
+    private void Set(string id, IType type)
+    {
+        base[id] = type;
+    }
 
-        public new IType this[string id]
-        {
-            get => Get(id);
-            set => Set(id, value);
-        }
+    public Environment Nested() => new Environment(this);
+
+    public new IType this[string id]
+    {
+        get => Get(id);
+        set => Set(id, value);
     }
 }

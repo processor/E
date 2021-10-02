@@ -1,21 +1,20 @@
-﻿namespace E
+﻿namespace E;
+
+public sealed class Property : Member, IObject
 {
-    public sealed class Property : Member, IObject
-    {
-        public Property(string name, Type type, ObjectFlags modifiers = ObjectFlags.None)
-            : base(name, type, modifiers) { }
+    public Property(string name, Type type, ObjectFlags modifiers = ObjectFlags.None)
+        : base(name, type, modifiers) { }
 
-        // IsComputed ?
+    // IsComputed ?
 
-        // Getter
-        // Setter
+    // Getter
+    // Setter
 
-        ObjectType IObject.Kind => ObjectType.Property;
+    ObjectType IObject.Kind => ObjectType.Property;
 
-        #region ITypeMember
+    #region ITypeMember
 
-        public Type? DeclaringType { get; set; }
+    public Type? DeclaringType { get; set; }
 
-        #endregion
-    }
+    #endregion
 }

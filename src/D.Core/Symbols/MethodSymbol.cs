@@ -1,20 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace E.Symbols
+namespace E.Symbols;
+
+public sealed class MethodSymbol : Symbol
 {
-    public sealed class MethodSymbol : Symbol
-    {
-        public MethodSymbol(ModuleSymbol? module, string name)
-           : base(module, name, Array.Empty<Symbol>()) { }
+    public MethodSymbol(ModuleSymbol? module, string name)
+        : base(module, name, Array.Empty<Symbol>()) { }
 
-        public MethodSymbol(string name)
-            : base(name) { }
+    public MethodSymbol(string name)
+        : base(name) { }
        
-        public IReadOnlyList<ParameterSymbol>? Parameters { get; set; }
+    public IReadOnlyList<ParameterSymbol>? Parameters { get; set; }
 
-        public TypeSymbol? ReturnType { get; set; }
-    }
-
-    // A method may be a Constructor, Destructor, or Function
+    public TypeSymbol? ReturnType { get; set; }
 }
+
+// A method may be a Constructor, Destructor, or Function

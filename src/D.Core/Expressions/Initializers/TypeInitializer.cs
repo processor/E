@@ -1,21 +1,20 @@
 ﻿using E.Symbols;
 
-namespace E.Expressions
+namespace E.Expressions;
+
+public sealed class TypeInitializer : IExpression
 {
-    public sealed class TypeInitializer : IExpression
+    public TypeInitializer(TypeSymbol type, Argument[] arguments)
     {
-        public TypeInitializer(TypeSymbol type, Argument[] arguments)
-        {
-            Type = type;
-            Arguments = arguments;
-        }
-
-        public TypeSymbol Type { get; }
-
-        public Argument[] Arguments { get; }
-
-        public int Count => Arguments.Length;
-
-        ObjectType IObject.Kind => ObjectType.TypeInitializer; 
+        Type = type;
+        Arguments = arguments;
     }
+
+    public TypeSymbol Type { get; }
+
+    public Argument[] Arguments { get; }
+
+    public int Count => Arguments.Length;
+
+    ObjectType IObject.Kind => ObjectType.TypeInitializer;
 }

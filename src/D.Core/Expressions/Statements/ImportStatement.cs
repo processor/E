@@ -1,18 +1,17 @@
 ﻿using E.Symbols;
 
-namespace E.Expressions
+namespace E.Expressions;
+
+public sealed class UsingStatement : IExpression
 {
-    public sealed class UsingStatement : IExpression
+    public UsingStatement(Symbol[] domains)
     {
-        public UsingStatement(Symbol[] domains)
-        {
-            Domains = domains;
-        }
-
-        public Symbol[] Domains { get; }
-
-        public Symbol this[int i] => Domains[i];
-
-        ObjectType IObject.Kind => ObjectType.UsingStatement;
+        Domains = domains;
     }
+
+    public Symbol[] Domains { get; }
+
+    public Symbol this[int i] => Domains[i];
+
+    ObjectType IObject.Kind => ObjectType.UsingStatement;
 }
