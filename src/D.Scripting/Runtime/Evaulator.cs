@@ -47,14 +47,13 @@ public class Evaluator
     {
         object? last = null;
 
-        using (var parser = new Parser(script, env))
-        {
-            foreach (var syntax in parser.Enumerate())
-            {
-                last = Evaluate(syntax);
-            }
-        }
+        var parser = new Parser(script, env);
 
+        foreach (var syntax in parser.Enumerate())
+        {
+            last = Evaluate(syntax);
+        }
+        
         return last;
     }
 

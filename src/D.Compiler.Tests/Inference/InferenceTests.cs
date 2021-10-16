@@ -154,7 +154,7 @@ public class InferenceTests
 
     public static IEnumerable<ISyntaxNode> Parse(string source)
     {
-        using var parser = new Parser(source);
+        var parser = new Parser(source);
 
         foreach (var node in parser.Enumerate())
         {

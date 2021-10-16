@@ -3,7 +3,7 @@ using System.IO;
 
 namespace E.Parsing;
 
-internal sealed class TokenReader : IDisposable
+internal sealed class TokenReader
 {
     private readonly Tokenizer tokenizer;
 
@@ -86,10 +86,5 @@ internal sealed class TokenReader : IDisposable
         if (IsEof) throw new EndOfStreamException("Cannot read past EOF");
 
         Current = tokenizer.Next();
-    }
-
-    public void Dispose()
-    {
-        tokenizer.Dispose();
     }
 }

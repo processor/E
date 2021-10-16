@@ -8,7 +8,7 @@ public class TestBase
 {
     public static T Parse<T>(string text)
     {
-        using var parser = new Parser(text);
+        var parser = new Parser(text);
 
         return (T)parser.Next();
     }

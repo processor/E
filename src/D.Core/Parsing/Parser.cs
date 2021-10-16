@@ -13,7 +13,7 @@ namespace E.Parsing;
 using static OperatorType;
 using static TokenKind;
 
-public sealed class Parser : IDisposable
+public sealed class Parser
 {
     private readonly TokenReader reader;
     private readonly Node environment;
@@ -31,7 +31,7 @@ public sealed class Parser : IDisposable
 
     public static ISyntaxNode Parse(string text)
     {
-        using var parser = new Parser(text);
+        var parser = new Parser(text);
 
         return parser.Next();
     }
@@ -770,19 +770,26 @@ public sealed class Parser : IDisposable
         );
     }
 
-    public IEnumerable<ParameterSyntax> ReadParameters()
+    public ParameterSyntax[] ReadParameters()
     {
-        if (IsKind(ParenthesisClose)) yield break;
+        if (IsKind(ParenthesisClose))
+        {
+            return Array.Empty<ParameterSyntax>();
+        }
 
-        var i = 0;
+        var list = new List<ParameterSyntax>();
+
+        int i = 0;
 
         do
         {
-            yield return ReadParameter(i);
+            list.Add(ReadParameter(i));
 
             i++;
         }
         while (reader.ConsumeIf(Comma));
+
+        return list.ToArray();
     }
         
     // this
@@ -2401,11 +2408,6 @@ public sealed class Parser : IDisposable
             name      : functionName,
             arguments : ReadArguments()
         );
-    }
-
-    public void Dispose()
-    {
-        reader.Dispose();
     }
 
     #endregion

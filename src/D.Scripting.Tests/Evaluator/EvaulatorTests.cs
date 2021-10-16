@@ -36,7 +36,7 @@ public class EvaulatorTests
     {
         var evaulator = new Evaluator();
 
-        using var parser = new Parser(
+        var parser = new Parser(
 @"a = 1
   b = 2
 
@@ -124,7 +124,7 @@ public class EvaulatorTests
     {
         var evaulator = new Evaluator();
 
-        using var parser = new Parser(
+        var parser = new Parser(
 @"a = 11
   a |> add(50)
   |> multiply(10)
@@ -147,7 +147,7 @@ public class EvaulatorTests
     {
         var evaulator = new Evaluator();
 
-        using var parser = new Parser(@"a = 1");
+        var parser = new Parser(@"a = 1");
 
         foreach (var statement in parser.Enumerate())
         {
@@ -265,7 +265,7 @@ public class EvaulatorTests
     [Fact]
     public void Eval3()
     {
-        using var parser = new Parser(@"1kg * 1lb * 4kg", env);
+        var parser = new Parser(@"1kg * 1lb * 4kg", env);
 
         var statement = (BinaryExpressionSyntax)parser.Next();
 

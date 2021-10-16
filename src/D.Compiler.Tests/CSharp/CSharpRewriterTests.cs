@@ -238,7 +238,7 @@ let width = match media {
     {
         var compilier = new Compiler();
 
-        using var parser = new Parser(source);
+        var parser = new Parser(source);
 
         var expressions = new List<IExpression>();
 

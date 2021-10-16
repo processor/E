@@ -23,7 +23,7 @@ public class TokenizerTests
     [InlineData(',')]
     public void CharacterTokens(char c)
     {
-        using var tokens = new Tokenizer($"'{c}'");
+        var tokens = new Tokenizer($"'{c}'");
 
         Assert.Equal("'", tokens.Read(Apostrophe));
         Assert.Equal(c.ToString(), tokens.Read(Character));
@@ -36,7 +36,7 @@ public class TokenizerTests
     [InlineData("Compound\t'Word")]
     public void CompoundWords(string text)
     {
-        using var tokens = new Tokenizer(text);
+        var tokens = new Tokenizer(text);
 
         Assert.Equal("Compound", tokens.Read(Identifier));
         Assert.Equal("'", tokens.Read(Apostrophe));
@@ -46,7 +46,7 @@ public class TokenizerTests
     [Fact]
     public void StringTokens()
     {
-        using var tokens = new Tokenizer("let animal = \"fox\"");
+        var tokens = new Tokenizer("let animal = \"fox\"");
 
         Assert.Equal("let", tokens.Read(Let));
         Assert.Equal("animal", tokens.Read(Identifier));
@@ -59,7 +59,7 @@ public class TokenizerTests
     [Fact]
     public void ReadLogical()
     {
-        using var tokens = new Tokenizer("10 + 5 || 20 - 5", env);
+        var tokens = new Tokenizer("10 + 5 || 20 - 5", env);
 
         Assert.Equal("10", tokens.Read(Number));
         Assert.Equal("+", tokens.Read(Op));
@@ -75,7 +75,7 @@ public class TokenizerTests
     [Fact]
     public void OpAssign()
     {
-        using var tokens = new Tokenizer("a %= 3");
+        var tokens = new Tokenizer("a %= 3");
 
         Assert.Equal("a", tokens.Read(Identifier));
         Assert.Equal("%", tokens.Read(Op));
@@ -86,7 +86,7 @@ public class TokenizerTests
     [Fact]
     public void ReadTuple()
     {
-        using var tokens = new Tokenizer("b = (10, 10) * 5 kg // comment!", env);
+        var tokens = new Tokenizer("b = (10, 10) * 5 kg // comment!", env);
 
         Assert.Equal("b", tokens.Read(Identifier));
 
@@ -114,7 +114,7 @@ public class TokenizerTests
     [Fact]
     public void ReadNumbers()
     {
-        using var tokens = new Tokenizer("1 1.1 1.1e100 1.1e+100 1.1e-100");
+        var tokens = new Tokenizer("1 1.1 1.1e100 1.1e+100 1.1e-100");
 
         Assert.Equal("1", tokens.Read(Number));
         Assert.Equal("1.1", tokens.Read(Number));
@@ -128,7 +128,7 @@ public class TokenizerTests
     [Fact]
     public void Read()
     {
-        using var tokens = new Tokenizer("image |> resize 100 100");
+        var tokens = new Tokenizer("image |> resize 100 100");
 
         Assert.Equal("image", tokens.Read(Identifier));
         Assert.Equal(PipeForward, tokens.Next().Kind);
@@ -143,7 +143,7 @@ public class TokenizerTests
     [Fact]
     public void ReadPositions()
     {
-        using var tokens = new Tokenizer(
+        var tokens = new Tokenizer(
 @"image |> resize 100px
 |> format Gif
 |> stream");
@@ -159,13 +159,12 @@ public class TokenizerTests
         Assert.Equal(new Location(2, 3, 26), tokens.Next().Start); // format
         Assert.Equal(new Location(2, 10, 33), tokens.Next().Start); // Gif
         Assert.Equal(new Location(3, 0, 38), tokens.Next().Start); // pipe
-
     }
 
     [Fact]
     public void Read2()
     {
-        using var tokens = new Tokenizer(
+        var tokens = new Tokenizer(
             @"|> composite
                   = image");
 
@@ -179,7 +178,7 @@ public class TokenizerTests
     [Fact]
     public void Read3()
     {
-        using var tokens = new Tokenizer(
+        var tokens = new Tokenizer(
         @"let image = get source key
           let faces = image |> detect Face
 

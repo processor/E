@@ -14,7 +14,7 @@ public class ProgramTests : TestBase
         {
             try
             {
-                using var program = new Parser(doc.OpenText().ReadToEnd());
+                var program = new Parser(doc.OpenText().ReadToEnd());
 
                 var statements = program.Enumerate().ToArray();
             }
@@ -30,7 +30,7 @@ public class ProgramTests : TestBase
     {
         var text = ReadDocument("math/Functions.d");
 
-        using var program = new Parser(text);
+        var program = new Parser(text);
 
         var statements = program.Enumerate().ToArray();
 
@@ -42,7 +42,7 @@ public class ProgramTests : TestBase
     {
         var text = ReadDocument("numerics/Vector3.d");
 
-        using var program = new Parser(text);
+        var program = new Parser(text);
 
         var statements = program.Enumerate().ToArray();
 
@@ -54,7 +54,7 @@ public class ProgramTests : TestBase
     {
         // implementation
 
-        using var program = new Parser(@"
+        var program = new Parser(@"
 Masonary`Layout class {
   columnWidth :   Number
   columnGap   :   Number
@@ -134,7 +134,7 @@ Masonary`Layout implementation {
     [Fact]
     public void JpegDecoder()
     {
-        using var program = new Parser(@"
+        var program = new Parser(@"
 from Imaging import Image
 
 Image class { 

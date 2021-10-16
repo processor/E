@@ -30,7 +30,7 @@ public static class Helper
     {
         var compilier = new Compiler();
 
-        using var parser = new Parser(source);
+        var parser = new Parser(source);
 
         return compilier.Compile(parser.Enumerate(), moduleName).Expressions[0] as Module;
     }

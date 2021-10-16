@@ -1,11 +1,10 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 
 namespace E.Parsing;
 
-internal class SourceReader : IDisposable
+internal class SourceReader
 {
-    private readonly TextReader reader;
+    private readonly string text;
 
     private char current;
 
@@ -15,25 +14,30 @@ internal class SourceReader : IDisposable
 
     public SourceReader(string text)
     {
-        this.reader = new StringReader(text);
+        this.text = text;
+        this.current = text[0];
     }
 
-    public SourceReader(TextReader reader)
+    public char Peek()
     {
-        this.reader = reader;
+        if (position + 1 == text.Length)
+        {
+            return '\0';
+        }
+
+        return text[position + 1];
     }
 
+    
     public int Line => line;
 
-    public Location Location => new Location(line, column - 1, position - 1);
+    public Location Location => new (line, column, position);
 
     public char Current => current;
 
-    public char Peek() => (char)reader.Peek();
-
     public bool PeekConsumeIf(char value)
     {
-        if (reader.Peek() != value)
+        if (Peek() != value)
             return false;
 
         Consume();
@@ -69,20 +73,19 @@ internal class SourceReader : IDisposable
             throw new EndOfStreamException("Cannot read past EOF");
         }
 
-        var value = reader.Read();
-
-        if (value == -1)
+        if ((position + 1) == text.Length)
         {
             IsEof = true;
 
             return '\0';
         }
 
-        current = (char)value;
+        current = text[position + 1];
 
         if (current == '\n')
         {
-            column = -1;
+            column = -2;
+
             line++;
         }
 
@@ -90,11 +93,6 @@ internal class SourceReader : IDisposable
         position++;
 
         return current;
-    }
-
-    public void Dispose()
-    {
-        reader.Dispose();
     }
 
     public bool IsEof { get; private set; }

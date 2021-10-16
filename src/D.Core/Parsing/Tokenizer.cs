@@ -6,7 +6,7 @@ namespace E.Parsing;
 
 using static TokenKind;
 
-public sealed class Tokenizer : IDisposable
+public sealed class Tokenizer
 {
     private readonly SourceReader reader;
     private readonly Node env;
@@ -28,8 +28,6 @@ public sealed class Tokenizer : IDisposable
         modes.Push(Mode.Default);
 
         ReadTrivia(); // read the trivia
-
-        this.reader.Next(); // start things off
     }
 
     private Location loc;
@@ -451,10 +449,6 @@ public sealed class Tokenizer : IDisposable
     private static bool IsSuperscript(char c)
         => c is '⁰' or '¹' or '²' or '³' or '⁴' or '⁵' or '⁶' or '⁷' or '⁸' or '⁹';               
 
-    public void Dispose()
-    {
-        reader.Dispose();
-    }
 
     #region Whitespace
 

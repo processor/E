@@ -17,7 +17,7 @@ public class OperatorTests
     [InlineData("&&")] // and
     public void Ops(string name)
     {
-        using var tokenizer = new Tokenizer(name);
+        var tokenizer = new Tokenizer(name);
 
         Assert.Equal(name, tokenizer.Read(Op));
     }
