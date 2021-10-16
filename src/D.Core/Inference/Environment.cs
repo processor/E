@@ -7,11 +7,11 @@ namespace E.Inference;
 
 public sealed class Environment : Dictionary<string, IType>
 {
-    private readonly Environment? parent;
+    private readonly Environment? _parent;
 
     public Environment(Environment? parent = null)
     {
-        this.parent = parent;
+        _parent = parent;
     }
 
     private IType Get(string id)
@@ -20,7 +20,7 @@ public sealed class Environment : Dictionary<string, IType>
         {
             return value;
         }
-        else if (parent is not null && parent.TryGetValue(id, out value))
+        else if (_parent is not null && _parent.TryGetValue(id, out value))
         {
             return value;
         }
@@ -35,7 +35,7 @@ public sealed class Environment : Dictionary<string, IType>
         base[id] = type;
     }
 
-    public Environment Nested() => new Environment(this);
+    public Environment Nested() => new (this);
 
     public new IType this[string id]
     {

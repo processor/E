@@ -6,16 +6,24 @@ using System.Collections.Generic;
 
 namespace E.Inference;
 
-public sealed class ConstantNode : Node
+public sealed class ConstantNode : INode
 {
-    public ConstantNode(IType spec)
+    public ConstantNode(IType type)
     {
-        Spec = spec;
+        Value = type;
     }
 
-    public override IType Infer(Environment env, IReadOnlyList<IType> types)
+    public ConstantNode(string name)
     {
-        return Spec switch
+        Value = name;
+    }
+
+    // IType | string
+    public object? Value { get; }
+
+    public IType Infer(Environment env, IReadOnlyList<IType> types)
+    {
+        return Value switch
         {
             IType type => type,
             string name => env[name],
@@ -23,5 +31,5 @@ public sealed class ConstantNode : Node
         };
     }
 
-    public override string ToString() => "{ " + Spec + " }";
+    public override string ToString() => "{ " + Value + " }";
 }

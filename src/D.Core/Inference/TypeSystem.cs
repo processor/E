@@ -204,12 +204,12 @@ public static class TypeSystem
         }
     }
 
-    public static IType Infer(this Environment env, Node node)
+    public static IType Infer(this Environment env, INode node)
     {
         return Infer(env, node, Array.Empty<IType>());
     }
 
-    public static IType Infer(this Environment env, Node node, IReadOnlyList<IType> types)
+    public static IType Infer(this Environment env, INode node, IReadOnlyList<IType> types)
     {
         return node.Infer(env, types);
     }

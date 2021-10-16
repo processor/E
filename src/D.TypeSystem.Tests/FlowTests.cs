@@ -48,6 +48,11 @@ namespace E.Inference
             Assert.Equal("Boolean", r.Name);
         }
 
+        static VariableNode Variable(string name, IType type = null)
+        {
+            return new VariableNode(name, type);
+        }
+
         [Fact]
         public void B()
         {
@@ -76,9 +81,9 @@ namespace E.Inference
             var listOfString = flow.GetListTypeOf(ObjectType.String);
             var listOfFloat = flow.GetListTypeOf(ObjectType.Number);
 
-            Assert.Equal("String",   flow.Infer(Apply(Variable("head"), new[] { Constant(listOfString) })).Name);
-            Assert.Equal("Number",  flow.Infer(Apply(Variable("head"), new[] { Constant(listOfFloat) })).Name);
-            Assert.Equal("Boolean", flow.Infer(Apply(Variable("contains"), new[] { Constant(listOfFloat) })).Name);
+            Assert.Equal("String",   flow.Infer(Apply(Variable("head"),     new[] { new ConstantNode(listOfString) })).Name);
+            Assert.Equal("Number",  flow.Infer(Apply(Variable("head"),      new[] { new ConstantNode(listOfFloat) })).Name);
+            Assert.Equal("Boolean", flow.Infer(Apply(Variable("contains"),  new[] { new ConstantNode(listOfFloat) })).Name);
         }
 
         [Fact]
@@ -124,10 +129,10 @@ namespace E.Inference
 
             var any = flow.NewGeneric();
 
-            flow.Infer(Define(Variable("+"), Abstract(new[] {
+            flow.Infer(new DefineNode(Variable("+"), Abstract(new[] {
                 Variable("lhs", any),
                 Variable("rhs", any)
-            }, any, Variable("lhs"))));
+            }, Variable("lhs"), any)));
 
             flow.AddFunction("concat", new[] {
                 new Parameter("lhs", ObjectType.String),

@@ -5,22 +5,24 @@ using System.Collections.Generic;
 
 namespace E.Inference;
 
-public sealed class VariableNode : Node
+public sealed class VariableNode : INode
 {
-    public VariableNode(string name, IType type)
+    public VariableNode(string name, IType? type = null)
     {
-        Spec = name;
+        Name = name;
         Type = type;
     }
 
-    public override string ToString() => Id;
+    public string Name { get; }
 
-    public override IType Infer(Environment env, IReadOnlyList<IType> types)
+    public IType? Type { get; }
+
+    public override string ToString() => Name;
+
+    public IType Infer(Environment env, IReadOnlyList<IType> types)
     {
-        return TypeSystem.Fresh(env[Id], types);
+        return TypeSystem.Fresh(env[Name], types);
     }
-
-    public string Id => (string)Spec;
 }
 
 // AKA identity node...

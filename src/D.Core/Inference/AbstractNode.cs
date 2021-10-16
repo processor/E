@@ -5,18 +5,31 @@ using System.Collections.Generic;
 
 namespace E.Inference;
 
-public sealed class AbstractNode : Node
+public sealed class AbstractNode : INode
 {
+    public AbstractNode(VariableNode[] arguments, INode body, IType? type = null)
+    {
+        Arguments = arguments;
+        Body = body;
+        Type = type;
+    }
+
+    public VariableNode[] Arguments { get; }
+
+    public INode Body { get; }
+
+    public IType? Type { get; }
+
     public override string ToString()
     {
-        var args = string.Join<Node>(", ", Arguments);
+        var args = string.Join<INode>(", ", Arguments);
 
         string type = Type?.ToString() ?? string.Empty;
 
         return $"({args}) {Body} -> {type}";
     }
 
-    public override IType Infer(Environment env, IReadOnlyList<IType> types)
+    public IType Infer(Environment env, IReadOnlyList<IType> types)
     {
         var scope = env.Nested();
         var known = new List<IType>(types);
@@ -37,16 +50,20 @@ public sealed class AbstractNode : Node
                     known.Add(type);
                 }
 
-                scope[variable.Id] = type;
+                scope[variable.Name] = type;
             }
             else
             {
+                throw new System.Exception("Define nodes not supported");
+
+                /*
                 var spec = ((DefineNode)arg).Body;
                 variable = (VariableNode)((DefineNode)arg).Spec;
                 type = TypeSystem.NewGeneric();
                 TypeSystem.Unify(type, TypeSystem.Infer(scope, spec, known));
                 scope[variable.Id] = type;
                 known.Add(type);
+                */
             }
 
             args.Add(type);
@@ -59,7 +76,7 @@ public sealed class AbstractNode : Node
             */
         }
 
-        args.Add(TypeSystem.Infer(scope, Body is LetNode ? Body.Arguments[^1] : Body, known));
+        args.Add(TypeSystem.Infer(scope, Body is LetNode letBody ? letBody.Arguments[^1] : Body, known));
 
         if (Type is not null)
         {

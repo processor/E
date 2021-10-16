@@ -26,7 +26,6 @@
             GetType(ObjectType.Decimal);
             GetType(ObjectType.Number);
 
-
             var boolean = Add(Type.Get(ObjectType.Boolean));
           
             any = GetType(ObjectType.Object);
@@ -34,23 +33,23 @@
             itemType = TypeSystem.NewGeneric();
             listType = TypeSystem.NewType("List", args: new[] { itemType });
 
-            TypeSystem.Infer(env, Node.Define(Node.Variable("contains"), Node.Abstract(new[] {
-                Node.Variable("list", listType)
-            }, Node.Constant(boolean))));
+            TypeSystem.Infer(env, new DefineNode(new VariableNode("contains"), Node.Abstract(new[] {
+                new VariableNode("list", listType)
+            }, new ConstantNode(boolean))));
 
-            TypeSystem.Infer(env, Node.Define(Node.Variable("head"), Node.Abstract(new[] {
-                Node.Variable("list", listType)
-            }, itemType, Node.Constant(itemType))));
+            TypeSystem.Infer(env, new DefineNode(new VariableNode("head"), Node.Abstract(new[] {
+                new VariableNode("list", listType)
+            }, new ConstantNode(itemType), itemType)));
 
             // Binary Operators
             foreach (var op in binaryOperatorSymbols)
             {
                 var g = TypeSystem.NewGeneric();
 
-                TypeSystem.Infer(env, Node.Define(Node.Variable(op), Node.Abstract(new[] {
-                    Node.Variable("lhs", g),
-                    Node.Variable("rhs", g)
-                }, Node.Constant(g))));
+                TypeSystem.Infer(env, new DefineNode(new VariableNode(op), Node.Abstract(new[] {
+                    new VariableNode("lhs", g),
+                    new VariableNode("rhs", g)
+                }, new ConstantNode(g))));
             }
 
             // Comparisions
@@ -58,24 +57,24 @@
             {
                 var g = TypeSystem.NewGeneric();
 
-                TypeSystem.Infer(env, Node.Define(Node.Variable(op), Node.Abstract(new[] {
-                    Node.Variable("lhs", g),
-                    Node.Variable("rhs", g)
-                }, Node.Constant(boolean))));
+                TypeSystem.Infer(env, new DefineNode(new VariableNode(op), Node.Abstract(new[] {
+                    new VariableNode("lhs", g),
+                    new VariableNode("rhs", g)
+                }, new ConstantNode(boolean))));
             }
 
             var ifThenElse = TypeSystem.NewGeneric();
 
-            TypeSystem.Infer(env, Node.Define(Node.Variable("if"), Node.Abstract(new[] {
-                Node.Variable("condition", boolean),
-                Node.Variable("then", ifThenElse),
-                Node.Variable("else", ifThenElse) },
-            ifThenElse, Node.Variable("then"))));
+            TypeSystem.Infer(env, new DefineNode(new VariableNode("if"), Node.Abstract(new[] {
+                new VariableNode("condition", boolean),
+                new VariableNode("then", ifThenElse),
+                new VariableNode("else", ifThenElse) },
+            new VariableNode("then"), ifThenElse)));
 
             // ! {expression}
-            TypeSystem.Infer(env, Node.Define(Node.Variable("!"), Node.Abstract(new[] {
-                Node.Variable("expression", boolean)
-            }, boolean, Node.Constant(boolean))));
+            TypeSystem.Infer(env, new DefineNode(new VariableNode("!"), Node.Abstract(new[] {
+                new VariableNode("expression", boolean)
+            }, new ConstantNode(boolean), boolean)));
         }
 
         public IType NewGeneric() => TypeSystem.NewGeneric();
@@ -142,41 +141,41 @@
 
         public void AddFunction(string name, Parameter[] parameters, ObjectType returnKind)
         {
-            var nodes = new Node[parameters.Length];
+            var nodes = new VariableNode[parameters.Length];
 
             for (int i = 0; i < parameters.Length; i++)
             {
                 Parameter parameter = parameters[i];
 
-                nodes[i] = Node.Variable(parameter.Name ?? "_" + i, GetType(parameter.Type));
+                nodes[i] = new VariableNode(parameter.Name ?? $"_{i}", GetType(parameter.Type));
             }
 
             var type = GetType(new Type(returnKind));
 
-            TypeSystem.Infer(env, Node.Define(Node.Variable(name), Node.Abstract(
+            TypeSystem.Infer(env, new DefineNode(new VariableNode(name), Node.Abstract(
                 nodes,
                 type: type,
-                body: Node.Constant(type))
+                body: new ConstantNode(type))
            ));
         }
 
-        public void AddFunction(string name, Parameter[] parameters, Node body)
+        public void AddFunction(string name, Parameter[] parameters, INode body)
         {
-            var nodes = new Node[parameters.Length];
+            var nodes = new VariableNode[parameters.Length];
 
             for (int i = 0; i < parameters.Length; i++)
             {
                 Parameter parameter = parameters[i];
 
-                nodes[i] = Node.Variable(parameter.Name ?? "_" + i, GetType(parameter.Type));
+                nodes[i] = new VariableNode(parameter.Name ?? $"_{i}", GetType(parameter.Type));
             }
 
             AddFunction(name, nodes, body);
         }
 
-        public void AddFunction(string name, Node[] args, Node body)
+        public void AddFunction(string name, VariableNode[] args, INode body)
         {
-            TypeSystem.Infer(env, Node.Define(Node.Variable(name), Node.Abstract(args, body)));
+            TypeSystem.Infer(env, new DefineNode(new VariableNode(name), Node.Abstract(args, body)));
         }
 
         public VariableNode Define(string name, Type type)
@@ -185,9 +184,9 @@
 
             // system.Infer(scope, Node.Var(name, type));
 
-            var variable = Node.Variable(name);
+            var variable = new VariableNode(name);
 
-            Infer(Node.Define(variable, Node.Constant(typeNode)));
+            Infer(new DefineNode(variable, new ConstantNode(typeNode)));
 
             // nodes.Add(new Let(variable.Name, Node.Constant(variable.Type)));
 
@@ -197,16 +196,16 @@
 
         public IType Assign(VariableNode variable, Type type)
         {
-            return TypeSystem.Infer(env, Node.Define(variable, Node.Constant(GetType(type))));
+            return TypeSystem.Infer(env, new DefineNode(variable, new ConstantNode(GetType(type))));
         }
 
-        public IType Evaluate(Node node)
+        public IType Evaluate(INode node)
         {
             return TypeSystem.Infer(env, node);
         }
 
-        public IType? Infer(Node node) => TypeSystem.Infer(env, node);
+        public IType? Infer(INode node) => TypeSystem.Infer(env, node);
 
-        public IType Infer(string name) => TypeSystem.Infer(env, Node.Variable(name));
+        public IType Infer(string name) => TypeSystem.Infer(env, new VariableNode(name));
     }
 }

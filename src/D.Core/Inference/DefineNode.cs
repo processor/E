@@ -5,23 +5,27 @@ using System.Collections.Generic;
 
 namespace E.Inference;
 
-public sealed class DefineNode : Node
+public sealed class DefineNode : INode
 {
-    public DefineNode(Node spec, Node body)
+    public DefineNode(VariableNode variable, INode body)
     {
-        Spec = spec;
+        Variable = variable;
         Body = body;
     }
 
-    public override string ToString() => $"{Spec} = {Body}";
+    public VariableNode Variable { get; } // was spec
 
-    public override IType Infer(Environment env, IReadOnlyList<IType> types)
+    public INode Body { get; }
+
+    public override string ToString() => $"{Variable} = {Body}";
+
+    public IType Infer(Environment env, IReadOnlyList<IType> types)
     {
         var known = new List<IType>(types);
         var type = TypeSystem.NewGeneric();
-        var varNode = (VariableNode)Spec!;
+        var varNode = Variable;
             
-        env[varNode.Id] = type;
+        env[varNode.Name] = type;
 
         known.Add(type);
 
@@ -34,7 +38,7 @@ public sealed class DefineNode : Node
         }
         */
 
-        return env[varNode.Id] = type.Value;
+        return env[varNode.Name] = type.Value;
     }
 }
 

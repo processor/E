@@ -6,25 +6,38 @@ using System.Linq;
 
 namespace E.Inference;
 
-public sealed class ApplyNode : Node
+public sealed class ApplyNode : INode
 {
-    private bool IsFunction(IType type)
+    public ApplyNode(VariableNode variable, INode[] arguments, IType? type = null)
+    {
+        Variable = variable;
+        Arguments = arguments;
+        Type = type;
+    }
+
+    public VariableNode Variable { get; }
+
+    public INode[] Arguments { get; }
+
+    public IType? Type { get; }
+
+    private bool IsFunction(IType? type)
     {
         if (type is null) return false;
 
         return type.BaseType is not null ? type.BaseType == TypeSystem.Function : IsFunction(type.Self);
     }
 
-    private static Node ToFormal(Environment env, IReadOnlyList<IType> types, Node arg)
+    private static INode ToFormal(Environment env, IReadOnlyList<IType> types, INode arg)
     {
         return arg is VariableNode argVar 
-            ? Define(argVar, Constant(env[argVar.Id])) 
+            ? new DefineNode(argVar, new ConstantNode(env[argVar.Name])) 
             : arg;
     }
 
     private IType? AsAnnotationType(Environment env, IReadOnlyList<IType> types)
     {
-        if (Spec is Node spec && spec.Type is IType ctor && !IsFunction(ctor))
+        if (Variable.Type is IType ctor && !IsFunction(ctor))
         {
             for (int i = 0; i < Arguments.Length; i++)
             {
@@ -32,12 +45,18 @@ public sealed class ApplyNode : Node
 
                 if (arg is VariableNode argVar)
                 {
-                    TypeSystem.Infer(env, Define(argVar, Constant(ctor.ArgumentTypes[i])), types);
+                    TypeSystem.Infer(env, new DefineNode(argVar, new ConstantNode(ctor.ArgumentTypes[i])), types);
                 }
             }
 
+           var inferedArgs = new IType[Arguments.Length];
 
-            return TypeSystem.NewType(ctor, Arguments.Select(arg => TypeSystem.Infer(env, ToFormal(env, types, arg), types)).ToArray());
+            for (int i = 0; i < Arguments.Length; i++)
+            {
+                inferedArgs[i] = TypeSystem.Infer(env, ToFormal(env, types, Arguments[i]), types);
+            }
+
+            return TypeSystem.NewType(ctor, inferedArgs);
         }
         else
         {
@@ -47,12 +66,12 @@ public sealed class ApplyNode : Node
 
     public override string ToString()
     {
-        var args = string.Join(", ", Arguments.Select(arg => arg.ToString()).ToArray());
+        var args = string.Join(", ", Arguments.Select(arg => arg.ToString()));
 
-        return $"{Spec} ({args})";
+        return $"{Variable} ({args})";
     }
 
-    public override IType Infer(Environment env, IReadOnlyList<IType> types)
+    public IType Infer(Environment env, IReadOnlyList<IType> types)
     {
         if (Type is null && AsAnnotationType(env, types) is IType annotation)
         {
@@ -61,7 +80,7 @@ public sealed class ApplyNode : Node
 
         List<IType> args = Arguments.Select(arg => TypeSystem.Infer(env, ToFormal(env, types, arg), types)).ToList();
 
-        var expression = (Node)Spec!;
+        var expression = Variable;
 
         var self = TypeSystem.Infer(env, expression, types);
 
@@ -70,7 +89,7 @@ public sealed class ApplyNode : Node
         if (Type is not null)
         {
             var ctor = Type;
-            result = TypeSystem.Infer(env, Apply(Variable(ctor.Name, ctor), args.Select(arg => Constant(arg)).ToArray()), types);
+            result = TypeSystem.Infer(env, Node.Apply(new VariableNode(ctor.Name, ctor), args.Select(arg => new ConstantNode(arg)).ToArray()), types);
         }
         else
         {

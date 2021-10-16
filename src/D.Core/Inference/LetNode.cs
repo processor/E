@@ -6,16 +6,26 @@ using System.Linq;
 
 namespace E.Inference;
 
-public sealed class LetNode : Node
+public sealed class LetNode : INode
 {
+    public LetNode(DefineNode[] arguments, INode body)
+    {
+        Arguments = arguments;
+        Body = body;
+    }
+
+    public INode[] Arguments { get; }
+
+    public INode Body { get; }
+
     public override string ToString()
     {
-        var args = string.Join<Node>("; ", Arguments);
+        var args = string.Join<INode>("; ", Arguments);
 
         return $"({args}) {Body}";
     }
 
-    public override IType Infer(Environment env, IReadOnlyList<IType> types)
+    public IType Infer(Environment env, IReadOnlyList<IType> types)
     {
         env = env.Nested();
 
