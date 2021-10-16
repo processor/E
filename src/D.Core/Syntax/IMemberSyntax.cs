@@ -4,9 +4,7 @@ namespace E.Syntax;
 
 public interface IMemberSyntax
 {
-    Symbol Name { get; }
-
-    // The type of the node value...
+    Symbol? Name { get; }
 
     TypeSymbol Type { get; }
 

@@ -66,7 +66,7 @@ namespace E.Inference.Tests
             Assert.Equal("Int32", flow.Infer(apply).ToString());
         }
 
-        private static VariableNode Variable(string name, IType? type = null)
+        private static VariableNode Variable(string name, IType type = null)
         {
             return new VariableNode(name, type);
         }

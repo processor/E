@@ -50,7 +50,7 @@ public sealed class Parameter
         Type = type;
     }
         
-    public string Name { get; }
+    public string? Name { get; }
 
     public Type Type { get; }
         

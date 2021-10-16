@@ -131,7 +131,7 @@ public sealed class Trie<T>
 
     public sealed class Node
     {
-        private T _value;
+        private T? _value;
         private bool isLeaf = false;
 
         internal Node(char character, Node? parent)

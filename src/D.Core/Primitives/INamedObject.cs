@@ -2,6 +2,6 @@
 {
     public interface INamedObject : IObject
     {
-        string Name { get; }
+        string? Name { get; }
     }
 }

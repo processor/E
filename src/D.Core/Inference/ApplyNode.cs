@@ -66,7 +66,7 @@ public sealed class ApplyNode : INode
 
     public override string ToString()
     {
-        var args = string.Join(", ", Arguments.Select(arg => arg.ToString()));
+        var args = string.Join(", ", Arguments.Select(arg => arg));
 
         return $"{Variable} ({args})";
     }

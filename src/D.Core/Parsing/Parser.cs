@@ -2221,7 +2221,7 @@ public sealed class Parser
                 PropertySymbol name = ReadMemberSymbol();
 
                 left = IsKind(ParenthesisOpen)  // ? (
-                    ? (ISyntaxNode)new CallExpressionSyntax(left, name, arguments: ReadArguments())
+                    ? new CallExpressionSyntax(left, name, arguments: ReadArguments())
                     : new MemberAccessExpressionSyntax(left, name);
             }
         }
