@@ -1,22 +1,22 @@
 ﻿using System;
 
-namespace E.Units
+namespace E.Units;
+
+public interface IUnitValue : INumber
 {
-    public interface IUnitValue : INumber
-    {
-        UnitInfo Unit { get; }
+    UnitInfo Unit { get; }
 
-        double To(UnitInfo unit);
-    }
-
-    public interface IUnitValue<T> : IUnitValue
-        where T : unmanaged, IComparable<T>, IEquatable<T>, IFormattable
-    {
-        UnitValue<T> With(T quantity);
-
-        UnitValue<T> With(T quantity, UnitInfo type);
-    }
+    double To(UnitInfo unit);
 }
+
+public interface IUnitValue<T> : IUnitValue
+    where T : unmanaged, IComparable<T>, IEquatable<T>, ISpanFormattable
+{
+    UnitValue<T> With(T quantity);
+
+    UnitValue<T> With(T quantity, UnitInfo type);
+}
+
 
 // 8.314 m^3 Pa / mol / K
 // 8.314 (m^3 Pa) / (mol K)

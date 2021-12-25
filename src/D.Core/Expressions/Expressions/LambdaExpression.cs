@@ -1,16 +1,15 @@
-﻿namespace E.Expressions
+﻿namespace E.Expressions;
+
+// => ...
+public sealed class LambdaExpression : IExpression
 {
-    // => ...
-    public class LambdaExpression : IExpression
+    public LambdaExpression(IExpression expression)
     {
-        public LambdaExpression(IExpression expression)
-        {
-            Expression = expression;
-        }
-
-        public IExpression Expression { get; }
-
-        ObjectType IObject.Kind => ObjectType.LambdaExpression;
+        Expression = expression;
     }
+
+    public IExpression Expression { get; }
+
+    ObjectType IObject.Kind => ObjectType.LambdaExpression;
 }
 

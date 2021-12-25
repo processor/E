@@ -1,18 +1,15 @@
-﻿using System;
+﻿namespace E.Syntax;
 
-namespace E.Syntax
+public sealed class TupleExpressionSyntax : ISyntaxNode
 {
-    public sealed class TupleExpressionSyntax : ISyntaxNode
+    public TupleExpressionSyntax(ISyntaxNode[] elements)
     {
-        public TupleExpressionSyntax(ISyntaxNode[] elements)
-        {
-            Elements = elements;
-        }
-
-        public ISyntaxNode[] Elements { get; }
-
-        public int Size => Elements.Length;
-
-        SyntaxKind ISyntaxNode.Kind => SyntaxKind.TupleExpression;
+        Elements = elements;
     }
+
+    public ISyntaxNode[] Elements { get; }
+
+    public int Size => Elements.Length;
+
+    SyntaxKind ISyntaxNode.Kind => SyntaxKind.TupleExpression;
 }
