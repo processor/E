@@ -25,7 +25,7 @@ public class BinaryExpression : IExpression
 
     public override string ToString()
     {
-        var sb = new StringBuilder();
+        var sb = new ValueStringBuilder(128);
 
         if (Grouped)
         {

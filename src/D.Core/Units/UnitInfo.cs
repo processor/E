@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics.CodeAnalysis;
+using System.Runtime.CompilerServices;
 using System.Text;
 
 using E.Expressions;
@@ -211,6 +212,7 @@ public sealed class UnitInfo : IEquatable<UnitInfo>, IObject
         return false;
     }
 
+    [SkipLocalsInit]
     public override string ToString()
     {
         if (Prefix.Value is 1 && Power is 1)
@@ -218,7 +220,7 @@ public sealed class UnitInfo : IEquatable<UnitInfo>, IObject
             return Name;
         }
 
-        var sb = new StringBuilder();
+        var sb = new ValueStringBuilder(stackalloc char[16]);
 
         if (Prefix.Value != 1)
         {
@@ -229,7 +231,7 @@ public sealed class UnitInfo : IEquatable<UnitInfo>, IObject
 
         if (Power is not 1)
         {
-            new Superscript(Power).WriteTo(sb);
+            new Superscript(Power).WriteTo(ref sb);
         }
 
         return sb.ToString();

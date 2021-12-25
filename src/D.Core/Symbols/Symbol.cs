@@ -67,14 +67,14 @@ namespace E.Symbols
                 return Name;
             }
 
-            var sb = new StringBuilder();
+            var sb = new ValueStringBuilder(128);
 
-            WriteTo(sb);
+            WriteTo(ref sb);
 
             return sb.ToString();
         }
 
-        public void WriteTo(StringBuilder sb)
+        internal void WriteTo(ref ValueStringBuilder sb)
         {
             if (Module is null && (Arguments is null || Arguments.Count == 0))
             {
@@ -104,7 +104,7 @@ namespace E.Symbols
                         sb.Append(',');
                     }
 
-                    arg.WriteTo(sb);
+                    arg.WriteTo(ref sb);
                 }
 
                 sb.Append('>');

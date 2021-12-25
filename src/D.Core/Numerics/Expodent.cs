@@ -59,7 +59,7 @@ public readonly struct Superscript
         return new string(sb.ToArray());
     }
 
-    internal void WriteTo(StringBuilder output)
+    internal void WriteTo(ref ValueStringBuilder output)
     {
         if (Value < 10)
         {

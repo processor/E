@@ -122,8 +122,15 @@ public sealed class Type : INamedObject, IExpression, IEquatable<Type>
 
     public override string ToString()
     {
-        var sb = new StringBuilder();
+        var sb = new ValueStringBuilder(128);
 
+        WriteTo(ref sb);
+
+        return sb.ToString();
+    }
+
+    internal void WriteTo(ref ValueStringBuilder sb)
+    {
         if (ModuleName is not null)
         {
             sb.Append(ModuleName);
@@ -142,13 +149,11 @@ public sealed class Type : INamedObject, IExpression, IEquatable<Type>
             {
                 if (++i > 1) sb.Append(',');
 
-                sb.Append(arg.ToString());
+                arg.WriteTo(ref sb);
             }
 
             sb.Append('>');
         }
-
-        return sb.ToString();
     }
 
     #endregion

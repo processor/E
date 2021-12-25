@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -1313,7 +1314,7 @@ public sealed class Parser
 
         if (IsKind(Backtick))
         {
-            var sb = new StringBuilder();
+            var sb = new ValueStringBuilder(128);
 
             sb.Append(name);
 
@@ -1603,8 +1604,8 @@ public sealed class Parser
 
         if (eIndex > 0)
         {
-            var a = double.Parse(text.AsSpan(0, eIndex));
-            var b = double.Parse(text.AsSpan(eIndex + 1));
+            var a = double.Parse(text.AsSpan(0, eIndex), provider: CultureInfo.InvariantCulture);
+            var b = double.Parse(text.AsSpan(eIndex + 1), provider: CultureInfo.InvariantCulture);
 
             var result = a * Math.Pow(10, b);
 
@@ -1681,7 +1682,7 @@ public sealed class Parser
 
     public StringLiteralSyntax ReadInterpolatedSpan()
     {
-        var sb = new StringBuilder();
+        var sb = new ValueStringBuilder(256);
 
         Token token;
 
@@ -1689,7 +1690,8 @@ public sealed class Parser
         {
             token = reader.Consume();
 
-            sb.Append(token.Text + token.Trailing);
+            sb.Append(token.Text);
+            sb.Append(token.Trailing);
         }
 
         return sb.ToString();
@@ -1772,7 +1774,7 @@ public sealed class Parser
             }
             else
             {
-                throw new Exception("Unexpected tuple:" + first.ToString());
+                throw new Exception($"Unexpected tuple element. Was {first}");
             }
         }
           
@@ -2025,10 +2027,7 @@ public sealed class Parser
             
         while (!IsOneOf(TagStart, TagCloseStart, EOF) && !IsKind(BraceOpen))
         {
-            if (sb is null)
-            {
-                sb = new StringBuilder();
-            }
+            sb ??= new StringBuilder();
             
             sb.Append(Current.Text);
 
@@ -2246,7 +2245,7 @@ public sealed class Parser
                 return ReadUnary(unaryOperator);
             }
 
-            throw new Exception("unexpected operator:" + op.ToString());
+            throw new Exception($"Unexpected operator. Was {op}");
         }
 
         if (ConsumeIf(ParenthesisOpen))       // ? (

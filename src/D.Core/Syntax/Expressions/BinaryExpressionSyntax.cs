@@ -25,7 +25,7 @@ public sealed class BinaryExpressionSyntax : ISyntaxNode
 
     public override string ToString()
     {
-        var sb = new StringBuilder();
+        var sb = new ValueStringBuilder(128);
 
         if (IsParenthesized)
         {
