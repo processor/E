@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Globalization;
 using System.Text;
 
 using E.Syntax;
@@ -6,7 +7,7 @@ using E.Syntax;
 namespace E.Units;
 
 public readonly struct UnitValue<T> : IUnitValue<T>, IEquatable<UnitValue<T>>
-    where T : unmanaged, IComparable<T>, IEquatable<T>, IFormattable
+    where T : unmanaged, IComparable<T>, IEquatable<T>, ISpanFormattable
 {        
     public UnitValue(T value, UnitInfo unit)
     {
@@ -32,7 +33,7 @@ public readonly struct UnitValue<T> : IUnitValue<T>, IEquatable<UnitValue<T>>
     {
         if (Unit.Dimension != targetUnit.Dimension)
         {
-            throw new Exception("Must be the same dimension. Was " + targetUnit.Dimension.ToString() + ".");
+            throw new Exception($"Must be the same dimension. Was {targetUnit.Dimension}.");
         }
 
         // kg   = 1000
@@ -81,13 +82,8 @@ public readonly struct UnitValue<T> : IUnitValue<T>, IEquatable<UnitValue<T>>
 
     public readonly override string ToString()
     {
-        var sb = new StringBuilder();
-            
-        sb.Append(Value);
-            
-        sb.Append(Unit.ToString());   // e.g. kg
-    
-        return sb.ToString();
+        return string.Create(CultureInfo.InvariantCulture, $"{Value}{Unit}");
+
     }
 
     public static UnitValue<T> Wrap(T value)
