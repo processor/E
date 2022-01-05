@@ -1,11 +1,14 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+
+using E.Collections;
 
 namespace E.Units;
 
 public class UnitSet
 {
-    public static readonly UnitSet Default = new UnitSet(
+    public static readonly UnitSet Default = new (
         new GeneralUnitSet(),
         new ThermodynamicUnitSet(),
         new ElectromagismUnitSet(),
@@ -14,6 +17,8 @@ public class UnitSet
     );
 
     private readonly Dictionary<string, UnitInfo> items = new();
+
+    private readonly Trie<UnitInfo> _trie = new ();
 
     public UnitSet() { }
 
@@ -25,16 +30,18 @@ public class UnitSet
         }
     }
 
-    public bool Contains(string name) => items.ContainsKey(name);
+    public bool Contains(ReadOnlySpan<char> name) => _trie.ContainsKey(name);
 
-    public bool TryGet(string name, [NotNullWhen(true)] out UnitInfo? type)
+    public bool TryGet(ReadOnlySpan<char> name, [NotNullWhen(true)] out UnitInfo? type)
     {
-        return items.TryGetValue(name, out type);
+       return _trie.TryGetValue(name, out type);
     }
 
     public void Add(string name, UnitInfo type)
     {
         items[name] = type;
+
+        _trie.TryAdd(name, type);
     }
 
     public void Add(UnitInfo type)
@@ -46,7 +53,7 @@ public class UnitSet
     {
         foreach (var item in collection.items)
         {
-            items[item.Key] = item.Value;
+            Add(item.Key, item.Value);
         }
     }
 }

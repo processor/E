@@ -39,7 +39,7 @@ public sealed class Trie<T>
         }
     }
 
-    public void Add(string key, T value)
+    public void Add(ReadOnlySpan<char> key, T value)
     {
         var node = Root;
 
@@ -58,7 +58,29 @@ public sealed class Trie<T>
         count++;
     }
 
-    public bool ContainsKey(string key) => TryGetValue(key, out _);
+    public bool TryAdd(string key, T value)
+    {
+        var node = Root;
+
+        foreach (var character in key)
+        {
+            node = node.Add(character);
+        }
+
+        if (node.IsLeaf)
+        {
+            return false;
+        }
+
+        node.Value = value;
+
+        count++;
+
+        return true;
+    }
+
+
+    public bool ContainsKey(ReadOnlySpan<char> key) => TryGetValue(key, out _);
 
     public IEnumerable<(string, T)> Scan(string prefix)
     {
@@ -92,7 +114,7 @@ public sealed class Trie<T>
         return true;
     }
 
-    public bool TryGetValue(string key, [NotNullWhen(true)] out T? value)
+    public bool TryGetValue(ReadOnlySpan<char> key, [NotNullWhen(true)] out T? value)
     {
         if (!TryGetNode(key, out Node? node) || !node.IsLeaf)
         {
@@ -112,7 +134,7 @@ public sealed class Trie<T>
         count--;
     }
 
-    public bool TryGetNode(string key, [NotNullWhen(true)] out Node? node)
+    public bool TryGetNode(ReadOnlySpan<char> key, [NotNullWhen(true)] out Node? node)
     {
         node = Root;
 

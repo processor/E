@@ -189,7 +189,7 @@ public sealed class UnitInfo : IEquatable<UnitInfo>, IObject
         return new UnitInfo(Prefix, Name, Dimension, DefinitionValue, exponent);
     }
 
-    public static bool TryParse(string name, [NotNullWhen(true)] out UnitInfo? type)
+    public static bool TryParse(ReadOnlySpan<char> name, [NotNullWhen(true)] out UnitInfo? type)
     {
         if (UnitSet.Default.TryGet(name, out type))
         {
@@ -197,7 +197,7 @@ public sealed class UnitInfo : IEquatable<UnitInfo>, IObject
         }
         else if (SIPrefix.TryParseSymbol(name, out SIPrefix prefix))
         {
-            var unitName = name.Substring(prefix.Length);
+            var unitName = name.Slice(prefix.Length);
 
             if (UnitSet.Default.TryGet(unitName, out var unitType) && unitType.IsMetric)
             {

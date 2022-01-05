@@ -105,7 +105,7 @@ public readonly struct SIPrefix : IEquatable<SIPrefix>
         return prefix;
     }
 
-    public static bool TryParseSymbol(string text, out SIPrefix prefix)
+    public static bool TryParseSymbol(ReadOnlySpan<char> text, out SIPrefix prefix)
     {
         switch (text[0])
         {
