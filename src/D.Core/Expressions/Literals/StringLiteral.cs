@@ -11,7 +11,7 @@ public readonly struct StringLiteral : IExpression
 
     public string Value { get; }
 
-    public static implicit operator StringLiteral(string text) => new StringLiteral(text);
+    public static implicit operator StringLiteral(string text) => new (text);
 
     public static implicit operator string(StringLiteral text) => text.Value;
 

@@ -13,7 +13,7 @@ public sealed class TypeDeclaration : TypeDeclarationBase
 
     // e.g.
     // Crash 
-    // Vehicle 'Crash   term
+    // Vehicle 'Crash term
     public Symbol Name { get; }
 
     public Parameter[] GenericParameters { get; }

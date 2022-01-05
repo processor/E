@@ -51,7 +51,7 @@ public partial class Compiler
             // Method         a () =>
         }
 
-        env = env.Parent;
+        env = env.Parent!;
 
         var result = new ImplementationExpression(protocol, type, variables, methods);
 

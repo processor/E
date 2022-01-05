@@ -1,8 +1,9 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 
 namespace E.Parsing;
 
-internal class SourceReader
+internal sealed class SourceReader
 {
     private readonly string text;
 
@@ -47,14 +48,16 @@ internal class SourceReader
 
     public string Consume(int count)
     {
-        var result = new char[count];
+        Span<char> result = count > 8
+            ? stackalloc char[count]
+            : new char[count];
 
         for (var i = 0; i < count; i++)
         {
             result[i] = Consume();
         }
 
-        return new string(result, 0, count);
+        return new string(result);
     }
 
     public char Consume()

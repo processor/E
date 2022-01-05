@@ -24,7 +24,7 @@ public readonly struct Token
 
     public readonly bool Is(TokenKind kind) => Kind == kind;
 
-    public readonly override string ToString() => Kind.ToString() + ":" + Text;
+    public readonly override string ToString() => $"{Kind}:{Text}";
 
     public static implicit operator string(Token token) => token.Text!;
 

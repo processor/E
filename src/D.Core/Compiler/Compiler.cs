@@ -19,7 +19,7 @@ public partial class Compiler
     // - Transform to ExpressionTree
 
     private Node env;
-    private readonly Flow flow = new Flow();
+    private readonly Flow flow = new ();
 
     public Compiler()
         : this(new Node()) { }

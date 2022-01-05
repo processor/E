@@ -54,7 +54,7 @@ public sealed class Parser
         Element = 11
     }
 
-    private readonly Stack<Mode> modes = new Stack<Mode>();
+    private readonly Stack<Mode> modes = new ();
 
     private void EnterMode(Mode mode)
     {
@@ -193,8 +193,8 @@ public sealed class Parser
 
         ConsumeIf(Ascending);                   // ? ascending
 
-        var skip = (ConsumeIf("skip")) ? long.Parse(Consume(Number)) : 0; // ? skip (number)
-        var take = (ConsumeIf("take")) ? long.Parse(Consume(Number)) : 0; // ? take (number)
+        var skip = (ConsumeIf("skip")) ? long.Parse(Consume(Number), CultureInfo.InvariantCulture) : 0; // ? skip (number)
+        var take = (ConsumeIf("take")) ? long.Parse(Consume(Number), CultureInfo.InvariantCulture) : 0; // ? take (number)
 
         return new QueryExpression(collection, variable, filter, map, orderby, skip, take);
     }
@@ -475,7 +475,7 @@ public sealed class Parser
     // Modifiers
     // let private | public | mutable
 
-    private readonly List<PropertyDeclarationSyntax> properties = new List<PropertyDeclarationSyntax>();
+    private readonly List<PropertyDeclarationSyntax> properties = new ();
 
     public ISyntaxNode ReadLet() => ReadLetOrVar(Let);
 
@@ -950,8 +950,8 @@ public sealed class Parser
         }
     }
 
-    private readonly List<ISyntaxNode> members = new List<ISyntaxNode>();
-    private readonly List<FunctionDeclarationSyntax> methods = new List<FunctionDeclarationSyntax>();
+    private readonly List<ISyntaxNode> members = new ();
+    private readonly List<FunctionDeclarationSyntax> methods = new ();
 
     // Account protocol { }
     // Point protocol : Vector3 { } 
@@ -964,7 +964,7 @@ public sealed class Parser
             ? ReadTypeSymbol()
             : null;
 
-        var annotations = ReadAnnotations().ToArray();
+        var annotations = ReadAnnotations().ToList();
 
         Consume(BraceOpen);   // ! {
 
@@ -1417,7 +1417,7 @@ public sealed class Parser
             parameters = Array.Empty<ParameterSymbol>();
         }
 
-        TypeSymbol result = new TypeSymbol(module, name, parameters);
+        var result = new TypeSymbol(module, name, parameters);
 
         // Variant      : A | B 
         // Intersection : A & B
@@ -1645,7 +1645,7 @@ public sealed class Parser
         return (name, pow);
     }
 
-    public readonly List<ISyntaxNode> children = new List<ISyntaxNode>();
+    public readonly List<ISyntaxNode> children = new ();
 
     public InterpolatedStringExpressionSyntax ReadInterpolatedString()
     {
@@ -1887,8 +1887,6 @@ public sealed class Parser
 
     // https://en.wikipedia.org/wiki/Operator-precedence_parser
 
-    Operator op;
-
     // 1 + 5 ** 3 + 8
 
     // *=
@@ -1896,6 +1894,8 @@ public sealed class Parser
     private ISyntaxNode MaybeBinary(ISyntaxNode left, int minPrecedence)
     {
         // x = a || b && c
+
+        Operator? op;
 
         while (IsKind(Op) && (op = environment.Operators[Infix, reader.Current]).Precedence >= minPrecedence) // ??
         {

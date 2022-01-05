@@ -30,7 +30,7 @@ public sealed class QueryExpression : IExpression
 
     public OrderByStatement OrderBy { get; }     // orderby a desc
 
-    public IExpression? Using { get; }            // using index_name
+    public IExpression? Using { get; }           // using index_name
 
     public long Skip { get; }
 
