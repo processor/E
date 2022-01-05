@@ -6,177 +6,176 @@ using System.Diagnostics.CodeAnalysis;
 using E.Modules;
 using E.Symbols;
 
-namespace E
+namespace E;
+
+public class Node
 {
-    public class Node
+    private readonly ConcurrentDictionary<string, object> children = new();
+
+    private readonly OperatorCollection operators = new();
+
+    private readonly int depth = 0;
+
+    public Node(string? name = null, Node? parent = null)
     {
-        private readonly ConcurrentDictionary<string, object> children = new ();
+        Name = name;
+        Parent = parent;
 
-        private readonly OperatorCollection operators = new ();
-
-        private readonly int depth = 0;
-
-        public Node(string? name = null, Node? parent = null)
+        if (parent is not null)
         {
-            Name = name;
-            Parent = parent;
-
-            if (parent is not null)
-            {
-                this.depth = parent.depth + 1;
-            }
-
-            operators.Add(Operator.DefaultList);
-
-            AddModule(new BaseModule());
+            this.depth = parent.depth + 1;
         }
 
-        public Node(params Module[] modules)
-            : this()
+        operators.Add(Operator.DefaultList);
+
+        AddModule(new BaseModule());
+    }
+
+    public Node(params Module[] modules)
+        : this()
+    {
+        foreach (var module in modules)
         {
-            foreach (var module in modules)
+            AddModule(module);
+        }
+    }
+
+    public void AddModule(Module module)
+    {
+        foreach (var pair in module.Exports)
+        {
+            children.TryAdd(pair.Key, pair.Value);
+
+            if (pair.Value is Operator @operator)
             {
-                AddModule(module);
+                operators.Add(@operator);
             }
         }
+    }
 
-        public void AddModule(Module module)
+    public string? Name { get; }
+
+    public Node? Parent { get; }
+
+    public OperatorCollection Operators => operators;
+
+    public void Add(string name, object value)
+    {
+        if (!children.TryAdd(name, value))
         {
-            foreach (var pair in module.Exports)
-            {
-                children.TryAdd(pair.Key, pair.Value);
+            // throw new Exception(name + " already added");
+        }
+    }
 
-                if (pair.Value is Operator @operator)
-                {
-                    operators.Add(@operator);
-                }
-            }
+    public void Set<T>(string name, T value)
+        where T : notnull
+    {
+        children[name] = value;
+    }
+
+    public bool TryGetValue<T>(string key, [NotNullWhen(true)] out T? value)
+        where T : notnull
+    {
+        if (!TryGet(key, out object? r))
+        {
+            value = default;
+
+            return false;
         }
 
-        public string? Name { get; }
-        
-        public Node? Parent { get; }
+        value = (T)r!;
 
-        public OperatorCollection Operators => operators;
+        return true;
+    }
 
-        public void Add(string name, object value)
+    public bool TryGet(string name, [NotNullWhen(true)] out object? kind)
+    {
+        if (children.TryGetValue(name, out kind))
         {
-            if (!children.TryAdd(name, value))
-            {
-                // throw new Exception(name + " already added");
-            }
+            return true;
+        }
+        else if (Parent is not null && Parent.TryGet(name, out kind))
+        {
+            return true;
         }
 
-        public void Set<T>(string name, T value)
-            where T: notnull
+        return false;
+    }
+
+    private bool TryGetType(Symbol symbol, [NotNullWhen(true)] out Type? type)
+    {
+        if (TryGet(symbol.Name, out object? t))
         {
-            children[name] = value;
-        }
-
-        public bool TryGetValue<T>(string key, [NotNullWhen(true)] out T? value)
-            where T: notnull
-        {
-            if (!TryGet(key, out object? r))
-            {
-                value = default;
-
-                return false;
-            }
-
-            value = (T)r!;
+            type = (Type)t;
 
             return true;
         }
 
-        public bool TryGet(string name, [NotNullWhen(true)] out object? kind)
-        {
-            if (children.TryGetValue(name, out kind))
-            {
-                return true;
-            }
-            else if (Parent is not null && Parent.TryGet(name, out kind))
-            {
-                return true;
-            }
+        type = null;
 
-            return false;
+        return false;
+    }
+
+    public Type GetType(Symbol symbol)
+    {
+        if (TryGetType(symbol, out Type? type))
+        {
+            return type;
         }
 
-        private bool TryGetType(Symbol symbol, [NotNullWhen(true)] out Type? type)
+        if (symbol.Arguments is { Count: > 0 })
         {
-            if (TryGet(symbol.Name, out object? t))
-            {
-                type = (Type)t;
+            var args = new Type[symbol.Arguments.Count];
 
-                return true;
+            for (var i = 0; i < args.Length; i++)
+            {
+                args[i] = GetType(symbol.Arguments[i]);
             }
 
-            type = null;
+            return new Type(symbol.Module, symbol.Name, args);
+        }
+        else
+        {
+            return new Type(symbol.Module, symbol.Name);
+        }
+    }
 
-            return false;
+    public T Get<T>(string name)
+        where T : notnull
+    {
+        if (!TryGetValue(name, out T value))
+        {
+            throw new KeyNotFoundException($"Node does not contain {name} of {typeof(T).Name}");
         }
 
-        public Type GetType(Symbol symbol)
+        return value;
+    }
+
+    public T Get<T>(Symbol symbol)
+        where T : notnull
+    {
+        if (!TryGetValue(symbol, out T value))
         {
-            if (TryGetType(symbol, out Type? type))
+            if (typeof(T) == typeof(Type))
             {
-                return type;
+                return (T)(object)new Node().GetType(symbol);
             }
 
-            if (symbol.Arguments is { Count: > 0 })
-            {
-                var args = new Type[symbol.Arguments.Count];
-
-                for (var i = 0; i < args.Length; i++)
-                {
-                    args[i] = GetType(symbol.Arguments[i]);
-                }
-
-                return new Type(symbol.Module, symbol.Name, args);
-            }
-            else
-            {
-                return new Type(symbol.Module, symbol.Name);
-            }
+            throw new Exception($"context does not contain {typeof(T).Name} '{symbol.Name}'");
         }
 
-        public T Get<T>(string name)
-            where T: notnull
-        {
-            if (!TryGetValue(name, out T value))
-            {
-                throw new KeyNotFoundException($"Node does not contain {name} of {typeof(T).Name}");
-            }
+        return value;
+    }
 
-            return value;
-        }
+    public T Get<T>(Symbol symbol, Argument[] args)
+    {
+        // Find by match...
 
-        public T Get<T>(Symbol symbol)
-            where T : notnull
-        {
-            if (!TryGetValue(symbol, out T value))
-            {
-                if (typeof(T) == typeof(Type))
-                {
-                    return (T)(object)new Node().GetType(symbol);
-                }
+        throw new NotImplementedException();
+    }
 
-                throw new Exception($"context does not contain {typeof(T).Name} '{symbol.Name}'");
-            }
-
-            return value;
-        }
-
-        public T Get<T>(Symbol symbol, Argument[] args)
-        {
-            // Find by match...
-
-            throw new NotImplementedException();
-        }
-       
-        public Node Nested(string? name = null)
-        {
-            return new Node(name, this);
-        }
+    public Node Nested(string? name = null)
+    {
+        return new Node(name, this);
     }
 }
