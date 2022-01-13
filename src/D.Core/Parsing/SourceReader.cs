@@ -28,7 +28,6 @@ internal sealed class SourceReader
 
         return text[position + 1];
     }
-
     
     public int Line => line;
 

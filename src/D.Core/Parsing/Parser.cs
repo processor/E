@@ -20,7 +20,7 @@ public sealed class Parser
     private readonly Node environment;
 
     public Parser(string text)
-        : this(text, new Node()) { }
+       : this(text, new Node()) { }
 
     public Parser(string text, Node environment)
     {
@@ -1598,7 +1598,7 @@ public sealed class Parser
 
         reader.Advance();
 
-        string text = literal.Text.Contains("_") ? literal.Text.Replace("_", "") : literal.Text;
+        string text = literal.Text.Contains('_') ? literal.Text.Replace("_", "") : literal.Text;
 
         int eIndex = text.IndexOf('e');
 
