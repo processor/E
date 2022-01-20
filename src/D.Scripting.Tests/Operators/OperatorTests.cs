@@ -57,7 +57,7 @@ public class OperatorTests
 
         public Parameter[] Parameters => null;
 
-        public object Invoke(IArguments args) => "hello " + args[0].ToString() + " " + args[1].ToString();
+        public object Invoke(IArguments args) => $"hello {args[0]} {args[1]}";
     }
 
     [Fact]

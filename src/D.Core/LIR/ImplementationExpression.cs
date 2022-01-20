@@ -7,7 +7,7 @@ namespace E;
 public sealed class ImplementationExpression : IExpression
 {
     public ImplementationExpression(
-        ProtocolExpression protocol,
+        ProtocolExpression? protocol,
         Type type,
         IReadOnlyList<VariableDeclaration> variables,
         IReadOnlyList<FunctionExpression> members)
@@ -22,7 +22,7 @@ public sealed class ImplementationExpression : IExpression
 
     public Type Type { get; }
 
-    public ProtocolExpression Protocol { get; }
+    public ProtocolExpression? Protocol { get; }
 
     public IReadOnlyList<VariableDeclaration> Variables { get; }
 

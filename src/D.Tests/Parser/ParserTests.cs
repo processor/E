@@ -16,7 +16,7 @@ let c = (100, ""fox"");
 let d = (a: 1, b: 2, c: 3);
 let e = (a: 100, b: ""fox"");
 d.v = 15
-").Enumerate().ToArray();
+").ReadAll();
 
         var s5 = (BinaryExpressionSyntax)statements[5];
 
@@ -27,7 +27,7 @@ d.v = 15
 
         Assert.Equal(15, (NumberLiteralSyntax)s5.Right);
 
-        Assert.Equal(6, statements.Length);
+        Assert.Equal(6, statements.Count);
     }
 
     /*
@@ -52,9 +52,9 @@ d.v = 15
     {
         var statements = new Parser(
             @"a = 1
-                  b = 2
+              b = 2
                 
-                  image |> resize 100px 100px").Enumerate().ToArray();
+              image |> resize 100px 100px").ReadAll();
 
         // Assert.Equal(3, statements.Length);
     }
@@ -67,9 +67,9 @@ d.v = 15
 @"a = 1
 b = 2
 c ");
-        var statements = parser.Enumerate().ToArray();
+        var statements = parser.ReadAll();
 
-        Assert.Equal(3, statements.Length);
+        Assert.Equal(3, statements.Count);
     }
 
     [Fact]

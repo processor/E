@@ -42,9 +42,9 @@ public class EvaulatorTests
 
   b");
 
-        foreach (var statement in parser.Enumerate())
+        while (parser.TryReadNext(out ISyntaxNode syntax))
         {
-            evaulator.Evaluate(statement);
+            evaulator.Evaluate(syntax);
         }
 
         Assert.Equal("1", evaulator.Scope.Get("a").ToString());
@@ -103,19 +103,19 @@ public class EvaulatorTests
     [Fact]
     public void CssUnitValues()
     {
-        Assert.Equal("40px", Script.Evaluate("20px + 20px", env).ToString());
-        Assert.Equal("40px", Script.Evaluate("20px * 2", env).ToString());
-        Assert.Equal("40px", Script.Evaluate("80px / 2", env).ToString());
+        Assert.Equal("40px",     Script.Evaluate("20px + 20px", env).ToString());
+        Assert.Equal("40px",     Script.Evaluate("20px * 2", env).ToString());
+        Assert.Equal("40px",     Script.Evaluate("80px / 2", env).ToString());
         Assert.Equal("40000px²", Script.Evaluate("((80px / 2) ** 2) * 50 * 50%", env).ToString());
-        Assert.Equal("10px", Script.Evaluate("20px * 50%", env).ToString());
-        Assert.Equal("20px", Script.Evaluate("20px * 50% * 2", env).ToString());
+        Assert.Equal("10px",     Script.Evaluate("20px * 50%", env).ToString());
+        Assert.Equal("20px",     Script.Evaluate("20px * 50% * 2", env).ToString());
     }
 
     [Fact]
     public void Subtract()
     {
         Assert.Equal("-1", Script.Evaluate("0 - 1", env).ToString());
-        Assert.Equal("0", Script.Evaluate("1 - 1", env).ToString());
+        Assert.Equal("0",  Script.Evaluate("1 - 1", env).ToString());
         Assert.Equal("-1", Script.Evaluate("1 - 2", env).ToString());
     }
 
@@ -149,7 +149,7 @@ public class EvaulatorTests
 
         var parser = new Parser(@"a = 1");
 
-        foreach (var statement in parser.Enumerate())
+        while (parser.TryReadNext(out var statement))
         {
             evaulator.Evaluate(statement);
         }
@@ -172,32 +172,32 @@ public class EvaulatorTests
     */
 
     [Theory]
-    [InlineData("2kg * 3", "6kg")]
-    [InlineData("100mg * 3", "300mg")]
-    [InlineData("100mg / 10", "10mg")]
-    [InlineData("1kg + 1000g", "2kg")]
-    [InlineData("1kg + 100g", "1.1kg")]
-    [InlineData("1kg + 1.3g", "1.0013kg")]
-    [InlineData("1kg * 1kg", "1kg²")]
-    [InlineData("1g * 1g * 2g", "2g³")]
-    [InlineData("1kg * 1kg * 3kg * 4kg", "12kg⁴")]
-    [InlineData("30s * 30s", "900s²")]
-    [InlineData("(2kg * 3)", "6kg")]
-    [InlineData("30s ** 3", "27000s³")]
-    [InlineData("30s³ ** 2", "900s⁴")]
-    [InlineData("2 ** 32", "4294967296")]
-    [InlineData("5s + 10s", "15s")]
-    [InlineData("(1 * 5)", "5")]
-    [InlineData("(1 * 5) + 3", "8")]
-    [InlineData("(1 + 5) * 3", "18")]
-    [InlineData("3 * (5 + 5)", "30")]
-    [InlineData("3 * (2 ** 3)", "24")]
-    [InlineData("2 + 3     + (10)", "15")]
-    [InlineData("(2 + 3)   + (10)", "15")]
+    [InlineData("2kg * 3",                  "6kg")]
+    [InlineData("100mg * 3",                "300mg")]
+    [InlineData("100mg / 10",               "10mg")]
+    [InlineData("1kg + 1000g",              "2kg")]
+    [InlineData("1kg + 100g",               "1.1kg")]
+    [InlineData("1kg + 1.3g",               "1.0013kg")]
+    [InlineData("1kg * 1kg",                "1kg²")]
+    [InlineData("1g * 1g * 2g",             "2g³")]
+    [InlineData("1kg * 1kg * 3kg * 4kg",     "12kg⁴")]
+    [InlineData("30s * 30s",                "900s²")]
+    [InlineData("(2kg * 3)",                "6kg")]
+    [InlineData("30s ** 3",                 "27000s³")]
+    [InlineData("30s³ ** 2",                 "900s⁴")]
+    [InlineData("2 ** 32",                  "4294967296")]
+    [InlineData("5s + 10s",                 "15s")]
+    [InlineData("(1 * 5)",                  "5")]
+    [InlineData("(1 * 5) + 3",              "8")]
+    [InlineData("(1 + 5) * 3",              "18")]
+    [InlineData("3 * (5 + 5)",              "30")]
+    [InlineData("3 * (2 ** 3)",             "24")]
+    [InlineData("2 + 3     + (10)",         "15")]
+    [InlineData("(2 + 3)   + (10)",         "15")]
     [InlineData("(50 - 45) + (10 * 1 * 2)", "25")]
-    [InlineData("(2h / 2)", "1h")]
-    [InlineData("10s + 1min", "70s")]
-    [InlineData("10s + 2min", "130s")]
+    [InlineData("(2h / 2)",                 "1h")]
+    [InlineData("10s + 1min",               "70s")]
+    [InlineData("10s + 2min",               "130s")]
     public void EvalScripts(string text, string r)
     {
         Assert.Equal(r, Script.Evaluate(text, env).ToString());

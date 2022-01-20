@@ -63,7 +63,7 @@ public class Node
     {
         if (!children.TryAdd(name, value))
         {
-            // throw new Exception(name + " already added");
+            // throw new Exception($"{name} already added");
         }
     }
 
@@ -143,7 +143,7 @@ public class Node
     public T Get<T>(string name)
         where T : notnull
     {
-        if (!TryGetValue(name, out T value))
+        if (!TryGetValue(name, out T? value))
         {
             throw new KeyNotFoundException($"Node does not contain {name} of {typeof(T).Name}");
         }
@@ -154,7 +154,7 @@ public class Node
     public T Get<T>(Symbol symbol)
         where T : notnull
     {
-        if (!TryGetValue(symbol, out T value))
+        if (!TryGetValue(symbol, out T? value))
         {
             if (typeof(T) == typeof(Type))
             {

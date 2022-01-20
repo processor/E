@@ -52,6 +52,9 @@ public sealed class UnitInfo : IEquatable<UnitInfo>, IObject
 
     public static readonly UnitInfo Inch  = new ("in", Length, Imperial);
 
+    public static readonly UnitInfo Parsec           = new ("parsec", Length, Base);
+    public static readonly UnitInfo AstronomicalUnit = new ("au",     Length);
+
     #endregion
 
     #region Mass

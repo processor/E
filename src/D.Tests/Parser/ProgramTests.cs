@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Linq;
 
-using Xunit;
-
 namespace E.Parsing.Tests;
 
 public class ProgramTests : TestBase
@@ -16,11 +14,11 @@ public class ProgramTests : TestBase
             {
                 var program = new Parser(doc.OpenText().ReadToEnd());
 
-                var statements = program.Enumerate().ToArray();
+                var statements = program.ReadAll();
             }
             catch (Exception ex)
             {
-                throw new Exception("error in " + doc.Name, ex);
+                throw new Exception($"error in {doc.Name}", ex);
             }
         }
     }
@@ -32,9 +30,9 @@ public class ProgramTests : TestBase
 
         var program = new Parser(text);
 
-        var statements = program.Enumerate().ToArray();
+        var statements = program.ReadAll();
 
-        Assert.Equal(52, statements.Length);
+        Assert.Equal(52, statements.Count);
     }
 
     // [Fact]
@@ -44,9 +42,9 @@ public class ProgramTests : TestBase
 
         var program = new Parser(text);
 
-        var statements = program.Enumerate().ToArray();
+        var statements = program.ReadAll();
 
-        Assert.Equal(2, statements.Length);
+        Assert.Equal(2, statements.Count);
     }
 
     [Fact]
@@ -127,9 +125,9 @@ Masonary`Layout implementation {
   }
 }");
 
-        var statements = program.Enumerate().ToArray();
+        var statements = program.ReadAll();
 
-        Assert.Equal(2, statements.Length);
+        Assert.Equal(2, statements.Count);
     }
     [Fact]
     public void JpegDecoder()
@@ -194,6 +192,6 @@ decode ƒ (data: JPEG) -> Image {
 }
 ");
 
-        var statements = program.Enumerate().ToArray();
+        var statements = program.ReadAll();
     }
 }

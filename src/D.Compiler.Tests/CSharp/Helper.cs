@@ -32,6 +32,6 @@ public static class Helper
 
         var parser = new Parser(source);
 
-        return compilier.Compile(parser.Enumerate(), moduleName).Expressions[0] as Module;
+        return compilier.Compile(parser.ReadAll(), moduleName).Expressions[0] as Module;
     }
 }

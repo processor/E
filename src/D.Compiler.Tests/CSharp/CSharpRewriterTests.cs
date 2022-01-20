@@ -242,9 +242,9 @@ let width = match media {
 
         var expressions = new List<IExpression>();
 
-        foreach (ISyntaxNode node in parser.Enumerate())
+        while (parser.TryReadNext(out var syntax))
         {
-            expressions.Add(compilier.Visit(node));
+            expressions.Add(compilier.Visit(syntax));
         }
 
         using var writer = new StringWriter();

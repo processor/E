@@ -7,52 +7,51 @@ public enum ObjectType
     Number         = 2, // Alias Float64: IEEE-754 encoded. Matches JavaScript
     Object         = 3, // * | Any type
                        
-    String         = 5,
+    String         = 184_754,
     Symbol         = 6,
     Type           = 7,
     Function       = 8,  // ƒ
 
     // 9-15
-    Pointer        = 9,
+    Pointer        = 118_155,
     Expression     = 10,
     UnitValue      = 11,
-    Currency       = 12,
+    Currency       = 8_142,
     Entity         = 13,
     Timestamp      = 14,
-    Map            = 15, 
+    Map            = 80_585, 
 
     Protocol       = 17,
-    Implementation = 18,
-    Void           = 19, // static instance = nothing
-    Character      = 20,
+    Implementation = 245_962,
+    Void           = 513_000, // static instance = nothing
+    Character      = 3_241_972,
 
     Unit           = 25,
 
     // Collections
-    Array          = 101,
-    Set            = 102,
-    Tuple          = 103,
+    Array          = 186_152,
+    Set            = 36_161,
+    Tuple          = 600_590,
 
     // Numerics
-    Rational       = 111, // 1/3
-    Decimal        = 113, // 128 bit
+    Rational       = 1_244_890,  // 1/3
+    Decimal        = 2_0154_908, // 128 bit
     Vector         = 114,
-    Complex        = 115,
-    Matrix         = 116,
+    Complex        = 11_567,
+    Matrix         = 44_337,
 
     // Integers {…, -2, -1, 0, 1, 2,…}  
-    Byte            = 117,
+    Byte            = 8_799,
     Int8            = 118, // sbyte
     Int16           = 119,
     Int32           = 120,
-    Int64           = 121,
-    Float16         = 122,
-    Float32         = 123,
-    Float64         = 124,
-
+    Int64           = 9_358_198,
+    Float16         = 1_994_657,
+    Float32         = 1_307_173,
+    Float64         = 1_243_369,
 
     // Brain Floats
-    BFloat16        = 130,
+    BFloat16        = 54_083_815,
 
     // Vectors
     Vector64        = 200,
@@ -62,38 +61,8 @@ public enum ObjectType
     Vector1024      = 204,
     Vector2048      = 205,
         
-    Operator        = 300,
-    Operation       = 301,
-
-    #region Geometry (400-500)
-
-    Arc             = 400,
-    Curve           = 401,
-    Line            = 402,
-    Path            = 403, // Point *
-    Plane           = 404,
-    Point           = 405, // Vector | (x,y,z?)
-    Polygon         = 406, // Path Point * 
-    Quaternion      = 407,
-    Ray             = 408, // (position: Vector3, direction: Vector3)
-
-    // 2D
-    Circle          = 420,
-    Ellipse         = 421,
-    Triangle        = 422,
-    Rectangle       = 423, 
-
-    // 3D
-    Box             = 450,  // Cube has same dimensions on all sides
-    Cone            = 451,
-    Cylinder        = 452,
-    Ellipsoid       = 453,
-    Prism           = 454,
-    Pyramid         = 455,
-    Sphere          = 456,
-    Torus           = 457,
-        
-    #endregion
+    Operator        = 1_206_110,
+    Operation       = 3_884_033,
 
     #region Declaration & Statement Expressions
 
@@ -123,12 +92,9 @@ public enum ObjectType
 
     InterpolatedStringExpression = 2221,
 
-
     PipeStatement = 2302,  // Merge with Call?
         
     SpreadStatement = 2305,
-
-
 
     // Patterns
     AnyPattern      = 4000,
@@ -141,9 +107,9 @@ public enum ObjectType
 
     TupleElement,
 
-    Argument,
-    Parameter,
-    Property,
+    Argument  = 1_027_788,
+    Parameter = 1_410_440,
+    Property  = 937_228,
 
     #endregion
 
@@ -172,8 +138,8 @@ public enum ObjectType
     MatchExpression          = 5008,
     QueryExpression          = 5009,
 
-    ArrayInitializer       = 5020,
-    TypeInitializer      = 5021,
+    ArrayInitializer        = 5020,
+    TypeInitializer         = 5021,
 
     // Unary                 
     LogicalNotExpression     = 6000, // ! prefix
@@ -229,7 +195,7 @@ public enum ObjectType
 
     // Binary - Sets
     Intersection    = 6070,
-    Union           = 6071,
+    Union           = 185_359,
     Subset          = 6072,
     ProperSubset    = 6073,
     NotSubset       = 6074,
@@ -239,11 +205,11 @@ public enum ObjectType
     ElementOf       = 6078, // ∈
     NotElementOf    = 6079, // ∉
 
-    Integral        = 6080, // ∫
-    DoubleIntegral  = 6081,
+    Integral        = 80091,   // ∫    | Q80091
+    DoubleIntegral  = 9185332, // ∬ 
     TripleIntegral  = 6082,
-    Derivative      = 6083,
-    Sigma           = 6084,
+    Derivative      = 29_175,
+    Sigma           = 159_375,
 
     #endregion
 
@@ -260,7 +226,6 @@ public enum ObjectType
 // LLVM notes
 // type { i8, [10 x [20 x i32]], i8 }
 // [2 x [3 x [4 x i16]]]	
-
 
 /*
 // ≡ identical

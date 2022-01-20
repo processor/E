@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Globalization;
-using System.Text;
 
 using E.Syntax;
 
@@ -21,9 +20,9 @@ public readonly struct UnitValue<T> : IUnitValue<T>, IEquatable<UnitValue<T>>
 
     #region With
 
-    public readonly UnitValue<T> With(T quantity) => new UnitValue<T>(quantity, Unit);
+    public readonly UnitValue<T> With(T quantity) => new (quantity, Unit);
 
-    public readonly UnitValue<T> With(T quantity, UnitInfo type) => new UnitValue<T>(quantity, type);
+    public readonly UnitValue<T> With(T quantity, UnitInfo type) => new (quantity, type);
 
     #endregion
 
@@ -121,7 +120,7 @@ public readonly struct UnitValue<T> : IUnitValue<T>, IEquatable<UnitValue<T>>
             }
             else
             {
-                throw new Exception("Invalid unit:" + text);
+                throw new Exception($"Invalid unit. Was {text}");
             }
         }
         else
@@ -153,6 +152,16 @@ public readonly struct UnitValue<T> : IUnitValue<T>, IEquatable<UnitValue<T>>
     public override int GetHashCode()
     {
         return HashCode.Combine(Value, Unit);
+    }
+
+    public static bool operator ==(UnitValue<T> left, UnitValue<T> right)
+    {
+        return left.Equals(right);
+    }
+
+    public static bool operator !=(UnitValue<T> left, UnitValue<T> right)
+    {
+        return !left.Equals(right);
     }
 }
 

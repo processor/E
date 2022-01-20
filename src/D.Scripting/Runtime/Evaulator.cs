@@ -49,7 +49,7 @@ public class Evaluator
 
         var parser = new Parser(script, env);
 
-        foreach (var syntax in parser.Enumerate())
+        while (parser.TryReadNext(out var syntax))
         {
             last = Evaluate(syntax);
         }

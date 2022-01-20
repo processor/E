@@ -47,7 +47,7 @@ internal sealed class SourceReader
 
     public string Consume(int count)
     {
-        Span<char> result = count > 8
+        Span<char> result = count > 16
             ? stackalloc char[count]
             : new char[count];
 
@@ -63,9 +63,37 @@ internal sealed class SourceReader
     {
         var c = current;
 
-        Next();
+        Advance();
 
         return c;
+    }
+
+    public void Advance()
+    {
+        if (IsEof)
+        {
+            throw new EndOfStreamException("Cannot read past EOF");
+        }
+
+        if ((position + 1) == text.Length)
+        {
+            IsEof = true;
+
+
+            return;
+        }
+
+        current = text[position + 1];
+
+        if (current == '\n')
+        {
+            column = -2;
+
+            line++;
+        }
+
+        column++;
+        position++;
     }
 
     public char Next()

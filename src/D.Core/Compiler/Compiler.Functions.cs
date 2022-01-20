@@ -17,7 +17,7 @@ public partial class Compiler
         {
             Parameter p = paramaters[i];
 
-            flow.Define(p.Name ?? "_" + i, p.Type);
+            flow.Define(p.Name ?? $"_{i}", p.Type);
         }
 
         // NOTE: protocol functions are abstract and do not define a body
@@ -41,7 +41,7 @@ public partial class Compiler
         }
         else
         {
-            throw new Exception("unexpected function body type:" + syntax.Body.Kind);
+            throw new Exception($"unexpected function body type. Was {syntax.Body?.Kind}");
         }
 
         var result = new FunctionExpression(

@@ -58,7 +58,7 @@ public sealed class Trie<T>
         count++;
     }
 
-    public bool TryAdd(string key, T value)
+    public bool TryAdd(ReadOnlySpan<char> key, T value)
     {
         var node = Root;
 
@@ -79,7 +79,6 @@ public sealed class Trie<T>
         return true;
     }
 
-
     public bool ContainsKey(ReadOnlySpan<char> key) => TryGetValue(key, out _);
 
     public IEnumerable<(string, T)> Scan(string prefix)
@@ -97,7 +96,7 @@ public sealed class Trie<T>
         return node.Enumerator();
     }
 
-    public bool Remove(string key)
+    public bool Remove(ReadOnlySpan<char> key)
     {
         if (!TryGetNode(key, out Node? node))
         {

@@ -17,7 +17,7 @@ public partial class Compiler
             }
         }
 
-        throw new Exception($"Block has no return statement: {block[0]}");
+        throw new Exception($"Block has no return statement. Was {block[0]}");
     }
 
     public Type GetReturnType(LambdaExpression lambda)
@@ -68,7 +68,7 @@ public partial class Compiler
                 }
                 else
                 {
-                    // throw new Exception(b.Left.GetType().ToString() + "/" + b.Right.GetType().ToString());
+                    // throw new Exception($"{b.Left.GetType()}/{b.Right.GetType()}");
 
                     var lhsType = GetType(b.Left);
                     var rhsType = GetType(b.Right);

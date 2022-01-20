@@ -156,9 +156,9 @@ public class InferenceTests
     {
         var parser = new Parser(source);
 
-        foreach (var node in parser.Enumerate())
+        while (parser.TryReadNext(out var statement))
         {
-            yield return node;
+            yield return statement;
 
         }
     }

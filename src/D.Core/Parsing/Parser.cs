@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -78,12 +79,30 @@ public sealed class Parser
 
     #endregion
 
-    public IEnumerable<ISyntaxNode> Enumerate()
+    public List<ISyntaxNode> ReadAll()
     {
+        var list = new List<ISyntaxNode>();
+
         while (!reader.IsEof)
         {
-            yield return ReadExpression()!;
+            list.Add(ReadExpression()!);
         }
+        
+        return list;
+    }
+
+    public bool TryReadNext([NotNullWhen(true)] out ISyntaxNode? node)
+    {
+        if (reader.IsEof)
+        {
+            node = null;
+
+            return false;
+        }
+        
+        node = ReadExpression()!;
+
+        return true;        
     }
 
     public ISyntaxNode Next()
@@ -105,7 +124,7 @@ public sealed class Parser
 
         count++;
 
-        if (count > 500) throw new Exception("excededed call depth: " + reader.Current.Kind);
+        if (count > 500) throw new Exception($"excededed call depth reading {reader.Current.Kind}");
 
         switch (reader.Current.Kind)
         {
@@ -2120,7 +2139,7 @@ public sealed class Parser
         return left;
     }
 
-    private readonly List<Symbol> symbolList = new List<Symbol>(20);
+    private readonly List<Symbol> symbolList = new (8);
 
     // {name} {type|event|record|protocol|module}
     // {name} { Object }
@@ -2180,7 +2199,7 @@ public sealed class Parser
     {
         var left = ReadPrimary();
 
-        // throw new Exception(left + "/" + left.GetType().Name + "/" + Current.Kind.ToString());
+        // throw new Exception($"{left}/{left.GetType().Name}/{Current.Kind}");
 
         // Maybe member access
      
