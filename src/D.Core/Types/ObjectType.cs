@@ -17,16 +17,16 @@ public enum ObjectType
     Expression     = 10,
     UnitValue      = 11,
     Currency       = 8_142,
-    Entity         = 13,
-    Timestamp      = 14,
+    Entity         = 35_120,
+    Timestamp      = 186_885,
     Map            = 80_585, 
 
-    Protocol       = 17,
+    Protocol       = 7_251_920, // AKA interface
     Implementation = 245_962,
     Void           = 513_000, // static instance = nothing
     Character      = 3_241_972,
 
-    Unit           = 25,
+    Unit           = 47_574, // of measurement
 
     // Collections
     Array          = 186_152,
@@ -44,7 +44,7 @@ public enum ObjectType
     Byte            = 8_799,
     Int8            = 118, // sbyte
     Int16           = 119,
-    Int32           = 120,
+    Int32           = 110_644_030,
     Int64           = 9_358_198,
     Float16         = 1_994_657,
     Float32         = 1_307_173,
@@ -71,9 +71,9 @@ public enum ObjectType
     RangeLiteral     = 2007,
     NumberLiteral    = 2008,
     StringLiteral    = 2009,
-    Equation         = 2010,
+    Equation         = 11_345,
        
-    Predicate        = 2100,
+    Predicate        = 1_144_319,
 
     // Declarations
     TypeDeclaration              = 2201,
@@ -196,14 +196,14 @@ public enum ObjectType
     // Binary - Sets
     Intersection    = 6070,
     Union           = 185_359,
-    Subset          = 6072,
-    ProperSubset    = 6073,
+    Subset          = 177_646,
+    ProperSubset    = 59_489_332,
     NotSubset       = 6074,
-    Superset        = 6075,
+    Superset        = 15_882_515,
     ProperSuperset  = 6076,
     NotSuperset     = 6077,
-    ElementOf       = 6078, // ∈
-    NotElementOf    = 6079, // ∉
+    ElementOf       = 655_288,     // ∈
+    NotElementOf    = 109_610_770, // ∉
 
     Integral        = 80091,   // ∫    | Q80091
     DoubleIntegral  = 9185332, // ∬ 
