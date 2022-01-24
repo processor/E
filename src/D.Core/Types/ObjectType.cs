@@ -8,7 +8,7 @@ public enum ObjectType
     Object         = 3, // * | Any type
                        
     String         = 184_754,
-    Symbol         = 6,
+    Symbol         = 80_071,
     Type           = 7,
     Function       = 8,  // ƒ
 
