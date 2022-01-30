@@ -269,8 +269,10 @@ public sealed class Tokenizer
     }
 
     // Operator
-    private Token Read(TokenKind kind, int count = 1) => 
-        new Token(kind, loc, reader.Consume(count), ReadTrivia());
+    private Token Read(TokenKind kind, int count = 1)
+    {
+        return new Token(kind, loc, reader.Consume(count), ReadTrivia());
+    }
 
     [SkipLocalsInit]
     public Token ReadIdentifierOrKeyword()

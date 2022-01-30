@@ -322,10 +322,14 @@ public partial class Compiler
     }
 
     public virtual IndexAccessExpression VisitIndexAccess(IndexAccessExpressionSyntax syntax)
-        => new IndexAccessExpression(Visit(syntax.Left), VisitArguments(syntax.Arguments));
+    { 
+        return new IndexAccessExpression(Visit(syntax.Left), VisitArguments(syntax.Arguments));
+    }
 
     public virtual MemberAccessExpression VisitMemberAccess(MemberAccessExpressionSyntax syntax)
-        => new MemberAccessExpression(Visit(syntax.Left), syntax.Name);
+    { 
+        return new MemberAccessExpression(Visit(syntax.Left), syntax.Name);
+    }
 
     public virtual LambdaExpression VisitLambda(LambdaExpressionSyntax syntax)
     {
@@ -353,11 +357,15 @@ public partial class Compiler
         );
     }
 
-    public virtual TypePattern VisitTypePattern(TypePatternSyntax pattern) => 
-        new TypePattern(pattern.TypeExpression, pattern.VariableName);
+    public virtual TypePattern VisitTypePattern(TypePatternSyntax pattern)
+    {
+        return new TypePattern(pattern.TypeExpression, pattern.VariableName);
+    }
 
-    public virtual ConstantPattern VisitConstantPattern(ConstantPatternSyntax pattern) => 
-        new ConstantPattern(Visit(pattern.Constant));
+    public virtual ConstantPattern VisitConstantPattern(ConstantPatternSyntax pattern)
+    {
+        return new ConstantPattern(Visit(pattern.Constant));
+    }
 
     public virtual Symbol VisitSymbol(Symbol symbol)
     {

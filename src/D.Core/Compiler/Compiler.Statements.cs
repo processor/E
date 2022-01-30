@@ -14,11 +14,15 @@ public partial class Compiler
          );
     }
 
-    public virtual ElseStatement VisitElse(ElseStatementSyntax syntax) =>
-        new ElseStatement(VisitBlock(syntax.Body));
+    public virtual ElseStatement VisitElse(ElseStatementSyntax syntax)
+    {
+        return new ElseStatement(VisitBlock(syntax.Body));
+    }
 
-    public virtual ElseIfStatement VisitElseIf(ElseIfStatementSyntax syntax) =>
-        new ElseIfStatement(Visit(syntax.Condition), VisitBlock(syntax.Body), Visit(syntax.ElseBranch!));
+    public virtual ElseIfStatement VisitElseIf(ElseIfStatementSyntax syntax)
+    {
+        return new ElseIfStatement(Visit(syntax.Condition), VisitBlock(syntax.Body), Visit(syntax.ElseBranch!));
+    }
 
     public virtual ReturnStatement VisitReturnStatement(ReturnStatementSyntax syntax)
     {

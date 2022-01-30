@@ -121,7 +121,7 @@ public partial class CSharpEmitter : ExpressionVisitor
         return value;
     }
 
-    private static readonly Node graph = new Node();
+    private static readonly Node graph = new ();
 
     public void WriteTypeSymbol(Symbol symbol)
     {

@@ -1,11 +1,9 @@
-﻿using System;
+﻿namespace E.Numerics;
 
-namespace E.Numerics;
-
-public class Vector<T> : IObject
+public sealed class Vector<T> : IObject
     where T : struct, IEquatable<T>, IFormattable
 {
-    private MathNet.Numerics.LinearAlgebra.Vector<T> impl;
+    private readonly MathNet.Numerics.LinearAlgebra.Vector<T> impl;
 
     public Vector(T[] elements)
     {

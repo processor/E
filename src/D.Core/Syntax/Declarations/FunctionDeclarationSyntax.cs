@@ -106,7 +106,7 @@ public sealed class FunctionDeclarationSyntax : IMemberSyntax, ISyntaxNode
 
     #region Helpers
 
-    TypeSymbol IMemberSyntax.Type => new TypeSymbol("Function", GetParameterTypeSymbols(this.Parameters));
+    TypeSymbol IMemberSyntax.Type => new ("Function", GetParameterTypeSymbols(this.Parameters));
 
     private static Symbol[] GetParameterTypeSymbols(IReadOnlyList<ParameterSyntax> parameters)
     {

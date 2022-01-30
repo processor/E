@@ -62,7 +62,7 @@ public abstract class Symbol : IExpression, ISyntaxNode
 
     public override string ToString()
     {
-        if (Module is null && (Arguments is null || Arguments.Count == 0))
+        if (Module is null && (Arguments is null || Arguments.Count is 0))
         {
             return Name;
         }
@@ -76,7 +76,7 @@ public abstract class Symbol : IExpression, ISyntaxNode
 
     internal void WriteTo(ref ValueStringBuilder sb)
     {
-        if (Module is null && (Arguments is null || Arguments.Count == 0))
+        if (Module is null && (Arguments is null || Arguments.Count is 0))
         {
             sb.Append(Name);
 
