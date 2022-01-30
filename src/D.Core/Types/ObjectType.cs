@@ -3,8 +3,8 @@
 public enum ObjectType
 {
     Null           = 0, // Null
-    Boolean        = 1, // boolean
-    Number         = 2, // Alias Float64: IEEE-754 encoded. Matches JavaScript
+    Boolean        = 520_777, // boolean
+    Number         = 11_563, // Alias Float64: IEEE-754 encoded. Matches JavaScript
     Object         = 3, // * | Any type
                        
     String         = 184_754,
@@ -35,14 +35,18 @@ public enum ObjectType
 
     // Numerics
     Rational       = 1_244_890,  // 1/3
-    Decimal        = 2_0154_908, // 128 bit
+    Decimal        = 2_0154_908,
     Vector         = 114,
     Complex        = 11_567,
     Matrix         = 44_337,
 
+    Decimal32      = 5_249_164,
+    Decimal64      = 5_249_165,
+    Decimal128     = 5_249_163,
+
     // Integers {…, -2, -1, 0, 1, 2,…}  
     Byte            = 8_799,
-    Int8            = 118, // sbyte
+    Int8            = 110_660_555, // sbyte
     Int16           = 119,
     Int32           = 110_644_030,
     Int64           = 9_358_198,
@@ -69,8 +73,8 @@ public enum ObjectType
     // Literal Expressions
       
     RangeLiteral     = 2007,
-    NumberLiteral    = 2008,
-    StringLiteral    = 2009,
+    NumberLiteral    = 110_660_562,
+    StringLiteral    = 4_736_519,
     Equation         = 11_345,
        
     Predicate        = 1_144_319,
