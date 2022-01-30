@@ -14,18 +14,18 @@ using static UnitFlags;
 
 public sealed class UnitInfo : IEquatable<UnitInfo>, IObject
 {
-    public static readonly UnitInfo None = new (string.Empty, Dimension.None);
+    public static readonly UnitInfo None = new (0, string.Empty, Dimension.None);
 
     #region Angles (Plane & Solid)
 
     private static readonly Symbol π = Symbol.Variable("π");
 
-    public static readonly UnitInfo Radian    = new ("rad", Angle, Base);
-    public static readonly UnitInfo Steradian = new ("sr",  SolidAngle, Base);
+    public static readonly UnitInfo Radian    = new(33_680,  "rad", Angle, Base);
+    public static readonly UnitInfo Steradian = new(177_612, "sr",  SolidAngle, Base);
 
-    public static readonly UnitInfo Degree    = new ("deg",  Angle, 1,   Divide(π, UnitValue.Create(180, Radian))); // π / 180 rad
-    public static readonly UnitInfo Gradian   = new ("grad", Angle, 0.9, Degree); // 400 per circle
-    public static readonly UnitInfo Turn      = new ("turn", Angle, 360, Degree); // 1 per circle
+    public static readonly UnitInfo Degree    = new("deg",  Angle, 1,   Divide(π, UnitValue.Create(180, Radian))); // π / 180 rad
+    public static readonly UnitInfo Gradian   = new("grad", Angle, 0.9, Degree); // 400 per circle
+    public static readonly UnitInfo Turn      = new("turn", Angle, 360, Degree); // 1 per circle
 
     #endregion
 
@@ -37,7 +37,7 @@ public sealed class UnitInfo : IEquatable<UnitInfo>, IObject
 
     #region Frequency
 
-    public static readonly UnitInfo Hertz = new ("Hz", Frequency, SI);
+    public static readonly UnitInfo Hertz = new (39_369, "Hz", Frequency, SI);
     public static readonly UnitInfo kHz   = Hertz.WithPrefix(SIPrefix.k); // kHz
 
     // rpm
@@ -46,20 +46,21 @@ public sealed class UnitInfo : IEquatable<UnitInfo>, IObject
 
     #region Length
 
-    public static readonly UnitInfo Meter = new ("m", Length, SI | Base);  // m
+    public static readonly UnitInfo Meter = new(11_573, "m", Length, SI | Base);  // m
     public static readonly UnitInfo Mm    = Meter.WithPrefix(SIPrefix.m);  // mm
     public static readonly UnitInfo Cm    = Meter.WithPrefix(SIPrefix.c);  // cm
 
-    public static readonly UnitInfo Inch  = new ("in", Length, Imperial);
+    public static readonly UnitInfo Inch  = new(218_593, "in", Length, Imperial);
+    public static readonly UnitInfo Foot  = new("ft", Length, 12, Inch);
 
-    public static readonly UnitInfo Parsec           = new ("parsec", Length, Base);
-    public static readonly UnitInfo AstronomicalUnit = new ("au",     Length);
+    public static readonly UnitInfo Parsec           = new(12_129, "parsec", Length, Base);
+    public static readonly UnitInfo AstronomicalUnit = new(1_811,  "au",     Length);
 
     #endregion
 
     #region Mass
 
-    public static readonly UnitInfo Gram     = new ("g", Mass, SI | Base);
+    public static readonly UnitInfo Gram     = new (41_803, "g", Mass, SI | Base);
     public static readonly UnitInfo Kilogram = Gram.WithPrefix(SIPrefix.k);
 
     // Standard is KG
@@ -68,18 +69,18 @@ public sealed class UnitInfo : IEquatable<UnitInfo>, IObject
 
     #endregion
 
-    public static readonly UnitInfo Mole = new ("mol", AmountOfSubstance, SI | Base);
+    public static readonly UnitInfo Mole = new (41_509, "mol", AmountOfSubstance, SI | Base);
 
 
     // Luminocity -
 
-    public static readonly UnitInfo Candela = new ("cd", LuminousIntensity, SI | Base);
+    public static readonly UnitInfo Candela = new (83_216, "cd", LuminousIntensity, SI | Base);
 
     #region Time
 
     // 5.39 x 10−44 s
 
-    public static readonly UnitInfo Second  = new ("s",    Time, SI | Base);  // s
+    public static readonly UnitInfo Second  = new (11_574, "s",    Time, SI | Base);  // s
     public static readonly UnitInfo Minute  = new ("min",  Time, 60d);
     public static readonly UnitInfo Hour    = new ("h",    Time, 60d * 60d);
     public static readonly UnitInfo Week    = new ("wk",   Time, 60d * 60d * 24 * 7);
@@ -87,15 +88,15 @@ public sealed class UnitInfo : IEquatable<UnitInfo>, IObject
     #endregion
 
     // Pressure - 
-    public static readonly UnitInfo Pascal = new ("Pa", Pressure);
+    public static readonly UnitInfo Pascal = new (44_395, "Pa", Pressure);
      
     // Volume - 
-    public static readonly UnitInfo Liter = new ("L", Length); //  1,000 cubic centimeters
+    public static readonly UnitInfo Liter = new (11_582, "L", Length); //  1,000 cubic centimeters
 
 
-    public static readonly UnitInfo Katal = new ("kat", CatalyticActivity);
+    public static readonly UnitInfo Katal = new (208_634, "kat", CatalyticActivity);
 
-    public static readonly UnitInfo SquareMeters = new UnitInfo("m", Length).WithExponent(2);
+    public static readonly UnitInfo SquareMeters = new UnitInfo(25_343,"m", Length).WithExponent(2);
 
     // Dimensionless
 
@@ -116,10 +117,19 @@ public sealed class UnitInfo : IEquatable<UnitInfo>, IObject
         Power    = exponent;
     }
 
-    public UnitInfo(string name, Dimension id, UnitFlags flags = UnitFlags.None)
+    public UnitInfo(string name, Dimension dimension, UnitFlags flags = UnitFlags.None)
     {
         Name = name;
-        Dimension = id;
+        Dimension = dimension;
+        Flags = flags;
+        DefinitionValue = 1;
+    }
+
+    public UnitInfo(long id, string name, Dimension dimension, UnitFlags flags = UnitFlags.None)
+    {
+        Id = id;
+        Name = name;
+        Dimension = dimension;
         Flags = flags;
         DefinitionValue = 1;
     }
@@ -155,6 +165,8 @@ public sealed class UnitInfo : IEquatable<UnitInfo>, IObject
         DefinitionValue = 1;
         DefinitionUnit = definationUnit;
     }
+
+    public long Id { get; }
 
     public SIPrefix Prefix { get; } = SIPrefix.None;
 
@@ -200,7 +212,7 @@ public sealed class UnitInfo : IEquatable<UnitInfo>, IObject
         }
         else if (SIPrefix.TryParseSymbol(name, out SIPrefix prefix))
         {
-            var unitName = name.Slice(prefix.Length);
+            var unitName = name[prefix.Length..];
 
             if (UnitSet.Default.TryGet(unitName, out var unitType) && unitType.IsMetric)
             {
