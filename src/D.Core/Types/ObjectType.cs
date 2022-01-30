@@ -14,7 +14,7 @@ public enum ObjectType
 
     // 9-15
     Pointer        = 118_155,
-    Expression     = 10,
+    Expression     = 778_379,
     UnitValue      = 11,
     Currency       = 8_142,
     Entity         = 35_120,
@@ -92,7 +92,7 @@ public enum ObjectType
     OperatorDeclaration          = 2010,
     ImportDeclaration            = 2011,
 
-    DestructuringAssignment      = 2220,
+    DestructuringAssignment      = 110_745_268,
 
     InterpolatedStringExpression = 2221,
 
@@ -185,7 +185,7 @@ public enum ObjectType
      
     // Binary - Access
     MemberAccessExpression    = 6051, // a.b
-    IndexAccessExpression               = 6052, // a[b]
+    IndexAccessExpression     = 6052, // a[b]
 
     // Binary - Bitwise
     XorExpression                 = 6060, // ⊕     exclusive or - xor	
@@ -198,7 +198,7 @@ public enum ObjectType
     BitwiseOrExpression           = 6066, // |
 
     // Binary - Sets
-    Intersection    = 6070,
+    Intersection    = 185_837,
     Union           = 185_359,
     Subset          = 177_646,
     ProperSubset    = 59_489_332,
@@ -209,9 +209,9 @@ public enum ObjectType
     ElementOf       = 655_288,     // ∈
     NotElementOf    = 109_610_770, // ∉
 
-    Integral        = 80091,   // ∫    | Q80091
+    Integral        = 80_091,   // ∫    | Q80091
     DoubleIntegral  = 9185332, // ∬ 
-    TripleIntegral  = 6082,
+    TripleIntegral  = 110_660_584,
     Derivative      = 29_175,
     Sigma           = 159_375,
 
