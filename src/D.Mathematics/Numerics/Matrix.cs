@@ -1,4 +1,5 @@
-﻿using System;
+﻿#pragma warning disable IDE0090 // Use 'new(...)'
+
 
 namespace E.Numerics
 {

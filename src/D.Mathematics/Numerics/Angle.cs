@@ -1,15 +1,14 @@
-﻿namespace E.Mathematics
-{
-    public readonly struct Angle
-    {
-        public Angle(double value)
-        {
-            Value = value;
-        }
-        
-        public double Value { get; }
+﻿namespace E.Mathematics;
 
-        // ToDegrees
-        // FromRadians
+public readonly struct Angle
+{
+    public Angle(double value)
+    {
+        Value = value;
     }
+
+    public double Value { get; }
+
+    // ToDegrees
+    // FromRadians
 }

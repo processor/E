@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace E.Mathematics;
+﻿namespace E.Mathematics;
 
 public abstract class Arithmetic<T>
     where T: unmanaged

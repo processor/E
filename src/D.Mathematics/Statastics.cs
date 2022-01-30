@@ -1,44 +1,42 @@
-﻿using System;
-
-namespace E.Functions
+﻿namespace E.Functions
 {
     // Functions
 
     #region Count & Frequency
 
-        /*
-    public class Mean : FunctionBase
+    /*
+public class Mean : FunctionBase
+{
+    public IObject Invoke(IArguments args)
     {
-        public IObject Invoke(IArguments args)
-        {
-            throw new NotImplementedException();
-        }
-    }     // regular, geometric, harmean, trimean
-
-    public class Median : FunctionBase
-    {
-        public IObject Invoke(IArguments args)
-        {
-            throw new NotImplementedException();
-        }
+        throw new NotImplementedException();
     }
+}     // regular, geometric, harmean, trimean
 
-    public class Mode : FunctionBase
+public class Median : FunctionBase
+{
+    public IObject Invoke(IArguments args)
     {
-        public IObject Invoke(IArguments args)
-        {
-            throw new NotImplementedException();
-        }
+        throw new NotImplementedException();
     }
+}
 
-    public class Count : FunctionBase
+public class Mode : FunctionBase
+{
+    public IObject Invoke(IArguments args)
     {
-        public IObject Invoke(IArguments args)
-        {
-            throw new NotImplementedException();
-        }
+        throw new NotImplementedException();
     }
-    */
+}
+
+public class Count : FunctionBase
+{
+    public IObject Invoke(IArguments args)
+    {
+        throw new NotImplementedException();
+    }
+}
+*/
 
     #endregion
 
@@ -104,6 +102,5 @@ namespace E.Functions
     {
         public Forcast()
             : base("forcast", new Type(ObjectType.Object)) { }
-    }
-  
+    } 
 }

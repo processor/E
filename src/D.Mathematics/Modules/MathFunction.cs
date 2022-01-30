@@ -1,30 +1,27 @@
-﻿using System;
+﻿namespace E.Mathematics;
 
-namespace E.Mathematics
+public class MathFunction : IFunction
 {
-    public class MathFunction : IFunction
+    private readonly Func<double, double> func;
+
+    public MathFunction(string name, Func<double, double> func)
     {
-        private readonly Func<double, double> func;
+        Name = name;
+        Parameters = new[] { Parameter.Get(ObjectType.Number) };
 
-        public MathFunction(string name, Func<double, double> func)
-        {
-            Name = name;
-            Parameters = new[] { Parameter.Get(ObjectType.Number) };
+        this.func = func;
+    }
 
-            this.func = func;
-        }
+    public string Name { get; }
 
-        public string Name { get; }
+    public Parameter[] Parameters { get; }
 
-        public Parameter[] Parameters { get; }
+    ObjectType IObject.Kind => ObjectType.Function;
 
-        ObjectType IObject.Kind => ObjectType.Function;
+    public object Invoke(IArguments args)
+    { 
+        var arg0 = (INumber)args[0];
 
-        public object Invoke(IArguments args)
-        { 
-            var arg0 = (INumber)args[0];
-
-            return new Number(func.Invoke(arg0.Real));
-        }
+        return new Number(func.Invoke(arg0.Real));
     }
 }

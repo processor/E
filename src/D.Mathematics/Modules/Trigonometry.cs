@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace E.Mathematics
+﻿namespace E.Mathematics
 {
     using static Math;
 
