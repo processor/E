@@ -165,7 +165,7 @@ public sealed class Trie<T>
 
         // Depth?
 
-        public string Key
+        public ReadOnlySpan<char> Key
         {
             get
             {
@@ -180,13 +180,13 @@ public sealed class Trie<T>
                     stack.Push(node.Character);
                 }
 
-                return new string(stack.ToArray());
+                return stack.ToArray();
             }
         }
 
         public T Value
         {
-            get => _value;
+            get => _value!;
             set
             {
                 _value = value;
@@ -241,7 +241,7 @@ public sealed class Trie<T>
         {
             if (IsLeaf)
             {
-                yield return (Key, Value);
+                yield return (Key.ToString(), Value);
             }
 
             foreach (var item in Children)
@@ -255,7 +255,7 @@ public sealed class Trie<T>
 
         internal void Remove()
         {
-            Value = default;
+            Value = default!;
 
             isLeaf = false;
 
