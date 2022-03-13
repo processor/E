@@ -40,19 +40,19 @@ public readonly struct Number : INumeric<double>
     #region Arithmetic
 
     public static Number operator +(Number x, Number y)
-        => new Number(x.Value + y.Value);
+        => new (x.Value + y.Value);
 
     public static Number operator -(Number x, Number y)
-        => new Number(x.Value - y);
+        => new (x.Value - y);
 
     public static Number operator *(Number x, Number y)
-        => new Number(x.Value * y.Value);
+        => new (x.Value * y.Value);
 
     public static Number operator /(Number x, Number y)
-        => new Number(x.Value / y.Value);
+        => new (x.Value / y.Value);
 
     public static Number operator %(Number x, Number y)
-        => new Number(x.Value % y.Value);
+        => new (x.Value % y.Value);
 
     #endregion
 

@@ -31,6 +31,7 @@ public sealed class Tokenizer
 
     private Location loc;
 
+    [SkipLocalsInit]
     public Token Next()
     {
         start:
@@ -467,9 +468,10 @@ public sealed class Tokenizer
 
     #region Whitespace
 
+    [SkipLocalsInit]
     private string? ReadTrivia()
     {
-        var sb = new ValueStringBuilder(128);
+        var sb = new ValueStringBuilder(stackalloc char[8]);
 
         while (char.IsWhiteSpace(reader.Current) && !reader.IsEof)
         {

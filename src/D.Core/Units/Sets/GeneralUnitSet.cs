@@ -49,6 +49,6 @@ public sealed class GeneralUnitSet : UnitSet
         Add("lb", Pound);
 
         // Dimensionless
-        Add("%", Percentage);
+        Add("%", Percent);
     }
 }

@@ -4,11 +4,11 @@ namespace E.Units;
 
 public static class UnitValue
 {
-    public static Number Number(double value) => new Number(value);
+    public static Number Number(double value) => new (value);
 
     #region CSS
 
-    public static UnitValue<double> Percent(double value) => new UnitValue<double>(value, UnitInfo.Percentage);
+    public static UnitValue<double> Percent(double value) => new UnitValue<double>(value, UnitInfo.Percent);
 
     // <length>
     public static UnitValue<double> Em(double value)   => new (value, CssUnits.Em);

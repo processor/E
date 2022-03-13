@@ -12,7 +12,7 @@ using static Dimension;
 using static Expression;
 using static UnitFlags;
 
-public sealed class UnitInfo : IEquatable<UnitInfo>, IObject
+public sealed class UnitInfo : IEquatable<UnitInfo>, IObject, ISpanFormattable
 {
     public static readonly UnitInfo None = new (0, string.Empty, Dimension.None);
 
@@ -23,9 +23,9 @@ public sealed class UnitInfo : IEquatable<UnitInfo>, IObject
     public static readonly UnitInfo Radian    = new(33_680,  "rad", Angle, Base);
     public static readonly UnitInfo Steradian = new(177_612, "sr",  SolidAngle, Base);
 
-    public static readonly UnitInfo Degree    = new("deg",  Angle, 1,   Divide(π, UnitValue.Create(180, Radian))); // π / 180 rad
-    public static readonly UnitInfo Gradian   = new("grad", Angle, 0.9, Degree); // 400 per circle
-    public static readonly UnitInfo Turn      = new("turn", Angle, 360, Degree); // 1 per circle
+    public static readonly UnitInfo Degree    = new(28_390,  "deg",  Angle, 1,   Divide(π, UnitValue.Create(180, Radian))); // π / 180 rad
+    public static readonly UnitInfo Gradian   = new(208_528, "grad", Angle, 0.9, Degree); // 400 per circle
+    public static readonly UnitInfo Turn      = new(304_479, "turn", Angle, 360, Degree); // 1 per circle
 
     #endregion
 
@@ -51,7 +51,7 @@ public sealed class UnitInfo : IEquatable<UnitInfo>, IObject
     public static readonly UnitInfo Cm    = Meter.WithPrefix(SIPrefix.c);  // cm
 
     public static readonly UnitInfo Inch  = new(218_593, "in", Length, Imperial);
-    public static readonly UnitInfo Foot  = new("ft", Length, 12, Inch);
+    public static readonly UnitInfo Foot  = new(3_710,   "ft", Length, 12, Inch);
 
     public static readonly UnitInfo Parsec           = new(12_129, "parsec", Length, Base);
     public static readonly UnitInfo AstronomicalUnit = new(1_811,  "au",     Length);
@@ -65,12 +65,11 @@ public sealed class UnitInfo : IEquatable<UnitInfo>, IObject
 
     // Standard is KG
 
-    public static readonly UnitInfo Pound = new ("lb", Mass, 453.592d); // lb = 453.592g
+    public static readonly UnitInfo Pound = new (100_995, "lb", Mass, 453.592d); // lb = 453.592g
 
     #endregion
 
     public static readonly UnitInfo Mole = new (41_509, "mol", AmountOfSubstance, SI | Base);
-
 
     // Luminocity -
 
@@ -80,10 +79,10 @@ public sealed class UnitInfo : IEquatable<UnitInfo>, IObject
 
     // 5.39 x 10−44 s
 
-    public static readonly UnitInfo Second  = new (11_574, "s",    Time, SI | Base);  // s
-    public static readonly UnitInfo Minute  = new ("min",  Time, 60d);
-    public static readonly UnitInfo Hour    = new ("h",    Time, 60d * 60d);
-    public static readonly UnitInfo Week    = new ("wk",   Time, 60d * 60d * 24 * 7);
+    public static readonly UnitInfo Second  = new (11_574, "s",   Time, SI | Base);  // s
+    public static readonly UnitInfo Minute  = new (7_727,  "min", Time, 60d);
+    public static readonly UnitInfo Hour    = new (25_235, "h",   Time, 60d * 60d);
+    public static readonly UnitInfo Week    = new (23_387, "wk",  Time, 60d * 60d * 24 * 7);
 
     #endregion
 
@@ -100,7 +99,7 @@ public sealed class UnitInfo : IEquatable<UnitInfo>, IObject
 
     // Dimensionless
 
-    public static readonly UnitInfo Percentage = new ("%", Dimension.None, 1, new Number(0.01)); // 1/100
+    public static readonly UnitInfo Percent = new (11_229, "%", Dimension.None, 1, new Number(0.01)); // 1/100
 
     public UnitInfo(string name) // e.g. px
     {
@@ -111,10 +110,10 @@ public sealed class UnitInfo : IEquatable<UnitInfo>, IObject
 
     public UnitInfo(string symbol, int exponent) 
     {
-        Name      = symbol;
-        Dimension   = Dimension.None;
+        Name            = symbol;
+        Dimension       = Dimension.None;
         DefinitionValue = 1;
-        Power    = exponent;
+        Power           = exponent;
     }
 
     public UnitInfo(string name, Dimension dimension, UnitFlags flags = UnitFlags.None)
@@ -141,6 +140,14 @@ public sealed class UnitInfo : IEquatable<UnitInfo>, IObject
         DefinitionValue = definitionValue;
     }
 
+    public UnitInfo(long id, string symbol, Dimension dimension, double definitionValue)
+    {
+        Id              = id;
+        Name            = symbol;
+        Dimension       = dimension;
+        DefinitionValue = definitionValue;
+    }
+
     public UnitInfo(SIPrefix prefix, string name, Dimension id, double definitionValue, int power)
     {
         Prefix          = prefix;
@@ -150,10 +157,19 @@ public sealed class UnitInfo : IEquatable<UnitInfo>, IObject
         Power           = power;
     }
 
-    public UnitInfo(string name, Dimension id, double definitionValue, IObject definationUnit)
+    public UnitInfo(string name, Dimension dimension, double definitionValue, IObject definationUnit)
     {
         Name            = name;
-        Dimension       = id;
+        Dimension       = dimension;
+        DefinitionValue = definitionValue;
+        DefinitionUnit  = definationUnit;
+    }
+
+    public UnitInfo(long id, string name, Dimension dimension, double definitionValue, IObject definationUnit)
+    {
+        Id              = id;
+        Name            = name;
+        Dimension       = dimension;
         DefinitionValue = definitionValue;
         DefinitionUnit  = definationUnit;
     }
@@ -237,6 +253,13 @@ public sealed class UnitInfo : IEquatable<UnitInfo>, IObject
 
         var sb = new ValueStringBuilder(stackalloc char[16]);
 
+        WriteTo(ref sb);
+
+        return sb.ToString();
+    }
+
+    private void WriteTo(ref ValueStringBuilder sb)
+    {
         if (Prefix.Value != 1)
         {
             sb.Append(Prefix.Name); // e.g. k
@@ -248,8 +271,53 @@ public sealed class UnitInfo : IEquatable<UnitInfo>, IObject
         {
             new Superscript(Power).WriteTo(ref sb);
         }
+    }
 
-        return sb.ToString();
+    public bool TryFormat(Span<char> destination, out int charsWritten, ReadOnlySpan<char> format = default, IFormatProvider? provider = null)
+    {
+        if (Prefix.Value is 1 && Power is 1)
+        {
+            if (destination.Length >= Name.Length)
+            {
+                Name.AsSpan().CopyTo(destination);
+
+                charsWritten = Name.Length;
+
+                return true;
+            }
+            else
+            {
+                charsWritten = 0;
+
+                return false;
+            }
+        }
+
+        var sb = new ValueStringBuilder(destination);
+
+        WriteTo(ref sb);
+
+        if (destination.Length >= sb.Length)
+        {
+            charsWritten = sb.Length;
+
+            sb.Dispose();
+
+            return true;
+        }
+        else
+        {
+            charsWritten = destination.Length;
+
+            sb.Dispose();
+
+            return false;
+        }
+    }
+
+    public string ToString(string? format, IFormatProvider? formatProvider)
+    {
+        return ToString();
     }
 
     public bool Equals(UnitInfo? other)

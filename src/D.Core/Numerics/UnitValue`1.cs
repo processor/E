@@ -5,7 +5,7 @@ using E.Syntax;
 
 namespace E.Units;
 
-public readonly struct UnitValue<T> : IUnitValue<T>, IEquatable<UnitValue<T>>
+public readonly struct UnitValue<T> : IUnitValue<T>, IEquatable<UnitValue<T>>, ISpanFormattable
     where T : unmanaged, IComparable<T>, IEquatable<T>, ISpanFormattable
 {        
     public UnitValue(T value, UnitInfo unit)
@@ -79,12 +79,6 @@ public readonly struct UnitValue<T> : IUnitValue<T>, IEquatable<UnitValue<T>>
 
     // No space between units...
 
-    public readonly override string ToString()
-    {
-        return string.Create(CultureInfo.InvariantCulture, $"{Value}{Unit}");
-
-    }
-
     public static UnitValue<T> Wrap(T value)
     {
         return new UnitValue<T>(value, UnitInfo.None);
@@ -152,6 +146,21 @@ public readonly struct UnitValue<T> : IUnitValue<T>, IEquatable<UnitValue<T>>
     public override int GetHashCode()
     {
         return HashCode.Combine(Value, Unit);
+    }
+
+    public readonly override string ToString()
+    {
+        return string.Create(CultureInfo.InvariantCulture, $"{Value}{Unit}");
+    }
+
+    public bool TryFormat(Span<char> destination, out int charsWritten, ReadOnlySpan<char> format, IFormatProvider? provider)
+    {
+        return destination.TryWrite(CultureInfo.InvariantCulture, $"{Value}{Unit}", out charsWritten);
+    }
+
+    public string ToString(string? format, IFormatProvider? formatProvider)
+    {
+        return ToString();
     }
 
     public static bool operator ==(UnitValue<T> left, UnitValue<T> right)

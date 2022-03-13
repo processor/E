@@ -9,7 +9,7 @@ public enum ObjectType
                        
     String         = 184_754,
     Symbol         = 80_071,
-    Type           = 7,
+    Type           = 190_087,
     Function       = 8,  // ƒ
 
     // 9-15
@@ -73,7 +73,7 @@ public enum ObjectType
     // Literal Expressions
       
     RangeLiteral     = 2007,
-    NumberLiteral    = 110_660_562,
+    NumericLiteral   = 11_761_915,
     StringLiteral    = 4_736_519,
     Equation         = 11_345,
        

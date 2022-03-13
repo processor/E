@@ -28,19 +28,10 @@ public sealed class Operator : INamedObject
 
     public OperatorType Type { get; }
 
-    public bool IsLogical
-    {
-        get
-        {
-            // &&
-            // ||
+    public bool IsLogical => OpKind 
+        is ObjectType.LogicalAndExpression // &&
+        or ObjectType.LogicalOrExpression; // ||
 
-            int kind = (int)OpKind;
-
-            return kind >= 6_003 && kind <= 6_004;
-        }
-
-    }
     public bool IsComparision
     {
         get
