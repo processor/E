@@ -1,4 +1,6 @@
-﻿namespace E.Functions
+﻿using System.Runtime.Versioning;
+
+namespace E.Functions
 {
     // Functions
 
@@ -43,17 +45,13 @@ public class Count : FunctionBase
     public class Min : FunctionExpression
     {
         public Min()
-            : base("min", new Type(ObjectType.Object)) { }
-
-      
+            : base("min", new Type(ObjectType.Object)) { }      
     }
 
     public class Max : FunctionExpression
     {
         public Max()
-            : base("max", new Type(ObjectType.Object)) { }
-
-    
+            : base("max", new Type(ObjectType.Object)) { }    
     }
 
     public class Percentile : FunctionExpression
@@ -64,6 +62,7 @@ public class Count : FunctionBase
        
     } // range = 0-1
 
+    [RequiresPreviewFeatures]
     public class Quartile : FunctionExpression
     {
         public Quartile()

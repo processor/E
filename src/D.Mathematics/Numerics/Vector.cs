@@ -1,7 +1,7 @@
 ﻿namespace E.Numerics;
 
 public sealed class Vector<T> : IObject
-    where T : struct, IEquatable<T>, IFormattable
+    where T : struct, IEquatable<T>, ISpanFormattable
 {
     private readonly MathNet.Numerics.LinearAlgebra.Vector<T> impl;
 

@@ -1,13 +1,14 @@
 ﻿namespace E.Mathematics;
 
-public readonly struct Angle
+public readonly struct Angle<T> 
+    where T : ISpanFormattable
 {
-    public Angle(double value)
+    public Angle(T value)
     {
         Value = value;
     }
 
-    public double Value { get; }
+    public T Value { get; }
 
     // ToDegrees
     // FromRadians
