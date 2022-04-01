@@ -71,10 +71,8 @@ public partial class Compiler
 
     int i = 0;
 
-    public IExpression Visit(ISyntaxNode syntax)
+    public IExpression Visit(ISyntaxNode syntax!!)
     {
-        ArgumentNullException.ThrowIfNull(syntax);
-
         i++;
 
         if (i > 300) throw new Exception("recursion???");
