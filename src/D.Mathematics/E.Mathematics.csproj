@@ -3,10 +3,13 @@
     <TargetFramework>net6.0</TargetFramework>
     <AssemblyName>D.Mathematics</AssemblyName>
     <Nullable>enable</Nullable>
+    <LangVersion>preview</LangVersion>  
   </PropertyGroup>
+	
   <ItemGroup>
     <PackageReference Include="MathNet.Numerics" Version="4.15.0" />
   </ItemGroup>
+	
   <ItemGroup>
     <ProjectReference Include="..\D.Core\E.Core.csproj" />
   </ItemGroup>
