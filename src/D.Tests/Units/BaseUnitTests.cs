@@ -18,6 +18,7 @@ public class BaseUnitTypeTests
         var unit = new UnitInfo("m", 3);
 
         Assert.Equal("m³", unit.ToString());
+        Assert.Equal("m³", $"{unit}");
     }
 
     [Fact]
@@ -29,6 +30,9 @@ public class BaseUnitTypeTests
         Assert.Equal(1, type.DefinitionValue);
         Assert.Equal(1, type.Prefix.Value);
         Assert.Equal(1, type.Power);
+
+        Assert.Equal("g", type.ToString());
+        Assert.Equal("g", $"{type}");
     }
 
     [Theory]

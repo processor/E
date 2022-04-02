@@ -79,6 +79,18 @@ for crime in Crimes {
         Assert.Equal("Crimes", f.GeneratorExpression.ToString());
     }
 
+    [Fact]
+    public void For_X_In_Dataset_Namespace()
+    {
+        var f = Parse<ForStatementSyntax>(@"
+for crime in US.CA.Crimes {
+  a = a + 1
+}");
+
+        Assert.Equal("crime", f.VariableExpression.ToString());
+        Assert.Equal("US.CA.Crimes", f.GeneratorExpression.ToString());
+    }
+
 
     [Fact]
     public void ForCollection()

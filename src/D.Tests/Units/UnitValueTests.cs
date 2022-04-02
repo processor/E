@@ -9,7 +9,7 @@ public class UnitValueTests
 
         Assert.Equal(50, percent.Value);
 
-        Assert.Equal(UnitInfo.Percentage, percent.Unit);
+        Assert.Equal(UnitInfo.Percent, percent.Unit);
 
         Assert.Equal(0.01, ((Number)percent.Unit.DefinitionUnit).Value);
 
@@ -22,6 +22,7 @@ public class UnitValueTests
         var value = UnitValue.Parse("3 m³");
 
         Assert.Equal("3m³", value.ToString());
+        Assert.Equal("3m³", $"{value}");
 
         Assert.Equal("m", value.Unit.Name);
         Assert.Equal(3, value.Unit.Power);
