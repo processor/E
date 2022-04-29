@@ -3,11 +3,11 @@
     <TargetFramework>net6.0</TargetFramework>
     <AssemblyName>D.Mathematics</AssemblyName>
     <Nullable>enable</Nullable>
-    <LangVersion>preview</LangVersion>  
+    <IsTrimmable>true</IsTrimmable>
   </PropertyGroup>
 	
   <ItemGroup>
-    <PackageReference Include="MathNet.Numerics" Version="4.15.0" />
+    <PackageReference Include="MathNet.Numerics" Version="5.0.0" />
   </ItemGroup>
 	
   <ItemGroup>
