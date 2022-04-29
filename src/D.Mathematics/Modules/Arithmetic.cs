@@ -50,7 +50,7 @@ public static class Arithmetic
 
     public static INumber Subtract(INumber x, INumber y)
     {
-        if (!(x is IUnitValue) && !(y is IUnitValue))
+        if (x is not IUnitValue && y is not IUnitValue)
         {
             return new Number(x.Real - y.Real);
         }
@@ -63,7 +63,7 @@ public static class Arithmetic
 
     public static INumber Divide(INumber x, INumber y)
     {
-        if (!(x is IUnitValue) && !(y is IUnitValue))
+        if (x is not IUnitValue && y is not IUnitValue)
         {
             return new Number(x.Real / y.Real);
         }
