@@ -18,7 +18,7 @@ public partial class CSharpEmitter
     {
         Visit(expression.Left);
         Emit('.');
-        Emit(ToPascalCase(expression.MemberName));
+        EmitPascalCase(expression.MemberName);
 
         return expression;
     }

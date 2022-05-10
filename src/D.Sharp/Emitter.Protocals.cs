@@ -21,7 +21,7 @@ public partial class CSharpEmitter
 
                 Emit(' ');
 
-                Emit(ToPascalCase(member.Name));
+                EmitPascalCase(member.Name);
 
                 Emit(" { get; }");
             }
@@ -31,7 +31,7 @@ public partial class CSharpEmitter
 
                 Emit(' ');
 
-                Emit(ToPascalCase(member.Name));
+                EmitPascalCase(member.Name);
 
                 WriteParameters(member.Parameters);
 

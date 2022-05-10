@@ -65,9 +65,10 @@ public partial class CSharpEmitter : ExpressionVisitor
         }
     }
 
-    public static string ToPascalCase(string text)
+    internal void EmitPascalCase(string text)
     {
-        return string.Concat(stackalloc char[1] { char.ToUpper(text[0]) }, text.AsSpan(1));
+        writer.Write(char.ToUpperInvariant(text[0]));
+        writer.Write(text.AsSpan(1));
     }
 
     public override IExpression VisitSymbol(Symbol symbol)

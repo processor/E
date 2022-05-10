@@ -88,7 +88,7 @@
                 if (++i != 1) EmitLine();
 
                 Indent(level);
-                Emit(ToPascalCase(member.Name));
+                EmitPascalCase(member.Name);
                 Emit(" = ");
                 Visit((IObject)member.Value);
                 Emit(";");
@@ -116,7 +116,7 @@
                 Emit(".");
             }
 
-            Emit(ToPascalCase(func.Name));
+            EmitPascalCase(func.Name);
 
             if (func.GenericParameters is { Count: > 0 })
             {
@@ -177,7 +177,7 @@
                 Emit("operator ");
             }
 
-            Emit(ToPascalCase(func.Name));
+            EmitPascalCase(func.Name);
 
             if (func.GenericParameters.Count > 0)
             {

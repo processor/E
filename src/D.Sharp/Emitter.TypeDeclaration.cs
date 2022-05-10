@@ -24,7 +24,7 @@ public partial class CSharpEmitter
 
             Emit(' ');
 
-            Emit(ToPascalCase(property.Name));
+            EmitPascalCase(property.Name);
 
             Emit(" { get; ");
 
@@ -67,7 +67,7 @@ public partial class CSharpEmitter
         {
             Indent(level);
 
-            Emit(ToPascalCase(member.Name));
+            EmitPascalCase(member.Name);
             Emit(" = ");
             Emit(member.Name);
             EmitLine(";");
