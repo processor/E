@@ -9,7 +9,7 @@ public class ArrayTests : TestBase
     [Fact]
     public void Initialize_Fixed()
     {
-        var statement = Parse<ArrayInitializerSyntax>(@"[5] Pixel");
+        var statement = Parse<ArrayInitializerSyntax>("[5] Pixel");
 
         Assert.Equal("Pixel", statement.ElementType);
         Assert.Equal("5", statement.Elements[0].ToString());
@@ -18,7 +18,7 @@ public class ArrayTests : TestBase
     [Fact]
     public void Array1x4()
     {
-        var statement = Parse<ArrayInitializerSyntax>(@"[ 0, 1, 2, 3 ]");
+        var statement = Parse<ArrayInitializerSyntax>("[ 0, 1, 2, 3 ]");
 
         var elements = statement.Elements;
 
@@ -52,11 +52,14 @@ public class ArrayTests : TestBase
     [Fact]
     public void UniformArray()
     {
-        var statement = Parse<ArrayInitializerSyntax>(@"[ 
+        var statement = Parse<ArrayInitializerSyntax>(
+            """
+            [ 
                 [ 0, 1, 2 ], 
                 [ 3, 4, 5 ],
                 [ 6, 7, 8 ]
-            ]");
+            ]
+            """);
 
         Assert.Equal(3, statement.Elements.Length);
         Assert.Equal(3, statement.Stride.Value);
@@ -77,12 +80,15 @@ public class ArrayTests : TestBase
     [Fact]
     public void JaggedArray()
     {
-        var statement = Parse<ArrayInitializerSyntax>(@"[ 
-            [ 0, 1, 2, 3 ], 
-            [ 4, 5, 6, 7 ],
-            [ 8, 9, 10, 11 ],
-            [ 12, 13, 14 ]
-        ]");
+        var statement = Parse<ArrayInitializerSyntax>(
+            """
+            [ 
+                [ 0, 1, 2, 3 ], 
+                [ 4, 5, 6, 7 ],
+                [ 8, 9, 10, 11 ],
+                [ 12, 13, 14 ]
+            ]
+            """);
 
         Assert.Equal(4, statement.Elements.Length);
 
@@ -96,13 +102,15 @@ public class ArrayTests : TestBase
     [Fact]
     public void OfNumbers()
     {
-        var array = Parse<ArrayInitializerSyntax>(@"
-[
-  0, 1, 8, 16, 9, 2, 3, 10, 17, 24, 32, 25, 18, 11, 4, 5, 12, 19, 26,
-  33, 40, 48, 41, 34, 27, 20, 13, 6, 7, 14, 21, 28, 35, 42, 49, 56, 57,
-  50, 43, 36, 29, 22, 15, 23, 30, 37, 44, 51, 58, 59, 52, 45, 38, 31,
-  39, 46, 53, 60, 61, 54, 47, 55, 62, 63
-]");
+        var array = Parse<ArrayInitializerSyntax>(
+            """
+            [
+              0, 1, 8, 16, 9, 2, 3, 10, 17, 24, 32, 25, 18, 11, 4, 5, 12, 19, 26,
+              33, 40, 48, 41, 34, 27, 20, 13, 6, 7, 14, 21, 28, 35, 42, 49, 56, 57,
+              50, 43, 36, 29, 22, 15, 23, 30, 37, 44, 51, 58, 59, 52, 45, 38, 31,
+              39, 46, 53, 60, 61, 54, 47, 55, 62, 63
+            ]
+            """);
 
         Assert.Equal(64, array.Elements.Length);
     }

@@ -9,9 +9,10 @@ public class BindingTests : TestBase
     [Fact]
     public void Constructor()
     {
-        var func = Parse<FunctionDeclarationSyntax>(@"
-                Point ƒ <T: Number>(x: T, y: T, z: T) => Point<T>(x, y, z)
-            ");
+        var func = Parse<FunctionDeclarationSyntax>(
+            """
+            Point ƒ <T: Number>(x: T, y: T, z: T) => Point<T>(x, y, z)                        
+            """);
 
         Assert.Null(func.ReturnType);
 

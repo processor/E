@@ -7,7 +7,7 @@ public class UsingStatementTests : TestBase
     [Fact]
     public void SingleUsing()
     {
-        var statement = Parse<UsingStatement>(@"using imaging");
+        var statement = Parse<UsingStatement>("using imaging");
 
         Assert.Equal("imaging", statement.Domains[0].Name);
     }
@@ -15,7 +15,7 @@ public class UsingStatementTests : TestBase
     [Fact]
     public void MultipleUsings()
     {
-        var statement = Parse<UsingStatement>(@"using accounting, finance, taxation;");
+        var statement = Parse<UsingStatement>("using accounting, finance, taxation;");
 
         Assert.Equal("accounting", statement[0]);
         Assert.Equal("finance", statement[1]);

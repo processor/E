@@ -3,7 +3,6 @@ using System.IO;
 
 using E.Expressions;
 using E.Parsing;
-using E.Syntax;
 
 namespace E.Compilation.Tests;
 
@@ -13,8 +12,8 @@ public class CSharpRewriterTests
     public void Percent()
     {
         Assert.Equal(
-            expected: "object a = 2 * (50 * 0.01);",
-            actual: Rewrite("let a = 2 * 50%")
+            "object a = 2 * (50 * 0.01);",
+            Rewrite("let a = 2 * 50%")
         );
     }
 
@@ -22,8 +21,8 @@ public class CSharpRewriterTests
     public void Access3()
     {
         Assert.Equal(
-            expected: "a[0].B[1].C[2]",
-            actual: Rewrite("a[0].b[1].c[2]")
+            "a[0].B[1].C[2]",
+            Rewrite("a[0].b[1].c[2]")
         );
     }
 
@@ -31,8 +30,8 @@ public class CSharpRewriterTests
     public void Access2()
     {
         Assert.Equal(
-            expected: "a[0][1][2][3][4][5]",
-            actual: Rewrite("a[0][1][2][3][4][5]")
+            "a[0][1][2][3][4][5]",
+            Rewrite("a[0][1][2][3][4][5]")
         );
     }
 
@@ -40,8 +39,8 @@ public class CSharpRewriterTests
     public void Access1()
     {
         Assert.Equal(
-            expected: "a.B.C.D.E.F.G.H",
-            actual: Rewrite("a.b.c.d.e.f.g.h")
+            "a.B.C.D.E.F.G.H",
+            Rewrite("a.b.c.d.e.f.g.h")
         );
     }
 
@@ -59,72 +58,74 @@ public class CSharpRewriterTests
     // [Fact]
     public void RewriteObserver()
     {
-        Assert.Equal(@"
-class Gallery extends HTMLElement {
-  constructor(slides) {
-    super();
+        Assert.Equal(
+            """
+            class Gallery extends HTMLElement {
+              constructor(slides) {
+                super();
 
-    this.slides = slides;
-    
-    this.addEventListener(""pointerpressed"", this.onPointerPressed.bind(this));
-  }
-   
-  onPointerPressed(press) { 
-    var gallaryPointerMove = function () {
-      console.log(""moved"");
-    }.bind(this);
+                this.slides = slides;
+                
+                this.addEventListener("pointerpressed", this.onPointerPressed.bind(this));
+              }
+               
+              onPointerPressed(press) { 
+                var gallaryPointerMove = function () {
+                  console.log("moved");
+                }.bind(this);
 
-    this.addEventListener(""pointermoved"", gallaryPointermove, false);
+                this.addEventListener("pointermoved", gallaryPointermove, false);
 
-    this.document.addEventListener(""pointerreleased"", () => {
-      this.removeEventListener(""pointermoved"", gallaryPointerMove, false);
-    }.bind(this), { once: true });
-  }
+                this.document.addEventListener("pointerreleased", () => {
+                  this.removeEventListener("pointermoved", gallaryPointerMove, false);
+                }.bind(this), { once: true });
+              }
 
-  connectedCallback() {
-    console.log(""attached"");
-  }
-}
+              connectedCallback() {
+                console.log("attached");
+              }
+            }
 
-customElements.define(""Gallery"", Gallery);
-".Trim(),
+            customElements.define("Gallery", Gallery);
+            """,
 
-Rewrite(@"
-Gallery impl {
-  from (slides: Slide[]) => Gallary { slides }
+        Rewrite(
+            """
+            Gallery impl {
+              from (slides: Slide[]) => Gallary { slides }
 
-  on attached { 
-   console.log(""attached"")
-  }
+              on attached { 
+               console.log("attached")
+              }
 
-  on Pointer::pressed {
-    observe gallary Pointer 'move {
-      log ""moved""
+              on Pointer::pressed {
+                observe gallary Pointer 'move {
+                  log "moved"
 
-      // Drag the slide
+                  // Drag the slide
 
-    } until gallary.Root Pointer::released
-  }
-}
-"));
+                } until gallary.Root Pointer::released
+              }
+            }
+            """));
     }
 
     [Fact]
     public void RewriteTypeInitiziation()
     {
-        Assert.Equal(@"
-new Account(balance: 100, owner: ""me"", created: new Date(year: 2000, month: 1, day: 1))
-".Trim(),
+        Assert.Equal(
+            """
+            new Account(balance: 100, owner: "me", created: new Date(year: 2000, month: 1, day: 1))
+            """,
 
-Rewrite(@"
-
-Account(
-  balance : 100,
-  owner   : ""me"",
-  created : Date(year: 2000, month: 01, day: 01)
-)
-
-"));
+        Rewrite(
+            """
+            Account(
+              balance : 100,
+              owner   : "me",
+              created : Date(year: 2000, month: 01, day: 01)
+            )
+            """));
     }
 
     [Fact]
@@ -152,86 +153,87 @@ Account(
     [Fact]
     public void IfElseIfElse()
     {
-        Assert.Equal(@"
-if (a > 5)
-{
-    return 3;
-}
-else if (a > 4)
-{
-    return 4;
-}
-else
-{
-    return 5;
-}
+        Assert.Equal("""
+            if (a > 5)
+            {
+                return 3;
+            }
+            else if (a > 4)
+            {
+                return 4;
+            }
+            else
+            {
+                return 5;
+            }
+            """.Replace("\r\n", "\n"),
 
-".Trim().Replace("\r\n", "\n"),
+        Rewrite(
+            """
+            if a > 5 { 
+              return 3
+            }
+            else if a > 4 {
+              return 4
+            }
+            else {
+              return 5
+            }
 
-Rewrite(@"
-if a > 5 { 
-  return 3
-}
-else if a > 4 {
-  return 4
-}
-else {
-  return 5
-}
-"));
+            """));
     }
 
     [Fact]
     public void SwitchStatement()
     {
-        Assert.Equal(@"
-return a switch
-{
-    1 => 1 + 1,
-    2 => 1 - 2,
-    3 => 1 * 3,
-    4 => 1 / 4,
-    5 => 1 % 5,
-    6 => Math.Pow(1, 6),
-}
-".Trim().Replace("\r\n", "\n"),
+        Assert.Equal("""
+            return a switch
+            {
+                1 => 1 + 1,
+                2 => 1 - 2,
+                3 => 1 * 3,
+                4 => 1 / 4,
+                5 => 1 % 5,
+                6 => Math.Pow(1, 6),
+            }
+            """.ReplaceLineEndings("\n"),
 
-Rewrite(@"
-match a {
-  1 => 1 + 1
-  2 => 1 - 2
-  3 => 1 * 3
-  4 => 1 / 4
-  5 => 1 % 5
-  6 => 1 ** 6
-}
-"));
+        Rewrite(
+            """
+            match a {
+              1 => 1 + 1
+              2 => 1 - 2
+              3 => 1 * 3
+              4 => 1 / 4
+              5 => 1 % 5
+              6 => 1 ** 6
+            }
+            """));
     }
-
 
     [Fact]
     public void SwitchTypeStatement()
     {
-        Assert.Equal(@"
-object width;
+        Assert.Equal(
+            """
+            object width;
 
-switch (media)
-{
-    case Image image: width = image.Width; break;
-    case Video video: width = video.Width; break;
-    default: width = 0; break;
-}
+            switch (media)
+            {
+                case Image image: width = image.Width; break;
+                case Video video: width = video.Width; break;
+                default: width = 0; break;
+            }
+            """.ReplaceLineEndings("\n"),
 
-".Trim().Replace("\r\n", "\n"),
-
-Rewrite(@"
-let width = match media {
-  (image: Image) => image.width;
-  (video: Video) => video.width;
-  _              => 0
-}
-
-"));
+        Rewrite(
+            """
+            let width = match media {
+              (image: Image) => image.width;
+              (video: Video) => video.width;
+              _              => 0
+            }
+            """));
     }
 
     public static string Rewrite(string source)

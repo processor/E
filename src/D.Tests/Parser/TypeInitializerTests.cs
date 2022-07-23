@@ -7,13 +7,14 @@ public class TypeInitializerTests : TestBase
     [Fact]
     public void Nested()
     {
-        var type = Parse<ObjectInitializerSyntax>(@"
-Account(
-  balance : 100,
-  owner   : ""me"",
-  created : Date(year: 2000, month: 01, day: 01)
-)
-");
+        var type = Parse<ObjectInitializerSyntax>(
+            """
+            Account(
+              balance : 100,
+              owner   : "me",
+              created : Date(year: 2000, month: 01, day: 01)
+            )
+            """);
 
         Assert.Equal("Account", type.Type);
         Assert.Equal(3, type.Arguments.Count);
@@ -25,12 +26,14 @@ Account(
     [Fact]
     public void RootScoped()
     {
-        var type = Parse<ObjectInitializerSyntax>(@"
-Point(
-  x: 1,
-  y: 2,
-  z: 3
-)");
+        var type = Parse<ObjectInitializerSyntax>(
+            """
+            Point(
+              x: 1,
+              y: 2,
+              z: 3
+            )
+            """);
         Assert.Equal("Point", type.Type.Name);
         Assert.Equal(3, type.Arguments.Count);
     }
@@ -48,14 +51,16 @@ Point(
     [Fact]
     public void BlockScoped()
     {
-        var ifS = Parse<IfStatementSyntax>(@"
-if 1 + 1 == 3 {
-  return Point(
-    x: 1 + 1,
-    y: 2 * 1,
-    z: 3 / 1
-  )
-}");
+        var ifS = Parse<IfStatementSyntax>(
+            """
+            if 1 + 1 == 3 {
+              return Point(
+                x: 1 + 1,
+                y: 2 * 1,
+                z: 3 / 1
+              )
+            }
+            """);
 
         var r = (ReturnStatementSyntax)ifS.Body.Statements[0];
 

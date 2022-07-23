@@ -14,7 +14,6 @@ public class TypeDeclarationTests : TestBase
     [InlineData("Vehicle`Crash event record { vehicle: Vehicle }", TypeFlags.Event | TypeFlags.Record)]
     [InlineData("Bank role                  { name: String     }", TypeFlags.Role)]
     [InlineData("Bank actor                 { name: String     }", TypeFlags.Actor)]
-
     public void Subtypes(string text, TypeFlags flags)
     {
         var type = Parse<TypeDeclarationSyntax>(text);
@@ -46,11 +45,13 @@ public class TypeDeclarationTests : TestBase
     [Fact]
     public void ShorthandFields()
     {
-        var a = Parse<TypeDeclarationSyntax>(@"
-Point struct {
-  x, y, z: T
-}
-");
+        var a = Parse<TypeDeclarationSyntax>(
+            """
+            Point struct {
+              x, y, z: T
+            }
+
+            """);
         Assert.Single(a.Members);
 
         var members = ((CompoundPropertyDeclaration)a.Members[0]).Members;
@@ -67,12 +68,13 @@ Point struct {
     [Fact]
     public void ConstrainedGeneric()
     {
-        var type = Parse<TypeDeclarationSyntax>(@"
-Size<T:Number> struct {
-  width  : Number
-  height : Number
-}
-");
+        var type = Parse<TypeDeclarationSyntax>(
+            """
+            Size<T:Number> struct {
+              width  : Number
+              height : Number
+            }
+            """);
         Assert.Equal(2, type.Members.Count);
 
         var members = type.Members.OfType<PropertyDeclarationSyntax>().ToArray();
@@ -88,10 +90,12 @@ Size<T:Number> struct {
     [Fact]
     public void Multidefination()
     {
-        var type = Parse<CompoundTypeDeclarationSyntax>(@"
-A, B, C : D type {
-  id : Identity
-}");
+        var type = Parse<CompoundTypeDeclarationSyntax>(
+            """
+            A, B, C : D type {
+              id : Identity
+            }
+            """);
 
         Assert.Equal("A", type.Names[0].ToString());
         Assert.Equal("B", type.Names[1].ToString());
@@ -102,11 +106,13 @@ A, B, C : D type {
     [Fact]
     public void TypeDefination()
     {
-        var type = Parse<TypeDeclarationSyntax>(@"
-Graphic class {
-  text : String
-  id   : Identity
-}");
+        var type = Parse<TypeDeclarationSyntax>(
+            """
+            Graphic class {
+              text : String
+              id   : Identity
+            }
+            """);
 
         var members = type.Members.OfType<PropertyDeclarationSyntax>().ToArray();
 
@@ -122,12 +128,15 @@ Graphic class {
     [Fact]
     public void GenericParams()
     {
-        var declaration = Parse<TypeDeclarationSyntax>(@"
-Point struct <T: Number> : Vector3<T> {
-  x: T
-  y: T
-  z: T
-};");
+        var declaration = Parse<TypeDeclarationSyntax>(
+            """
+            Point struct <T: Number> : Vector3<T> {
+              x: T
+              y: T
+              z: T
+            };
+            """);
+
         Assert.Equal("Point", declaration.Name);
         Assert.Equal("Vector3", declaration.BaseType.Name);
         Assert.Equal("T", declaration.BaseType.Arguments[0].Name);
@@ -144,10 +153,13 @@ Point struct <T: Number> : Vector3<T> {
     [Fact]
     public void GenericParamOfIntersectedTypesWithDefault()
     {
-        var declaration = Parse<TypeDeclarationSyntax>(@"
-Point struct <T: Number & Blittable = Float64> : Vector3<T> {
-  x, y, z: T
-};");
+        var declaration = Parse<TypeDeclarationSyntax>(
+            """
+            Point struct <T: Number & Blittable = Float64> : Vector3<T> {
+              x, y, z: T
+            };
+            """);
+
         Assert.Equal("Point", declaration.Name);
         Assert.Equal("Vector3", declaration.BaseType.Name);
         Assert.Equal("T", declaration.BaseType.Arguments[0].Name);
@@ -164,8 +176,10 @@ Point struct <T: Number & Blittable = Float64> : Vector3<T> {
     [Fact]
     public void BlittableType()
     {
-        var declaration = Parse<TypeDeclarationSyntax>(@"
-Int64 struct (size: 8) { }");
+        var declaration = Parse<TypeDeclarationSyntax>(
+            """
+            Int64 struct (size: 8) { }
+            """);
         Assert.Equal("Int64", declaration.Name);
 
         var arg = declaration.Arguments[0];
@@ -190,19 +204,20 @@ f: ('a, 'a, 'a)
     [Fact]
     public void Q()
     {
-        var declaration = Parse<TypeDeclarationSyntax>(@"
-T record {
-  a: Set<String>
-  b: Function<A, B>
-  c: * Integer
-  d: A | B
-  e: (A, B, C)
-  f: (A, B, C) -> D
-  g: [ physics::Momentum<T> ]
-  h: Integer?
-  i : [ Collision `Course? ]
-};");
-
+        var declaration = Parse<TypeDeclarationSyntax>(
+            """
+            T record {
+              a: Set<String>
+              b: Function<A, B>
+              c: * Integer
+              d: A | B
+              e: (A, B, C)
+              f: (A, B, C) -> D
+              g: [ physics::Momentum<T> ]
+              h: Integer?
+              i : [ Collision `Course? ]
+            };
+            """);
 
         var members = declaration.Members.Cast<PropertyDeclarationSyntax>().ToArray();
 
@@ -229,15 +244,16 @@ T record {
     [Fact]
     public void VariantTests()
     {
-        var declaration = Parse<TypeDeclarationSyntax>(@"
-T record {
-  a: A | B
-  b: A | B | C
-  c: A | B | C | D
-};");
+        var declaration = Parse<TypeDeclarationSyntax>(
+            """
+            T record {
+              a: A | B
+              b: A | B | C
+              c: A | B | C | D
+            };
+            """);
 
         var members = declaration.Members.Cast<PropertyDeclarationSyntax>().ToArray();
-
           
         Assert.Equal("A", members[0].Type.Arguments[0].Name);
         Assert.Equal("B", members[0].Type.Arguments[1].Name);
@@ -250,7 +266,6 @@ T record {
         Assert.Equal("B", members[2].Type.Arguments[1].Name);
         Assert.Equal("C", members[2].Type.Arguments[2].Name);
         Assert.Equal("D", members[2].Type.Arguments[3].Name);
-
     }
 
     [Fact]
@@ -263,36 +278,37 @@ T record {
 
         // operators should only be able to chain one line...
 
-        var type = Parse<TypeDeclarationSyntax>(@"
-Vector3 struct { 
-  x, y, z: Number
+        var type = Parse<TypeDeclarationSyntax>(
+            """
+            Vector3 struct { 
+              x, y, z: Number
 
-  from (value: T) => Vector3(x: value, y: value, z: value); // ambigious without ;
+              from (value: T) => Vector3(x: value, y: value, z: value); // ambigious without ;
 
-  [ index: i64 ] => match index { 
-    0 => x
-    1 => y
-    2 => z
-  };
-}");
-
-            
+              [ index: i64 ] => match index { 
+                0 => x
+                1 => y
+                2 => z
+              };
+            }
+            """);                    
     }
-
 
     [Fact]
     public void CommentsAndCasing()
     {
-        var type = Parse<TypeDeclarationSyntax>(@"
-Arc struct { 
-  x            : Number            // circle center x
-  y            : Number            // circle center y
-  x `Radius    : Number            // circle radius x
-  y `Radius    : Number            // circle radius y
-  start `Angle : Number<Angle>
-  end   `Angle : Number<Angle>
-  clockwise    : Boolean
-};");
+        var type = Parse<TypeDeclarationSyntax>(
+            """
+            Arc struct { 
+              x            : Number            // circle center x
+              y            : Number            // circle center y
+              x `Radius    : Number            // circle radius x
+              y `Radius    : Number            // circle radius y
+              start `Angle : Number<Angle>
+              end   `Angle : Number<Angle>
+              clockwise    : Boolean
+            };
+            """);
 
         var members = type.Members.OfType<PropertyDeclarationSyntax>().ToArray();
 
@@ -302,14 +318,16 @@ Arc struct {
     [Fact]
     public void Complicated()
     {
-        var type = Parse<TypeDeclarationSyntax>(@"
-Account record {
-  mutable balance :   Decimal
-  owner           :   Entity
-  provider        :   Organization
-  transactions    : [ Transaction ]
-  currencyCode    :   Array<Character>
-};");
+        var type = Parse<TypeDeclarationSyntax>(
+            """
+            Account record {
+              mutable balance :   Decimal
+              owner           :   Entity
+              provider        :   Organization
+              transactions    : [ Transaction ]
+              currencyCode    :   Array<Character>
+            };
+            """);
 
         // var members = type.Members;
 

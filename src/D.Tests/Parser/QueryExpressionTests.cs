@@ -8,13 +8,13 @@ public class QueryExpressionTests : TestBase
     [Fact]
     public void A()
     {
-        var query = Parse<QueryExpression>(@"
-from Accounts
-where balance > 1000000
-select (id, balance)
-orderby id ascending
-take 100
-");
+        var query = Parse<QueryExpression>("""
+            from Accounts
+            where balance > 1000000
+            select (id, balance)
+            orderby id ascending
+            take 100
+            """);
 
         Assert.Equal("Accounts", query.Collection.ToString());
 
@@ -37,12 +37,14 @@ take 100
     {
         // FROM Accounts WITH (INDEX(AK_Contact_rowguid))
 
-        var query = Parse<QueryExpression>(@"
-from place in Places using idxplacekind
-where place.population > 1000
-  && place.kind == 3
-orderby id descending
-");
+        var query = Parse<QueryExpression>(
+            """
+            from place in Places using idxplacekind
+            where place.population > 1000
+              && place.kind == 3
+            orderby id descending
+
+            """);
 
         Assert.True(query.OrderBy.Descending);
     }
@@ -50,13 +52,14 @@ orderby id descending
     [Fact]
     public void B()
     {
-        var query = Parse<QueryExpression>(@"
-from place in Places
-where population > 1000 && kind == 3
-select (id, kind, population)
-skip 25
-take 50
-");
+        var query = Parse<QueryExpression>(
+            """
+            from place in Places
+            where population > 1000 && kind == 3
+            select (id, kind, population)
+            skip 25
+            take 50
+            """);
 
         Assert.Equal(3, ((TupleExpressionSyntax)query.Map).Size);
 
@@ -67,11 +70,12 @@ take 50
     [Fact]
     public void C()
     {
-        var query = Parse<QueryExpression>(@"
-from city in Places
-where city is City && city.population > 1000
-select (id: city.id, population: city.population)
-");
+        var query = Parse<QueryExpression>(
+            """
+            from city in Places
+            where city is City && city.population > 1000
+            select (id: city.id, population: city.population)
+            """);
 
 
     }
@@ -79,12 +83,13 @@ select (id: city.id, population: city.population)
     [Fact]
     public void D()
     {
-        var query = Parse<QueryExpression>(@"
-from x in 0...100
-  where x > 1 && x != 3
-select x
-skip 3
-");
+        var query = Parse<QueryExpression>(
+            """
+            from x in 0...100
+              where x > 1 && x != 3
+            select x
+            skip 3
+            """);
 
         Assert.Equal("x", query.Map.ToString()); // variable
         Assert.Equal(3, query.Skip);

@@ -144,9 +144,11 @@ public class TokenizerTests
     public void ReadPositions()
     {
         var tokens = new Tokenizer(
-@"image |> resize 100px
-|> format Gif
-|> stream");
+            """
+            image |> resize 100px
+            |> format Gif
+            |> stream
+            """);
 
         Assert.Equal(new Location(1, 0, 0), tokens.Next().Start); // image
         Assert.Equal(new Location(1, 6, 6), tokens.Next().Start); // pipe
@@ -179,16 +181,18 @@ public class TokenizerTests
     public void Read3()
     {
         var tokens = new Tokenizer(
-        @"let image = get source key
-          let faces = image |> detect Face
+        """
+        let image = get source key
+        let faces = image |> detect Face
 
-          if count faces == 0 
-            Image.create 100px 100px #000
-          else
-            image 
-            |> crop faces[0]
-            |> resize 100px 100px 
-             |> format extension");
+        if count faces == 0 
+          Image.create 100px 100px #000
+        else
+          image 
+          |> crop faces[0]
+          |> resize 100px 100px 
+          |> format extension
+        """);
 
         Assert.Equal("let", tokens.Read(Let));
         Assert.Equal("image", tokens.Read(Identifier));

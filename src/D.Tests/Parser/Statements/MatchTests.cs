@@ -7,10 +7,13 @@ public class MatchTests : TestBase
     [Fact]
     public void X()
     {
-        var match = Parse<MatchExpressionSyntax>(@"
-match x >> 4 { 
-  1 => true
-}");
+        var match = Parse<MatchExpressionSyntax>(
+            """
+            match x >> 4 { 
+              1 => true
+            }
+            """);
+
         Assert.Single(match.Cases);
 
         Assert.True(match.Expression is BinaryExpressionSyntax);
@@ -21,13 +24,14 @@ match x >> 4 {
     {
 
         var match = Parse<MatchExpressionSyntax>(
-            @"match instance { 
-                  1        => 1,
-                  2        => 2,
-                  ""text"" => 3,
-                  50 m     => ""really far""
-                }
-            ");
+            """
+            match instance { 
+              1        => 1,
+              2        => 2,
+              "text" => 3,
+              50 m     => "really far"
+            }                        
+            """);
 
         Assert.Equal("1", ((ConstantPatternSyntax)match.Cases[0].Pattern).Constant.ToString());
         Assert.Equal("2", ((ConstantPatternSyntax)match.Cases[1].Pattern).Constant.ToString());
@@ -40,11 +44,12 @@ match x >> 4 {
     {
 
         var match = Parse<MatchExpressionSyntax>(
-            @"match instance { 
-                  A | B => 1,
-                  _     => ""*""
-                }
-            ");
+            """
+            match instance { 
+              A | B => 1,
+              _     => "*"
+            }
+            """);
 
         Assert.Equal("Variant<A,B>", ((ConstantPatternSyntax)match.Cases[0].Pattern).Constant.ToString());
 
@@ -73,11 +78,12 @@ match x >> 4 {
     {
 
         var match = Parse<MatchExpressionSyntax>(
-            @"match instance { 
-                  (image: Image) => image.resize(100, 100);
-                  (video: Video) => video.resize(100, 100);
-                }
-            ");
+            """
+            match instance { 
+              (image: Image) => image.resize(100, 100);
+              (video: Video) => video.resize(100, 100);
+            }                        
+            """);
 
         Assert.Equal("image", ((TypePatternSyntax)match.Cases[0].Pattern).VariableName);
         Assert.Equal("video", ((TypePatternSyntax)match.Cases[1].Pattern).VariableName);
@@ -90,32 +96,32 @@ match x >> 4 {
     {
         // ... |> format mp4
         var pipe = Parse<CallExpressionSyntax>(
-            @"image 
-                  |> split 1s
-                  |> group a
-                  |> match kind {
-                     (a: Audio) => a;
-                     (i: Image) => b;
-                     (v: Video) => c;
-                  }
-                  |> format mp4
-                ");
+            """
+            image 
+            |> split 1s
+            |> group a
+            |> match kind {
+               (a: Audio) => a;
+               (i: Image) => b;
+               (v: Video) => c;
+            }
+            |> format mp4                            
+            """);
     }
-
 
     [Fact]
     public void MatchWhen()
     {
         var parser = new Parser(
-            @"
-                  let i     = 100
-                  let debug = false
+            """
+            let i     = 100
+            let debug = false
 
-                  match i {
-                    0...100 when debug == true  => a
-                    0...100 when debug == false => a
-                  }
-                ");
+            match i {
+              0...100 when debug == true  => a
+              0...100 when debug == false => a
+            }                            
+            """);
 
         var a = (PropertyDeclarationSyntax)parser.Next();
         var b = (PropertyDeclarationSyntax)parser.Next();

@@ -35,11 +35,14 @@ public class CssUnitTests
 
         var json = JsonObject.FromObject(a);
 
-        Assert.Equal(@"{
-  ""width"": ""1920px"",
-  ""height"": ""1080px"",
-  ""flex"": ""100%""
-}", json.ToString(), ignoreLineEndingDifferences: true);
+        Assert.Equal(
+            """
+            {
+              "width": "1920px",
+              "height": "1080px",
+              "flex": "100%"
+            }
+            """, json.ToString(), ignoreLineEndingDifferences: true);
 
         var el = json.As<Element>();
 

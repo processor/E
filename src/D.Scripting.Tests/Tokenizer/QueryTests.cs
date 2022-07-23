@@ -7,13 +7,15 @@ public class TokenQueryTests
     [Fact]
     public void A()
     {
-            var tokenizer = new Tokenizer(
-@"from account in Accounts
-where account.balance > 0
-select sum account.balance
-orderby id descending
-skip 5
-take 10");
+        var tokenizer = new Tokenizer(
+            """
+            from account in Accounts
+            where account.balance > 0
+            select sum account.balance
+            orderby id descending
+            skip 5
+            take 10
+            """);
 
         Assert.Equal("from",       tokenizer.Read(From));
         Assert.Equal("account",    tokenizer.Read(Identifier));

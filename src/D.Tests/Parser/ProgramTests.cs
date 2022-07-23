@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 
 namespace E.Parsing.Tests;
 
@@ -52,78 +51,80 @@ public class ProgramTests : TestBase
     {
         // implementation
 
-        var program = new Parser(@"
-Masonary`Layout class {
-  columnWidth :   Number
-  columnGap   :   Number
-  columns     : [ Column ]
-}
+        var program = new Parser(
+            """
+            Masonary`Layout class {
+              columnWidth :   Number
+              columnGap   :   Number
+              columns     : [ Column ]
+            }
 
-Masonary`Layout implementation {
-  from (columnCount: Number, columnWidth: Number, columnGap = 0) {
-    var left = 0
+            Masonary`Layout implementation {
+              from (columnCount: Number, columnWidth: Number, columnGap = 0) {
+                var left = 0
 
-    var columns = [ Column ]
+                var columns = [ Column ]
 
-    for i in 0..<columnCount {
-      let column = Column(
-        width  : columnWidth,
-        height : 0,
-        top    : 0,
-        left   : left
-      )
+                for i in 0..<columnCount {
+                  let column = Column(
+                    width  : columnWidth,
+                    height : 0,
+                    top    : 0,
+                    left   : left
+                  )
 
-      left += columnWidth + columnGap
-      
-      columns.append(column)
-    }
+                  left += columnWidth + columnGap
+                  
+                  columns.append(column)
+                }
 
-    return Masonary`Layout(columnWidth, columnGap, columns)
-  }
+                return Masonary`Layout(columnWidth, columnGap, columns)
+              }
 
-  getSmallestColumn() {
-    var bestColumn = this.columns[0]
+              getSmallestColumn() {
+                var bestColumn = this.columns[0]
 
-    // |> skip 1 
-    for column in columns {
-      if column.height < bestColumn.height {
-        bestColumn = column
-      }
-    }
+                // |> skip 1 
+                for column in columns {
+                  if column.height < bestColumn.height {
+                    bestColumn = column
+                  }
+                }
 
-    return bestColumn
-  }
+                return bestColumn
+              }
 
-  layout(items) {
-    for item in items {
-      let column = getSmallestColumn
+              layout(items) {
+                for item in items {
+                  let column = getSmallestColumn
+                            
+                  // Add bottom gutter
+                  if column.height > 0 {
+                    column.height += columnGap
+                  }
+
+                  item.left = column.left
+                  item.top = column.height
+
+                  // Add the item height to the column
+                  column.height += item.height
+                }
+
+                var height = 0
                 
-      // Add bottom gutter
-      if column.height > 0 {
-        column.height += columnGap
-      }
+                for column in columns { 
+                  if column.height > height {
+                    height = column.height
+                  }
+                }
 
-      item.left = column.left
-      item.top = column.height
-
-      // Add the item height to the column
-      column.height += item.height
-    }
-
-    var height = 0
-    
-    for column in columns { 
-      if column.height > height {
-        height = column.height
-      }
-    }
-
-    return (
-      width  : (columnGap * (columnCount - 1)) + (columnWidth * columnCount),
-      height : height
-    )
-  }
-}");
+                return (
+                  width  : (columnGap * (columnCount - 1)) + (columnWidth * columnCount),
+                  height : height
+                )
+              }
+            }
+            """);
 
         var statements = program.ReadAll();
 
@@ -132,65 +133,67 @@ Masonary`Layout implementation {
     [Fact]
     public void JpegDecoder()
     {
-        var program = new Parser(@"
-from Imaging import Image
+        var program = new Parser(
+            """
+            from Imaging import Image
 
-Image class { 
-  width      :  i32
-  height     :  i32
-  pixels     : [ Pixel ]
-  colorspace :  Colorspace
-}
+            Image class { 
+              width      :  i32
+              height     :  i32
+              pixels     : [ Pixel ]
+              colorspace :  Colorspace
+            }
 
-let unzig = [
-  0, 1, 8, 16, 9, 2, 3, 10, 17, 24, 32, 25, 18, 11, 4, 5, 12, 19, 26,
-  33, 40, 48, 41, 34, 27, 20, 13, 6, 7, 14, 21, 28, 35, 42, 49, 56, 57,
-  50, 43, 36, 29, 22, 15, 23, 30, 37, 44, 51, 58, 59, 52, 45, 38, 31,
-  39, 46, 53, 60, 61, 54, 47, 55, 62, 63 
-]
+            let unzig = [
+              0, 1, 8, 16, 9, 2, 3, 10, 17, 24, 32, 25, 18, 11, 4, 5, 12, 19, 26,
+              33, 40, 48, 41, 34, 27, 20, 13, 6, 7, 14, 21, 28, 35, 42, 49, 56, 57,
+              50, 43, 36, 29, 22, 15, 23, 30, 37, 44, 51, 58, 59, 52, 45, 38, 31,
+              39, 46, 53, 60, 61, 54, 47, 55, 62, 63 
+            ]
 
-let blockSize: i32 = 4096
+            let blockSize: i32 = 4096
 
-resize ƒ (
-  image     : Image, 
-  size      : Size, 
-  resampler : Resampler = Lanzos
-) -> Image { 
+            resize ƒ (
+              image     : Image, 
+              size      : Size, 
+              resampler : Resampler = Lanzos
+            ) -> Image { 
 
-}
+            }
 
-readBlock ƒ (
-  data: Binary,
-  size: i32 > 0 = blockSize) -> Block {
-}
+            readBlock ƒ (
+              data: Binary,
+              size: i32 > 0 = blockSize) -> Block {
+            }
 
-decode ƒ (data: JPEG) -> Image {
-  var n = data.length
-  let quant = Color[255]
+            decode ƒ (data: JPEG) -> Image {
+              var n = data.length
+              let quant = Color[255]
 
-  match x >> 4 {
-    0 when n < blockSize => {
-      n -= blockSize
+              match x >> 4 {
+                0 when n < blockSize => {
+                  n -= blockSize
 
-      readBlock(data)
+                  readBlock(data)
 
-      for i in 0...blockSize { 
-        quant[i] = data[i]
-      }
-    }
+                  for i in 0...blockSize { 
+                    quant[i] = data[i]
+                  }
+                }
 
-    1 when n < 2 * blockSize => {
-      n -= 2 * blockSize
+                1 when n < 2 * blockSize => {
+                  n -= 2 * blockSize
 
-      // readBlock(data, 2 * blockSize)
-    }
+                  // readBlock(data, 2 * blockSize)
+                }
 
-    _ => BadValue
-  }
+                _ => BadValue
+              }
 
-  return Image(x)
-}
-");
+              return Image(x)
+            }
+
+            """);
 
         var statements = program.ReadAll();
     }

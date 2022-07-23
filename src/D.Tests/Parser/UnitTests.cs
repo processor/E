@@ -9,17 +9,16 @@ public class UnitTests : TestBase
     [Fact]
     public void A()
     {
-        var unit = Parse<UnitValueSyntax>(@"50deg");
+        var unit = Parse<UnitValueSyntax>("50deg");
 
         Assert.Equal(50, (NumberLiteralSyntax)unit.Expression);
         Assert.Equal("deg", unit.UnitName);
     }
 
-
     [Fact]
     public void B()
     {
-        var unit = Parse<UnitValueSyntax>(@"50 deg");
+        var unit = Parse<UnitValueSyntax>("50 deg");
 
         Assert.Equal(50, (NumberLiteralSyntax)unit.Expression);
         Assert.Equal("deg", unit.UnitName);
@@ -28,7 +27,7 @@ public class UnitTests : TestBase
     [Fact]
     public void C()
     {
-        var unit = Parse<UnitValueSyntax>(@"(50 / 3) m²");
+        var unit = Parse<UnitValueSyntax>("(50 / 3) m²");
 
         var binary = (BinaryExpressionSyntax)unit.Expression;
 

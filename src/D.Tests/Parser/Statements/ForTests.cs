@@ -7,15 +7,17 @@ public class ForTests : TestBase
     [Fact]
     public void ForPattern()
     {
-        var statements = new Parser(@"
-let points = [ (0, 1), (2, 3) ]
+        var statements = new Parser(
+            """
+            let points = [ (0, 1), (2, 3) ]
 
-var sum: i64 = 0
+            var sum: i64 = 0
 
-for (x, y) in points {
-  sum += x
-  sum += y
-}");
+            for (x, y) in points {
+              sum += x
+              sum += y
+            }
+            """);
 
         var pointsVar = statements.Next() as PropertyDeclarationSyntax;
         var sumVar = statements.Next() as PropertyDeclarationSyntax;
@@ -32,10 +34,12 @@ for (x, y) in points {
     [Fact]
     public void ForAny()
     {
-        var f = Parse<ForStatementSyntax>(@"
-for _ in 0...100 {
-  a = a + 1
-}");
+        var f = Parse<ForStatementSyntax>(
+            """
+            for _ in 0...100 {
+              a = a + 1
+            }
+            """);
 
         Assert.True(f.VariableExpression is AnyPatternSyntax);
         Assert.True(f.GeneratorExpression is RangeExpressionSyntax);
@@ -44,10 +48,12 @@ for _ in 0...100 {
     [Fact]
     public void ForRange()
     {
-        var f = Parse<ForStatementSyntax>(@"
-for 0 ... i8.max {
-  a = a + 1
-}");
+        var f = Parse<ForStatementSyntax>(
+            """
+            for 0 ... i8.max {
+              a = a + 1
+            }
+            """);
 
         var sequence = f.GeneratorExpression as RangeExpressionSyntax;
 
@@ -58,10 +64,12 @@ for 0 ... i8.max {
     [Fact]
     public void For_X_In_Range()
     {
-        var f = Parse<ForStatementSyntax>(@"
-for x in 0...100 {
-  a = a + 1
-}");
+        var f = Parse<ForStatementSyntax>(
+            """
+            for x in 0...100 {
+              a = a + 1
+            }
+            """);
 
         Assert.Equal("x", f.VariableExpression.ToString());
         Assert.True(f.GeneratorExpression is RangeExpressionSyntax);
@@ -70,10 +78,12 @@ for x in 0...100 {
     [Fact]
     public void For_X_In_Dataset()
     {
-        var f = Parse<ForStatementSyntax>(@"
-for crime in Crimes {
-  a = a + 1
-}");
+        var f = Parse<ForStatementSyntax>(
+            """
+            for crime in Crimes {
+              a = a + 1
+            }
+            """);
 
         Assert.Equal("crime", f.VariableExpression.ToString());
         Assert.Equal("Crimes", f.GeneratorExpression.ToString());
@@ -82,10 +92,12 @@ for crime in Crimes {
     [Fact]
     public void For_X_In_Dataset_Namespace()
     {
-        var f = Parse<ForStatementSyntax>(@"
-for crime in US.CA.Crimes {
-  a = a + 1
-}");
+        var f = Parse<ForStatementSyntax>(
+            """
+            for crime in US.CA.Crimes {
+              a = a + 1
+            }
+            """);
 
         Assert.Equal("crime", f.VariableExpression.ToString());
         Assert.Equal("US.CA.Crimes", f.GeneratorExpression.ToString());
@@ -95,10 +107,12 @@ for crime in US.CA.Crimes {
     [Fact]
     public void ForCollection()
     {
-        var f = Parse<ForStatementSyntax>(@"
-for criminology.Crimes {
-  a = a + 1
-}");
+        var f = Parse<ForStatementSyntax>(
+            """
+            for criminology.Crimes {
+              a = a + 1
+            }
+            """);
 
         var generator = (MemberAccessExpressionSyntax)f.GeneratorExpression;
 

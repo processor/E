@@ -8,12 +8,13 @@ public class FunctionDeclarationTests : TestBase
     [Fact]
     public void IndexAssignment()
     {
-        var func = Parse<FunctionDeclarationSyntax>(@"
-inverse ƒ -> Matrix<T> {
-    this[0] = t11 * detInv
-    this[1] = (n24 * n33 * n41 - n23 * n34 * n41 - n24 * n31 * n43 + n21 * n34 * n43 + n23 * n31 * n44 - n21 * n33 * n44) * detInv
-  }
-");
+        var func = Parse<FunctionDeclarationSyntax>(
+            """
+            inverse ƒ -> Matrix<T> {
+              this[0] = t11 * detInv
+              this[1] = (n24 * n33 * n41 - n23 * n34 * n41 - n24 * n31 * n43 + n21 * n34 * n43 + n23 * n31 * n44 - n21 * n33 * n44) * detInv
+            }
+            """);
 
         var body = (BlockSyntax)func.Body;
 
@@ -30,15 +31,17 @@ inverse ƒ -> Matrix<T> {
     [Fact]
     public void Elements()
     {
-        var func = Parse<FunctionDeclarationSyntax>(@"
-fromTranslation ƒ <T: Number>(x: T, y: T, z: T) => Matrix4<T>(
-  elements: [
-    1, 0, 0, x,
-    0, 1, 0, y,
-    0, 0, 1, z,
-    0, 0, 0, 1
-  ]
-)");
+        var func = Parse<FunctionDeclarationSyntax>(
+            """
+            fromTranslation ƒ <T: Number>(x: T, y: T, z: T) => Matrix4<T>(
+              elements: [
+                1, 0, 0, x,
+                0, 1, 0, y,
+                0, 0, 1, z,
+                0, 0, 0, 1
+              ]
+            )
+            """);
 
         // var f = compiler.VisitFunction(func);
 
@@ -93,12 +96,14 @@ fromTranslation ƒ <T: Number>(x: T, y: T, z: T) => Matrix4<T>(
     [Fact]
     public void Q()
     {
-        var func = Parse<FunctionDeclarationSyntax>(@"
-clamp ƒ <T> (p: Point<T>, min: Point<T>, max: Point<T>) => Point<T> {
-  x: max(min.x, min(max.x, p.x)),
-  y: max(min.y, min(max.y, p.y)),
-  z: max(min.z, min(max.z, p.z))
-}");
+        var func = Parse<FunctionDeclarationSyntax>(
+            """
+            clamp ƒ <T> (p: Point<T>, min: Point<T>, max: Point<T>) => Point<T> {
+              x: max(min.x, min(max.x, p.x)),
+              y: max(min.y, min(max.y, p.y)),
+              z: max(min.z, min(max.z, p.z))
+            }
+            """);
         Assert.Equal("clamp", func.Name);
 
         Assert.Equal(3, func.Parameters.Count);
@@ -120,10 +125,12 @@ clamp ƒ <T> (p: Point<T>, min: Point<T>, max: Point<T>) => Point<T> {
     [Fact]
     public void ParameterConditionShorthand()
     {
-        var func = Parse<FunctionDeclarationSyntax>(@"
-abs ƒ (a: Integer > 0) -> Integer {
-  return 1;
-}");
+        var func = Parse<FunctionDeclarationSyntax>(
+            """
+            abs ƒ (a: Integer > 0) -> Integer {
+              return 1;
+            }
+            """);
 
         // abs ƒ(a: Integer) -> Integer
         // where a > 0 {
@@ -141,12 +148,14 @@ abs ƒ (a: Integer > 0) -> Integer {
     [Fact]
     public void ParameterCondition()
     {
-        var func = Parse<FunctionDeclarationSyntax>(@"
-f ƒ (
-  x: Integer where x > 0 && x < 10 @description(""A positive integer"")
-) -> Integer {
-  return 1;
-}");
+        var func = Parse<FunctionDeclarationSyntax>(
+            """
+            f ƒ (
+              x: Integer where x > 0 && x < 10 @description("A positive integer")
+            ) -> Integer {
+              return 1;
+            }
+            """);
 
         // f ƒ(a: Integer) -> Integer
         // where x > 0 && x < 10 {
@@ -200,13 +209,14 @@ f ƒ (
     [Fact]
     public void Generic()
     {
-        var func = Parse<FunctionDeclarationSyntax>(@"
-clamp ƒ(p: geometry::Point<T>, min: Point<T>, max: Point<T>) => Point {
-  x: max(min.x, min(max.x, p.x)),
-  y: max(min.y, min(max.y, p.y)),
-  z: max(min.z, min(max.z, p.z))
-}
-");
+        var func = Parse<FunctionDeclarationSyntax>(
+            """
+            clamp ƒ(p: geometry::Point<T>, min: Point<T>, max: Point<T>) => Point {
+              x: max(min.x, min(max.x, p.x)),
+              y: max(min.y, min(max.y, p.y)),
+              z: max(min.z, min(max.z, p.z))
+            }
+            """);
 
         Assert.Equal("clamp", func.Name);
         Assert.Equal(3, func.Parameters.Count);
@@ -232,25 +242,27 @@ clamp ƒ(p: geometry::Point<T>, min: Point<T>, max: Point<T>) => Point {
     [Fact]
     public void Log2()
     {
-        var f = Parse<FunctionDeclarationSyntax>(@"
-log2 ƒ(x) {
- var n = 1, i = 0;
+        var f = Parse<FunctionDeclarationSyntax>(
+            """
+            log2 ƒ(x) {
+             var n = 1, i = 0;
 
- while x > n {
-   n <<= 1
+             while x > n {
+               n <<= 1
 
-   i += 1
- }
+               i += 1
+             }
 
- return i
-}");
+             return i
+            }
+            """);
 
 
     }
     [Fact]
     public void Readi8()
     {
-        var f = Parse<FunctionDeclarationSyntax>(@"readi8 ƒ(start, data) => data[start] << 24 >> 24");
+        var f = Parse<FunctionDeclarationSyntax>("readi8 ƒ(start, data) => data[start] << 24 >> 24");
     }
 
     // (i8,i8) -> i8
@@ -261,11 +273,12 @@ log2 ƒ(x) {
     [Fact]
     public void TypedFunction()
     {
-        var w = Parse<FunctionDeclarationSyntax>(@"
-sum ƒ(a: Integer, b: Integer) {
-  return a + b
-}
-");
+        var w = Parse<FunctionDeclarationSyntax>(
+            """
+            sum ƒ(a: Integer, b: Integer) {
+              return a + b
+            }
+            """);
 
         Assert.Equal(2, w.Parameters.Count);
         Assert.Equal("a", w.Parameters[0].Name);
@@ -281,10 +294,12 @@ sum ƒ(a: Integer, b: Integer) {
     [Fact]
     public void InferedFunction()
     {
-        var w = Parse<FunctionDeclarationSyntax>(@"
-sum ƒ(a, b) {
-  return a + b
-}");
+        var w = Parse<FunctionDeclarationSyntax>(
+            """
+            sum ƒ(a, b) {
+              return a + b
+            }
+            """);
 
         Assert.Equal(2, w.Parameters.Count);
         Assert.Equal("a", w.Parameters[0].Name);
@@ -304,9 +319,10 @@ sum ƒ(a, b) {
     [Fact]
     public void DefaultParameters()
     {
-        var w = Parse<FunctionDeclarationSyntax>(@"
-add100 ƒ(a, b: Integer = 100) => a + b
-");
+        var w = Parse<FunctionDeclarationSyntax>(
+            """
+            add100 ƒ(a, b: Integer = 100) => a + b
+            """);
 
         Assert.Equal("add100", w.Name.ToString());
         Assert.Equal(2, w.Parameters.Count);

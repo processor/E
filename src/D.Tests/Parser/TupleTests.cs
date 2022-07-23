@@ -8,10 +8,13 @@ public class TupleTests : TestBase
     [Fact]
     public void Complicated()
     {
-        var tuple = Parse<TupleExpressionSyntax>(@"(
-            width: (columnGap * (columnCount - 1)) + (columnWidth * columnCount),
-            height: height
-        )");
+        var tuple = Parse<TupleExpressionSyntax>(
+            """
+            (
+                width: (columnGap * (columnCount - 1)) + (columnWidth * columnCount),
+                height: height
+            )
+            """);
 
         var a = tuple.Elements[0] as TupleElementSyntax;
 
@@ -23,10 +26,12 @@ public class TupleTests : TestBase
     [Fact]
     public void NestedParenthesis()
     {
-        var tuple = Parse<TupleExpressionSyntax>(@"(
-            width  : (1 * 2),
-            height : height
-        )");
+        var tuple = Parse<TupleExpressionSyntax>("""
+            (
+                width  : (1 * 2),
+                height : height
+            )
+            """);
 
         var a = tuple.Elements[0] as TupleElementSyntax;
     }
@@ -34,10 +39,12 @@ public class TupleTests : TestBase
     [Fact]
     public void NestedNamedTuple()
     {
-        var tuple = Parse<TupleExpressionSyntax>(@"(
-            width: (1, 2),
-            height: height
-        )");
+        var tuple = Parse<TupleExpressionSyntax>("""
+            (
+                width: (1, 2),
+                height: height
+            )
+            """);
 
         _ = (TupleElementSyntax)tuple.Elements[0];
     }
@@ -45,7 +52,7 @@ public class TupleTests : TestBase
     [Fact]
     public void NestedTuple()
     {
-        var tuple = Parse<TupleExpressionSyntax>(@"(1, 2, (2, 3))");
+        var tuple = Parse<TupleExpressionSyntax>("(1, 2, (2, 3))");
 
         _ = (NumberLiteralSyntax)tuple.Elements[0];
         _ = (NumberLiteralSyntax)tuple.Elements[1];
@@ -55,7 +62,7 @@ public class TupleTests : TestBase
     [Fact]
     public void ValueTuple()
     {
-        var tuple = Parse<TupleExpressionSyntax>(@"(0, 100, ""a"")");
+        var tuple = Parse<TupleExpressionSyntax>("""(0, 100, "a")""");
 
         Assert.Equal(3, tuple.Size);
 

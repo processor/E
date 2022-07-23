@@ -7,17 +7,16 @@ public class UnitDeclarationTests : TestBase
     [Fact]
     public void B()
     {
-        var unit = Parse<UnitDeclarationSyntax>(@"Pascal unit(symbol: ""Pa"") { }");
+        var unit = Parse<UnitDeclarationSyntax>("""Pascal unit(symbol: "Pa") { }""");
 
         Assert.Equal("Pascal", unit.Name);
         Assert.Equal("Pa", unit.Symbol.ToString());
-
     }
 
     [Fact]
     public void C()
     {
-        var unit = Parse<UnitDeclarationSyntax>("Pascal unit(symbol: \"Pa\", value: 1) : Pressure");
+        var unit = Parse<UnitDeclarationSyntax>("""Pascal unit(symbol: "Pa", value: 1) : Pressure""");
 
         Assert.Equal("Pascal", unit.Name);
         Assert.Equal("Pressure", unit.BaseType);
@@ -28,11 +27,13 @@ public class UnitDeclarationTests : TestBase
     [Fact]
     public void UnitDeclarationWithUnitValue()
     {
-        var unit = Parse<UnitDeclarationSyntax>(@"
-Degree unit (
-  symbol: ""deg"", 
-  value: (π/180) rad
-): Angle { }".Trim());
+        var unit = Parse<UnitDeclarationSyntax>(
+            """
+            Degree unit (
+              symbol: "deg", 
+              value: (π/180) rad
+            ): Angle { }
+            """);
 
         Assert.Equal("Degree", unit.Name);
         Assert.Equal("Angle", unit.BaseType);

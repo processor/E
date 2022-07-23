@@ -8,7 +8,7 @@ public class AssignmentTests : TestBase
     [Fact]
     public void OperatorAssign()
     {
-        var assignment = Parse<BinaryExpressionSyntax>($"i = 1");
+        var assignment = Parse<BinaryExpressionSyntax>("i = 1");
 
         Assert.Equal("i", (Symbol)assignment.Left);
         Assert.Equal(ObjectType.AssignmentExpression, assignment.Operator.OpKind);
@@ -18,7 +18,7 @@ public class AssignmentTests : TestBase
     [Fact]
     public void TupleMutplicationWithComment()
     {
-        var assignment = Parse<BinaryExpressionSyntax>(@"b = (10, 10) * 5kg // neat");
+        var assignment = Parse<BinaryExpressionSyntax>("b = (10, 10) * 5kg // neat");
 
         var left = assignment.Left;
 
@@ -29,7 +29,7 @@ public class AssignmentTests : TestBase
     [Fact]
     public void Logic1()
     {
-        var statement = Parse<BinaryExpressionSyntax>(@"x = a || b && c");
+        var statement = Parse<BinaryExpressionSyntax>("x = a || b && c");
 
         Assert.Equal("x", statement.Left.ToString());
 
@@ -53,7 +53,6 @@ public class AssignmentTests : TestBase
     {
         var assignment = Parse<BinaryExpressionSyntax>("(a, b) = (1, 3)");
 
-
         var l = (TupleExpressionSyntax)assignment.Left;
         var r = (TupleExpressionSyntax)assignment.Right;
     }
@@ -61,10 +60,11 @@ public class AssignmentTests : TestBase
     [Fact]
     public void Read2()
     {
-        var parser = new Parser(@"
-image = 10
-b = 2
-");
+        var parser = new Parser(
+            """
+            image = 10
+            b = 2
+            """);
 
         var one = (BinaryExpressionSyntax)parser.Next();
         var two = (BinaryExpressionSyntax)parser.Next();

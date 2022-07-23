@@ -72,12 +72,14 @@ public class PipeTests : TestBase
     [Fact]
     public void ObjectDef()
     {
-        var pipe = Parse<CallExpressionSyntax>(@"
-f |> plot(
-  x: 0...100,
-  y: 0...100,
-  z: 0...100
-)");
+        var pipe = Parse<CallExpressionSyntax>(
+            """
+            f |> plot(
+              x: 0...100,
+              y: 0...100,
+              z: 0...100
+            )
+            """);
 
         Assert.Equal("f", pipe.Callee.ToString());
 

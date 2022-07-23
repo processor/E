@@ -9,17 +9,18 @@ public class GenericTests
     [Fact]
     public void X()
     {
-        var text = @"
-let matrix = [
-    [ [ 0, 4, 6, 2 ], [ -1,  0,  0 ] ],
-    [ [ 1, 3, 7, 5 ], [ +1,  0,  0 ] ],
-    [ [ 0, 1, 5, 4 ], [  0, -1,  0 ] ],
-    [ [ 2, 6, 7, 3 ], [  0, +1,  0 ] ],
-    [ [ 0, 2, 3, 1 ], [  0,  0, -1 ] ],
-    [ [ 4, 5, 7, 6 ], [  0,  0, +1 ] ]
-]";
+        var def = (PropertyDeclarationSyntax)new Parser(
+            """
 
-        var def = (PropertyDeclarationSyntax)new Parser(text).Next();
+            let matrix = [
+              [ [ 0, 4, 6, 2 ], [ -1,  0,  0 ] ],
+              [ [ 1, 3, 7, 5 ], [ +1,  0,  0 ] ],
+              [ [ 0, 1, 5, 4 ], [  0, -1,  0 ] ],
+              [ [ 2, 6, 7, 3 ], [  0, +1,  0 ] ],
+              [ [ 0, 2, 3, 1 ], [  0,  0, -1 ] ],
+              [ [ 4, 5, 7, 6 ], [  0,  0, +1 ] ]
+            ]
+            """).Next();
 
         Assert.Equal("matrix", def.Name);
 

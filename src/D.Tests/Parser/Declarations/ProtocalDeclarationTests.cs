@@ -16,11 +16,13 @@ public class ProtocolDeclarationTests : TestBase
     [Fact]
     public void PropertyTests2()
     {
-        var protocol = Parse<ProtocolDeclarationSyntax>(@"
-Node protocol { 
-  kind     -> Kind
-  children -> [ Node ]
-}");
+        var protocol = Parse<ProtocolDeclarationSyntax>(
+            """
+            Node protocol { 
+              kind     -> Kind
+              children -> [ Node ]
+            }
+            """);
 
         var a = protocol.Members[0];
 
@@ -34,15 +36,16 @@ Node protocol {
         Assert.Equal("Node", b.ReturnType.Arguments[0].Name);
     }
 
-
     [Fact]
     public void VoidTests()
     {
 
-        var protocol = Parse<ProtocolDeclarationSyntax>(@"
-Memory protocol { 
-  free()
-}");
+        var protocol = Parse<ProtocolDeclarationSyntax>(
+            """
+            Memory protocol { 
+              free()
+            }
+            """);
 
         Assert.Equal("free", protocol.Members[0].Name);
         Assert.Equal("Void", protocol.Members[0].ReturnType);
@@ -52,10 +55,12 @@ Memory protocol {
     public void PropertyTests()
     {
 
-        var protocol = Parse<ProtocolDeclarationSyntax>(@"
-Point protocol { 
-  length -> Number
-}");
+        var protocol = Parse<ProtocolDeclarationSyntax>(
+            """
+            Point protocol { 
+              length -> Number
+            }
+            """);
 
         var length = protocol.Members[0];
 
@@ -66,23 +71,25 @@ Point protocol {
     [Fact]
     public void ChannelAndActions()
     {
-        var protocol = Parse<ProtocolDeclarationSyntax>(@"
-Bank protocol { 
-  * | open       `Account       
-    | close      `Account     
-    | settle     `Transaction
-    | refuse     `Transaction 
-    | underwrite `Loan        
-    | process    `Transaction 
-    ↺            : acting
-  * dissolve ∎   : dissolved
- 
-  open    `Account     (account: Account)         -> Account
-  close   `Account     (account: Account)         -> Account`Closure
-  settle  `Transaction (transaction: Transaction) -> Transaction`Settlement
-  refuse  `Transaction (transaction: Transaction) -> Transaction`Refusal
-  reverse `Transaction (transaction: Transaction) -> Transaction`Reversed
-}");
+        var protocol = Parse<ProtocolDeclarationSyntax>(
+            """
+            Bank protocol { 
+              * | open       `Account       
+                | close      `Account     
+                | settle     `Transaction
+                | refuse     `Transaction 
+                | underwrite `Loan        
+                | process    `Transaction 
+                ↺            : acting
+              * dissolve ∎   : dissolved
+             
+              open    `Account     (account: Account)         -> Account
+              close   `Account     (account: Account)         -> Account`Closure
+              settle  `Transaction (transaction: Transaction) -> Transaction`Settlement
+              refuse  `Transaction (transaction: Transaction) -> Transaction`Refusal
+              reverse `Transaction (transaction: Transaction) -> Transaction`Reversed
+            }
+            """);
         Assert.Equal(2, protocol.Messages.Length);
 
         Assert.Equal(6, ((ProtocolMessageChoice)protocol.Messages[0]).Count);
@@ -106,17 +113,19 @@ Bank protocol {
     [Fact]
     public void B()
     {
-        var protocol = Parse<ProtocolDeclarationSyntax>(@"
-Bank protocol { 
-  * | open       `Account
-    | close      `Account 
-    | settle     `Transaction
-    | refuse     `Transaction
-    | underwrite `Loan        
-    | process    `Transaction 
-    ↺            : acting
-  * dissolve ∎   : dissolved
-}");
+        var protocol = Parse<ProtocolDeclarationSyntax>(
+            """
+            Bank protocol { 
+              * | open       `Account
+                | close      `Account 
+                | settle     `Transaction
+                | refuse     `Transaction
+                | underwrite `Loan        
+                | process    `Transaction 
+                ↺            : acting
+              * dissolve ∎   : dissolved
+            }
+            """);
 
         Assert.Equal("Bank", protocol.Name.ToString());
 

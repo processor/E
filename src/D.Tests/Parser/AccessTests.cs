@@ -8,9 +8,11 @@ public class AccessTests : TestBase
     [Fact]
     public void Assignment()
     {
-        var declaration = Parse<PropertyDeclarationSyntax>(@"
-let mutable n = data.length
-let quant = Array<Color>.fill(255)");
+        var declaration = Parse<PropertyDeclarationSyntax>(
+            """
+            let mutable n = data.length
+            let quant = Array<Color>.fill(255)
+            """);
 
         Assert.True(declaration.Flags.HasFlag(ObjectFlags.Mutable));
 
@@ -20,13 +22,14 @@ let quant = Array<Color>.fill(255)");
     [Fact]
     public void Assignment2()
     {
-        var declaration = Parse<PropertyDeclarationSyntax>(@"
-var quant = Color[255]");
+        var declaration = Parse<PropertyDeclarationSyntax>(
+            """
+            var quant = Color[255]
+            """);
 
         Assert.Equal("quant", declaration.Name.ToString());
 
         var value = (IndexAccessExpressionSyntax)declaration.Value;
-
 
         Assert.True(declaration.IsMutable);
     }

@@ -17,9 +17,10 @@ public class VariableDeclarationTests : TestBase
     [Fact]
     public void FunctionVariable()
     {
-        var statements = Parse<PropertyDeclarationSyntax>(@"
-    let sum = ƒ(a: Integer, b: Integer) => a + b
-    ");
+        var statement = Parse<PropertyDeclarationSyntax>(
+            """
+            let sum = ƒ(a: Integer, b: Integer) => a + b
+            """);
     }
 
     [Fact]
@@ -97,13 +98,15 @@ public class VariableDeclarationTests : TestBase
     [Fact]
     public void Compound()
     {
-        var b = Parse<CompoundPropertyDeclaration>(@"
-let a = 1, 
-    b = 2, 
-    c: i32, 
-    d: i32 = 4, 
-    e: String = ""five"", 
-    f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v, w, x, y, z: Number");
+        var b = Parse<CompoundPropertyDeclaration>(
+            """
+            let a = 1, 
+                b = 2, 
+                c: i32, 
+                d: i32 = 4, 
+                e: String = "five", 
+                f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v, w, x, y, z: Number
+            """);
 
         Assert.Equal(26, b.Members.Length);
 

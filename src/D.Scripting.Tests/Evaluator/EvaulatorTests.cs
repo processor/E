@@ -37,10 +37,12 @@ public class EvaulatorTests
         var evaulator = new Evaluator();
 
         var parser = new Parser(
-@"a = 1
-  b = 2
+            """
+            a = 1
+              b = 2
 
-  b");
+              b
+            """);
 
         while (parser.TryReadNext(out ISyntaxNode syntax))
         {
@@ -125,11 +127,12 @@ public class EvaulatorTests
         var evaulator = new Evaluator();
 
         var parser = new Parser(
-@"a = 11
-  a |> add(50)
-  |> multiply(10)
+            """
+            a = 11
+            a |> add(50)
+              |> multiply(10)
+            """);
 
-");
         evaulator.Evaluate(parser.Next());
 
         Assert.Equal("11", evaulator.Scope.Get("a").ToString());
@@ -147,7 +150,7 @@ public class EvaulatorTests
     {
         var evaulator = new Evaluator();
 
-        var parser = new Parser(@"a = 1");
+        var parser = new Parser("a = 1");
 
         while (parser.TryReadNext(out var statement))
         {
@@ -157,9 +160,8 @@ public class EvaulatorTests
         Assert.Equal("1", evaulator.Scope.Get("a").ToString());
     }
 
-    public object Eval(IExpression statement)
+    public static object Eval(IExpression statement)
         => new Evaluator().Evaluate(statement);
-
 
     /*
     [Fact]
@@ -265,7 +267,7 @@ public class EvaulatorTests
     [Fact]
     public void Eval3()
     {
-        var parser = new Parser(@"1kg * 1lb * 4kg", env);
+        var parser = new Parser("1kg * 1lb * 4kg", env);
 
         var statement = (BinaryExpressionSyntax)parser.Next();
 

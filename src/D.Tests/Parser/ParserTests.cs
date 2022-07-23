@@ -1,6 +1,4 @@
-﻿using System.Linq;
-
-using E.Syntax;
+﻿using E.Syntax;
 
 namespace E.Parsing.Tests;
 
@@ -9,14 +7,15 @@ public class ParserTests : TestBase
     [Fact]
     public void Semicolons()
     {
-        var statements = new Parser(@"
-let a = 3;
-let b = (a, b);
-let c = (100, ""fox"");
-let d = (a: 1, b: 2, c: 3);
-let e = (a: 100, b: ""fox"");
-d.v = 15
-").ReadAll();
+        var statements = new Parser(
+            """
+            let a = 3;
+            let b = (a, b);
+            let c = (100, "fox");
+            let d = (a: 1, b: 2, c: 3);
+            let e = (a: 100, b: "fox");
+            d.v = 15
+            """).ReadAll();
 
         var s5 = (BinaryExpressionSyntax)statements[5];
 
@@ -64,9 +63,12 @@ d.v = 15
     public void Trailing()
     {
         var parser = new Parser(
-@"a = 1
-b = 2
-c ");
+            """
+            a = 1
+            b = 2
+            c 
+            """);
+
         var statements = parser.ReadAll();
 
         Assert.Equal(3, statements.Count);
@@ -75,7 +77,7 @@ c ");
     [Fact]
     public void SpreadTests()
     {
-        var spread = Parse<SpreadExpressionSyntax>(@"...r");
+        var spread = Parse<SpreadExpressionSyntax>("...r");
 
         Assert.Equal("r", spread.Expression.ToString());
     }

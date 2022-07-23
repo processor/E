@@ -309,7 +309,7 @@ public class BinaryExpressionTests : TestBase
     [Fact]
     public void Read4()
     {
-        var statement = Parse<BinaryExpressionSyntax>(@"5 * 10px");
+        var statement = Parse<BinaryExpressionSyntax>("5 * 10px");
 
         Assert.Equal(Multiply, statement.Operator);
 
@@ -324,7 +324,7 @@ public class BinaryExpressionTests : TestBase
     [Fact]
     public void Read6()
     {
-        var statement = Parse<BinaryExpressionSyntax>(@"(10, 10) * 5kg");
+        var statement = Parse<BinaryExpressionSyntax>("(10, 10) * 5kg");
 
         Assert.Equal(Multiply, statement.Operator);
 
@@ -346,7 +346,6 @@ public class BinaryExpressionTests : TestBase
         Assert.Equal("1000 g", a.Right.ToString());
     }
 }
-
 
 public class BinaryExpressionWriter
 {

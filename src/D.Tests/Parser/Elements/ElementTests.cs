@@ -7,7 +7,7 @@ public class ElementTests : TestBase
     [Fact]
     public void Simple()
     {
-        var element = Parse<ElementSyntax>(@"<div>hello</div>");
+        var element = Parse<ElementSyntax>("<div>hello</div>");
 
         Assert.Equal("div", element.Name);
 
@@ -17,11 +17,10 @@ public class ElementTests : TestBase
     [Fact]
     public void NestedExpression()
     {
-        var element = Parse<ElementSyntax>(@"
-
-<div>for 1 to 10, we return a block { for i in 1...10 { yield <Block (number: i) /> } }</div>
-
-".Trim());
+        var element = Parse<ElementSyntax>(
+            """
+            <div>for 1 to 10, we return a block { for i in 1...10 { yield <Block (number: i) /> } }</div>
+            """);
 
         Assert.Equal("div", element.Name);
 
@@ -37,20 +36,21 @@ public class ElementTests : TestBase
     [Fact]
     public void NestedElement()
     {
-        var element = Parse<ElementSyntax>(@"
+        var element = Parse<ElementSyntax>(
+            """
+            <Carbon:Gallery>
+              <Carbon:Image (source: "1.heif") />
+              <Carbon:Image (source: "2.heif") />
+              <Carbon:Image (source: "3.heif") />
+              <Carbon:Image (source: "4.heif") />
+              <Carbon:Image (source: "5.heif") />
 
-<Carbon:Gallery>
-  <Carbon:Image (source: ""1.heif"") />
-  <Carbon:Image (source: ""2.heif"") />
-  <Carbon:Image (source: ""3.heif"") />
-  <Carbon:Image (source: ""4.heif"") />
-  <Carbon:Image (source: ""5.heif"") />
+              <Block>
+                <div>A few words <span>1</span><span>2</span></div>
+              </Block>
+            </Carbon:Gallery>
+            """);
 
-  <Block>
-    <div>A few words <span>1</span><span>2</span></div>
-  </Block>
-</Carbon:Gallery>
-");
         Assert.Equal("Carbon", element.Namespace);
         Assert.Equal("Gallery", element.Name);
 
@@ -71,7 +71,7 @@ public class ElementTests : TestBase
     [Fact]
     public void SelfClosing()
     {
-        var element = Parse<ElementSyntax>(@"<Image () />");
+        var element = Parse<ElementSyntax>("<Image () />");
 
         Assert.Equal("Image", element.Name);
     }
@@ -79,7 +79,7 @@ public class ElementTests : TestBase
     [Fact]
     public void NamespacedSelfClosingElement()
     {
-        var element = Parse<ElementSyntax>(@"<Carbon:Image () />");
+        var element = Parse<ElementSyntax>("<Carbon:Image () />");
 
         Assert.Equal("Carbon", element.Namespace);
         Assert.Equal("Image", element.Name);
@@ -88,7 +88,7 @@ public class ElementTests : TestBase
     [Fact]
     public void ElementWithArgs()
     {
-        var element = Parse<ElementSyntax>(@"<div (name: ""hello"")>hello</div>");
+        var element = Parse<ElementSyntax>("""<div (name: "hello")>hello</div>""");
 
         Assert.Equal("div", element.Name);
         Assert.Equal("name", element.Arguments[0].Name);
