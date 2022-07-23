@@ -95,11 +95,11 @@ public readonly struct SIPrefix : IEquatable<SIPrefix>
 
         if (text.Length <= 2)
         {
-            TryParseSymbol(text, out prefix);
+            _ = TryParseSymbol(text, out prefix);
         }
         else
         {
-            TryParseName(text, out prefix);
+            _ = TryParseName(text, out prefix);
         }
 
         return prefix;

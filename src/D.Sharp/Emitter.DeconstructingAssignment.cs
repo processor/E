@@ -12,7 +12,7 @@ public partial class CSharpEmitter
 
         foreach (var a in expression.Variables)
         {
-            if (a.Name.Equals("_", StringComparison.Ordinal)) continue;
+            if (a.Name is "_") continue;
 
             if (i != 0) EmitLine();
 

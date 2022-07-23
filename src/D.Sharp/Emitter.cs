@@ -137,7 +137,7 @@ public partial class CSharpEmitter : ExpressionVisitor
         {
             var i = 0;
 
-            if (type.Name.Equals("Array", StringComparison.Ordinal))
+            if (type.Name is "Array")
             {
                 Emit("List");
             }
