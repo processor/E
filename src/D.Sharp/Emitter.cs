@@ -76,9 +76,9 @@ public partial class CSharpEmitter : ExpressionVisitor
         if (symbol.Name[0] is '$')
         {
             Emit('_');
-            Emit(symbol.Name.AsSpan(1));
+            Emit(symbol.Name[1..]);
         }
-        else if (symbol.Name.Equals("π"))
+        else if (symbol.Name is "π")
         {
             Emit("Math.PI");
         }
