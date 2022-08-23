@@ -16,7 +16,7 @@ public class Evaluator
     private readonly Scope scope = new ();
     private readonly Compiler compiler = new ();
 
-    private readonly Node env;
+    private readonly Node _env;
 
     int count = 0;
 
@@ -25,14 +25,14 @@ public class Evaluator
 
     public Evaluator(Node env)
     {
-        this.env = env;
+        _env = env;
     }
 
     public Evaluator(IObject start, Node env)
     {
         scope.This = start;
 
-        this.env = env;
+        _env = env;
     }
 
     public object? This
@@ -47,7 +47,7 @@ public class Evaluator
     {
         object? last = null;
 
-        var parser = new Parser(script, env);
+        var parser = new Parser(script, _env);
 
         while (parser.TryReadNext(out var syntax))
         {
@@ -154,7 +154,7 @@ public class Evaluator
             return new FunctionExpression(parameters, new LambdaExpression(expression));
         }
 
-        if (env.TryGetValue(expression.FunctionName, out IFunction? func))
+        if (_env.TryGetValue(expression.FunctionName, out IFunction? func))
         {
             return func.Invoke(args);
         }
@@ -206,7 +206,6 @@ public class Evaluator
     {
         IObject l = (IObject)Evaluate(expression.Left);
         IObject r = (IObject)Evaluate(expression.Right);
-
 
         if (l is Symbol lSymbol && expression.Kind is ObjectType.AssignmentExpression)
         {
@@ -263,7 +262,7 @@ public class Evaluator
 
         #endregion
 
-        if (env.TryGetValue(expression.Operator.Name, out IFunction? func))
+        if (_env.TryGetValue(expression.Operator.Name, out IFunction? func))
         {
             return func.Invoke(Arguments.Create(l, r));
         }
