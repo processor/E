@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace E.Compilation;
+﻿namespace E.Compilation;
 
 public partial class CSharpEmitter
 {

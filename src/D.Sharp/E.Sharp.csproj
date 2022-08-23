@@ -2,7 +2,7 @@
   <PropertyGroup>
     <VersionPrefix>0.0.1-alpha2</VersionPrefix>
     <TargetFramework>net6.0</TargetFramework>
-    <AssemblyName>D.Sharp</AssemblyName>
+    <AssemblyName>E.Sharp</AssemblyName>
     <Nullable>enable</Nullable>
     <IsTrimmable>true</IsTrimmable>
   </PropertyGroup>

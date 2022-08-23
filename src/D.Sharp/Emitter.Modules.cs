@@ -1,6 +1,4 @@
-﻿using System;
-
-using E.Expressions;
+﻿using E.Expressions;
 
 namespace E.Compilation;
 
@@ -8,7 +6,7 @@ public partial class CSharpEmitter
 {
     public void WriteModule(Module module)
     {
-        EmitLine("namespace " + module.Name, level);
+        EmitLine($"namespace {module.Name}", level);
         EmitLine("{", level);
 
         level++;
