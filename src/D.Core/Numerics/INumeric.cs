@@ -1,13 +1,12 @@
 ﻿using System;
 
-namespace E
-{
-    public interface INumeric<T> : INumber
-        where T : struct, IComparable<T>, IEquatable<T>
-    {
-        T Value { get; }
+namespace E;
 
-        // Operators (Add, Subtract, Multiply, Divide)
-        // Comparisions
-    }
+public interface INumeric<T> : INumber
+    where T : struct, IComparable<T>, IEquatable<T>
+{
+    T Value { get; }
+
+    // Operators (Add, Subtract, Multiply, Divide)
+    // Comparisions
 }

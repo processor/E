@@ -18,7 +18,7 @@ public static class Arguments
         return new Argument(null, value);
     }
 
-    public static ArgumentList Create(params object[] values)
+    public static ArgumentList Create(params object?[] values)
     {
         var args = new Argument[values.Length];
 

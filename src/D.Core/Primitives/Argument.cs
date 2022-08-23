@@ -14,7 +14,7 @@ public readonly struct Argument : IArguments
         Value = value;
     }
 
-    public Argument(Symbol? name, object value)
+    public Argument(Symbol? name, object? value)
     {
         Name = name;
         Value = value;
@@ -22,13 +22,13 @@ public readonly struct Argument : IArguments
 
     public Symbol? Name { get; }
 
-    public object Value { get; }
+    public object? Value { get; }
 
     // NameIsImplict?
 
-    public readonly object this[int index] => index >= 0 ? Value : throw new ArgumentOutOfRangeException(nameof(index), "Out of range");
+    public readonly object? this[int index] => index >= 0 ? Value : throw new ArgumentOutOfRangeException(nameof(index), "Out of range");
 
-    public readonly object this[string name] => Name is not null && Name == name
+    public readonly object? this[string name] => Name is not null && Name == name
         ? Value
         : throw new ArgumentNullException(nameof(name));
 
