@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <VersionPrefix>0.0.1-alpha4</VersionPrefix>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net7.0</TargetFramework>
     <AssemblyName>D.Scripting</AssemblyName>
     <Nullable>enable</Nullable>
     <IsTrimmable>true</IsTrimmable>
