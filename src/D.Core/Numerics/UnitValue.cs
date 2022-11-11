@@ -1,4 +1,4 @@
-﻿using System;
+﻿using System.Numerics;
 
 namespace E.Units;
 
@@ -58,13 +58,13 @@ public static class UnitValue
     #endregion
 
     public static UnitValue<T> Create<T>(T value, UnitInfo type)
-        where T : unmanaged, IComparable<T>, IEquatable<T>, ISpanFormattable
+        where T : unmanaged, INumberBase<T>
     {
         return new UnitValue<T>(value, type);
     }
 
     public static UnitValue<T> Create<T>(UnitInfo type)
-        where T : unmanaged, IComparable<T>, IEquatable<T>, ISpanFormattable
+        where T : unmanaged, INumberBase<T>
     {
         return new UnitValue<T>(default, type);
     }

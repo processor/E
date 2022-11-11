@@ -279,7 +279,7 @@ public sealed class UnitInfo : IEquatable<UnitInfo>, IObject, ISpanFormattable
         {
             if (destination.Length >= Name.Length)
             {
-                Name.AsSpan().CopyTo(destination);
+                Name.CopyTo(destination);
 
                 charsWritten = Name.Length;
 

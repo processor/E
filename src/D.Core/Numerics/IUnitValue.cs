@@ -1,4 +1,4 @@
-﻿using System;
+﻿using System.Numerics;
 
 namespace E.Units;
 
@@ -10,7 +10,7 @@ public interface IUnitValue : INumber
 }
 
 public interface IUnitValue<T> : IUnitValue
-    where T : unmanaged, IComparable<T>, IEquatable<T>, ISpanFormattable
+    where T : unmanaged, INumberBase<T>
 {
     UnitValue<T> With(T quantity);
 

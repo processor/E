@@ -1,9 +1,10 @@
 ﻿using System;
+using System.Numerics;
 
 namespace E;
 
 public readonly struct Complex<T> : INumber
-    where T : unmanaged, IComparable<T>, IEquatable<T>
+    where T : unmanaged, INumberBase<T>
 {
     public Complex(T real, T imaginary)
     {

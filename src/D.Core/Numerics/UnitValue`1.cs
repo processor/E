@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Globalization;
+using System.Numerics;
 
 using E.Syntax;
 
 namespace E.Units;
 
 public readonly struct UnitValue<T> : IUnitValue<T>, IEquatable<UnitValue<T>>, ISpanFormattable
-    where T : unmanaged, IComparable<T>, IEquatable<T>, ISpanFormattable
+    where T : unmanaged, INumberBase<T>
 {        
     public UnitValue(T value, UnitInfo unit)
     {

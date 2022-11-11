@@ -1209,8 +1209,8 @@ public sealed class Parser
                 }
                      
                 return IsKind(Colon)
-                    ? (ISyntaxNode)ReadVariableDeclaration(name, modifiers)         // {name}: {type}
-                    : (ISyntaxNode)ReadFunctionDeclaration(name, flags: modifiers); // function |  * | + | ..
+                    ? ReadVariableDeclaration(name, modifiers)         // {name}: {type}
+                    : ReadFunctionDeclaration(name, flags: modifiers); // function |  * | + | ..
         }
 
         throw new UnexpectedTokenException("Unexpected token reading member", Current);
@@ -1626,9 +1626,9 @@ public sealed class Parser
             var a = double.Parse(text.AsSpan(0, eIndex), provider: CultureInfo.InvariantCulture);
             var b = double.Parse(text.AsSpan(eIndex + 1), provider: CultureInfo.InvariantCulture);
 
-            var result = a * Math.Pow(10, b);
+            double result = a * Math.Pow(10, b);
 
-            text = result.ToString();
+            text = result.ToString(CultureInfo.InvariantCulture);
         }
 
         if (literal.Trailing is null && ConsumeIf('%'))
