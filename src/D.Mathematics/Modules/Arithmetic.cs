@@ -88,7 +88,7 @@ public static class Arithmetic
 
             return new UnitValue<double>(
                 value : Math.Pow(x.Real, y.Real),
-                unit     : unit.Unit.WithExponent(unit.Unit.Power + ((int)y.Real - 1))
+                unit  : unit.Unit.WithExponent(unit.Unit.Power + ((int)y.Real - 1))
             );
         }
     }

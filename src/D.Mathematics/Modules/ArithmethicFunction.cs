@@ -9,7 +9,7 @@ public sealed class ArithmethicFunction : IFunction
     public static readonly ArithmethicFunction Power    = new ("**", Arithmetic.Pow);
     public static readonly ArithmethicFunction Modulus  = new ("%",  Arithmetic.Modulus);
 
-    public static readonly MathFunction Floor           = new ("floor", x => Math.Floor(x));
+    public static readonly MathFunction Floor           = new ("floor", Math.Floor);
     public static readonly MathFunction Log             = new ("log",   x => Math.Log(x));
     public static readonly MathFunction Log10           = new ("log10", x => Math.Log10(x));
     public static readonly MathFunction SquareRoot      = new ("sqrt",  x => Math.Sqrt(x));

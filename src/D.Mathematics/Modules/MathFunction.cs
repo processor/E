@@ -2,14 +2,14 @@
 
 public class MathFunction : IFunction
 {
-    private readonly Func<double, double> func;
+    private readonly Func<double, double> _func;
 
     public MathFunction(string name, Func<double, double> func)
     {
         Name = name;
         Parameters = new[] { Parameter.Get(ObjectType.Number) };
 
-        this.func = func;
+        _func = func;
     }
 
     public string Name { get; }
@@ -22,6 +22,6 @@ public class MathFunction : IFunction
     { 
         var arg0 = (INumber)args[0];
 
-        return new Number(func.Invoke(arg0.Real));
+        return new Number(_func.Invoke(arg0.Real));
     }
 }

@@ -2,10 +2,12 @@
 
 namespace E.Numerics;
 
+using System.Numerics;
+
 using Expressions;
 
 public sealed class Matrix<T> : IObject
-    where T : struct, IComparable<T>, IEquatable<T>, ISpanFormattable
+    where T : struct, INumberBase<T>, IComparable<T>
 {
     private readonly MathNet.Numerics.LinearAlgebra.Matrix<T> impl;
 

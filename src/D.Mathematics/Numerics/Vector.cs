@@ -1,7 +1,9 @@
-﻿namespace E.Numerics;
+﻿using System.Numerics;
+
+namespace E.Numerics;
 
 public sealed class Vector<T> : IObject
-    where T : struct, IEquatable<T>, ISpanFormattable
+    where T : struct, INumberBase<T>, IEquatable<T>
 {
     private readonly MathNet.Numerics.LinearAlgebra.Vector<T> impl;
 

@@ -1,7 +1,9 @@
-﻿namespace E.Mathematics;
+﻿using System.Numerics;
+
+namespace E.Mathematics;
 
 public readonly struct Angle<T> 
-    where T : ISpanFormattable
+    where T : INumberBase<T>
 {
     public Angle(T value)
     {
