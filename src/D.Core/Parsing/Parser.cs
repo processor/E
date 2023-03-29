@@ -319,7 +319,7 @@ public sealed class Parser
             : null;
 
         return condition is not null
-            ? (ISyntaxNode)new ElseIfStatementSyntax(condition, body, elseBranch)
+            ? new ElseIfStatementSyntax(condition, body, elseBranch)
             : new ElseStatementSyntax(body);
     }
 
@@ -1297,7 +1297,7 @@ public sealed class Parser
     {
         ModuleSymbol? module = null;
 
-        var name = ReadName(); // Identifer | This | Operator
+        var name = ReadName(); // Identifier | This | Operator
 
         // :: Module
         while (ConsumeIf(ColonColon))
@@ -1404,7 +1404,7 @@ public sealed class Parser
 
         ModuleSymbol? module = null;
 
-        Token name = ReadName(); // Identifer | This | Operator
+        Token name = ReadName(); // Identifier | This | Operator
 
         // :: Module
         while (ConsumeIf(ColonColon))
@@ -1871,7 +1871,7 @@ public sealed class Parser
                 {
                     var element = (TupleElementSyntax)tuple.Elements[0];
 
-                    return new TypePatternSyntax((Symbol)element.Value, new VariableSymbol(element.Name));
+                    return new TypePatternSyntax((Symbol)element.Value!, new VariableSymbol(element.Name));
                 }
 
                 return new TuplePatternSyntax(tuple);
@@ -1944,7 +1944,7 @@ public sealed class Parser
             ConsumeIf(Semicolon);
         }
 
-        // HACK: Tenerary
+        // HACK: Ternary
         if (IsKind(Question))
         {
             return ReadTernaryExpression(left);
