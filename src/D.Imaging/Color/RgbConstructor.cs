@@ -12,7 +12,7 @@ public sealed class RgbConstructor : IFunction
 
     public object Invoke(IArguments args)
     {
-        return new Rgba128f(
+        return new SRgb(
            r: (float)((INumber)(args[0])).Real,
            g: (float)((INumber)(args[1])).Real,
            b: (float)((INumber)(args[2])).Real

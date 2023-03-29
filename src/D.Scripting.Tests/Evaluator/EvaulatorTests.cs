@@ -13,9 +13,9 @@ using static E.Units.UnitValue;
 
 namespace E.Tests;
 
-public class EvaulatorTests
+public class EvaluatorTests
 {
-    private static readonly Node env = new Node(
+    private static readonly Node s_env = new Node(
         new ArithmeticModule(),
         new TrigonometryModule(),
         new ColorModule()
@@ -24,7 +24,7 @@ public class EvaulatorTests
     [Fact]
     public void ConstructColor()
     {
-        var rgb = (Rgba128f)Script.Evaluate("rgb(20%, 12%, 19%)", env);
+        var rgb = (SRgb)Script.Evaluate("rgb(20%, 12%, 19%)", s_env);
 
         Assert.Equal(0.20f, rgb.R);
         Assert.Equal(0.12f, rgb.G);
@@ -58,11 +58,11 @@ public class EvaulatorTests
     [Fact]
     public void ManualProduct()
     {
-        var evaulator = new Evaluator(env);
+        var evaluator = new Evaluator(s_env);
 
         var node = new BinaryExpression(Operator.Multiply, Px(10), Percent(50));
 
-        var result = (UnitValue<double>)evaulator.Evaluate(node);
+        var result = (UnitValue<double>)evaluator.Evaluate(node);
 
         Assert.Equal((5, CssUnits.Px), (result.Value, result.Unit));
     }
@@ -72,7 +72,7 @@ public class EvaulatorTests
     {
         var forth = new UnitInfo("forth", Dimension.None, 1, new Number(0.25));
 
-        var evaulator = new Evaluator(env);
+        var evaulator = new Evaluator(s_env);
 
         var node = Expression.Multiply(Px(10), UnitValue.Create(1, forth));
 
@@ -85,11 +85,11 @@ public class EvaulatorTests
     [Fact]
     public void ManualSum()
     {
-        var evaulator = new Evaluator(env);
+        var evaluator = new Evaluator(s_env);
 
         var node = new BinaryExpression(Operator.Add, Px(10), new BinaryExpression(Operator.Add, Px(1), Px(1)));
 
-        var result = (UnitValue<double>)evaulator.Evaluate(node);
+        var result = (UnitValue<double>)evaluator.Evaluate(node);
 
         Assert.Equal(12, result.Value);
         Assert.Equal(CssUnits.Px, result.Unit);
@@ -98,33 +98,33 @@ public class EvaulatorTests
     [Fact]
     public void Add()
     {
-        Assert.Equal("1", Script.Evaluate("0 + 1", env).ToString());
-        Assert.Equal("2", Script.Evaluate("1 + 1", env).ToString());
+        Assert.Equal("1", Script.Evaluate("0 + 1", s_env).ToString());
+        Assert.Equal("2", Script.Evaluate("1 + 1", s_env).ToString());
     }
 
     [Fact]
     public void CssUnitValues()
     {
-        Assert.Equal("40px",     Script.Evaluate("20px + 20px", env).ToString());
-        Assert.Equal("40px",     Script.Evaluate("20px * 2", env).ToString());
-        Assert.Equal("40px",     Script.Evaluate("80px / 2", env).ToString());
-        Assert.Equal("40000px²", Script.Evaluate("((80px / 2) ** 2) * 50 * 50%", env).ToString());
-        Assert.Equal("10px",     Script.Evaluate("20px * 50%", env).ToString());
-        Assert.Equal("20px",     Script.Evaluate("20px * 50% * 2", env).ToString());
+        Assert.Equal("40px",     Script.Evaluate("20px + 20px", s_env).ToString());
+        Assert.Equal("40px",     Script.Evaluate("20px * 2", s_env).ToString());
+        Assert.Equal("40px",     Script.Evaluate("80px / 2", s_env).ToString());
+        Assert.Equal("40000px²", Script.Evaluate("((80px / 2) ** 2) * 50 * 50%", s_env).ToString());
+        Assert.Equal("10px",     Script.Evaluate("20px * 50%", s_env).ToString());
+        Assert.Equal("20px",     Script.Evaluate("20px * 50% * 2", s_env).ToString());
     }
 
     [Fact]
     public void Subtract()
     {
-        Assert.Equal("-1", Script.Evaluate("0 - 1", env).ToString());
-        Assert.Equal("0",  Script.Evaluate("1 - 1", env).ToString());
-        Assert.Equal("-1", Script.Evaluate("1 - 2", env).ToString());
+        Assert.Equal("-1", Script.Evaluate("0 - 1", s_env).ToString());
+        Assert.Equal("0",  Script.Evaluate("1 - 1", s_env).ToString());
+        Assert.Equal("-1", Script.Evaluate("1 - 2", s_env).ToString());
     }
 
     [Fact]
     public void Pipe()
     {
-        var evaulator = new Evaluator();
+        var evaluator = new Evaluator();
 
         var parser = new Parser(
             """
@@ -133,9 +133,9 @@ public class EvaulatorTests
               |> multiply(10)
             """);
 
-        evaulator.Evaluate(parser.Next());
+        evaluator.Evaluate(parser.Next());
 
-        Assert.Equal("11", evaulator.Scope.Get("a").ToString());
+        Assert.Equal("11", evaluator.Scope.Get("a").ToString());
 
         var pipe = (CallExpressionSyntax)parser.Next(); // left: (a |> add(50)) |> multiply(10)
         var left = (CallExpressionSyntax)pipe.Callee;   // a |> add 50
@@ -202,13 +202,13 @@ public class EvaulatorTests
     [InlineData("10s + 2min",               "130s")]
     public void EvalScripts(string text, string r)
     {
-        Assert.Equal(r, Script.Evaluate(text, env).ToString());
+        Assert.Equal(r, Script.Evaluate(text, s_env).ToString());
     }
 
     [Fact]
     public void C()
     {
-        Assert.Equal("6kg", Script.Evaluate("2kg * 3", env).ToString());
+        Assert.Equal("6kg", Script.Evaluate("2kg * 3", s_env).ToString());
     }
     // (a/b/(c* a))*(c* d/a)/d)
 
@@ -220,7 +220,7 @@ public class EvaulatorTests
     // [InlineData("5 * x * y * sin(z)", new[] { "x", "y", "z" })]
     public void Functions(string text, string[] argNames)
     {
-        var ƒ = (FunctionExpression)Script.Evaluate(text, env);
+        var ƒ = (FunctionExpression)Script.Evaluate(text, s_env);
 
         Assert.Equal(argNames, ƒ.Parameters.Select(p => p.Name).ToArray());
     }
@@ -244,9 +244,9 @@ public class EvaulatorTests
     [Fact]
     public void FunctionCall()
     {
-        Assert.Equal(-0.54402111088937d, (Number)Script.Evaluate("sin(10)", env), precision: 10);
+        Assert.Equal(-0.54402111088937d, (Number)Script.Evaluate("sin(10)", s_env), precision: 10);
 
-        Assert.Equal("2", Script.Evaluate("sqrt(4)", env).ToString());
+        Assert.Equal("2", Script.Evaluate("sqrt(4)", s_env).ToString());
     }
 
     [Theory]
@@ -267,7 +267,7 @@ public class EvaulatorTests
     [Fact]
     public void Eval3()
     {
-        var parser = new Parser("1kg * 1lb * 4kg", env);
+        var parser = new Parser("1kg * 1lb * 4kg", s_env);
 
         var statement = (BinaryExpressionSyntax)parser.Next();
 
