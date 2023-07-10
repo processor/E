@@ -4,17 +4,17 @@ public sealed class ArithmeticModule : Module
 {
     public ArithmeticModule()
     {
-        AddExport(ArithmethicFunction.Add);
-        AddExport(ArithmethicFunction.Subtract);
-        AddExport(ArithmethicFunction.Multiply);
-        AddExport(ArithmethicFunction.Divide);
-        AddExport(ArithmethicFunction.Modulus);
-        AddExport(ArithmethicFunction.Power);
+        AddExport(ArithmeticFunction.Add);
+        AddExport(ArithmeticFunction.Subtract);
+        AddExport(ArithmeticFunction.Multiply);
+        AddExport(ArithmeticFunction.Divide);
+        AddExport(ArithmeticFunction.Modulus);
+        AddExport(ArithmeticFunction.Power);
 
         // Generic
-        AddExport(ArithmethicFunction.Floor);
-        AddExport(ArithmethicFunction.SquareRoot);
-        AddExport(ArithmethicFunction.Log);
-        AddExport(ArithmethicFunction.Log10);
+        AddExport(ArithmeticFunction.Floor);
+        AddExport(ArithmeticFunction.SquareRoot);
+        AddExport(ArithmeticFunction.Log);
+        AddExport(ArithmeticFunction.Log10);
     }
 }

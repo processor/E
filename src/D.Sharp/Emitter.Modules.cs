@@ -37,7 +37,7 @@ public partial class CSharpEmitter
             switch (statement)
             {
                 case ProtocolExpression protocol: 
-                    VisitProtocal(protocol); 
+                    VisitProtocol(protocol); 
                     break;
                 case E.Type type: 
                     WriteImplementation(type);
