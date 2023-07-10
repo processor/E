@@ -57,11 +57,11 @@ public class Evaluator
         return last;
     }
 
-    public object Evaluate(ISyntaxNode sytax)
+    public object Evaluate(ISyntaxNode syntax)
     {
-        if (sytax is null) return null!;
+        if (syntax is null) return null!;
 
-        var expression = compiler.Visit(sytax);
+        var expression = compiler.Visit(syntax);
 
         return Evaluate(expression);
     }

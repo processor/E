@@ -4,7 +4,7 @@ namespace E.Compilation;
 
 public partial class CSharpEmitter
 {
-    public void VisitProtocal(ProtocolExpression protocol)
+    public void VisitProtocol(ProtocolExpression protocol)
     {
         EmitLine($"public interface {protocol.Name}", level);
         EmitLine("{", level);

@@ -16,7 +16,7 @@ public static class Arithmetic
         if (typeof(T) == typeof(int))     return (Arithmetic<T>)((object)new Int32Arithmetic());
         if (typeof(T) == typeof(long))    return (Arithmetic<T>)((object)new Int64Arithmetic());
 
-        throw new Exception($"No arithmethic provider for {typeof(T).Name}");
+        throw new Exception($"No arithmetic provider for {typeof(T).Name}");
     }
 
     public static INumber Multiply(INumber x, INumber y)

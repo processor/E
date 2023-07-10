@@ -157,29 +157,29 @@ public sealed class UnitInfo : IEquatable<UnitInfo>, IObject, ISpanFormattable
         Power           = power;
     }
 
-    public UnitInfo(string name, Dimension dimension, double definitionValue, IObject definationUnit)
+    public UnitInfo(string name, Dimension dimension, double definitionValue, IObject definitionUnit)
     {
         Name            = name;
         Dimension       = dimension;
         DefinitionValue = definitionValue;
-        DefinitionUnit  = definationUnit;
+        DefinitionUnit  = definitionUnit;
     }
 
-    public UnitInfo(long id, string name, Dimension dimension, double definitionValue, IObject definationUnit)
+    public UnitInfo(long id, string name, Dimension dimension, double definitionValue, IObject definitionUnit)
     {
         Id              = id;
         Name            = name;
         Dimension       = dimension;
         DefinitionValue = definitionValue;
-        DefinitionUnit  = definationUnit;
+        DefinitionUnit  = definitionUnit;
     }
 
-    public UnitInfo(string name, Dimension id, IObject definationUnit)
+    public UnitInfo(string name, Dimension id, IObject definitionUnit)
     {
         Name = name;
         Dimension = id;
         DefinitionValue = 1;
-        DefinitionUnit = definationUnit;
+        DefinitionUnit = definitionUnit;
     }
 
     public long Id { get; }

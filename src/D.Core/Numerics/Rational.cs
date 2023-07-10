@@ -55,7 +55,7 @@ public readonly struct Rational : INumber
         return new Rational(n, d);
     }
 
-    // greatest common denomiator
+    // greatest common denominator
     private static long Gcd(long a, long b)
     {
         a = Abs(a);

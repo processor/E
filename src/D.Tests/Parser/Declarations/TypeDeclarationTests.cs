@@ -269,9 +269,9 @@ f: ('a, 'a, 'a)
     }
 
     [Fact]
-    public void DeclaratedIndexerWithLambdaBody()
+    public void DeclaredIndexerWithLambdaBody()
     {
-        // The indexer syntax is ambigious and limits our 'map' syntax...
+        // The indexer syntax is ambiguous and limits our 'map' syntax...
 
         // swift uses subscript
         // c# prefixes with this
@@ -283,7 +283,7 @@ f: ('a, 'a, 'a)
             Vector3 struct { 
               x, y, z: Number
 
-              from (value: T) => Vector3(x: value, y: value, z: value); // ambigious without ;
+              from (value: T) => Vector3(x: value, y: value, z: value); // ambiguous without ;
 
               [ index: i64 ] => match index { 
                 0 => x

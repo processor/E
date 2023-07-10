@@ -187,9 +187,9 @@ public partial class Compiler
 
         if (UnitSet.Default.TryGet(value.UnitName, out var unit))
         {
-            if (unit.Dimension is Dimension.None && unit.DefinitionUnit is Number definationUnit)
+            if (unit.Dimension is Dimension.None && unit.DefinitionUnit is Number definitionUnit)
             {
-                return new BinaryExpression(Operator.Multiply, lhs, definationUnit) { Grouped = true };
+                return new BinaryExpression(Operator.Multiply, lhs, definitionUnit) { Grouped = true };
             }
         }
 

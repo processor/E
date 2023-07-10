@@ -11,7 +11,7 @@ public class CustomOperatorTests
 
         env.Operators.Add(Operator.Infix(ObjectType.MultiplyExpression, "×", precedence: 14));
 
-        env.Add("×", new ArithmethicFunction("multiply", Arithmetic.Multiply));
+        env.Add("×", new ArithmeticFunction("multiply", Arithmetic.Multiply));
 
         Assert.Equal("0", Script.Evaluate("0 × 10", env).ToString());
         Assert.Equal("1", Script.Evaluate("1 × 1", env).ToString());

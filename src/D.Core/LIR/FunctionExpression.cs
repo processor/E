@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
 
 using E.Expressions;
@@ -93,11 +94,18 @@ namespace E
         public bool IsStatic => IsOperator || !Flags.HasFlag(ObjectFlags.Instance);
 
         public bool IsAbstract    => (Flags & ObjectFlags.Abstract) != 0;
+        
         public bool IsOperator    => (Flags & ObjectFlags.Operator) != 0;
+        
         public bool IsAnonymous   => (Flags & ObjectFlags.Anonymous) != 0;
+
         public bool IsInitializer => (Flags & ObjectFlags.Initializer) != 0;
+
+        [MemberNotNullWhen(true, nameof(Name), nameof(ReturnType))]
         public bool IsProperty    => (Flags & ObjectFlags.Property) != 0;
+
         public bool IsIndexer     => (Flags & ObjectFlags.Indexer) != 0;
+        
         public bool IsConverter   => (Flags & ObjectFlags.Converter) != 0;
 
         public Visibility Visibility

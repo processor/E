@@ -165,17 +165,17 @@ public class BaseUnitTypeTests
     // [InlineData(BaseUnitId.Length, BaseUnitId.Time, "m/s²")]
     // [InlineData(BaseUnitId.Length, BaseUnitId.Time, "m/s³")]
 
-    // [InlineData(BaseUnitId.Angle, BaseUnitId.Time, "rad/s")] // angular velocity
-    // [InlineData(BaseUnitId.Angle, BaseUnitId.Time, "rad/s²")] // angular accelaration
+    // [InlineData(BaseUnitId.Angle, BaseUnitId.Time, "rad/s")]  // angular velocity
+    // [InlineData(BaseUnitId.Angle, BaseUnitId.Time, "rad/s²")] // angular acceleration
 
-    // 	m³/s        // volumnetric flow
+    // 	m³/s        // volumetric flow
 
-    public void MultidimensionalTypes(BaseUnitId type, BaseUnitId dimesion, string text)
+    public void MultidimensionalTypes(BaseUnitId type, BaseUnitId dimension, string text)
     {
         var kind = UnitType.Parse(text);
 
         Assert.Equal(type, kind.Type);
-        Assert.Equal(dimesion, kind.Dimension.Type);
+        Assert.Equal(dimension, kind.Dimension.Type);
     }
     */
 

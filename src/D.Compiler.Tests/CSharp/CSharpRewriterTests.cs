@@ -238,7 +238,7 @@ public class CSharpRewriterTests
 
     public static string Rewrite(string source)
     {
-        var compilier = new Compiler();
+        var compiler = new Compiler();
 
         var parser = new Parser(source);
 
@@ -246,7 +246,7 @@ public class CSharpRewriterTests
 
         while (parser.TryReadNext(out var syntax))
         {
-            expressions.Add(compilier.Visit(syntax));
+            expressions.Add(compiler.Visit(syntax));
         }
 
         using var writer = new StringWriter();

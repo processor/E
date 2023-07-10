@@ -1,13 +1,13 @@
 ﻿namespace E.Mathematics;
 
-public sealed class ArithmethicFunction : IFunction
+public sealed class ArithmeticFunction : IFunction
 {
-    public static readonly ArithmethicFunction Add      = new ("+",  Arithmetic.Add);
-    public static readonly ArithmethicFunction Multiply = new ("*",  Arithmetic.Multiply);
-    public static readonly ArithmethicFunction Subtract = new ("-",  Arithmetic.Subtract);
-    public static readonly ArithmethicFunction Divide   = new ("/",  Arithmetic.Divide);
-    public static readonly ArithmethicFunction Power    = new ("**", Arithmetic.Pow);
-    public static readonly ArithmethicFunction Modulus  = new ("%",  Arithmetic.Modulus);
+    public static readonly ArithmeticFunction Add      = new ("+",  Arithmetic.Add);
+    public static readonly ArithmeticFunction Multiply = new ("*",  Arithmetic.Multiply);
+    public static readonly ArithmeticFunction Subtract = new ("-",  Arithmetic.Subtract);
+    public static readonly ArithmeticFunction Divide   = new ("/",  Arithmetic.Divide);
+    public static readonly ArithmeticFunction Power    = new ("**", Arithmetic.Pow);
+    public static readonly ArithmeticFunction Modulus  = new ("%",  Arithmetic.Modulus);
 
     public static readonly MathFunction Floor           = new ("floor", Math.Floor);
     public static readonly MathFunction Log             = new ("log",   x => Math.Log(x));
@@ -16,7 +16,7 @@ public sealed class ArithmethicFunction : IFunction
 
     private readonly Func<INumber, INumber, INumber> func;
 
-    public ArithmethicFunction(string name, Func<INumber, INumber, INumber> func)
+    public ArithmeticFunction(string name, Func<INumber, INumber, INumber> func)
     {
         Name = name;
         Parameters = new[] { Parameter.Number, Parameter.Number };

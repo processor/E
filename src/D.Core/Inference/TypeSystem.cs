@@ -149,7 +149,7 @@ public static class TypeSystem
         }
         else
         {
-            throw new Exception($"Exepected Type or GenericType. Was {t.GetType()}");
+            throw new Exception($"Expected Type or GenericType. Was {t.GetType()}");
         }
     }
 
