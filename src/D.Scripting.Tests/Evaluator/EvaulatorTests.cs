@@ -15,7 +15,7 @@ namespace E.Tests;
 
 public class EvaluatorTests
 {
-    private static readonly Node s_env = new Node(
+    private static readonly Node s_env = new(
         new ArithmeticModule(),
         new TrigonometryModule(),
         new ColorModule()
@@ -34,7 +34,7 @@ public class EvaluatorTests
     [Fact]
     public void MultiAssignment()
     {
-        var evaulator = new Evaluator();
+        var evaluator = new Evaluator();
 
         var parser = new Parser(
             """
@@ -46,13 +46,13 @@ public class EvaluatorTests
 
         while (parser.TryReadNext(out ISyntaxNode syntax))
         {
-            evaulator.Evaluate(syntax);
+            evaluator.Evaluate(syntax);
         }
 
-        Assert.Equal("1", evaulator.Scope.Get("a").ToString());
-        Assert.Equal("2", evaulator.Scope.Get("b").ToString());
+        Assert.Equal("1", evaluator.Scope.Get("a").ToString());
+        Assert.Equal("2", evaluator.Scope.Get("b").ToString());
 
-        Assert.Equal("2", evaulator.Scope.This.ToString());
+        Assert.Equal("2", evaluator.Scope.This.ToString());
     }
 
     [Fact]
@@ -148,16 +148,16 @@ public class EvaluatorTests
     [Fact]
     public void Assignment()
     {
-        var evaulator = new Evaluator();
+        var evaluator = new Evaluator();
 
         var parser = new Parser("a = 1");
 
         while (parser.TryReadNext(out var statement))
         {
-            evaulator.Evaluate(statement);
+            evaluator.Evaluate(statement);
         }
 
-        Assert.Equal("1", evaulator.Scope.Get("a").ToString());
+        Assert.Equal("1", evaluator.Scope.Get("a").ToString());
     }
 
     public static object Eval(IExpression statement)

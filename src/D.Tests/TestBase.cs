@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-
-namespace E.Parsing.Tests;
+﻿namespace E.Parsing.Tests;
 
 public class TestBase
 {

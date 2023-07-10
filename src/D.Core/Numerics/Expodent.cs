@@ -6,7 +6,7 @@ namespace E;
 
 public readonly struct Superscript
 {
-    private static readonly char[] digits = { '⁰', '¹', '²', '³', '⁴', '⁵', '⁶', '⁷', '⁸', '⁹' };
+    private static readonly char[] s_digits = { '⁰', '¹', '²', '³', '⁴', '⁵', '⁶', '⁷', '⁸', '⁹' };
 
     public Superscript(int value)
     {
@@ -24,7 +24,7 @@ public readonly struct Superscript
         {
             char digit = text[i];
 
-            int number = Array.IndexOf(digits, digit);
+            int number = Array.IndexOf(s_digits, digit);
 
             value += number * multiplier;
 
@@ -88,7 +88,7 @@ public readonly struct Superscript
 
 
     public static char GetChar(int exponent) => exponent >= 0 && exponent <= 9
-        ? digits[exponent]
+        ? s_digits[exponent]
         : throw new ArgumentOutOfRangeException(nameof(exponent), exponent, "Must be >= 0 && <= 9");
 
     // TODO: divide by 100 and append if greater then 10

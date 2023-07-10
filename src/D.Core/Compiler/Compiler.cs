@@ -200,7 +200,7 @@ public partial class Compiler
 
     public virtual IExpression VisitNumber(NumberLiteralSyntax syntax)
     {
-        if (syntax.Text.IndexOf('.') > -1)
+        if (syntax.Text.Contains('.'))
         {
             return new Number(double.Parse(syntax.Text, CultureInfo.InvariantCulture));
         }

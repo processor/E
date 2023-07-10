@@ -1,24 +1,26 @@
 ﻿namespace E.Compilation;
 
+using System.Collections.Frozen;
+
 using Expressions;
 
 public partial class CSharpEmitter
 {
     // Fully qualify
-    private static readonly Dictionary<string, string> funcMap = new (12) {
-        { "abs"     , "Math.Abs" },
-        { "acos"    , "Math.Acos" },
-        { "asin"    , "Math.Asin" },
-        { "atan"    , "Math.Atan" },
-        { "ceiling" , "Math.Ceiling" },
-        { "cos"     , "Math.Cos" },
-        { "cosh"    , "Math.Cosh" },
-        { "min"     , "Math.Min" },
-        { "max"     , "Math.Max" },
-        { "floor"   , "Math.Floor" },
-        { "sin"     , "Math.Sin" },
-        { "sqrt"    , "Math.Sqrt" }
-    };
+    private static readonly FrozenDictionary<string, string> s_funcMap = new KeyValuePair<string,string>[] {
+        new("abs"     , "Math.Abs"),
+        new("acos"    , "Math.Acos"),
+        new("asin"    , "Math.Asin"),
+        new("atan"    , "Math.Atan"),
+        new("ceiling" , "Math.Ceiling"),
+        new("cos"     , "Math.Cos"),
+        new("cosh"    , "Math.Cosh"),
+        new("min"     , "Math.Min"),
+        new("max"     , "Math.Max"),
+        new("floor"   , "Math.Floor"),
+        new("sin"     , "Math.Sin"),
+        new("sqrt"    , "Math.Sqrt")
+    }.ToFrozenDictionary();
 
     // a |> b |> c
 
@@ -57,7 +59,7 @@ public partial class CSharpEmitter
 
     private static string GetFunctionName(string name)
     {
-        if (funcMap.TryGetValue(name, out string? result))
+        if (s_funcMap.TryGetValue(name, out string? result))
         {
             return result;
         }

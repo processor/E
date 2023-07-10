@@ -1636,7 +1636,7 @@ public sealed class Parser
             return new UnitValueSyntax(new NumberLiteralSyntax(text), "%", 1);
         }
 
-        // Read any immediately preceding unit types and expondents on the same line
+        // Read any immediately preceding unit types and exponents on the same line
 
         if (IsKind(Identifier) && Current.Start.Line == line) 
         {

@@ -1,5 +1,4 @@
-﻿
-using E.Parsing.Tests;
+﻿using E.Parsing.Tests;
 using E.Syntax;
 
 namespace E.Tests.Parser;

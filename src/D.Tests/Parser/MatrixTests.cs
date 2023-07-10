@@ -20,7 +20,8 @@ public class MatrixTests : TestBase
     [Fact]
     public void Matrix2x4()
     {
-        var matrix = FromText("""
+        var matrix = FromText(
+            """
             [ 
                 [ 0, 1, 2, 3 ],
                 [ 4, 5, 6, 7 ]

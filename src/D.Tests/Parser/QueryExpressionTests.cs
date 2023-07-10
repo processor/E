@@ -8,7 +8,8 @@ public class QueryExpressionTests : TestBase
     [Fact]
     public void A()
     {
-        var query = Parse<QueryExpression>("""
+        var query = Parse<QueryExpression>(
+            """
             from Accounts
             where balance > 1000000
             select (id, balance)
