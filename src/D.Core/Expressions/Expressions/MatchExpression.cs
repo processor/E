@@ -1,37 +1,24 @@
 ﻿namespace E.Expressions;
 
-public sealed class MatchExpression : IExpression
+public sealed class MatchExpression(IExpression expression, MatchCase[] cases) : IExpression
 {
-    public MatchExpression(IExpression expression, MatchCase[] cases)
-    {
-        Expression = expression;
-        Cases = cases;
-    }
+    public IExpression Expression { get; } = expression;
 
-    public IExpression Expression { get; }
-
-    public MatchCase[] Cases { get; }
+    public MatchCase[] Cases { get; } = cases;
 
     ObjectType IObject.Kind => ObjectType.MatchExpression;
 }
 
-public sealed class MatchCase
+public sealed class MatchCase(
+    IExpression pattern,
+    IExpression? condition,
+    LambdaExpression body)
 {
-    public MatchCase(
-        IExpression pattern,
-        IExpression? condition,
-        LambdaExpression body)
-    {
-        Pattern     = pattern;
-        Condition   = condition;
-        Body        = body;
-    }
-        
-    public IExpression Pattern { get; }
+    public IExpression Pattern { get; } = pattern;
 
-    public IExpression? Condition { get; }
+    public IExpression? Condition { get; } = condition;
 
-    public LambdaExpression Body { get; }
+    public LambdaExpression Body { get; } = body;
 }
 
 

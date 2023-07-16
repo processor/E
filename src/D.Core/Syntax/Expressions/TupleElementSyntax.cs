@@ -1,21 +1,14 @@
 ﻿using E.Symbols;
 
-namespace E.Syntax
+namespace E.Syntax;
+
+// a: 100
+public sealed class TupleElementSyntax(Symbol name, ISyntaxNode? value) : ISyntaxNode
 {
-    // a: 100
-    public sealed class TupleElementSyntax : ISyntaxNode
-    {
-        public TupleElementSyntax(Symbol name, ISyntaxNode? value)
-        {
-            Name = name;
-            Value = value;
-        }
+    public Symbol Name { get; } = name;
 
-        public Symbol Name { get; }
+    // type or constant
+    public ISyntaxNode? Value { get; } = value;
 
-        // type or constant
-        public ISyntaxNode? Value { get; }
-
-        SyntaxKind ISyntaxNode.Kind => SyntaxKind.TupleElement;
-    }
+    SyntaxKind ISyntaxNode.Kind => SyntaxKind.TupleElement;
 }

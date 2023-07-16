@@ -1,19 +1,12 @@
 ﻿namespace E.Syntax;
 
-public sealed class UnitValueSyntax : ISyntaxNode
+public sealed class UnitValueSyntax(ISyntaxNode expression, string unitName, int unitPower) : ISyntaxNode
 {
-    public UnitValueSyntax(ISyntaxNode expression, string unitName, int unitPower)
-    {
-        Expression = expression;
-        UnitName = unitName;
-        UnitPower = unitPower;
-    }
+    public ISyntaxNode Expression { get; } = expression;
 
-    public ISyntaxNode Expression { get; }
+    public string UnitName { get; } = unitName;
 
-    public string UnitName { get; }
-
-    public int UnitPower { get; }
+    public int UnitPower { get; } = unitPower;
 
     SyntaxKind ISyntaxNode.Kind => SyntaxKind.UnitValueLiteral;
 

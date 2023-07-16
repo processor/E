@@ -1,26 +1,20 @@
 ﻿namespace E.Syntax;
 
-public sealed class ForStatementSyntax : ISyntaxNode
+public sealed class ForStatementSyntax(
+    ISyntaxNode? variableExpression,
+    ISyntaxNode generatorExpression,
+    BlockSyntax body) : ISyntaxNode
 {
-    public ForStatementSyntax(
-        ISyntaxNode? variableExpression, 
-        ISyntaxNode generatorExpression,
-        BlockSyntax body)
-    {
-        VariableExpression = variableExpression;
-        GeneratorExpression = generatorExpression;
-        Body = body;
-    }
 
     // name | tuple pattern
     //  x   |    (x, x)
-    public ISyntaxNode? VariableExpression { get; set; }
+    public ISyntaxNode? VariableExpression { get; set; } = variableExpression;
 
     // variable |  range
     //    c     | 1...100
-    public ISyntaxNode GeneratorExpression { get; }
+    public ISyntaxNode GeneratorExpression { get; } = generatorExpression;
 
-    public BlockSyntax Body { get; }
+    public BlockSyntax Body { get; } = body;
 
     SyntaxKind ISyntaxNode.Kind => SyntaxKind.ForStatement;
 }

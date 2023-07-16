@@ -4,14 +4,9 @@ using System.Runtime.InteropServices;
 namespace E;
 
 [StructLayout(LayoutKind.Sequential, Size = 8)]
-public readonly struct Integer : IObject, INumber
+public readonly struct Integer(long value) : IObject, INumber
 {
-    public Integer(long value)
-    {
-        Value = value;
-    }
-
-    public long Value { get; }
+    public long Value { get; } = value;
 
     public int BitCount => 64;
 

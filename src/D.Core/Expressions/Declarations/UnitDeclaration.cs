@@ -4,26 +4,20 @@ namespace E.Expressions;
 
 // rad unit : Angle @name("Radian") = 1
 
-public sealed class UnitDeclaration : IExpression
+public sealed class UnitDeclaration(
+    Symbol name,
+    Symbol baseType,
+    IExpression expression) : IExpression
 {
-    public UnitDeclaration(Symbol name, Symbol baseType, IExpression expression)
-    {
-        Name = name;
-        BaseType = baseType;
-        Expression = expression;
-    }
-
-    public Symbol Name { get; }
-
-    public Symbol BaseType { get; }
-
-    public Symbol? Symbol { get; }
+    public Symbol  Name     { get; } = name;
+    public Symbol  BaseType { get; } = baseType;
+    public Symbol? Symbol   { get; }
 
     // Arithmetic relationship to another unit
-        
+
     // ml = cm**3
 
-    public IExpression Expression { get; }
+    public IExpression Expression { get; } = expression;
 
     ObjectType IObject.Kind => ObjectType.UnitDeclaration;
 }

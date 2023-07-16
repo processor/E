@@ -1,13 +1,8 @@
 ﻿namespace E.Core;
 
-internal class ComponentSyntax
+internal class ComponentSyntax(string name)
 {
-    public ComponentSyntax(string name)
-    {
-        Name = name;
-    }
-
-    public string Name { get; }
+    public string Name { get; } = name;
 
     // Functions
 

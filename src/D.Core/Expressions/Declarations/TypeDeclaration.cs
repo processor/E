@@ -2,21 +2,19 @@
 
 namespace E.Expressions;
 
-public sealed class TypeDeclaration : TypeDeclarationBase
+public sealed class TypeDeclaration(
+    Symbol name,
+    Parameter[] genericParameters,
+    Symbol baseType,
+    Property[] members,
+    TypeFlags flags)
+    : TypeDeclarationBase(baseType, members, flags)
 {
-    public TypeDeclaration(Symbol name, Parameter[] genericParameters, Symbol baseType, Property[] members, TypeFlags flags)
-        : base (baseType, members, flags)
-    {
-        Name = name;
-        GenericParameters = genericParameters;
-    }
+    // | Crash 
+    // | Vehicle 'Crash term
+    public Symbol Name { get; } = name;
 
-    // e.g.
-    // Crash 
-    // Vehicle 'Crash term
-    public Symbol Name { get; }
-
-    public Parameter[] GenericParameters { get; }
+    public Parameter[] GenericParameters { get; } = genericParameters;
 }
 
 /*

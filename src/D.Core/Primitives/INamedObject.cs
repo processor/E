@@ -1,7 +1,6 @@
-﻿namespace E
+﻿namespace E;
+
+public interface INamedObject : IObject
 {
-    public interface INamedObject : IObject
-    {
-        string? Name { get; }
-    }
+    string? Name { get; }
 }

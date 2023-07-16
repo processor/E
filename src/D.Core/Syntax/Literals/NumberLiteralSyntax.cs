@@ -1,13 +1,8 @@
 ﻿namespace E.Syntax;
 
-public sealed class NumberLiteralSyntax : ISyntaxNode
+public sealed class NumberLiteralSyntax(string text) : ISyntaxNode
 {
-    public NumberLiteralSyntax(string text)
-    {
-        Text = text;
-    }
-        
-    public string Text { get; }
+    public string Text { get; } = text;
 
     SyntaxKind ISyntaxNode.Kind => SyntaxKind.NumberLiteral;
 

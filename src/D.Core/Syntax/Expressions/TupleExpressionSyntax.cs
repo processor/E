@@ -1,13 +1,8 @@
 ﻿namespace E.Syntax;
 
-public sealed class TupleExpressionSyntax : ISyntaxNode
+public sealed class TupleExpressionSyntax(ISyntaxNode[] elements) : ISyntaxNode
 {
-    public TupleExpressionSyntax(ISyntaxNode[] elements)
-    {
-        Elements = elements;
-    }
-
-    public ISyntaxNode[] Elements { get; }
+    public ISyntaxNode[] Elements { get; } = elements;
 
     public int Size => Elements.Length;
 

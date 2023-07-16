@@ -1,22 +1,15 @@
 ﻿using E.Symbols;
 
-namespace E.Expressions
+namespace E.Expressions;
+
+// (fruit: Fruit)
+// Fruit | Walrus
+
+public sealed class TypePattern(Symbol typeExpression, Symbol variable) : IExpression
 {
-    // (fruit: Fruit)
-    // Fruit | Walrus
+    public IExpression TypeExpression { get; } = typeExpression;
 
-    public sealed class TypePattern : IExpression
-    {
-        public TypePattern(Symbol typeExpression, Symbol variable)
-        {
-            TypeExpression = typeExpression;
-            VariableName = variable;
-        }
+    public Symbol VariableName { get; } = variable;
 
-        public IExpression TypeExpression { get; }
-
-        public Symbol VariableName { get; }
-
-        ObjectType IObject.Kind => ObjectType.TypePattern;
-    }
+    ObjectType IObject.Kind => ObjectType.TypePattern;
 }

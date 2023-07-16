@@ -3,18 +3,12 @@
 namespace E.Expressions;
 
 // a: 100
-public sealed class TupleElement : IExpression
+public sealed class TupleElement(Symbol name, IExpression? value) : IExpression
 {
-    public TupleElement(Symbol name, IExpression? value)
-    {
-        Name = name;
-        Value = value;
-    }
-
-    public Symbol Name { get; }
+    public Symbol Name { get; } = name;
 
     // type or constant
-    public IExpression? Value { get; }
+    public IExpression? Value { get; } = value;
 
     public void Deconstruct(out Symbol name, out IExpression? value)
     {

@@ -2,20 +2,13 @@
 
 namespace E.Expressions;
 
-public class BinaryExpression : IExpression
+public class BinaryExpression(Operator op, IObject lhs, IObject rhs) : IExpression
 {
-    public BinaryExpression(Operator op, IObject lhs, IObject rhs)
-    {
-        Operator = op;
-        Left = lhs;
-        Right = rhs;
-    }
+    public Operator Operator { get; } = op;
 
-    public Operator Operator { get; }
+    public IObject Left { get; } = lhs;
 
-    public IObject Left { get; }
-
-    public IObject Right { get; }
+    public IObject Right { get; } = rhs;
 
     public bool Grouped { get; set; }
 

@@ -2,24 +2,18 @@
 
 namespace E.Expressions;
 
-public abstract class TypeDeclarationBase : IExpression
+public abstract class TypeDeclarationBase(
+    Symbol baseType,
+    Property[] members,
+    TypeFlags flags = TypeFlags.None) : IExpression
 {
-    public TypeDeclarationBase(
-        Symbol baseType, 
-        Property[] members, 
-        TypeFlags flags = TypeFlags.None)
-    {
-        BaseType = baseType;
-        Members = members;
-        Flags = flags;
-    }
 
     // : A
-    public Symbol BaseType { get; }
+    public Symbol BaseType { get; } = baseType;
 
-    public TypeFlags Flags { get; }
+    public TypeFlags Flags { get; } = flags;
 
-    public Property[] Members { get; }
+    public Property[] Members { get; } = members;
 
     public bool IsRecord => Flags.HasFlag(TypeFlags.Record);
 

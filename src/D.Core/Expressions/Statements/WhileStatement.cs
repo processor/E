@@ -1,16 +1,12 @@
 ﻿namespace E.Expressions;
 
-public sealed class WhileStatement : IExpression
+public sealed class WhileStatement(
+    IExpression condition,
+    BlockExpression body) : IExpression
 {
-    public WhileStatement(IExpression condition, BlockExpression body)
-    {
-        Condition = condition;
-        Body = body;
-    }
+    public IExpression Condition { get; } = condition;
 
-    public IExpression Condition { get; }
-
-    public BlockExpression Body { get; }
+    public BlockExpression Body { get; } = body;
 
     ObjectType IObject.Kind => ObjectType.WhileStatement;
 }

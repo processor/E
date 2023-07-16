@@ -2,17 +2,11 @@
 
 // let (a, b, c) = point
 
-public sealed class DestructuringAssignment : IExpression
+public sealed class DestructuringAssignment(AssignmentElement[] elements, IExpression expression) : IExpression
 {
-    public DestructuringAssignment(AssignmentElement[] elements, IExpression expression)
-    {
-        Variables = elements;
-        Expression = expression;
-    }
+    public AssignmentElement[] Variables { get; } = elements;
 
-    public AssignmentElement[] Variables { get; }
-
-    public IExpression Expression { get; }
+    public IExpression Expression { get; } = expression;
 
     ObjectType IObject.Kind => ObjectType.DestructuringAssignment;
 }
@@ -29,15 +23,9 @@ public class ArrayAssignmentPattern
 }
 */
 
-public readonly struct AssignmentElement
+public readonly struct AssignmentElement(string name, Type type)
 {
-    public AssignmentElement(string name, Type type)
-    {
-        Name = name;
-        Type = type;
-    }
+    public string Name { get; } = name;
 
-    public string Name { get; }
-
-    public Type Type { get; }
+    public Type Type { get; } = type;
 }

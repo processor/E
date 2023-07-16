@@ -1,50 +1,36 @@
 ﻿using E.Symbols;
 
-namespace E.Syntax
+namespace E.Syntax;
+
+public sealed class VariableDeclarationSyntax(
+    Symbol name,
+    TypeSymbol type,
+    ISyntaxNode? value = null,
+    ObjectFlags flags = default) : IMemberSyntax, ISyntaxNode
 {
-    public sealed class VariableDeclarationSyntax : IMemberSyntax, ISyntaxNode
-    {
-        public VariableDeclarationSyntax(
-            Symbol name, 
-            TypeSymbol type, 
-            ISyntaxNode? value = null, 
-            ObjectFlags flags = default)
-        {
-            Name  = name;
-            Type  = type;
-            Value = value;
-            Flags = flags;
-        }
+    public Symbol Name { get; } = name;
 
-        public Symbol Name { get; }
+    // String
+    // String | Number
+    // A & B
+    public TypeSymbol Type { get; } = type;
 
-        // String
-        // String | Number
-        // A & B
-        public TypeSymbol Type { get; }
+    // TODO: Condition
 
-        // TODO: Condition
+    public ISyntaxNode? Value { get; } = value;
 
-        public ISyntaxNode? Value { get; }
+    public ObjectFlags Flags { get; } = flags;
 
-        public ObjectFlags Flags { get; }
+    SyntaxKind ISyntaxNode.Kind => SyntaxKind.VariableDeclaration;
+}
 
-        SyntaxKind ISyntaxNode.Kind => SyntaxKind.VariableDeclaration;
-    }
+// a, b, c: Number
 
-    // a, b, c: Number
+public sealed class CompoundVariableDeclaration(PropertyDeclarationSyntax[] declarations) : ISyntaxNode
+{
+    public PropertyDeclarationSyntax[] Members { get; } = declarations;
 
-    public sealed class CompoundVariableDeclaration : ISyntaxNode
-    {
-        public CompoundVariableDeclaration(PropertyDeclarationSyntax[] declarations)
-        {
-            Members = declarations;
-        }
-
-        public PropertyDeclarationSyntax[] Members { get; }
-
-        SyntaxKind ISyntaxNode.Kind => SyntaxKind.CompoundVariableDeclaration;
-    }
+    SyntaxKind ISyntaxNode.Kind => SyntaxKind.CompoundVariableDeclaration;
 }
 
 /*

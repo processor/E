@@ -1,25 +1,12 @@
 ﻿namespace E.Protocols;
 
-public sealed class ProtocolMessage : IProtocolMessage
+public sealed class ProtocolMessage(string name, string? label, ProtocolMessageFlags flags) : IProtocolMessage
 {
-    // name
-    // label
-    // Optional
-    // Fallsthrough?
-    // Repeats
+    public string Name { get; } = name;
 
-    public ProtocolMessage(string name, string? label, ProtocolMessageFlags flags)
-    {
-        Name  = name;
-        Label = label;
-        Flags = flags;
-    }
+    public string? Label { get; } = label;
 
-    public string Name { get; }
-
-    public string? Label { get; }
-
-    public ProtocolMessageFlags Flags { get; }
+    public ProtocolMessageFlags Flags { get; } = flags;
 
     public bool IsOptional => Flags.HasFlag(ProtocolMessageFlags.Optional);
 

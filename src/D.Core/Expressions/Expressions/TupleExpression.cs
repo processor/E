@@ -1,18 +1,12 @@
-﻿namespace E.Expressions
+﻿namespace E.Expressions;
+
+public sealed class TupleExpression(IExpression[] elements) : IExpression
 {
-    public sealed class TupleExpression : IExpression
-    {
-        public TupleExpression(IExpression[] elements)
-        {
-            Elements = elements;
-        }
+    public int Size => Elements.Length;
 
-        public int Size => Elements.Length;
+    // {expression} | {name}:{expression}
 
-        // {expression} | {name}:{expression}
+    public IExpression[] Elements { get; } = elements;
 
-        public IExpression[] Elements { get; }
-
-        ObjectType IObject.Kind => ObjectType.TupleExpression;
-    }
+    ObjectType IObject.Kind => ObjectType.TupleExpression;
 }

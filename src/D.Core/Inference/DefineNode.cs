@@ -5,17 +5,11 @@ using System.Collections.Generic;
 
 namespace E.Inference;
 
-public sealed class DefineNode : INode
+public sealed class DefineNode(VariableNode variable, INode body) : INode
 {
-    public DefineNode(VariableNode variable, INode body)
-    {
-        Variable = variable;
-        Body = body;
-    }
+    public VariableNode Variable { get; } = variable;
 
-    public VariableNode Variable { get; } // was spec
-
-    public INode Body { get; }
+    public INode Body { get; } = body;
 
     public override string ToString() => $"{Variable} = {Body}";
 

@@ -1,18 +1,12 @@
-﻿namespace E.Syntax
+﻿namespace E.Syntax;
+
+// $"{expression}text"
+
+public sealed class InterpolatedStringExpressionSyntax(ISyntaxNode[] children) : ISyntaxNode
 {
-    // $"{expression}text"
+    public ISyntaxNode[] Children { get; } = children;
 
-    public sealed class InterpolatedStringExpressionSyntax : ISyntaxNode
-    {
-        public InterpolatedStringExpressionSyntax(ISyntaxNode[] children)
-        {
-            Children = children;
-        }
+    public ISyntaxNode this[int index] => Children[index];
 
-        public ISyntaxNode[] Children { get; }
-
-        public ISyntaxNode this[int index] => Children[index];
-
-        SyntaxKind ISyntaxNode.Kind => SyntaxKind.InterpolatedStringExpression;
-    }
+    SyntaxKind ISyntaxNode.Kind => SyntaxKind.InterpolatedStringExpression;
 }

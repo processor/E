@@ -5,17 +5,11 @@ using System.Collections.Generic;
 
 namespace E.Inference;
 
-public sealed class VariableNode : INode
+public sealed class VariableNode(string name, IType? type = null) : INode
 {
-    public VariableNode(string name, IType? type = null)
-    {
-        Name = name;
-        Type = type;
-    }
+    public string Name { get; } = name;
 
-    public string Name { get; }
-
-    public IType? Type { get; }
+    public IType? Type { get; } = type;
 
     public override string ToString() => Name;
 

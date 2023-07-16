@@ -1,13 +1,8 @@
 ﻿namespace E.Expressions;
 
-public sealed class ReturnStatement : IExpression
+public sealed class ReturnStatement(IExpression expression) : IExpression
 {
-    public ReturnStatement(IExpression expression)
-    {
-        Expression = expression;
-    }
-
-    public IExpression Expression { get; }
+    public IExpression Expression { get; } = expression;
 
     ObjectType IObject.Kind => ObjectType.ReturnStatement;
 }

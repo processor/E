@@ -4,7 +4,7 @@ namespace E;
 
 public static class Arguments
 {
-    public static readonly ArgumentList None = new ArgumentList(Array.Empty<Argument>());
+    public static readonly ArgumentList None = new(Array.Empty<Argument>());
 
     public static IArguments Create(Argument[] items) => items.Length switch
     {

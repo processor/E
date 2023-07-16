@@ -1,22 +1,15 @@
 ﻿namespace E.Expressions;
 
-public sealed class ArrayInitializer : IExpression
+public sealed class ArrayInitializer(
+    IExpression[] elements,
+    int? stride = null,
+    Type? elementType = null) : IExpression
 {
-    public ArrayInitializer(
-        IExpression[] elements,
-        int? stride = null,
-        Type? elementType = null)
-    {
-        Elements = elements;
-        Stride = stride;
-        ElementType = elementType;
-    }
+    public IExpression[] Elements { get; } = elements;
 
-    public IExpression[] Elements { get; }
+    public int? Stride { get; } = stride;
 
-    public int? Stride { get; }
-
-    public Type? ElementType { get; }
+    public Type? ElementType { get; } = elementType;
 
     // ElementKind
 

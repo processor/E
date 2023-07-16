@@ -1,19 +1,12 @@
-﻿using System.Text;
+﻿namespace E.Syntax;
 
-namespace E.Syntax;
-
-public sealed class UnaryExpressionSyntax : ISyntaxNode
+public sealed class UnaryExpressionSyntax(Operator op, ISyntaxNode arg) : ISyntaxNode
 {
-    public UnaryExpressionSyntax(Operator op, ISyntaxNode arg)
-    {
-        Operator = op;
-        Argument = arg;
-    }
 
     // Change to symbol
-    public Operator Operator { get; }
+    public Operator Operator { get; } = op;
 
-    public ISyntaxNode Argument { get; }
+    public ISyntaxNode Argument { get; } = arg;
 
     #region ToString
 

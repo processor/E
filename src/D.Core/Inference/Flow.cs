@@ -12,7 +12,7 @@ public class Flow
     private readonly IType any;
 
     private static readonly string[] binaryOperatorSymbols = { "+", "-", "/", "**", "*", "%" };
-    private static readonly string[] comparisionSymbols = { ">", ">=", "==", "!=", "<", "<=" };
+    private static readonly string[] comparisonSymbols = { ">", ">=", "==", "!=", "<", "<=" };
 
     public Flow()
     {
@@ -53,7 +53,7 @@ public class Flow
         }
 
         // Comparisions
-        foreach (var op in comparisionSymbols)
+        foreach (var op in comparisonSymbols)
         {
             var g = TypeSystem.NewGeneric();
 

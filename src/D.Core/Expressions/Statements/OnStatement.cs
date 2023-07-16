@@ -4,49 +4,34 @@ namespace E.Expressions;
 
 // e.g. on bank Account'Opened opening { }
 
-public sealed class ObserveStatement : IExpression
+public sealed class ObserveStatement(
+    IExpression observable,
+    Symbol eventType,
+    string eventName,
+    IExpression body,
+    UntilExpression until) : IExpression
 {
-    public ObserveStatement(
-        IExpression observable,
-        Symbol eventType,
-        string eventName,
-        IExpression body,
-        UntilExpression until)
-    {
-        Observable = observable;
-        EventType = eventType;
-        ParameterName = eventName;
-        Body = body;
-        UntilExpression = until;
-    }
-
     // document
-    public IExpression Observable { get; set; }
+    public IExpression Observable { get; set; } = observable;
 
     // Pointer'Moved
-    public Symbol EventType { get; }
+    public Symbol EventType { get; } = eventType;
 
     // e
-    public string ParameterName { get; set; }
+    public string ParameterName { get; set; } = eventName;
 
     // Block | Lambda
-    public IExpression Body { get; }
+    public IExpression Body { get; } = body;
 
     // until gallary Detached
-    public UntilExpression UntilExpression { get; set; }
+    public UntilExpression UntilExpression { get; set; } = until;
 
     ObjectType IObject.Kind => ObjectType.ObserveStatement;
 }
 
-public sealed class UntilExpression
+public sealed class UntilExpression(IExpression observable, Symbol eventType)
 {
-    public UntilExpression(IExpression observable, Symbol eventType)
-    {
-        Observable = observable;
-        EventType = eventType;
-    }
+    public IExpression Observable { get; } = observable;
 
-    public IExpression Observable { get; }
-
-    public Symbol EventType { get; }
+    public Symbol EventType { get; } = eventType;
 }

@@ -1,16 +1,10 @@
 ﻿namespace E.Expressions;
 
-public sealed class UnaryExpression : IExpression
+public sealed class UnaryExpression(Operator op, IExpression arg) : IExpression
 {
-    public UnaryExpression(Operator op, IExpression arg)
-    {
-        Operator = op;
-        Argument = arg;
-    }
+    public Operator Operator { get; } = op;
 
-    public Operator Operator { get; }
-
-    public IExpression Argument { get; }
+    public IExpression Argument { get; } = arg;
 
     public override string ToString()
     {

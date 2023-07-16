@@ -2,17 +2,11 @@
 
 namespace E.Syntax;
 
-public sealed class ArrayInitializerSyntax : ISyntaxNode
+public sealed class ArrayInitializerSyntax(ISyntaxNode[] elements, int? stride) : ISyntaxNode
 {
-    public ArrayInitializerSyntax(ISyntaxNode[] elements, int? stride)
-    {
-        Elements = elements;
-        Stride = stride;
-    }
+    public ISyntaxNode[] Elements { get; } = elements;
 
-    public ISyntaxNode[] Elements { get; }
-
-    public int? Stride { get; }
+    public int? Stride { get; } = stride;
 
     public TypeSymbol? ElementType { get; set; }
 

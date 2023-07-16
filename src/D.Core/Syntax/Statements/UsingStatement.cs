@@ -4,14 +4,9 @@ using E.Symbols;
 
 namespace E.Syntax;
 
-public sealed class UsingStatement : ISyntaxNode
+public sealed class UsingStatement(IReadOnlyList<Symbol> domains) : ISyntaxNode
 {
-    public UsingStatement(IReadOnlyList<Symbol> domains)
-    {
-        Domains = domains;
-    }
-
-    public IReadOnlyList<Symbol> Domains { get; }
+    public IReadOnlyList<Symbol> Domains { get; } = domains;
 
     public Symbol this[int i] => Domains[i];
 

@@ -6,17 +6,11 @@ using System.Linq;
 
 namespace E.Inference;
 
-public sealed class LetNode : INode
+public sealed class LetNode(DefineNode[] arguments, INode body) : INode
 {
-    public LetNode(DefineNode[] arguments, INode body)
-    {
-        Arguments = arguments;
-        Body = body;
-    }
+    public INode[] Arguments { get; } = arguments;
 
-    public INode[] Arguments { get; }
-
-    public INode Body { get; }
+    public INode Body { get; } = body;
 
     public override string ToString()
     {

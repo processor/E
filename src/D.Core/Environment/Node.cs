@@ -10,7 +10,7 @@ namespace E;
 
 public class Node
 {
-    private readonly ConcurrentDictionary<string, object> children = new();
+    private readonly ConcurrentDictionary<string, object> _children = new();
 
     private readonly OperatorCollection operators = new();
 
@@ -44,7 +44,7 @@ public class Node
     {
         foreach (var pair in module.Exports)
         {
-            children.TryAdd(pair.Key, pair.Value);
+            _children.TryAdd(pair.Key, pair.Value);
 
             if (pair.Value is Operator @operator)
             {
@@ -61,7 +61,7 @@ public class Node
 
     public void Add(string name, object value)
     {
-        if (!children.TryAdd(name, value))
+        if (!_children.TryAdd(name, value))
         {
             // throw new Exception($"{name} already added");
         }
@@ -70,7 +70,7 @@ public class Node
     public void Set<T>(string name, T value)
         where T : notnull
     {
-        children[name] = value;
+        _children[name] = value;
     }
 
     public bool TryGetValue<T>(string key, [NotNullWhen(true)] out T? value)
@@ -90,7 +90,7 @@ public class Node
 
     public bool TryGet(string name, [NotNullWhen(true)] out object? kind)
     {
-        if (children.TryGetValue(name, out kind))
+        if (_children.TryGetValue(name, out kind))
         {
             return true;
         }

@@ -1,13 +1,8 @@
 ﻿namespace E.Syntax;
 
-public sealed class ReturnStatementSyntax : ISyntaxNode
+public sealed class ReturnStatementSyntax(ISyntaxNode expression) : ISyntaxNode
 {
-    public ReturnStatementSyntax(ISyntaxNode expression)
-    {
-        Expression = expression;
-    }
-
-    public ISyntaxNode Expression { get; }
+    public ISyntaxNode Expression { get; } = expression;
 
     SyntaxKind ISyntaxNode.Kind => SyntaxKind.ReturnStatement;
 }

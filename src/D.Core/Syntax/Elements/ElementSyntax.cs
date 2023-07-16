@@ -2,34 +2,25 @@
 
 namespace E.Syntax;
 
-public sealed class ElementSyntax : ISyntaxNode
+public sealed class ElementSyntax(
+    string? ns,
+    string name,
+    IReadOnlyList<ArgumentSyntax> arguments,
+    ISyntaxNode[] children,
+    bool selfClosed) : ISyntaxNode
 {
-    public ElementSyntax(
-        string? ns,
-        string name,
-        IReadOnlyList<ArgumentSyntax> arguments,
-        ISyntaxNode[] children,
-        bool selfClosed)
-    {
-        Namespace  = ns;
-        Name       = name;
-        Arguments  = arguments;
-        Children   = children;
-        SelfClosed = selfClosed;
-    }
+    public string? Namespace { get; } = ns;
 
-    public string? Namespace { get; }
+    public string Name { get; } = name;
 
-    public string Name { get; }
-        
-    public IReadOnlyList<ArgumentSyntax> Arguments { get; }
+    public IReadOnlyList<ArgumentSyntax> Arguments { get; } = arguments;
 
     // TextContent | Element | Expression
-    public ISyntaxNode[] Children { get; }
-        
+    public ISyntaxNode[] Children { get; } = children;
+
     public ISyntaxNode this[int index] => Children[index];
 
-    public bool SelfClosed { get; }
+    public bool SelfClosed { get; } = selfClosed;
 
     // IsClosed???
 

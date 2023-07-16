@@ -1,26 +1,19 @@
 ﻿namespace E.Expressions;
 
-public sealed class RangeExpression : IExpression
+public sealed class RangeExpression(
+    IExpression start,
+    IExpression end,
+    RangeFlags flags) : IExpression
 {
-    public RangeExpression(
-        IExpression start,
-        IExpression end,
-        RangeFlags flags)
-    {
-        Start = start;
-        End = end;
-        Flags = flags;
-    }
-
-    public IExpression Start { get; }
+    public IExpression Start { get; } = start;
 
     // Step?
 
-    public IExpression End { get; }
+    public IExpression End { get; } = end;
 
     // Inclusive | Exclusive
 
-    public RangeFlags Flags { get; }
+    public RangeFlags Flags { get; } = flags;
 
     ObjectType IObject.Kind => ObjectType.RangeLiteral;
 }

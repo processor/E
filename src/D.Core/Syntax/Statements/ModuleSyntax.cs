@@ -4,17 +4,13 @@ using E.Symbols;
 
 namespace E.Syntax;
 
-public sealed class ModuleSyntax : ISyntaxNode
+public sealed class ModuleSyntax(
+    Symbol name,
+    IReadOnlyList<ISyntaxNode> statements) : ISyntaxNode
 {
-    public ModuleSyntax(Symbol name, IReadOnlyList<ISyntaxNode> statements)
-    {
-        Name = name;
-        Statements = statements;
-    }
+    public Symbol Name { get; } = name;
 
-    public Symbol Name { get; }
-
-    public IReadOnlyList<ISyntaxNode> Statements { get; }
+    public IReadOnlyList<ISyntaxNode> Statements { get; } = statements;
 
     public ISyntaxNode this[int index] => Statements[index];
 

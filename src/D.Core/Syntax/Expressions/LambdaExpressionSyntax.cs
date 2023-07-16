@@ -1,15 +1,9 @@
-﻿namespace E.Syntax
+﻿namespace E.Syntax;
+
+// => ...
+public sealed class LambdaExpressionSyntax(ISyntaxNode expression) : ISyntaxNode
 {
-    // => ...
-    public sealed class LambdaExpressionSyntax : ISyntaxNode
-    {
-        public LambdaExpressionSyntax(ISyntaxNode expression)
-        {
-            Expression = expression;
-        }
+    public ISyntaxNode Expression { get; } = expression;
 
-        public ISyntaxNode Expression { get; }
-
-        SyntaxKind ISyntaxNode.Kind => SyntaxKind.LambdaExpression;
-    }
+    SyntaxKind ISyntaxNode.Kind => SyntaxKind.LambdaExpression;
 }

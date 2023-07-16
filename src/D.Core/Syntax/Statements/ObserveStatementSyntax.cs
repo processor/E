@@ -4,49 +4,35 @@ namespace E.Syntax;
 
 // e.g. on bank Account'Opened opening { }
 
-public sealed class ObserveStatementSyntax : ISyntaxNode
+public sealed class ObserveStatementSyntax(
+    ISyntaxNode observable,
+    Symbol eventType,
+    Symbol eventName,
+    ISyntaxNode body,
+    UntilConditionSyntax? untilExpression) : ISyntaxNode
 {
-    public ObserveStatementSyntax(
-        ISyntaxNode observable,
-        Symbol eventType, 
-        Symbol eventName,
-        ISyntaxNode body,
-        UntilConditionSyntax? untilExpression)
-    {
-        Observable = observable;
-        EventType = eventType;
-        ParameterName = eventName;
-        Body = body;
-        UntilExpression = untilExpression;
-    }
 
     // document
-    public ISyntaxNode Observable { get; set; }
+    public ISyntaxNode Observable { get; } = observable;
 
     // Pointer'Moved
-    public Symbol EventType { get; }
+    public Symbol EventType { get; } = eventType;
 
     // e
-    public Symbol ParameterName { get; set; }
+    public Symbol ParameterName { get; } = eventName;
 
     // Block | Lambda
-    public ISyntaxNode Body { get; }
+    public ISyntaxNode Body { get; } = body;
 
-    // until gallary Detached
-    public UntilConditionSyntax? UntilExpression { get; set; }
+    // until x Detached
+    public UntilConditionSyntax? UntilExpression { get; } = untilExpression;
 
     SyntaxKind ISyntaxNode.Kind => SyntaxKind.ObserveStatement;
 }
 
-public sealed class UntilConditionSyntax
+public sealed class UntilConditionSyntax(ISyntaxNode observable, Symbol @event)
 {
-    public UntilConditionSyntax(ISyntaxNode observable, Symbol @event)
-    {
-        Observable = observable;
-        Event = @event;
-    }
+    public ISyntaxNode Observable { get; } = observable;
 
-    public ISyntaxNode Observable { get; }
-
-    public Symbol Event { get; }
+    public Symbol Event { get; } = @event;
 }

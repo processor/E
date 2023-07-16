@@ -2,20 +2,13 @@
 
 namespace E.Syntax;
 
-public sealed class BinaryExpressionSyntax : ISyntaxNode
+public sealed class BinaryExpressionSyntax(Operator op, ISyntaxNode lhs, ISyntaxNode rhs) : ISyntaxNode
 {
-    public BinaryExpressionSyntax(Operator op, ISyntaxNode lhs, ISyntaxNode rhs)
-    {
-        Operator = op;
-        Left = lhs;
-        Right = rhs;
-    }
+    public Operator Operator { get; } = op;
 
-    public Operator Operator { get; }
+    public ISyntaxNode Left { get; } = lhs;
 
-    public ISyntaxNode Left { get; }
-
-    public ISyntaxNode Right { get; }
+    public ISyntaxNode Right { get; } = rhs;
 
     public bool IsParenthesized { get; set; }
 

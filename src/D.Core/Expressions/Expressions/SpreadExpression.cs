@@ -1,14 +1,8 @@
-﻿namespace E.Expressions
+﻿namespace E.Expressions;
+
+public sealed class SpreadExpression(IExpression symbol) : IExpression
 {
-    public sealed class SpreadExpression : IExpression
-    {
-        public SpreadExpression(IExpression symbol)
-        {
-            Expression = symbol;
-        }
+    public IExpression Expression { get; } = symbol;
 
-        public IExpression Expression { get; }
-
-        ObjectType IObject.Kind => ObjectType.SpreadStatement;
-    }
+    ObjectType IObject.Kind => ObjectType.SpreadStatement;
 }

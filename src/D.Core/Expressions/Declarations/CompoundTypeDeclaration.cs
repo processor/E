@@ -2,13 +2,12 @@
 
 namespace E.Expressions;
 
-public sealed class CompoundTypeDeclaration : TypeDeclarationBase
+public sealed class CompoundTypeDeclaration(
+    Symbol[] names,
+    TypeFlags flags,
+    Symbol baseType,
+    Property[] properties) 
+    : TypeDeclarationBase(baseType, properties, flags)
 {
-    public CompoundTypeDeclaration(Symbol[] names, TypeFlags flags, Symbol baseType, Property[] properties)
-         : base(baseType, properties, flags)
-    {
-        Names = names;
-    }
-
-    public Symbol[] Names { get; }
+    public Symbol[] Names { get; } = names;
 }    

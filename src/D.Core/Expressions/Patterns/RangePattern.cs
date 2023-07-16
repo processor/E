@@ -2,17 +2,11 @@
 
 // 0...10
 // 0..<10       // Half open
-public sealed class RangePattern : IExpression
+public sealed class RangePattern(IExpression start, IExpression end) : IExpression
 {
-    public RangePattern(IExpression start, IExpression end)
-    {
-        Start = start;
-        End = end;
-    }
+    public IExpression Start { get; } = start;
 
-    public IExpression Start { get; }
-
-    public IExpression End { get; }
+    public IExpression End { get; } = end;
 
     ObjectType IObject.Kind => ObjectType.RangePattern;
 }

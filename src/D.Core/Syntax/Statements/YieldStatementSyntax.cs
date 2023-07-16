@@ -1,13 +1,8 @@
 ﻿namespace E.Syntax;
 
-public sealed class YieldStatementSyntax : ISyntaxNode
+public sealed class YieldStatementSyntax(ISyntaxNode expression) : ISyntaxNode
 {
-    public YieldStatementSyntax(ISyntaxNode expression)
-    {
-        Expression = expression;
-    }
-
-    public ISyntaxNode Expression { get; }
+    public ISyntaxNode Expression { get; } = expression;
 
     SyntaxKind ISyntaxNode.Kind => SyntaxKind.YieldStatement;
 }

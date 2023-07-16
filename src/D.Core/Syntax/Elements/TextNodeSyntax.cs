@@ -1,14 +1,8 @@
-﻿namespace E.Syntax
-{
-    public sealed class TextNodeSyntax : ISyntaxNode
-    {
-        public TextNodeSyntax(string content)
-        {
-            Content = content;
-        }
-        
-        public string Content { get; }
+﻿namespace E.Syntax;
 
-        SyntaxKind ISyntaxNode.Kind => SyntaxKind.TextNode;
-    }
+public sealed class TextNodeSyntax(string content) : ISyntaxNode
+{
+    public string Content { get; } = content;
+
+    SyntaxKind ISyntaxNode.Kind => SyntaxKind.TextNode;
 }

@@ -1,13 +1,8 @@
 ﻿namespace E.Syntax;
 
-public sealed class StringLiteralSyntax : ISyntaxNode
+public sealed class StringLiteralSyntax(string value) : ISyntaxNode
 {
-    public StringLiteralSyntax(string value)
-    {
-        Value = value;
-    }
-
-    public string Value { get; }
+    public string Value { get; } = value;
 
     public static implicit operator StringLiteralSyntax(string text) =>
         new StringLiteralSyntax(text);

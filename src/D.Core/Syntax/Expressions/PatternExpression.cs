@@ -1,98 +1,80 @@
 ﻿using E.Symbols;
 
-namespace E.Syntax
+namespace E.Syntax;
+
+// 1
+public sealed class ConstantPatternSyntax(ISyntaxNode constant) : ISyntaxNode
 {
-    // 1
-    public sealed class ConstantPatternSyntax : ISyntaxNode
+    public ISyntaxNode Constant { get; } = constant;
+
+    SyntaxKind ISyntaxNode.Kind => SyntaxKind.ConstantPattern;
+}
+
+// 0...10
+// 0..<10       // Half open
+public sealed class RangePatternSyntax(ISyntaxNode start, ISyntaxNode end) : ISyntaxNode
+{
+    public ISyntaxNode Start { get; } = start;
+
+    public ISyntaxNode End { get; } = end;
+
+    SyntaxKind ISyntaxNode.Kind => SyntaxKind.RangePattern;
+}
+
+// [ a, b ]
+public sealed class ArrayPatternSyntax : ISyntaxNode
+{
+    SyntaxKind ISyntaxNode.Kind => SyntaxKind.ArrayPattern;
+}
+
+// { a, b }
+public sealed class ObjectPatternSyntax : ISyntaxNode
+{
+    SyntaxKind ISyntaxNode.Kind => SyntaxKind.ObjectPattern;
+}
+
+// (a, b, c)
+// (a: 1, b: 2, c: 3 }
+public sealed class TuplePatternSyntax : ISyntaxNode
+{
+    public TuplePatternSyntax(TupleExpressionSyntax tuple)
     {
-        public ConstantPatternSyntax(ISyntaxNode constant)
+        Variables = new TupleElementSyntax[tuple.Elements.Length];
+
+        for (var i = 0; i < tuple.Elements.Length; i++)
         {
-            Constant = constant;
-        }
-        
-        public ISyntaxNode Constant { get; }
+            var element = tuple.Elements[i];
 
-        SyntaxKind ISyntaxNode.Kind => SyntaxKind.ConstantPattern;
-    }
-
-    // 0...10
-    // 0..<10       // Half open
-    public sealed class RangePatternSyntax : ISyntaxNode
-    {
-        public RangePatternSyntax(ISyntaxNode start, ISyntaxNode end)
-        {
-            Start = start;
-            End   = end;
-        }
-
-        public ISyntaxNode Start { get; }
-
-        public ISyntaxNode End { get; }
-
-        SyntaxKind ISyntaxNode.Kind => SyntaxKind.RangePattern;
-    }
-
-    // [ a, b ]
-    public sealed class ArrayPatternSyntax : ISyntaxNode
-    {
-        SyntaxKind ISyntaxNode.Kind => SyntaxKind.ArrayPattern;
-    }
-
-    // { a, b }
-    public sealed class ObjectPatternSyntax : ISyntaxNode
-    {
-        SyntaxKind ISyntaxNode.Kind => SyntaxKind.ObjectPattern;
-    }
-
-    // (a, b, c)
-    // (a: 1, b: 2, c: 3 }
-    public sealed class TuplePatternSyntax : ISyntaxNode
-    {
-        public TuplePatternSyntax(TupleExpressionSyntax tuple)
-        {
-            Variables = new TupleElementSyntax[tuple.Elements.Length];
-
-            for (var i = 0; i < tuple.Elements.Length; i++)
+            if (element is TupleElementSyntax namedElement)
             {
-                var element = tuple.Elements[i];
-
-                if (element is TupleElementSyntax namedElement)
-                {
-                    Variables[i] = new TupleElementSyntax(namedElement.Name, namedElement.Value);
-                }
-                else if (element is Symbol name)
-                {
-                    Variables[i] = new TupleElementSyntax(name, null);
-                }
+                Variables[i] = new TupleElementSyntax(namedElement.Name, namedElement.Value);
+            }
+            else if (element is Symbol name)
+            {
+                Variables[i] = new TupleElementSyntax(name, null);
             }
         }
-
-        public TupleElementSyntax[] Variables { get; }
-
-        SyntaxKind ISyntaxNode.Kind => SyntaxKind.TuplePattern;
     }
 
-    // (fruit: Fruit)
-    // Fruit | Walrus
+    public TupleElementSyntax[] Variables { get; }
 
-    public sealed class TypePatternSyntax : ISyntaxNode
-    {
-        public TypePatternSyntax(Symbol typeExpression, Symbol variable)
-        {
-            TypeExpression = typeExpression;
-            VariableName = variable;
-        }
+    SyntaxKind ISyntaxNode.Kind => SyntaxKind.TuplePattern;
+}
 
-        public Symbol TypeExpression { get; }
+// (fruit: Fruit)
+// Fruit | Walrus
 
-        public Symbol VariableName { get; }
+public sealed class TypePatternSyntax(Symbol typeExpression, Symbol variable) : ISyntaxNode
+{
+    public Symbol TypeExpression { get; } = typeExpression;
 
-        SyntaxKind ISyntaxNode.Kind => SyntaxKind.TypePattern;
-    }
+    public Symbol VariableName { get; } = variable;
 
-    // _
-    public sealed class AnyPatternSyntax : ISyntaxNode
-    {
-        SyntaxKind ISyntaxNode.Kind => SyntaxKind.AnyPattern;
-    }
+    SyntaxKind ISyntaxNode.Kind => SyntaxKind.TypePattern;
+}
+
+// _
+public sealed class AnyPatternSyntax : ISyntaxNode
+{
+    SyntaxKind ISyntaxNode.Kind => SyntaxKind.AnyPattern;
 }

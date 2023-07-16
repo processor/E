@@ -1,22 +1,15 @@
 ﻿namespace E.Expressions;
 
-public sealed class TernaryExpression : IExpression
+public sealed class TernaryExpression(
+    IExpression condition,
+    IExpression left,
+    IExpression right) : IExpression
 {
-    public TernaryExpression(
-        IExpression condition,
-        IExpression left,
-        IExpression right)
-    {
-        Condition = condition;
-        Left = left;
-        Right = right;
-    }
+    public IExpression Condition { get; } = condition;
 
-    public IExpression Condition { get; }
+    public IExpression Left { get; } = left;
 
-    public IExpression Left { get; }
-
-    public IExpression Right { get; }
+    public IExpression Right { get; } = right;
 
     public ObjectType Kind => ObjectType.TernaryExpression;
 }

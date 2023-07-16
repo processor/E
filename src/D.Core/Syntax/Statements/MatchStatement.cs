@@ -2,17 +2,11 @@
 
 namespace E.Syntax;
 
-public sealed class MatchExpressionSyntax : ISyntaxNode
+public sealed class MatchExpressionSyntax(ISyntaxNode expression, IReadOnlyList<MatchCaseSyntax> cases) : ISyntaxNode
 {
-    public MatchExpressionSyntax(ISyntaxNode expression, IReadOnlyList<MatchCaseSyntax> cases)
-    {
-        Expression = expression;
-        Cases = cases;
-    }
+    public ISyntaxNode Expression { get; } = expression;
 
-    public ISyntaxNode Expression { get; }
-
-    public IReadOnlyList<MatchCaseSyntax> Cases { get; }
+    public IReadOnlyList<MatchCaseSyntax> Cases { get; } = cases;
 
     SyntaxKind ISyntaxNode.Kind => SyntaxKind.MatchExpression;
 }

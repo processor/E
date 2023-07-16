@@ -1,13 +1,8 @@
 ﻿namespace E.Expressions;
 
-public class BlockExpression : IExpression
+public class BlockExpression(params IExpression[] statements) : IExpression
 {
-    public BlockExpression(params IExpression[] statements)
-    {
-        Statements = statements;
-    }
-
-    public IExpression[] Statements { get; }
+    public IExpression[] Statements { get; } = statements;
 
     public IExpression this[int index] => Statements[index];
 

@@ -1,14 +1,9 @@
 ﻿namespace E.Expressions;
 
 // 1
-public sealed class ConstantPattern : IExpression
+public sealed class ConstantPattern(IExpression constant) : IExpression
 {
-    public ConstantPattern(IExpression constant)
-    {
-        Constant = constant;
-    }
-        
-    public IExpression Constant { get; }
+    public IExpression Constant { get; } = constant;
 
     ObjectType IObject.Kind => ObjectType.ConstantPattern;
 }

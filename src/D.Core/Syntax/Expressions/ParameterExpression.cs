@@ -1,35 +1,24 @@
 ﻿using E.Symbols;
 
-namespace E.Syntax
+namespace E.Syntax;
+
+public sealed class ParameterSyntax(
+    Symbol name,
+    Symbol? type = null,
+    ISyntaxNode? defaultValue = null,
+    ISyntaxNode? condition = null,
+    AnnotationSyntax[]? annotations = null,
+    int index = 0)
 {
-    public sealed class ParameterSyntax
-    {
-        public ParameterSyntax(
-            Symbol name, 
-            Symbol? type = null,
-            ISyntaxNode? defaultValue = null,
-            ISyntaxNode? condition = null,
-            AnnotationSyntax[]? annotations = null,
-            int index = 0)
-        {
-            Name         = name;
-            Type         = type;
-            DefaultValue = defaultValue;
-            Condition    = condition;
-            Index        = index;
-            Annotations  = annotations;
-        }
+    public Symbol Name { get; } = name;
 
-        public Symbol Name { get; }
+    public Symbol? Type { get; } = type;
 
-        public Symbol? Type { get; }
+    public int Index { get; } = index;
 
-        public int Index { get; }
+    public ISyntaxNode? DefaultValue { get; } = defaultValue;
 
-        public ISyntaxNode? DefaultValue { get; }
+    public ISyntaxNode? Condition { get; } = condition;
 
-        public ISyntaxNode? Condition { get; }
-
-        public AnnotationSyntax[]? Annotations { get; }
-    }
+    public AnnotationSyntax[]? Annotations { get; } = annotations;
 }

@@ -3,21 +3,15 @@ using E.Expressions;
 
 namespace E;
 
-public class Module : IExpression
+public class Module(string? name = null, Module? parent = null) : IExpression
 {
     public readonly Dictionary<string, object> exports = new();
 
     private readonly List<IExpression> statements = new();
 
-    public Module(string? name = null, Module? parent = null)
-    {
-        Name = name;
-        Parent = parent;
-    }
+    public string? Name { get; } = name;
 
-    public string? Name { get; }
-
-    public Module? Parent { get; }
+    public Module? Parent { get; } = parent;
 
     // Imported
     // Exported

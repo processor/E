@@ -1,28 +1,20 @@
 ﻿using E.Protocols;
 using E.Symbols;
 
-namespace E.Syntax
+namespace E.Syntax;
+
+// A protocol { }
+
+public sealed class ProtocolDeclarationSyntax(
+    Symbol name,
+    IProtocolMessage[] messages,
+    FunctionDeclarationSyntax[] members) : ISyntaxNode
 {
-    // A protocol { }
+    public Symbol Name { get; } = name;
 
-    public sealed class ProtocolDeclarationSyntax : ISyntaxNode
-    {
-        public ProtocolDeclarationSyntax(
-            Symbol name,
-            IProtocolMessage[] messages, 
-            FunctionDeclarationSyntax[] members)
-        {
-            Name    = name;
-            Messages = messages;
-            Members = members;
-        }
+    public IProtocolMessage[] Messages { get; } = messages;
 
-        public Symbol Name { get; }
+    public FunctionDeclarationSyntax[] Members { get; } = members;
 
-        public IProtocolMessage[] Messages { get; } 
-
-        public FunctionDeclarationSyntax[] Members { get; }
-
-        SyntaxKind ISyntaxNode.Kind => SyntaxKind.ProtocolDeclaration;
-    }
+    SyntaxKind ISyntaxNode.Kind => SyntaxKind.ProtocolDeclaration;
 }

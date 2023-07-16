@@ -1,7 +1,5 @@
 ﻿namespace E.Symbols;
 
-public sealed class LabelSymbol : Symbol
+public sealed class LabelSymbol(string name) : Symbol(name)
 {
-    public LabelSymbol(string name)
-        : base(name) { }
 }

@@ -2,29 +2,22 @@
 
 namespace E.Expressions;
 
-public sealed class CallExpression : IExpression
+public sealed class CallExpression(
+    IExpression? callee,
+    Symbol functionName,
+    IArguments arguments,
+    bool isPiped) : IExpression
 {
-    public CallExpression(
-        IExpression? callee, 
-        Symbol functionName,
-        IArguments arguments, 
-        bool isPiped)
-    {
-        Callee       = callee;
-        FunctionName = functionName;
-        Arguments    = arguments;
-        IsPiped      = isPiped;
-    }
-        
+
     // is constructor?
 
-    public IExpression? Callee { get; }
+    public IExpression? Callee { get; } = callee;
 
-    public Symbol FunctionName { get; }
+    public Symbol FunctionName { get; } = functionName;
 
-    public IArguments Arguments { get; }
+    public IArguments Arguments { get; } = arguments;
 
-    public bool IsPiped { get; }
+    public bool IsPiped { get; } = isPiped;
 
     ObjectType IObject.Kind => ObjectType.CallExpression;
 

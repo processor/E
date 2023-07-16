@@ -9,23 +9,16 @@ namespace E.Syntax;
 // .   memberAccess
 // ()  invoke
 
-public sealed class CallExpressionSyntax : ISyntaxNode
+public sealed class CallExpressionSyntax(
+    ISyntaxNode? callee,
+    Symbol name,
+    IReadOnlyList<ArgumentSyntax> arguments) : ISyntaxNode
 {
-    public CallExpressionSyntax(
-        ISyntaxNode? callee, 
-        Symbol name, 
-        IReadOnlyList<ArgumentSyntax> arguments)
-    {
-        Callee    = callee;
-        Name      = name;
-        Arguments = arguments;
-    }
+    public ISyntaxNode? Callee { get; } = callee;
 
-    public ISyntaxNode? Callee { get; } // The piper
-        
-    public Symbol Name { get; }
+    public Symbol Name { get; } = name;
 
-    public IReadOnlyList<ArgumentSyntax> Arguments { get; }
+    public IReadOnlyList<ArgumentSyntax> Arguments { get; } = arguments;
 
     public bool IsPiped { get; set; }
 

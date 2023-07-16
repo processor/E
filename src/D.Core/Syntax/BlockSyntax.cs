@@ -2,14 +2,9 @@
 
 namespace E.Syntax;
 
-public sealed class BlockSyntax : ISyntaxNode
+public sealed class BlockSyntax(IReadOnlyList<ISyntaxNode> statements) : ISyntaxNode
 {
-    public BlockSyntax(IReadOnlyList<ISyntaxNode> statements)
-    {
-        Statements = statements;
-    }
-
-    public IReadOnlyList<ISyntaxNode> Statements { get; }
+    public IReadOnlyList<ISyntaxNode> Statements { get; } = statements;
 
     public ISyntaxNode this[int index] => Statements[index];
 

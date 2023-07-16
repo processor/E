@@ -1,12 +1,6 @@
 ﻿namespace E.Symbols;
 
-public sealed class ParameterSymbol : Symbol
+public sealed class ParameterSymbol(string name, Symbol? type) : Symbol(name)
 {
-    public ParameterSymbol(string name, Symbol? type)
-        : base(name)
-    {
-        Type = type;
-    }
-
-    public new Symbol? Type { get; }
+    public new Symbol? Type { get; } = type;
 }

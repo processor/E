@@ -2,92 +2,77 @@
 
 using E.Symbols;
 
-namespace E.Syntax
+namespace E.Syntax;
+
+// type | record | event
+
+/*
+A type { 
+  a: String
+  b: Number
+}     
+*/
+public abstract class TypeDefinitionBase(
+    Symbol baseType,
+    IReadOnlyList<ISyntaxNode> members,
+    TypeFlags flags) : ISyntaxNode
 {
-    // type | record | event
+    // : A
+    public Symbol BaseType { get; } = baseType;
 
-    /*
-    A type { 
-      a: String
-      b: Number
-    }     
-    */
-    public abstract class TypeDefinationBase : ISyntaxNode
-    {
-        public TypeDefinationBase(Symbol baseType, IReadOnlyList<ISyntaxNode> members, TypeFlags flags)
-        {
-            BaseType = baseType;
-            Members = members;
-            Flags  = flags;
-        }
+    public TypeFlags Flags { get; } = flags;
 
-        // : A
-        public Symbol BaseType { get; }
+    public IReadOnlyList<ISyntaxNode> Members { get; } = members;
 
-        public TypeFlags Flags { get; }
+    public bool IsRecord => Flags.HasFlag(TypeFlags.Record);
 
-        public IReadOnlyList<ISyntaxNode> Members { get; }
+    public bool IsEvent => Flags.HasFlag(TypeFlags.Event);
 
-        public bool IsRecord => Flags.HasFlag(TypeFlags.Record);
+    public bool IsRole => Flags.HasFlag(TypeFlags.Role);
 
-        public bool IsEvent => Flags.HasFlag(TypeFlags.Event);
+    public bool IsActor => Flags.HasFlag(TypeFlags.Actor);
 
-        public bool IsRole => Flags.HasFlag(TypeFlags.Role);
-
-        public bool IsActor => Flags.HasFlag(TypeFlags.Actor);
-
-        SyntaxKind ISyntaxNode.Kind => SyntaxKind.TypeDeclaration;
-    }
-
-    public sealed class TypeDeclarationSyntax : TypeDefinationBase
-    {
-        public TypeDeclarationSyntax(
-            Symbol name,
-            IReadOnlyList<ParameterSyntax> genericParameters,
-            Symbol baseType,
-            IReadOnlyList<ArgumentSyntax> arguments,
-            AnnotationSyntax[] annotations,
-            IReadOnlyList<ISyntaxNode> members,
-            TypeFlags flags = TypeFlags.None)
-            : base(baseType, members, flags)
-        {
-            Name              = name;
-            Annotations       = annotations;
-            Arguments         = arguments;
-            GenericParameters = genericParameters;
-        }
-
-        // e.g.
-        // Crash 
-        // Vehicle 'Crash 
-        public Symbol Name { get; }
-
-        public IReadOnlyList<ArgumentSyntax> Arguments { get; }
-
-        public AnnotationSyntax[] Annotations { get; }
-
-        public IReadOnlyList<ParameterSyntax> GenericParameters { get; }
-    }
-
-    // Las `Vegas, New `York : State class { }
-
-    public sealed class CompoundTypeDeclarationSyntax : TypeDefinationBase
-    {
-        public CompoundTypeDeclarationSyntax(Symbol[] names, TypeFlags flags, Symbol baseType, IReadOnlyList<ISyntaxNode> members)
-             : base(baseType, members, flags)
-        {
-            Names = names;
-        }
-
-        public Symbol[] Names { get; }
-    }
-    
-
-    // MAP = * -> *
+    SyntaxKind ISyntaxNode.Kind => SyntaxKind.TypeDeclaration;
 }
+
+public sealed class TypeDeclarationSyntax(
+    Symbol name,
+    IReadOnlyList<ParameterSyntax> genericParameters,
+    Symbol baseType,
+    IReadOnlyList<ArgumentSyntax> arguments,
+    AnnotationSyntax[] annotations,
+    IReadOnlyList<ISyntaxNode> members,
+    TypeFlags flags = TypeFlags.None) : TypeDefinitionBase(baseType, members, flags)
+{
+
+    // e.g.
+    // Crash 
+    // Vehicle 'Crash 
+    public Symbol Name { get; } = name;
+
+    public IReadOnlyList<ArgumentSyntax> Arguments { get; } = arguments;
+
+    public AnnotationSyntax[] Annotations { get; } = annotations;
+
+    public IReadOnlyList<ParameterSyntax> GenericParameters { get; } = genericParameters;
+}
+
+// Las `Vegas, New `York : State class { }
+
+public sealed class CompoundTypeDeclarationSyntax(
+    Symbol[] names,
+    TypeFlags flags,
+    Symbol baseType,
+    IReadOnlyList<ISyntaxNode> members) : TypeDefinitionBase(baseType, members, flags)
+{
+    public Symbol[] Names { get; } = names;
+}
+
+
+// MAP = * -> *
 
 /*
 Person type {
-  name: String where length > 0
+name: String where length > 0
 }
 */

@@ -4,21 +4,14 @@ using E.Symbols;
 
 namespace E.Expressions;
 
-public sealed class ImplementationDeclaration : IExpression
+public sealed class ImplementationDeclaration(Symbol protocol, TypeSymbol type, IExpression[] members) : IExpression
 {
-    public ImplementationDeclaration(Symbol protocol, TypeSymbol type, IExpression[] members)
-    {
-        Protocol = protocol;
-        Type = type;
-        Members = members;
-    }
+    public Symbol Protocol { get; } = protocol;
 
-    public Symbol Protocol { get; }
-
-    public TypeSymbol Type { get; }
+    public TypeSymbol Type { get; } = type;
 
     // Protocols
-    public IExpression[] Members { get; }
+    public IExpression[] Members { get; } = members;
 
     public IExpression this[int index] => Members[index];
 

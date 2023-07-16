@@ -5,20 +5,13 @@ using System.Collections.Generic;
 
 namespace E.Inference;
 
-public sealed class AbstractNode : INode
+public sealed class AbstractNode(VariableNode[] arguments, INode body, IType? type = null) : INode
 {
-    public AbstractNode(VariableNode[] arguments, INode body, IType? type = null)
-    {
-        Arguments = arguments;
-        Body = body;
-        Type = type;
-    }
+    public VariableNode[] Arguments { get; } = arguments;
 
-    public VariableNode[] Arguments { get; }
+    public INode Body { get; } = body;
 
-    public INode Body { get; }
-
-    public IType? Type { get; }
+    public IType? Type { get; } = type;
 
     public override string ToString()
     {

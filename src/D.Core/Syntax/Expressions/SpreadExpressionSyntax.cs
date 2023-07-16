@@ -1,14 +1,8 @@
-﻿namespace E.Syntax
+﻿namespace E.Syntax;
+
+public sealed class SpreadExpressionSyntax(ISyntaxNode symbol) : ISyntaxNode
 {
-    public sealed class SpreadExpressionSyntax : ISyntaxNode
-    {
-        public SpreadExpressionSyntax(ISyntaxNode symbol)
-        {
-            Expression = symbol;
-        }
+    public ISyntaxNode Expression { get; } = symbol;
 
-        public ISyntaxNode Expression { get; }
-
-        SyntaxKind ISyntaxNode.Kind => SyntaxKind.SpreadStatement;
-    }
+    SyntaxKind ISyntaxNode.Kind => SyntaxKind.SpreadStatement;
 }

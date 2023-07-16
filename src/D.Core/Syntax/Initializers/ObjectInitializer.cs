@@ -2,22 +2,17 @@
 
 using E.Symbols;
 
-namespace E.Syntax
+namespace E.Syntax;
+
+public sealed class ObjectInitializerSyntax(
+    TypeSymbol type,
+    IReadOnlyList<ArgumentSyntax> arguments) : ISyntaxNode
 {
-    public sealed class ObjectInitializerSyntax : ISyntaxNode
-    {
-        public ObjectInitializerSyntax(TypeSymbol type, IReadOnlyList<ArgumentSyntax> arguments)
-        {
-            Type = type;
-            Arguments = arguments;
-        }
+    public TypeSymbol Type { get; } = type;
 
-        public TypeSymbol Type { get; }
+    public IReadOnlyList<ArgumentSyntax> Arguments { get; } = arguments;
 
-        public IReadOnlyList<ArgumentSyntax> Arguments { get; }
-
-        SyntaxKind ISyntaxNode.Kind => SyntaxKind.TypeInitializer;
-    }
+    SyntaxKind ISyntaxNode.Kind => SyntaxKind.TypeInitializer;
 }
 
 // Tuple Based Syntax

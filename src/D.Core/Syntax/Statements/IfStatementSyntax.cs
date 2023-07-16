@@ -1,23 +1,16 @@
 ﻿namespace E.Syntax;
 
-public sealed class IfStatementSyntax : ISyntaxNode
+public sealed class IfStatementSyntax(
+    ISyntaxNode condition,
+    BlockSyntax body,
+    ISyntaxNode? elseBranch) : ISyntaxNode
 {
-    public IfStatementSyntax(
-        ISyntaxNode condition,
-        BlockSyntax body,
-        ISyntaxNode? elseBranch)
-    {
-        Condition = condition;
-        Body = body;
-        ElseBranch = elseBranch;
-    }
+    public ISyntaxNode Condition { get; } = condition;
 
-    public ISyntaxNode Condition { get; }
-
-    public BlockSyntax Body { get; }
+    public BlockSyntax Body { get; } = body;
 
     // Else | ElseIf
-    public ISyntaxNode? ElseBranch { get; }
+    public ISyntaxNode? ElseBranch { get; } = elseBranch;
 
     SyntaxKind ISyntaxNode.Kind => SyntaxKind.IfStatement;
 }
