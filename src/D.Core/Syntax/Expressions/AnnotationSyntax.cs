@@ -4,17 +4,11 @@ using E.Symbols;
 
 namespace E.Syntax;
 
-public sealed class AnnotationSyntax : ISyntaxNode
+public sealed class AnnotationSyntax(Symbol name, IReadOnlyList<ArgumentSyntax> arguments) : ISyntaxNode
 {
-    public AnnotationSyntax(Symbol name, IReadOnlyList<ArgumentSyntax> arguments)
-    {
-        Name = name;
-        Arguments = arguments;
-    }
+    public Symbol Name { get; } = name;
 
-    public Symbol Name { get; }
-
-    public IReadOnlyList<ArgumentSyntax> Arguments { get; }
+    public IReadOnlyList<ArgumentSyntax> Arguments { get; } = arguments;
 
     SyntaxKind ISyntaxNode.Kind => SyntaxKind.AnnotationExpression;
 }

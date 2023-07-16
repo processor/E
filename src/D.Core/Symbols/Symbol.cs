@@ -133,7 +133,7 @@ public abstract class Symbol : IExpression, ISyntaxNode
 
     public static TypeSymbol Type(string name, params Symbol[] arguments) => new(name, arguments);
 
-    [return: NotNullIfNotNull("symbol")]
+    [return: NotNullIfNotNull(nameof(symbol))]
     public static implicit operator string?(Symbol? symbol) => symbol?.ToString();
 
     SyntaxKind ISyntaxNode.Kind => SyntaxKind.Symbol;

@@ -82,7 +82,7 @@ public class InferenceTests
         var b = (BinaryExpression)returnStatement.Expression;
 
         Assert.Equal(ObjectType.EqualsExpression, b.Operator.OpKind);
-        Assert.True(b.Operator.IsComparision);
+        Assert.True(b.Operator.IsComparison);
 
         Assert.Equal("Boolean", node.ReturnType.Name);
     }

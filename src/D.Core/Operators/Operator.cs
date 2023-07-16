@@ -2,37 +2,28 @@
 
 using static Associativity;
 
-public sealed class Operator : INamedObject
+public sealed class Operator(
+    ObjectType kind,
+    string name,
+    OperatorType type,
+    int precedence = 1000,
+    Associativity associativity = Left) : INamedObject
 {
-    public Operator(
-        ObjectType kind, 
-        string name, 
-        OperatorType type, 
-        int precedence = 1000,
-        Associativity associativity = Left)
-    {
-        OpKind        = kind;
-        Name          = name;
-        Type          = type;
-        Precedence    = precedence;
-        Associativity = associativity;
-    }
+    public string Name { get; } = name;
 
-    public string Name { get; }
+    public ObjectType OpKind { get; } = kind;
 
-    public ObjectType OpKind { get; }
+    public int Precedence { get; } = precedence;
 
-    public int Precedence { get; }
+    public Associativity Associativity { get; } = associativity;
 
-    public Associativity Associativity { get; }
-
-    public OperatorType Type { get; }
+    public OperatorType Type { get; } = type;
 
     public bool IsLogical => OpKind 
         is ObjectType.LogicalAndExpression // &&
         or ObjectType.LogicalOrExpression; // ||
 
-    public bool IsComparision
+    public bool IsComparison
     {
         get
         {

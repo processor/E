@@ -1,13 +1,8 @@
 ﻿namespace E.Expressions;
 
-public sealed class ConstantExpression : IExpression
+public sealed class ConstantExpression(object value) : IExpression
 {
-    public ConstantExpression(object value)
-    {
-        Value = value;
-    }
-
-    public object Value { get; }
+    public object Value { get; } = value;
 
     ObjectType IObject.Kind => ObjectType.ConstantExpression;
 }

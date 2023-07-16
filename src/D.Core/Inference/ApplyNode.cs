@@ -6,20 +6,16 @@ using System.Linq;
 
 namespace E.Inference;
 
-public sealed class ApplyNode : INode
+public sealed class ApplyNode(
+    VariableNode variable,
+    INode[] arguments,
+    IType? type = null) : INode
 {
-    public ApplyNode(VariableNode variable, INode[] arguments, IType? type = null)
-    {
-        Variable = variable;
-        Arguments = arguments;
-        Type = type;
-    }
+    public VariableNode Variable { get; } = variable;
 
-    public VariableNode Variable { get; }
+    public INode[] Arguments { get; } = arguments;
 
-    public INode[] Arguments { get; }
-
-    public IType? Type { get; }
+    public IType? Type { get; } = type;
 
     private bool IsFunction(IType? type)
     {

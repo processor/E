@@ -6,18 +6,14 @@ using E.Syntax;
 
 namespace E.Units;
 
-public readonly struct UnitValue<T> : IUnitValue<T>, IEquatable<UnitValue<T>>, ISpanFormattable
+public readonly struct UnitValue<T>(T value, UnitInfo unit) : IUnitValue<T>, IEquatable<UnitValue<T>>, ISpanFormattable
     where T : unmanaged, INumberBase<T>
-{        
-    public UnitValue(T value, UnitInfo unit)
-    {
-        Value = value; // 1
-        Unit  = unit;  // g
-    }
+{
+    // 1
+    public T Value { get; } = value;
 
-    public T Value { get; }   
-
-    public UnitInfo Unit { get; }
+    // g
+    public UnitInfo Unit { get; } = unit;
 
     #region With
 
@@ -65,9 +61,9 @@ public readonly struct UnitValue<T> : IUnitValue<T>, IEquatable<UnitValue<T>>, I
         {
             var result = Convert.ToDouble(Value);
 
-            if (Unit.DefinitionUnit is Number definationUnit)
+            if (Unit.DefinitionUnit is Number definitionUnit)
             {
-                result *= definationUnit.Value;
+                result *= definitionUnit.Value;
             }
 
             return result;

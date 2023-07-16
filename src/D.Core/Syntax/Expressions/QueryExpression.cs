@@ -1,62 +1,52 @@
 ﻿namespace E.Syntax;
 
-public sealed class QueryExpression : ISyntaxNode
+public sealed class QueryExpression(
+    ISyntaxNode collection,
+    ISyntaxNode? variable,
+    ISyntaxNode? filter,
+    ISyntaxNode map,
+    OrderByStatement? orderBy,
+    long skip = 0,
+    long take = 0) : ISyntaxNode
 {
-    public QueryExpression(
-        ISyntaxNode collection,
-        ISyntaxNode? variable,
-        ISyntaxNode? filter,
-        ISyntaxNode map,
-        OrderByStatement? orderBy,
-        long skip = 0,
-        long take = 0)
-    {
-        Collection = collection;
-        Variable = variable;
-        Filter = filter;
-        Map = map;
-        OrderBy = orderBy;
-        Skip = skip;
-        Take = take;
-    }
 
-    public ISyntaxNode Collection { get; }       // from Y
+    // | from Y
+    public ISyntaxNode Collection { get; } = collection;
 
-    public ISyntaxNode? Variable { get; }         // from [x] in Y 
+    // | from [x] in Y 
+    public ISyntaxNode? Variable { get; } = variable;
 
-    public ISyntaxNode? Filter { get; }           // where a > 100
+    // | where a > 100
+    public ISyntaxNode? Filter { get; } = filter;
 
-    public ISyntaxNode Map { get; }              // select a || { a, b, c }  
+    // | select a || { a, b, c }
+    public ISyntaxNode Map { get; } = map;
 
-    public OrderByStatement? OrderBy { get; }    // orderby a desc
+    // | orderby a desc
+    public OrderByStatement? OrderBy { get; } = orderBy;
 
-    public ISyntaxNode? Using { get; }            // using index_name
+    // | using index_name
+    public ISyntaxNode? Using { get; }
 
-    public long Skip { get; }
+    public long Skip { get; } = skip;
 
-    public long Take { get; }
+    public long Take { get; } = take;
 
     SyntaxKind ISyntaxNode.Kind => SyntaxKind.QueryExpression;
 }
 
-public sealed class OrderByStatement
+public sealed class OrderByStatement(ISyntaxNode member, bool descending)
 {
-    public OrderByStatement(ISyntaxNode member, bool descending)
-    {
-        Member = member;
-        Descending = descending;
-    }
 
     // orderby student.Last ascending, 
     // student.First ascending
 
-    public ISyntaxNode Member { get; }
+    public ISyntaxNode Member { get; } = member;
 
-    public bool Descending { get; }
+    public bool Descending { get; } = descending;
 }
 
-// TODO: Support mutiple statements
-
+// TODO: Support multiple statements
 
 // filter | where
 // map    | select

@@ -249,7 +249,7 @@ public class Evaluator
             // y < 100
             // y == 1
 
-            if (l is Symbol name && (expression.Operator.IsComparision))
+            if (l is Symbol name && (expression.Operator.IsComparison))
             {
                 return new Predicate(expression.Operator, name, r);
             }

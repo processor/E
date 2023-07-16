@@ -4,17 +4,13 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace E.Symbols;
 
-public sealed class ModuleSymbol : Symbol
+public sealed class ModuleSymbol(
+    string name,
+    ModuleSymbol? parent = null) : Symbol(name, Array.Empty<Symbol>())
 {
     private readonly Dictionary<string, Symbol> lookup = new();
 
-    public ModuleSymbol(string name, ModuleSymbol? parent = null)
-        : base(name, Array.Empty<Symbol>())
-    {
-        Parent = parent;
-    }
-
-    public ModuleSymbol? Parent { get; }
+    public ModuleSymbol? Parent { get; } = parent;
 
     public IEnumerable<Symbol> Children => lookup.Values;
 

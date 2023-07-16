@@ -17,14 +17,9 @@ public partial class Compiler
     }
 }
 
-public readonly struct NestedScope : IDisposable
+public readonly struct NestedScope(Compiler compiler) : IDisposable
 {
-    private readonly Compiler _compiler;
-
-    public NestedScope(Compiler compiler)
-    {
-        _compiler = compiler;
-    }
+    private readonly Compiler _compiler = compiler;
 
     public void Dispose()
     {

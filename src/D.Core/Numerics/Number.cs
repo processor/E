@@ -3,14 +3,9 @@ using System.Globalization;
 
 namespace E;
 
-public readonly struct Number : INumeric<double>
+public readonly struct Number(double value) : INumeric<double>
 {
-    public Number(double value)
-    {
-        Value = value;
-    }
-
-    public double Value { get; }
+    public double Value { get; } = value;
 
     public static Number Parse(string text)
     {

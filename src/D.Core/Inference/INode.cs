@@ -3,10 +3,9 @@
 
 using System.Collections.Generic;
 
-namespace E.Inference
+namespace E.Inference;
+
+public interface INode
 {
-    public interface INode
-    {
-        IType Infer(Environment env, IReadOnlyList<IType> types);
-    }
+    IType Infer(Environment env, IReadOnlyList<IType> types);
 }

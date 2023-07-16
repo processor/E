@@ -5,17 +5,11 @@ namespace E;
 
 using static Math;
 
-public readonly struct Rational : INumber
+public readonly struct Rational(long numerator, long denominator) : INumber
 {
-    public Rational(long numerator, long denominator)
-    {
-        Numerator = numerator;
-        Denominator = denominator;
-    }
+    public long Numerator { get; } = numerator;
 
-    public long Numerator { get; }
-
-    public long Denominator { get; }
+    public long Denominator { get; } = denominator;
 
     readonly ObjectType IObject.Kind => ObjectType.Rational;
 

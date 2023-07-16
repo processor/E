@@ -2,45 +2,38 @@
 
 using E.Symbols;
 
-namespace E.Syntax
+namespace E.Syntax;
+
+public sealed class OperatorDeclarationSyntax(
+    Symbol name,
+    IReadOnlyList<ArgumentSyntax> properties) : ISyntaxNode
 {
-    public sealed class OperatorDeclarationSyntax : ISyntaxNode
+    public Symbol Name { get; } = name;
+
+    public IReadOnlyList<ArgumentSyntax> Properties { get; } = properties;
+
+    #region Property Helpers
+
+    public ISyntaxNode? Precedence => GetPropertyValue("precedence");
+    
+    public ISyntaxNode? Associativity => GetPropertyValue("associativity");
+
+    public ISyntaxNode? GetPropertyValue(string name)
     {
-        public OperatorDeclarationSyntax(
-            Symbol name, 
-            IReadOnlyList<ArgumentSyntax> properties)
+        foreach (ArgumentSyntax property in Properties)
         {
-            Name = name;
-            Properties = properties;
-        }
-
-        public Symbol Name { get; }
-        
-        public IReadOnlyList<ArgumentSyntax> Properties { get; }
-
-        #region Property Helpers
-        
-        public ISyntaxNode? Precedence => GetPropertyValue("precedence");
-        
-        public ISyntaxNode? Associativity => GetPropertyValue("associativity");
-
-        public ISyntaxNode? GetPropertyValue(string name)
-        {
-            foreach (ArgumentSyntax property in Properties)
+            if (property.Name == name)
             {
-                if (property.Name == name)
-                {
-                    return property.Value;
-                }
+                return property.Value;
             }
-
-            return null;
         }
 
-        #endregion
-
-        SyntaxKind ISyntaxNode.Kind => SyntaxKind.OperatorDeclaration;
+        return null;
     }
+
+    #endregion
+
+    SyntaxKind ISyntaxNode.Kind => SyntaxKind.OperatorDeclaration;
 }
 
 // _ "+" operator { associtivity: "left" }

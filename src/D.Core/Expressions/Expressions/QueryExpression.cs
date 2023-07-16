@@ -1,61 +1,52 @@
 ﻿namespace E.Expressions;
 
-public sealed class QueryExpression : IExpression
+public sealed class QueryExpression(
+    IExpression collection,
+    IExpression variable,
+    IExpression filter,
+    IExpression map,
+    OrderByStatement orderBy,
+    long skip = 0,
+    long take = 0) : IExpression
 {
-    public QueryExpression(
-        IExpression collection,
-        IExpression variable,
-        IExpression filter,
-        IExpression map,
-        OrderByStatement orderBy,
-        long skip = 0,
-        long take = 0)
-    {
-        Collection = collection;
-        Variable = variable;
-        Filter = filter;
-        Map = map;
-        OrderBy = orderBy;
-        Skip = skip;
-        Take = take;
-    }
 
-    public IExpression Collection { get; }       // from Y
+    // | from Y
+    public IExpression Collection { get; } = collection;
 
-    public IExpression Variable { get; }         // from [x] in Y 
+    // | from [x] in Y 
+    public IExpression Variable { get; } = variable;
 
-    public IExpression Filter { get; }           // where a > 100
+    // | where a > 100
+    public IExpression Filter { get; } = filter;
 
-    public IExpression Map { get; }              // select a || { a, b, c }  
+    // | select a || { a, b, c }  
+    public IExpression Map { get; } = map;
 
-    public OrderByStatement OrderBy { get; }     // orderby a desc
+    // | orderby a desc
+    public OrderByStatement OrderBy { get; } = orderBy;
 
-    public IExpression? Using { get; }           // using index_name
+    // | using index_name
+    public IExpression? Using { get; }
 
-    public long Skip { get; }
+    public long Skip { get; } = skip;
 
-    public long Take { get; }
+    public long Take { get; } = take;
 
     ObjectType IObject.Kind => ObjectType.QueryExpression;
 }
 
-public sealed class OrderByStatement
+public sealed class OrderByStatement(IExpression member, bool isDescending)
 {
-    public OrderByStatement(IExpression member, bool isDescending)
-    {
-        Member = member;
-        IsDescending = isDescending;
-    }
 
     // orderby student.Last ascending, 
     // student.First ascending
 
-    public IExpression Member { get; }
+    public IExpression Member { get; } = member;
 
-    public bool IsDescending { get; }
+    public bool IsDescending { get; } = isDescending;
 }
 
-// TODO: Support mutiple statements
+// TODO: Support multiple statements
 
 // filter | where
 // map    | select

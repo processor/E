@@ -1,13 +1,8 @@
 ﻿namespace E;
 
-public readonly struct Operation : IObject
+public readonly struct Operation(string name) : IObject
 {
-    public Operation(string name)
-    {
-        Name = name;
-    }
-
-    public string Name { get; }
+    public string Name { get; } = name;
 
     readonly ObjectType IObject.Kind => ObjectType.Operation;
 }

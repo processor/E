@@ -1,13 +1,8 @@
 ﻿namespace E.Syntax;
 
-public sealed class CharacterLiteralSyntax : ISyntaxNode
+public sealed class CharacterLiteralSyntax(char value) : ISyntaxNode
 {
-    public CharacterLiteralSyntax(char value)
-    {
-        Value = value;
-    }
-
-    public char Value { get; }
+    public char Value { get; } = value;
 
     public static implicit operator CharacterLiteralSyntax(char value)
     {

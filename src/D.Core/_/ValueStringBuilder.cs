@@ -34,7 +34,7 @@ namespace System.Text
 
         public int Length
         {
-            get => _pos;
+            readonly get => _pos;
             set
             {
                 Debug.Assert(value >= 0);
@@ -43,7 +43,7 @@ namespace System.Text
             }
         }
 
-        public int Capacity => _chars.Length;
+        public readonly int Capacity => _chars.Length;
 
         public ref char this[int index]
         {

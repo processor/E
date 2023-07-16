@@ -62,7 +62,7 @@ public partial class Compiler
                 return new Type(symbol.Name, Type.Get(ObjectType.Object), null, null);
 
             case BinaryExpression b:
-                if (b.Operator.IsComparision || b.Operator.IsLogical)
+                if (b.Operator.IsComparison || b.Operator.IsLogical)
                 {
                     return Type.Get(ObjectType.Boolean);
                 }

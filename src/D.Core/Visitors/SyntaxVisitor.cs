@@ -37,7 +37,7 @@ public abstract class SyntaxVisitor
     {
         i++;
 
-        if (i > 10_000) throw new Exception("excedeed 10,000 visits");
+        if (i > 10_000) throw new Exception("exceeded 10,000 visits");
 
         switch (syntax)
         {
