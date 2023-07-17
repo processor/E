@@ -18,6 +18,8 @@ public abstract class Arithmetic<T>
 
 public sealed class RealArithmetic : Arithmetic<double>
 {
+    public static readonly RealArithmetic Default = new();
+
     public override double Add(double x, double y)      => x + y;
     public override double Subtract(double x, double y) => x - y;
     public override double Multiply(double x, double y)  => x * y;
@@ -26,18 +28,10 @@ public sealed class RealArithmetic : Arithmetic<double>
     public override double Pow(double x, double y)      => Math.Pow(x, y);
 }
 
-public sealed class IntegerArithmetic : Arithmetic<long>
-{
-    public override long Add(long x, long y)         => x + y;
-    public override long Subtract(long x, long y)    => x - y;
-    public override long Multiply(long x, long y)     => x * y;
-    public override long Divide(long x, long y)      => x / y;
-    public override long Mod(long x, long y)         => x % y;
-    public override long Pow(long x, long y)         => (long)Math.Pow(x, y);
-}
-
 public sealed class Int32Arithmetic : Arithmetic<Int32>
 {
+    public static readonly Int32Arithmetic Default = new();
+
     public override int Add(int x, int y)        => x + y;
     public override int Subtract(int x, int y)   => x - y;
     public override int Multiply(int x, int y)    => x * y;
@@ -48,6 +42,8 @@ public sealed class Int32Arithmetic : Arithmetic<Int32>
 
 public sealed class Int64Arithmetic : Arithmetic<long>
 {
+    public static readonly Int64Arithmetic Default = new();
+
     public override long Add(long x, long y) => x + y;
     public override long Subtract(long x, long y) => x - y;
     public override long Multiply(long x, long y) => x * y;

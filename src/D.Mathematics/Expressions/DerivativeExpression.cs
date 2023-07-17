@@ -2,14 +2,9 @@
 
 namespace E.Mathematics;
 
-public class DerivativeExpression : IExpression
+public class DerivativeExpression(IExpression expression) : IExpression
 {
-    public DerivativeExpression(IExpression expression)
-    {
-        Expression = expression;
-    }
-
-    public IExpression Expression { get; }
+    public IExpression Expression { get; } = expression;
 
     ObjectType IObject.Kind => ObjectType.Derivative;
 }

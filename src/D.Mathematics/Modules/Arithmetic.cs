@@ -12,16 +12,16 @@ public static class Arithmetic
     public static Arithmetic<T> GetProvider<T>()
         where T: unmanaged
     {
-        if (typeof(T) == typeof(Number))  return (Arithmetic<T>)((object)new RealArithmetic());
-        if (typeof(T) == typeof(int))     return (Arithmetic<T>)((object)new Int32Arithmetic());
-        if (typeof(T) == typeof(long))    return (Arithmetic<T>)((object)new Int64Arithmetic());
+        if (typeof(T) == typeof(Number))  return (Arithmetic<T>)((object)RealArithmetic.Default);
+        if (typeof(T) == typeof(int))     return (Arithmetic<T>)((object)Int32Arithmetic.Default);
+        if (typeof(T) == typeof(long))    return (Arithmetic<T>)((object)Int64Arithmetic.Default);
 
         throw new Exception($"No arithmetic provider for {typeof(T).Name}");
     }
 
     public static INumber Multiply(INumber x, INumber y)
     {
-        if (!(x is IUnitValue) && !(y is IUnitValue))
+        if (x is not IUnitValue && y is not IUnitValue)
         {
             return new Number(x.Real * y.Real);
         }
@@ -78,7 +78,7 @@ public static class Arithmetic
     {
         var result = Math.Pow(x.Real, y.Real);
 
-        if (!(x is IUnitValue) && !(y is IUnitValue))
+        if (x is not IUnitValue && y is not IUnitValue)
         {
             return new Number(result);
         }
