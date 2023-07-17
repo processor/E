@@ -1,20 +1,16 @@
 ﻿namespace E.Transformations;
 
-public readonly struct Rotate : ITransform
+public readonly struct Rotate<T>(
+    T x,
+    T y,
+    T z,
+    Number angle) : ITransform
 {
-    public Rotate(INumeric<double> x, INumeric<double> y, INumeric<double> z, Number angle)
-    {
-        X = x;
-        Y = y;
-        Z = z;
-        Angle = angle;
-    }
+    public T X { get; } = x;
 
-    public INumeric<double> X { get; }
+    public T Y { get; } = y;
 
-    public INumeric<double> Y { get; }
+    public T Z { get; } = z;
 
-    public INumeric<double> Z { get; }
-
-    public Number Angle { get; }
+    public Number Angle { get; } = angle;
 }

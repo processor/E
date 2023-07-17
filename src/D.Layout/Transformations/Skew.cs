@@ -1,14 +1,11 @@
-﻿namespace E.Transformations;
+﻿using System.Numerics;
 
-public readonly struct Skew : ITransform
+namespace E.Transformations;
+
+public readonly struct Skew<T>(T ax, T ay) : ITransform
+    where T: unmanaged, INumberBase<T>
 {
-    public Skew(INumeric<double> ax, INumeric<double> ay)
-    {
-        Ax = ax;
-        Ay = ay;
-    }
+    public T Ax { get; } = ax;
 
-    public INumeric<double> Ax { get; }
-
-    public INumeric<double> Ay { get; }
+    public T Ay { get; } = ay;
 }

@@ -1,17 +1,13 @@
-﻿namespace E.Transformations;
+﻿using System.Numerics;
 
-public readonly struct Scale : ITransform
+namespace E.Transformations;
+
+public readonly struct Scale<T>(T x, T y, T z) : ITransform
+    where T: unmanaged, INumberBase<T>
 {
-    public Scale(INumeric<double> x, INumeric<double> y, INumeric<double> z)
-    {
-        X = x;
-        Y = y;
-        Z = z;
-    }
+    public T X { get; } = x;
 
-    public INumeric<double> X { get; }
+    public T Y { get; } = y;
 
-    public INumeric<double> Y { get; }
-
-    public INumeric<double> Z { get; }
+    public T Z { get; } = z;
 }

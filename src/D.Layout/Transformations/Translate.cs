@@ -1,23 +1,21 @@
-﻿namespace E.Transformations;
+﻿using System.Numerics;
 
-public readonly struct Translate : ITransform
+namespace E.Transformations;
+
+public readonly struct Translate<T>(
+    T x,
+    T y,
+    T z) : ITransform where T : unmanaged, INumberBase<T>
 {
-    public Translate(INumeric<double> x, INumeric<double> y, INumeric<double> z)
-    {
-        X = x;
-        Y = y;
-        Z = z;
-    }
-
     // 10%
     // 100vh
     // 100%
 
-    public INumeric<double> X { get; }
+    public T X { get; } = x;
 
-    public INumeric<double> Y { get; }
+    public T Y { get; } = y;
 
-    public INumeric<double> Z { get; }
+    public T Z { get; } = z;
 }
 
 // https://developer.mozilla.org/en-US/docs/Web/CSS/transform-function/translate

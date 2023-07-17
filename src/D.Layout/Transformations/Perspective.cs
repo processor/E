@@ -1,11 +1,6 @@
 ﻿namespace E.Transformations;
 
-public readonly struct Perspective : ITransform
+public readonly struct Perspective<T>(T length) : ITransform
 {
-    public Perspective(INumeric<double> length)
-    {
-        Length = length;
-    }
-
-    public INumeric<double> Length { get; }
+    public T Length { get; } = length;
 }
