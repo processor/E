@@ -40,7 +40,7 @@ public sealed class Matrix<T> : IObject
     public IObject Divide(INumber scalar)
         => new Matrix<T>(impl.Divide(scalar.As<T>()));
 
-    public IObject Mutiply(INumber scalar)
+    public IObject Multiply(INumber scalar)
         => new Matrix<T>(impl.Multiply(scalar.As<T>()));
 
     #endregion

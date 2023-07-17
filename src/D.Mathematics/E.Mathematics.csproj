@@ -4,6 +4,7 @@
     <AssemblyName>D.Mathematics</AssemblyName>
     <Nullable>enable</Nullable>
     <IsTrimmable>true</IsTrimmable>
+	<LangVersion>preview</LangVersion>
   </PropertyGroup>
 	
   <ItemGroup>

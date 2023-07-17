@@ -1,20 +1,12 @@
 ﻿namespace E.Mathematics;
 
-public class MathFunction : IFunction
+public class MathFunction(string name, Func<double, double> func) : IFunction
 {
-    private readonly Func<double, double> _func;
+    private readonly Func<double, double> _func = func;
 
-    public MathFunction(string name, Func<double, double> func)
-    {
-        Name = name;
-        Parameters = new[] { Parameter.Get(ObjectType.Number) };
+    public string Name { get; } = name;
 
-        _func = func;
-    }
-
-    public string Name { get; }
-
-    public Parameter[] Parameters { get; }
+    public Parameter[] Parameters { get; } = new[] { Parameter.Get(ObjectType.Number) };
 
     ObjectType IObject.Kind => ObjectType.Function;
 

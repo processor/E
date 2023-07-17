@@ -1,14 +1,13 @@
 ﻿using Carbon.Color;
 
-namespace E.Imaging
+namespace E.Imaging;
+
+public class ColorModule : Module
 {
-    public class ColorModule : Module
+    public ColorModule()
     {
-        public ColorModule()
-        {
-            AddExport("rgb", new RgbConstructor());
-            AddExport("transparent", NamedColor.Transparent);
-            // Add("adjust", new AdjustColorFunction());
-        }
+        AddExport("rgb", new RgbConstructor());
+        AddExport("transparent", NamedColor.Transparent);
+        // Add("adjust", new AdjustColorFunction());
     }
 }

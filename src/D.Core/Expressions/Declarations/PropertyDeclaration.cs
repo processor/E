@@ -1,26 +1,18 @@
 ﻿namespace E.Expressions;
 
-public sealed class VariableDeclaration : IExpression
+public sealed class VariableDeclaration(
+    string name,
+    Type type,
+    ObjectFlags flags,
+    IExpression? value = null) : IExpression
 {
-    public VariableDeclaration(
-        string name, 
-        Type type, 
-        ObjectFlags flags, 
-        IExpression? value = null)
-    {
-        Name = name;
-        Type = type;
-        Flags = flags;
-        Value = value;
-    }
+    public string Name { get; } = name;
 
-    public string Name { get; }
+    public Type Type { get; } = type;
 
-    public Type Type { get; }
+    public ObjectFlags Flags { get; } = flags;
 
-    public ObjectFlags Flags { get; }
-
-    public IExpression? Value { get; }
+    public IExpression? Value { get; } = value;
 
     public bool IsMutable => Flags.HasFlag(ObjectFlags.Mutable);
 

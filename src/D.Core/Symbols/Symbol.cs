@@ -10,14 +10,14 @@ namespace E.Symbols;
 
 public abstract class Symbol : IExpression, ISyntaxNode
 {
-    public Symbol(string name, SymbolFlags flags = SymbolFlags.None)
+    public Symbol(string name, SymbolFlags flags = default)
     {
         Name = name;
         Flags = flags;
         Arguments = Array.Empty<ArgumentSymbol>();
     }
 
-    public Symbol(string name, IReadOnlyList<Symbol> arguments, SymbolFlags flags = SymbolFlags.None)
+    public Symbol(string name, IReadOnlyList<Symbol> arguments, SymbolFlags flags = default)
     {
         Name = name;
         Arguments = arguments;
@@ -28,7 +28,7 @@ public abstract class Symbol : IExpression, ISyntaxNode
         ModuleSymbol? module,
         string name,
         IReadOnlyList<Symbol> arguments,
-        SymbolFlags flags = SymbolFlags.None)
+        SymbolFlags flags = default)
     {
         Module = module;
         Name = name;

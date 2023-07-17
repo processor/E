@@ -2,7 +2,10 @@
 
 namespace E.Expressions;
 
-public class BinaryExpression(Operator op, IObject lhs, IObject rhs) : IExpression
+public class BinaryExpression(
+    Operator op,
+    IObject lhs,
+    IObject rhs) : IExpression
 {
     public Operator Operator { get; } = op;
 

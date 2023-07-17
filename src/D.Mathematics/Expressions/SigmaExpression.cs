@@ -2,14 +2,9 @@
 
 namespace E.Mathematics;
 
-public sealed class SigmaExpression : IExpression
+public sealed class SigmaExpression(IExpression expression) : IExpression
 {
-    public SigmaExpression(IExpression expression)
-    {
-        Expression = expression;
-    }
-
-    public IExpression Expression { get; }
+    public IExpression Expression { get; } = expression;
 
     ObjectType IObject.Kind => ObjectType.Sigma;
 }

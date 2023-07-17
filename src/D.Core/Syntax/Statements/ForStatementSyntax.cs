@@ -8,7 +8,7 @@ public sealed class ForStatementSyntax(
 
     // name | tuple pattern
     //  x   |    (x, x)
-    public ISyntaxNode? VariableExpression { get; set; } = variableExpression;
+    public ISyntaxNode? VariableExpression { get; } = variableExpression;
 
     // variable |  range
     //    c     | 1...100

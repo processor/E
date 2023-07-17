@@ -1,23 +1,15 @@
-﻿namespace E.Syntax
-{    
-    public sealed class TernaryExpressionSyntax : ISyntaxNode
-    {
-        public TernaryExpressionSyntax(
-            ISyntaxNode condition,
-            ISyntaxNode left, 
-            ISyntaxNode right)
-        {
-            Condition = condition;
-            Left = left;
-            Right = right;
-        }
+﻿namespace E.Syntax;
 
-        public ISyntaxNode Condition { get; }
+public sealed class TernaryExpressionSyntax(
+    ISyntaxNode condition,
+    ISyntaxNode left,
+    ISyntaxNode right) : ISyntaxNode
+{
+    public ISyntaxNode Condition { get; } = condition;
 
-        public ISyntaxNode Left { get; }
+    public ISyntaxNode Left { get; } = left;
 
-        public ISyntaxNode Right { get; }
+    public ISyntaxNode Right { get; } = right;
 
-        SyntaxKind ISyntaxNode.Kind => SyntaxKind.TernaryExpression;
-    }
+    SyntaxKind ISyntaxNode.Kind => SyntaxKind.TernaryExpression;
 }

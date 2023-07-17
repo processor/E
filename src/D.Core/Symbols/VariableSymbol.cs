@@ -1,9 +1,9 @@
 ﻿namespace E.Symbols;
 
-public sealed class VariableSymbol : Symbol
+public sealed class VariableSymbol(
+    string name,
+    SymbolFlags flags = default) : Symbol(name, flags)
 {
-    public VariableSymbol(string name, SymbolFlags flags = SymbolFlags.None)
-        : base(name, flags) { }
 
     // Scope = Local OR Block
 

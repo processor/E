@@ -12,26 +12,19 @@ public sealed class ObserveStatement(
     UntilExpression until) : IExpression
 {
     // document
-    public IExpression Observable { get; set; } = observable;
+    public IExpression Observable { get; } = observable;
 
     // Pointer'Moved
     public Symbol EventType { get; } = eventType;
 
     // e
-    public string ParameterName { get; set; } = eventName;
+    public string ParameterName { get; } = eventName;
 
     // Block | Lambda
     public IExpression Body { get; } = body;
 
-    // until gallary Detached
-    public UntilExpression UntilExpression { get; set; } = until;
+    // until x Detached
+    public UntilExpression UntilExpression { get; } = until;
 
     ObjectType IObject.Kind => ObjectType.ObserveStatement;
-}
-
-public sealed class UntilExpression(IExpression observable, Symbol eventType)
-{
-    public IExpression Observable { get; } = observable;
-
-    public Symbol EventType { get; } = eventType;
 }
