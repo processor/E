@@ -9,4 +9,4 @@ public sealed class UnitConverter(double multiplier) : IConverter<double, double
     public double Convert(double source) => source * Multiplier;
 }
 
-// do the oposite of the action to find the value?
+// do the opposite of the action to find the value?

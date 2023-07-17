@@ -3,18 +3,12 @@ using System.Numerics;
 
 namespace E;
 
-public readonly struct Complex<T> : INumber
+public readonly struct Complex<T>(T real, T imaginary) : INumber
     where T : unmanaged, INumberBase<T>
 {
-    public Complex(T real, T imaginary)
-    {
-        Real = real;
-        Imaginary = imaginary;
-    }
+    public T Real { get; } = real;
 
-    public T Real { get; }
-
-    public T Imaginary { get; }
+    public T Imaginary { get; } = imaginary;
 
     readonly ObjectType IObject.Kind => ObjectType.Complex;
 

@@ -117,7 +117,7 @@ public static class TypeSystem
         return false;
     }
 
-    // Creates a recurssive copy of the type.
+    // Creates a recursive copy of the type.
     public static IType Fresh(IType t, IReadOnlyList<IType> types)
     {
         return Fresh(t, types, new Dictionary<int, IType>());
@@ -135,12 +135,13 @@ public static class TypeSystem
             }
             else
             {
-                if (!variables.ContainsKey(var.Uid))
+                if (!variables.TryGetValue(var.Uid, out IType? value))
                 {
-                    variables[var.Uid] = NewGeneric();
+                    value = NewGeneric();
+                    variables[var.Uid] = value;
                 }
 
-                return variables[var.Uid];
+                return value;
             }
         }
         else if (t is Type type)

@@ -71,7 +71,7 @@ public sealed class Parameter
     public ParameterDirection Direction { get; }
 
     // TODO: cache on kind
-    public static Parameter Get(ObjectType kind) => new Parameter(new Type(kind));
+    public static Parameter Get(ObjectType kind) => new(new Type(kind));
 
     #region Flags
 

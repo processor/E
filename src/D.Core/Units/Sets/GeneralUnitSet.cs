@@ -5,7 +5,7 @@ using static UnitInfo;
 public sealed class GeneralUnitSet : UnitSet
 {
     // NOTE: Joule is apart of Eletromagnism Units
-    // NOTE: Netwon is apart of Force Units
+    // NOTE: Newton is apart of Force Units
 
     public GeneralUnitSet()
     {

@@ -4,16 +4,11 @@ using System.Text;
 
 namespace E;
 
-public readonly struct Superscript
+public readonly struct Superscript(int value)
 {
     private static readonly char[] s_digits = { '⁰', '¹', '²', '³', '⁴', '⁵', '⁶', '⁷', '⁸', '⁹' };
 
-    public Superscript(int value)
-    {
-        Value = value;
-    }
-
-    public int Value { get; }
+    public int Value { get; } = value;
 
     public static int Parse(ReadOnlySpan<char> text)
     {

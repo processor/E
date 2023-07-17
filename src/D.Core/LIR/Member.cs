@@ -1,23 +1,16 @@
 ﻿namespace E;
 
-public abstract class Member
+public abstract class Member(string name, Type type, ObjectFlags modifiers)
 {
-    public Member(string name, Type type, ObjectFlags modifiers)
-    {
-        Name = name;
-        Type = type;
-        Modifiers = modifiers;
-    }
-
-    public string Name { get; }
+    public string Name { get; } = name;
 
     // String
     // String | Number
     // A & B
-    public Type Type { get; }
+    public Type Type { get; } = type;
 
     // mutable
-    public ObjectFlags Modifiers { get; }
+    public ObjectFlags Modifiers { get; } = modifiers;
 
     #region Helpers
 

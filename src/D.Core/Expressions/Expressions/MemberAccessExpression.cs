@@ -3,19 +3,15 @@
 namespace E.Expressions;
 
 // .member
-public sealed class MemberAccessExpression : IExpression
+public sealed class MemberAccessExpression(
+    IExpression left,
+    Symbol memberName) : IExpression
 {
-    public MemberAccessExpression(IExpression left, Symbol memberName)
-    {
-        Left = left;
-        MemberName = memberName;
-    }
-
     // Type: Array | Property
-    public IExpression Left { get; }
+    public IExpression Left { get; } = left;
 
     // The member
-    public Symbol MemberName { get; }
+    public Symbol MemberName { get; } = memberName;
 
     public override string ToString()
     {

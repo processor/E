@@ -1,14 +1,9 @@
 ﻿namespace E.Expressions;
 
 // $"{expression}text"
-public sealed class InterpolatedStringExpression : IExpression
+public sealed class InterpolatedStringExpression(params IExpression[] children) : IExpression
 {
-    public InterpolatedStringExpression(IExpression[] children)
-    {
-        Children = children;
-    }
-
-    public IExpression[] Children { get; }
+    public IExpression[] Children { get; } = children;
 
     public IExpression this[int index] => Children[index];
 

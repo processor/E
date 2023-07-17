@@ -1,27 +1,19 @@
-﻿namespace E.Syntax
+﻿namespace E.Syntax;
+
+public sealed class MatchCaseSyntax(ISyntaxNode pattern, ISyntaxNode? condition, LambdaExpressionSyntax body)
 {
-    public sealed class MatchCaseSyntax
-    {
-        public MatchCaseSyntax(ISyntaxNode pattern, ISyntaxNode? condition, LambdaExpressionSyntax body)
-        {
-            Pattern = pattern;
-            Condition = condition;
-            Body = body;
-        }
+    public ISyntaxNode Pattern { get; } = pattern;
 
-        public ISyntaxNode Pattern { get; }
+    public ISyntaxNode? Condition { get; } = condition;
 
-        public ISyntaxNode? Condition { get; }
-
-        public LambdaExpressionSyntax Body { get; }
-    }
+    public LambdaExpressionSyntax Body { get; } = body;
 }
 
 /*
 switch expression { 
-    case pattern => body
-    case pattern when condition => body
-    case pattern => { 
-
-    }
+  case pattern => body
+  case pattern when condition => body
+  case pattern => { 
+  }
+}
 */

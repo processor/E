@@ -2,20 +2,16 @@
 
 namespace E.Expressions;
 
-public sealed class Equation : IExpression
+public sealed class Equation(
+    IObject lhs,
+    IObject rhs,
+    Symbol[] symbols) : IExpression
 {
-    public Equation(IObject lhs, IObject rhs, Symbol[] symbols)
-    {
-        Left    = lhs;
-        Right   = rhs;
-        Symbols = symbols;
-    }
+    public IObject Left { get; } = lhs;
 
-    public IObject Left { get; }
+    public IObject Right { get; } = rhs;
 
-    public IObject Right { get; }
-
-    public Symbol[] Symbols { get; }
+    public Symbol[] Symbols { get; } = symbols;
 
     // TODO: Invariants
     // x > 10

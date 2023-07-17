@@ -2,17 +2,13 @@
 
 namespace E.Expressions;
 
-public sealed class AnnotationExpression : IExpression
+public sealed class AnnotationExpression(
+    Symbol name,
+    IArguments arguments) : IExpression
 {
-    public AnnotationExpression(Symbol name, IArguments arguments)
-    {
-        Name = name;
-        Arguments = arguments;
-    }
+    public Symbol Name { get; } = name;
 
-    public Symbol Name { get; }
-
-    public IArguments Arguments { get; }
+    public IArguments Arguments { get; } = arguments;
 
     ObjectType IObject.Kind => ObjectType.AnnotationExpression;
 }

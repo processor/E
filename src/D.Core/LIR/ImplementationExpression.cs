@@ -4,29 +4,21 @@ using E.Expressions;
 
 namespace E;
 
-public sealed class ImplementationExpression : IExpression
+public sealed class ImplementationExpression(
+    ProtocolExpression? protocol,
+    Type type,
+    IReadOnlyList<VariableDeclaration> variables,
+    IReadOnlyList<FunctionExpression> members) : IExpression
 {
-    public ImplementationExpression(
-        ProtocolExpression? protocol,
-        Type type,
-        IReadOnlyList<VariableDeclaration> variables,
-        IReadOnlyList<FunctionExpression> members)
-    {
-        Protocol = protocol;
-        Type = type;
-        Variables = variables;
-        Methods = members;
-    }
-
     // Struct | Class
 
-    public Type Type { get; }
+    public Type Type { get; } = type;
 
-    public ProtocolExpression? Protocol { get; }
+    public ProtocolExpression? Protocol { get; } = protocol;
 
-    public IReadOnlyList<VariableDeclaration> Variables { get; }
+    public IReadOnlyList<VariableDeclaration> Variables { get; } = variables;
 
-    public IReadOnlyList<FunctionExpression> Methods { get; }
+    public IReadOnlyList<FunctionExpression> Methods { get; } = members;
 
     ObjectType IObject.Kind => ObjectType.Implementation;
 }

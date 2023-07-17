@@ -11,11 +11,11 @@ public partial class Compiler
     {
         // TODO: create a nested scope...
 
-        var paramaters = ResolveParameters(syntax.Parameters);
+        var parameters = ResolveParameters(syntax.Parameters);
 
-        for (int i = 0; i < paramaters.Length; i++)
+        for (int i = 0; i < parameters.Length; i++)
         {
-            Parameter p = paramaters[i];
+            Parameter p = parameters[i];
 
             flow.Define(p.Name ?? $"_{i}", p.Type);
         }
@@ -47,7 +47,7 @@ public partial class Compiler
         var result = new FunctionExpression(
             name              : syntax.Name,
             genericParameters : ResolveParameters(syntax.GenericParameters),
-            parameters        : paramaters,
+            parameters        : parameters,
             returnType        : returnType,
             body              : body,
             flags             : syntax.Flags) {

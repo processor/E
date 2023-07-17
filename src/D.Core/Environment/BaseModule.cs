@@ -20,7 +20,7 @@ public sealed class BaseModule : Module
         AddExport(Type.Get(ObjectType.BFloat16));
 
 
-        // Alises / Keywords
+        // Aliases / Keywords
         AddExport("u8",     Type.Get(ObjectType.Byte));
         AddExport("i8",     Type.Get(ObjectType.Int8));
         AddExport("i16",    Type.Get(ObjectType.Int16));

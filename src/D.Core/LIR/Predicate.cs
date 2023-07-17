@@ -5,20 +5,13 @@ namespace E;
 // x > 10
 // x < 10
 
-public sealed class Predicate : IObject
+public sealed class Predicate(Operator op, Symbol left, IObject right) : IObject
 {
-    public Predicate(Operator op, Symbol left, IObject right)
-    {
-        Operator = op;
-        Left = left;
-        Right = right;
-    }
+    public Operator Operator { get; } = op;
 
-    public Operator Operator { get; }
+    public Symbol Left { get; } = left;
 
-    public Symbol Left { get; }
-
-    public IObject Right { get; }
+    public IObject Right { get; } = right;
 
     ObjectType IObject.Kind => ObjectType.Predicate;
 
