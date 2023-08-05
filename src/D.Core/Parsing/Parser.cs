@@ -787,7 +787,7 @@ public sealed class Parser
         ConsumeIf(Semicolon); // ? ;
 
         return new FunctionDeclarationSyntax(
-            parameters  : new[] { new ParameterSyntax(parameterName) },
+            parameters  : [ new ParameterSyntax(parameterName) ],
             body        : lambda, 
             flags       : ObjectFlags.Anonymous
         );
@@ -1401,14 +1401,14 @@ public sealed class Parser
      
             Consume(BracketClose); // ]
 
-            return new TypeSymbol("Array", arguments: new[] { type });
+            return new TypeSymbol("Array", arguments: [ type ]);
         }
 
         // Async?
 
         if (ConsumeIf('*'))
         {
-            return new TypeSymbol("Channel", arguments: new[] { ReadTypeSymbol() });
+            return new TypeSymbol("Channel", arguments: [ ReadTypeSymbol() ]);
         }
 
         ModuleSymbol? module = null;
@@ -1585,7 +1585,7 @@ public sealed class Parser
         {
             var name = Symbol.Type("Array", ReadSymbol(SymbolKind.Type));
 
-            return new CallExpressionSyntax(null, name, new[] { new ArgumentSyntax(elements[0]) });
+            return new CallExpressionSyntax(null, name, [ new ArgumentSyntax(elements[0]) ]);
         }
         */
 

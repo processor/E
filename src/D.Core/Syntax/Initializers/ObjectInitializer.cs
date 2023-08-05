@@ -1,14 +1,12 @@
-﻿using System.Collections.Generic;
-
-using E.Symbols;
+﻿using E.Symbols;
 
 namespace E.Syntax;
 
 public sealed class ObjectInitializerSyntax(
-    TypeSymbol type,
+    TypeSymbol? type,
     ArgumentSyntax[] arguments) : ISyntaxNode
 {
-    public TypeSymbol Type { get; } = type;
+    public TypeSymbol? Type { get; } = type;
 
     public ArgumentSyntax[] Arguments { get; } = arguments;
 

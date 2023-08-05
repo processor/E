@@ -122,7 +122,7 @@ public partial class Compiler
             SyntaxKind.Symbol                       => VisitSymbol((Symbol)syntax),
             SyntaxKind.NumberLiteral                => VisitNumber((NumberLiteralSyntax)syntax),
             SyntaxKind.UnitValueLiteral             => VisitUnitValue((UnitValueSyntax)syntax),
-            SyntaxKind.StringLiteral                => new StringLiteral(syntax.ToString()),
+            SyntaxKind.StringLiteral                => new StringLiteral(((StringLiteralSyntax)syntax).Value),
             SyntaxKind.ArrayInitializer             => VisitNewArray((ArrayInitializerSyntax)syntax),
 
             _ => throw new Exception($"Unexpected syntax:{syntax.Kind}/{syntax.GetType()}"),

@@ -32,25 +32,25 @@ public class Flow
         any = GetType(ObjectType.Object);
 
         itemType = TypeSystem.NewGeneric();
-        listType = TypeSystem.NewType(KnownTypeNames.List, args: new[] { itemType });
+        listType = TypeSystem.NewType(KnownTypeNames.List, args: [ itemType ]);
 
-        TypeSystem.Infer(env, new DefineNode(new VariableNode("contains"), Node.Abstract(new[] {
+        TypeSystem.Infer(env, new DefineNode(new VariableNode("contains"), Node.Abstract([
             new VariableNode("list", listType)
-        }, new ConstantNode(boolean))));
+        ], new ConstantNode(boolean))));
 
-        TypeSystem.Infer(env, new DefineNode(new VariableNode("head"), Node.Abstract(new[] {
+        TypeSystem.Infer(env, new DefineNode(new VariableNode("head"), Node.Abstract([
             new VariableNode("list", listType)
-        }, new ConstantNode(itemType), itemType)));
+        ], new ConstantNode(itemType), itemType)));
 
         // Binary Operators
         foreach (var op in s_binaryOperatorSymbols)
         {
             var g = TypeSystem.NewGeneric();
 
-            TypeSystem.Infer(env, new DefineNode(new VariableNode(op), Node.Abstract(new[] {
+            TypeSystem.Infer(env, new DefineNode(new VariableNode(op), Node.Abstract([
                 new VariableNode("lhs", g),
                 new VariableNode("rhs", g)
-            }, new ConstantNode(g))));
+            ], new ConstantNode(g))));
         }
 
         // Comparisons
@@ -58,25 +58,24 @@ public class Flow
         {
             var g = TypeSystem.NewGeneric();
 
-            TypeSystem.Infer(env, new DefineNode(new VariableNode(op), Node.Abstract(new[] {
+            TypeSystem.Infer(env, new DefineNode(new VariableNode(op), Node.Abstract([
                 new VariableNode("lhs", g),
                 new VariableNode("rhs", g)
-            }, new ConstantNode(boolean))));
+            ], new ConstantNode(boolean))));
         }
 
         var ifThenElse = TypeSystem.NewGeneric();
 
-        TypeSystem.Infer(env, new DefineNode(new VariableNode("if"), Node.Abstract(new[] {
+        TypeSystem.Infer(env, new DefineNode(new VariableNode("if"), Node.Abstract([
             new VariableNode("condition", boolean),
             new VariableNode("then", ifThenElse),
-            new VariableNode("else", ifThenElse) },
-            new VariableNode("then"), ifThenElse))
-        );
+            new VariableNode("else", ifThenElse) 
+        ], new VariableNode("then"), ifThenElse)));
 
         // ! {expression}
-        TypeSystem.Infer(env, new DefineNode(new VariableNode("!"), Node.Abstract(new[] {
+        TypeSystem.Infer(env, new DefineNode(new VariableNode("!"), Node.Abstract([
             new VariableNode("expression", boolean)
-        }, new ConstantNode(boolean), boolean)));
+        ], new ConstantNode(boolean), boolean)));
     }
 
     public IType NewGeneric() => TypeSystem.NewGeneric();
@@ -85,7 +84,7 @@ public class Flow
     {
         var item = GetType(elementKind);
 
-        return TypeSystem.NewType(listType, $"List<{elementKind}>", new[] { item });
+        return TypeSystem.NewType(listType, $"List<{elementKind}>", [ item ]);
     }
 
     public IType GetType(ObjectType kind) => GetType(new Type(kind));

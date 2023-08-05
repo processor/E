@@ -2,7 +2,6 @@
 
 public sealed class UnaryExpressionSyntax(Operator op, ISyntaxNode arg) : ISyntaxNode
 {
-
     // Change to symbol
     public Operator Operator { get; } = op;
 

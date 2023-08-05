@@ -16,7 +16,7 @@ public enum GeometricType
     Circle     = 17_278,
     Ellipse    = 40_112,
     Triangle   = 19_821,
-    Rectangle  = 209, 
+    Rectangle  = 209,
 
     // 3D
     Cone       = 42_344,

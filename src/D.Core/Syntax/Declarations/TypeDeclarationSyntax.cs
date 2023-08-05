@@ -46,7 +46,7 @@ public sealed class TypeDeclarationSyntax(
 {
 
     // e.g.
-    // Crash 
+    // Crash
     // Vehicle 'Crash 
     public Symbol Name { get; } = name;
 

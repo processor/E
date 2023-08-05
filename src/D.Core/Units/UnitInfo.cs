@@ -13,7 +13,7 @@ using static UnitFlags;
 
 public sealed class UnitInfo : IEquatable<UnitInfo>, IObject, ISpanFormattable
 {
-    public static readonly UnitInfo None = new (0, string.Empty, Dimension.None);
+    public static readonly UnitInfo None = new(0, string.Empty, Dimension.None);
 
     #region Angles (Plane & Solid)
 
@@ -59,46 +59,46 @@ public sealed class UnitInfo : IEquatable<UnitInfo>, IObject, ISpanFormattable
 
     #region Mass
 
-    public static readonly UnitInfo Gram     = new (41_803, "g", Mass, SI | Base);
+    public static readonly UnitInfo Gram     = new(41_803, "g", Mass, SI | Base);
     public static readonly UnitInfo Kilogram = Gram.WithPrefix(SIPrefix.k);
 
     // Standard is KG
 
-    public static readonly UnitInfo Pound = new (100_995, "lb", Mass, 453.592d); // lb = 453.592g
+    public static readonly UnitInfo Pound = new(100_995, "lb", Mass, 453.592d); // lb = 453.592g
 
     #endregion
 
-    public static readonly UnitInfo Mole = new (41_509, "mol", AmountOfSubstance, SI | Base);
+    public static readonly UnitInfo Mole = new(41_509, "mol", AmountOfSubstance, SI | Base);
 
     // Luminocity -
 
-    public static readonly UnitInfo Candela = new (83_216, "cd", LuminousIntensity, SI | Base);
+    public static readonly UnitInfo Candela = new(83_216, "cd", LuminousIntensity, SI | Base);
 
     #region Time
 
     // 5.39 x 10−44 s
 
-    public static readonly UnitInfo Second  = new (11_574, "s",   Time, SI | Base);  // s
-    public static readonly UnitInfo Minute  = new (7_727,  "min", Time, 60d);
-    public static readonly UnitInfo Hour    = new (25_235, "h",   Time, 60d * 60d);
-    public static readonly UnitInfo Week    = new (23_387, "wk",  Time, 60d * 60d * 24 * 7);
+    public static readonly UnitInfo Second  = new(11_574, "s",   Time, SI | Base);  // s
+    public static readonly UnitInfo Minute  = new(7_727,  "min", Time, 60d);
+    public static readonly UnitInfo Hour    = new(25_235, "h",   Time, 60d * 60d);
+    public static readonly UnitInfo Week    = new(23_387, "wk",  Time, 60d * 60d * 24 * 7);
 
     #endregion
 
     // Pressure - 
-    public static readonly UnitInfo Pascal = new (44_395, "Pa", Pressure);
+    public static readonly UnitInfo Pascal = new(44_395, "Pa", Pressure);
      
     // Volume - 
-    public static readonly UnitInfo Liter = new (11_582, "L", Length); //  1,000 cubic centimeters
+    public static readonly UnitInfo Liter = new(11_582, "L", Length); //  1,000 cubic centimeters
 
 
-    public static readonly UnitInfo Katal = new (208_634, "kat", CatalyticActivity);
+    public static readonly UnitInfo Katal = new(208_634, "kat", CatalyticActivity);
 
     public static readonly UnitInfo SquareMeters = new UnitInfo(25_343,"m", Length).WithExponent(2);
 
     // Dimensionless
 
-    public static readonly UnitInfo Percent = new (11_229, "%", Dimension.None, 1, new Number(0.01)); // 1/100
+    public static readonly UnitInfo Percent = new(11_229, "%", Dimension.None, 1, new Number(0.01)); // 1/100
 
     public UnitInfo(string name) // e.g. px
     {

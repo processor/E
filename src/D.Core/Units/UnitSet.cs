@@ -16,7 +16,7 @@ public class UnitSet
         new CssUnitSet()
     );
 
-    private readonly Dictionary<string, UnitInfo> items = new();
+    private readonly Dictionary<string, UnitInfo> _items = new();
 
     private readonly Trie<UnitInfo> _trie = new ();
 
@@ -39,19 +39,19 @@ public class UnitSet
 
     public void Add(string name, UnitInfo type)
     {
-        items[name] = type;
+        _items[name] = type;
 
         _trie.TryAdd(name, type);
     }
 
     public void Add(UnitInfo type)
     {
-        items[type.Name] = type;
+        _items[type.Name] = type;
     }
 
     public void AddRange(UnitSet collection)
     {
-        foreach (var item in collection.items)
+        foreach (var item in collection._items)
         {
             Add(item.Key, item.Value);
         }

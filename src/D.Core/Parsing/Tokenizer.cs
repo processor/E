@@ -48,7 +48,7 @@ public sealed class Tokenizer
 
                 modes.Pop();
 
-                if (reader.Current == '\'')
+                if (reader.Current is '\'')
                 {
                     return Read(Apostrophe); // Closing
                 }

@@ -24,7 +24,8 @@ public sealed class Parameter
         Direction = ParameterDirection.In;
     }
 
-    public Parameter(string name, 
+    public Parameter(
+        string name, 
         Type type, 
         bool isOptional = false,
         object? defaultValue = null,

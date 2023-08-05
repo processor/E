@@ -74,11 +74,10 @@ public partial class Compiler
                     var rhsType = GetType(b.Right);
 
                     /*
-                    var apply = D.Inference.Node.Apply(D.Inference.Node.Variable("operator-symbol"), new[] { 
+                    var apply = D.Inference.Node.Apply(D.Inference.Node.Variable("operator-symbol"), [
                         D.Inference.Node.Constant(lhs), // lhs
                         D.Inference.Node.Constant(rhs)  // rhs
-                    });
-
+                    ]);
 
                     var r = flow.Infer(apply);
                     */

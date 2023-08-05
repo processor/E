@@ -10,270 +10,269 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Runtime.CompilerServices;
 
-namespace System.Text
+namespace System.Text;
+
+internal ref struct ValueStringBuilder
 {
-    internal ref struct ValueStringBuilder
+    private char[]? _arrayToReturnToPool;
+    private Span<char> _chars;
+    private int _pos;
+
+    public ValueStringBuilder(Span<char> initialBuffer)
     {
-        private char[]? _arrayToReturnToPool;
-        private Span<char> _chars;
-        private int _pos;
+        _arrayToReturnToPool = null;
+        _chars = initialBuffer;
+        _pos = 0;
+    }
 
-        public ValueStringBuilder(Span<char> initialBuffer)
+    public ValueStringBuilder(int initialCapacity)
+    {
+        _arrayToReturnToPool = ArrayPool<char>.Shared.Rent(initialCapacity);
+        _chars = _arrayToReturnToPool;
+        _pos = 0;
+    }
+
+    public int Length
+    {
+        readonly get => _pos;
+        set
         {
-            _arrayToReturnToPool = null;
-            _chars = initialBuffer;
-            _pos = 0;
+            Debug.Assert(value >= 0);
+            Debug.Assert(value <= _chars.Length);
+            _pos = value;
         }
+    }
 
-        public ValueStringBuilder(int initialCapacity)
+    public readonly int Capacity => _chars.Length;
+
+    public ref char this[int index]
+    {
+        get
         {
-            _arrayToReturnToPool = ArrayPool<char>.Shared.Rent(initialCapacity);
-            _chars = _arrayToReturnToPool;
-            _pos = 0;
+            Debug.Assert(index < _pos);
+            return ref _chars[index];
         }
+    }
 
-        public int Length
+    public override string ToString()
+    {
+        string s = _chars.Slice(0, _pos).ToString();
+        Dispose();
+        return s;
+    }
+
+    public ReadOnlySpan<char> AsSpan() => _chars.Slice(0, _pos);
+    public ReadOnlySpan<char> AsSpan(int start) => _chars.Slice(start, _pos - start);
+    public ReadOnlySpan<char> AsSpan(int start, int length) => _chars.Slice(start, length);
+
+    public bool TryCopyTo(Span<char> destination, out int charsWritten)
+    {
+        if (_chars.Slice(0, _pos).TryCopyTo(destination))
         {
-            readonly get => _pos;
-            set
-            {
-                Debug.Assert(value >= 0);
-                Debug.Assert(value <= _chars.Length);
-                _pos = value;
-            }
-        }
-
-        public readonly int Capacity => _chars.Length;
-
-        public ref char this[int index]
-        {
-            get
-            {
-                Debug.Assert(index < _pos);
-                return ref _chars[index];
-            }
-        }
-
-        public override string ToString()
-        {
-            string s = _chars.Slice(0, _pos).ToString();
+            charsWritten = _pos;
             Dispose();
-            return s;
+            return true;
+        }
+        else
+        {
+            charsWritten = 0;
+            Dispose();
+            return false;
+        }
+    }
+
+    public void Insert(int index, char value, int count)
+    {
+        if (_pos > _chars.Length - count)
+        {
+            Grow(count);
         }
 
-        public ReadOnlySpan<char> AsSpan() => _chars.Slice(0, _pos);
-        public ReadOnlySpan<char> AsSpan(int start) => _chars.Slice(start, _pos - start);
-        public ReadOnlySpan<char> AsSpan(int start, int length) => _chars.Slice(start, length);
+        int remaining = _pos - index;
+        _chars.Slice(index, remaining).CopyTo(_chars.Slice(index + count));
+        _chars.Slice(index, count).Fill(value);
+        _pos += count;
+    }
 
-        public bool TryCopyTo(Span<char> destination, out int charsWritten)
+    public void Insert(int index, string? s)
+    {
+        if (s == null)
         {
-            if (_chars.Slice(0, _pos).TryCopyTo(destination))
-            {
-                charsWritten = _pos;
-                Dispose();
-                return true;
-            }
-            else
-            {
-                charsWritten = 0;
-                Dispose();
-                return false;
-            }
+            return;
         }
 
-        public void Insert(int index, char value, int count)
-        {
-            if (_pos > _chars.Length - count)
-            {
-                Grow(count);
-            }
+        int count = s.Length;
 
-            int remaining = _pos - index;
-            _chars.Slice(index, remaining).CopyTo(_chars.Slice(index + count));
-            _chars.Slice(index, count).Fill(value);
-            _pos += count;
+        if (_pos > (_chars.Length - count))
+        {
+            Grow(count);
         }
 
-        public void Insert(int index, string? s)
+        int remaining = _pos - index;
+        _chars.Slice(index, remaining).CopyTo(_chars.Slice(index + count));
+        s.CopyTo(_chars.Slice(index));
+        _pos += count;
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public void Append(char c)
+    {
+        int pos = _pos;
+        if ((uint)pos < (uint)_chars.Length)
         {
-            if (s == null)
-            {
-                return;
-            }
+            _chars[pos] = c;
+            _pos = pos + 1;
+        }
+        else
+        {
+            GrowAndAppend(c);
+        }
+    }
 
-            int count = s.Length;
-
-            if (_pos > (_chars.Length - count))
-            {
-                Grow(count);
-            }
-
-            int remaining = _pos - index;
-            _chars.Slice(index, remaining).CopyTo(_chars.Slice(index + count));
-            s.CopyTo(_chars.Slice(index));
-            _pos += count;
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public void Append(string? s)
+    {
+        if (s == null)
+        {
+            return;
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public void Append(char c)
+        int pos = _pos;
+        if (s.Length == 1 && (uint)pos < (uint)_chars.Length) // very common case, e.g. appending strings from NumberFormatInfo like separators, percent symbols, etc.
         {
-            int pos = _pos;
-            if ((uint)pos < (uint)_chars.Length)
+            _chars[pos] = s[0];
+            _pos = pos + 1;
+        }
+        else
+        {
+            AppendSlow(s);
+        }
+    }
+
+    public void AppendJoin(char seperator, List<string> items)
+    {
+        for (int i = 0; i < items.Count; i++)
+        {
+            if (i > 0)
             {
-                _chars[pos] = c;
-                _pos = pos + 1;
+                Append(seperator);
             }
-            else
+
+            Append(items[i]);
+        }
+    }
+
+    public void AppendJoin(char seperator, IEnumerable<string> items)
+    {
+        int i = 0;
+
+        foreach (var item in items)
+        {
+            if (i > 0)
             {
-                GrowAndAppend(c);
+                Append(seperator);
             }
+
+            Append(item);
+
+            i++;
+        }
+    }
+
+    private void AppendSlow(string s)
+    {
+        int pos = _pos;
+        if (pos > _chars.Length - s.Length)
+        {
+            Grow(s.Length);
         }
 
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public void Append(string? s)
-        {
-            if (s == null)
-            {
-                return;
-            }
+        s.CopyTo(_chars.Slice(pos));
+        _pos += s.Length;
+    }
 
-            int pos = _pos;
-            if (s.Length == 1 && (uint)pos < (uint)_chars.Length) // very common case, e.g. appending strings from NumberFormatInfo like separators, percent symbols, etc.
-            {
-                _chars[pos] = s[0];
-                _pos = pos + 1;
-            }
-            else
-            {
-                AppendSlow(s);
-            }
+    public void Append(char c, int count)
+    {
+        if (_pos > _chars.Length - count)
+        {
+            Grow(count);
         }
 
-        public void AppendJoin(char seperator, List<string> items)
+        Span<char> dst = _chars.Slice(_pos, count);
+        for (int i = 0; i < dst.Length; i++)
         {
-            for (int i = 0; i < items.Count; i++)
-            {
-                if (i > 0)
-                {
-                    Append(seperator);
-                }
+            dst[i] = c;
+        }
+        _pos += count;
+    }
 
-                Append(items[i]);
-            }
+    public void Append(ReadOnlySpan<char> value)
+    {
+        int pos = _pos;
+        if (pos > _chars.Length - value.Length)
+        {
+            Grow(value.Length);
         }
 
-        public void AppendJoin(char seperator, IEnumerable<string> items)
+        value.CopyTo(_chars.Slice(_pos));
+        _pos += value.Length;
+    }
+
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public Span<char> AppendSpan(int length)
+    {
+        int origPos = _pos;
+        if (origPos > _chars.Length - length)
         {
-            int i = 0;
-
-            foreach (var item in items)
-            {
-                if (i > 0)
-                {
-                    Append(seperator);
-                }
-
-                Append(item);
-
-                i++;
-            }
+            Grow(length);
         }
 
-        private void AppendSlow(string s)
-        {
-            int pos = _pos;
-            if (pos > _chars.Length - s.Length)
-            {
-                Grow(s.Length);
-            }
+        _pos = origPos + length;
+        return _chars.Slice(origPos, length);
+    }
 
-            s.CopyTo(_chars.Slice(pos));
-            _pos += s.Length;
+    [MethodImpl(MethodImplOptions.NoInlining)]
+    private void GrowAndAppend(char c)
+    {
+        Grow(1);
+        Append(c);
+    }
+
+    /// <summary>
+    /// Resize the internal buffer either by doubling current buffer size or
+    /// by adding <paramref name="additionalCapacityBeyondPos"/> to
+    /// <see cref="_pos"/> whichever is greater.
+    /// </summary>
+    /// <param name="additionalCapacityBeyondPos">
+    /// Number of chars requested beyond current position.
+    /// </param>
+    [MethodImpl(MethodImplOptions.NoInlining)]
+    private void Grow(int additionalCapacityBeyondPos)
+    {
+        Debug.Assert(additionalCapacityBeyondPos > 0);
+        Debug.Assert(_pos > _chars.Length - additionalCapacityBeyondPos, "Grow called incorrectly, no resize is needed.");
+
+        // Make sure to let Rent throw an exception if the caller has a bug and the desired capacity is negative
+        char[] poolArray = ArrayPool<char>.Shared.Rent((int)Math.Max((uint)(_pos + additionalCapacityBeyondPos), (uint)_chars.Length * 2));
+
+        _chars.Slice(0, _pos).CopyTo(poolArray);
+
+        char[]? toReturn = _arrayToReturnToPool;
+        _chars = _arrayToReturnToPool = poolArray;
+        if (toReturn != null)
+        {
+            ArrayPool<char>.Shared.Return(toReturn);
         }
+    }
 
-        public void Append(char c, int count)
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public void Dispose()
+    {
+        char[]? toReturn = _arrayToReturnToPool;
+        this = default; // for safety, to avoid using pooled array if this instance is erroneously appended to again
+        if (toReturn != null)
         {
-            if (_pos > _chars.Length - count)
-            {
-                Grow(count);
-            }
-
-            Span<char> dst = _chars.Slice(_pos, count);
-            for (int i = 0; i < dst.Length; i++)
-            {
-                dst[i] = c;
-            }
-            _pos += count;
-        }
-
-        public void Append(ReadOnlySpan<char> value)
-        {
-            int pos = _pos;
-            if (pos > _chars.Length - value.Length)
-            {
-                Grow(value.Length);
-            }
-
-            value.CopyTo(_chars.Slice(_pos));
-            _pos += value.Length;
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public Span<char> AppendSpan(int length)
-        {
-            int origPos = _pos;
-            if (origPos > _chars.Length - length)
-            {
-                Grow(length);
-            }
-
-            _pos = origPos + length;
-            return _chars.Slice(origPos, length);
-        }
-
-        [MethodImpl(MethodImplOptions.NoInlining)]
-        private void GrowAndAppend(char c)
-        {
-            Grow(1);
-            Append(c);
-        }
-
-        /// <summary>
-        /// Resize the internal buffer either by doubling current buffer size or
-        /// by adding <paramref name="additionalCapacityBeyondPos"/> to
-        /// <see cref="_pos"/> whichever is greater.
-        /// </summary>
-        /// <param name="additionalCapacityBeyondPos">
-        /// Number of chars requested beyond current position.
-        /// </param>
-        [MethodImpl(MethodImplOptions.NoInlining)]
-        private void Grow(int additionalCapacityBeyondPos)
-        {
-            Debug.Assert(additionalCapacityBeyondPos > 0);
-            Debug.Assert(_pos > _chars.Length - additionalCapacityBeyondPos, "Grow called incorrectly, no resize is needed.");
-
-            // Make sure to let Rent throw an exception if the caller has a bug and the desired capacity is negative
-            char[] poolArray = ArrayPool<char>.Shared.Rent((int)Math.Max((uint)(_pos + additionalCapacityBeyondPos), (uint)_chars.Length * 2));
-
-            _chars.Slice(0, _pos).CopyTo(poolArray);
-
-            char[]? toReturn = _arrayToReturnToPool;
-            _chars = _arrayToReturnToPool = poolArray;
-            if (toReturn != null)
-            {
-                ArrayPool<char>.Shared.Return(toReturn);
-            }
-        }
-
-        [MethodImpl(MethodImplOptions.AggressiveInlining)]
-        public void Dispose()
-        {
-            char[]? toReturn = _arrayToReturnToPool;
-            this = default; // for safety, to avoid using pooled array if this instance is erroneously appended to again
-            if (toReturn != null)
-            {
-                ArrayPool<char>.Shared.Return(toReturn);
-            }
+            ArrayPool<char>.Shared.Return(toReturn);
         }
     }
 }
