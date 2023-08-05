@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
+using System.Text;
 
+using E.Inference;
 using E.Symbols;
 
 namespace E.Syntax;
@@ -9,13 +10,13 @@ namespace E.Syntax;
 public sealed class FunctionDeclarationSyntax : IMemberSyntax, ISyntaxNode
 {
     public FunctionDeclarationSyntax(
-        IReadOnlyList<ParameterSyntax> parameters,
+        ParameterSyntax[] parameters,
         ISyntaxNode body,
         ObjectFlags flags = default)
         : this(parameters, body, null, flags) { }
 
     public FunctionDeclarationSyntax(
-        IReadOnlyList<ParameterSyntax> parameters,
+        ParameterSyntax[] parameters,
         ISyntaxNode body,
         Symbol? returnType,
         ObjectFlags flags = default)
@@ -29,9 +30,9 @@ public sealed class FunctionDeclarationSyntax : IMemberSyntax, ISyntaxNode
 
     public FunctionDeclarationSyntax(
         Symbol name, 
-        IReadOnlyList<ParameterSyntax> genericParameters,
-        IReadOnlyList<ParameterSyntax> parameters,
-        Symbol returnType,
+        ParameterSyntax[] genericParameters,
+        ParameterSyntax[] parameters,
+        Symbol? returnType,
         ISyntaxNode? body,
         ObjectFlags flags = default)
     {
@@ -45,9 +46,9 @@ public sealed class FunctionDeclarationSyntax : IMemberSyntax, ISyntaxNode
 
     public Symbol? Name { get; }
 
-    public IReadOnlyList<ParameterSyntax> GenericParameters { get; }
+    public ParameterSyntax[] GenericParameters { get; }
 
-    public IReadOnlyList<ParameterSyntax> Parameters { get; }
+    public ParameterSyntax[] Parameters { get; }
 
     public Symbol? ReturnType { get; }
 
@@ -60,27 +61,28 @@ public sealed class FunctionDeclarationSyntax : IMemberSyntax, ISyntaxNode
 
     public override string ToString()
     {
-        using var writer = new StringWriter();
+        var writer = new ValueStringBuilder(128);
 
-        WriteTo(writer);
+        WriteTo(ref writer);
 
         return writer.ToString();
     }
 
-    public void WriteTo(TextWriter writer)
+    internal void WriteTo(ref ValueStringBuilder writer)
     {
-        writer.Write("ƒ(");
+        writer.Append("ƒ(");
 
         foreach (var parameter in Parameters)
         {
-            writer.Write(parameter.Type);
+            parameter.Type?.WriteTo(ref writer);
         }
 
-        writer.Write(')');
+        writer.Append(')');
 
         if (Body is not null)
         {
-            writer.WriteLine(Body.ToString());
+            writer.Append(Body.ToString());
+            writer.Append('\n');
         }
     }
 
@@ -106,13 +108,13 @@ public sealed class FunctionDeclarationSyntax : IMemberSyntax, ISyntaxNode
 
     #region Helpers
 
-    TypeSymbol IMemberSyntax.Type => new ("Function", GetParameterTypeSymbols(this.Parameters));
+    TypeSymbol IMemberSyntax.Type => new (KnownTypeNames.Function, GetParameterTypeSymbols(this.Parameters));
 
-    private static Symbol[] GetParameterTypeSymbols(IReadOnlyList<ParameterSyntax> parameters)
+    private static Symbol[] GetParameterTypeSymbols(ReadOnlySpan<ParameterSyntax> parameters)
     {
-        var typeSymbols = new Symbol[parameters.Count];
+        var typeSymbols = new Symbol[parameters.Length];
 
-        for (var i = 0; i < parameters.Count; i++)
+        for (var i = 0; i < parameters.Length; i++)
         {
             typeSymbols[i] = parameters[i].Type;
         }

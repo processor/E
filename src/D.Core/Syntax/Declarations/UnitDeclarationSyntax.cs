@@ -8,13 +8,13 @@ namespace E.Syntax;
 public sealed class UnitDeclarationSyntax(
     Symbol name,
     Symbol? baseType,
-    IReadOnlyList<ArgumentSyntax> arguments) : ISyntaxNode
+    ArgumentSyntax[] arguments) : ISyntaxNode
 {
     public Symbol Name { get; } = name;
 
     public Symbol? BaseType { get; } = baseType;
 
-    public IReadOnlyList<ArgumentSyntax> Arguments { get; } = arguments;
+    public ArgumentSyntax[] Arguments { get; } = arguments;
 
     #region Property Helpers
 

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.IO;
-using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 
 using E.Protocols;
@@ -17,8 +17,9 @@ using static TokenKind;
 
 public sealed class Parser
 {
-    private readonly TokenReader reader;
+    private TokenReader reader;
     private readonly Node environment;
+    private readonly Stack<Mode> _modes = new();
 
     public Parser(string text)
        : this(text, new Node()) { }
@@ -28,7 +29,7 @@ public sealed class Parser
         this.reader = new TokenReader(new Tokenizer(text, environment));
         this.environment = environment;
 
-        modes.Push(Mode.Root);
+        _modes.Push(Mode.Root);
     }
 
     public static ISyntaxNode Parse(string text)
@@ -54,17 +55,15 @@ public sealed class Parser
         Variant = 10,
         Element = 11
     }
-
-    private readonly Stack<Mode> modes = new ();
-
+    
     private void EnterMode(Mode mode)
     {
-        modes.Push(mode);
+        _modes.Push(mode);
     }
 
     private void LeaveMode(Mode mode)
     {
-        var lastMode = modes.Pop();
+        var lastMode = _modes.Pop();
 
         if (lastMode != mode)
         {
@@ -74,7 +73,7 @@ public sealed class Parser
 
     private bool InMode(Mode mode)
     {
-        return modes.Peek() == mode;
+        return _modes.Peek() == mode;
     }
 
     #endregion
@@ -124,7 +123,10 @@ public sealed class Parser
 
         count++;
 
-        if (count > 500) throw new Exception($"excededed call depth reading {reader.Current.Kind}");
+        if (count > 500)
+        {
+            ThrowExceededCallDepth();
+        }
 
         switch (reader.Current.Kind)
         {
@@ -226,7 +228,7 @@ public sealed class Parser
     {
         Consume(Using);            // ! using
 
-        var domains = new List<Symbol>();
+        var domains = new ListBuilder<Symbol>();
 
         do
         {
@@ -236,7 +238,7 @@ public sealed class Parser
 
         ConsumeIf(Semicolon); // ? ;
 
-        return new UsingStatement(domains);
+        return new UsingStatement(domains.ToArray());
     }
 
     public LambdaExpressionSyntax ReadLambda()
@@ -452,7 +454,7 @@ public sealed class Parser
             ? ReadTypeSymbol()          // baseType
             : null;
 
-        var annotations = IsKind(At) ? ReadAnnotations().ToArray() : Array.Empty<AnnotationSyntax>();
+        var annotations = IsKind(At) ? ReadAnnotations() : Array.Empty<AnnotationSyntax>();
         var properties  = ReadTypeDeclarationBody();
 
         ConsumeIf(Semicolon); // ? ;
@@ -494,7 +496,6 @@ public sealed class Parser
     // Modifiers
     // let private | public | mutable
 
-    private readonly List<PropertyDeclarationSyntax> properties = new ();
 
     public ISyntaxNode ReadLet() => ReadLetOrVar(Let);
 
@@ -513,7 +514,7 @@ public sealed class Parser
 
         if (ConsumeIf(ParenthesisOpen))
         {
-            var list = new List<AssignmentElementSyntax>();
+            var list = new ListBuilder<AssignmentElementSyntax>();
 
             do
             {
@@ -535,7 +536,7 @@ public sealed class Parser
 
             ConsumeIf(Semicolon); // ? ;
 
-            return new DestructuringAssignmentSyntax(list, right);
+            return new DestructuringAssignmentSyntax(list.ToArray(), right);
         }
 
         var declaration = ReadVariableDeclaration(modifiers);
@@ -556,24 +557,26 @@ public sealed class Parser
         PropertyDeclarationSyntax first,
         ObjectFlags modifiers)
     {
-        properties.Add(first);
+        var properties = new List<PropertyDeclarationSyntax>(4) {
+            first
+        };
 
         while (ConsumeIf(Comma))
         {
             properties.Add(ReadVariableDeclaration(modifiers));
         }
 
-        bool inferedFromLast = false;
+        bool inferredFromLast = false;
 
         foreach (var v in properties)
         {
             if (v.Type is null && v.Value is null)
             {
-                inferedFromLast = true;
+                inferredFromLast = true;
             }
         }
 
-        if (inferedFromLast)
+        if (inferredFromLast)
         {
             var l = new List<PropertyDeclarationSyntax>(properties.Count);
             var k = properties[^1].Type;
@@ -589,7 +592,7 @@ public sealed class Parser
 
         ConsumeIf(Semicolon); // ? ;
 
-        return new CompoundPropertyDeclaration(properties.Extract());
+        return new CompoundPropertyDeclaration(properties.ToArray());
     }
 
     private PropertyDeclarationSyntax ReadVariableDeclaration(ObjectFlags modifiers)
@@ -648,13 +651,13 @@ public sealed class Parser
 
         Consume(BracketOpen);
 
-        var parameters = ReadParameters().ToArray();
+        var parameters = ReadParameters();
 
         Consume(BracketClose);
 
         var returnType = ConsumeIf(ReturnArrow)
-                ? ReadArgumentSymbol()
-                : null;
+            ? ReadArgumentSymbol()
+            : null;
 
         var body = ReadBody();
 
@@ -693,7 +696,7 @@ public sealed class Parser
 
         if (ConsumeIf(ParenthesisOpen)) // ! (
         {
-            parameters = ReadParameters().ToArray();
+            parameters = ReadParameters();
 
             Consume(ParenthesisClose);  // ! )
         }
@@ -703,7 +706,7 @@ public sealed class Parser
 
             // Note: parameters MUST not begin with an uppercase letter.
 
-            parameters = new ParameterSyntax[] { new (parameterName) };
+            parameters = [ new ParameterSyntax(parameterName) ];
         }
         else
         {
@@ -734,13 +737,13 @@ public sealed class Parser
         return new FunctionDeclarationSyntax(name, genericParameters, parameters, returnType, body, flags);
     }
 
-    private IReadOnlyList<ParameterSyntax> ReadGenericParameters()
+    private ParameterSyntax[] ReadGenericParameters()
     {
         if (ConsumeIf(TagStart))
         {
             int i = 0;
 
-            var list = new List<ParameterSyntax>();
+            var list = new ListBuilder<ParameterSyntax>();
 
             do
             {
@@ -761,7 +764,7 @@ public sealed class Parser
 
             Consume(TagEnd);
 
-            return list;
+            return list.ToArray();
         }
            
         return Array.Empty<ParameterSyntax>();
@@ -797,7 +800,7 @@ public sealed class Parser
             return Array.Empty<ParameterSyntax>();
         }
 
-        var list = new List<ParameterSyntax>();
+        var list = new ListBuilder<ParameterSyntax>();
 
         int i = 0;
 
@@ -841,7 +844,7 @@ public sealed class Parser
             condition = MaybeBinary(name, 0);
         }
 
-        var annotations = ReadAnnotations().ToArray();
+        var annotations = ReadAnnotations();
 
         return new ParameterSyntax(
             name         : name, 
@@ -901,11 +904,11 @@ public sealed class Parser
         return new OperatorDeclarationSyntax(name, properties);
     }
 
-    public IReadOnlyList<ArgumentSyntax> ReadUnitDeclarationProperties()
+    public ArgumentSyntax[] ReadUnitDeclarationProperties()
     {
         Consume(BraceOpen);
 
-        var properties = new List<ArgumentSyntax>();
+        var properties = new ListBuilder<ArgumentSyntax>();
 
         while (!IsKind(BraceClose))
         {
@@ -916,7 +919,7 @@ public sealed class Parser
 
         Consume(BraceClose);
 
-        return properties;
+        return properties.ToArray();
     }
 
     public ArgumentSyntax ReadUnitDeclarationProperty()
@@ -954,23 +957,24 @@ public sealed class Parser
         return Array.Empty<ISyntaxNode>();
     }
 
-    private IEnumerable<AnnotationSyntax> ReadAnnotations()
+    private AnnotationSyntax[] ReadAnnotations()
     {
         // @key
         // @member("hello")
-            
+
+        var builder = new ListBuilder<AnnotationSyntax>();
+
         while (ConsumeIf(At))
         {
             var name = ReadTypeSymbol(); // !{name}
 
             var args = IsKind(ParenthesisOpen) ? ReadArguments() : Array.Empty<ArgumentSyntax>();
 
-            yield return new AnnotationSyntax(name, args);
+            builder.Add(new AnnotationSyntax(name, args));
         }
-    }
 
-    private readonly List<ISyntaxNode> members = new ();
-    private readonly List<FunctionDeclarationSyntax> methods = new ();
+        return builder.ToArray();
+    }
 
     // Account protocol { }
     // Point protocol : Vector3 { } 
@@ -979,11 +983,13 @@ public sealed class Parser
     {
         Consume(Protocol);      // ! protocol
 
+        var methods = new ListBuilder<FunctionDeclarationSyntax>();
+
         Symbol? baseProtocol = ConsumeIf(Colon)
             ? ReadTypeSymbol()
             : null;
 
-        var annotations = ReadAnnotations().ToList();
+        var annotations = ReadAnnotations();
 
         Consume(BraceOpen);   // ! {
 
@@ -992,7 +998,7 @@ public sealed class Parser
         if (!IsKind(BraceClose))
         {
             channelProtocol = reader.Current.Equals("*")
-                ? ReadProtocolChannel().ToArray()
+                ? ReadProtocolChannel()
                 : Array.Empty<IProtocolMessage>();
 
             while (!IsKind(BraceClose))
@@ -1009,13 +1015,13 @@ public sealed class Parser
 
         ConsumeIf(Semicolon); // ? ;
 
-        return new ProtocolDeclarationSyntax(name, channelProtocol, methods.Extract());
+        return new ProtocolDeclarationSyntax(name, channelProtocol, methods.ToArray());
     }
 
-    public List<IProtocolMessage> ReadProtocolChannel()
+    public IProtocolMessage[] ReadProtocolChannel()
     {
-        var messages = new List<IProtocolMessage>();
-        var options = new List<ProtocolMessage>();
+        var messages = new ListBuilder<IProtocolMessage>();
+        var options  = new ListBuilder<ProtocolMessage>();
 
         while (ConsumeIf('*'))  // ! ∙
         {
@@ -1049,9 +1055,9 @@ public sealed class Parser
                     flags |= ProtocolMessageFlags.End;
                 }
 
-                var oneof = new ProtocolMessageChoice(options.Extract(), flags);
+                var oneOf = new ProtocolMessageChoice(options.ToArray(), flags);
 
-                messages.Add(oneof);
+                messages.Add(oneOf);
             }
             else
             {
@@ -1059,7 +1065,7 @@ public sealed class Parser
             }
         }
 
-        return messages;
+        return messages.ToArray();
     }
 
     //  settle  'Transaction  ƒ (Transaction) -> Transaction' Settlement
@@ -1076,7 +1082,7 @@ public sealed class Parser
 
         if (ConsumeIf(ParenthesisOpen))               // ! (
         {
-            parameters = ReadParameters().ToArray();
+            parameters = ReadParameters();
 
             Consume(ParenthesisClose);                // ! )
         }
@@ -1140,10 +1146,12 @@ public sealed class Parser
 
     #region Class / Implementation
 
-    // Curve impl for BezierCurve {
+    // Curve implementation for BezierCurve {
 
     public ImplementationDeclarationSyntax ReadImplementation(Symbol name)
     {
+        var members = new ListBuilder<ISyntaxNode>();
+
         Consume(Implementation); // ! implementation  
 
         Symbol? protocol = null;
@@ -1172,7 +1180,7 @@ public sealed class Parser
 
         Consume(BraceClose); // ! }
 
-        return new ImplementationDeclarationSyntax(protocol, type, members.Extract());
+        return new ImplementationDeclarationSyntax(protocol, type, members.ToArray());
     }
 
     private ISyntaxNode ReadTypeMember()
@@ -1327,13 +1335,14 @@ public sealed class Parser
 
     // chains the name if it finds a backtick
     // settle `Transaction
+    [SkipLocalsInit]
     private Token ReadName()
     {
         var name = reader.Consume();
 
         if (IsKind(Backtick))
         {
-            var sb = new ValueStringBuilder(128);
+            var sb = new ValueStringBuilder(stackalloc char[32]);
 
             sb.Append(name);
 
@@ -1366,7 +1375,7 @@ public sealed class Parser
     {
         if (ConsumeIf(ParenthesisOpen))
         {
-            var args = new List<Symbol>();
+            var args = new ListBuilder<Symbol>();
 
             do
             {
@@ -1383,7 +1392,7 @@ public sealed class Parser
                 args.Add(ReadTypeSymbol());
             }
 
-            return new TypeSymbol(wasFunction ? "Function" : "Tuple", args);
+            return new TypeSymbol(wasFunction ? "Function" : "Tuple", args.ToArray());
         }
             
         if ((ConsumeIf(BracketOpen))) // [
@@ -1422,7 +1431,7 @@ public sealed class Parser
         {
             var genericParameters = ReadGenericParameters();
 
-            parameters = new ParameterSymbol[genericParameters.Count];
+            parameters = new ParameterSymbol[genericParameters.Length];
 
             for (int i = 0; i < parameters.Length; i++)
             {
@@ -1445,7 +1454,9 @@ public sealed class Parser
         {
             EnterMode(Mode.Variant);
 
-            var list = new List<Symbol> { result };
+            var list = new ListBuilder<Symbol>();
+            
+            list.Add(result);
 
             while (ConsumeIf(Bar))
             {
@@ -1454,36 +1465,40 @@ public sealed class Parser
 
             LeaveMode(Mode.Variant);
 
-            return new TypeSymbol("Variant", list);
+            return new TypeSymbol("Variant", list.ToArray());
         }
         else if (reader.Current.Equals("&"))
         {
-            var list = new List<Symbol> { result };
+            var list = new ListBuilder<Symbol>();
+
+            list.Add(result);
 
             while (ConsumeIf('&'))
             {
                 list.Add(ReadTypeSymbol());
             }
 
-            return new TypeSymbol("Intersection", list);
+            return new TypeSymbol("Intersection", list.ToArray());
         }
 
         else if (IsKind(ReturnArrow))
         {
-            var list = new List<Symbol> { result };
+            var list = new ListBuilder<Symbol>();
+
+            list.Add(result);
 
             Consume(ReturnArrow);
 
             list.Add(ReadTypeSymbol());
 
-            return new TypeSymbol("Function", list);
+            return new TypeSymbol("Function", list.ToArray());
         }
 
 
         // Optional ?
         if (name.Trailing is null && ConsumeIf('?')) // ? 
         {
-            return new TypeSymbol("Optional", arguments: new[] { result });
+            return new TypeSymbol("Optional", arguments: [ result ]);
         }
 
         return result;
@@ -1496,10 +1511,8 @@ public sealed class Parser
     // (a: 1, b: 2)
     // (a, b)
     public ObjectInitializerSyntax ReadObjectInitializer(TypeSymbol? type)
-    {
-        var args = ReadArguments();
-            
-        return new ObjectInitializerSyntax(type, args);
+    {            
+        return new ObjectInitializerSyntax(type, ReadArguments());
     }
 
     // []
@@ -1516,7 +1529,7 @@ public sealed class Parser
         var rows = 0;
         var stride = 0;
 
-        var elements = new List<ISyntaxNode>();
+        var elements = new ListBuilder<ISyntaxNode>();
 
         var elementKind = SyntaxKind.Object;
         var uniform = true;
@@ -1576,7 +1589,6 @@ public sealed class Parser
         }
         */
 
-
         int? s = null;
 
         if (uniform && rows > 0)
@@ -1591,7 +1603,7 @@ public sealed class Parser
             elementType = ReadTypeSymbol();
         }
 
-        return new ArrayInitializerSyntax(elements.Extract(), stride: s) { ElementType = elementType };
+        return new ArrayInitializerSyntax(elements.ToArray(), stride: s) { ElementType = elementType };
     }
 
 
@@ -1664,13 +1676,13 @@ public sealed class Parser
         return (name, pow);
     }
 
-    public readonly List<ISyntaxNode> children = new ();
-
     public InterpolatedStringExpressionSyntax ReadInterpolatedString()
     {
         Consume(InterpolatedStringOpen); // ! $"
 
         EnterMode(Mode.InterpolatedString);
+
+        var children = new ListBuilder<ISyntaxNode>();
 
         while (!IsKind(Quote))
         {
@@ -1681,11 +1693,11 @@ public sealed class Parser
             children.Add(expression);
         }
 
-        Consume(Quote);                     // ! "
+        Consume(Quote); // ! "
 
         LeaveMode(Mode.InterpolatedString);
 
-        return new InterpolatedStringExpressionSyntax(children.Extract());
+        return new InterpolatedStringExpressionSyntax(children.ToArray());
     }
 
     public ISyntaxNode ReadInterpolatedExpression()
@@ -1699,9 +1711,10 @@ public sealed class Parser
         return expression;
     }
 
+    [SkipLocalsInit]
     public StringLiteralSyntax ReadInterpolatedSpan()
     {
-        var sb = new ValueStringBuilder(256);
+        var sb = new ValueStringBuilder(stackalloc char[32]);
 
         Token token;
 
@@ -1755,9 +1768,9 @@ public sealed class Parser
 
     private TupleExpressionSyntax FinishReadingTuple(ISyntaxNode first)
     {
-        var elements = new List<ISyntaxNode> {
-            first
-        };
+        var elements = new ListBuilder<ISyntaxNode>();
+
+        elements.Add(first);
 
         while (ConsumeIf(Comma)) // ? ,
         {
@@ -1774,7 +1787,7 @@ public sealed class Parser
 
         Consume(ParenthesisClose); // ! )
 
-        return new TupleExpressionSyntax(elements.Extract());
+        return new TupleExpressionSyntax(elements.ToArray());
     }
 
     // {expression} | {name}:{expression}
@@ -1816,7 +1829,7 @@ public sealed class Parser
 
         ConsumeIf(BraceOpen);               // ? {
 
-        var cases = new List<MatchCaseSyntax>();
+        var cases = new ListBuilder<MatchCaseSyntax>();
 
         // pattern => action
         // ...
@@ -1843,7 +1856,7 @@ public sealed class Parser
 
         LeaveMode(Mode.Statement);
 
-        return new MatchExpressionSyntax(expression, cases);
+        return new MatchExpressionSyntax(expression, cases.ToArray());
     }
 
     #endregion
@@ -1861,8 +1874,8 @@ public sealed class Parser
     {
         switch (reader.Current.Kind)
         {
-            case BraceOpen       : return ReadRecordPattern();
-            case Underscore      : Consume(Underscore); return new AnyPatternSyntax();
+            case BraceOpen  : return ReadRecordPattern();
+            case Underscore : Consume(Underscore); return AnyPatternSyntax.Default;
 
             case ParenthesisOpen:
                 var tuple = ReadTuple();
@@ -1987,7 +2000,7 @@ public sealed class Parser
 
         var (moduleName, elementName) = ReadElementName();
 
-        IReadOnlyList<ArgumentSyntax>? args = null;
+        ArgumentSyntax[]? args = null;
 
         while (!(Current.Kind is TagEnd or TagSelfClosed))
         {
@@ -2012,7 +2025,7 @@ public sealed class Parser
         {
             if (!IsKind(TagCloseStart))
             {
-                var list = new List<ISyntaxNode>();
+                var list = new ListBuilder<ISyntaxNode>();
 
                 while (!IsKind(TagCloseStart) && !IsEof)
                 {
@@ -2034,6 +2047,7 @@ public sealed class Parser
         return new ElementSyntax(moduleName, elementName, args, children ?? Array.Empty<ISyntaxNode>(), isSelfClosed);
     }
 
+    [SkipLocalsInit]
     public ISyntaxNode ReadElementChild()
     {
         switch (Current.Kind)
@@ -2042,12 +2056,10 @@ public sealed class Parser
             case TagStart  : return ReadElement(); // <
         }
 
-        StringBuilder? sb = null;
+        var sb = new ValueStringBuilder(stackalloc char[16]);
             
         while (!IsOneOf(TagStart, TagCloseStart, EOF) && !IsKind(BraceOpen))
-        {
-            sb ??= new StringBuilder();
-            
+        {            
             sb.Append(Current.Text);
 
             if (Current.Trailing is not null)
@@ -2058,7 +2070,7 @@ public sealed class Parser
             Consume();
         }
 
-        return new TextNodeSyntax(sb?.ToString() ?? string.Empty);
+        return new TextNodeSyntax(sb.ToString());
     }
 
     private (string?, string) ReadElementName()
@@ -2139,8 +2151,6 @@ public sealed class Parser
         return left;
     }
 
-    private readonly List<Symbol> symbolList = new (8);
-
     // {name} {type|event|record|protocol|module}
     // {name} { Object }
     public ISyntaxNode MaybeType()
@@ -2149,6 +2159,8 @@ public sealed class Parser
 
         if (left is Symbol name)
         {
+            var symbolList = new ListBuilder<Symbol>();
+
             if (IsKind(Comma) && InMode(Mode.Root)) // ? ,
             {
                 symbolList.Add(name);
@@ -2163,7 +2175,7 @@ public sealed class Parser
             {      
                 case Colon when InMode(Mode.Root):
                     return symbolList.Count > 0
-                        ? (ISyntaxNode)ReadCompoundTypeDeclaration(symbolList.Extract())
+                        ? ReadCompoundTypeDeclaration(symbolList.ToArray())
                         : ReadTypeDeclaration(name);
                        
                 case Unit   : return ReadUnitDeclaration(name);
@@ -2177,7 +2189,7 @@ public sealed class Parser
                 case Role   :
                 case Actor  :
                     return symbolList.Count > 0
-                        ? (ISyntaxNode)ReadCompoundTypeDeclaration(symbolList.Extract())
+                        ? ReadCompoundTypeDeclaration(symbolList.ToArray())
                         : ReadTypeDeclaration(name);  // type : hello
 
                 case Implementation : return ReadImplementation(name);
@@ -2251,7 +2263,7 @@ public sealed class Parser
     {
         if (depth > 1)
         {
-            throw new UnexpectedTokenException($"token not read. current mode {modes.Peek()}. depth: {depth}", Current);
+            throw new UnexpectedTokenException($"token not read. current mode {_modes.Peek()}. depth: {depth}", Current);
         }
 
         // Operators
@@ -2331,7 +2343,7 @@ public sealed class Parser
     // (arg1, arg2, arg3)
     // (a: 1, a: 2, a: 3)
 
-    private IReadOnlyList<ArgumentSyntax> ReadArguments()
+    private ArgumentSyntax[] ReadArguments()
     {
         if (!MoreArguments()) return Array.Empty<ArgumentSyntax>();
 
@@ -2344,26 +2356,26 @@ public sealed class Parser
 
         EnterMode(Mode.Arguments);
 
-        IReadOnlyList<ArgumentSyntax> args;
+        ArgumentSyntax[] args;
 
         var arg = ReadArgument();
 
         if (IsKind(Comma))
         {
-            var arguments = new List<ArgumentSyntax> {
-                arg
-            };
+            var list = new ListBuilder<ArgumentSyntax>();
+
+            list.Add(arg);
 
             while (ConsumeIf(Comma))
             {
-                arguments.Add(ReadArgument());
+                list.Add(ReadArgument());
             }
 
-            args = arguments;
+            args = list.ToArray();
         }
         else
         {
-            args = new[] { arg };
+            args = [ arg ];
         }
 
         if (parenthesized)
@@ -2407,8 +2419,8 @@ public sealed class Parser
             ParenthesisClose or // )
             BracketClose     or // ]
             Semicolon           // ;
-                => false,
-            _                => true
+               => false,
+            _  => true
         };
     }
 
@@ -2479,4 +2491,10 @@ public sealed class Parser
     bool IsKind(TokenKind kind) => reader.Current.Kind == kind;
 
     #endregion
+
+    [DoesNotReturn]
+    private void ThrowExceededCallDepth()
+    {
+        throw new Exception($"Exceeded call depth reading {reader.Current.Kind}");
+    }
 }

@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-
+﻿using E.Parsing;
 using E.Symbols;
 using E.Syntax;
 
@@ -9,9 +8,9 @@ public partial class Compiler
 {
     public Type VisitTypeDeclaration(TypeDeclarationSyntax syntax)
     {
-        var genericParameters = new Parameter[syntax.GenericParameters.Count];
+        var genericParameters = new Parameter[syntax.GenericParameters.Length];
 
-        for (var i = 0; i < syntax.GenericParameters.Count; i++)
+        for (var i = 0; i < syntax.GenericParameters.Length; i++)
         {
             var member = syntax.GenericParameters[i];
 
@@ -20,7 +19,7 @@ public partial class Compiler
             // context.Add(member.Name, (Type)genericParameters[i].Type);
         }
 
-        var properties = new List<Property>();
+        var properties = new ListBuilder<Property>();
 
         foreach (var member in syntax.Members)
         {
@@ -43,7 +42,7 @@ public partial class Compiler
             ? env.Get<Type>(syntax.BaseType)
             : null;
 
-        var type = new Type(syntax.Name, baseType, properties, genericParameters, syntax.Flags);
+        var type = new Type(syntax.Name, baseType, properties.ToArray(), genericParameters, syntax.Flags);
 
         env.Add(syntax.Name, type);
 

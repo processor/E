@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 
 namespace E.Symbols;
 
@@ -11,7 +10,7 @@ public sealed class MethodSymbol : Symbol
     public MethodSymbol(string name)
         : base(name) { }
        
-    public IReadOnlyList<ParameterSymbol>? Parameters { get; set; }
+    public ParameterSymbol[]? Parameters { get; set; }
 
     public TypeSymbol? ReturnType { get; set; }
 }

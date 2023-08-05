@@ -1,6 +1,7 @@
 ﻿// Based on code by Cyril Jandia http://www.cjandia.com/ 
 // LICENCE: https://github.com/ysharplanguage/System.Language/blob/master/LICENSE.md
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -19,13 +20,21 @@ public sealed class LetNode(DefineNode[] arguments, INode body) : INode
         return $"({args}) {Body}";
     }
 
-    public IType Infer(Environment env, IReadOnlyList<IType> types)
+    public IType Infer(Environment env, ReadOnlySpan<IType> types)
     {
         env = env.Nested();
 
-        return Arguments.Select(define => TypeSystem.Infer(env, define, types)).Concat(new[] {
-            TypeSystem.Infer(env, Body, types)
-        }).Last();
+        var args = new List<IType>(arguments.Length + 1);
+
+        foreach (var define in Arguments)
+        {
+            args.Add(TypeSystem.Infer(env, define, types));
+        }
+
+
+        args.Add(TypeSystem.Infer(env, Body, types));
+
+        return args[^1];;
     }
 }
 

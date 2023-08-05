@@ -1,16 +1,21 @@
 ﻿namespace E.Protocols;
 
-public sealed class ProtocolMessageChoice(
-    ProtocolMessage[] options,
-    ProtocolMessageFlags flags) : IProtocolMessage
+public sealed class ProtocolMessageChoice : IProtocolMessage
 {
-    public ProtocolMessage[] Options { get; } = options;
+    public ProtocolMessageChoice(
+        ProtocolMessage[] options,
+        ProtocolMessageFlags flags = default)
+    {
+        Options = options;
+        Flags = flags;
+    }
+    public ProtocolMessage[] Options { get; }
+
+    public ProtocolMessageFlags Flags { get; }
 
     public ProtocolMessage this[int index] => Options[index];
 
     public int Count => Options.Length;
-
-    public ProtocolMessageFlags Flags { get; } = flags;
 
     public bool Fallthrough => Flags.HasFlag(ProtocolMessageFlags.Fallthrough);
 

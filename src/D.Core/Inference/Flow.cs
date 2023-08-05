@@ -11,8 +11,9 @@ public class Flow
     private readonly IType itemType;
     private readonly IType any;
 
-    private static readonly string[] binaryOperatorSymbols = { "+", "-", "/", "**", "*", "%" };
-    private static readonly string[] comparisonSymbols = { ">", ">=", "==", "!=", "<", "<=" };
+
+    private static readonly string[] s_binaryOperatorSymbols = [ "+", "-", "/", "**", "*", "%" ];
+    private static readonly string[] s_comparisonSymbols     = [ ">", ">=", "==", "!=", "<", "<=" ];
 
     public Flow()
     {
@@ -31,7 +32,7 @@ public class Flow
         any = GetType(ObjectType.Object);
 
         itemType = TypeSystem.NewGeneric();
-        listType = TypeSystem.NewType("List", args: new[] { itemType });
+        listType = TypeSystem.NewType(KnownTypeNames.List, args: new[] { itemType });
 
         TypeSystem.Infer(env, new DefineNode(new VariableNode("contains"), Node.Abstract(new[] {
             new VariableNode("list", listType)
@@ -42,7 +43,7 @@ public class Flow
         }, new ConstantNode(itemType), itemType)));
 
         // Binary Operators
-        foreach (var op in binaryOperatorSymbols)
+        foreach (var op in s_binaryOperatorSymbols)
         {
             var g = TypeSystem.NewGeneric();
 
@@ -52,8 +53,8 @@ public class Flow
             }, new ConstantNode(g))));
         }
 
-        // Comparisions
-        foreach (var op in comparisonSymbols)
+        // Comparisons
+        foreach (var op in s_comparisonSymbols)
         {
             var g = TypeSystem.NewGeneric();
 
@@ -119,20 +120,20 @@ public class Flow
         env[kind.Name] = type;
 
 
-        // Alias HACK
-        if (kind.Name is "Int32")
+        // Alias HACKs
+        if (kind.Name is KnownTypeNames.Int32)
         {
             env["i32"] = type;
         }
-        else if (kind.Name is "Int64")
+        else if (kind.Name is KnownTypeNames.Int64)
         {
             env["i64"] = type;
         }
-        else if (kind.Name is "Float64")
+        else if (kind.Name is KnownTypeNames.Float64)
         {
             env["f64"] = type;
         }
-        else if (kind.Name is "Float32")
+        else if (kind.Name is KnownTypeNames.Float32)
         {
             env["f32"] = type;
         }

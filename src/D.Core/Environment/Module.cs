@@ -5,9 +5,9 @@ namespace E;
 
 public class Module(string? name = null, Module? parent = null) : IExpression
 {
-    public readonly Dictionary<string, object> exports = new();
+    public readonly Dictionary<string, object> _exports = new();
 
-    private readonly List<IExpression> statements = new();
+    private readonly List<IExpression> _statements = new();
 
     public string? Name { get; } = name;
 
@@ -19,17 +19,17 @@ public class Module(string? name = null, Module? parent = null) : IExpression
     public void Add(IExpression value)
     {
         // TODO: Check visibility
-        statements.Add(value);
+        _statements.Add(value);
     }
 
     public void AddExport(INamedObject value)
     {
-        exports[value.Name] = value;
+        _exports[value.Name] = value;
     }
 
     public void AddExport(string name, object value)
     {
-        exports[name] = value;
+        _exports[name] = value;
     }
 
     public ObjectType Kind => ObjectType.Module;
@@ -38,7 +38,7 @@ public class Module(string? name = null, Module? parent = null) : IExpression
 
     // public IDictionary<string, TypeSymbol> Imports => imports;
 
-    public IDictionary<string, object> Exports => exports;
+    public IDictionary<string, object> Exports => _exports;
 
-    public IReadOnlyList<IExpression> Statements => statements;
+    public IReadOnlyList<IExpression> Statements => _statements;
 }

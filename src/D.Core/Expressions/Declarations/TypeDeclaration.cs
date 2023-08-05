@@ -19,6 +19,6 @@ public sealed class TypeDeclaration(
 
 /*
 type Person = {
-  name: String where length > 0
+  name: String { Length: > 0 }
 }
 */

@@ -1,13 +1,8 @@
 ﻿namespace E.Expressions;
 
-public sealed class CompoundVariableDeclaration : IExpression
+public sealed class CompoundVariableDeclaration(VariableDeclaration[] declarations) : IExpression
 {
-    public CompoundVariableDeclaration(VariableDeclaration[] declarations)
-    {
-        Declarations = declarations;
-    }
-
-    public VariableDeclaration[] Declarations { get; }
+    public VariableDeclaration[] Declarations { get; } = declarations;
 
     ObjectType IObject.Kind => ObjectType.CompoundPropertyDeclaration;
 }

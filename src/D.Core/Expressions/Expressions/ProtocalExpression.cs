@@ -2,7 +2,9 @@
 
 namespace E.Expressions;
 
-public sealed class ProtocolExpression(Symbol name, FunctionExpression[] members) : IExpression, INamedObject
+public sealed class ProtocolExpression(
+    Symbol name,
+    FunctionExpression[] members) : IExpression, INamedObject
 {
     public Symbol Name { get; set; } = name;
 

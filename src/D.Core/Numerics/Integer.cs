@@ -30,4 +30,4 @@ public readonly struct Integer(long value) : IObject, INumber
 
 // The LLVM language specifies integer types as iN, where N is the bit-width of the integer, and ranges from 1 to 2^23-1
 
-// no distiction between signed and unsigned
+// no distinction between signed and unsigned

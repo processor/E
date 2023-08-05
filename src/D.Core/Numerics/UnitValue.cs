@@ -4,7 +4,7 @@ namespace E.Units;
 
 public static class UnitValue
 {
-    public static Number Number(double value) => new (value);
+    // public static Number Number(double value) => new (value);
 
     #region CSS
 

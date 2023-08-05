@@ -12,13 +12,13 @@ namespace E.Syntax;
 public sealed class CallExpressionSyntax(
     ISyntaxNode? callee,
     Symbol name,
-    IReadOnlyList<ArgumentSyntax> arguments) : ISyntaxNode
+    ArgumentSyntax[] arguments) : ISyntaxNode
 {
     public ISyntaxNode? Callee { get; } = callee;
 
     public Symbol Name { get; } = name;
 
-    public IReadOnlyList<ArgumentSyntax> Arguments { get; } = arguments;
+    public ArgumentSyntax[] Arguments { get; } = arguments;
 
     public bool IsPiped { get; set; }
 

@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace E.Symbols;
+﻿namespace E.Symbols;
 
 public sealed class TypeSymbol : Symbol
 {
@@ -17,10 +15,10 @@ public sealed class TypeSymbol : Symbol
     public TypeSymbol(string name)
         : base(name, SymbolFlags.None) { }
 
-    public TypeSymbol(string name, IReadOnlyList<Symbol> arguments)
+    public TypeSymbol(string name, Symbol[] arguments)
         : base(name, arguments) { }
 
-    public TypeSymbol(ModuleSymbol? module, string name, IReadOnlyList<Symbol> arguments)
+    public TypeSymbol(ModuleSymbol? module, string name, Symbol[] arguments)
         : base(module, name, arguments) { }
 
     public TypeSymbol? BaseType { get; set; }

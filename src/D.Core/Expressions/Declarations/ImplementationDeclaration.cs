@@ -4,7 +4,10 @@ using E.Symbols;
 
 namespace E.Expressions;
 
-public sealed class ImplementationDeclaration(Symbol protocol, TypeSymbol type, IExpression[] members) : IExpression
+public sealed class ImplementationDeclaration(
+    Symbol protocol,
+    TypeSymbol type,
+    IExpression[] members) : IExpression
 {
     public Symbol Protocol { get; } = protocol;
 
@@ -23,7 +26,7 @@ public sealed class ImplementationDeclaration(Symbol protocol, TypeSymbol type, 
         {
             foreach (var method in Members)
             {
-                if (method is FunctionExpression func && func.IsInitializer)
+                if (method is FunctionExpression { IsInitializer: true } func)
                 {
                     yield return func;
                 }

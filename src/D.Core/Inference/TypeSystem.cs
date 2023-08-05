@@ -42,7 +42,7 @@ public static class TypeSystem
     internal sealed class TypeParameter : TypeBase
     {
         internal TypeParameter()
-            : base(null) { Uid = Interlocked.Increment(ref id); }
+            : base(null!) { Uid = Interlocked.Increment(ref id); }
 
         private string alpha;
 
@@ -107,7 +107,7 @@ public static class TypeSystem
         return (s = Prune(s)) == t || (s is Type && OccursIn(t, s.ArgumentTypes));
     }
 
-    private static bool OccursIn(IType t, IReadOnlyList<IType> types)
+    private static bool OccursIn(IType t, ReadOnlySpan<IType> types)
     {
         foreach (var type in types)
         {
@@ -118,12 +118,12 @@ public static class TypeSystem
     }
 
     // Creates a recursive copy of the type.
-    public static IType Fresh(IType t, IReadOnlyList<IType> types)
+    public static IType Fresh(IType t, ReadOnlySpan<IType> types)
     {
         return Fresh(t, types, new Dictionary<int, IType>());
     }
 
-    private static IType Fresh(IType t, IReadOnlyList<IType> types, Dictionary<int, IType> variables)
+    private static IType Fresh(IType t, ReadOnlySpan<IType> types, Dictionary<int, IType> variables)
     {
         t = Prune(t);
 
@@ -146,7 +146,14 @@ public static class TypeSystem
         }
         else if (t is Type type)
         {
-            return NewType(type.BaseType, type.Name, type.ArgumentTypes.Select(arg => Fresh(arg, types, variables)).ToArray());
+            var args = new IType[type.ArgumentTypes.Length];
+
+            for (int i = 0; i < type.ArgumentTypes.Length; i++)
+            {
+                args[i] = Fresh(type.ArgumentTypes[i], types, variables);
+            }
+
+            return NewType(type.BaseType, type.Name, args);
         }
         else
         {
@@ -210,7 +217,7 @@ public static class TypeSystem
         return Infer(env, node, Array.Empty<IType>());
     }
 
-    public static IType Infer(this Environment env, INode node, IReadOnlyList<IType> types)
+    public static IType Infer(this Environment env, INode node, ReadOnlySpan<IType> types)
     {
         return node.Infer(env, types);
     }

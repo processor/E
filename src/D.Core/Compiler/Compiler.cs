@@ -257,11 +257,11 @@ public partial class Compiler
         };
     }
 
-    private IArguments VisitArguments(IReadOnlyList<ArgumentSyntax> arguments)
+    private IArguments VisitArguments(ReadOnlySpan<ArgumentSyntax> arguments)
     {
-        if (arguments.Count == 0) return Arguments.None;
+        if (arguments.IsEmpty) return Arguments.None;
             
-        var items = new Argument[arguments.Count];
+        var items = new Argument[arguments.Length];
 
         for (int i = 0; i < items.Length; i++)
         {
@@ -287,7 +287,7 @@ public partial class Compiler
 
     public virtual TypeInitializer VisitObjectInitializer(ObjectInitializerSyntax syntax)
     {
-        var members = new Argument[syntax.Arguments.Count];
+        var members = new Argument[syntax.Arguments.Length];
 
         for (var i = 0; i < members.Length; i++)
         {
@@ -309,7 +309,7 @@ public partial class Compiler
 
     public virtual DestructuringAssignment VisitDestructuringAssignment(DestructuringAssignmentSyntax syntax)
     {
-        var elements = new AssignmentElement[syntax.Variables.Count];
+        var elements = new AssignmentElement[syntax.Variables.Length];
 
         for (var i = 0; i < elements.Length; i++)
         {
@@ -338,7 +338,7 @@ public partial class Compiler
 
     public virtual MatchExpression VisitMatch(MatchExpressionSyntax syntax)
     {
-        var cases = new MatchCase[syntax.Cases.Count];
+        var cases = new MatchCase[syntax.Cases.Length];
 
         for (var i = 0; i < cases.Length; i++)
         {
@@ -382,13 +382,13 @@ public partial class Compiler
         return symbol;
     }
 
-    public Parameter[] ResolveParameters(IReadOnlyList<ParameterSyntax> parameters)
+    public Parameter[] ResolveParameters(ReadOnlySpan<ParameterSyntax> parameters)
     {
-        var result = new Parameter[parameters.Count];
+        var result = new Parameter[parameters.Length];
 
         // nested function...
 
-        for (var i = 0; i < parameters.Count; i++)
+        for (var i = 0; i < parameters.Length; i++)
         {
             var parameter = parameters[i];
 

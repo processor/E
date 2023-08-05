@@ -1,5 +1,3 @@
 ﻿namespace E.Expressions;
 
-public interface IExpression : IObject
-{
-}
+public interface IExpression : IObject { }

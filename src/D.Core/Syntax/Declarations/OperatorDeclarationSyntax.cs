@@ -6,11 +6,11 @@ namespace E.Syntax;
 
 public sealed class OperatorDeclarationSyntax(
     Symbol name,
-    IReadOnlyList<ArgumentSyntax> properties) : ISyntaxNode
+    ArgumentSyntax[] properties) : ISyntaxNode
 {
     public Symbol Name { get; } = name;
 
-    public IReadOnlyList<ArgumentSyntax> Properties { get; } = properties;
+    public ArgumentSyntax[] Properties { get; } = properties;
 
     #region Property Helpers
 
@@ -36,4 +36,4 @@ public sealed class OperatorDeclarationSyntax(
     SyntaxKind ISyntaxNode.Kind => SyntaxKind.OperatorDeclaration;
 }
 
-// _ "+" operator { associtivity: "left" }
+// _ "+" operator { associativity: "left" }

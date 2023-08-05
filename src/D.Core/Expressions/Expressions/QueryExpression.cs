@@ -37,7 +37,6 @@ public sealed class QueryExpression(
 
 public sealed class OrderByStatement(IExpression member, bool isDescending)
 {
-
     // orderby student.Last ascending, 
     // student.First ascending
 

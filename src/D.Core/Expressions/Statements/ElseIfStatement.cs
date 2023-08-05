@@ -1,20 +1,16 @@
 ﻿namespace E.Expressions;
 
-public sealed class ElseIfStatement : IExpression
+public sealed class ElseIfStatement(
+    IExpression condition,
+    BlockExpression body,
+    IExpression elseBranch) : IExpression
 {
-    public ElseIfStatement(IExpression condition, BlockExpression body, IExpression elseBranch)
-    {
-        Condition = condition;
-        Body = body;
-        ElseBranch = elseBranch;
-    }
+    public IExpression Condition { get; } = condition;
 
-    public IExpression Condition { get; }
-
-    public BlockExpression Body { get; }
+    public BlockExpression Body { get; } = body;
 
     // Else, ElseIf
-    public IExpression ElseBranch { get; }
+    public IExpression ElseBranch { get; } = elseBranch;
 
     ObjectType IObject.Kind => ObjectType.ElseIfStatement;
 }

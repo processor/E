@@ -8,7 +8,6 @@ public sealed class CallExpression(
     IArguments arguments,
     bool isPiped) : IExpression
 {
-
     // is constructor?
 
     public IExpression? Callee { get; } = callee;

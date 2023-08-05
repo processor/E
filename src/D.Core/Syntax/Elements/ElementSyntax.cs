@@ -1,11 +1,9 @@
-﻿using System.Collections.Generic;
-
-namespace E.Syntax;
+﻿namespace E.Syntax;
 
 public sealed class ElementSyntax(
     string? ns,
     string name,
-    IReadOnlyList<ArgumentSyntax> arguments,
+    ArgumentSyntax[] arguments,
     ISyntaxNode[] children,
     bool selfClosed) : ISyntaxNode
 {
@@ -13,7 +11,7 @@ public sealed class ElementSyntax(
 
     public string Name { get; } = name;
 
-    public IReadOnlyList<ArgumentSyntax> Arguments { get; } = arguments;
+    public ArgumentSyntax[] Arguments { get; } = arguments;
 
     // TextContent | Element | Expression
     public ISyntaxNode[] Children { get; } = children;

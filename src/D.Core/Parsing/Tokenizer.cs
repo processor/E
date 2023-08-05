@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Buffers;
+using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using System.Text;
 
@@ -89,7 +90,7 @@ public sealed class Tokenizer
                         return Read(TagCloseStart, 2); // </  
                 }
 
-                if (peek == '_' || char.IsLetter(peek)) // tag
+                if (peek is '_' || char.IsLetter(peek)) // tag
                 {
                     EnterMode(Mode.Tag);
 
@@ -153,16 +154,14 @@ public sealed class Tokenizer
 
                 int dots = 0;
 
-                while (reader.Current == '.' && dots < 3)
+                while (reader.Current is '.' && dots < 3)
                 {
                     reader.Advance();
 
                     dots++;
-
-                    if (reader.IsEof) break;
                 }
 
-                if (dots == 2 && reader.Current == '<') // ..<
+                if (dots is 2 && reader.Current is '<') // ..<
                 {
                     reader.Advance();
 
@@ -214,16 +213,7 @@ public sealed class Tokenizer
             case >= '0' and <= '9': return ReadNumber(); // 0-9
 
             // Superscript (non-continuous code points)
-            case '⁰':
-            case '¹':
-            case '²':
-            case '³':
-            case '⁴':
-            case '⁵': 
-            case '⁶': 
-            case '⁷': 
-            case '⁸': 
-            case '⁹':
+            case '⁰' or '¹' or '²' or '³' or '⁴' or '⁵' or '⁶' or '⁷' or '⁸' or '⁹':
                 return ReadSuperscript();
 
             case '/':
@@ -290,75 +280,13 @@ public sealed class Tokenizer
             
         var text = sb.ToString();
 
-        if (!InMode(Mode.Tag) && keywords.TryGetValue(text, out TokenKind kind))
+        if (!InMode(Mode.Tag) && Keywords.Map.TryGetValue(text, out TokenKind kind))
         {
             return new Token(kind, start, text, ReadTrivia());
         }
 
         return new Token(Identifier, start, text, ReadTrivia());
     }
-
-    public static readonly Dictionary<string, TokenKind> keywords = new () {
-        { "ƒ"              , Function },
-        { "as"             , Op },
-        { "ascending"      , Ascending },
-        { "async"          , Async },
-        { "false"          , False },
-        { "null"           , Null },
-        { "catch"          , Catch },
-        { "continue"       , Continue },
-        { "default"        , Default },
-        { "do"             , Do },
-        { "else"           , Else },
-        { "emit"           , Emit },
-        { "enum"           , Enum },
-        { "for"            , For },
-        { "from"           , From },
-        { "function"       , Function },
-        { "let"            , Let },
-        { "match"          , Match },
-        { "module"         , Module },
-        { "if"             , If },
-        { "impl"           , Implementation },
-        { "implementation" , Implementation },
-        { "in"             , In },
-        { "is"             , Op },
-        { "descending"     , Descending },
-        { "mutable"        , Mutable },
-        { "mutating"       , Mutating },
-        { "on"             , On },
-        { "observe"        , Observe },
-        { "operator"       , Operator },
-        { "orderby"        , Orderby },
-        { "return"         , Return },
-        { "select"         , Select },
-        { "this"           , This },
-        { "throw"          , Throw },
-        { "to"             , To },
-        { "true"           , True },
-        { "try"            , Try },
-        { "until"          , Until },
-        { "unit"           , Unit },
-        { "using"          , Using },
-        { "var"            , Var },
-        { "when"           , When },
-        { "while"          , While },
-        { "with"           , With },
-        { "where"          , Where },
-        { "yield"          , Yield },             
-        { "event"          , Event },
-        { "protocol"       , Protocol },
-        { "record"         , Record },
-        { "public"         , Public },
-        { "private"        , Private },
-        { "internal"       , Internal },
-
-        // Types
-        { "class"          , Class },
-        { "struct"         , Struct },
-        { "actor"          , Actor },
-        { "role"           , Role }
-    };
 
     [SkipLocalsInit]
     public Token ReadQuotedString()
@@ -386,6 +314,7 @@ public sealed class Tokenizer
     // 1.2e-03
     // 1_000
     // 1__000.1__00000___0_0
+
     [SkipLocalsInit]
     public Token ReadNumber()
     {
@@ -395,12 +324,12 @@ public sealed class Tokenizer
 
         ReadDigits(ref sb);
 
-        if (reader.Current is 'e' && IsSignOrDigit(reader.Peek()))
+        if (reader.Current is 'e' && s_signOrDigitChars.Contains(reader.Peek()))
         {
             ReadExponent(ref sb);
         }
 
-        if (reader.Current is '.' && char.IsDigit(reader.Peek()))
+        if (reader.Current is '.' && char.IsAsciiDigit(reader.Peek()))
         {
             sb.Append(reader.Consume()); // .
 
@@ -417,7 +346,7 @@ public sealed class Tokenizer
 
     private void ReadExponent(ref ValueStringBuilder sb)
     {
-        sb.Append(reader.Consume()); // ! e
+        sb.Append(reader.Consume()); // read e
 
         if (reader.Current is '-' or '+')
         {
@@ -427,10 +356,9 @@ public sealed class Tokenizer
         ReadDigits(ref sb);
     }
 
-    private static bool IsSignOrDigit(char value)
-    {
-        return value is '-' or '+' || char.IsDigit(value);
-    }
+    private static readonly SearchValues<char> s_signOrDigitChars       = SearchValues.Create("0123456789-+");
+    private static readonly SearchValues<char> s_digitOrUnderscoreChars = SearchValues.Create("0123456789_");
+    private static readonly SearchValues<char> s_superscriptChars       = SearchValues.Create("⁰¹²³⁴⁵⁶⁷⁸⁹");
 
     private void ReadDigits(ref ValueStringBuilder sb)
     {
@@ -439,33 +367,19 @@ public sealed class Tokenizer
             sb.Append(reader.Consume());
         }
 
-        while (!reader.IsEof && (char.IsDigit(reader.Current) || reader.Current == '_'))
-        {
-            sb.Append(reader.Consume());
-        }
+        sb.Append(reader.Consume(s_digitOrUnderscoreChars));
     }
 
-    [SkipLocalsInit]
+    
     public Token ReadSuperscript()
     {
-        var sb = new ValueStringBuilder(stackalloc char[4]);
-
         var start = reader.Location;
 
-        do
-        {
-            sb.Append(reader.Current);
-        }
-        while (!reader.IsEof && IsSuperscript(reader.Next()));
+        var superscript = reader.Consume(s_superscriptChars).ToString();
 
-        return new Token(Superscript, start, sb.ToString(), ReadTrivia());
+        return new Token(Superscript, start, superscript, ReadTrivia());
     }
-
-    private static bool IsSuperscript(char c)
-    {
-        return c is '⁰' or '¹' or '²' or '³' or '⁴' or '⁵' or '⁶' or '⁷' or '⁸' or '⁹';
-    }
-
+    
     #region Whitespace
 
     [SkipLocalsInit]
@@ -473,7 +387,7 @@ public sealed class Tokenizer
     {
         var sb = new ValueStringBuilder(stackalloc char[8]);
 
-        while (char.IsWhiteSpace(reader.Current) && !reader.IsEof)
+        while (char.IsWhiteSpace(reader.Current))
         {
             sb.Append(reader.Current);
 

@@ -76,5 +76,7 @@ public sealed class TypePatternSyntax(Symbol typeExpression, Symbol variable) : 
 // _
 public sealed class AnyPatternSyntax : ISyntaxNode
 {
+    public static readonly AnyPatternSyntax Default = new();
+
     SyntaxKind ISyntaxNode.Kind => SyntaxKind.AnyPattern;
 }

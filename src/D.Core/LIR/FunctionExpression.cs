@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
-using System.IO;
+using System.Text;
 
 using E.Expressions;
 using E.Symbols;
@@ -22,15 +22,15 @@ public class FunctionExpression : INamedObject, IExpression
     }
 
     public FunctionExpression(
-       IReadOnlyList<Parameter> parameters,
+       Parameter[] parameters,
        IExpression body,
        ObjectFlags flags = ObjectFlags.None)
         : this(parameters, body, null, flags) { }
 
     public FunctionExpression(
-       IReadOnlyList<Parameter> parameters,
+       Parameter[] parameters,
        IExpression body,
-       Type? returnType,
+       Type returnType,
        ObjectFlags flags = ObjectFlags.None)
     {
         Parameters = parameters;
@@ -42,8 +42,8 @@ public class FunctionExpression : INamedObject, IExpression
 
     public FunctionExpression(
         Symbol? name,
-        IReadOnlyList<Parameter> genericParameters,
-        IReadOnlyList<Parameter> parameters,
+        Parameter[] genericParameters,
+        Parameter[] parameters,
         Type returnType,
         IExpression? body,
         ObjectFlags flags = ObjectFlags.None)
@@ -58,17 +58,17 @@ public class FunctionExpression : INamedObject, IExpression
     
     public string? Name { get; }
 
-    public IReadOnlyList<Parameter> Parameters { get; }
+    public Parameter[] Parameters { get; }
 
-    public IReadOnlyList<Parameter> GenericParameters { get; }
+    public Parameter[] GenericParameters { get; }
 
-    public Type? ReturnType { get; }
+    public Type ReturnType { get; }
     
     public override string ToString()
     {
-        using var writer = new StringWriter();
+        var writer = new ValueStringBuilder();
 
-        WriteTo(writer);
+        WriteTo(ref writer);
 
         return writer.ToString();
     }
@@ -129,20 +129,20 @@ public class FunctionExpression : INamedObject, IExpression
     
     #endregion
 
-    public void WriteTo(TextWriter writer)
+    internal void WriteTo(ref ValueStringBuilder sb)
     {
-        writer.Write("ƒ(");
+        sb.Append("ƒ(");
 
         foreach (var parameter in Parameters)
         {
-            writer.Write(parameter.Type);
+            parameter.Type.WriteTo(ref sb);
         }
 
-        writer.Write(')');
+        sb.Append(')');
 
         if (Body is not null)
         {
-            writer.Write(Body.ToString());
+            sb.Append(Body.ToString());
         }
     }
 

@@ -44,6 +44,6 @@ public static class ElectromagismUnits
 
     // ElectricFlux,
 
-    // Irradiance = 1501,     // watts per square meter (recieved)
-    // Radiosity = 1502,      // watts per square meter (transmited)
+    // Irradiance = 1501,     // watts per square meter (received)
+    // Radiosity = 1502,      // watts per square meter (transmitted)
 }

@@ -2,7 +2,6 @@
 
 namespace E.Expressions;
 
-// a: 100
 public sealed class TupleElement(Symbol name, IExpression? value) : IExpression
 {
     public Symbol Name { get; } = name;
@@ -18,3 +17,7 @@ public sealed class TupleElement(Symbol name, IExpression? value) : IExpression
 
     ObjectType IObject.Kind => ObjectType.TupleElement;
 }
+
+// EXAMPLES -
+// a: 100   | symbol + value
+// a        | symbol only

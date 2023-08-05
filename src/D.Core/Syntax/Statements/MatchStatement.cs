@@ -1,12 +1,10 @@
-﻿using System.Collections.Generic;
+﻿namespace E.Syntax;
 
-namespace E.Syntax;
-
-public sealed class MatchExpressionSyntax(ISyntaxNode expression, IReadOnlyList<MatchCaseSyntax> cases) : ISyntaxNode
+public sealed class MatchExpressionSyntax(ISyntaxNode expression, MatchCaseSyntax[] cases) : ISyntaxNode
 {
     public ISyntaxNode Expression { get; } = expression;
 
-    public IReadOnlyList<MatchCaseSyntax> Cases { get; } = cases;
+    public MatchCaseSyntax[] Cases { get; } = cases;
 
     SyntaxKind ISyntaxNode.Kind => SyntaxKind.MatchExpression;
 }

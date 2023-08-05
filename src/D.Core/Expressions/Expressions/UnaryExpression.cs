@@ -1,8 +1,8 @@
 ﻿namespace E.Expressions;
 
-public sealed class UnaryExpression(Operator op, IExpression arg) : IExpression
+public sealed class UnaryExpression(Operator @operator, IExpression arg) : IExpression
 {
-    public Operator Operator { get; } = op;
+    public Operator Operator { get; } = @operator;
 
     public IExpression Argument { get; } = arg;
 

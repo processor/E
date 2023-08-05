@@ -2,14 +2,14 @@
 
 public sealed class TernaryExpression(
     IExpression condition,
-    IExpression left,
-    IExpression right) : IExpression
+    IExpression lhs,
+    IExpression rhs) : IExpression
 {
     public IExpression Condition { get; } = condition;
 
-    public IExpression Left { get; } = left;
+    public IExpression Left { get; } = lhs;
 
-    public IExpression Right { get; } = right;
+    public IExpression Right { get; } = rhs;
 
     public ObjectType Kind => ObjectType.TernaryExpression;
 }

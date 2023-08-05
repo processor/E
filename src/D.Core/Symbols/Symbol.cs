@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
+using System.Runtime.CompilerServices;
 using System.Text;
 
 using E.Expressions;
@@ -17,7 +18,7 @@ public abstract class Symbol : IExpression, ISyntaxNode
         Arguments = Array.Empty<ArgumentSymbol>();
     }
 
-    public Symbol(string name, IReadOnlyList<Symbol> arguments, SymbolFlags flags = default)
+    public Symbol(string name, Symbol[] arguments, SymbolFlags flags = default)
     {
         Name = name;
         Arguments = arguments;
@@ -27,7 +28,7 @@ public abstract class Symbol : IExpression, ISyntaxNode
     public Symbol(
         ModuleSymbol? module,
         string name,
-        IReadOnlyList<Symbol> arguments,
+        Symbol[] arguments,
         SymbolFlags flags = default)
     {
         Module = module;
@@ -40,7 +41,7 @@ public abstract class Symbol : IExpression, ISyntaxNode
 
     public string Name { get; }
 
-    public IReadOnlyList<Symbol>? Arguments { get; }
+    public Symbol[]? Arguments { get; }
 
     public SymbolFlags Flags { get; }
 
@@ -60,14 +61,15 @@ public abstract class Symbol : IExpression, ISyntaxNode
 
     ObjectType IObject.Kind => ObjectType.Symbol;
 
+    [SkipLocalsInit]
     public override string ToString()
     {
-        if (Module is null && (Arguments is null || Arguments.Count is 0))
+        if (Module is null && (Arguments is null || Arguments.Length is 0))
         {
             return Name;
         }
 
-        var sb = new ValueStringBuilder(128);
+        var sb = new ValueStringBuilder(stackalloc char[64]);
 
         WriteTo(ref sb);
 
@@ -76,7 +78,7 @@ public abstract class Symbol : IExpression, ISyntaxNode
 
     internal void WriteTo(ref ValueStringBuilder sb)
     {
-        if (Module is null && (Arguments is null || Arguments.Count is 0))
+        if (Module is null && (Arguments is null || Arguments.Length is 0))
         {
             sb.Append(Name);
 
@@ -91,7 +93,7 @@ public abstract class Symbol : IExpression, ISyntaxNode
 
         sb.Append(Name);
 
-        if (Arguments is { Count: > 0 })
+        if (Arguments is { Length: > 0 })
         {
             sb.Append('<');
 

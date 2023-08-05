@@ -97,7 +97,7 @@ public sealed class Operator(
 
     ObjectType IObject.Kind => ObjectType.Operator;
 
-    public static readonly Operator[] DefaultList = new[] {
+    public static readonly Operator[] DefaultList = [
         // Unary
         Not,              // !
         Negation,         // -
@@ -140,7 +140,7 @@ public sealed class Operator(
         BitwiseXor,         // ^
         BitwiseAnd          // &
                             // ~
-    };
+    ];
 }
 
 /*

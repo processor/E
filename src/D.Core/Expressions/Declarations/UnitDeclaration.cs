@@ -2,8 +2,6 @@
 
 namespace E.Expressions;
 
-// rad unit : Angle @name("Radian") = 1
-
 public sealed class UnitDeclaration(
     Symbol name,
     Symbol baseType,
@@ -21,3 +19,5 @@ public sealed class UnitDeclaration(
 
     ObjectType IObject.Kind => ObjectType.UnitDeclaration;
 }
+
+// rad unit : Angle @name("Radian") = 1

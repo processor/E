@@ -7,7 +7,6 @@ public abstract class TypeDeclarationBase(
     Property[] members,
     TypeFlags flags = TypeFlags.None) : IExpression
 {
-
     // : A
     public Symbol BaseType { get; } = baseType;
 

@@ -2,16 +2,11 @@
 
 namespace E.Expressions;
 
-public readonly struct StringLiteral : IExpression
+public readonly struct StringLiteral(string value) : IExpression
 {
-    public StringLiteral(string text)
-    {
-        Value = text;
-    }
+    public string Value { get; } = value ?? throw new ArgumentNullException(nameof(value));
 
-    public string Value { get; }
-
-    public static implicit operator StringLiteral(string text) => new (text);
+    public static implicit operator StringLiteral(string text) => new(text);
 
     public static implicit operator string(StringLiteral text) => text.Value;
 

@@ -18,10 +18,10 @@ public class BinaryExpression(
     public ObjectType Kind => Operator.OpKind;
 
     #region ToString
-
+ 
     public override string ToString()
     {
-        var sb = new ValueStringBuilder(128);
+        var sb = new ValueStringBuilder(stackalloc char[128]);
 
         if (Grouped)
         {

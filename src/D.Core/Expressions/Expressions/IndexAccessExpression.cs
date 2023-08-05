@@ -1,7 +1,9 @@
 ﻿namespace E.Expressions;
 
 // [index]
-public sealed class IndexAccessExpression(IExpression left, IArguments arguments) : IExpression
+public sealed class IndexAccessExpression(
+    IExpression left,
+    IArguments arguments) : IExpression
 {
     public IExpression Left { get; } = left;
 

@@ -1,22 +1,17 @@
-﻿namespace E.Expressions
+﻿namespace E.Expressions;
+
+public sealed class UnitValueLiteral(
+    IExpression expression,
+    string unitName,
+    int power = 1) : IExpression
 {
-    public sealed class UnitValueLiteral : IExpression
-    { 
-        public UnitValueLiteral(IExpression expression, string unitName, int power = 1)
-        {
-            Expression = expression;
-            UnitName = unitName;
-            UnitPower  = power;
-        }
+    public IExpression Expression { get; } = expression;
 
-        public IExpression Expression { get; }
-       
-        public string UnitName { get; }
+    public string UnitName { get; } = unitName;
 
-        public int UnitPower { get; }
+    public int UnitPower { get; } = power;
 
-        ObjectType IObject.Kind => ObjectType.UnitValue;
-    }
+    ObjectType IObject.Kind => ObjectType.UnitValue;
 }
 
 // (4/5) px

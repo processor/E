@@ -1,7 +1,9 @@
 ﻿// Based on code by Cyril Jandia http://www.cjandia.com/ 
 // LICENCE: https://github.com/ysharplanguage/System.Language/blob/master/LICENSE.md
 
+using System;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
 
 namespace E.Inference;
 
@@ -22,10 +24,12 @@ public sealed class AbstractNode(VariableNode[] arguments, INode body, IType? ty
         return $"({args}) {Body} -> {type}";
     }
 
-    public IType Infer(Environment env, IReadOnlyList<IType> types)
+    public IType Infer(Environment env, ReadOnlySpan<IType> types)
     {
         var scope = env.Nested();
-        var known = new List<IType>(types);
+        var known = new List<IType>();
+        known.AddRange(types);
+
         var args = new List<IType>();
 
         foreach (var arg in Arguments)
@@ -47,7 +51,7 @@ public sealed class AbstractNode(VariableNode[] arguments, INode body, IType? ty
             }
             else
             {
-                throw new System.Exception("Define nodes not supported");
+                throw new Exception("Define nodes not supported");
 
                 /*
                 var spec = ((DefineNode)arg).Body;
@@ -69,7 +73,7 @@ public sealed class AbstractNode(VariableNode[] arguments, INode body, IType? ty
             */
         }
 
-        args.Add(TypeSystem.Infer(scope, Body is LetNode letBody ? letBody.Arguments[^1] : Body, known));
+        args.Add(TypeSystem.Infer(scope, Body is LetNode letBody ? letBody.Arguments[^1] : Body, CollectionsMarshal.AsSpan(known)));
 
         if (Type is not null)
         {

@@ -2,17 +2,13 @@
 
 namespace E.Expressions;
 
-public sealed class TypeInitializer : IExpression
+public sealed class TypeInitializer(
+    TypeSymbol type,
+    Argument[] arguments) : IExpression
 {
-    public TypeInitializer(TypeSymbol type, Argument[] arguments)
-    {
-        Type = type;
-        Arguments = arguments;
-    }
+    public TypeSymbol Type { get; } = type;
 
-    public TypeSymbol Type { get; }
-
-    public Argument[] Arguments { get; }
+    public Argument[] Arguments { get; } = arguments;
 
     public int Count => Arguments.Length;
 

@@ -10,8 +10,6 @@ namespace E;
 
 public sealed class Type : INamedObject, IExpression, IEquatable<Type>
 {
-    private static readonly ConcurrentDictionary<ObjectType, Type> cache = new ();
-
     private static long id = 10_000_000;
 
     public Type(string name)
@@ -49,7 +47,7 @@ public sealed class Type : INamedObject, IExpression, IEquatable<Type>
     public Type(
         string name,
         Type? baseType,
-        IReadOnlyList<Property>? properties, 
+        Property[]? properties, 
         Parameter[]? genericParameters,
         TypeFlags flags = default)
     {
@@ -75,7 +73,7 @@ public sealed class Type : INamedObject, IExpression, IEquatable<Type>
 
     public Type[]? Arguments { get; }
 
-    public IReadOnlyList<Property>? Properties { get; }
+    public Property[]? Properties { get; }
 
     public Parameter[]? GenericParameters { get; }
 
@@ -106,13 +104,15 @@ public sealed class Type : INamedObject, IExpression, IEquatable<Type>
         return null;
     }
 
+    private static readonly ConcurrentDictionary<ObjectType, Type> s_cache = new();
+
     public static Type Get(ObjectType kind)
     {
-        if (!cache.TryGetValue(kind, out Type? type))
+        if (!s_cache.TryGetValue(kind, out Type? type))
         {
             type = new Type(kind);
 
-            cache[kind] = type;
+            s_cache[kind] = type;
         }
 
         return type;

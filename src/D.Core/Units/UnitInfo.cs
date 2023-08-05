@@ -9,7 +9,6 @@ using E.Symbols;
 namespace E.Units;
 
 using static Dimension;
-using static Expression;
 using static UnitFlags;
 
 public sealed class UnitInfo : IEquatable<UnitInfo>, IObject, ISpanFormattable
@@ -23,7 +22,7 @@ public sealed class UnitInfo : IEquatable<UnitInfo>, IObject, ISpanFormattable
     public static readonly UnitInfo Radian    = new(33_680,  "rad", Angle, Base);
     public static readonly UnitInfo Steradian = new(177_612, "sr",  SolidAngle, Base);
 
-    public static readonly UnitInfo Degree    = new(28_390,  "deg",  Angle, 1,   Divide(π, UnitValue.Create(180, Radian))); // π / 180 rad
+    public static readonly UnitInfo Degree    = new(28_390,  "deg",  Angle, 1,   Expression.Divide(π, UnitValue.Create(180, Radian))); // π / 180 rad
     public static readonly UnitInfo Gradian   = new(208_528, "grad", Angle, 0.9, Degree); // 400 per circle
     public static readonly UnitInfo Turn      = new(304_479, "turn", Angle, 360, Degree); // 1 per circle
 
@@ -218,6 +217,16 @@ public sealed class UnitInfo : IEquatable<UnitInfo>, IObject, ISpanFormattable
         if (this.Power == exponent) return this;
 
         return new UnitInfo(Prefix, Name, Dimension, DefinitionValue, exponent);
+    }
+
+    public static UnitInfo Get(ReadOnlySpan<char> name)
+    {
+        if (!TryParse(name, out var unit))
+        {
+            throw new Exception($"Unit '{name}' was not found");            
+        }
+
+        return unit;
     }
 
     public static bool TryParse(ReadOnlySpan<char> name, [NotNullWhen(true)] out UnitInfo? type)

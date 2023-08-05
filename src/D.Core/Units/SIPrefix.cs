@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Frozen;
 using System.Collections.Generic;
 
 namespace E.Units;
@@ -53,29 +54,29 @@ public readonly struct SIPrefix : IEquatable<SIPrefix>
     public static readonly SIPrefix Z =  new ("Z" ,  zetta); // 10^21
     public static readonly SIPrefix Y =  new ("Y" ,  yotta); // 10^24
 
-    private readonly static Dictionary<string, double> scales = new (20) {
-        { "yocto",  yocto },
-        { "zepto",  zepto },
-        { "atto",   atto  },
-        { "femto",  femto },
-        { "pico",   pico  },
-        { "nano",   nano  },
-        { "micro",  micro },
-        { "milli",  milli },
-        { "centi",  centi },
-        { "deci",   deci  },
-                          
-        { "deca",   deca  },
-        { "hecto",  hecto },
-        { "kilo",   kilo  },
-        { "mega",   mega  },
-        { "giga",   giga  },
-        { "tera",   tera  },
-        { "peta",   peta  },
-        { "exa",    exa   },
-        { "zetta",  zetta },
-        { "yotta",  yotta },
-    };
+    private static readonly FrozenDictionary<string, double> scales = new KeyValuePair<string, double>[] {
+        new("yocto",  yocto ),
+        new("zepto",  zepto ),
+        new("atto",   atto  ),
+        new("femto",  femto ),
+        new("pico",   pico  ),
+        new("nano",   nano  ),
+        new("micro",  micro ),
+        new("milli",  milli ),
+        new("centi",  centi ),
+        new("deci",   deci  ),
+
+        new("deca",   deca  ),
+        new("hecto",  hecto ),
+        new("kilo",   kilo  ),
+        new("mega",   mega  ),
+        new("giga",   giga  ),
+        new("tera",   tera  ),
+        new("peta",   peta  ),
+        new("exa",    exa   ),
+        new("zetta",  zetta ),
+        new("yotta",  yotta ),
+    }.ToFrozenDictionary();
 
     private SIPrefix(string name, double value)
     {

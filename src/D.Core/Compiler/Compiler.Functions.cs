@@ -23,7 +23,7 @@ public partial class Compiler
         // NOTE: protocol functions are abstract and do not define a body
         IExpression? body = syntax.Body is not null ? Visit(syntax.Body) : null;
             
-        Type? returnType;
+        Type returnType;
 
         if (syntax.ReturnType is not null)
         {

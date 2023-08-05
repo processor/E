@@ -2,9 +2,6 @@
 
 namespace E.Expressions;
 
-// (fruit: Fruit)
-// Fruit | Walrus
-
 public sealed class TypePattern(Symbol typeExpression, Symbol variable) : IExpression
 {
     public IExpression TypeExpression { get; } = typeExpression;
@@ -13,3 +10,7 @@ public sealed class TypePattern(Symbol typeExpression, Symbol variable) : IExpre
 
     ObjectType IObject.Kind => ObjectType.TypePattern;
 }
+
+// EXAMPLES | 
+// (fruit: Fruit)
+// Fruit | Walrus

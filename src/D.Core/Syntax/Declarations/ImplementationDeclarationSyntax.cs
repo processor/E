@@ -5,17 +5,24 @@ using E.Symbols;
 
 namespace E.Syntax;
 
-public sealed class ImplementationDeclarationSyntax(
-    Symbol protocol,
-    Symbol type,
-    ISyntaxNode[] members) : ISyntaxNode
+public sealed class ImplementationDeclarationSyntax : ISyntaxNode
 {
-    public Symbol Protocol { get; } = protocol;
+    public ImplementationDeclarationSyntax(
+        Symbol? protocol,
+        Symbol type,
+        ISyntaxNode[] members)
+    {
+        Protocol = protocol;
+        Type = type;
+        Members = members;
+    }
 
-    public Symbol Type { get; } = type;
+    public Symbol? Protocol { get; }
+
+    public Symbol Type { get; }
 
     // Protocols
-    public ISyntaxNode[] Members { get; } = members;
+    public ISyntaxNode[] Members { get; }
 
     public ISyntaxNode this[int index] => Members[index];
 

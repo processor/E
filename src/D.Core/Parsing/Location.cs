@@ -3,20 +3,13 @@ using System.Globalization;
 
 namespace E.Parsing;
 
-public readonly struct Location : IEquatable<Location>
+public readonly struct Location(int line, int column, int position) : IEquatable<Location>
 {
-    public Location(int line, int column, int position)
-    {
-        Line = line;
-        Column = column;
-        Position = position;
-    }
+    public int Line { get; } = line;
 
-    public int Line { get; }
+    public int Column { get; } = column;
 
-    public int Column { get; }
-
-    public int Position { get; }
+    public int Position { get; } = position;
 
     public override bool Equals(object? obj) => obj is Location other && Equals(other);
 

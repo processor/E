@@ -6,7 +6,7 @@ namespace E;
 
 public readonly struct Superscript(int value)
 {
-    private static readonly char[] s_digits = { '⁰', '¹', '²', '³', '⁴', '⁵', '⁶', '⁷', '⁸', '⁹' };
+    private static readonly char[] s_digits = [ '⁰', '¹', '²', '³', '⁴', '⁵', '⁶', '⁷', '⁸', '⁹' ];
 
     public int Value { get; } = value;
 

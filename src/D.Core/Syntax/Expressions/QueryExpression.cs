@@ -4,7 +4,7 @@ public sealed class QueryExpression(
     ISyntaxNode collection,
     ISyntaxNode? variable,
     ISyntaxNode? filter,
-    ISyntaxNode map,
+    ISyntaxNode? map,
     OrderByStatement? orderBy,
     long skip = 0,
     long take = 0) : ISyntaxNode
@@ -20,7 +20,7 @@ public sealed class QueryExpression(
     public ISyntaxNode? Filter { get; } = filter;
 
     // | select a || { a, b, c }
-    public ISyntaxNode Map { get; } = map;
+    public ISyntaxNode? Map { get; } = map;
 
     // | orderby a desc
     public OrderByStatement? OrderBy { get; } = orderBy;

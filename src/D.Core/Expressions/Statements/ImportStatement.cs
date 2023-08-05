@@ -2,14 +2,9 @@
 
 namespace E.Expressions;
 
-public sealed class UsingStatement : IExpression
+public sealed class UsingStatement(Symbol[] domains) : IExpression
 {
-    public UsingStatement(Symbol[] domains)
-    {
-        Domains = domains;
-    }
-
-    public Symbol[] Domains { get; }
+    public Symbol[] Domains { get; } = domains;
 
     public Symbol this[int i] => Domains[i];
 

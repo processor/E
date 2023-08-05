@@ -13,10 +13,7 @@ public sealed class MemberAccessExpression(
     // The member
     public Symbol MemberName { get; } = memberName;
 
-    public override string ToString()
-    {
-        return $"{Left}.{MemberName}";
-    }
+    public override string ToString() => $"{Left}.{MemberName}";
 
     ObjectType IObject.Kind => ObjectType.MemberAccessExpression;
 }

@@ -3,18 +3,13 @@ using System.Collections.Generic;
 
 namespace E;
 
-public sealed class ArgumentList : IArguments
+public sealed class ArgumentList(Argument[] items) : IArguments
 {
-    private readonly Argument[] _items;
+    private readonly Argument[] _items = items;
 
-    public ArgumentList(Argument[] items)
-    {
-        _items = items;
-    }
+    public object? this[int i] => _items[i].Value;
 
-    public object this[int i] => _items[i].Value;
-
-    public object this[string name]
+    public object? this[string name]
     {
         get
         {

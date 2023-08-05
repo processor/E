@@ -21,7 +21,7 @@ public sealed class ConstantNode : INode
     // IType | string
     public object? Value { get; }
 
-    public IType Infer(Environment env, IReadOnlyList<IType> types)
+    public IType Infer(Environment env, ReadOnlySpan<IType> types)
     {
         return Value switch
         {

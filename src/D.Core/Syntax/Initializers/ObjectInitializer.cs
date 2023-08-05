@@ -6,11 +6,11 @@ namespace E.Syntax;
 
 public sealed class ObjectInitializerSyntax(
     TypeSymbol type,
-    IReadOnlyList<ArgumentSyntax> arguments) : ISyntaxNode
+    ArgumentSyntax[] arguments) : ISyntaxNode
 {
     public TypeSymbol Type { get; } = type;
 
-    public IReadOnlyList<ArgumentSyntax> Arguments { get; } = arguments;
+    public ArgumentSyntax[] Arguments { get; } = arguments;
 
     SyntaxKind ISyntaxNode.Kind => SyntaxKind.TypeInitializer;
 }
@@ -19,5 +19,5 @@ public sealed class ObjectInitializerSyntax(
 // (x: 1, y: 2)
 // (x, y)
 
-// Rust uses a different syntax... and requires that all fields be initized at once
+// Rust uses a different syntax... and requires that all fields be initialized at once
 // Point { x: 1, y: 2 }

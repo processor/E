@@ -12,9 +12,9 @@ public class Node
 {
     private readonly ConcurrentDictionary<string, object> _children = new();
 
-    private readonly OperatorCollection operators = new();
+    private readonly OperatorCollection _operators = new();
 
-    private readonly int depth = 0;
+    private readonly int _depth = 0;
 
     public Node(string? name = null, Node? parent = null)
     {
@@ -23,10 +23,10 @@ public class Node
 
         if (parent is not null)
         {
-            this.depth = parent.depth + 1;
+            _depth = parent._depth + 1;
         }
 
-        operators.Add(Operator.DefaultList);
+        _operators.Add(Operator.DefaultList);
 
         AddModule(new BaseModule());
     }
@@ -48,7 +48,7 @@ public class Node
 
             if (pair.Value is Operator @operator)
             {
-                operators.Add(@operator);
+                _operators.Add(@operator);
             }
         }
     }
@@ -57,7 +57,7 @@ public class Node
 
     public Node? Parent { get; }
 
-    public OperatorCollection Operators => operators;
+    public OperatorCollection Operators => _operators;
 
     public void Add(string name, object value)
     {
@@ -123,9 +123,9 @@ public class Node
             return type;
         }
 
-        if (symbol.Arguments is { Count: > 0 })
+        if (symbol.Arguments is { Length: > 0 })
         {
-            var args = new Type[symbol.Arguments.Count];
+            var args = new Type[symbol.Arguments.Length];
 
             for (var i = 0; i < args.Length; i++)
             {

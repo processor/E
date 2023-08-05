@@ -4,7 +4,7 @@ namespace E.Syntax;
 
 public sealed class PropertyDeclarationSyntax(
     Symbol name,
-    TypeSymbol type,
+    TypeSymbol? type,
     ISyntaxNode? value = null,
     ObjectFlags flags = ObjectFlags.None) : IMemberSyntax, ISyntaxNode
 {
@@ -13,7 +13,7 @@ public sealed class PropertyDeclarationSyntax(
     // String
     // String | Number
     // A & B
-    public TypeSymbol Type { get; } = type;
+    public TypeSymbol? Type { get; } = type;
 
     public ISyntaxNode? Value { get; } = value;
 

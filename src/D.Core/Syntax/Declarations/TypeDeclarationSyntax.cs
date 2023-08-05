@@ -37,9 +37,9 @@ public abstract class TypeDefinitionBase(
 
 public sealed class TypeDeclarationSyntax(
     Symbol name,
-    IReadOnlyList<ParameterSyntax> genericParameters,
+    ParameterSyntax[] genericParameters,
     Symbol baseType,
-    IReadOnlyList<ArgumentSyntax> arguments,
+    ArgumentSyntax[] arguments,
     AnnotationSyntax[] annotations,
     IReadOnlyList<ISyntaxNode> members,
     TypeFlags flags = TypeFlags.None) : TypeDefinitionBase(baseType, members, flags)
@@ -50,11 +50,11 @@ public sealed class TypeDeclarationSyntax(
     // Vehicle 'Crash 
     public Symbol Name { get; } = name;
 
-    public IReadOnlyList<ArgumentSyntax> Arguments { get; } = arguments;
+    public ArgumentSyntax[] Arguments { get; } = arguments;
 
     public AnnotationSyntax[] Annotations { get; } = annotations;
 
-    public IReadOnlyList<ParameterSyntax> GenericParameters { get; } = genericParameters;
+    public ParameterSyntax[] GenericParameters { get; } = genericParameters;
 }
 
 // Las `Vegas, New `York : State class { }
