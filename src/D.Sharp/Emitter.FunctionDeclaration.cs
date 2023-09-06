@@ -17,13 +17,13 @@ public partial class CSharpEmitter
         return lambda;
     }
 
-    public void WriteParameters(IReadOnlyList<Parameter> parameters, char start = '(', char end = ')')
+    public void WriteParameters(ReadOnlySpan<Parameter> parameters, char start = '(', char end = ')')
     {
         Emit(start);
 
-        for (int i = 0; i < parameters.Count; i++)
+        for (int i = 0; i < parameters.Length; i++)
         {
-            Parameter parameter = parameters[i];
+            var parameter = parameters[i];
 
             if (i > 0) Emit(", ");
 
@@ -118,7 +118,7 @@ public partial class CSharpEmitter
 
         EmitPascalCase(func.Name);
 
-        if (func.GenericParameters is { Count: > 0 })
+        if (func.GenericParameters is { Length: > 0 })
         {
             WriteGenericParameters(func.GenericParameters);
         }
@@ -179,7 +179,7 @@ public partial class CSharpEmitter
 
         EmitPascalCase(func.Name);
 
-        if (func.GenericParameters.Count > 0)
+        if (func.GenericParameters.Length > 0)
         {
             WriteGenericParameters(func.GenericParameters);
         }
@@ -194,11 +194,11 @@ public partial class CSharpEmitter
         return func;
     }
 
-    private void WriteGenericParameters(IReadOnlyList<Parameter> parameters)
+    private void WriteGenericParameters(ReadOnlySpan<Parameter> parameters)
     {
         Emit('<');
 
-        for (var i = 0; i < parameters.Count; i++)
+        for (var i = 0; i < parameters.Length; i++)
         {
             if (i > 0) Emit(",");
 

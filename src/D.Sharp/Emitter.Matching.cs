@@ -8,17 +8,24 @@ public partial class CSharpEmitter
     {
         Indent(level);
         Emit("return ");
-        Emit(match.Expression.ToString());
+        Visit(match.Expression);
         Emit(" switch");
         EmitLine();
         EmitLine("{", level);
 
         level++;
 
-        foreach (var c in match.Cases)
+        for (var i = 0; i < match.Cases.Length; i++)
         {
-            WriteMatchCase(c);
+            if (i > 0)
+            {
+                EmitLine(",");
+            }
+
+            WriteMatchCase(match.Cases[i]);
         }
+
+        EmitLine();
 
         level--;
 
@@ -32,7 +39,6 @@ public partial class CSharpEmitter
         Indent(level);
         Visit(c.Pattern);
         Emit(" => ");
-        Visit(c.Body.Expression);
-        EmitLine(",");
+        Visit(c.Body.Expression);        
     }
 }

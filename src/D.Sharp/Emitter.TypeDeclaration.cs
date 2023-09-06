@@ -2,7 +2,7 @@
 
 public partial class CSharpEmitter
 {
-    public void WriteProperties(IEnumerable<Property> properties)
+    public void WriteProperties(ReadOnlySpan<Property> properties)
     {
         int i = 0;
 
@@ -35,7 +35,7 @@ public partial class CSharpEmitter
         }
     }
 
-    public void VisitConstructor(string name, IEnumerable<Property> properties)
+    public void VisitConstructor(string name, ReadOnlySpan<Property> properties)
     {
         Indent(level);
 

@@ -13,7 +13,7 @@ public partial class CSharpEmitter
 
     public override IExpression VisitTypePattern(TypePattern expression)
     {
-        Emit(expression.TypeExpression.ToString());
+        Visit(expression.TypeExpression);
         Emit(' ');
         Emit(expression.VariableName.Name);
 

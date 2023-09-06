@@ -13,7 +13,7 @@ public partial class CSharpEmitter
 
     public void VisitBinary(BinaryExpression be, bool a)
     {
-        if (be.Operator.OpKind == ObjectType.ExponentiationExpression)
+        if (be.Operator.OpKind is ObjectType.ExponentiationExpression)
         {
             WriteCall("Math.Pow", be.Left, be.Right);
         }

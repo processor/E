@@ -13,7 +13,7 @@ public partial class CSharpEmitter
         var needsWhere = false;
         var ii = 0;
 
-        if (type.GenericParameters is not null && type.GenericParameters.Length > 0)
+        if (type.GenericParameters is { Length: > 0 })
         {
             Emit('<');
 
@@ -21,7 +21,7 @@ public partial class CSharpEmitter
             {
                 if (++ii != 1) Emit(", ");
 
-                if (generic.Type != Type.Get(ObjectType.Object))
+                if (generic.Type.Id != (long)ObjectType.Object)
                 {
                     needsWhere = true;
                 }
@@ -61,7 +61,7 @@ public partial class CSharpEmitter
 
             ii = 0;
 
-            foreach (Parameter generic in type.GenericParameters)
+            foreach (Parameter generic in type.GenericParameters!)
             {
                 if (++ii != 1) Emit(", ");
 
@@ -81,7 +81,7 @@ public partial class CSharpEmitter
 
         var i = 0;
 
-        if (type.Properties is { Count: > 0 })
+        if (type.Properties is { Length: > 0 })
         {
             VisitConstructor(type.Name, type.Properties);
 
@@ -104,7 +104,7 @@ public partial class CSharpEmitter
             }
         }
 
-        if (type.Properties is { Count: > 0 })
+        if (type.Properties is { Length: > 0 })
         {
             WriteProperties(type.Properties);
 
