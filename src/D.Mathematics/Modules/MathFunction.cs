@@ -6,7 +6,7 @@ public class MathFunction(string name, Func<double, double> func) : IFunction
 
     public string Name { get; } = name;
 
-    public Parameter[] Parameters { get; } = new[] { Parameter.Get(ObjectType.Number) };
+    public Parameter[] Parameters { get; } = [ Parameter.Get(ObjectType.Number) ];
 
     ObjectType IObject.Kind => ObjectType.Function;
 
