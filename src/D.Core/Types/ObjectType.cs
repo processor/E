@@ -236,7 +236,7 @@ public enum ObjectType
 // := equal by defination
 
 // = equality
-// ≠ inquality
+// ≠ inequality
 // > greater then
 // ~ weak approximation
 // ≈ approximation

@@ -32,7 +32,7 @@ public class CallTests : TestBase
     }
 
     [Fact]
-    public void Parethensis()
+    public void Parenthesis()
     {
         var a = Parse<CallExpressionSyntax>("(a - b).negate(1)");
 
