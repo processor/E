@@ -1,7 +1,5 @@
 ﻿using E.Inference;
 
-using Xunit;
-
 namespace E.TypeSystem.Tests;
 
 public class TypeTests

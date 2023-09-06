@@ -1,6 +1,4 @@
-﻿using Xunit;
-
-namespace E.Inference.Tests;
+﻿namespace E.Inference.Tests;
 
 public class TypeTests
 {
@@ -11,9 +9,9 @@ public class TypeTests
 
         var g = TypeSystem.NewGeneric();
 
-        var num = TypeSystem.NewType(KnownTypeNames.Number, new[] { g }); // Number<T>
+        var num = TypeSystem.NewType(KnownTypeNames.Number, [ g ]); // Number<T>
 
-        var complex = TypeSystem.NewType(num, "Complex", new[] { g }); // Number<T>
+        var complex = TypeSystem.NewType(num, "Complex", [ g ]); // Number<T>
 
         // Assert.Equal("Complex<`af>", complex.ToString());
 

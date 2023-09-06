@@ -1,6 +1,4 @@
-﻿using Xunit;
-
-namespace E.Inference.Tests;
+﻿namespace E.Inference.Tests;
 
 public class NodeTests
 {
@@ -19,10 +17,10 @@ public class NodeTests
 
         var b = flow.Define("b", Type.Get(ObjectType.Int64));
 
-        var letNode = Node.Let(new[] {
+        var letNode = Node.Let([
             Define(Variable("a", boolean), new ConstantNode(boolean)),
             Define(b, new ConstantNode(i64))
-        }, b);
+        ], b);
 
         Assert.Equal(KnownTypeNames.Int64, flow.Infer(letNode).ToString());
         
@@ -37,11 +35,10 @@ public class NodeTests
         var binary = flow.NewGeneric();
         var boolean = flow.GetType(ObjectType.Boolean);
 
-        var a = Define(Variable("gt"), Node.Abstract(new[] {
+        var a = Define(Variable("gt"), Node.Abstract([
             Variable("lhs", binary),
             Variable("rhs", binary)
-        }, new ConstantNode(boolean), boolean));
-
+        ], new ConstantNode(boolean), boolean));
 
         Assert.Equal("gt = (lhs, rhs) { Boolean } -> Boolean", a.ToString());
     }
@@ -54,10 +51,10 @@ public class NodeTests
         var i32 = flow.GetType(ObjectType.Int32);
         var i64 = flow.GetType(ObjectType.Int64);
 
-        var apply = Node.Apply(Variable("+"), new[] { 
+        var apply = Node.Apply(Variable("+"), [
             new ConstantNode(i32), 
             new ConstantNode(i64) 
-        });
+        ]);
    
         Assert.Equal("+ ({ Int32 }, { Int64 })", apply.ToString());
 

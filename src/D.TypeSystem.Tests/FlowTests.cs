@@ -1,6 +1,4 @@
-﻿using Xunit;
-
-namespace E.Inference;
+﻿namespace E.Inference;
 
 using static Node;
 
@@ -41,9 +39,9 @@ public class FlowTests
 
         var bv = flow.Define("bv", Type.Get(ObjectType.Boolean));
 
-        var r = flow.Infer(Apply(Variable("!"), new[] {
+        var r = flow.Infer(Apply(Variable("!"), [
             bv
-        }));
+        ]));
 
         Assert.Equal(KnownTypeNames.Boolean, r.Name);
     }
@@ -58,17 +56,13 @@ public class FlowTests
     {
         var flow = new Flow();
 
-        var a = Apply(Variable("!"), new[] {
+        var a = Apply(Variable("!"), [
             Variable(KnownTypeNames.Boolean)
-        });
+        ]);
 
-        var b = Apply(Variable("+"), new[] {
-            a, a
-        });
+        var b = Apply(Variable("+"), [a, a]);
 
-        var c = Apply(Variable("*"), new[] {
-            b, a
-        });
+        var c = Apply(Variable("*"), [b, a]);
 
         Assert.Equal(KnownTypeNames.Boolean, flow.Infer(c).Name);
     }
@@ -129,34 +123,34 @@ public class FlowTests
 
         var any = flow.NewGeneric();
 
-        flow.Infer(new DefineNode(Variable("+"), Abstract(new[] {
+        flow.Infer(new DefineNode(Variable("+"), Abstract([
             Variable("lhs", any),
             Variable("rhs", any)
-        }, Variable("lhs"), any)));
+        ], Variable("lhs"), any)));
 
-        flow.AddFunction("concat", new[] {
+        flow.AddFunction("concat", [
             new Parameter("lhs", ObjectType.String),
             new Parameter("rhs", ObjectType.String),
-        }, ObjectType.String);
+        ], ObjectType.String);
 
         var a = flow.NewGeneric();
         var b = flow.NewGeneric();
 
         flow.AddFunction("test2",
-            args: new[] {
+            args: [
                 Variable("lhs", a),
                 Variable("rhs", b)
-            },
-            body: Apply(Variable("+"), new[] { Variable("lhs"), Variable("rhs") }
+            ],
+            body: Apply(Variable("+"), [ Variable("lhs"), Variable("rhs") ]
          ));
 
         Assert.Equal(KnownTypeNames.Int64,  flow.Infer(Variable("a")).Name);
         Assert.Equal(KnownTypeNames.String, flow.Infer(Variable("name")).Name);
-        Assert.Equal(KnownTypeNames.Int64,  flow.Infer(Apply(Variable("+"), new[] { Variable("a"), Variable("a") })).Name);
+        Assert.Equal(KnownTypeNames.Int64,  flow.Infer(Apply(Variable("+"), [ Variable("a"), Variable("a") ])).Name);
 
-        Assert.Equal(KnownTypeNames.String, flow.Infer(Apply(Variable("concat"), new[] { Variable("name"), Variable("name") })).Name);
+        Assert.Equal(KnownTypeNames.String, flow.Infer(Apply(Variable("concat"), [Variable("name"), Variable("name") ])).Name);
 
-        Assert.Equal(KnownTypeNames.Int64,  flow.Infer(Apply(Variable("test2"), new[] { Variable("a"), Variable("a") })).Name);
-        Assert.Equal(KnownTypeNames.String, flow.Infer(Apply(Variable("test2"), new[] { Variable("name"), Variable("name") })).Name);
+        Assert.Equal(KnownTypeNames.Int64,  flow.Infer(Apply(Variable("test2"), [ Variable("a"), Variable("a") ])).Name);
+        Assert.Equal(KnownTypeNames.String, flow.Infer(Apply(Variable("test2"), [ Variable("name"), Variable("name") ])).Name);
     }
 }
