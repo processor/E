@@ -9,10 +9,10 @@ public class Script
 
     public static object Evaluate(string text, Node env)
     {
-        var evaulator = new Evaluator(env);
+        var evaluator = new Evaluator(env);
 
-        evaulator.Evaluate(text);
+        evaluator.Evaluate(text);
 
-        return evaulator.This!;
+        return evaluator.This!;
     }
 }

@@ -79,7 +79,7 @@ public class Evaluator
             Symbol symbol                => EvaluateSymbol(symbol),    
             CallExpression call          => EvaluateCall(call),        
             UnitValueLiteral unit        => EvaluateUnit(unit),        
-            IUnitValue unitValue when unitValue.Unit.Dimension is Dimension.None => new Number(unitValue.Real),
+            IUnitValue { Unit.Dimension: Dimension.None } unitValue => new Number(unitValue.Real),
             _                           => expression // if ((long)expression.Kind > 255) throw new Exception($"expected kind: was {expression.Kind}");
 
         };
@@ -98,21 +98,18 @@ public class Evaluator
 
     public IObject EvaluateUnit(UnitValueLiteral expression)
     {
-        if (!UnitInfo.TryParse(expression.UnitName, out UnitInfo? unit))
-        {
-            throw new Exception($"Unit '{expression.UnitName}' was not found");
-        }
+        var unit = UnitInfo.Get(expression.UnitName);
 
-        if (expression.UnitPower is not 0 && expression.UnitPower is not 1)
+        if (expression is { UnitPower: not 0, UnitPower: not 1 })
         {
             unit = unit.WithExponent(expression.UnitPower);
         }
 
         double value = ((INumber)expression.Expression).Real;
 
-        if (unit.Dimension is Dimension.None && unit.DefinitionUnit is INumber definationUnit)
+        if (unit is { Dimension: Dimension.None, DefinitionUnit: INumber definitionUnit })
         {
-            return new Number(value * definationUnit.Real);
+            return new Number(value * definitionUnit.Real);
         }
 
         return UnitValue.Create(value, unit);
@@ -141,7 +138,7 @@ public class Evaluator
 
         if (argList.ContainsUnresolvedSymbols)
         {
-            var parameters = new List<Parameter>();
+            var parameters = new ListBuilder<Parameter>();
 
             foreach (var arg in expression.Arguments)
             {
@@ -151,7 +148,7 @@ public class Evaluator
                 }
             }
 
-            return new FunctionExpression(parameters, new LambdaExpression(expression));
+            return new FunctionExpression(parameters.ToArray(), new LambdaExpression(expression));
         }
 
         if (_env.TryGetValue(expression.FunctionName, out IFunction? func))
@@ -159,7 +156,7 @@ public class Evaluator
             return func.Invoke(args);
         }
 
-        throw new Exception($"function {expression.FunctionName} not found");
+        throw new Exception($"ƒ {expression.FunctionName} not found");
     }
 
     private readonly struct ArgumentEvaluationResult
@@ -214,7 +211,7 @@ public class Evaluator
             return r;
         }
 
-        #region Maybe function
+        #region Maybe ƒ
 
         // Simplify logic here?
 
