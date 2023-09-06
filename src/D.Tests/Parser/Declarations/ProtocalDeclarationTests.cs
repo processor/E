@@ -74,11 +74,11 @@ public class ProtocolDeclarationTests : TestBase
         var protocol = Parse<ProtocolDeclarationSyntax>(
             """
             Bank protocol { 
-              * | open       `Account       
-                | close      `Account     
+              * | open       `Account
+                | close      `Account
                 | settle     `Transaction
                 | refuse     `Transaction 
-                | underwrite `Loan        
+                | underwrite `Loan
                 | process    `Transaction 
                 ↺            : acting
               * dissolve ∎   : dissolved
@@ -138,14 +138,14 @@ public class ProtocolDeclarationTests : TestBase
         Assert.True(a.Repeats);
         Assert.False(a.IsEnd);
 
-        Assert.Equal("openAccount", a[0].Name);
-        Assert.Equal("closeAccount", a[1].Name);
-        Assert.Equal("settleTransaction", a[2].Name);
-        Assert.Equal("refuseTransaction", a[3].Name);
-        Assert.Equal("underwriteLoan", a[4].Name);
+        Assert.Equal("openAccount",        a[0].Name);
+        Assert.Equal("closeAccount",       a[1].Name);
+        Assert.Equal("settleTransaction",  a[2].Name);
+        Assert.Equal("refuseTransaction",  a[3].Name);
+        Assert.Equal("underwriteLoan",     a[4].Name);
         Assert.Equal("processTransaction", a[5].Name);
 
-        Assert.Equal("dissolve", b.Name);
+        Assert.Equal("dissolve",  b.Name);
         Assert.Equal("dissolved", b.Label);
         Assert.True(b.IsEnd);
     }

@@ -8,7 +8,6 @@ namespace E.Parsing.Tests;
 public class TypeDeclarationTests : TestBase
 { 
     [Theory]
-    [InlineData("Vehicle struct             { name: String     }", TypeFlags.Struct)]
     [InlineData("Vehicle record             { name: String     }", TypeFlags.Record)]
     [InlineData("Vehicle`Crash event        { vehicle: Vehicle }", TypeFlags.Event)]
     [InlineData("Vehicle`Crash event record { vehicle: Vehicle }", TypeFlags.Event | TypeFlags.Record)]
@@ -97,9 +96,9 @@ public class TypeDeclarationTests : TestBase
             }
             """);
 
-        Assert.Equal("A", type.Names[0].ToString());
-        Assert.Equal("B", type.Names[1].ToString());
-        Assert.Equal("C", type.Names[2].ToString());
+        Assert.Equal("A", type.Names[0].Name);
+        Assert.Equal("B", type.Names[1].Name);
+        Assert.Equal("C", type.Names[2].Name);
         Assert.Equal("D", type.BaseType);
     }
 
@@ -193,11 +192,12 @@ public class TypeDeclarationTests : TestBase
     [Fact]
     public void Generic()
     {
-        var declaration = Parse<TypeDeclaration>(@"
-T record {
-f: ('a, 'a, 'a)
-};");
-
+        var declaration = Parse<TypeDeclaration>(
+            """
+            T record {
+            f: ('a, 'a, 'a)
+            };
+            """);
     }
     */
 

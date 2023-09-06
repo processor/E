@@ -16,7 +16,7 @@ public class TypeSymbolTests
     [Fact]
     public void ConstructWithArguments()
     {
-        var symbol = new TypeSymbol("Array", new[] { new TypeSymbol("Int32") });
+        var symbol = new TypeSymbol("Array", [ new TypeSymbol("Int32") ]);
 
         Assert.Equal("Array<Int32>", symbol.ToString());
     }

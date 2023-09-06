@@ -27,7 +27,7 @@ public class PipeTests : TestBase
         Assert.Equal("image", expression.Callee.ToString());
         Assert.Equal("resize", expression.Name);
 
-        Assert.Equal(2, expression.Arguments.Count);
+        Assert.Equal(2, expression.Arguments.Length);
 
         var arg1 = (UnitValueSyntax)expression.Arguments[0].Value;
         var arg2 = (UnitValueSyntax)expression.Arguments[1].Value;
@@ -86,7 +86,7 @@ public class PipeTests : TestBase
         var args = pipe.Arguments;
 
         Assert.True(pipe.IsPiped);
-        Assert.Equal(3, pipe.Arguments.Count);
+        Assert.Equal(3, pipe.Arguments.Length);
 
         Assert.Equal("x", args[0].Name);
         Assert.Equal("y", args[1].Name);

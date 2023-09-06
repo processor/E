@@ -1,19 +1,20 @@
-﻿using Xunit;
+﻿using E.Inference;
 
-namespace E.TypeSystem.Tests
+using Xunit;
+
+namespace E.TypeSystem.Tests;
+
+public class TypeTests
 {
-    public class TypeTests
+    [Fact]
+    public void A()
     {
-        [Fact]
-        public void A()
-        {
-            Assert.Equal(Type.Get(ObjectType.Object), Type.Get(ObjectType.Int32).BaseType);
-        }
+        Assert.Equal(Type.Get(ObjectType.Object), Type.Get(ObjectType.Int32).BaseType);
+    }
 
-        [Fact]
-        public void Names()
-        {
-            Assert.Equal("Object", Type.Get(ObjectType.Object).Name);
-        }
+    [Fact]
+    public void Names()
+    {
+        Assert.Equal(KnownTypeNames.Object, Type.Get(ObjectType.Object).Name);
     }
 }

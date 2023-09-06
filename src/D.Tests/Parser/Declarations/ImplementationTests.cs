@@ -1,6 +1,4 @@
-﻿using System.Linq;
-
-namespace E.Parsing.Tests;
+﻿namespace E.Parsing.Tests;
 
 using E.Symbols;
 
@@ -206,7 +204,7 @@ public class ImplementationTests : TestBase
 
         var l = (LambdaExpressionSyntax)((FunctionDeclarationSyntax)a.Members[0]).Body;
 
-        Assert.Equal(3, ((ObjectInitializerSyntax)l.Expression).Arguments.Count);
+        Assert.Equal(3, ((ObjectInitializerSyntax)l.Expression).Arguments.Length);
 
         foreach (var member in a.Members.OfType<FunctionDeclarationSyntax>())
         {
@@ -258,7 +256,7 @@ public class ImplementationTests : TestBase
 
         Assert.Equal("Point", t.Type.Name);
         Assert.True(f.IsProperty);
-        Assert.Equal(3, t.Arguments.Count);
+        Assert.Equal(3, t.Arguments.Length);
     }
 
     [Fact]

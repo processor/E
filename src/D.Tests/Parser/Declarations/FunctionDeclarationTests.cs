@@ -20,12 +20,12 @@ public class FunctionDeclarationTests : TestBase
 
         var assignment = (BinaryExpressionSyntax)body.Statements[0];
 
-        var left = (IndexAccessExpressionSyntax)assignment.Left;
-        var right = (BinaryExpressionSyntax)assignment.Right;
+        var lhs = (IndexAccessExpressionSyntax)assignment.Left;
+        var rhs = (BinaryExpressionSyntax)assignment.Right;
 
 
-        Assert.Equal("this", (Symbol)left.Left);
-        Assert.Equal(0, (NumberLiteralSyntax)left.Arguments[0].Value);
+        Assert.Equal("this", (Symbol)lhs.Left);
+        Assert.Equal(0, (NumberLiteralSyntax)lhs.Arguments[0].Value);
     }
 
     [Fact]
@@ -49,7 +49,7 @@ public class FunctionDeclarationTests : TestBase
         Assert.Equal("T", func.GenericParameters[0].Name);
         Assert.Equal("Number", func.GenericParameters[0].Type);
 
-        Assert.Equal(3, func.Parameters.Count);
+        Assert.Equal(3, func.Parameters.Length);
 
         // Assert.Equal("Matrix4", func.ReturnType.Name);
 
@@ -106,7 +106,7 @@ public class FunctionDeclarationTests : TestBase
             """);
         Assert.Equal("clamp", func.Name);
 
-        Assert.Equal(3, func.Parameters.Count);
+        Assert.Equal(3, func.Parameters.Length);
         Assert.Equal("p", func.Parameters[0].Name);
         Assert.Equal("min", func.Parameters[1].Name);
         Assert.Equal("max", func.Parameters[2].Name);
@@ -194,7 +194,7 @@ public class FunctionDeclarationTests : TestBase
         Assert.Single(func.GenericParameters);
         Assert.Equal("T", func.GenericParameters[0].Name);
         Assert.Equal("Number", func.GenericParameters[0].Type);
-        Assert.Equal(2, func.Parameters.Count);
+        Assert.Equal(2, func.Parameters.Length);
 
         Assert.Equal("Point", func.Parameters[0].Type.Name);
         Assert.Equal("Point<T>", func.Parameters[0].Type.ToString());
@@ -219,7 +219,7 @@ public class FunctionDeclarationTests : TestBase
             """);
 
         Assert.Equal("clamp", func.Name);
-        Assert.Equal(3, func.Parameters.Count);
+        Assert.Equal(3, func.Parameters.Length);
 
         Assert.Equal("p", func.Parameters[0].Name);
         Assert.Equal("geometry", func.Parameters[0].Type.Module);
@@ -280,7 +280,7 @@ public class FunctionDeclarationTests : TestBase
             }
             """);
 
-        Assert.Equal(2, w.Parameters.Count);
+        Assert.Equal(2, w.Parameters.Length);
         Assert.Equal("a", w.Parameters[0].Name);
         Assert.Equal("Integer", w.Parameters[0].Type.ToString());
 
@@ -292,7 +292,7 @@ public class FunctionDeclarationTests : TestBase
     }
 
     [Fact]
-    public void InferedFunction()
+    public void InferredFunction()
     {
         var w = Parse<FunctionDeclarationSyntax>(
             """
@@ -301,17 +301,17 @@ public class FunctionDeclarationTests : TestBase
             }
             """);
 
-        Assert.Equal(2, w.Parameters.Count);
+        Assert.Equal(2, w.Parameters.Length);
         Assert.Equal("a", w.Parameters[0].Name);
         Assert.Equal("b", w.Parameters[1].Name);
     }
 
     [Fact]
-    public void InferedFunctionLambda()
+    public void InferredFunctionLambda()
     {
         var w = Parse<FunctionDeclarationSyntax>("sum ƒ(a, b) => a + b");
 
-        Assert.Equal(2, w.Parameters.Count);
+        Assert.Equal(2, w.Parameters.Length);
         Assert.Equal("a", w.Parameters[0].Name);
         Assert.Equal("b", w.Parameters[1].Name);
     }
@@ -325,7 +325,7 @@ public class FunctionDeclarationTests : TestBase
             """);
 
         Assert.Equal("add100", w.Name.ToString());
-        Assert.Equal(2, w.Parameters.Count);
+        Assert.Equal(2, w.Parameters.Length);
         Assert.Equal("100", ((NumberLiteralSyntax)w.Parameters[1].DefaultValue).Text);
 
         Assert.True(w.Body is LambdaExpressionSyntax);

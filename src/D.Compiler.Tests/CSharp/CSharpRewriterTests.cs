@@ -195,6 +195,7 @@ public class CSharpRewriterTests
                 4 => 1 / 4,
                 5 => 1 % 5,
                 6 => Math.Pow(1, 6),
+                7 => Math.Abs(x) + 32 / 3
             }
             """.ReplaceLineEndings("\n"),
 
@@ -206,7 +207,8 @@ public class CSharpRewriterTests
               3 => 1 * 3
               4 => 1 / 4
               5 => 1 % 5
-              6 => 1 ** 6
+              6 => 1 ** 6,
+              7 => abs(x) + 32 / 3
             }
             """));
     }

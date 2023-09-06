@@ -130,7 +130,7 @@ public class MatchTests : TestBase
         Assert.Equal("i", a.Name.ToString());
         Assert.Equal("debug", b.Name.ToString());
 
-        Assert.Equal(2, c.Cases.Count);
+        Assert.Equal(2, c.Cases.Length);
 
         var pattern1 = (RangePatternSyntax)c.Cases[0].Pattern;
 

@@ -71,7 +71,7 @@ public class CallTests : TestBase
 
         Assert.Equal("run", call.Name);
 
-        Assert.Equal(3, call.Arguments.Count);
+        Assert.Equal(3, call.Arguments.Length);
 
         Assert.Equal("x", (Symbol)call.Arguments[0].Value);
         Assert.Equal("y", (Symbol)call.Arguments[1].Value);
@@ -85,7 +85,7 @@ public class CallTests : TestBase
 
         Assert.Equal("move", syntax.Name);
 
-        Assert.Equal(3, syntax.Arguments.Count);
+        Assert.Equal(3, syntax.Arguments.Length);
 
         Assert.Equal(1, (NumberLiteralSyntax)syntax.Arguments[0].Value);
         Assert.Equal(2, (NumberLiteralSyntax)syntax.Arguments[1].Value);

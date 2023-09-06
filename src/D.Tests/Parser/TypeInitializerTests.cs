@@ -17,7 +17,7 @@ public class TypeInitializerTests : TestBase
             """);
 
         Assert.Equal("Account", type.Type);
-        Assert.Equal(3, type.Arguments.Count);
+        Assert.Equal(3, type.Arguments.Length);
 
         var dateObject = (ObjectInitializerSyntax)type.Arguments[2].Value;
 
@@ -35,7 +35,7 @@ public class TypeInitializerTests : TestBase
             )
             """);
         Assert.Equal("Point", type.Type.Name);
-        Assert.Equal(3, type.Arguments.Count);
+        Assert.Equal(3, type.Arguments.Length);
     }
 
     [Fact]
@@ -68,7 +68,7 @@ public class TypeInitializerTests : TestBase
 
         Assert.Equal("Point", type.Type.Name);
 
-        Assert.Equal(3, type.Arguments.Count);
+        Assert.Equal(3, type.Arguments.Length);
 
         Assert.Equal("x", type.Arguments[0].Name);
         Assert.Equal("y", type.Arguments[1].Name);

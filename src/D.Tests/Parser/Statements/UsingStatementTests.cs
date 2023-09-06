@@ -13,12 +13,12 @@ public class UsingStatementTests : TestBase
     }
 
     [Fact]
-    public void MultipleUsings()
+    public void CanParseUsingList()
     {
         var statement = Parse<UsingStatement>("using accounting, finance, taxation;");
 
         Assert.Equal("accounting", statement[0]);
-        Assert.Equal("finance", statement[1]);
-        Assert.Equal("taxation", statement[2]);
+        Assert.Equal("finance",    statement[1]);
+        Assert.Equal("taxation",   statement[2]);
     }
 }
