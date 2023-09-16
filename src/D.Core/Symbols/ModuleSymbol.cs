@@ -6,7 +6,7 @@ namespace E.Symbols;
 
 public sealed class ModuleSymbol(
     string name,
-    ModuleSymbol? parent = null) : Symbol(name, Array.Empty<Symbol>())
+    ModuleSymbol? parent = null) : Symbol(name, [])
 {
     private readonly Dictionary<string, Symbol> lookup = new();
 

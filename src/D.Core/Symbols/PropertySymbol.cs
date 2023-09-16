@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace E.Symbols;
+﻿namespace E.Symbols;
 
 public sealed class PropertySymbol : Symbol
 {
@@ -8,5 +6,5 @@ public sealed class PropertySymbol : Symbol
         : base(name) { }
 
     public PropertySymbol(ModuleSymbol module, string name)
-        : base(module, name, Array.Empty<Symbol>()) { }
+        : base(module, name, []) { }
 }

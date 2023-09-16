@@ -41,7 +41,7 @@ public sealed class Type : INamedObject, IExpression, IEquatable<Type>
         Id         = Interlocked.Increment(ref id);
         ModuleName = moduleName;
         Name       = name;
-        Arguments  = args ?? Array.Empty<Type>();
+        Arguments  = args ?? [];
     }
 
     public Type(
@@ -53,7 +53,7 @@ public sealed class Type : INamedObject, IExpression, IEquatable<Type>
     {
         Id                = Interlocked.Increment(ref id);
         Name              = name;
-        Arguments         = Array.Empty<Type>();
+        Arguments         = [];
         BaseType          = baseType;
         Properties        = properties;
         GenericParameters = genericParameters;

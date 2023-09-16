@@ -4,7 +4,6 @@
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using System.Threading;
 
@@ -22,7 +21,7 @@ public static class TypeSystem
         protected TypeBase(string name, IType[]? arguments)
             : this(name)
         {
-            ArgumentTypes = arguments ?? Array.Empty<IType>();
+            ArgumentTypes = arguments ?? [];
         }
 
         public override string ToString() => Name;
@@ -214,7 +213,7 @@ public static class TypeSystem
 
     public static IType Infer(this Environment env, INode node)
     {
-        return Infer(env, node, Array.Empty<IType>());
+        return Infer(env, node, types: []);
     }
 
     public static IType Infer(this Environment env, INode node, ReadOnlySpan<IType> types)

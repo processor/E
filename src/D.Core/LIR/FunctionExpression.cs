@@ -17,7 +17,7 @@ public class FunctionExpression : INamedObject, IExpression
     {
         Name              = name;
         Parameters        = parameters;
-        GenericParameters = Array.Empty<Parameter>();
+        GenericParameters = [];
         ReturnType        = returnType;
     }
 
@@ -34,7 +34,7 @@ public class FunctionExpression : INamedObject, IExpression
        ObjectFlags flags = ObjectFlags.None)
     {
         Parameters = parameters;
-        GenericParameters = Array.Empty<Parameter>();
+        GenericParameters = [];
         Body = body;
         ReturnType = returnType;
         Flags = flags;

@@ -444,7 +444,7 @@ public sealed class Parser
         // record, struct, event, role, actor
         var flags = ReadTypeModifiers();
             
-        var args = IsKind(ParenthesisOpen) ? ReadArguments() : Array.Empty<ArgumentSyntax>();
+        var args = IsKind(ParenthesisOpen) ? ReadArguments() : [];
         
         // <T: Number>
         // <T: Number = Float64>
@@ -454,7 +454,7 @@ public sealed class Parser
             ? ReadTypeSymbol()          // baseType
             : null;
 
-        var annotations = IsKind(At) ? ReadAnnotations() : Array.Empty<AnnotationSyntax>();
+        var annotations = IsKind(At) ? ReadAnnotations() : [];
         var properties  = ReadTypeDeclarationBody();
 
         ConsumeIf(Semicolon); // ? ;
@@ -641,7 +641,7 @@ public sealed class Parser
 
         ConsumeIf(Semicolon); // ? ;
 
-        return new FunctionDeclarationSyntax(Array.Empty<ParameterSyntax>(), body, returnType, flags);
+        return new FunctionDeclarationSyntax([], body, returnType, flags);
     }
 
     // [index: i32] -> T { ..
@@ -712,7 +712,7 @@ public sealed class Parser
         {
             flags |= ObjectFlags.Property | ObjectFlags.Instance;
 
-            parameters = Array.Empty<ParameterSyntax>();
+            parameters = [];
         }
             
         var returnType = ConsumeIf(ReturnArrow)
@@ -767,7 +767,7 @@ public sealed class Parser
             return list.ToArray();
         }
            
-        return Array.Empty<ParameterSyntax>();
+        return [];
     }
 
     private ISyntaxNode ReadBody() => Current.Kind switch
@@ -797,7 +797,7 @@ public sealed class Parser
     {
         if (IsKind(ParenthesisClose))
         {
-            return Array.Empty<ParameterSyntax>();
+            return [];
         }
 
         var list = new ListBuilder<ParameterSyntax>();
@@ -881,7 +881,7 @@ public sealed class Parser
     {
         ConsumeIf(Unit);
 
-        var args = IsKind(ParenthesisOpen) ? ReadArguments() : Array.Empty<ArgumentSyntax>();
+        var args = IsKind(ParenthesisOpen) ? ReadArguments() : [];
 
         var baseType = ConsumeIf(Colon) // ? :
             ? ReadTypeSymbol()          // baseType
@@ -968,7 +968,7 @@ public sealed class Parser
         {
             var name = ReadTypeSymbol(); // !{name}
 
-            var args = IsKind(ParenthesisOpen) ? ReadArguments() : Array.Empty<ArgumentSyntax>();
+            var args = IsKind(ParenthesisOpen) ? ReadArguments() : [];
 
             builder.Add(new AnnotationSyntax(name, args));
         }
@@ -999,7 +999,7 @@ public sealed class Parser
         {
             channelProtocol = reader.Current.Equals("*")
                 ? ReadProtocolChannel()
-                : Array.Empty<IProtocolMessage>();
+                : [];
 
             while (!IsKind(BraceClose))
             {
@@ -1008,7 +1008,7 @@ public sealed class Parser
         }
         else
         {
-            channelProtocol = Array.Empty<IProtocolMessage>();
+            channelProtocol = [];
         }
             
         Consume(BraceClose);  // ! }
@@ -1090,7 +1090,7 @@ public sealed class Parser
         {
             flags |= ObjectFlags.Property;
 
-            parameters = Array.Empty<ParameterSyntax>(); 
+            parameters = []; 
         }
 
         var returnType = ConsumeIf(ReturnArrow)
@@ -1099,7 +1099,7 @@ public sealed class Parser
 
         ConsumeIf(Semicolon);
 
-        return new FunctionDeclarationSyntax(name, Array.Empty<ParameterSyntax>(), parameters, returnType, null, flags);
+        return new FunctionDeclarationSyntax(name, [], parameters, returnType, null, flags);
     }
 
     // dissolve ∎ : dissolved
@@ -1442,7 +1442,7 @@ public sealed class Parser
         }
         else
         {
-            parameters = Array.Empty<ParameterSymbol>();
+            parameters = [];
         }
 
         var result = new TypeSymbol(module, name, parameters);
@@ -2044,7 +2044,7 @@ public sealed class Parser
 
         LeaveMode(Mode.Element);
 
-        return new ElementSyntax(moduleName, elementName, args, children ?? Array.Empty<ISyntaxNode>(), isSelfClosed);
+        return new ElementSyntax(moduleName, elementName, args, children ?? [], isSelfClosed);
     }
 
     [SkipLocalsInit]
@@ -2345,13 +2345,13 @@ public sealed class Parser
 
     private ArgumentSyntax[] ReadArguments()
     {
-        if (!MoreArguments()) return Array.Empty<ArgumentSyntax>();
+        if (!MoreArguments()) return [];
 
         bool parenthesized = ConsumeIf(ParenthesisOpen);   // ? (
 
         if (parenthesized && ConsumeIf(ParenthesisClose)) // ? )
         {
-            return Array.Empty<ArgumentSyntax>();
+            return [];
         }
 
         EnterMode(Mode.Arguments);

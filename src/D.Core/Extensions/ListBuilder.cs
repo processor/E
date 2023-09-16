@@ -47,7 +47,7 @@ public ref struct ListBuilder<T>
         switch (count)
         {
             case 0:
-                return Array.Empty<T>();
+                return [];
             case 1:
                 result[0] = _0!;
                 break;

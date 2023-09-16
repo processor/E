@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Runtime.CompilerServices;
 using System.Text;
@@ -15,7 +14,7 @@ public abstract class Symbol : IExpression, ISyntaxNode
     {
         Name = name;
         Flags = flags;
-        Arguments = Array.Empty<ArgumentSymbol>();
+        Arguments = [];
     }
 
     public Symbol(string name, Symbol[] arguments, SymbolFlags flags = default)

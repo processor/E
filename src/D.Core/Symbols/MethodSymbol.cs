@@ -5,7 +5,7 @@ namespace E.Symbols;
 public sealed class MethodSymbol : Symbol
 {
     public MethodSymbol(ModuleSymbol? module, string name)
-        : base(module, name, Array.Empty<Symbol>()) { }
+        : base(module, name, []) { }
 
     public MethodSymbol(string name)
         : base(name) { }
