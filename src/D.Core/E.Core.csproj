@@ -6,6 +6,5 @@
     <Nullable>enable</Nullable>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <IsTrimmable>true</IsTrimmable>
-    <LangVersion>preview</LangVersion>
   </PropertyGroup>
 </Project>
