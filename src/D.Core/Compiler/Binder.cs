@@ -29,7 +29,7 @@ public partial class Compiler
     {
         if (expression is Symbol name)
         {
-            return env.Get<Type>(flow.Infer(name.Name).Name);
+            return _env.Get<Type>(flow.Infer(name.Name).Name);
 
             /*
             if (env.TryGetValue(name, out Type obj))
@@ -100,7 +100,7 @@ public partial class Compiler
                 return Type.Get(ObjectType.Object);
 
             case TypeInitializer initializer:
-                return env.Get<Type>(initializer.Type);
+                return _env.Get<Type>(initializer.Type);
 
             case TupleExpression tuple:
                 {

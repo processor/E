@@ -18,7 +18,7 @@ public partial class Compiler
     // - Bind symbols to their declarations
     // - Transform to ExpressionTree
 
-    private Node env;
+    private Node _env;
     private readonly Flow flow = new ();
 
     public Compiler()
@@ -26,7 +26,7 @@ public partial class Compiler
 
     public Compiler(Node env)
     {
-        this.env = env;
+        _env = env;
     }
 
     public Compilation Compile(IEnumerable<ISyntaxNode> nodes, string? moduleName = null)
@@ -245,7 +245,7 @@ public partial class Compiler
 
         if (char.IsUpper(syntax.Name.Name[0]))
         {
-            objectType = env.GetType(syntax.Name);
+            objectType = _env.GetType(syntax.Name);
         }
            
         return new CallExpression(
@@ -371,7 +371,7 @@ public partial class Compiler
     {
         if (symbol is TypeSymbol typeSymbol && typeSymbol.Status is SymbolStatus.Unresolved)
         {
-            if (env.TryGetValue<Type>(typeSymbol, out var value))
+            if (_env.TryGetValue<Type>(typeSymbol, out var value))
             {
                 typeSymbol.Initialize(value);
             }
@@ -393,7 +393,7 @@ public partial class Compiler
             var parameter = parameters[i];
 
             var type = parameter.Type is not null
-                ? env.Get<Type>(parameter.Type)
+                ? _env.Get<Type>(parameter.Type)
                 : new Type(ObjectType.Object); // TODO: Introduce generic or infer from body?
 
             // Any

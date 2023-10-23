@@ -111,7 +111,7 @@ public class CSharpRewriterTests
     }
 
     [Fact]
-    public void RewriteTypeInitiziation()
+    public void RewriteTypeInitialization()
     {
         Assert.Equal(
             """

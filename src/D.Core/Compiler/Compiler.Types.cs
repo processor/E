@@ -14,7 +14,7 @@ public partial class Compiler
         {
             var member = syntax.GenericParameters[i];
 
-            genericParameters[i] = new Parameter(member.Name, env.Get<Type>(member.Type ?? TypeSymbol.Object));
+            genericParameters[i] = new Parameter(member.Name, _env.Get<Type>(member.Type ?? TypeSymbol.Object));
 
             // context.Add(member.Name, (Type)genericParameters[i].Type);
         }
@@ -25,13 +25,13 @@ public partial class Compiler
         {
             if (member is PropertyDeclarationSyntax property)
             {
-                properties.Add(new Property(property.Name, env.Get<Type>(property.Type), property.Flags));
+                properties.Add(new Property(property.Name, _env.Get<Type>(property.Type), property.Flags));
             }
             else if (member is CompoundPropertyDeclaration compound)
             {
                 foreach (var p2 in compound.Members)
                 {
-                    var memberType = p2.Type is not null ? env.Get<Type>(p2.Type) : GetType(Visit(p2.Value));
+                    var memberType = p2.Type is not null ? _env.Get<Type>(p2.Type) : GetType(Visit(p2.Value));
 
                     properties.Add(new Property(p2.Name, memberType, p2.Flags));
                 }
@@ -39,12 +39,12 @@ public partial class Compiler
         }
 
         var baseType = syntax.BaseType is not null
-            ? env.Get<Type>(syntax.BaseType)
+            ? _env.Get<Type>(syntax.BaseType)
             : null;
 
         var type = new Type(syntax.Name, baseType, properties.ToArray(), genericParameters, syntax.Flags);
 
-        env.Add(syntax.Name, type);
+        _env.Add(syntax.Name, type);
 
         flow.Add(type);
 

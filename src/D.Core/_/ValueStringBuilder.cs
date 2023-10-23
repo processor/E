@@ -149,20 +149,20 @@ internal ref struct ValueStringBuilder
         }
     }
 
-    public void AppendJoin(char seperator, List<string> items)
+    public void AppendJoin(char separator, List<string> items)
     {
         for (int i = 0; i < items.Count; i++)
         {
             if (i > 0)
             {
-                Append(seperator);
+                Append(separator);
             }
 
             Append(items[i]);
         }
     }
 
-    public void AppendJoin(char seperator, IEnumerable<string> items)
+    public void AppendJoin(char separator, IEnumerable<string> items)
     {
         int i = 0;
 
@@ -170,7 +170,7 @@ internal ref struct ValueStringBuilder
         {
             if (i > 0)
             {
-                Append(seperator);
+                Append(separator);
             }
 
             Append(item);

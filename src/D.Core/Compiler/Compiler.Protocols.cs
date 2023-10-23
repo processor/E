@@ -16,7 +16,7 @@ public partial class Compiler
 
         var result = new ProtocolExpression(protocol.Name, functions);
 
-        env.Add(protocol.Name, result);
+        _env.Add(protocol.Name, result);
             
         return result;
     }

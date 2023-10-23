@@ -27,7 +27,7 @@ public partial class Compiler
 
         if (syntax.ReturnType is not null)
         {
-            returnType = env.Get<Type>(syntax.ReturnType);
+            returnType = _env.Get<Type>(syntax.ReturnType);
         }
         else if (body is LambdaExpression lambda)
         {
@@ -59,7 +59,7 @@ public partial class Compiler
 
         if (result.Name is not null)
         {
-            env.Add(result.Name, result);
+            _env.Add(result.Name, result);
         }
 
         return result;

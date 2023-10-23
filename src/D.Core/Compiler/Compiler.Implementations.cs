@@ -9,10 +9,10 @@ public partial class Compiler
 {
     public ImplementationExpression VisitImplementation(ImplementationDeclarationSyntax syntax)
     {
-        env = env.Nested("impl");
+        _env = _env.Nested("impl");
 
-        var type = env.GetType(syntax.Type);
-        var protocol = syntax.Protocol is not null ? env.Get<ProtocolExpression>(syntax.Protocol) : null;
+        var type = _env.GetType(syntax.Type);
+        var protocol = syntax.Protocol is not null ? _env.Get<ProtocolExpression>(syntax.Protocol) : null;
 
         #region Flow
 
@@ -51,7 +51,7 @@ public partial class Compiler
             // Method         a () =>
         }
 
-        env = env.Parent!;
+        _env = _env.Parent!;
 
         var result = new ImplementationExpression(protocol, type, variables, methods);
 

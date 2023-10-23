@@ -6,14 +6,14 @@ public partial class Compiler
 {
     public NestedScope EnterScope(string name)
     {
-        env = env.Nested(name);
+        _env = _env.Nested(name);
 
         return new NestedScope(this);
     }
 
     internal void LeaveScope()
     {
-        env = env.Parent!;
+        _env = _env.Parent!;
     }
 }
 

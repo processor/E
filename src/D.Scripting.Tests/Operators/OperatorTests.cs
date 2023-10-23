@@ -71,8 +71,8 @@ public class OperatorTests
 
         env.Operators.Add(op);
 
-        var eval = new Evaluator(env);
+        var evaluator = new Evaluator(env);
 
-        Assert.Equal("hello 5 2", eval.Evaluate("5 # 2"));
+        Assert.Equal("hello 5 2", evaluator.Evaluate("5 # 2"));
     }
 }
