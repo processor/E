@@ -59,7 +59,7 @@ public class VariableDeclarationTests : TestBase
     [InlineData("let x = 1")]
     [InlineData("let x: Integer = 1")]
     // [InlineData("let (x) = 1")]
-    // [InlineData("let (x: Integer) = (1)")] // ensure parenthsis have no effect
+    // [InlineData("let (x: Integer) = (1)")] // ensure parenthesis have no effect
     public void ParseTests(string text)
     {
         var var = Parse<PropertyDeclarationSyntax>(text);

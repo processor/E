@@ -5,7 +5,7 @@ public class MasonaryTest
     [Fact]
     public void A()
     {
-        var eScript = Helper.Transpile(
+        var script = Helper.Transpile(
             """
             Layout protocol {
               layout (nodes: [ Node ] ) -> Size

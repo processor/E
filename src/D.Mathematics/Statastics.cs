@@ -72,29 +72,9 @@ public class Quartile : FunctionExpression
 } // range = 0-1
 
 /*
-public class Rank : IFunction
-{
-    public TyoBefinition Definition
-    {
-        get
-        {
-            throw new NotImplementedException();
-        }
-    }
+public class Rank : IFunction {}
 
-}
-
-public class Average : IFunction
-{
-    public FunctionDefinition Definition
-    {
-        get
-        {
-            throw new NotImplementedException();
-        }
-    }
-
-}    // regular, deviation
+public class Average : IFunction { }
 */
 
 public class Forcast : FunctionExpression

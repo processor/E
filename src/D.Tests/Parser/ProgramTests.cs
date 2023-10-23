@@ -47,19 +47,19 @@ public class ProgramTests : TestBase
     }
 
     [Fact]
-    public void Masonary()
+    public void Masonry()
     {
         // implementation
 
         var program = new Parser(
             """
-            Masonary`Layout class {
+            Masonry`Layout class {
               columnWidth :   Number
               columnGap   :   Number
               columns     : [ Column ]
             }
 
-            Masonary`Layout implementation {
+            Masonry`Layout implementation {
               from (columnCount: Number, columnWidth: Number, columnGap = 0) {
                 var left = 0
 
@@ -78,7 +78,7 @@ public class ProgramTests : TestBase
                   columns.append(column)
                 }
 
-                return Masonary`Layout(columnWidth, columnGap, columns)
+                return Masonry`Layout(columnWidth, columnGap, columns)
               }
 
               getSmallestColumn() {

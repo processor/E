@@ -63,7 +63,7 @@ public class IfTests
     }
 
     [Fact]
-    public void Paranthesis()
+    public void Parenthesis()
     {
         var statement = ParseIf(
             """

@@ -22,7 +22,7 @@ public sealed class FunctionDeclarationSyntax : IMemberSyntax, ISyntaxNode
         ObjectFlags flags = default)
     {
         Parameters        = parameters;
-        GenericParameters = Array.Empty<ParameterSyntax>();
+        GenericParameters = [];
         Body              = body;
         ReturnType        = returnType;
         Flags             = flags;

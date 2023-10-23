@@ -103,7 +103,7 @@ public class TypeDeclarationTests : TestBase
     }
 
     [Fact]
-    public void TypeDefination()
+    public void TypeDefinition()
     {
         var type = Parse<TypeDeclarationSyntax>(
             """

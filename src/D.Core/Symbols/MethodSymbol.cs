@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace E.Symbols;
+﻿namespace E.Symbols;
 
 public sealed class MethodSymbol : Symbol
 {

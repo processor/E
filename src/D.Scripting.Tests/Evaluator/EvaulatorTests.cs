@@ -167,7 +167,7 @@ public class EvaluatorTests
     [Fact]
     public void Eval2()
     {
-        var result = new Evaulator(env).Evaluate("1kg * 1lb");
+        var result = new Evaluator(env).Evaluate("1kg * 1lb");
 
         Assert.Equal("0.453592kg²", result.ToString());
     }
