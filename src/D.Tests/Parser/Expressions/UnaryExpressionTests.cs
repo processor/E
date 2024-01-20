@@ -10,8 +10,8 @@ public class UnaryExpressionTests : TestBase
     {
         get
         {
-            yield return new object[] { "+", Operator.UnaryPlus };
-            yield return new object[] { "-", Operator.Negation };
+            yield return ["+", Operator.UnaryPlus];
+            yield return ["-", Operator.Negation];
         }
     }
 

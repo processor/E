@@ -72,11 +72,11 @@ public class EvaluatorTests
     {
         var forth = new UnitInfo("forth", Dimension.None, 1, new Number(0.25));
 
-        var evaulator = new Evaluator(s_env);
+        var evaluator = new Evaluator(s_env);
 
         var node = Expression.Multiply(Px(10), UnitValue.Create(1, forth));
 
-        var result = (UnitValue<double>)evaulator.Evaluate(node);
+        var result = (UnitValue<double>)evaluator.Evaluate(node);
 
         Assert.Equal((2.5, CssUnits.Px), (result.Value, result.Unit));
     }
@@ -160,8 +160,10 @@ public class EvaluatorTests
         Assert.Equal("1", evaluator.Scope.Get("a").ToString());
     }
 
-    public static object Eval(IExpression statement)
-        => new Evaluator().Evaluate(statement);
+    public static object Evaluate(IExpression statement)
+    {
+        return new Evaluator().Evaluate(statement);
+    }
 
     /*
     [Fact]

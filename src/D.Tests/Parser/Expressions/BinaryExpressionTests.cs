@@ -13,12 +13,12 @@ public class BinaryExpressionTests : TestBase
     {
         get
         {
-            yield return new object[] { "==", Equal };
-            yield return new object[] { "!=", NotEqual };
-            yield return new object[] { ">",  GreaterThan };
-            yield return new object[] { ">=", GreaterOrEqual };
-            yield return new object[] { "<=", LessOrEqual };
-            yield return new object[] { "<",  LessThan };
+            yield return ["==", Equal];
+            yield return ["!=", NotEqual];
+            yield return [">",  GreaterThan];
+            yield return [">=", GreaterOrEqual];
+            yield return ["<=", LessOrEqual];
+            yield return ["<",  LessThan];
         }
     }
 
@@ -26,8 +26,8 @@ public class BinaryExpressionTests : TestBase
     {
         get
         {
-            yield return new object[] { "&&", LogicalAnd };
-            yield return new object[] { "||", LogicalOr };
+            yield return ["&&", LogicalAnd];
+            yield return ["||", LogicalOr];
         }
 
     }
@@ -35,12 +35,12 @@ public class BinaryExpressionTests : TestBase
     {
         get
         {
-            yield return new object[] { "+"  , Add };
-            yield return new object[] { "-"  , Subtract };
-            yield return new object[] { "*"  , Multiply };
-            yield return new object[] { "/"  , Divide };
-            yield return new object[] { "**" , Power };
-            yield return new object[] { "%"  , Remainder };
+            yield return ["+"  , Add];
+            yield return ["-"  , Subtract];
+            yield return ["*"  , Multiply];
+            yield return ["/"  , Divide];
+            yield return ["**" , Power];
+            yield return ["%"  , Remainder];
         }
     }
 
@@ -48,12 +48,12 @@ public class BinaryExpressionTests : TestBase
     {
         get
         {
-            yield return new object[] { "<<",  LeftShift };
-            yield return new object[] { ">>",  SignedRightShift };
-            yield return new object[] { ">>>", UnsignedRightShift };
-            yield return new object[] { "^",   BitwiseXor };
-            yield return new object[] { "&",   BitwiseAnd };
-            // yield return new object[] { "|",   BitwiseOr };      --- last one....
+            yield return ["<<",  LeftShift];
+            yield return [">>",  SignedRightShift];
+            yield return [">>>", UnsignedRightShift];
+            yield return ["^",   BitwiseXor];
+            yield return ["&",   BitwiseAnd];
+            // yield return ["|",   BitwiseOr];      --- last one....
         }
     }
 
@@ -121,7 +121,7 @@ public class BinaryExpressionTests : TestBase
 
     [Theory]
     [MemberData(nameof(ComparisonOperators))]
-    public void Comparisions(string symbol, Operator op)
+    public void Comparisons(string symbol, Operator op)
     {
         Assert.Equal(op, Parse<BinaryExpressionSyntax>($"a {symbol} b").Operator);
     }

@@ -1,6 +1,5 @@
-﻿using System;
-
-using Carbon.Json;
+﻿using System.Text.Json;
+using System.Text.Json.Nodes;
 
 using E.Expressions;
 using E.Parsing.Tests;
@@ -19,13 +18,18 @@ public class GraphTests : TestBase
 
         var json = env.Get<Node>("JSON");
 
-        Func<object, JsonNode> func = (object instance) => JsonNode.FromObject(instance);
+        Func<object, JsonNode> func = (object instance) => JsonSerializer.SerializeToNode(instance);
 
         json.Add("encode", func);
 
         var result = env.Get<Node>("JSON").Get<Func<object, JsonNode>>("encode").Invoke(new[] { 1 });
 
-        Assert.Equal("[ 1 ]", result.ToString());
+        Assert.Equal(
+            """
+            [
+              1
+            ]
+            """, result.ToString());
     }
 
     [Fact]

@@ -19,13 +19,12 @@ public class CssUnitTests
     }
 
     [Fact]
-    public void Serializable()
+    public void CanSerialize()
     {
         // margin = new (20px, 20px)
         // margin = new (100px)
 
-        var a = new Element
-        {
+        var a = new Element {
             Width = UnitValue.Parse("1920px"),
             Height = UnitValue.Px(1080),
             Flex = UnitValue.Percent(100)
@@ -44,7 +43,7 @@ public class CssUnitTests
             }
             """, json.ToString(), ignoreLineEndingDifferences: true);
 
-        var el = json.As<Element>();
+        var el = json.Deserialize<Element>();
 
         Assert.Equal("1920px", el.Width.ToString());
         Assert.Equal("1080px", el.Height.ToString());
