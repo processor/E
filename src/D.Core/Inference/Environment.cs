@@ -5,14 +5,9 @@ using System.Collections.Generic;
 
 namespace E.Inference;
 
-public sealed class Environment : Dictionary<string, IType>
+public sealed class Environment(Environment? parent = null) : Dictionary<string, IType>
 {
-    private readonly Environment? _parent;
-
-    public Environment(Environment? parent = null)
-    {
-        _parent = parent;
-    }
+    private readonly Environment? _parent = parent;
 
     private IType Get(string id)
     {

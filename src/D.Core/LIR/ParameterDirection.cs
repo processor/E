@@ -1,6 +1,6 @@
 ﻿namespace E;
 
-public enum ParameterDirection : byte
+public enum ParameterDirection
 {
     In      = 1,
     Out     = 2,

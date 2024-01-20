@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.IO;
+using System.Numerics;
 using System.Runtime.CompilerServices;
 using System.Text;
 
@@ -17,8 +18,8 @@ using static TokenKind;
 
 public sealed class Parser
 {
-    private TokenReader reader;
-    private readonly Node environment;
+    private TokenReader _reader;
+    private readonly Node _environment;
     private readonly Stack<Mode> _modes = new();
 
     public Parser(string text)
@@ -26,9 +27,8 @@ public sealed class Parser
 
     public Parser(string text, Node environment)
     {
-        this.reader = new TokenReader(new Tokenizer(text, environment));
-        this.environment = environment;
-
+        _reader = new TokenReader(new Tokenizer(text, environment));
+        _environment = environment;
         _modes.Push(Mode.Root);
     }
 
@@ -82,7 +82,7 @@ public sealed class Parser
     {
         var list = new List<ISyntaxNode>();
 
-        while (!reader.IsEof)
+        while (!_reader.IsEof)
         {
             list.Add(ReadExpression()!);
         }
@@ -92,7 +92,7 @@ public sealed class Parser
 
     public bool TryReadNext([NotNullWhen(true)] out ISyntaxNode? node)
     {
-        if (reader.IsEof)
+        if (_reader.IsEof)
         {
             node = null;
 
@@ -106,7 +106,7 @@ public sealed class Parser
 
     public ISyntaxNode Next()
     {
-        if (reader.IsEof)
+        if (_reader.IsEof)
         {
             throw new EndOfStreamException();
         }
@@ -116,7 +116,7 @@ public sealed class Parser
 
     private ISyntaxNode ReadExpression()
     {
-        if (reader.IsEof)
+        if (_reader.IsEof)
         {
             throw new EndOfStreamException();
         }
@@ -128,11 +128,11 @@ public sealed class Parser
             ThrowExceededCallDepth();
         }
 
-        switch (reader.Current.Kind)
+        switch (_reader.Current.Kind)
         {
-            case Null                   : reader.Consume(); return NullLiteralSyntax.Instance;
-            case True                   : reader.Consume(); return BooleanLiteralSyntax.True;
-            case False                  : reader.Consume(); return BooleanLiteralSyntax.False;
+            case Null                   : _reader.Consume(); return NullLiteralSyntax.Instance;
+            case True                   : _reader.Consume(); return BooleanLiteralSyntax.True;
+            case False                  : _reader.Consume(); return BooleanLiteralSyntax.False;
 
             case Quote                  : return ReadStringLiteral();               // "string"
             case Apostrophe             : return ReadCharacterLiteral();            // 'c'
@@ -214,8 +214,8 @@ public sealed class Parser
 
         ConsumeIf(Ascending);                   // ? ascending
 
-        var skip = (ConsumeIf("skip")) ? long.Parse(Consume(Number), CultureInfo.InvariantCulture) : 0; // ? skip (number)
-        var take = (ConsumeIf("take")) ? long.Parse(Consume(Number), CultureInfo.InvariantCulture) : 0; // ? take (number)
+        long skip = ConsumeIf("skip") ? Consume<long>(Number) : 0; // ? skip (number)
+        long take = ConsumeIf("take") ? Consume<long>(Number) : 0; // ? take (number)
 
         return new QueryExpression(collection, variable, filter, map, orderby, skip, take);
     }
@@ -352,7 +352,7 @@ public sealed class Parser
         ISyntaxNode generatorExpression;
         ISyntaxNode? variableExpression = null;  // variable | pattern
 
-        var first = reader.Current.Kind is ParenthesisOpen or Underscore or BraceOpen
+        var first = _reader.Current.Kind is ParenthesisOpen or Underscore or BraceOpen
             ? ReadPattern()
             : ReadExpression();
 
@@ -374,7 +374,7 @@ public sealed class Parser
     // on instance Event'Type e { }
     private ObserveStatementSyntax ReadObserveStatement()
     {
-        reader.Consume(); // ! on | observe
+        _reader.Consume(); // ! on | observe
 
         var observable  = ReadExpression(); // TODO: handle member access
 
@@ -530,7 +530,7 @@ public sealed class Parser
 
             Consume(ParenthesisClose);
 
-            reader.Consume("="); // ! =
+            _reader.Consume("="); // ! =
 
             var right = ReadExpression();
 
@@ -592,7 +592,7 @@ public sealed class Parser
 
         ConsumeIf(Semicolon); // ? ;
 
-        return new CompoundPropertyDeclaration(properties.ToArray());
+        return new CompoundPropertyDeclaration([.. properties]);
     }
 
     private PropertyDeclarationSyntax ReadVariableDeclaration(ObjectFlags modifiers)
@@ -672,7 +672,7 @@ public sealed class Parser
 
         if (isOperator) flags |= ObjectFlags.Operator;
 
-        var name = isOperator ? new MethodSymbol(reader.Consume()) : ReadMethodSymbol();
+        var name = isOperator ? new MethodSymbol(_reader.Consume()) : ReadMethodSymbol();
 
         return ReadFunctionDeclaration(name, flags);
     }
@@ -810,7 +810,7 @@ public sealed class Parser
 
             i++;
         }
-        while (reader.ConsumeIf(Comma));
+        while (_reader.ConsumeIf(Comma));
 
         return list.ToArray();
     }
@@ -926,7 +926,7 @@ public sealed class Parser
     {
         var name = Symbol.Label(ReadName());
 
-        reader.Read(Colon);
+        _reader.Read(Colon);
 
         var value = ReadExpression();
 
@@ -997,7 +997,7 @@ public sealed class Parser
 
         if (!IsKind(BraceClose))
         {
-            channelProtocol = reader.Current.Equals("*")
+            channelProtocol = _reader.Current.Equals("*")
                 ? ReadProtocolChannel()
                 : [];
 
@@ -1035,7 +1035,7 @@ public sealed class Parser
 
                 options.Add(message);
 
-                while (message.Fallthrough && !IsKind(Repeats) && reader.Current.Text is not "*")
+                while (message.Fallthrough && !IsKind(Repeats) && _reader.Current.Text is not "*")
                 {
                     options.Add(ReadProtocolMessage());
                 }
@@ -1234,32 +1234,32 @@ public sealed class Parser
             switch (Current.Kind)
             {
                 case Mutable:
-                    reader.Advance();
+                    _reader.Advance();
 
                     flags |= ObjectFlags.Mutable;
                     break;
 
                 case Mutating:
-                    reader.Advance();
+                    _reader.Advance();
 
                     flags |= ObjectFlags.Mutating;
                     break;
 
                 case Public:
-                    reader.Advance();
+                    _reader.Advance();
 
                     flags |= ObjectFlags.Public;
 
                     continue;
                 case Private:
-                    reader.Advance();
+                    _reader.Advance();
 
                     flags |= ObjectFlags.Private;
 
                     continue;
 
                 case Internal:
-                    reader.Advance();
+                    _reader.Advance();
 
                     flags |= ObjectFlags.Internal;
 
@@ -1281,9 +1281,9 @@ public sealed class Parser
     */
     public Symbol ReadDollarSymbol()
     {
-        reader.Consume(Dollar); // read $
+        _reader.Consume(Dollar); // read $
 
-        var number = reader.Consume(Number);
+        var number = _reader.Consume(Number);
 
         return new VariableSymbol("$" + number.Text);
     }
@@ -1312,7 +1312,7 @@ public sealed class Parser
         {
             module = new ModuleSymbol(name, module);
 
-            name = reader.Consume(Identifier);
+            name = _reader.Consume(Identifier);
         }
 
         return new MethodSymbol(module, name);
@@ -1338,7 +1338,7 @@ public sealed class Parser
     [SkipLocalsInit]
     private Token ReadName()
     {
-        var name = reader.Consume();
+        var name = _reader.Consume();
 
         if (IsKind(Backtick))
         {
@@ -1348,7 +1348,7 @@ public sealed class Parser
 
             while (ConsumeIf(Backtick))
             {
-                name = reader.Consume();
+                name = _reader.Consume();
 
                 sb.Append(name);
             }
@@ -1420,7 +1420,7 @@ public sealed class Parser
         {
             module = new ModuleSymbol(name, module);
 
-            name = reader.Consume(Identifier);
+            name = _reader.Consume(Identifier);
         }
 
         ParameterSymbol[] parameters;
@@ -1467,7 +1467,7 @@ public sealed class Parser
 
             return new TypeSymbol("Variant", list.ToArray());
         }
-        else if (reader.Current.Equals("&"))
+        else if (_reader.Current.Equals("&"))
         {
             var list = new ListBuilder<Symbol>();
 
@@ -1598,7 +1598,7 @@ public sealed class Parser
 
         TypeSymbol? elementType = null;
 
-        if (reader.Current.Kind is Identifier)
+        if (_reader.Current.Kind is Identifier)
         {
             elementType = ReadTypeSymbol();
         }
@@ -1625,9 +1625,9 @@ public sealed class Parser
 
         var line = Current.Start.Line;
 
-        var literal = reader.Current;
+        var literal = _reader.Current;
 
-        reader.Advance();
+        _reader.Advance();
 
         string text = literal.Text.Contains('_') ? literal.Text.Replace("_", "") : literal.Text;
 
@@ -1670,7 +1670,7 @@ public sealed class Parser
 
         if (IsKind(Superscript))
         {
-            pow = E.Superscript.Parse(reader.Consume().Text);
+            pow = E.Superscript.Parse(_reader.Consume().Text);
         }
 
         return (name, pow);
@@ -1720,7 +1720,7 @@ public sealed class Parser
 
         while (!IsEof && !IsOneOf(Quote, BraceOpen))
         {
-            token = reader.Consume();
+            token = _reader.Consume();
 
             sb.Append(token.Text);
             sb.Append(token.Trailing);
@@ -1774,7 +1774,7 @@ public sealed class Parser
 
         while (ConsumeIf(Comma)) // ? ,
         {
-            if (reader.Current.Kind is ParenthesisOpen)
+            if (_reader.Current.Kind is ParenthesisOpen)
             {
                 // nested tuple
                 elements.Add(ReadTuple());
@@ -1872,7 +1872,7 @@ public sealed class Parser
 
     public ISyntaxNode ReadPattern()
     {
-        switch (reader.Current.Kind)
+        switch (_reader.Current.Kind)
         {
             case BraceOpen  : return ReadRecordPattern();
             case Underscore : Consume(Underscore); return AnyPatternSyntax.Default;
@@ -1929,9 +1929,9 @@ public sealed class Parser
 
         Operator? op;
 
-        while (IsKind(Op) && (op = environment.Operators[Infix, reader.Current]).Precedence >= minPrecedence) // ??
+        while (IsKind(Op) && (op = _environment.Operators[Infix, _reader.Current]).Precedence >= minPrecedence) // ??
         {
-            reader.Consume(Op);
+            _reader.Consume(Op);
 
             // *-, +=, ...
             if (ConsumeIf('='))
@@ -1945,7 +1945,7 @@ public sealed class Parser
 
             var right = MaybeMemberAccess();
 
-            while (IsKind(Op) && (op = environment.Operators[Infix, reader.Current]).Precedence >= o.Precedence)
+            while (IsKind(Op) && (op = _environment.Operators[Infix, _reader.Current]).Precedence >= o.Precedence)
             {
                 right = MaybeBinary(right, o.Precedence);
             }
@@ -2215,7 +2215,7 @@ public sealed class Parser
 
         // Maybe member access
      
-        while (reader.Current.Kind is Dot or BracketOpen or ParenthesisOpen or PipeForward)
+        while (_reader.Current.Kind is Dot or BracketOpen or ParenthesisOpen or PipeForward)
         {
             if (IsKind(PipeForward))
             {
@@ -2271,7 +2271,7 @@ public sealed class Parser
         {
             var op = Consume(Op);
 
-            if (environment.Operators[Prefix, op] is Operator unaryOperator)
+            if (_environment.Operators[Prefix, op] is Operator unaryOperator)
             {
                 return ReadUnary(unaryOperator);
             }
@@ -2294,7 +2294,7 @@ public sealed class Parser
                 // Check if there's a unit
                 // e.g. (5 / 5) m
 
-                if (reader.Current.Kind is Identifier && reader.Current.Start.Line == position.Line)
+                if (_reader.Current.Kind is Identifier && _reader.Current.Start.Line == position.Line)
                 {
                     var (unitName, unitPower) = ReadUnitSymbol();
 
@@ -2305,7 +2305,7 @@ public sealed class Parser
             return left;
         }            
 
-        switch (reader.Current.Kind)
+        switch (_reader.Current.Kind)
         {
             case This:
             case Identifier:
@@ -2313,7 +2313,7 @@ public sealed class Parser
 
                 // read member or type...
 
-                Symbol symbol = char.IsUpper(reader.Current.Text![0])
+                Symbol symbol = char.IsUpper(_reader.Current.Text![0])
                     ? ReadTypeSymbol()
                     : ReadMemberSymbol();
 
@@ -2444,21 +2444,29 @@ public sealed class Parser
 
     #region Helpers
 
-    public bool IsEof => reader.IsEof;
+    public bool IsEof => _reader.IsEof;
 
-    public Token Current => reader.Current;
+    public Token Current => _reader.Current;
 
-    Token Consume() => reader.Consume();
+    Token Consume() => _reader.Consume();
 
-    Token Consume(TokenKind kind) => reader.Consume(kind);
+    Token Consume(TokenKind kind) => _reader.Consume(kind);
 
-    bool ConsumeIf(TokenKind kind) => reader.ConsumeIf(kind);
+    T Consume<T>(TokenKind kind)
+        where T : INumber<T>
+    {
+        var token = _reader.Consume(kind);
+
+        return T.Parse(token.Text, CultureInfo.InvariantCulture);
+    }
+
+    bool ConsumeIf(TokenKind kind) => _reader.ConsumeIf(kind);
 
     bool ConsumeIf(string text)
     {
-        if (reader.Current.Equals(text))
+        if (_reader.Current.Equals(text))
         {
-            reader.Consume();
+            _reader.Consume();
 
             return true;
         }
@@ -2468,10 +2476,10 @@ public sealed class Parser
 
     bool ConsumeIf(char text)
     {
-        if (reader.Current.Text is { Length: 1 } && 
-            reader.Current.Text[0] == text)
+        if (_reader.Current.Text is { Length: 1 } && 
+            _reader.Current.Text[0] == text)
         {
-            reader.Consume();
+            _reader.Consume();
 
             return true;
         }
@@ -2480,21 +2488,21 @@ public sealed class Parser
     }
 
     bool IsOneOf(TokenKind a, TokenKind b) => 
-            reader.Current.Kind == a
-        || reader.Current.Kind == b;
+            _reader.Current.Kind == a
+        || _reader.Current.Kind == b;
 
     bool IsOneOf(TokenKind a, TokenKind b, TokenKind c) =>
-            reader.Current.Kind == a 
-        || reader.Current.Kind == b 
-        || reader.Current.Kind == c;
+            _reader.Current.Kind == a 
+        || _reader.Current.Kind == b 
+        || _reader.Current.Kind == c;
 
-    bool IsKind(TokenKind kind) => reader.Current.Kind == kind;
+    bool IsKind(TokenKind kind) => _reader.Current.Kind == kind;
 
     #endregion
 
     [DoesNotReturn]
     private void ThrowExceededCallDepth()
     {
-        throw new Exception($"Exceeded call depth reading {reader.Current.Kind}");
+        throw new Exception($"Exceeded call depth reading {_reader.Current.Kind}");
     }
 }

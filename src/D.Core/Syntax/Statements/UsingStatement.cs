@@ -2,14 +2,9 @@
 
 namespace E.Syntax;
 
-public sealed class UsingStatement : ISyntaxNode
+public sealed class UsingStatement(Symbol[] domains) : ISyntaxNode
 {
-    public UsingStatement(Symbol[] domains)
-    {
-        Domains = domains;
-    }
-
-    public Symbol[] Domains { get; }
+    public Symbol[] Domains { get; } = domains;
 
     public Symbol this[int i] => Domains[i];
 

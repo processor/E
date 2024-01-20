@@ -197,7 +197,7 @@ public sealed class Trie<T>
 
         private Node? Parent { get; }
 
-        public Dictionary<char, Node> Children = new();
+        public Dictionary<char, Node> Children = [];
 
         internal Node Add(char key)
         {

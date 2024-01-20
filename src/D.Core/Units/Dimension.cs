@@ -81,7 +81,7 @@ j   = ElectricCurrentDensity
 // MolarEnergy                 = 1066,
 // MolarEntropy                = 1067,
 //                                     
-// HeatCapasity
+// HeatCapacity
 // ThermalConductivity
 // SurfaceChargeDensity
 // HeatFluxDensity

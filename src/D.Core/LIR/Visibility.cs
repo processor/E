@@ -3,7 +3,7 @@
 namespace E;
 
 [Flags]
-public enum Visibility : byte
+public enum Visibility
 {
     Public    = 1 << 0,
     Private   = 1 << 1,

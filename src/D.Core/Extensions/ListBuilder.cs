@@ -26,7 +26,7 @@ public ref struct ListBuilder<T>
             case 1: _1 = node; break;
             case 2: _2 = node; break;
             case 3: _3 = node; break;
-            default: (_extra ??= new()).Add(node); break;
+            default: (_extra ??= []).Add(node); break;
         }
 
         count++;

@@ -23,23 +23,14 @@ public sealed class Operator(
         is ObjectType.LogicalAndExpression // &&
         or ObjectType.LogicalOrExpression; // ||
 
-    public bool IsComparison
-    {
-        get
-        {
-            // >
-            // >=
-            // <
-            // <=
-            // ==
-            // ===
-            // !=
-
-            int kind = (int)OpKind;
-
-            return kind >= 6_020 && kind <= 6_034;
-        }
-    }
+    // >
+    // >=
+    // <
+    // <=
+    // ==
+    // ===
+    // !=
+    public bool IsComparison => (int)OpKind is >= 6_020 and <= 6_034;
 
     public static Operator Prefix(ObjectType kind, string name, int precedence, Associativity associativity = Left)
     {

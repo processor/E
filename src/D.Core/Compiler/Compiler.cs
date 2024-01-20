@@ -10,7 +10,7 @@ using E.Units;
 
 namespace E;
 
-public partial class Compiler
+public partial class Compiler(Node env)
 {
     // Phases:
     // - Parse Syntax Tree into a LIR
@@ -18,16 +18,11 @@ public partial class Compiler
     // - Bind symbols to their declarations
     // - Transform to ExpressionTree
 
-    private Node _env;
+    private Node _env = env;
     private readonly Flow flow = new ();
 
     public Compiler()
         : this(new Node()) { }
-
-    public Compiler(Node env)
-    {
-        _env = env;
-    }
 
     public Compilation Compile(IEnumerable<ISyntaxNode> nodes, string? moduleName = null)
     {

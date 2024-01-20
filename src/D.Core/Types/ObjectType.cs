@@ -166,7 +166,7 @@ public enum ObjectType
     IsExpression              = 6016,
     AsExpression              = 6017,
 
-    // Binary - Comparision
+    // Binary - Comparison
     GreaterThanExpression        = 6020, // > 
     GreaterThanOrEqualExpression = 6021, // >=, ≥
     LessThanExpression           = 6022, // <
@@ -233,7 +233,7 @@ public enum ObjectType
 
 /*
 // ≡ identical
-// := equal by defination
+// := equal by definition
 
 // = equality
 // ≠ inequality

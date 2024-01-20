@@ -99,7 +99,7 @@ public sealed class ApplyNode(
 
             args.Add(result);
 
-            TypeSystem.Unify(TypeSystem.NewType(TypeSystem.Function, args.ToArray()), self);
+            TypeSystem.Unify(TypeSystem.NewType(TypeSystem.Function, [.. args]), self);
         }
         return result;
     }

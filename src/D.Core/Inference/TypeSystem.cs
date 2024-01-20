@@ -119,7 +119,7 @@ public static class TypeSystem
     // Creates a recursive copy of the type.
     public static IType Fresh(IType t, ReadOnlySpan<IType> types)
     {
-        return Fresh(t, types, new Dictionary<int, IType>());
+        return Fresh(t, types, []);
     }
 
     private static IType Fresh(IType t, ReadOnlySpan<IType> types, Dictionary<int, IType> variables)

@@ -11,7 +11,6 @@ public sealed class ObserveStatementSyntax(
     ISyntaxNode body,
     UntilConditionSyntax? untilExpression) : ISyntaxNode
 {
-
     // document
     public ISyntaxNode Observable { get; } = observable;
 

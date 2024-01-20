@@ -4,7 +4,7 @@ public class Flow
 {
     // TODO: Merge Node & Environment
 
-    private readonly Environment env = new ();
+    private readonly Environment env = [];
     public static long kindId = 1_000_000;
 
     private readonly IType listType;

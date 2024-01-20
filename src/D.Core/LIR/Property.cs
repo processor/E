@@ -5,7 +5,6 @@ public sealed class Property(
     Type type,
     ObjectFlags modifiers = ObjectFlags.None) : Member(name, type, modifiers), IObject
 {
-
     // IsComputed ?
 
     // Getter

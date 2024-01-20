@@ -8,7 +8,7 @@ namespace E.Units;
 
 public class UnitSet
 {
-    public static readonly UnitSet Default = new (
+    public static readonly UnitSet Default = new(
         new GeneralUnitSet(),
         new ThermodynamicUnitSet(),
         new ElectromagismUnitSet(),
@@ -16,7 +16,7 @@ public class UnitSet
         new CssUnitSet()
     );
 
-    private readonly Dictionary<string, UnitInfo> _items = new();
+    private readonly Dictionary<string, UnitInfo> _items = [];
 
     private readonly Trie<UnitInfo> _trie = new ();
 

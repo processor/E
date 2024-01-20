@@ -5,9 +5,9 @@ namespace E;
 
 public class Module(string? name = null, Module? parent = null) : IExpression
 {
-    public readonly Dictionary<string, object> _exports = new();
+    public readonly Dictionary<string, object> _exports = [];
 
-    private readonly List<IExpression> _statements = new();
+    private readonly List<IExpression> _statements = [];
 
     public string? Name { get; } = name;
 

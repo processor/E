@@ -1,7 +1,4 @@
-﻿
-using System.Collections.Generic;
-
-using E.Symbols;
+﻿using E.Symbols;
 
 namespace E.Syntax;
 

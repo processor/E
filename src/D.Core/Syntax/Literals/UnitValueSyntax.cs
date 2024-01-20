@@ -1,6 +1,9 @@
 ﻿namespace E.Syntax;
 
-public sealed class UnitValueSyntax(ISyntaxNode expression, string unitName, int unitPower) : ISyntaxNode
+public sealed class UnitValueSyntax(
+    ISyntaxNode expression,
+    string unitName,
+    int unitPower) : ISyntaxNode
 {
     public ISyntaxNode Expression { get; } = expression;
 

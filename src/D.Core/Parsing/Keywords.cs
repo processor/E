@@ -1,11 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections.Frozen;
+using System.Collections.Generic;
 
 namespace E.Parsing;
 
 internal sealed class Keywords
 {
-    // TODO: Freeze
-    public static readonly Dictionary<string, TokenKind> Map = new() {
+    public static readonly FrozenDictionary<string, TokenKind> Map = new Dictionary<string, TokenKind>() {
         { "ƒ"              , TokenKind.Function },
         { "as"             , TokenKind.Op },
         { "ascending"      , TokenKind.Ascending },
@@ -65,5 +65,5 @@ internal sealed class Keywords
         { "struct"         , TokenKind.Struct },
         { "actor"          , TokenKind.Actor },
         { "role"           , TokenKind.Role }
-    };
+    }.ToFrozenDictionary();
 }

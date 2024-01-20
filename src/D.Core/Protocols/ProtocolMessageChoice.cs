@@ -1,17 +1,12 @@
 ﻿namespace E.Protocols;
 
-public sealed class ProtocolMessageChoice : IProtocolMessage
+public sealed class ProtocolMessageChoice(
+    ProtocolMessage[] options,
+    ProtocolMessageFlags flags = default) : IProtocolMessage
 {
-    public ProtocolMessageChoice(
-        ProtocolMessage[] options,
-        ProtocolMessageFlags flags = default)
-    {
-        Options = options;
-        Flags = flags;
-    }
-    public ProtocolMessage[] Options { get; }
+    public ProtocolMessage[] Options { get; } = options;
 
-    public ProtocolMessageFlags Flags { get; }
+    public ProtocolMessageFlags Flags { get; } = flags;
 
     public ProtocolMessage this[int index] => Options[index];
 

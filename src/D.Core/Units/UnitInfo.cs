@@ -30,7 +30,7 @@ public sealed class UnitInfo : IEquatable<UnitInfo>, IObject, ISpanFormattable
 
     #region Electromagism / Energy
 
-    // Defined Under ElectromagismUnits
+    // Defined Under Electromagism Units
 
     #endregion
 

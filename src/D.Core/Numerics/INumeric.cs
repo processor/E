@@ -8,5 +8,5 @@ public interface INumeric<T> : INumber
     T Value { get; }
 
     // Operators (Add, Subtract, Multiply, Divide)
-    // Comparisions
+    // Comparisons
 }

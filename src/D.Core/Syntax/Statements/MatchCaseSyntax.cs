@@ -1,6 +1,9 @@
 ﻿namespace E.Syntax;
 
-public sealed class MatchCaseSyntax(ISyntaxNode pattern, ISyntaxNode? condition, LambdaExpressionSyntax body)
+public sealed class MatchCaseSyntax(
+    ISyntaxNode pattern,
+    ISyntaxNode? condition,
+    LambdaExpressionSyntax body)
 {
     public ISyntaxNode Pattern { get; } = pattern;
 

@@ -1,6 +1,6 @@
 ﻿namespace E;
 
-public enum RangeFlags : byte
+public enum RangeFlags
 {
     Inclusive = 1, // Includes first and last
     Exclusive = 2, // Excludes first and last

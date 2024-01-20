@@ -86,7 +86,7 @@ public sealed class Type : INamedObject, IExpression, IEquatable<Type>
     ObjectType IObject.Kind => ObjectType.Type;
 
     // Implementations
-    public List<ImplementationExpression> Implementations { get; } = new ();
+    public List<ImplementationExpression> Implementations { get; } = [];
 
     public Property? GetProperty(string name)
     {
@@ -122,7 +122,7 @@ public sealed class Type : INamedObject, IExpression, IEquatable<Type>
 
     public override string ToString()
     {
-        var sb = new ValueStringBuilder(128);
+        var sb = new ValueStringBuilder(stackalloc char[64]);
 
         WriteTo(ref sb);
 
@@ -162,7 +162,12 @@ public sealed class Type : INamedObject, IExpression, IEquatable<Type>
     {
         if (other is null) return this is null;
         
-        return this.Id == other.Id;
+        return Id == other.Id;
+    }
+
+    public override bool Equals(object? obj)
+    {
+        return obj is Type other && Equals(other);
     }
 
     public override int GetHashCode() => id.GetHashCode();

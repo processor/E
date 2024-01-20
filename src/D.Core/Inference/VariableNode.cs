@@ -2,7 +2,6 @@
 // LICENCE: https://github.com/ysharplanguage/System.Language/blob/master/LICENSE.md
 
 using System;
-using System.Collections.Generic;
 
 namespace E.Inference;
 

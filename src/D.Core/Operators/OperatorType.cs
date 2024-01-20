@@ -1,6 +1,6 @@
 ﻿namespace E;
 
-public enum OperatorType : byte
+public enum OperatorType
 {
     Prefix  = 1 , // --1,    Unary
     Postfix = 2,  // 1++     Unary

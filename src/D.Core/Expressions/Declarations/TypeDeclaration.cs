@@ -18,7 +18,7 @@ public sealed class TypeDeclaration(
 }
 
 /*
-type Person = {
+Person type = {
   name: String { Length: > 0 }
 }
 */

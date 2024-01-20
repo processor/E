@@ -19,7 +19,6 @@ public enum TokenKind
 
     Op                  = 10,
 
-
     At                  = 100, // @
     Apostrophe          = 101, // '
     Backtick            = 102, // `

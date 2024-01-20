@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
+﻿using System.Diagnostics.CodeAnalysis;
 using System.Text;
 
 using E.Expressions;
@@ -30,7 +28,7 @@ public class FunctionExpression : INamedObject, IExpression
     public FunctionExpression(
        Parameter[] parameters,
        IExpression body,
-       Type returnType,
+       Type? returnType,
        ObjectFlags flags = ObjectFlags.None)
     {
         Parameters = parameters;
@@ -62,7 +60,8 @@ public class FunctionExpression : INamedObject, IExpression
 
     public Parameter[] GenericParameters { get; }
 
-    public Type ReturnType { get; }
+    // may be unknown until resolved
+    public Type? ReturnType { get; }
     
     public override string ToString()
     {
