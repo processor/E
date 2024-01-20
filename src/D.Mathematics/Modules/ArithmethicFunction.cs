@@ -18,7 +18,7 @@ public sealed class ArithmeticFunction(string name, Func<INumber, INumber, INumb
 
     public string Name { get; } = name;
 
-    public Parameter[] Parameters { get; } = new[] { Parameter.Number, Parameter.Number };
+    public Parameter[] Parameters { get; } = [Parameter.Number, Parameter.Number];
 
     public ObjectType Kind => ObjectType.Function; // TODO: Use function info...
 

@@ -10,11 +10,12 @@
 public enum EquationType
 {
     Polynomial   = 3782059, //  for degree one
-    Linear       = 484637, 
-    Cartesian    = 3,
-    Parametric   = 4,
+    Linear       = 484637,
     Diophantine  = 905896,
     Differential = 11214,
 }
+
+// Cartesian
+// Parametric
 
 // univariate = 1 variable
