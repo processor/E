@@ -9,7 +9,4 @@
 /build/
 *.suo
 *.user
-bin/
-obj/
-Debug/
-Release/
+releases
