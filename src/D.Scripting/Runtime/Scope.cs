@@ -4,13 +4,13 @@ namespace E;
 
 public class Scope
 {
-    private readonly Dictionary<string, object> items = new();
+    private readonly Dictionary<string, object> items = [];
 
-    private readonly Scope? parent;
+    private readonly Scope? _parent;
 
     public Scope(Scope? parent = null)
     {
-        this.parent = parent;
+        _parent = parent;
     }
 
     public object? This { get; set; } // Single arg passed to the function, or current arg in flow
@@ -24,9 +24,9 @@ public class Scope
 
     public object Get(string name)
     {
-        if (!items.TryGetValue(name, out object? variable) && parent is not null)
+        if (!items.TryGetValue(name, out object? variable) && _parent is not null)
         {
-            variable = parent.Get(name); // check parent
+            variable = _parent.Get(name); // check parent
         }
 
         return variable!;

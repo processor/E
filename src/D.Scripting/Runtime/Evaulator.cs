@@ -159,17 +159,11 @@ public class Evaluator
         throw new Exception($"ƒ {expression.FunctionName} not found");
     }
 
-    private readonly struct ArgumentEvaluationResult
+    private readonly struct ArgumentEvaluationResult(IArguments args, bool hasSymbols)
     {
-        public ArgumentEvaluationResult(IArguments args, bool hasSymbols)
-        {
-            Arguments = args;
-            ContainsUnresolvedSymbols = hasSymbols;
-        }
+        public IArguments Arguments { get; } = args;
 
-        public IArguments Arguments { get; }
-
-        public bool ContainsUnresolvedSymbols { get; }
+        public bool ContainsUnresolvedSymbols { get; } = hasSymbols;
     }
 
     private ArgumentEvaluationResult EvaluateArguments(IArguments args, bool includeThis = false)
@@ -252,7 +246,7 @@ public class Evaluator
             }
 
             return new FunctionExpression(
-                parameters : args.ToArray(), 
+                parameters : [.. args], 
                 body       : new BinaryExpression(expression.Operator, l, r)
             );
         }

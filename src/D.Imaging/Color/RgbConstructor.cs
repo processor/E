@@ -1,14 +1,16 @@
-﻿using Carbon.Color;
+﻿using System;
+
+using Carbon.Color;
 
 namespace E.Imaging;
 
 public sealed class RgbConstructor : IFunction
 {
-    public Parameter[] Parameters => throw new System.NotImplementedException();
+    public Parameter[] Parameters => throw new NotImplementedException();
 
     public string Name => "rgb";
 
-    public ObjectType Kind => throw new System.NotImplementedException();
+    public ObjectType Kind => throw new NotImplementedException();
 
     public object Invoke(IArguments args)
     {
