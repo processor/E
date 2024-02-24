@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace E.Parsing.Tests;
+﻿namespace E.Parsing.Tests;
 
 public class ProgramTests : TestBase
 {
