@@ -23,7 +23,7 @@ public class MasonaryTest
                   left   = 0.0
             }
 
-            Masonary class {
+            Masonry class {
               gap     :   Number
               columns : [ Box ]
 
@@ -48,7 +48,7 @@ public class MasonaryTest
               shortestColumn ƒ() => columns.orderByDescending(c => c.height) |> first;
             }
 
-            Layout impl for Masonary {
+            Layout impl for Masonry {
               layout ƒ (elements: [ Node ]) { 
                 for el in elements {
                   let column = shortestColumn()
