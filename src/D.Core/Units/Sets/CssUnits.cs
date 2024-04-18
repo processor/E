@@ -6,19 +6,19 @@ using static Dimension;
 public static class CssUnits
 {
     // <resolution>
-    public static readonly UnitInfo Dpi  = new(305_896,     "dpi",  Resolution); // dots per inch
-    public static readonly UnitInfo Dpcm = new(5_299_480,   "dpcm", Resolution); // dots per cm
-    public static readonly UnitInfo Dppx = new(110_742_003, "dppx", Resolution); // dots per px
+    public static readonly UnitInfo Dpi  = new(305896,     "dpi",  Resolution); // dots per inch
+    public static readonly UnitInfo Dpcm = new(5299480,    "dpcm", Resolution); // dots per cm
+    public static readonly UnitInfo Dppx = new(110742_003, "dppx", Resolution); // dots per px
     public static readonly UnitInfo X    = new(             "x",    Resolution);
         
     // Absolute lengths
-    public static readonly UnitInfo Q    = new(           "q",  Length); // quarter-millimeters
-    public static readonly UnitInfo Pt   = new(156_389,   "pt", Length); // Point
-    public static readonly UnitInfo Pc   = new(2_718_629, "pc", Length); // picas | A pica is a hair less than 1/6 inch, and contains 12 points.
-    public static readonly UnitInfo Px   = new(355_198,   "px", Length); // Pixel
+    public static readonly UnitInfo Q    = new(          "q",  Length); // quarter-millimeters
+    public static readonly UnitInfo Pt   = new(156389,   "pt", Length); // Point
+    public static readonly UnitInfo Pc   = new(2718_629, "pc", Length); // picas | A pica is a hair less than 1/6 inch, and contains 12 points.
+    public static readonly UnitInfo Px   = new(355198,   "px", Length); // Pixel
                                          
     // Relative lengths                  
-    public static readonly UnitInfo Em   = new(1_334_525, "em",   Length, Relative);
+    public static readonly UnitInfo Em   = new(1334525, "em",   Length, Relative);
     public static readonly UnitInfo Ex   = new("ex",   Length, Relative);
     public static readonly UnitInfo Ch   = new("ch",   Length, Relative);
     public static readonly UnitInfo Rem  = new("rem",  Length, Relative);

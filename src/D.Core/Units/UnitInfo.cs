@@ -19,12 +19,12 @@ public sealed class UnitInfo : IEquatable<UnitInfo>, IObject, ISpanFormattable
 
     private static readonly Symbol π = Symbol.Variable("π");
 
-    public static readonly UnitInfo Radian    = new(33_680,  "rad", Angle, Base);
-    public static readonly UnitInfo Steradian = new(177_612, "sr",  SolidAngle, Base);
+    public static readonly UnitInfo Radian    = new(33680,  "rad", Angle, Base);
+    public static readonly UnitInfo Steradian = new(177612, "sr",  SolidAngle, Base);
 
-    public static readonly UnitInfo Degree    = new(28_390,  "deg",  Angle, 1,   Expression.Divide(π, UnitValue.Create(180, Radian))); // π / 180 rad
-    public static readonly UnitInfo Gradian   = new(208_528, "grad", Angle, 0.9, Degree); // 400 per circle
-    public static readonly UnitInfo Turn      = new(304_479, "turn", Angle, 360, Degree); // 1 per circle
+    public static readonly UnitInfo Degree    = new(28390,  "deg",  Angle, 1,   Expression.Divide(π, UnitValue.Create(180, Radian))); // π / 180 rad
+    public static readonly UnitInfo Gradian   = new(208528, "grad", Angle, 0.9, Degree); // 400 per circle
+    public static readonly UnitInfo Turn      = new(304479, "turn", Angle, 360, Degree); // 1 per circle
 
     #endregion
 
@@ -36,8 +36,8 @@ public sealed class UnitInfo : IEquatable<UnitInfo>, IObject, ISpanFormattable
 
     #region Frequency
 
-    public static readonly UnitInfo Hertz = new (39_369, "Hz", Frequency, SI);
-    public static readonly UnitInfo kHz   = Hertz.WithPrefix(SIPrefix.k); // kHz
+    public static readonly UnitInfo Hertz = new (39369, "Hz", Frequency, SI);
+    public static readonly UnitInfo kHz   = Hertz.WithPrefix(SIPrefix.k, 2143992); // kHz
 
     // rpm
 
@@ -45,22 +45,22 @@ public sealed class UnitInfo : IEquatable<UnitInfo>, IObject, ISpanFormattable
 
     #region Length
 
-    public static readonly UnitInfo Meter = new(11_573, "m", Length, SI | Base);  // m
-    public static readonly UnitInfo Mm    = Meter.WithPrefix(SIPrefix.m);  // mm
-    public static readonly UnitInfo Cm    = Meter.WithPrefix(SIPrefix.c);  // cm
+    public static readonly UnitInfo Meter = new(11573, "m", Length, SI | Base);  // m
+    public static readonly UnitInfo Mm    = Meter.WithPrefix(SIPrefix.m, 174789);  // mm
+    public static readonly UnitInfo Cm    = Meter.WithPrefix(SIPrefix.c, 174728);  // cm
 
-    public static readonly UnitInfo Inch  = new(218_593, "in", Length, Imperial);
-    public static readonly UnitInfo Foot  = new(3_710,   "ft", Length, 12, Inch);
+    public static readonly UnitInfo Inch  = new(218593, "in", Length, Imperial);
+    public static readonly UnitInfo Foot  = new(3710,   "ft", Length, 12, Inch);
 
-    public static readonly UnitInfo Parsec           = new(12_129, "parsec", Length, Base);
-    public static readonly UnitInfo AstronomicalUnit = new(1_811,  "au",     Length);
+    public static readonly UnitInfo Parsec           = new(12129, "parsec", Length, Base);
+    public static readonly UnitInfo AstronomicalUnit = new(1811,  "au",     Length);
 
     #endregion
 
     #region Mass
 
     public static readonly UnitInfo Gram     = new(41_803, "g", Mass, SI | Base);
-    public static readonly UnitInfo Kilogram = Gram.WithPrefix(SIPrefix.k);
+    public static readonly UnitInfo Kilogram = Gram.WithPrefix(SIPrefix.k, 11570);
 
     // Standard is KG
 
@@ -78,23 +78,23 @@ public sealed class UnitInfo : IEquatable<UnitInfo>, IObject, ISpanFormattable
 
     // 5.39 x 10−44 s
 
-    public static readonly UnitInfo Second  = new(11_574, "s",   Time, SI | Base);  // s
-    public static readonly UnitInfo Minute  = new(7_727,  "min", Time, 60d);
-    public static readonly UnitInfo Hour    = new(25_235, "h",   Time, 60d * 60d);
-    public static readonly UnitInfo Week    = new(23_387, "wk",  Time, 60d * 60d * 24 * 7);
+    public static readonly UnitInfo Second  = new(11574, "s",   Time, SI | Base);  // s
+    public static readonly UnitInfo Minute  = new(7727,  "min", Time, 60d);
+    public static readonly UnitInfo Hour    = new(25235, "h",   Time, 60d * 60d);
+    public static readonly UnitInfo Week    = new(23387, "wk",  Time, 60d * 60d * 24 * 7);
 
     #endregion
 
     // Pressure - 
-    public static readonly UnitInfo Pascal = new(44_395, "Pa", Pressure);
+    public static readonly UnitInfo Pascal = new(44395, "Pa", Pressure);
      
     // Volume - 
-    public static readonly UnitInfo Liter = new(11_582, "L", Length); //  1,000 cubic centimeters
+    public static readonly UnitInfo Liter = new(11582, "L", Length); //  1,000 cubic centimeters
 
 
-    public static readonly UnitInfo Katal = new(208_634, "kat", CatalyticActivity);
+    public static readonly UnitInfo Katal = new(208634, "kat", CatalyticActivity);
 
-    public static readonly UnitInfo SquareMeters = new UnitInfo(25_343,"m", Length).WithExponent(2);
+    public static readonly UnitInfo SquareMeters = new UnitInfo(25343, "m", Length).WithExponent(2, id: 25343);
 
     // Dimensionless
 
@@ -134,8 +134,8 @@ public sealed class UnitInfo : IEquatable<UnitInfo>, IObject, ISpanFormattable
 
     public UnitInfo(string symbol, Dimension dimension, double definitionValue)
     {
-        Name       = symbol;
-        Dimension  = dimension;
+        Name            = symbol;
+        Dimension       = dimension;
         DefinitionValue = definitionValue;
     }
 
@@ -147,11 +147,11 @@ public sealed class UnitInfo : IEquatable<UnitInfo>, IObject, ISpanFormattable
         DefinitionValue = definitionValue;
     }
 
-    public UnitInfo(SIPrefix prefix, string name, Dimension id, double definitionValue, int power)
+    public UnitInfo(long id, SIPrefix prefix, string name, Dimension dimension, double definitionValue, int power)
     {
         Prefix          = prefix;
         Name            = name;
-        Dimension       = id;
+        Dimension       = dimension;
         DefinitionValue = definitionValue;
         Power           = power;
     }
@@ -207,16 +207,16 @@ public sealed class UnitInfo : IEquatable<UnitInfo>, IObject, ISpanFormattable
 
     public bool HasDimension => Dimension != Dimension.None;
 
-    public UnitInfo WithPrefix(SIPrefix prefix)
+    public UnitInfo WithPrefix(SIPrefix prefix, long id = 0)
     {
-        return new UnitInfo(prefix, Name, Dimension, DefinitionValue, Power);
+        return new UnitInfo(id, prefix, Name, Dimension, DefinitionValue, Power);
     }
 
-    public UnitInfo WithExponent(int exponent)
+    public UnitInfo WithExponent(int exponent, long id = 0)
     {
-        if (this.Power == exponent) return this;
+        if (Power == exponent) return this;
 
-        return new UnitInfo(Prefix, Name, Dimension, DefinitionValue, exponent);
+        return new UnitInfo(0, Prefix, Name, Dimension, DefinitionValue, exponent);
     }
 
     public static UnitInfo Get(ReadOnlySpan<char> name)

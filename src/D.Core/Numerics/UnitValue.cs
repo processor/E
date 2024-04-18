@@ -53,7 +53,7 @@ public static class UnitValue
     public static UnitValue<double> Dppx(double value) => new(value, CssUnits.Dppx);
 
     // <flex>
-    public static UnitValue<double> Fr(double value)    => new (value, CssUnits.Fr);
+    public static UnitValue<double> Fr(double value)   => new (value, CssUnits.Fr);
 
     #endregion
 
