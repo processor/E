@@ -12,81 +12,82 @@ public static class Arithmetic
     public static Arithmetic<T> GetProvider<T>()
         where T: unmanaged
     {
-        if (typeof(T) == typeof(Number))  return (Arithmetic<T>)((object)RealArithmetic.Default);
-        if (typeof(T) == typeof(int))     return (Arithmetic<T>)((object)Int32Arithmetic.Default);
-        if (typeof(T) == typeof(long))    return (Arithmetic<T>)((object)Int64Arithmetic.Default);
+        if (typeof(T) == typeof(Number)) return (Arithmetic<T>)((object)F64Arithmetic.Default);
+        if (typeof(T) == typeof(double)) return (Arithmetic<T>)((object)F64Arithmetic.Default);
+        if (typeof(T) == typeof(int))    return (Arithmetic<T>)((object)I32Arithmetic.Default);
+        if (typeof(T) == typeof(long))   return (Arithmetic<T>)((object)I64Arithmetic.Default);
 
         throw new Exception($"No arithmetic provider for {typeof(T).Name}");
     }
 
     public static INumber Multiply(INumber x, INumber y)
     {
-        if (x is not IUnitValue && y is not IUnitValue)
+        if (x is not IQuantity && y is not IQuantity)
         {
             return new Number(x.Real * y.Real);
         }
 
-        var l = (IUnitValue)x;
-        var r = (y as IUnitValue)?.To(l.Unit) ?? y.Real;
+        var l = (IQuantity)x;
+        var r = (y as IQuantity<double>)?.To<double>(l.Unit) ?? y.Real;
 
-        return y is IUnitValue yValue
-            ? UnitValue.Create(l.Real * r, type: l.Unit.WithExponent(l.Unit.Power + yValue.Unit.Power))
-            : UnitValue.Create(l.Real * r, l.Unit);
+        return y is IQuantity yValue
+            ? Quantity.Create(l.Real * r, type: l.Unit.WithExponent(l.Unit.Power + yValue.Unit.Power))
+            : Quantity.Create(l.Real * r, l.Unit);
                 
     }
     
     public static INumber Add(INumber x, INumber y)
     {
-        if (!(x is IUnitValue) && !(y is IUnitValue))
+        if (!(x is IQuantity) && !(y is IQuantity))
         {
             return new Number(x.Real + y.Real);
         }
 
-        var l = (IUnitValue)x;
-        var r = (y as IUnitValue)?.To(l.Unit) ?? y.Real;
+        var l = (IQuantity)x;
+        var r = (y as IQuantity)?.To<double>(l.Unit) ?? y.Real;
 
-        return UnitValue.Create(l.Real + r, l.Unit);
+        return Quantity.Create(l.Real + r, l.Unit);
     }
 
     public static INumber Subtract(INumber x, INumber y)
     {
-        if (x is not IUnitValue && y is not IUnitValue)
+        if (x is not IQuantity && y is not IQuantity)
         {
             return new Number(x.Real - y.Real);
         }
 
-        var l = (IUnitValue)x;
-        var r = (y as IUnitValue)?.To(l.Unit) ?? y.Real;
+        var l = (IQuantity)x;
+        var r = (y as IQuantity)?.To<double>(l.Unit) ?? y.Real;
 
-        return UnitValue.Create(l.Real - r, l.Unit);
+        return Quantity.Create(l.Real - r, l.Unit);
     }
 
     public static INumber Divide(INumber x, INumber y)
     {
-        if (x is not IUnitValue && y is not IUnitValue)
+        if (x is not IQuantity && y is not IQuantity)
         {
             return new Number(x.Real / y.Real);
         }
 
-        var l = (IUnitValue)x;
-        var r = (y as IUnitValue)?.To(l.Unit) ?? y.Real;
+        var l = (IQuantity)x;
+        var r = (y as IQuantity)?.To<double>(l.Unit) ?? y.Real;
             
-        return UnitValue.Create(l.Real / r, l.Unit);
+        return Quantity.Create(l.Real / r, l.Unit);
     }
 
     public static INumber Pow(INumber x, INumber y)
     {
         var result = Math.Pow(x.Real, y.Real);
 
-        if (x is not IUnitValue && y is not IUnitValue)
+        if (x is not IQuantity && y is not IQuantity)
         {
             return new Number(result);
         }
         else
         {
-            var unit = (IUnitValue)x;
+            var unit = (IQuantity)x;
 
-            return new UnitValue<double>(
+            return new Quantity<double>(
                 value : Math.Pow(x.Real, y.Real),
                 unit  : unit.Unit.WithExponent(unit.Unit.Power + ((int)y.Real - 1))
             );

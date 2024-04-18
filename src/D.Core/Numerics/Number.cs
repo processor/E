@@ -1,5 +1,4 @@
-﻿using System;
-using System.Globalization;
+﻿using System.Globalization;
 
 namespace E;
 
@@ -22,7 +21,7 @@ public readonly struct Number(double value) : INumeric<double>
 
     #region Casts
 
-    readonly T INumber.As<T>() => (T)Convert.ChangeType(Value, typeof(T));
+    readonly T INumber.As<T>() => T.CreateChecked(Value);
 
     public static implicit operator double(Number d) => d.Value;
 

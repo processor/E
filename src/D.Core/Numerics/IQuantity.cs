@@ -2,19 +2,19 @@
 
 namespace E.Units;
 
-public interface IUnitValue : INumber
+public interface IQuantity : INumber 
 {
     UnitInfo Unit { get; }
 
-    double To(UnitInfo unit);
+    T1 To<T1>(UnitInfo unit) where T1 : INumberBase<T1>;
 }
 
-public interface IUnitValue<T> : IUnitValue
+public interface IQuantity<T> : IQuantity
     where T : unmanaged, INumberBase<T>
 {
-    UnitValue<T> With(T quantity);
+    Quantity<T> With(T quantity);
 
-    UnitValue<T> With(T quantity, UnitInfo type);
+    Quantity<T> With(T quantity, UnitInfo type);
 }
 
 

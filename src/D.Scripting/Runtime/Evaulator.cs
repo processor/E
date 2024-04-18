@@ -79,7 +79,7 @@ public class Evaluator
             Symbol symbol                => EvaluateSymbol(symbol),    
             CallExpression call          => EvaluateCall(call),        
             UnitValueLiteral unit        => EvaluateUnit(unit),        
-            IUnitValue { Unit.Dimension: Dimension.None } unitValue => new Number(unitValue.Real),
+            IQuantity<double> { Unit.Dimension: Dimension.None } unitValue => new Number(unitValue.Real),
             _                           => expression // if ((long)expression.Kind > 255) throw new Exception($"expected kind: was {expression.Kind}");
 
         };
@@ -112,7 +112,7 @@ public class Evaluator
             return new Number(value * definitionUnit.Real);
         }
 
-        return UnitValue.Create(value, unit);
+        return Quantity.Create(value, unit);
     }
 
     public object EvaluateSymbol(Symbol expression)

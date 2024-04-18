@@ -6,6 +6,6 @@ namespace E.Units;
 // Temperature (Thermodynamics) 
 public static class ThermodynamicUnits
 {
-    public static readonly UnitInfo Kelvin  = new(11579,  "K", ThermodynamicTemperature, SI | Base);
-    public static readonly UnitInfo Celsius = new(25267, "°C", ThermodynamicTemperature, SI | Base); // + x
+    public static readonly UnitInfo Kelvin  = new(UnitType.Kelvin,  "K",  ThermodynamicTemperature, SI | Base);
+    public static readonly UnitInfo Celsius = new(UnitType.Celsius, "°C", ThermodynamicTemperature, SI | Base); // + x
 }

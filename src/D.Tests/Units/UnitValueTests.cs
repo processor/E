@@ -5,7 +5,7 @@ public class UnitValueTests
     [Fact]
     public void Percent()
     {
-        var percent = UnitValue.Percent(50);
+        var percent = Quantity.Percent(50);
 
         Assert.Equal(50, percent.Value);
 
@@ -19,7 +19,7 @@ public class UnitValueTests
     [Fact]
     public void Q()
     {
-        var value = UnitValue.Parse("3 m³");
+        var value = Quantity.Parse("3 m³");
 
         Assert.Equal("3m³", value.ToString());
         Assert.Equal("3m³", $"{value}");
@@ -32,7 +32,7 @@ public class UnitValueTests
     [Fact]
     public void Number()
     {
-        var value = UnitValue.Parse("3");
+        var value = Quantity.Parse("3");
 
         Assert.Equal(3d, value.Value);
         Assert.Equal(UnitInfo.None, value.Unit);

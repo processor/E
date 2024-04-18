@@ -9,13 +9,13 @@ public class CssUnitTests
     public sealed class Element
     {
         [JsonPropertyName("width")]
-        public UnitValue<double> Width { get; set; }
+        public Quantity<double> Width { get; set; }
 
         [JsonPropertyName("height")]
-        public UnitValue<double> Height { get; set; }
+        public Quantity<double> Height { get; set; }
 
         [JsonPropertyName("flex")]
-        public UnitValue<double> Flex { get; set; }
+        public Quantity<double> Flex { get; set; }
     }
 
     [Fact]
@@ -25,9 +25,9 @@ public class CssUnitTests
         // margin = new (100px)
 
         var a = new Element {
-            Width = UnitValue.Parse("1920px"),
-            Height = UnitValue.Px(1080),
-            Flex = UnitValue.Percent(100)
+            Width = Quantity.Parse("1920px"),
+            Height = Quantity.Px(1080),
+            Flex = Quantity.Percent(100)
         };
 
         // Element(width: 100px, margin: (100px, 80px))
@@ -53,7 +53,7 @@ public class CssUnitTests
     [Fact]
     public void Parse1()
     {
-        var val = UnitValue.Parse("11.5px");
+        var val = Quantity.Parse("11.5px");
 
         Assert.Equal((11.5, CssUnits.Px), (val.Value, val.Unit));
     }
@@ -61,7 +61,7 @@ public class CssUnitTests
     [Fact]
     public void Parse2()
     {
-        var val = UnitValue.Parse("3turn");
+        var val = Quantity.Parse("3turn");
 
         Assert.Equal(3, val.Value);
         Assert.Equal(UnitInfo.Turn, val.Unit);
@@ -70,7 +70,7 @@ public class CssUnitTests
     [Fact]
     public void Parse3()
     {
-        var val = UnitValue.Parse("-0.5turn");
+        var val = Quantity.Parse("-0.5turn");
 
         Assert.Equal((-0.5d, UnitInfo.Turn), (val.Value, val.Unit));
     }
@@ -80,10 +80,11 @@ public class CssUnitTests
     [InlineData("grad")]
     [InlineData("rad")]
     [InlineData("turn")]
-    public void Angles(string text)
+    public void Angles(string symbol)
     {
-        Assert.True(UnitInfo.TryParse(text, out UnitInfo type));
+        Assert.True(UnitInfo.TryParse(symbol, out UnitInfo type));
 
+        Assert.Equal(symbol, type.Name);
         Assert.Equal(Dimension.Angle, type.Dimension);
     }
 

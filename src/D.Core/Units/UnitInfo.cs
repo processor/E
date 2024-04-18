@@ -19,12 +19,12 @@ public sealed class UnitInfo : IEquatable<UnitInfo>, IObject, ISpanFormattable
 
     private static readonly Symbol π = Symbol.Variable("π");
 
-    public static readonly UnitInfo Radian    = new(33680,  "rad", Angle, Base);
-    public static readonly UnitInfo Steradian = new(177612, "sr",  SolidAngle, Base);
+    public static readonly UnitInfo Radian    = new(UnitType.Radian,    "rad", Angle, Base);
+    public static readonly UnitInfo Steradian = new(UnitType.Steradian, "sr",  SolidAngle, Base);
 
-    public static readonly UnitInfo Degree    = new(28390,  "deg",  Angle, 1,   Expression.Divide(π, UnitValue.Create(180, Radian))); // π / 180 rad
-    public static readonly UnitInfo Gradian   = new(208528, "grad", Angle, 0.9, Degree); // 400 per circle
-    public static readonly UnitInfo Turn      = new(304479, "turn", Angle, 360, Degree); // 1 per circle
+    public static readonly UnitInfo Degree    = new(UnitType.Degree,  "deg",  Angle, 1,   Expression.Divide(π, Quantity.Create(180d, Radian))); // π / 180 rad
+    public static readonly UnitInfo Gradian   = new(UnitType.Gradian, "grad", Angle, 0.9, Degree); // 400 per circle
+    public static readonly UnitInfo Turn      = new(UnitType.Turn,    "turn", Angle, 360, Degree); // 1 per circle
 
     #endregion
 
@@ -36,8 +36,8 @@ public sealed class UnitInfo : IEquatable<UnitInfo>, IObject, ISpanFormattable
 
     #region Frequency
 
-    public static readonly UnitInfo Hertz = new (39369, "Hz", Frequency, SI);
-    public static readonly UnitInfo kHz   = Hertz.WithPrefix(SIPrefix.k, 2143992); // kHz
+    public static readonly UnitInfo Hertz = new(UnitType.Hz, "Hz", Frequency, SI);
+    public static readonly UnitInfo kHz   = Hertz.WithPrefix(SIPrefix.k, UnitType.kHz);
 
     // rpm
 
@@ -45,60 +45,60 @@ public sealed class UnitInfo : IEquatable<UnitInfo>, IObject, ISpanFormattable
 
     #region Length
 
-    public static readonly UnitInfo Meter = new(11573, "m", Length, SI | Base);  // m
-    public static readonly UnitInfo Mm    = Meter.WithPrefix(SIPrefix.m, 174789);  // mm
-    public static readonly UnitInfo Cm    = Meter.WithPrefix(SIPrefix.c, 174728);  // cm
+    public static readonly UnitInfo Meter = new(UnitType.Meter, "m", Length, SI | Base);  // m
+    public static readonly UnitInfo Mm    = Meter.WithPrefix(SIPrefix.m, UnitType.Millimeter);  // mm
+    public static readonly UnitInfo Cm    = Meter.WithPrefix(SIPrefix.c, UnitType.Centimeter);  // cm
 
-    public static readonly UnitInfo Inch  = new(218593, "in", Length, Imperial);
-    public static readonly UnitInfo Foot  = new(3710,   "ft", Length, 12, Inch);
+    public static readonly UnitInfo Inch  = new(UnitType.Inch, "in", Length, Imperial);
+    public static readonly UnitInfo Foot  = new(UnitType.Foot, "ft", Length, 12, Inch);
 
-    public static readonly UnitInfo Parsec           = new(12129, "parsec", Length, Base);
-    public static readonly UnitInfo AstronomicalUnit = new(1811,  "au",     Length);
+    public static readonly UnitInfo Parsec           = new(UnitType.Parsec,           "parsec", Length, Base);
+    public static readonly UnitInfo AstronomicalUnit = new(UnitType.AstronomicalUnit, "au",     Length);
 
     #endregion
 
     #region Mass
 
-    public static readonly UnitInfo Gram     = new(41_803, "g", Mass, SI | Base);
-    public static readonly UnitInfo Kilogram = Gram.WithPrefix(SIPrefix.k, 11570);
+    public static readonly UnitInfo Gram     = new(UnitType.Gram, "g", Mass, SI | Base);
+    public static readonly UnitInfo Kilogram = Gram.WithPrefix(SIPrefix.k, UnitType.Kilogram);
 
     // Standard is KG
 
-    public static readonly UnitInfo Pound = new(100_995, "lb", Mass, 453.592d); // lb = 453.592g
+    public static readonly UnitInfo Pound = new(UnitType.Pound, "lb", Mass, 453.592d); // lb = 453.592g
 
     #endregion
 
-    public static readonly UnitInfo Mole = new(41_509, "mol", AmountOfSubstance, SI | Base);
+    public static readonly UnitInfo Mole = new(UnitType.Mole, "mol", AmountOfSubstance, SI | Base);
 
     // Luminocity -
 
-    public static readonly UnitInfo Candela = new(83_216, "cd", LuminousIntensity, SI | Base);
+    public static readonly UnitInfo Candela = new(UnitType.Candela, "cd", LuminousIntensity, SI | Base);
 
     #region Time
 
     // 5.39 x 10−44 s
 
-    public static readonly UnitInfo Second  = new(11574, "s",   Time, SI | Base);  // s
-    public static readonly UnitInfo Minute  = new(7727,  "min", Time, 60d);
-    public static readonly UnitInfo Hour    = new(25235, "h",   Time, 60d * 60d);
-    public static readonly UnitInfo Week    = new(23387, "wk",  Time, 60d * 60d * 24 * 7);
+    public static readonly UnitInfo Second  = new(UnitType.Second,  "s",   Time, SI | Base);  // s
+    public static readonly UnitInfo Minute  = new(UnitType.Minute,  "min", Time, 60d);
+    public static readonly UnitInfo Hour    = new(UnitType.Hour,    "h",   Time, 60d * 60d);
+    public static readonly UnitInfo Week    = new(UnitType.Week,    "wk",  Time, 60d * 60d * 24 * 7);
 
     #endregion
 
     // Pressure - 
-    public static readonly UnitInfo Pascal = new(44395, "Pa", Pressure);
+    public static readonly UnitInfo Pascal = new(UnitType.Pascal, "Pa", Pressure);
      
     // Volume - 
-    public static readonly UnitInfo Liter = new(11582, "L", Length); //  1,000 cubic centimeters
+    public static readonly UnitInfo Liter = new(UnitType.Liter, "L", Length); //  1,000 cubic centimeters
 
 
-    public static readonly UnitInfo Katal = new(208634, "kat", CatalyticActivity);
+    public static readonly UnitInfo Katal = new(UnitType.Katal, "kat", CatalyticActivity);
 
-    public static readonly UnitInfo SquareMeters = new UnitInfo(25343, "m", Length).WithExponent(2, id: 25343);
+    public static readonly UnitInfo SquareMeters = Meter.WithExponent(2, UnitType.SquareMeters);
 
     // Dimensionless
 
-    public static readonly UnitInfo Percent = new(11_229, "%", Dimension.None, 1, new Number(0.01)); // 1/100
+    public static readonly UnitInfo Percent = new(UnitType.Percent, "%", Dimension.None, 1, new Number(0.01)); // 1/100
 
     public UnitInfo(string name) // e.g. px
     {
@@ -123,9 +123,9 @@ public sealed class UnitInfo : IEquatable<UnitInfo>, IObject, ISpanFormattable
         DefinitionValue = 1;
     }
 
-    public UnitInfo(long id, string name, Dimension dimension, UnitFlags flags = UnitFlags.None)
+    public UnitInfo(UnitType type, string name, Dimension dimension, UnitFlags flags = UnitFlags.None)
     {
-        Id = id;
+        Id = (int)type;
         Name = name;
         Dimension = dimension;
         Flags = flags;
@@ -139,16 +139,17 @@ public sealed class UnitInfo : IEquatable<UnitInfo>, IObject, ISpanFormattable
         DefinitionValue = definitionValue;
     }
 
-    public UnitInfo(long id, string symbol, Dimension dimension, double definitionValue)
+    public UnitInfo(UnitType id, string symbol, Dimension dimension, double definitionValue)
     {
-        Id              = id;
+        Id              = (int)id;
         Name            = symbol;
         Dimension       = dimension;
         DefinitionValue = definitionValue;
     }
 
-    public UnitInfo(long id, SIPrefix prefix, string name, Dimension dimension, double definitionValue, int power)
+    public UnitInfo(UnitType id, SIPrefix prefix, string name, Dimension dimension, double definitionValue, int power)
     {
+        Id              = (int)id;
         Prefix          = prefix;
         Name            = name;
         Dimension       = dimension;
@@ -164,9 +165,9 @@ public sealed class UnitInfo : IEquatable<UnitInfo>, IObject, ISpanFormattable
         DefinitionUnit  = definitionUnit;
     }
 
-    public UnitInfo(long id, string name, Dimension dimension, double definitionValue, IObject definitionUnit)
+    public UnitInfo(UnitType id, string name, Dimension dimension, double definitionValue, IObject definitionUnit)
     {
-        Id              = id;
+        Id              = (int)id;
         Name            = name;
         Dimension       = dimension;
         DefinitionValue = definitionValue;
@@ -181,7 +182,7 @@ public sealed class UnitInfo : IEquatable<UnitInfo>, IObject, ISpanFormattable
         DefinitionUnit = definitionUnit;
     }
 
-    public long Id { get; }
+    public int Id { get; }
 
     public SIPrefix Prefix { get; } = SIPrefix.None;
 
@@ -207,12 +208,12 @@ public sealed class UnitInfo : IEquatable<UnitInfo>, IObject, ISpanFormattable
 
     public bool HasDimension => Dimension != Dimension.None;
 
-    public UnitInfo WithPrefix(SIPrefix prefix, long id = 0)
+    public UnitInfo WithPrefix(SIPrefix prefix, UnitType type = default)
     {
-        return new UnitInfo(id, prefix, Name, Dimension, DefinitionValue, Power);
+        return new UnitInfo(type, prefix, Name, Dimension, DefinitionValue, Power);
     }
 
-    public UnitInfo WithExponent(int exponent, long id = 0)
+    public UnitInfo WithExponent(int exponent, UnitType type = default)
     {
         if (Power == exponent) return this;
 

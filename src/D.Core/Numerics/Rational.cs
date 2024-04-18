@@ -5,7 +5,9 @@ namespace E;
 
 using static Math;
 
-public readonly struct Rational(long numerator, long denominator) : INumber
+public readonly struct Rational(
+    long numerator,
+    long denominator) : INumber
 {
     public long Numerator { get; } = numerator;
 
@@ -17,7 +19,7 @@ public readonly struct Rational(long numerator, long denominator) : INumber
 
     double INumber.Real => (double)Numerator / Denominator;
 
-    T INumber.As<T>() => (T)Convert.ChangeType((double)Numerator / Denominator, typeof(T));
+    T INumber.As<T>() => T.CreateChecked(Numerator) / T.CreateChecked(Denominator);
 
     #endregion
 

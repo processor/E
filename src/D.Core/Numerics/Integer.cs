@@ -1,5 +1,4 @@
-﻿using System;
-using System.Runtime.InteropServices;
+﻿using System.Runtime.InteropServices;
 
 namespace E;
 
@@ -18,7 +17,7 @@ public readonly struct Integer(long value) : IObject, INumber
 
     #region INumeric
 
-    readonly T INumber.As<T>() => (T)Convert.ChangeType(Value, typeof(T));
+    readonly T INumber.As<T>() => T.CreateChecked(Value);
 
     readonly double INumber.Real => Value;
 

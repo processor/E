@@ -16,7 +16,8 @@ public class UnitSet
         new CssUnitSet()
     );
 
-    private readonly Dictionary<string, UnitInfo> _items = [];
+    private readonly Dictionary<string, UnitInfo> _symbolMap = [];
+    private readonly Dictionary<long, UnitInfo> _idMap = [];
 
     private readonly Trie<UnitInfo> _trie = new ();
 
@@ -37,21 +38,36 @@ public class UnitSet
        return _trie.TryGetValue(name, out type);
     }
 
-    public void Add(string name, UnitInfo type)
+    public UnitInfo? Find(long id)
     {
-        _items[name] = type;
+        return _idMap.TryGetValue(id, out var type) ? type : null;
+    }
 
-        _trie.TryAdd(name, type);
+    public void Add(string symbol, UnitInfo type)
+    {
+        _symbolMap[symbol] = type;
+
+        _trie.TryAdd(symbol, type);
+
+        if (type.Id > 0)
+        {
+            _idMap[type.Id] = type;
+        }
     }
 
     public void Add(UnitInfo type)
     {
-        _items[type.Name] = type;
+        _symbolMap[type.Name] = type;
+
+        if (type.Id > 0)
+        {
+            _idMap[type.Id] = type;
+        }
     }
 
     public void AddRange(UnitSet collection)
     {
-        foreach (var item in collection._items)
+        foreach (var item in collection._symbolMap)
         {
             Add(item.Key, item.Value);
         }

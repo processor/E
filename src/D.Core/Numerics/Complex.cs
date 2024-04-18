@@ -14,7 +14,7 @@ public readonly struct Complex<T>(T real, T imaginary) : INumber
 
     #region INumeric
 
-    readonly double INumber.Real => Convert.ToDouble(Real);
+    readonly double INumber.Real => throw new Exception("Complexes may not be cast");
 
     readonly TA INumber.As<TA>() => throw new Exception("Complexes may not be cast");
 

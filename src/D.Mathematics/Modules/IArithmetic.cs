@@ -16,9 +16,9 @@ public abstract class Arithmetic<T>
     public abstract T Pow(T x, T y);
 }
 
-public sealed class RealArithmetic : Arithmetic<double>
+public sealed class F64Arithmetic : Arithmetic<double>
 {
-    public static readonly RealArithmetic Default = new();
+    public static readonly F64Arithmetic Default = new();
 
     public override double Add(double x, double y)      => x + y;
     public override double Subtract(double x, double y) => x - y;
@@ -28,9 +28,9 @@ public sealed class RealArithmetic : Arithmetic<double>
     public override double Pow(double x, double y)      => Math.Pow(x, y);
 }
 
-public sealed class Int32Arithmetic : Arithmetic<Int32>
+public sealed class I32Arithmetic : Arithmetic<Int32>
 {
-    public static readonly Int32Arithmetic Default = new();
+    public static readonly I32Arithmetic Default = new();
 
     public override int Add(int x, int y)        => x + y;
     public override int Subtract(int x, int y)   => x - y;
@@ -40,9 +40,9 @@ public sealed class Int32Arithmetic : Arithmetic<Int32>
     public override int Pow(int x, int y)        => (int)Math.Pow(x, y);
 }           
 
-public sealed class Int64Arithmetic : Arithmetic<long>
+public sealed class I64Arithmetic : Arithmetic<long>
 {
-    public static readonly Int64Arithmetic Default = new();
+    public static readonly I64Arithmetic Default = new();
 
     public override long Add(long x, long y) => x + y;
     public override long Subtract(long x, long y) => x - y;

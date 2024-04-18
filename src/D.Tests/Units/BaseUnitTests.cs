@@ -22,17 +22,20 @@ public class BaseUnitTypeTests
     }
 
     [Fact]
-    public void X()
+    public void CanFindGramUnit()
     {
-        UnitInfo.TryParse("g", out UnitInfo type);
+        Assert.True(UnitInfo.TryParse("g", out UnitInfo gUnit));
 
-        Assert.Equal("g", type.Name);
-        Assert.Equal(1, type.DefinitionValue);
-        Assert.Equal(1, type.Prefix.Value);
-        Assert.Equal(1, type.Power);
+        Assert.Equal(41803, gUnit.Id);
+        Assert.Equal("g", gUnit.Name);
+        Assert.Equal(1, gUnit.DefinitionValue);
+        Assert.Equal(1, gUnit.Prefix.Value);
+        Assert.Equal(1, gUnit.Power);
 
-        Assert.Equal("g", type.ToString());
-        Assert.Equal("g", $"{type}");
+        Assert.Equal("g", gUnit.ToString());
+        Assert.Equal("g", $"{gUnit}");
+
+        Assert.Same(UnitSet.Default.Find(41803), gUnit);
     }
 
     [Theory]
@@ -42,21 +45,20 @@ public class BaseUnitTypeTests
     [InlineData("lb", 453.592d, 0.00220462d)]
     public void MassConversions(string s, double v1, double v2)
     {
-        var unit = UnitValue.Parse(s).With(1);
+        var unit = Quantity.Parse(s).With(1);
 
         Assert.Equal(v1, unit.To(UnitInfo.Gram));
 
         // Assert.Equal(v2, unit.From(baseUnit), 5);
     }
 
-
     [Fact]
     public void S()
     {
-        Assert.Equal(10 / 60d, UnitValue.Create(10, UnitInfo.Second).To(UnitInfo.Minute));
-        Assert.Equal(1 / 60d, UnitValue.Create(1, UnitInfo.Minute).To(UnitInfo.Hour));
-        Assert.Equal(60d, UnitValue.Create(1, UnitInfo.Minute).To(UnitInfo.Second));
-        Assert.Equal(120d, UnitValue.Create(2, UnitInfo.Hour).To(UnitInfo.Minute));
+        Assert.Equal(10 / 60d, Quantity.Create(10d, UnitInfo.Second).To(UnitInfo.Minute));
+        Assert.Equal(1 / 60d,  Quantity.Create(1d,  UnitInfo.Minute).To(UnitInfo.Hour));
+        Assert.Equal(60d,      Quantity.Create(1d,  UnitInfo.Minute).To(UnitInfo.Second));
+        Assert.Equal(120d,     Quantity.Create(2d,  UnitInfo.Hour).To(UnitInfo.Minute));
     }
 
     [Fact]
@@ -64,9 +66,9 @@ public class BaseUnitTypeTests
     {
         var kg = UnitInfo.Gram.WithPrefix(SIPrefix.k); // kg
 
-        var g_1000 = UnitValue.Create(1000, UnitInfo.Gram);
-        var g_500 = UnitValue.Create(500, UnitInfo.Gram);
-        var g_100 = UnitValue.Parse("g").With(100);
+        var g_1000 = Quantity.Create(1000d, UnitInfo.Gram);
+        var g_500 = Quantity.Create(500d, UnitInfo.Gram);
+        var g_100 = Quantity.Parse("g").With(100);
 
         Assert.Equal(1, g_1000.To(kg));
         Assert.Equal(0.5, g_500.To(kg));
@@ -76,7 +78,7 @@ public class BaseUnitTypeTests
     [Fact]
     public void Parse()
     {
-        var unit = UnitValue.Parse("kg").With(1);
+        var unit = Quantity.Parse("kg").With(1);
 
         Assert.Equal(1000d, unit.Unit.Prefix.Value);
         Assert.Equal("1kg", unit.ToString());
@@ -134,7 +136,7 @@ public class BaseUnitTypeTests
     [InlineData(Dimension.ThermodynamicTemperature, "K")] // kelvin
     [InlineData(Dimension.ElectricCurrent, "A")] // ampere
     [InlineData(Dimension.Length, "m")] // meter
-                                        // [InlineData(UnitId.Mass, "kg", "kilogram")]
+  //  [InlineData(Dimension.Mass, "kg", "kilogram")]
     [InlineData(Dimension.AmountOfSubstance, "mol")]
     [InlineData(Dimension.LuminousIntensity, "cd")] // candela
     public void BaseTypes(Dimension id, string text)
@@ -156,7 +158,6 @@ public class BaseUnitTypeTests
         }
         */
     }
-
 
 
     /*

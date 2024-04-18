@@ -9,7 +9,7 @@ using E.Parsing;
 using E.Syntax;
 using E.Units;
 
-using static E.Units.UnitValue;
+using static E.Units.Quantity;
 
 namespace E.Tests;
 
@@ -62,7 +62,7 @@ public class EvaluatorTests
 
         var node = new BinaryExpression(Operator.Multiply, Px(10), Percent(50));
 
-        var result = (UnitValue<double>)evaluator.Evaluate(node);
+        var result = (Quantity<double>)evaluator.Evaluate(node);
 
         Assert.Equal((5, CssUnits.Px), (result.Value, result.Unit));
     }
@@ -74,9 +74,9 @@ public class EvaluatorTests
 
         var evaluator = new Evaluator(s_env);
 
-        var node = Expression.Multiply(Px(10), UnitValue.Create(1, forth));
+        var node = Expression.Multiply(Px(10), Quantity.Create(1d, forth));
 
-        var result = (UnitValue<double>)evaluator.Evaluate(node);
+        var result = (Quantity<double>)evaluator.Evaluate(node);
 
         Assert.Equal((2.5, CssUnits.Px), (result.Value, result.Unit));
     }
@@ -89,7 +89,7 @@ public class EvaluatorTests
 
         var node = new BinaryExpression(Operator.Add, Px(10), new BinaryExpression(Operator.Add, Px(1), Px(1)));
 
-        var result = (UnitValue<double>)evaluator.Evaluate(node);
+        var result = (Quantity<double>)evaluator.Evaluate(node);
 
         Assert.Equal(12, result.Value);
         Assert.Equal(CssUnits.Px, result.Unit);

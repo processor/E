@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <VersionPrefix>0.0.1-alpha5</VersionPrefix>
+    <VersionPrefix>0.0.1-alpha6</VersionPrefix>
     <TargetFramework>net8.0</TargetFramework>
     <AssemblyName>D.Scripting</AssemblyName>
     <Nullable>enable</Nullable>

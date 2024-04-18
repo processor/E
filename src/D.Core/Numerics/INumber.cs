@@ -1,4 +1,4 @@
-﻿using System;
+﻿using System.Numerics;
 
 using E.Expressions;
 
@@ -8,5 +8,5 @@ public interface INumber : IExpression
 {
     double Real { get; } // Quantity
 
-    T As<T>() where T : struct, IComparable<T>, IEquatable<T>;
+    T As<T>() where T : INumberBase<T>;
 }

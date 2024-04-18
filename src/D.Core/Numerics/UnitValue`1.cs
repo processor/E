@@ -6,7 +6,8 @@ using E.Syntax;
 
 namespace E.Units;
 
-public readonly struct UnitValue<T>(T value, UnitInfo unit) : IUnitValue<T>, IEquatable<UnitValue<T>>, ISpanFormattable
+// AKA quantity
+public readonly struct Quantity<T>(T value, UnitInfo unit) : IQuantity<T>, IEquatable<Quantity<T>>, ISpanFormattable
     where T : unmanaged, INumberBase<T>
 {
     // 1
@@ -17,15 +18,30 @@ public readonly struct UnitValue<T>(T value, UnitInfo unit) : IUnitValue<T>, IEq
 
     #region With
 
-    public readonly UnitValue<T> With(T quantity) => new (quantity, Unit);
+    public readonly Quantity<T> With(T value) => new (value, Unit);
 
-    public readonly UnitValue<T> With(T quantity, UnitInfo type) => new (quantity, type);
+    public readonly Quantity<T> With(T value, UnitInfo unit) => new (value, unit);
 
     #endregion
 
     #region Conversions
 
-    public readonly double To(UnitInfo targetUnit)
+    public readonly T To(UnitInfo targetUnit)
+    {
+        if (Unit.Dimension != targetUnit.Dimension)
+        {
+            throw new Exception($"Must be the same dimension. Was {targetUnit.Dimension}.");
+        }
+
+        var newValue = T.CreateChecked(Value) * (
+            (T.CreateChecked(Unit.Prefix.Value) * T.CreateChecked(Unit.DefinitionValue)) /
+            (T.CreateChecked(targetUnit.Prefix.Value) * T.CreateChecked(targetUnit.DefinitionValue)
+        ));
+
+        return newValue;
+    }
+
+    public readonly T1 To<T1>(UnitInfo targetUnit) where T1 : INumberBase<T1>
     {
         if (Unit.Dimension != targetUnit.Dimension)
         {
@@ -41,12 +57,13 @@ public readonly struct UnitValue<T>(T value, UnitInfo unit) : IUnitValue<T>, IEq
 
         // Type Conversions ft -> m, etc 
 
-        double q = Convert.ToDouble(Value);
 
-        return q * (
-            (Unit.Prefix.Value * Unit.DefinitionValue) /
-            (targetUnit.Prefix.Value * targetUnit.DefinitionValue)
-        );
+        var newValue = T1.CreateChecked(Value) * (
+            (T1.CreateChecked(Unit.Prefix.Value) * T1.CreateChecked(Unit.DefinitionValue)) /
+            (T1.CreateChecked(targetUnit.Prefix.Value) * T1.CreateChecked(targetUnit.DefinitionValue)
+        ));
+
+        return newValue;
     }
 
     #endregion
@@ -59,7 +76,7 @@ public readonly struct UnitValue<T>(T value, UnitInfo unit) : IUnitValue<T>, IEq
     {
         get
         {
-            var result = Convert.ToDouble(Value);
+            var result = double.CreateChecked(Value);
 
             if (Unit.DefinitionUnit is Number definitionUnit)
             {
@@ -70,24 +87,24 @@ public readonly struct UnitValue<T>(T value, UnitInfo unit) : IUnitValue<T>, IEq
         }
     }
 
-    T1 INumber.As<T1>() => (T1)Convert.ChangeType(Value, typeof(T1));
+    T1 INumber.As<T1>() => T1.CreateChecked(Value);
 
     #endregion
 
     // No space between units...
 
-    public static UnitValue<T> Wrap(T value)
+    public static Quantity<T> Wrap(T value)
     {
-        return new UnitValue<T>(value, UnitInfo.None);
+        return new Quantity<T>(value, UnitInfo.None);
     }        
 
-    public static UnitValue<T> Parse(string text)
+    public static Quantity<T> Parse(string text)
     {
         if ((char.IsDigit(text[0]) || text[0] == '-'))
         {
             var syntax = Parsing.Parser.Parse(text);
 
-            if (syntax is UnitValueSyntax unitValue)
+            if (syntax is UnitValueSyntax { Expression: NumberLiteralSyntax numberLiteral } unitValue)
             {
 
                 // 1 g
@@ -95,19 +112,19 @@ public readonly struct UnitValue<T>(T value, UnitInfo unit) : IUnitValue<T>, IEq
                 // 1.1g
                 // 1px
 
-                double value = double.Parse(((NumberLiteralSyntax)unitValue.Expression).Text);
+                T value = T.Parse(numberLiteral.Text, NumberStyles.Float, CultureInfo.InvariantCulture);
 
                 var type = UnitInfo.TryParse(unitValue.UnitName, out UnitInfo? unitType)
-                    ? unitType!
+                    ? unitType
                     : new UnitInfo(unitValue.UnitName);
 
-                return new UnitValue<T>((T)Convert.ChangeType(value, typeof(T)), type!.WithExponent(unitValue.UnitPower));
+                return new Quantity<T>(value, type!.WithExponent(unitValue.UnitPower));
             }
             else if (syntax is NumberLiteralSyntax number)
             {
-                var value = (T)Convert.ChangeType(double.Parse(number.Text), typeof(T));
+                T value = T.Parse(number.Text, NumberStyles.Float, CultureInfo.InvariantCulture);
 
-                return new UnitValue<T>(value, UnitInfo.None);
+                return new Quantity<T>(value, UnitInfo.None);
             }
             else
             {
@@ -117,10 +134,10 @@ public readonly struct UnitValue<T>(T value, UnitInfo unit) : IUnitValue<T>, IEq
         else
         {
             UnitInfo type = UnitInfo.TryParse(text, out UnitInfo? unitType)
-                ? unitType!
+                ? unitType
                 : new UnitInfo(text);
 
-            return new UnitValue<T>(UnitConstants<T>.One, type);
+            return new Quantity<T>(T.One, type);
         }
     }
 
@@ -129,7 +146,7 @@ public readonly struct UnitValue<T>(T value, UnitInfo unit) : IUnitValue<T>, IEq
         (value, unitName) = (Value, Unit.Name);
     }
 
-    public bool Equals(UnitValue<T> other)
+    public bool Equals(Quantity<T> other)
     {
         return Value.Equals(other.Value)
             && Unit.Equals(other.Unit);
@@ -137,7 +154,7 @@ public readonly struct UnitValue<T>(T value, UnitInfo unit) : IUnitValue<T>, IEq
 
     public override bool Equals(object? obj)
     {
-        return obj is UnitValue<T> other && Equals(other);
+        return obj is Quantity<T> other && Equals(other);
     }
 
     public override int GetHashCode()
@@ -160,12 +177,12 @@ public readonly struct UnitValue<T>(T value, UnitInfo unit) : IUnitValue<T>, IEq
         return ToString();
     }
 
-    public static bool operator ==(UnitValue<T> left, UnitValue<T> right)
+    public static bool operator ==(Quantity<T> left, Quantity<T> right)
     {
         return left.Equals(right);
     }
 
-    public static bool operator !=(UnitValue<T> left, UnitValue<T> right)
+    public static bool operator !=(Quantity<T> left, Quantity<T> right)
     {
         return !left.Equals(right);
     }

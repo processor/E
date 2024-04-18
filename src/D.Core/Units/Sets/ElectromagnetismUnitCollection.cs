@@ -1,6 +1,6 @@
 ﻿namespace E.Units;
 
-using static ElectromagismUnits;
+using static ElectromagnetismUnits;
 
 public class ElectromagnetismUnitSet : UnitSet
 {
