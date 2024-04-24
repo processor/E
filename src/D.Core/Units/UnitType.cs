@@ -6,12 +6,15 @@ public enum UnitType
     Pascal = 44395,
     Liter = 11582,
     Katal = 208634,
-    SquareMeters = 25343,
     Kelvin = 11579,
     Celsius = 25267,
     Meter = 11573,
     Pica = 2718629,
 
+
+    // Length 
+    Millimeter = 174789,
+    Centimeter = 174728,
 
     Px = 355198,
     Dpi = 305896,
@@ -29,17 +32,25 @@ public enum UnitType
     Foot = 3710,
 
     // Time
-    Second = 11574,
-    Minute = 7727,
-    Hour = 25235,
-    Week = 23387, 
+    Nanosecond  = 838801,
+    Millisecond = 723733,
+    Second      = 11574,
+    Minute      = 7727,
+    Hour        = 25235,
+    Week        = 23387, 
+    Year        = 577,
 
-    Millimeter = 174789,
-    Centimeter = 174728,
     Candela = 83216,
-    Hz = 39369,
-    kHz = 2143992,
+    Hz      = 39369,
+    kHz     = 2143992,
 
+    // Area
+    Acre            = 81292,
+    SquareFoot      = 857027,
+    SquareMeter     = 25343,
+    SquareMile      = 232291,
+    SquareKilometer = 712226,
+    SquareInch      = 1063786,
 
     // Data transfer
     Bit = 8805,
