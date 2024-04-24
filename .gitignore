@@ -1,12 +1,7 @@
+/artifacts
 /.vs
-*/bin
-*/obj
 *.TMP
-*.xproj.user
-*project.lock.json
-*/.DS_Store
-/.DS_Store
-/build/
+.DS_Store
 *.suo
 *.user
-releases
+*.nupkg
