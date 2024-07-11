@@ -143,7 +143,7 @@ public class BaseUnitTypeTests
     {
         UnitSet.Default.AddRange(new ElectromagnetismUnitSet());
 
-        UnitInfo.TryParse(text, out UnitInfo type);
+        Assert.True(UnitInfo.TryParse(text, out UnitInfo type));
 
         Assert.Equal(id, type.Dimension);
         Assert.True(type.IsBaseUnit);

@@ -91,10 +91,9 @@ public sealed class UnitInfo : IEquatable<UnitInfo>, IObject, ISpanFormattable
     // Volume - 
     public static readonly UnitInfo Liter = new(UnitType.Liter, "L", Length); //  1,000 cubic centimeters
 
-
     public static readonly UnitInfo Katal = new(UnitType.Katal, "kat", CatalyticActivity);
 
-    public static readonly UnitInfo SquareMeters = Meter.WithExponent(2, UnitType.SquareMeters);
+    public static readonly UnitInfo SquareMeters = Meter.WithExponent(2, UnitType.SquareMeter);
 
     // Dimensionless
 
