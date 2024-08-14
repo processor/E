@@ -80,6 +80,6 @@ public sealed class AbstractNode(VariableNode[] arguments, INode body, IType? ty
             TypeSystem.Unify(args[^1], Type);
         }
 
-        return TypeSystem.NewType(TypeSystem.Function, args.ToArray());
+        return TypeSystem.NewType(TypeSystem.Function, [.. args]);
     }
 }

@@ -13,7 +13,7 @@ public class OperatorCollection
 
     public bool TryGet(ReadOnlySpan<char> symbol, [NotNullWhen(true)] out Operator? op) => trie.TryGetValue(symbol, out op);
 
-    public void Add(params Operator[] ops)
+    public void Add(params ReadOnlySpan<Operator> ops)
     {
         foreach (var op in ops)
         {

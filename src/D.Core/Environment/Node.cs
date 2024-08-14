@@ -31,7 +31,7 @@ public class Node
         AddModule(new BaseModule());
     }
 
-    public Node(params Module[] modules)
+    public Node(params ReadOnlySpan<Module> modules)
         : this()
     {
         foreach (var module in modules)

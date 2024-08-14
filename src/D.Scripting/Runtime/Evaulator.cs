@@ -255,7 +255,7 @@ public class Evaluator
 
         if (_env.TryGetValue(expression.Operator.Name, out IFunction? func))
         {
-            return func.Invoke(Arguments.Create(l, r));
+            return func.Invoke(Arguments.Create([l, r]));
         }
         else
         {

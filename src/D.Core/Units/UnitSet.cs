@@ -23,7 +23,7 @@ public class UnitSet
 
     public UnitSet() { }
 
-    public UnitSet(params UnitSet[] collections)
+    public UnitSet(params ReadOnlySpan<UnitSet> collections)
     {
         foreach (var set in collections)
         {
