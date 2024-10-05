@@ -13,8 +13,8 @@ namespace E;
 
 public class Evaluator
 {
-    private readonly Scope scope = new ();
-    private readonly Compiler compiler = new ();
+    private readonly Scope scope = new();
+    private readonly Compiler compiler = new();
 
     private readonly Node _env;
 

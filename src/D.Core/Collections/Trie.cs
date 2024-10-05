@@ -89,7 +89,7 @@ public sealed class Trie<T>
         {
             if (!node.TryGetNode(item, out node))
             {
-                return Enumerable.Empty<(string, T)>();
+                return [];
             }
         }
 

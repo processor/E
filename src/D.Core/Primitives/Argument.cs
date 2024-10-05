@@ -26,7 +26,15 @@ public readonly struct Argument : IArguments
 
     // NameIsImplicit?
 
-    public readonly object? this[int index] => index >= 0 ? Value : throw new ArgumentOutOfRangeException(nameof(index), "Out of range");
+    public readonly object? this[int index]
+    {
+        get
+        {
+            ArgumentOutOfRangeException.ThrowIfNotEqual(index, 0);
+
+            return Value;
+        }
+    }
 
     public readonly object? this[string name] => Name is not null && Name == name
         ? Value
