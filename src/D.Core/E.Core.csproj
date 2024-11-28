@@ -1,11 +1,10 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <Version>0.0.5</Version>
-    <TargetFramework>net8.0</TargetFramework>
+    <Version>0.0.6</Version>
+    <TargetFramework>net9.0</TargetFramework>
     <AssemblyName>E.Core</AssemblyName>
     <Nullable>enable</Nullable>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <IsTrimmable>true</IsTrimmable>
-    <NoWarn>$(NoWarn)</NoWarn>
   </PropertyGroup>
 </Project>
