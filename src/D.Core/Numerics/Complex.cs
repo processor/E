@@ -3,7 +3,7 @@ using System.Numerics;
 
 namespace E;
 
-public readonly struct Complex<T>(T real, T imaginary) : INumber
+public readonly struct Complex<T>(T real, T imaginary) : INumberObject
     where T : unmanaged, INumberBase<T>
 {
     public T Real { get; } = real;
@@ -14,9 +14,9 @@ public readonly struct Complex<T>(T real, T imaginary) : INumber
 
     #region INumeric
 
-    readonly double INumber.Real => throw new Exception("Complexes may not be cast");
+    readonly double INumberObject.Real => throw new Exception("Complexes may not be cast");
 
-    readonly TA INumber.As<TA>() => throw new Exception("Complexes may not be cast");
+    readonly TA INumberObject.As<TA>() => throw new Exception("Complexes may not be cast");
 
     #endregion
 }

@@ -2,7 +2,7 @@
 
 namespace E;
 
-public interface INumeric<T> : INumber
+public interface INumeric<T> : INumberObject
     where T : struct, IComparable<T>, IEquatable<T>
 {
     T Value { get; }

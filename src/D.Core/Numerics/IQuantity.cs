@@ -2,7 +2,7 @@
 
 namespace E.Units;
 
-public interface IQuantity : INumber 
+public interface IQuantity : INumberObject 
 {
     UnitInfo Unit { get; }
 

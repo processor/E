@@ -53,7 +53,10 @@ public static class Quantity
     public static Quantity<double> Dppx(double value) => new(value, CssUnits.Dppx);
 
     // <flex>
-    public static Quantity<double> Fr(double value)   => new (value, CssUnits.Fr);
+    public static Quantity<double> Fr(double value)   => new(value, CssUnits.Fr);
+
+    // Volume
+    public static Quantity<double> CubicMetre(double value) => new(value, UnitInfo.CubicMetre);
 
     #endregion
 

@@ -1,40 +1,39 @@
-﻿using System;
-using System.Globalization;
+﻿using System.Globalization;
+using System.Numerics;
 
 namespace E;
 
-using static Math;
-
-public readonly struct Rational(
-    long numerator,
-    long denominator) : INumber
+public readonly struct Rational<T>(
+    T numerator,
+    T denominator) : INumberObject
+    where T : INumber<T>
 {
-    public long Numerator { get; } = numerator;
+    public T Numerator { get; } = numerator;
 
-    public long Denominator { get; } = denominator;
+    public T Denominator { get; } = denominator;
 
     readonly ObjectType IObject.Kind => ObjectType.Rational;
 
     #region INumeric
 
-    double INumber.Real => (double)Numerator / Denominator;
+    double INumberObject.Real => double.CreateChecked(Numerator) / double.CreateChecked(Denominator);
 
-    T INumber.As<T>() => T.CreateChecked(Numerator) / T.CreateChecked(Denominator);
+    TTarget INumberObject.As<TTarget>() => TTarget.CreateChecked(Numerator) / TTarget.CreateChecked(Denominator);
 
     #endregion
 
     #region Helpers
 
-    public readonly Rational Reduce()
+    public readonly Rational<T> Reduce()
     {
         var n = Numerator;
         var d = Denominator;
 
-        if (n == 0)
+        if (n == T.Zero)
         {
-            d = 1;
+            d = T.One;
 
-            return new Rational(n, d);
+            return new Rational<T>(n, d);
         }
 
         var gcd = Gcd(n, d);
@@ -42,24 +41,24 @@ public readonly struct Rational(
         n /= gcd;
         d /= gcd;
 
-        if (d < 0)
+        if (d < T.Zero)
         {
-            n *= -1;
-            d *= -1;
+            n *= -T.One;
+            d *= -T.One;
         }
 
-        return new Rational(n, d);
+        return new Rational<T>(n, d);
     }
 
     // greatest common denominator
-    private static long Gcd(long a, long b)
+    private static T Gcd(T a, T b)
     {
-        a = Abs(a);
-        b = Abs(b);
+        a = T.Abs(a);
+        b = T.Abs(b);
 
-        long remainder;
+        T remainder;
 
-        while (b != 0)
+        while (b != T.Zero)
         {
             remainder = a % b;
             a = b;

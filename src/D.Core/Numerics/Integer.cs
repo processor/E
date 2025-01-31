@@ -1,29 +1,30 @@
-﻿using System.Runtime.InteropServices;
+﻿using System.Numerics;
+using System.Runtime.CompilerServices;
 
 namespace E;
 
-[StructLayout(LayoutKind.Sequential, Size = 8)]
-public readonly struct Integer(long value) : IObject, INumber
+public readonly struct Integer<T>(T value) : IObject, INumberObject
+    where T : IBinaryNumber<T>
 {
-    public long Value { get; } = value;
+    public T Value { get; } = value;
 
-    public int BitCount => 64;
+    public int BitCount => Unsafe.SizeOf<T>() * 8;
 
     readonly ObjectType IObject.Kind => ObjectType.Int64;
 
-    public static implicit operator int(Integer value) => (int)value.Value;
+    public static implicit operator int(Integer<T> value) => int.CreateChecked(value.Value);
 
-    public static implicit operator long(Integer value) => value.Value;
+    public static implicit operator long(Integer<T> value) => long.CreateChecked(value.Value);
 
     #region INumeric
 
-    readonly T INumber.As<T>() => T.CreateChecked(Value);
+    readonly TResult INumberObject.As<TResult>() => TResult.CreateChecked(Value);
 
-    readonly double INumber.Real => Value;
+    readonly double INumberObject.Real => double.CreateChecked(Value);
 
     #endregion
 
-    public readonly override string ToString() => Value.ToString();
+    public readonly override string ToString() => Value.ToString()!;
 }
 
 

@@ -4,7 +4,7 @@ using E.Expressions;
 
 namespace E;
 
-public interface INumber : IExpression
+public interface INumberObject : IExpression
 {
     double Real { get; } // Quantity
 

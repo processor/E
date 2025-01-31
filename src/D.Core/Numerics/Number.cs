@@ -15,13 +15,13 @@ public readonly struct Number(double value) : INumeric<double>
 
     readonly ObjectType IObject.Kind => ObjectType.Number;
 
-    readonly double INumber.Real => Value;
+    readonly double INumberObject.Real => Value;
 
     #endregion
 
     #region Casts
 
-    readonly T INumber.As<T>() => T.CreateChecked(Value);
+    readonly T INumberObject.As<T>() => T.CreateChecked(Value);
 
     public static implicit operator double(Number d) => d.Value;
 
