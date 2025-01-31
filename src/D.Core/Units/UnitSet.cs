@@ -18,7 +18,6 @@ public class UnitSet
 
     private readonly Dictionary<string, UnitInfo> _symbolMap = [];
     private readonly Dictionary<long, UnitInfo> _idMap = [];
-
     private readonly Trie<UnitInfo> _trie = new ();
 
     public UnitSet() { }

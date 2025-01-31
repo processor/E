@@ -3,6 +3,7 @@ using System.Globalization;
 using System.Numerics;
 using System.Text.Json.Serialization;
 
+using E.Parsing;
 using E.Syntax;
 
 namespace E.Units;
@@ -31,15 +32,31 @@ public readonly struct Quantity<T>(T value, UnitInfo unit) : IQuantity<T>, IEqua
     {
         if (Unit.Dimension != targetUnit.Dimension)
         {
-            throw new Exception($"Must be the same dimension. Was {targetUnit.Dimension}.");
+            if (Unit.Converters != null)
+            {
+                foreach (var converter in Unit.Converters)
+                {
+                    if (targetUnit.Id == converter.Unit.Id)
+                    {
+                        return Value * T.Parse(converter.Value, NumberStyles.Number, CultureInfo.InvariantCulture);
+                    }
+                }
+            }
+
+            throw new Exception($"Must be the same dimension. Source Dimension = {Unit.Dimension}. Target Dimension = {targetUnit.Dimension}.");
         }
 
-        var newValue = T.CreateChecked(Value) * (
-            (T.CreateChecked(Unit.Prefix.Value) * T.CreateChecked(Unit.DefinitionValue)) /
-            (T.CreateChecked(targetUnit.Prefix.Value) * T.CreateChecked(targetUnit.DefinitionValue)
-        ));
+        return (T.CreateChecked(Value) * T.CreateChecked(Unit.Scale)) / T.CreateChecked(targetUnit.Scale);
+    }
 
-        return newValue;
+    public readonly T To(UnitInfo targetUnit, UnitConverterFactory<T> converterFactory)
+    {
+        if (Unit.Dimension != targetUnit.Dimension)
+        {
+            return converterFactory.Get(Unit, targetUnit)(Value);
+        }
+
+        return (T.CreateChecked(Value) * T.CreateChecked(Unit.Scale)) / T.CreateChecked(targetUnit.Scale);
     }
 
     public readonly T1 To<T1>(UnitInfo targetUnit) where T1 : INumberBase<T1>
@@ -58,13 +75,7 @@ public readonly struct Quantity<T>(T value, UnitInfo unit) : IQuantity<T>, IEqua
 
         // Type Conversions ft -> m, etc 
 
-
-        var newValue = T1.CreateChecked(Value) * (
-            (T1.CreateChecked(Unit.Prefix.Value) * T1.CreateChecked(Unit.DefinitionValue)) /
-            (T1.CreateChecked(targetUnit.Prefix.Value) * T1.CreateChecked(targetUnit.DefinitionValue)
-        ));
-
-        return newValue;
+        return (T1.CreateChecked(Value) * T1.CreateChecked(Unit.Scale)) / T1.CreateChecked(targetUnit.Scale);
     }
 
     #endregion
@@ -73,7 +84,7 @@ public readonly struct Quantity<T>(T value, UnitInfo unit) : IQuantity<T>, IEqua
 
     ObjectType IObject.Kind => ObjectType.UnitValue;
 
-    double INumber.Real
+    double INumberObject.Real
     {
         get
         {
@@ -88,7 +99,7 @@ public readonly struct Quantity<T>(T value, UnitInfo unit) : IQuantity<T>, IEqua
         }
     }
 
-    T1 INumber.As<T1>() => T1.CreateChecked(Value);
+    T1 INumberObject.As<T1>() => T1.CreateChecked(Value);
 
     #endregion
 
@@ -101,13 +112,12 @@ public readonly struct Quantity<T>(T value, UnitInfo unit) : IQuantity<T>, IEqua
 
     public static Quantity<T> Parse(string text)
     {
-        if ((char.IsDigit(text[0]) || text[0] == '-'))
+        if ((char.IsDigit(text[0]) || text[0] is '-'))
         {
-            var syntax = Parsing.Parser.Parse(text);
+            var syntax = Parser.Parse(text);
 
-            if (syntax is UnitValueSyntax { Expression: NumberLiteralSyntax numberLiteral } unitValue)
+            if (syntax is QuantitySyntax { Expression: NumberLiteralSyntax numberLiteral } unitValue)
             {
-
                 // 1 g
                 // 1g
                 // 1.1g
@@ -117,9 +127,9 @@ public readonly struct Quantity<T>(T value, UnitInfo unit) : IQuantity<T>, IEqua
 
                 var type = UnitInfo.TryParse(unitValue.UnitName, out UnitInfo? unit)
                     ? unit
-                    : new UnitInfo(unitValue.UnitName);
+                    : UnitInfo.Create(unitValue.UnitName);
 
-                return new Quantity<T>(value, type!.WithExponent(unitValue.UnitPower));
+                return new Quantity<T>(value, type!.WithExponent(unitValue.UnitExponent));
             }
             else if (syntax is NumberLiteralSyntax number)
             {
@@ -136,7 +146,7 @@ public readonly struct Quantity<T>(T value, UnitInfo unit) : IQuantity<T>, IEqua
         {
             UnitInfo type = UnitInfo.TryParse(text, out UnitInfo? unit)
                 ? unit
-                : new UnitInfo(text);
+                : UnitInfo.Create(text);
 
             return new Quantity<T>(T.One, type);
         }

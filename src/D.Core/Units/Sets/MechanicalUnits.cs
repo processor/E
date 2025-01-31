@@ -4,5 +4,5 @@ using static UnitFlags;
 
 public static class MechanicalUnits
 {
-    public static readonly UnitInfo Newton = new(UnitType.Newton, "N", Dimension.Force, SI); // mechanical force | kg⋅m/s²
+    public static readonly UnitInfo Newton = new(UnitType.Newton, Dimension.Force, "N", flags:SI); // mechanical force | kg⋅m/s²
 }

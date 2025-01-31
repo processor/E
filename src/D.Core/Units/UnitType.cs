@@ -2,27 +2,30 @@
 
 public enum UnitType
 {
-    Mole = 41509,
-    Pascal = 44395,
-    Liter = 11582,
-    Katal = 208634,
-    Kelvin = 11579,
+    Mole    = 41509,
+    Pascal  = 44395,
+    Liter   = 11582,
+    Katal   = 208634,
+    Kelvin  = 11579,
     Celsius = 25267,
-    Meter = 11573,
-    Pica = 2718629,
+    Meter   = 11573,
+    Pica    = 2718629,
 
 
     // Length 
     Millimeter = 174789,
     Centimeter = 174728,
 
+    // CSS
+    QuaterMillimeters = 131966422,
     Px = 355198,
     Dpi = 305896,
     Dpcm = 5299480,
     Pt = 156389,
     Dppx = 110742003, // Dots per pixel
     Vmin = 125516432,
-    Em = 1334525,
+    Em   = 1334525,
+    Fr   = 131987530,
 
     AstronomicalUnit = 1811,
     Parsec = 12129,
@@ -37,6 +40,7 @@ public enum UnitType
     Second      = 11574,
     Minute      = 7727,
     Hour        = 25235,
+    Day         = 573,
     Week        = 23387, 
     Year        = 577,
 
@@ -62,6 +66,10 @@ public enum UnitType
     Gram = 41_803,
     Kilogram = 11570,
 
+    Ounce = 48013,
+    Pound = 100995,
+
+
     // Angle
     Steradian = 177612,
     Degree = 28390,
@@ -69,11 +77,11 @@ public enum UnitType
     Turn = 304479,
 
     // Data
+    Byte     = 8799,
     Kibibyte = 79756,
     Mebibyte = 79758,
     Tebibyte = 79769,
 
-    Pound = 100995,
 
     Percent = 11229,
 
@@ -96,4 +104,21 @@ public enum UnitType
     Becquerel    = 102573,    
     Illuminance  = 194411,
     LuminousFlux = 107780,
+
+    // US Units of Volume
+    US_FluidDram    = 105806592, // fl dr 60 min	
+    US_Teaspoon     = 105816142, // tsp
+    US_Tablespoon   = 105816198, // Tbsp
+    US_FluidOunce   = 32750759,
+
+    // US_Shot      = 0, // jig
+    US_Gill         = 93678895,  // gill | 4 fluid ounce
+    US_LiquidCup    = 105816269, // cp
+    US_LiquidPint   = 32750621,  // 2 cp	
+    US_LiquidQuart  = 98793408,  // 2 pt	
+    US_LiquidGallon = 23925413,  // 4 qt	
+    // US_Barrel     = 0,  // 31.5 gal    
+
+
+    CubicMetre = 25517
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics.CodeAnalysis;
+using System.Numerics;
 using System.Runtime.CompilerServices;
 using System.Text;
 
@@ -13,30 +14,24 @@ using static UnitFlags;
 
 public sealed class UnitInfo : IEquatable<UnitInfo>, IObject, ISpanFormattable
 {
-    public static readonly UnitInfo None = new(0, string.Empty, Dimension.None);
+    public static readonly UnitInfo None = new(0, Dimension.None, string.Empty);
 
     #region Angles (Plane & Solid)
 
     private static readonly Symbol π = Symbol.Variable("π");
 
-    public static readonly UnitInfo Radian    = new(UnitType.Radian,    "rad", Angle, Base);
-    public static readonly UnitInfo Steradian = new(UnitType.Steradian, "sr",  SolidAngle, Base);
+    public static readonly UnitInfo Radian    = new(UnitType.Radian,    Angle,      "rad", flags: Base);
+    public static readonly UnitInfo Steradian = new(UnitType.Steradian, SolidAngle, "sr",  flags: Base);
 
-    public static readonly UnitInfo Degree    = new(UnitType.Degree,  "deg",  Angle, 1,   Expression.Divide(π, Quantity.Create(180d, Radian))); // π / 180 rad
-    public static readonly UnitInfo Gradian   = new(UnitType.Gradian, "grad", Angle, 0.9, Degree); // 400 per circle
-    public static readonly UnitInfo Turn      = new(UnitType.Turn,    "turn", Angle, 360, Degree); // 1 per circle
-
-    #endregion
-
-    #region Electromagism / Energy
-
-    // Defined Under Electromagism Units
+    public static readonly UnitInfo Degree    = new(UnitType.Degree,  Angle, "deg",  Expression.Divide(π, Quantity.Create(180d, Radian))); // π / 180 rad         
+    public static readonly UnitInfo Gradian   = new(UnitType.Gradian, Angle, "grad", new ConversionFactor(0.9m, Degree)); // 400 per circle
+    public static readonly UnitInfo Turn      = new(UnitType.Turn,    Angle, "turn", new ConversionFactor(360,  Degree)); // 1 per circle
 
     #endregion
 
     #region Frequency
 
-    public static readonly UnitInfo Hertz = new(UnitType.Hz, "Hz", Frequency, SI);
+    public static readonly UnitInfo Hertz = new(UnitType.Hz, Frequency, "Hz", flags: SI);
     public static readonly UnitInfo kHz   = Hertz.WithPrefix(SIPrefix.k, UnitType.kHz);
 
     // rpm
@@ -45,178 +40,135 @@ public sealed class UnitInfo : IEquatable<UnitInfo>, IObject, ISpanFormattable
 
     #region Length
 
-    public static readonly UnitInfo Meter = new(UnitType.Meter, "m", Length, SI | Base);  // m
-    public static readonly UnitInfo Mm    = Meter.WithPrefix(SIPrefix.m, UnitType.Millimeter);  // mm
-    public static readonly UnitInfo Cm    = Meter.WithPrefix(SIPrefix.c, UnitType.Centimeter);  // cm
+    public static readonly UnitInfo Meter = new(UnitType.Meter, Length, "m", flags: SI | Base);  // m
+    public static readonly UnitInfo Mm    = Meter.WithPrefix(SIPrefix.m, UnitType.Millimeter);   // mm
+    public static readonly UnitInfo Cm    = Meter.WithPrefix(SIPrefix.c, UnitType.Centimeter);   // cm
 
-    public static readonly UnitInfo Inch  = new(UnitType.Inch, "in", Length, Imperial);
-    public static readonly UnitInfo Foot  = new(UnitType.Foot, "ft", Length, 12, Inch);
+    public static readonly UnitInfo Inch  = new(UnitType.Inch, Length, "in", flags: Imperial);
+    public static readonly UnitInfo Foot  = new(UnitType.Foot, Length, "ft", new ConversionFactor(12, Inch));
 
-    public static readonly UnitInfo Parsec           = new(UnitType.Parsec,           "parsec", Length, Base);
-    public static readonly UnitInfo AstronomicalUnit = new(UnitType.AstronomicalUnit, "au",     Length);
+    public static readonly UnitInfo Parsec           = new(UnitType.Parsec,           Length, "parsec", flags: Base);
+    public static readonly UnitInfo AstronomicalUnit = new(UnitType.AstronomicalUnit, Length, "au");
 
     #endregion
 
     #region Mass
 
-    public static readonly UnitInfo Gram     = new(UnitType.Gram, "g", Mass, SI | Base);
+    // The SI base unit of mass is KG, however - we use the gram
+
+    public static readonly UnitInfo Gram     = new(UnitType.Gram, Mass, "g", flags: SI | Base);
     public static readonly UnitInfo Kilogram = Gram.WithPrefix(SIPrefix.k, UnitType.Kilogram);
 
-    // Standard is KG
-
-    public static readonly UnitInfo Pound = new(UnitType.Pound, "lb", Mass, 453.592d); // lb = 453.592g
+    public static readonly UnitInfo Pound = new(UnitType.Pound, Mass, "lb", 453.592d); // lb = 453.592g
 
     #endregion
 
-    public static readonly UnitInfo Mole = new(UnitType.Mole, "mol", AmountOfSubstance, SI | Base);
+    public static readonly UnitInfo Mole = new(UnitType.Mole, AmountOfSubstance, "mol", flags: SI | Base);
 
-    // Luminocity -
+    #region Luminosity
 
-    public static readonly UnitInfo Candela = new(UnitType.Candela, "cd", LuminousIntensity, SI | Base);
+    public static readonly UnitInfo Candela = new(UnitType.Candela, LuminousIntensity, "cd", flags: SI | Base);
+
+    #endregion
 
     #region Time
 
     // 5.39 x 10−44 s
 
-    public static readonly UnitInfo Second  = new(UnitType.Second,  "s",   Time, SI | Base);  // s
-    public static readonly UnitInfo Minute  = new(UnitType.Minute,  "min", Time, 60d);
-    public static readonly UnitInfo Hour    = new(UnitType.Hour,    "h",   Time, 60d * 60d);
-    public static readonly UnitInfo Week    = new(UnitType.Week,    "wk",  Time, 60d * 60d * 24 * 7);
+    public static readonly UnitInfo Second  = new(UnitType.Second,  Time, "s",   flags: SI | Base);  // s
+    public static readonly UnitInfo Minute  = new(UnitType.Minute,  Time, "min", 60d);
+    public static readonly UnitInfo Hour    = new(UnitType.Hour,    Time, "h",   60d * 60d);
+    public static readonly UnitInfo Day     = new(UnitType.Day,     Time, "h",   86400);
+    public static readonly UnitInfo Week    = new(UnitType.Week,    Time, "wk",  60d * 60d * 24 * 7);
 
     #endregion
 
     // Pressure - 
-    public static readonly UnitInfo Pascal = new(UnitType.Pascal, "Pa", Pressure);
+    public static readonly UnitInfo Pascal = new(UnitType.Pascal, Pressure, "Pa");
      
     // Volume - 
-    public static readonly UnitInfo Liter = new(UnitType.Liter, "L", Length); //  1,000 cubic centimeters
+    public static readonly UnitInfo Liter = new(UnitType.Liter, Volume, "L"); //  1,000 cubic centimeters
 
-    public static readonly UnitInfo Katal = new(UnitType.Katal, "kat", CatalyticActivity);
+    public static readonly UnitInfo Katal = new(UnitType.Katal, CatalyticActivity, "kat");
 
-    public static readonly UnitInfo SquareMeters = Meter.WithExponent(2, UnitType.SquareMeter);
+    public static readonly UnitInfo SquareMetre = Meter.WithExponent(2, UnitType.SquareMeter);
+    public static readonly UnitInfo CubicMetre  = Meter.WithExponent(3, UnitType.CubicMetre);
 
-    // Dimensionless
+    public static readonly UnitInfo Percent = new(UnitType.Percent, Dimension.None, "%", definitionUnit: new Number(0.01)); // 1/100
 
-    public static readonly UnitInfo Percent = new(UnitType.Percent, "%", Dimension.None, 1, new Number(0.01)); // 1/100
-
-    public UnitInfo(string name) // e.g. px
+    public UnitInfo(UnitType id, Dimension dimension, string name, double scale = 1, int exponent = 1, UnitFlags flags = UnitFlags.None)
     {
-        Name = name;
-        Dimension = Dimension.None;
-        DefinitionValue = 1;
-    }
-
-    public UnitInfo(string symbol, int exponent) 
-    {
-        Name            = symbol;
-        Dimension       = Dimension.None;
-        DefinitionValue = 1;
-        Power           = exponent;
-    }
-
-    public UnitInfo(string name, Dimension dimension, UnitFlags flags = UnitFlags.None)
-    {
+        Id = (int)id;
         Name = name;
         Dimension = dimension;
+        Scale = scale;
+        Exponent = exponent;
         Flags = flags;
-        DefinitionValue = 1;
     }
 
-    public UnitInfo(UnitType type, string name, Dimension dimension, UnitFlags flags = UnitFlags.None)
+    public UnitInfo(UnitType id, Dimension dimension, string name, params ConversionFactor[] converters)
     {
-        Id = (int)type;
+        Id = (int)id;
         Name = name;
         Dimension = dimension;
-        Flags = flags;
-        DefinitionValue = 1;
+        Exponent = 1;
+        Converters = converters;
+        Scale = 1;
     }
 
-    public UnitInfo(string symbol, Dimension dimension, double definitionValue)
-    {
-        Name            = symbol;
-        Dimension       = dimension;
-        DefinitionValue = definitionValue;
-    }
-
-    public UnitInfo(UnitType id, string symbol, Dimension dimension, double definitionValue)
+    public UnitInfo(UnitType id, Dimension dimension, string name, IObject definitionUnit)
     {
         Id              = (int)id;
-        Name            = symbol;
-        Dimension       = dimension;
-        DefinitionValue = definitionValue;
-    }
-
-    public UnitInfo(UnitType id, SIPrefix prefix, string name, Dimension dimension, double definitionValue, int power)
-    {
-        Id              = (int)id;
-        Prefix          = prefix;
         Name            = name;
         Dimension       = dimension;
-        DefinitionValue = definitionValue;
-        Power           = power;
-    }
-
-    public UnitInfo(string name, Dimension dimension, double definitionValue, IObject definitionUnit)
-    {
-        Name            = name;
-        Dimension       = dimension;
-        DefinitionValue = definitionValue;
         DefinitionUnit  = definitionUnit;
-    }
-
-    public UnitInfo(UnitType id, string name, Dimension dimension, double definitionValue, IObject definitionUnit)
-    {
-        Id              = (int)id;
-        Name            = name;
-        Dimension       = dimension;
-        DefinitionValue = definitionValue;
-        DefinitionUnit  = definitionUnit;
-    }
-
-    public UnitInfo(string name, Dimension id, IObject definitionUnit)
-    {
-        Name = name;
-        Dimension = id;
-        DefinitionValue = 1;
-        DefinitionUnit = definitionUnit;
     }
 
     public int Id { get; }
 
-    public SIPrefix Prefix { get; } = SIPrefix.None;
+    public Dimension Dimension { get; }
+
+    // relative to base unit
+    public double Scale { get; }
 
     public bool IsBaseUnit => Flags.HasFlag(Base);
 
-    public Dimension Dimension { get; }
-
     public string Name { get; }
 
-    public int Power { get; } = 1;
-                
-    public double DefinitionValue { get; }
+    public int Exponent { get; } = 1;
 
     public IObject? DefinitionUnit { get; }
 
-    public IConverter<double, double> BaseConverter => new UnitConverter(DefinitionValue);
+    public Func<double, double> BaseConverter => (double source) => source * Scale;
+
+    public Func<TType, TType> GetBaseConverter<TType>()
+        where TType: INumberBase<TType>
+    {
+        var s = TType.CreateChecked(Scale);
+
+        return (TType source) => source * s;
+    }
 
     private UnitFlags Flags { get; }
 
     ObjectType IObject.Kind => ObjectType.Unit;
 
+    public ConversionFactor[]? Converters { get; }
+
     public bool IsMetric => Flags.HasFlag(SI);
 
     public bool HasDimension => Dimension != Dimension.None;
 
-    public UnitInfo WithPrefix(SIPrefix prefix, UnitType type = default)
+    public UnitInfo WithPrefix(SIPrefix scale, UnitType type = default)
     {
-        return new UnitInfo(type, prefix, Name, Dimension, DefinitionValue, Power);
+        return new UnitInfo(type, Dimension, Name, scale: scale.Value, exponent: Exponent);
     }
 
     public UnitInfo WithExponent(int exponent, UnitType type = default)
     {
-        if (Power == exponent) return this;
+        if (Exponent == exponent) return this;
 
-        return new UnitInfo(0, Prefix, Name, Dimension, DefinitionValue, exponent);
+        return new UnitInfo(type, Dimension, Name, scale: Scale, exponent: exponent);
     }
 
     public static UnitInfo Get(ReadOnlySpan<char> name)
@@ -255,7 +207,7 @@ public sealed class UnitInfo : IEquatable<UnitInfo>, IObject, ISpanFormattable
     [SkipLocalsInit]
     public override string ToString()
     {
-        if (Prefix.Value is 1 && Power is 1)
+        if (Scale is 1 && Exponent is 1)
         {
             return Name;
         }
@@ -269,22 +221,25 @@ public sealed class UnitInfo : IEquatable<UnitInfo>, IObject, ISpanFormattable
 
     private void WriteTo(ref ValueStringBuilder sb)
     {
-        if (Prefix.Value != 1)
+        if (Scale != 1)
         {
-            sb.Append(Prefix.Name); // e.g. k
+            if (SIPrefix.TryGetFromScale(Scale, out var si))
+            {
+                sb.Append(si.Name); // e.g. k
+            }
         }
 
         sb.Append(Name);   // e.g. g
 
-        if (Power is not 1)
+        if (Exponent is not 1)
         {
-            new Superscript(Power).WriteTo(ref sb);
+            new Superscript(Exponent).WriteTo(ref sb);
         }
     }
 
     public bool TryFormat(Span<char> destination, out int charsWritten, ReadOnlySpan<char> format = default, IFormatProvider? provider = null)
     {
-        if (Prefix.Value is 1 && Power is 1)
+        if (Scale is 1 && Exponent is 1)
         {
             if (destination.Length >= Name.Length)
             {
@@ -335,9 +290,9 @@ public sealed class UnitInfo : IEquatable<UnitInfo>, IObject, ISpanFormattable
 
         if (ReferenceEquals(this, other)) return true;
 
-        return Prefix.Equals(other.Prefix) 
+        return Scale.Equals(other.Scale) 
             && string.Equals(Name, other.Name, StringComparison.Ordinal) 
-            && Power == other.Power;
+            && Exponent == other.Exponent;
     }
 
     public override bool Equals(object? obj)
@@ -347,8 +302,15 @@ public sealed class UnitInfo : IEquatable<UnitInfo>, IObject, ISpanFormattable
 
     public override int GetHashCode()
     {
-        return HashCode.Combine(Prefix, Name, Power);
+        return HashCode.Combine(Scale, Name, Exponent);
+    }
+
+    public static UnitInfo Create(string name)
+    {
+        return new UnitInfo(
+            id        : (UnitType)UnitId.Next(),
+            dimension : Dimension.None,
+            name      : name
+        );
     }
 }
-
-// Note: Only SI units may be prefixed.
