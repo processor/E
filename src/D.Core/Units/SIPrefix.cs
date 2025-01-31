@@ -3,35 +3,32 @@ using System.Collections.Frozen;
 using System.Collections.Generic;
 
 namespace E.Units;
-
-using static Math;
-
 public readonly struct SIPrefix : IEquatable<SIPrefix>
 {
     public static readonly SIPrefix None = new (null!, 1);
 
-    private readonly static double yocto = Pow(10, -24); // 10^-24
-    private readonly static double zepto = Pow(10, -21); // 10^-21
-    private readonly static double atto  = Pow(10, -18); // 10^-18
-    private readonly static double femto = Pow(10, -15); // 10^-15
-    private readonly static double pico  = Pow(10, -12); // 10^-12
-    private readonly static double nano  = Pow(10, -9);  // 10^-9
-    private readonly static double micro = Pow(10, -6);  // 10^-6
-    private readonly static double milli = Pow(10, -3);  // 10−3
-    private readonly static double centi = Pow(10, -2);  // 10^-2
-    private readonly static double deci  = Pow(10, -1);  // 10^-1
+    private const double yocto = 1e-24; // 10^-24
+    private const double zepto = 1e-21; // 10^-21
+    private const double atto  = 1e-18; // 10^-18
+    private const double femto = 1e-15; // 10^-15
+    private const double pico  = 1e-12; // 10^-12
+    private const double nano  = 1e-9;  // 10^-9
+    private const double micro = 1e-6;  // 10^-6
+    private const double milli = 1e-3;  // 10^-3
+    private const double centi = 1e-2;  // 10^-2
+    private const double deci  = 1e-1;  // 10^-1
 
-    private readonly static double deca  = Pow(10, 1);  // 10^1 
-    private readonly static double hecto = Pow(10, 2);  // 10^2
-    private readonly static double kilo  = Pow(10, 3);  // 10^3
-    private readonly static double mega  = Pow(10, 6);  // 10^6
-    private readonly static double giga  = Pow(10, 9);  // 10^9
-    private readonly static double tera  = Pow(10, 12); // 10^12
-    private readonly static double peta  = Pow(10, 15); // 10^15
-    private readonly static double exa   = Pow(10, 18); // 10^18
-    private readonly static double zetta = Pow(10, 21); // 10^21
-    private readonly static double yotta = Pow(10, 24); // 10^24
-           
+    private const double deca  = 1e1;   // 10^1 
+    private const double hecto = 1e2;   // 10^2
+    private const double kilo  = 1e3;   // 10^3
+    private const double mega  = 1e6;   // 10^6
+    private const double giga  = 1e9;   // 10^9
+    private const double tera  = 1e12;  // 10^12
+    private const double peta  = 1e15;  // 10^15
+    private const double exa   = 1e18;  // 10^18
+    private const double zetta = 1e21;  // 10^21
+    private const double yotta = 1e24;  // 10^24
+
     public static readonly SIPrefix y =  new ("y" ,  yocto); // 10^-24
     public static readonly SIPrefix z =  new ("z" ,  zepto); // 10^-21
     public static readonly SIPrefix a =  new ("a" ,  atto ); // 10^-18
@@ -54,7 +51,7 @@ public readonly struct SIPrefix : IEquatable<SIPrefix>
     public static readonly SIPrefix Z =  new ("Z" ,  zetta); // 10^21
     public static readonly SIPrefix Y =  new ("Y" ,  yotta); // 10^24
 
-    private static readonly FrozenDictionary<string, double> scales = new KeyValuePair<string, double>[] {
+    private static readonly FrozenDictionary<string, double> s_scales = new KeyValuePair<string, double>[] {
         new("yocto",  yocto ),
         new("zepto",  zepto ),
         new("atto",   atto  ),
@@ -77,7 +74,7 @@ public readonly struct SIPrefix : IEquatable<SIPrefix>
         new("zetta",  zetta ),
         new("yotta",  yotta ),
     }.ToFrozenDictionary();
-
+    
     private SIPrefix(string name, double value)
     {
         Name = name;
@@ -141,7 +138,7 @@ public readonly struct SIPrefix : IEquatable<SIPrefix>
 
     public static bool TryParseName(string name, out SIPrefix prefix)
     {
-        if (scales.TryGetValue(name, out double val))
+        if (s_scales.TryGetValue(name, out double val))
         {
             prefix = new SIPrefix(name, val);
 
@@ -151,6 +148,35 @@ public readonly struct SIPrefix : IEquatable<SIPrefix>
         prefix = default;
 
         return false;
+    }
+
+    public static bool TryGetFromScale(double scale, out SIPrefix prefix)
+    {
+        prefix = scale switch {
+            yocto => y,  // 10^-24
+            zepto => z,  // 10^-21
+            atto  => a,  // 10^-18
+            femto => f,  // 10^-15
+            pico  => p,  // 10^-12
+            nano  => n,  // 10^-9
+            micro => µ,  // 10^-6
+            milli => m,  // 10^-3
+            centi => c,  // 10^-2
+            deci  => d,  // 10^-1
+            deca  => da,  // 10^1 
+            hecto => h,   // 10^2
+            kilo  => k,   // 10^3
+            mega  => M,   // 10^6
+            giga  => G,   // 10^9
+            tera  => T,   // 10^12
+            peta  => P,   // 10^15
+            exa   => E,   // 10^18
+            zetta => Z,   // 10^21
+            yotta => Y,   // 10^24
+            _ => default
+        };
+        
+        return prefix.Value != 0;
     }
 
     public bool Equals(SIPrefix other)
