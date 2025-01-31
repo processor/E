@@ -12,7 +12,7 @@ public class MathFunction(string name, Func<double, double> func) : IFunction
 
     public object Invoke(IArguments args)
     { 
-        var arg0 = (INumber)args[0];
+        var arg0 = (INumberObject)args[0];
 
         return new Number(_func.Invoke(arg0.Real));
     }

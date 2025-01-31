@@ -20,7 +20,7 @@ public static class Arithmetic
         throw new Exception($"No arithmetic provider for {typeof(T).Name}");
     }
 
-    public static INumber Multiply(INumber x, INumber y)
+    public static INumberObject Multiply(INumberObject x, INumberObject y)
     {
         if (x is not IQuantity && y is not IQuantity)
         {
@@ -31,12 +31,12 @@ public static class Arithmetic
         var r = (y as IQuantity<double>)?.To<double>(l.Unit) ?? y.Real;
 
         return y is IQuantity yValue
-            ? Quantity.Create(l.Real * r, type: l.Unit.WithExponent(l.Unit.Power + yValue.Unit.Power))
+            ? Quantity.Create(l.Real * r, type: l.Unit.WithExponent(l.Unit.Exponent + yValue.Unit.Exponent))
             : Quantity.Create(l.Real * r, l.Unit);
                 
     }
     
-    public static INumber Add(INumber x, INumber y)
+    public static INumberObject Add(INumberObject x, INumberObject y)
     {
         if (!(x is IQuantity) && !(y is IQuantity))
         {
@@ -49,7 +49,7 @@ public static class Arithmetic
         return Quantity.Create(l.Real + r, l.Unit);
     }
 
-    public static INumber Subtract(INumber x, INumber y)
+    public static INumberObject Subtract(INumberObject x, INumberObject y)
     {
         if (x is not IQuantity && y is not IQuantity)
         {
@@ -62,7 +62,7 @@ public static class Arithmetic
         return Quantity.Create(l.Real - r, l.Unit);
     }
 
-    public static INumber Divide(INumber x, INumber y)
+    public static INumberObject Divide(INumberObject x, INumberObject y)
     {
         if (x is not IQuantity && y is not IQuantity)
         {
@@ -75,7 +75,7 @@ public static class Arithmetic
         return Quantity.Create(l.Real / r, l.Unit);
     }
 
-    public static INumber Pow(INumber x, INumber y)
+    public static INumberObject Pow(INumberObject x, INumberObject y)
     {
         var result = Math.Pow(x.Real, y.Real);
 
@@ -89,10 +89,10 @@ public static class Arithmetic
 
             return new Quantity<double>(
                 value : Math.Pow(x.Real, y.Real),
-                unit  : unit.Unit.WithExponent(unit.Unit.Power + ((int)y.Real - 1))
+                unit  : unit.Unit.WithExponent(unit.Unit.Exponent + ((int)y.Real - 1))
             );
         }
     }
 
-    public static INumber Modulus(INumber x, INumber y) => new Number(x.Real % y.Real);
+    public static INumberObject Modulus(INumberObject x, INumberObject y) => new Number(x.Real % y.Real);
 }

@@ -31,16 +31,16 @@ public sealed class Matrix<T> : IObject
 
     #region IArithmetic / Scalars
 
-    public IObject Add(INumber scalar)
+    public IObject Add(INumberObject scalar)
         => new Matrix<T>(impl.Add(scalar.As<T>()));
 
-    public IObject Subtract(INumber scalar)
+    public IObject Subtract(INumberObject scalar)
         => new Matrix<T>(impl.Subtract(scalar.As<T>()));
 
-    public IObject Divide(INumber scalar)
+    public IObject Divide(INumberObject scalar)
         => new Matrix<T>(impl.Divide(scalar.As<T>()));
 
-    public IObject Multiply(INumber scalar)
+    public IObject Multiply(INumberObject scalar)
         => new Matrix<T>(impl.Multiply(scalar.As<T>()));
 
     #endregion
@@ -152,7 +152,7 @@ public sealed class Matrix<T> : IObject
 
             foreach (var column in a.Elements)
             {
-                b[i] = ((INumber)column).As<T>();
+                b[i] = ((INumberObject)column).As<T>();
 
                 i++;
             }

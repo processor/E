@@ -1,6 +1,6 @@
 ﻿namespace E.Mathematics;
 
-public sealed class ArithmeticFunction(string name, Func<INumber, INumber, INumber> func) : IFunction
+public sealed class ArithmeticFunction(string name, Func<INumberObject, INumberObject, INumberObject> func) : IFunction
 {
     public static readonly ArithmeticFunction Add      = new("+",  Arithmetic.Add);
     public static readonly ArithmeticFunction Multiply = new("*",  Arithmetic.Multiply);
@@ -14,7 +14,7 @@ public sealed class ArithmeticFunction(string name, Func<INumber, INumber, INumb
     public static readonly MathFunction Log10          = new("log10", x => Math.Log10(x));
     public static readonly MathFunction SquareRoot     = new("sqrt",  x => Math.Sqrt(x));
 
-    private readonly Func<INumber, INumber, INumber> func = func;
+    private readonly Func<INumberObject, INumberObject, INumberObject> func = func;
 
     public string Name { get; } = name;
 
@@ -24,8 +24,8 @@ public sealed class ArithmeticFunction(string name, Func<INumber, INumber, INumb
 
     public object Invoke(IArguments args)
     {
-        var x = (INumber)args[0];
-        var y = (INumber)args[1];
+        var x = (INumberObject)args[0];
+        var y = (INumberObject)args[1];
 
         return func.Invoke(x, y);
     }
