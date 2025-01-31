@@ -1,17 +1,17 @@
 ﻿namespace E.Syntax;
 
-public sealed class UnitValueSyntax(
+public sealed class QuantitySyntax(
     ISyntaxNode expression,
     string unitName,
-    int unitPower) : ISyntaxNode
+    int unitExponent) : ISyntaxNode
 {
     public ISyntaxNode Expression { get; } = expression;
 
     public string UnitName { get; } = unitName;
 
-    public int UnitPower { get; } = unitPower;
+    public int UnitExponent { get; } = unitExponent;
 
-    SyntaxKind ISyntaxNode.Kind => SyntaxKind.UnitValueLiteral;
+    SyntaxKind ISyntaxNode.Kind => SyntaxKind.QuantityLiteral;
 
     public override string ToString() => $"{Expression} {UnitName}";
 }

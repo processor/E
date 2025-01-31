@@ -116,7 +116,7 @@ public partial class Compiler(Node env)
 
             SyntaxKind.Symbol                       => VisitSymbol((Symbol)syntax),
             SyntaxKind.NumberLiteral                => VisitNumber((NumberLiteralSyntax)syntax),
-            SyntaxKind.UnitValueLiteral             => VisitUnitValue((UnitValueSyntax)syntax),
+            SyntaxKind.QuantityLiteral              => VisitQuantity((QuantitySyntax)syntax),
             SyntaxKind.StringLiteral                => new StringLiteral(((StringLiteralSyntax)syntax).Value),
             SyntaxKind.ArrayInitializer             => VisitNewArray((ArrayInitializerSyntax)syntax),
 
@@ -176,7 +176,7 @@ public partial class Compiler(Node env)
         return new InterpolatedStringExpression(members);
     }
 
-    public IExpression VisitUnitValue(UnitValueSyntax value)
+    public IExpression VisitQuantity(QuantitySyntax value)
     {
         var lhs = Visit(value.Expression);
 
@@ -188,7 +188,7 @@ public partial class Compiler(Node env)
             }
         }
 
-        return new UnitValueLiteral(lhs, value.UnitName, value.UnitPower);
+        return new UnitValueLiteral(lhs, value.UnitName, value.UnitExponent);
     }
 
     public virtual IExpression VisitAnyPattern(AnyPatternSyntax syntax) => new AnyPattern();
@@ -201,7 +201,7 @@ public partial class Compiler(Node env)
         }
         else
         {
-            return new Integer(long.Parse(syntax.Text, CultureInfo.InvariantCulture));
+            return new Integer<long>(long.Parse(syntax.Text, CultureInfo.InvariantCulture));
         }
     }
 

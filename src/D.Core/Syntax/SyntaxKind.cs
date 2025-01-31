@@ -12,7 +12,7 @@ public enum SyntaxKind
     RangeLiteral,
     NumberLiteral,
     StringLiteral,
-    UnitValueLiteral,
+    QuantityLiteral,
 
     // Declarations
     TypeDeclaration,

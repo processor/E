@@ -1645,7 +1645,7 @@ public sealed class Parser
 
         if (literal.Trailing is null && ConsumeIf('%'))
         {
-            return new UnitValueSyntax(new NumberLiteralSyntax(text), "%", 1);
+            return new QuantitySyntax(new NumberLiteralSyntax(text), "%", 1);
         }
 
         // Read any immediately preceding unit types and exponents on the same line
@@ -1656,7 +1656,7 @@ public sealed class Parser
 
             var num = new NumberLiteralSyntax(text);
 
-            return new UnitValueSyntax(num, name, power);
+            return new QuantitySyntax(num, name, power);
         }
           
         return new NumberLiteralSyntax(text);
@@ -2298,7 +2298,7 @@ public sealed class Parser
                 {
                     var (unitName, unitPower) = ReadUnitSymbol();
 
-                    return new UnitValueSyntax(left, unitName, unitPower);
+                    return new QuantitySyntax(left, unitName, unitPower);
                 }
             }
 
