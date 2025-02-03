@@ -23,7 +23,7 @@ public sealed class CssUnitSet : UnitSet
         Add("vh",   Vh);
         Add("vmin", Vmin);
         Add("vmax", Vmax);
-        Add("in",   UnitInfo.Inch);
-        Add("cm",   UnitInfo.Cm);
+        Add("in",   LengthUnits.Inch);
+        Add("cm",   LengthUnits.Cm);
     }
 }

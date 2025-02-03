@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Numerics;
 using System.Runtime.CompilerServices;
 using System.Threading;
@@ -7,8 +8,10 @@ using System.Threading;
 namespace E.Units;
 
 public sealed class UnitConverterFactory<T>
-    where T: unmanaged, INumberBase<T>
+    where T: INumberBase<T>
 {
+    public static readonly UnitConverterFactory<T> Default = new();
+
     private readonly Lock _lock = new();
     private readonly Dictionary<ulong, Func<T, T>> _instances = [];
 
@@ -22,21 +25,47 @@ public sealed class UnitConverterFactory<T>
         }
         else if (sourceUnit.Dimension == targetUnit.Dimension)
         {
-            var func = sourceUnit.GetBaseConverter<T>();
+            var conversionFactor = sourceUnit.GetBaseUnitConversionFactor<T>() / targetUnit.GetBaseUnitConversionFactor<T>();
+
+            Func<T, T> func = ConverterFactorCompiler.Compile(conversionFactor);
 
             // TODO: thread safety for reads
-
             lock (_lock)
             {
-                _instances.Add(key, func);
+                _instances.TryAdd(key, func);
             }
 
             return func;
         }
-        else
+        else if (sourceUnit.Converters != null)
         {
-            throw new Exception($"No converter from {sourceUnit.Id} -> {targetUnit.Id}");
+            foreach (var c in sourceUnit.Converters)
+            {
+                if (targetUnit.Id == c.Unit.Id)
+                {
+                    Func<T, T> func = ConverterFactorCompiler.Compile(T.Parse(c.Value, NumberStyles.Number, CultureInfo.InvariantCulture));
+
+                    // TODO: thread safety for reads
+                    lock (_lock)
+                    {
+                        _instances.TryAdd(key, func);
+                    }
+
+                    return func;
+                }
+            }
         }
+
+        throw new Exception($"No converter from {sourceUnit} ({sourceUnit.Id}) -> {targetUnit} ({targetUnit.Id})");
+        
+        // kg   = 1000
+        // g    = 0
+        // mg   = 0.001
+
+        // kg -> mg = 1,000,000     kg.units / mg.units
+        // mg -> kg = .0000001      mg.units / kg.units
+
+        // Type Conversions ft -> m, etc 
     }
 
     public Func<T, T> Get(UnitType sourceUnit, UnitType targetUnit)

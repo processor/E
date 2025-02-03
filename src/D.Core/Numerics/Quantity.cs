@@ -27,7 +27,7 @@ public static class Quantity
     public static Quantity<double> Cm(double value)   => new(value, CssUnits.Px);
     public static Quantity<double> Mm(double value)   => new(value, CssUnits.Px);
     public static Quantity<double> Q(double value)    => new(value, CssUnits.Q);
-    public static Quantity<double> In(double value)   => new(value, UnitInfo.Inch);
+    public static Quantity<double> In(double value)   => new(value, LengthUnits.Inch);
     public static Quantity<double> Pt(double value)   => new(value, CssUnits.Pt);
     public static Quantity<double> Pc(double value)   => new(value, CssUnits.Pc);
     public static Quantity<double> Px(double value)   => new(value, CssUnits.Px);
@@ -56,7 +56,7 @@ public static class Quantity
     public static Quantity<double> Fr(double value)   => new(value, CssUnits.Fr);
 
     // Volume
-    public static Quantity<double> CubicMetre(double value) => new(value, UnitInfo.CubicMetre);
+    public static Quantity<double> CubicMetre(double value) => new(value, VolumeUnits.CubicMetre);
 
     #endregion
 

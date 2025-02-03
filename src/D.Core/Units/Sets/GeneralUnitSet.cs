@@ -11,8 +11,8 @@ public sealed class GeneralUnitSet : UnitSet
     {
         // TODO: Primary Units 
 
-        Add("m",     Meter);  // Length
-        Add("s",     Second); // Time
+        Add("m",     LengthUnits.Meter);  // Length
+        Add("s",     TimeUnits.Second);   // Time
         Add("g",     Gram);   // Mass
                          
         Add("Pa",    Pascal);
@@ -28,25 +28,29 @@ public sealed class GeneralUnitSet : UnitSet
         Add("deg",   Degree);
         Add("turn",  Turn);
 
+        // Length
+        Add("km", LengthUnits.Kilometre);
+        Add("ft", LengthUnits.Foot);
         // Frequency
         Add("Hz",    Hertz);
 
         Add("mol", Mole);
 
         // Time
-        Add("min", Minute);
-        Add("h",   Hour);
-        Add("wk",  Week);
+        Add("min", TimeUnits.Minute);
+        Add("h",   TimeUnits.Hour);
+        Add("wk",  TimeUnits.Week);
 
         Add("cd", Candela);
 
         Add("kat", Katal);
 
         // Volume
-        Add("L", Liter);
-            
+        Add("L",  VolumeUnits.Litre);
+        Add("ml", VolumeUnits.Millilitre);
+
         // Non-SI units
-        Add("lb", Pound);
+        Add("lb", MassUnits.Pound);
 
         // Dimensionless
         Add("%", Percent);

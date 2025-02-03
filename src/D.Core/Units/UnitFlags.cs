@@ -11,7 +11,8 @@ public enum UnitFlags
     Derived  = 1 << 2,
 
     // Other Systems
-    Imperial = 1 << 3,
+    Metric   = 1 << 3,
+    Imperial = 1 << 4,
 
     Relative = 1 << 5
 }

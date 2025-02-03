@@ -20,9 +20,9 @@ public readonly struct Quantity<T>(T value, UnitInfo unit) : IQuantity<T>, IEqua
 
     #region With
 
-    public readonly Quantity<T> With(T value) => new (value, Unit);
+    public readonly Quantity<T> With(T value) => new(value, Unit);
 
-    public readonly Quantity<T> With(T value, UnitInfo unit) => new (value, unit);
+    public readonly Quantity<T> With(T value, UnitInfo unit) => new(value, unit);
 
     #endregion
 
@@ -30,52 +30,18 @@ public readonly struct Quantity<T>(T value, UnitInfo unit) : IQuantity<T>, IEqua
 
     public readonly T To(UnitInfo targetUnit)
     {
-        if (Unit.Dimension != targetUnit.Dimension)
-        {
-            if (Unit.Converters != null)
-            {
-                foreach (var converter in Unit.Converters)
-                {
-                    if (targetUnit.Id == converter.Unit.Id)
-                    {
-                        return Value * T.Parse(converter.Value, NumberStyles.Number, CultureInfo.InvariantCulture);
-                    }
-                }
-            }
-
-            throw new Exception($"Must be the same dimension. Source Dimension = {Unit.Dimension}. Target Dimension = {targetUnit.Dimension}.");
-        }
-
-        return (T.CreateChecked(Value) * T.CreateChecked(Unit.Scale)) / T.CreateChecked(targetUnit.Scale);
+        return UnitConverterFactory<T>.Default.Get(Unit, targetUnit)(T.CreateChecked(Value)); 
     }
 
     public readonly T To(UnitInfo targetUnit, UnitConverterFactory<T> converterFactory)
     {
-        if (Unit.Dimension != targetUnit.Dimension)
-        {
-            return converterFactory.Get(Unit, targetUnit)(Value);
-        }
-
-        return (T.CreateChecked(Value) * T.CreateChecked(Unit.Scale)) / T.CreateChecked(targetUnit.Scale);
+        return converterFactory.Get(Unit, targetUnit)(Value);
     }
 
-    public readonly T1 To<T1>(UnitInfo targetUnit) where T1 : INumberBase<T1>
+    public readonly T1 To<T1>(UnitInfo targetUnit)
+        where T1 : INumberBase<T1>
     {
-        if (Unit.Dimension != targetUnit.Dimension)
-        {
-            throw new Exception($"Must be the same dimension. Was {targetUnit.Dimension}.");
-        }
-
-        // kg   = 1000
-        // g    = 0
-        // mg   = 0.001
-
-        // kg -> mg = 1,000,000     kg.units / mg.units
-        // mg -> kg = .0000001      mg.units / kg.units
-
-        // Type Conversions ft -> m, etc 
-
-        return (T1.CreateChecked(Value) * T1.CreateChecked(Unit.Scale)) / T1.CreateChecked(targetUnit.Scale);
+        return UnitConverterFactory<T1>.Default.Get(Unit, targetUnit)(T1.CreateChecked(Value));
     }
 
     #endregion
@@ -129,7 +95,7 @@ public readonly struct Quantity<T>(T value, UnitInfo unit) : IQuantity<T>, IEqua
                     ? unit
                     : UnitInfo.Create(unitValue.UnitName);
 
-                return new Quantity<T>(value, type!.WithExponent(unitValue.UnitExponent));
+                return new Quantity<T>(value, type.WithExponent(unitValue.UnitExponent));
             }
             else if (syntax is NumberLiteralSyntax number)
             {

@@ -4,17 +4,19 @@ public enum UnitType
 {
     Mole    = 41509,
     Pascal  = 44395,
-    Liter   = 11582,
+    Litre   = 11582,   
     Katal   = 208634,
     Kelvin  = 11579,
     Celsius = 25267,
     Meter   = 11573,
     Pica    = 2718629,
 
+    Millilitre = 2332346,
 
     // Length 
     Millimeter = 174789,
     Centimeter = 174728,
+    Kilometre  = 828224,
 
     // CSS
     QuaterMillimeters = 131966422,
@@ -27,12 +29,14 @@ public enum UnitType
     Em   = 1334525,
     Fr   = 131987530,
 
+    ångström = 81454,
     AstronomicalUnit = 1811,
     Parsec = 12129,
     
     // Imperial
     Inch = 218593,
     Foot = 3710,
+    Yard = 482798,
 
     // Time
     Nanosecond  = 838801,
@@ -82,6 +86,9 @@ public enum UnitType
     Mebibyte = 79758,
     Tebibyte = 79769,
 
+    Kilobyte = 79726,
+    Megabyte = 79735,
+    Gigabyte = 79738,
 
     Percent = 11229,
 
@@ -105,10 +112,17 @@ public enum UnitType
     Illuminance  = 194411,
     LuminousFlux = 107780,
 
-    // US Units of Volume
+    // Units of Volume
+
+    MetricTeaspoon   = 88296091,
+    MetricTablespoon = 105816197,
+    MetricCup        = 64866333,
+
+    US_LegalCup     = 105816270, // 240 ml
+
     US_FluidDram    = 105806592, // fl dr 60 min	
     US_Teaspoon     = 105816142, // tsp
-    US_Tablespoon   = 105816198, // Tbsp
+    US_Tablespoon   = 105816198, // tbsp
     US_FluidOunce   = 32750759,
 
     // US_Shot      = 0, // jig

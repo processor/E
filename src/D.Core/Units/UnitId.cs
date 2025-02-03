@@ -4,7 +4,7 @@ namespace E.Units;
 
 internal static class UnitId
 {
-    private static uint _sequenceNumber = 1_000_000_000;
+    private static uint _sequenceNumber = 2_000_000_000;
 
     public static uint Next()
     {

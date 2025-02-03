@@ -20,7 +20,7 @@ public enum Dimension
     Force                       = 11402,  // newton     N       kg/m/s²
     Pressure                    = 39552,  // pascal     Pa      force / area
     SolidAngle                  = 208476, // steradian  sr
-    Volume                      = 39297,  //            V       m^2
+    Volume                      = 39297,  //            V       m³
 
     // Electric
     Energy                      = 30,      // joule     zJ

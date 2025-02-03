@@ -5,17 +5,17 @@ using System.Numerics;
 
 namespace E.Units;
 
-public readonly struct ConversionFactor : IConversionFactor
+public readonly struct BaseUnitConversionFactor : IConversionFactor, IEquatable<BaseUnitConversionFactor>
 {
     private readonly byte[] _value;
 
-    public ConversionFactor(byte[] value, UnitInfo targetUnit)
+    public BaseUnitConversionFactor(byte[] value, UnitInfo targetUnit)
     {
         _value = value;
         Unit = targetUnit;
     }
 
-    public ConversionFactor(long value, UnitInfo targetUnit)
+    public BaseUnitConversionFactor(long value, UnitInfo targetUnit)
     {
         Span<byte> buffer = stackalloc byte[16]; // Allocate on the stack
 
@@ -25,7 +25,7 @@ public readonly struct ConversionFactor : IConversionFactor
         Unit = targetUnit;
     }
 
-    public ConversionFactor(decimal value, UnitInfo targetUnit, ConversionFactorFlags flags = default)
+    public BaseUnitConversionFactor(decimal value, UnitInfo targetUnit, ConversionFactorFlags flags = default)
     {
         Span<byte> buffer = stackalloc byte[32]; // Allocate on the stack
 
@@ -36,7 +36,7 @@ public readonly struct ConversionFactor : IConversionFactor
         Flags = flags;
     }
 
-    public ConversionFactor(MetricPrefix value, UnitInfo targetUnit)
+    public BaseUnitConversionFactor(MetricPrefix value, UnitInfo targetUnit)
     {
         Span<byte> buffer = stackalloc byte[16]; // Allocate on the stack
 
@@ -56,7 +56,7 @@ public readonly struct ConversionFactor : IConversionFactor
     public ConversionFactorFlags Flags { get; }
 
     public T Convert<T>(T source)
-        where T: INumber<T>
+        where T : INumber<T>
     {
         return source * T.Parse(_value, CultureInfo.InvariantCulture);
     }
@@ -71,17 +71,8 @@ public readonly struct ConversionFactor : IConversionFactor
         return source => source * factor;
     }
 
-    public static ConversionFactor CubicMetre(ReadOnlySpan<byte> value)
+    public bool Equals(BaseUnitConversionFactor other)
     {
-        return new ConversionFactor(value.ToArray(), VolumeUnits.CubicMetre);
-    }
-
-    public static ConversionFactor CubicMetre(decimal value)
-    {
-        Span<byte> buffer = stackalloc byte[32]; // Allocate on the stack
-
-        _ = Utf8Formatter.TryFormat(value, buffer, out int bytesWritten);
-
-        return new ConversionFactor(buffer[..bytesWritten].ToArray(), VolumeUnits.CubicMetre);
+        return Value.SequenceEqual(other.Value) && Unit.Id == other.Unit.Id;
     }
 }

@@ -3,9 +3,10 @@ using System.Collections.Frozen;
 using System.Collections.Generic;
 
 namespace E.Units;
-public readonly struct SIPrefix : IEquatable<SIPrefix>
+
+public readonly struct MetricPrefix : IEquatable<MetricPrefix>
 {
-    public static readonly SIPrefix None = new (null!, 1);
+    public static readonly MetricPrefix None = new (null!, 1);
 
     private const double yocto = 1e-24; // 10^-24
     private const double zepto = 1e-21; // 10^-21
@@ -29,27 +30,27 @@ public readonly struct SIPrefix : IEquatable<SIPrefix>
     private const double zetta = 1e21;  // 10^21
     private const double yotta = 1e24;  // 10^24
 
-    public static readonly SIPrefix y =  new ("y" ,  yocto); // 10^-24
-    public static readonly SIPrefix z =  new ("z" ,  zepto); // 10^-21
-    public static readonly SIPrefix a =  new ("a" ,  atto ); // 10^-18
-    public static readonly SIPrefix f =  new ("f" ,  femto); // 10^-15
-    public static readonly SIPrefix p =  new ("p" ,  pico ); // 10^-12
-    public static readonly SIPrefix n =  new ("n" ,  nano ); // 10^-9
-    public static readonly SIPrefix µ =  new ("µ",   micro); // 10^-6
-    public static readonly SIPrefix m =  new ("m" ,  milli); // 10−3
-    public static readonly SIPrefix c =  new ("c" ,  centi); // 10^-2
-    public static readonly SIPrefix d =  new ("d" ,  deci ); // 10^-1
+    public static readonly MetricPrefix y =  new ("y" ,  yocto); // 10^-24
+    public static readonly MetricPrefix z =  new ("z" ,  zepto); // 10^-21
+    public static readonly MetricPrefix a =  new ("a" ,  atto ); // 10^-18
+    public static readonly MetricPrefix f =  new ("f" ,  femto); // 10^-15
+    public static readonly MetricPrefix p =  new ("p" ,  pico ); // 10^-12
+    public static readonly MetricPrefix n =  new ("n" ,  nano ); // 10^-9
+    public static readonly MetricPrefix µ =  new ("µ",   micro); // 10^-6
+    public static readonly MetricPrefix m =  new ("m" ,  milli); // 10−3
+    public static readonly MetricPrefix c =  new ("c" ,  centi); // 10^-2
+    public static readonly MetricPrefix d =  new ("d" ,  deci ); // 10^-1
                                                   
-    public static readonly SIPrefix da = new ("da",  deca ); // 10^1 
-    public static readonly SIPrefix h =  new ("h" ,  hecto); // 10^2
-    public static readonly SIPrefix k =  new ("k" ,  kilo ); // 10^3
-    public static readonly SIPrefix M =  new ("M" ,  mega ); // 10^6
-    public static readonly SIPrefix G =  new ("G" ,  giga ); // 10^9
-    public static readonly SIPrefix T =  new ("T" ,  tera ); // 10^12
-    public static readonly SIPrefix P =  new ("P" ,  peta ); // 10^15
-    public static readonly SIPrefix E =  new ("E" ,  exa  ); // 10^18
-    public static readonly SIPrefix Z =  new ("Z" ,  zetta); // 10^21
-    public static readonly SIPrefix Y =  new ("Y" ,  yotta); // 10^24
+    public static readonly MetricPrefix da = new ("da",  deca ); // 10^1 
+    public static readonly MetricPrefix h =  new ("h" ,  hecto); // 10^2
+    public static readonly MetricPrefix k =  new ("k" ,  kilo ); // 10^3
+    public static readonly MetricPrefix M =  new ("M" ,  mega ); // 10^6
+    public static readonly MetricPrefix G =  new ("G" ,  giga ); // 10^9
+    public static readonly MetricPrefix T =  new ("T" ,  tera ); // 10^12
+    public static readonly MetricPrefix P =  new ("P" ,  peta ); // 10^15
+    public static readonly MetricPrefix E =  new ("E" ,  exa  ); // 10^18
+    public static readonly MetricPrefix Z =  new ("Z" ,  zetta); // 10^21
+    public static readonly MetricPrefix Y =  new ("Y" ,  yotta); // 10^24
 
     private static readonly FrozenDictionary<string, double> s_scales = new KeyValuePair<string, double>[] {
         new("yocto",  yocto ),
@@ -75,7 +76,7 @@ public readonly struct SIPrefix : IEquatable<SIPrefix>
         new("yotta",  yotta ),
     }.ToFrozenDictionary();
     
-    private SIPrefix(string name, double value)
+    private MetricPrefix(string name, double value)
     {
         Name = name;
         Value = value;
@@ -87,9 +88,9 @@ public readonly struct SIPrefix : IEquatable<SIPrefix>
 
     public readonly int Length => Name.Length;
 
-    public static SIPrefix Parse(string text)
+    public static MetricPrefix Parse(string text)
     {
-        SIPrefix prefix;
+        MetricPrefix prefix;
 
         if (text.Length <= 2)
         {
@@ -103,7 +104,7 @@ public readonly struct SIPrefix : IEquatable<SIPrefix>
         return prefix;
     }
 
-    public static bool TryParseSymbol(ReadOnlySpan<char> text, out SIPrefix prefix)
+    public static bool TryParseSymbol(ReadOnlySpan<char> text, out MetricPrefix prefix)
     {
         switch (text[0])
         {
@@ -136,11 +137,11 @@ public readonly struct SIPrefix : IEquatable<SIPrefix>
         return true;
     }
 
-    public static bool TryParseName(string name, out SIPrefix prefix)
+    public static bool TryParseName(string name, out MetricPrefix prefix)
     {
         if (s_scales.TryGetValue(name, out double val))
         {
-            prefix = new SIPrefix(name, val);
+            prefix = new MetricPrefix(name, val);
 
             return true;
         }
@@ -150,7 +151,7 @@ public readonly struct SIPrefix : IEquatable<SIPrefix>
         return false;
     }
 
-    public static bool TryGetFromScale(double scale, out SIPrefix prefix)
+    public static bool TryGetFromScale(double scale, out MetricPrefix prefix)
     {
         prefix = scale switch {
             yocto => y,  // 10^-24
@@ -179,7 +180,7 @@ public readonly struct SIPrefix : IEquatable<SIPrefix>
         return prefix.Value != 0;
     }
 
-    public bool Equals(SIPrefix other)
+    public bool Equals(MetricPrefix other)
     {
         return string.Equals(Name, other.Name, StringComparison.Ordinal) 
             && Value == other.Value;
@@ -187,7 +188,7 @@ public readonly struct SIPrefix : IEquatable<SIPrefix>
 
     public override bool Equals(object? obj)
     {
-        return obj is SIPrefix other && Equals(other);
+        return obj is MetricPrefix other && Equals(other);
     }
 
     public override int GetHashCode()

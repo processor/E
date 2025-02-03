@@ -180,7 +180,7 @@ public partial class Compiler(Node env)
     {
         var lhs = Visit(value.Expression);
 
-        if (UnitSet.Default.TryGet(value.UnitName, out var unit))
+        if (UnitFactory.Default.TryGet(value.UnitName, out var unit))
         {
             if (unit.Dimension is Dimension.None && unit.DefinitionUnit is Number definitionUnit)
             {
