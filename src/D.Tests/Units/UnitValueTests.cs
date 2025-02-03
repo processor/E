@@ -1,6 +1,6 @@
 ﻿namespace E.Units.Tests;
 
-public class UnitValueTests
+public class QuantityTests
 {
     [Fact]
     public void Percent()
@@ -13,7 +13,7 @@ public class UnitValueTests
 
         Assert.Equal(0.01, ((Number)percent.Unit.DefinitionUnit).Value);
 
-        Assert.Equal(0.5, (percent as INumber).Real);
+        Assert.Equal(0.5, (percent as INumberObject).Real);
     }
 
     [Fact]
@@ -25,7 +25,7 @@ public class UnitValueTests
         Assert.Equal("3m³", $"{value}");
 
         Assert.Equal("m", value.Unit.Name);
-        Assert.Equal(3, value.Unit.Power);
+        Assert.Equal(3, value.Unit.Exponent);
         Assert.Equal(3, value.Value);
     }
 

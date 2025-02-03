@@ -29,8 +29,8 @@ public class PipeTests : TestBase
 
         Assert.Equal(2, expression.Arguments.Length);
 
-        var arg1 = (UnitValueSyntax)expression.Arguments[0].Value;
-        var arg2 = (UnitValueSyntax)expression.Arguments[1].Value;
+        var arg1 = (QuantitySyntax)expression.Arguments[0].Value;
+        var arg2 = (QuantitySyntax)expression.Arguments[1].Value;
 
         Assert.Equal("800 px", arg1.ToString());
         Assert.Equal("600 px", arg2.ToString());
@@ -51,8 +51,8 @@ public class PipeTests : TestBase
 
         Assert.Equal("resize", resizePipe.Name);
 
-        Assert.Equal("800 px", ((UnitValueSyntax)resizePipe.Arguments[0].Value).ToString());
-        Assert.Equal("600 px", ((UnitValueSyntax)resizePipe.Arguments[1].Value).ToString());
+        Assert.Equal("800 px", ((QuantitySyntax)resizePipe.Arguments[0].Value).ToString());
+        Assert.Equal("600 px", ((QuantitySyntax)resizePipe.Arguments[1].Value).ToString());
         Assert.Equal("image", (Symbol)resizePipe.Callee);
 
 

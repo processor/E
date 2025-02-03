@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-using E.Symbols;
+﻿using E.Symbols;
 using E.Syntax;
 
 namespace E.Parsing.Tests;
@@ -105,9 +103,9 @@ public class CallTests : TestBase
 
         var call = complier.VisitCall(syntax);
 
-        Assert.Equal(1, (Integer)call.Arguments["x"]);
-        Assert.Equal(2, (Integer)call.Arguments["y"]);
-        Assert.Equal(3, (Integer)call.Arguments["z"]);
+        Assert.Equal(1, (Integer<long>)call.Arguments["x"]);
+        Assert.Equal(2, (Integer<long>)call.Arguments["y"]);
+        Assert.Equal(3, (Integer<long>)call.Arguments["z"]);
 
         Assert.Throws<KeyNotFoundException>(() => call.Arguments["a"]);
     }

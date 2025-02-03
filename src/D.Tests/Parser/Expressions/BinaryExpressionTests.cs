@@ -267,7 +267,7 @@ public class BinaryExpressionTests : TestBase
     {
         var statement = Parse<BinaryExpressionSyntax>("1 g * 1 g * 2 g");
 
-        var l = (UnitValueSyntax)statement.Left;
+        var l = (QuantitySyntax)statement.Left;
         var r = (BinaryExpressionSyntax)statement.Right;
 
         Assert.Equal("1 g", l.ToString());
@@ -314,7 +314,7 @@ public class BinaryExpressionTests : TestBase
 
         Assert.Equal("5", statement.Left.ToString());
 
-        var right = (UnitValueSyntax)statement.Right;
+        var right = (QuantitySyntax)statement.Right;
 
         Assert.Equal(10, (NumberLiteralSyntax)right.Expression);
         Assert.Equal("px", right.UnitName);
@@ -328,7 +328,7 @@ public class BinaryExpressionTests : TestBase
         Assert.Equal(Multiply, statement.Operator);
 
         var left = (TupleExpressionSyntax)statement.Left;
-        var right = (UnitValueSyntax)statement.Right;
+        var right = (QuantitySyntax)statement.Right;
 
 
         Assert.Equal(5,     (NumberLiteralSyntax)right.Expression);

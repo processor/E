@@ -18,6 +18,6 @@ public class DerivedUnitTests
         Assert.True(UnitInfo.TryParse(text, out UnitInfo type));
 
         Assert.Equal(id, type.Dimension);
-        Assert.Equal(1, type.DefinitionValue);
+        Assert.Equal(1,  type.GetBaseUnitConversionFactor<double>());
     }
 }

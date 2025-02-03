@@ -89,7 +89,7 @@ public class CssUnitTests
     }
 
     [Theory]
-    [InlineData(1, "s")]
+    [InlineData(1,     "s")]
     [InlineData(0.001, "ms")]
     public void Durations(double scale, string text)
     {
@@ -97,7 +97,7 @@ public class CssUnitTests
 
         Assert.Equal(text, type.ToString());
         Assert.Equal(Dimension.Time, type.Dimension);
-        Assert.Equal(scale, type.Prefix.Value);
+        Assert.Equal(scale, type.GetBaseUnitConversionFactor<double>());
     }
 
     [Theory]
@@ -131,7 +131,7 @@ public class CssUnitTests
     {
         Assert.True(UnitInfo.TryParse(text, out UnitInfo type));
 
-        Assert.Equal(scale, type.Prefix.Value);
+        Assert.Equal(scale, type.GetBaseUnitConversionFactor<double>());
         Assert.Equal(Dimension.Frequency, type.Dimension);
     }
 
@@ -143,7 +143,7 @@ public class CssUnitTests
     {
         Assert.True(UnitInfo.TryParse(text, out UnitInfo type));
 
-        Assert.Equal(1, type.Prefix.Value);
+        Assert.Equal(1, type.GetBaseUnitConversionFactor<double>());
         Assert.Equal(Dimension.Resolution, type.Dimension);
     }
 }
