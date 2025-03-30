@@ -50,22 +50,17 @@ public readonly struct Quantity<T>(T value, UnitInfo unit) : IQuantity<T>, IEqua
 
     ObjectType IObject.Kind => ObjectType.UnitValue;
 
-    double INumberObject.Real
+    T1 INumberObject.As<T1>()
     {
-        get
+        var result = T1.CreateChecked(Value);
+
+        if (Unit.DefinitionUnit is INumberObject definitionUnit)
         {
-            var result = double.CreateChecked(Value);
-
-            if (Unit.DefinitionUnit is Number definitionUnit)
-            {
-                result *= definitionUnit.Value;
-            }
-
-            return result;
+            result *= definitionUnit.As<T1>();
         }
-    }
 
-    T1 INumberObject.As<T1>() => T1.CreateChecked(Value);
+        return result;
+    }
 
     #endregion
 

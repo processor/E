@@ -1,6 +1,6 @@
 ﻿namespace E.Expressions;
 
-public sealed class UnitValueLiteral(
+public sealed class QuantityLiteral(
     IExpression expression,
     string unitName,
     int power = 1) : IExpression

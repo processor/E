@@ -11,7 +11,7 @@ public class ExpressionTests
         var expression = (BinaryExpression)Expression.Parse("π / 180 rad");
 
         var lhs = (Symbol)expression.Left;
-        var rhs = (UnitValueLiteral)expression.Right;
+        var rhs = (QuantityLiteral)expression.Right;
 
         Assert.Equal("π",             lhs.Name);
         Assert.Equal(Operator.Divide, expression.Operator);

@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace E;
+﻿namespace E;
 
 public static class Arguments
 {

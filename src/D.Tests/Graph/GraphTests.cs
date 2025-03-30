@@ -38,12 +38,12 @@ public class GraphTests : TestBase
         var context = new Node();
 
         context.Add("a", new StringLiteral("a"));
-        context.Add("b", new Integer(1));
+        context.Add("b", new Integer<long>(1));
 
         Assert.Equal("Object", context.Get<Type>(TypeSymbol.Object).Name);
 
         Assert.Equal("a", context.Get<StringLiteral>(Symbol.Variable("a")));
-        Assert.Equal(1, context.Get<Integer>(Symbol.Variable("b")));
+        Assert.Equal(1, context.Get<Integer<long>>(Symbol.Variable("b")));
     }
 
     [Fact]

@@ -11,9 +11,9 @@ public class QuantityTests
 
         Assert.Equal(UnitInfo.Percent, percent.Unit);
 
-        Assert.Equal(0.01, ((Number)percent.Unit.DefinitionUnit).Value);
+        Assert.Equal(0.01m, ((INumberObject)percent.Unit.DefinitionUnit).As<decimal>());
 
-        Assert.Equal(0.5, (percent as INumberObject).Real);
+        Assert.Equal(0.5, (percent as INumberObject).As<double>());
     }
 
     [Fact]

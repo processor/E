@@ -5,6 +5,7 @@ using System.Numerics;
 using System.Runtime.CompilerServices;
 using System.Text;
 
+using E.Exceptions;
 using E.Expressions;
 using E.Symbols;
 
@@ -66,7 +67,7 @@ public sealed class UnitInfo : IEquatable<UnitInfo>, IObject, ISpanFormattable
 
     public static readonly UnitInfo SquareMetre = LengthUnits.Meter.WithExponent(2, UnitType.SquareMeter);
 
-    public static readonly UnitInfo Percent = new(UnitType.Percent, Dimension.None, "%", definitionUnit: new Number(0.01)); // 1/100
+    public static readonly UnitInfo Percent = new(UnitType.Percent, Dimension.None, "%", definitionUnit: new Number<double>(0.01)); // 1/100
 
    
     public UnitInfo(UnitType id, Dimension dimension, string name, BaseUnitConversionFactor? baseConverter = null, int exponent = 1, UnitFlags flags = UnitFlags.None)
@@ -145,7 +146,7 @@ public sealed class UnitInfo : IEquatable<UnitInfo>, IObject, ISpanFormattable
     {
         if (!TryParse(name, out var unit))
         {
-            throw new Exception($"Unit '{name}' was not found");            
+            throw new InvalidUnitException(name); 
         }
 
         return unit;

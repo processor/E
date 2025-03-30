@@ -1,10 +1,13 @@
-﻿namespace E.Transformations;
+﻿using System.Numerics;
+
+namespace E.Transformations;
 
 public readonly struct Rotate<T>(
     T x,
     T y,
     T z,
-    Number angle) : ITransform
+    Number<T> angle) : ITransform
+    where T: unmanaged, INumber<T>
 {
     public T X { get; } = x;
 
@@ -12,5 +15,5 @@ public readonly struct Rotate<T>(
 
     public T Z { get; } = z;
 
-    public Number Angle { get; } = angle;
+    public Number<T> Angle { get; } = angle;
 }

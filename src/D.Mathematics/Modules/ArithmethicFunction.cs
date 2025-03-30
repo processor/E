@@ -9,10 +9,10 @@ public sealed class ArithmeticFunction(string name, Func<INumberObject, INumberO
     public static readonly ArithmeticFunction Power    = new("**", Arithmetic.Pow);
     public static readonly ArithmeticFunction Modulus  = new("%",  Arithmetic.Modulus);
 
-    public static readonly MathFunction Floor          = new("floor", Math.Floor);
-    public static readonly MathFunction Log            = new("log",   x => Math.Log(x));
-    public static readonly MathFunction Log10          = new("log10", x => Math.Log10(x));
-    public static readonly MathFunction SquareRoot     = new("sqrt",  x => Math.Sqrt(x));
+    public static readonly MathFunction<double> Floor          = new("floor", Math.Floor);
+    public static readonly MathFunction<double> Log            = new("log",   Math.Log);
+    public static readonly MathFunction<double> Log10          = new("log10", Math.Log10);
+    public static readonly MathFunction<double> SquareRoot     = new("sqrt",  Math.Sqrt);
 
     private readonly Func<INumberObject, INumberObject, INumberObject> func = func;
 

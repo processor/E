@@ -11,6 +11,8 @@ using E.Units;
 
 namespace E;
 
+// TODO: precision
+
 public class Evaluator
 {
     private readonly Scope scope = new();
@@ -42,6 +44,8 @@ public class Evaluator
     }
 
     public Scope Scope => scope;
+
+    public System.Type NumericType { get; init; } = typeof(double);
 
     public object? Evaluate(string script)
     {
@@ -78,9 +82,9 @@ public class Evaluator
             ConstantExpression constant  => EvaluateConstant(constant),
             Symbol symbol                => EvaluateSymbol(symbol),    
             CallExpression call          => EvaluateCall(call),        
-            UnitValueLiteral unit        => EvaluateUnit(unit),        
-            IQuantity<double> { Unit.Dimension: Dimension.None } unitValue => new Number(unitValue.Real),
-            _                           => expression // if ((long)expression.Kind > 255) throw new Exception($"expected kind: was {expression.Kind}");
+            QuantityLiteral quantity     => EvaluateQuantity(quantity),        
+            IQuantity<double> { Unit.Dimension: Dimension.None } unitValue => new Number<double>(unitValue.As<double>()), // TODO: optimize
+            _                            => expression // if ((long)expression.Kind > 255) throw new Exception($"expected kind: was {expression.Kind}");
 
         };
 
@@ -96,7 +100,7 @@ public class Evaluator
         return (IObject)expression.Value; 
     }
 
-    public IObject EvaluateUnit(UnitValueLiteral expression)
+    public IObject EvaluateQuantity(QuantityLiteral expression)
     {
         var unit = UnitInfo.Get(expression.UnitName);
 
@@ -105,11 +109,12 @@ public class Evaluator
             unit = unit.WithExponent(expression.UnitPower);
         }
 
-        double value = ((INumber)expression.Expression).Real;
+        double value = ((INumberObject)expression.Expression).As<double>();
 
-        if (unit is { Dimension: Dimension.None, DefinitionUnit: INumber definitionUnit })
+        // e.g. %
+        if (unit is { Dimension: Dimension.None, DefinitionUnit: INumberObject definitionUnit })
         {
-            return new Number(value * definitionUnit.Real);
+            return new Number<double>(value * definitionUnit.As<double>());
         }
 
         return Quantity.Create(value, unit);
@@ -259,7 +264,7 @@ public class Evaluator
         }
         else
         {
-            throw new Exception($"{expression.Operator.Name} has no function");
+            throw new Exception($"ƒ(a,b) for '{expression.Operator.Name}' not found");
         }
     }
 }

@@ -7,25 +7,25 @@ namespace E;
 
 public class OperatorCollection
 {
-    private readonly Trie<Operator> trie = new ();
+    private readonly Trie<Operator> _trie = new ();
 
-    public bool Contains(ReadOnlySpan<char> symbol) => trie.ContainsKey(symbol);
+    public bool Contains(ReadOnlySpan<char> symbol) => _trie.ContainsKey(symbol);
 
-    public bool TryGet(ReadOnlySpan<char> symbol, [NotNullWhen(true)] out Operator? op) => trie.TryGetValue(symbol, out op);
+    public bool TryGet(ReadOnlySpan<char> symbol, [NotNullWhen(true)] out Operator? op) => _trie.TryGetValue(symbol, out op);
 
     public void Add(params ReadOnlySpan<Operator> ops)
     {
         foreach (var op in ops)
         {
-            trie.Add(AsSymbol(op.Type) + op.Name, op);
+            _trie.Add(AsSymbol(op.Type) + op.Name, op);
         }
     }
 
-    public Operator this[OperatorType type, string name] => trie[AsSymbol(type) + name];
+    public Operator this[OperatorType type, string name] => _trie[AsSymbol(type) + name];
 
     public bool Maybe(OperatorType type, char ch, [NotNullWhen(true)] out Trie<Operator>.Node? node)
     {
-        return trie.TryGetNode(AsSymbol(type), out node) && node.TryGetNode(ch, out node);
+        return _trie.TryGetNode(AsSymbol(type), out node) && node.TryGetNode(ch, out node);
     }
 
     private static string AsSymbol(OperatorType type) => type switch { 

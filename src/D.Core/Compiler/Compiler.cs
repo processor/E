@@ -182,13 +182,13 @@ public partial class Compiler(Node env)
 
         if (UnitFactory.Default.TryGet(value.UnitName, out var unit))
         {
-            if (unit.Dimension is Dimension.None && unit.DefinitionUnit is Number definitionUnit)
+            if (unit.Dimension is Dimension.None && unit.DefinitionUnit is Number<double> definitionUnit)
             {
                 return new BinaryExpression(Operator.Multiply, lhs, definitionUnit) { Grouped = true };
             }
         }
 
-        return new UnitValueLiteral(lhs, value.UnitName, value.UnitExponent);
+        return new QuantityLiteral(lhs, value.UnitName, value.UnitExponent);
     }
 
     public virtual IExpression VisitAnyPattern(AnyPatternSyntax syntax) => new AnyPattern();
@@ -197,7 +197,7 @@ public partial class Compiler(Node env)
     {
         if (syntax.Text.Contains('.'))
         {
-            return new Number(double.Parse(syntax.Text, CultureInfo.InvariantCulture));
+            return new Number<double>(double.Parse(syntax.Text, CultureInfo.InvariantCulture));
         }
         else
         {

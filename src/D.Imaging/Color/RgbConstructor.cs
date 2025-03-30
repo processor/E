@@ -15,9 +15,9 @@ public sealed class RgbConstructor : IFunction
     public object Invoke(IArguments args)
     {
         return new SRgb(
-           r: (float)((INumber)(args[0])).Real,
-           g: (float)((INumber)(args[1])).Real,
-           b: (float)((INumber)(args[2])).Real
+           r: ((INumberObject)(args[0])).As<float>(),
+           g: ((INumberObject)(args[1])).As<float>(),
+           b: ((INumberObject)(args[2])).As<float>()
        );
     }
 }

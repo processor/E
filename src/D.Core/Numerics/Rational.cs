@@ -16,8 +16,6 @@ public readonly struct Rational<T>(
 
     #region INumeric
 
-    double INumberObject.Real => double.CreateChecked(Numerator) / double.CreateChecked(Denominator);
-
     TTarget INumberObject.As<TTarget>() => TTarget.CreateChecked(Numerator) / TTarget.CreateChecked(Denominator);
 
     #endregion

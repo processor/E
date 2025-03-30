@@ -12,6 +12,8 @@ public interface IQuantity : INumberObject
 public interface IQuantity<T> : IQuantity
     where T : unmanaged, INumberBase<T>
 {
+    public T Value { get; }
+
     Quantity<T> With(T quantity);
 
     Quantity<T> With(T quantity, UnitInfo type);

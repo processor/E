@@ -20,8 +20,6 @@ public readonly struct Integer<T>(T value) : IObject, INumberObject
 
     readonly TResult INumberObject.As<TResult>() => TResult.CreateChecked(Value);
 
-    readonly double INumberObject.Real => double.CreateChecked(Value);
-
     #endregion
 
     public readonly override string ToString() => Value.ToString()!;

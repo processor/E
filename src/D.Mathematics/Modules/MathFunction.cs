@@ -1,8 +1,11 @@
-﻿namespace E.Mathematics;
+﻿using System.Numerics;
 
-public class MathFunction(string name, Func<double, double> func) : IFunction
+namespace E.Mathematics;
+
+public sealed class MathFunction<T>(string name, Func<T, T> func) : IFunction
+    where T: unmanaged, INumber<T>
 {
-    private readonly Func<double, double> _func = func;
+    private readonly Func<T, T> _func = func;
 
     public string Name { get; } = name;
 
@@ -14,6 +17,6 @@ public class MathFunction(string name, Func<double, double> func) : IFunction
     { 
         var arg0 = (INumberObject)args[0];
 
-        return new Number(_func.Invoke(arg0.Real));
+        return new Number<T>(_func.Invoke(arg0.As<T>()));
     }
 }

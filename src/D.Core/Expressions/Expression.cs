@@ -28,7 +28,7 @@ public static class Expression
 
     public static BinaryExpression Multiply(IObject lhs, double rhs)
     {
-        return new BinaryExpression(Operator.Multiply, lhs, new Number(rhs));
+        return new BinaryExpression(Operator.Multiply, lhs, new Number<double>(rhs));
     }
 
     public static BinaryExpression Divide(IObject lhs, IObject rhs)

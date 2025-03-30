@@ -6,8 +6,8 @@ public class MathConstants : Module
     {
         // Imaginary
 
-        AddExport("π", new Number(Math.PI));                                      // pi
-        AddExport("γ", new Number(0.5772156649015328606065120900824024310421d));  // Euler-Mascheroni  constant
+        AddExport("π", new Number<double>(Math.PI));                                      // pi
+        AddExport("γ", new Number<double>(0.5772156649015328606065120900824024310421d));  // Euler-Mascheroni  constant
     }
 }
 
