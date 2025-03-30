@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 
 using Carbon.Color;
 
@@ -70,7 +71,7 @@ public class EvaluatorTests
     [Fact]
     public void ManualProductWithCustomDimensionlessUnit()
     {
-        var forth = new UnitInfo("forth", Dimension.None, 1, new Number(0.25));
+        var forth = new UnitInfo(0, Dimension.None, "¼", definitionUnit: new Number<double>(0.25));
 
         var evaluator = new Evaluator(s_env);
 
@@ -80,7 +81,6 @@ public class EvaluatorTests
 
         Assert.Equal((2.5, CssUnits.Px), (result.Value, result.Unit));
     }
-
 
     [Fact]
     public void ManualSum()
@@ -145,6 +145,23 @@ public class EvaluatorTests
         Assert.Equal(SyntaxKind.Symbol, left.Callee.Kind);
     }
 
+
+    [Fact]
+    public void UnitTests()
+    {
+        var env = new Node(
+            new ArithmeticModule(),
+            new TrigonometryModule(),
+            new ColorModule()
+        );
+
+        var evaluator = new Evaluator(env);
+
+        Assert.Equal("15L²",                 evaluator.Evaluate("5L * 3L").ToString());
+        Assert.Equal("15L",                  evaluator.Evaluate("5L * 3").ToString());
+        Assert.Equal("1.0022046244201839lb", evaluator.Evaluate("1 lb + 1 g").ToString());
+    }
+
     [Fact]
     public void Assignment()
     {
@@ -165,15 +182,19 @@ public class EvaluatorTests
         return new Evaluator().Evaluate(statement);
     }
 
-    /*
+    
     [Fact]
     public void Eval2()
     {
+        var env = new Node(
+           new ArithmeticModule()
+       );
+
         var result = new Evaluator(env).Evaluate("1kg * 1lb");
 
         Assert.Equal("0.453592kg²", result.ToString());
     }
-    */
+    
 
     [Theory]
     [InlineData("2kg * 3",                  "6kg")]
@@ -246,7 +267,7 @@ public class EvaluatorTests
     [Fact]
     public void FunctionCall()
     {
-        Assert.Equal(-0.54402111088937d, (Number)Script.Evaluate("sin(10)", s_env), precision: 10);
+        Assert.Equal(-0.54402111088937d, (Number<double>)Script.Evaluate("sin(10)", s_env), precision: 10);
 
         Assert.Equal("2", Script.Evaluate("sqrt(4)", s_env).ToString());
     }
@@ -273,7 +294,7 @@ public class EvaluatorTests
 
         var statement = (BinaryExpressionSyntax)parser.Next();
 
-        var l = (UnitValueSyntax)statement.Left;
+        var l = (QuantitySyntax)statement.Left;
         var r = (BinaryExpressionSyntax)statement.Right;
 
         Assert.Equal("1 kg", l.ToString());
