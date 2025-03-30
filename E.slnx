@@ -1,0 +1,18 @@
+<Solution>
+  <Folder Name="/Solution Items/">
+    <File Path="Directory.Build.props" />
+  </Folder>
+  <Folder Name="/Tests/">
+    <Project Path="src/D.Compiler.Tests/E.Compiler.Tests.csproj" />
+    <Project Path="src/D.Imaging.Tests/E.Imaging.Tests.csproj" />
+    <Project Path="src/D.Scripting.Tests/E.Scripting.Tests.csproj" />
+    <Project Path="src/D.Tests/E.Tests.csproj" />
+    <Project Path="src/D.TypeSystem.Tests/E.Inference.Tests.csproj" />
+  </Folder>
+  <Project Path="src/D.Core/E.Core.csproj" />
+  <Project Path="src/D.Imaging/E.Imaging.csproj" />
+  <Project Path="src/D.Layout/E.Layout.csproj" />
+  <Project Path="src/D.Mathematics/E.Mathematics.csproj" />
+  <Project Path="src/D.Scripting/E.Scripting.csproj" />
+  <Project Path="src/D.Sharp/E.Sharp.csproj" />
+</Solution>
