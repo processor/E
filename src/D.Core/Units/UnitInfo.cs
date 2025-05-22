@@ -65,8 +65,6 @@ public sealed class UnitInfo : IEquatable<UnitInfo>, IObject, ISpanFormattable
 
     public static readonly UnitInfo Katal = new(UnitType.Katal, CatalyticActivity, "kat");
 
-    public static readonly UnitInfo SquareMetre = LengthUnits.Meter.WithExponent(2, UnitType.SquareMeter);
-
     public static readonly UnitInfo Percent = new(UnitType.Percent, Dimension.None, "%", definitionUnit: new Number<double>(0.01)); // 1/100
 
    

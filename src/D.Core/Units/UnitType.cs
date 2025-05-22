@@ -53,9 +53,9 @@ public enum UnitType
     kHz     = 2143992,
 
     // Area
-    Acre            = 81292,
-    SquareFoot      = 857027,
-    SquareMeter     = 25343,
+    Acre            = 81292,    // ACR  | 
+    SquareFoot      = 857027,   // FTK  | ft²
+    SquareMeter     = 25343,    // MTK  | m²
     SquareMile      = 232291,
     SquareKilometer = 712226,
     SquareInch      = 1063786,
@@ -136,3 +136,5 @@ public enum UnitType
 
     CubicMetre = 25517
 }
+
+// https://unece.org/sites/default/files/2023-10/rec20_rev3_Annex3e.pdf
