@@ -49,6 +49,13 @@ internal sealed class SourceReader
 
         _current = position < _text.Length ? _text[position] : '\0';
 
+        if (_current is '\n')
+        {
+            column = -1;
+
+            line++;
+        }
+
         return consumed;
     }
 
@@ -111,11 +118,13 @@ internal sealed class SourceReader
 
         _current = _text[position];
 
-        if (_current == '\n')
+        if (_current is '\n')
         {
-            column = -2;
+            column = -1;
 
             line++;
+
+            return;
         }
 
         column++;

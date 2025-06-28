@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 
 using E.Mathematics;
 
@@ -164,6 +167,46 @@ public class TokenizerTests
     }
 
     [Fact]
+    public void CanReadTwoStatements()
+    {
+        var tokenizer = new Tokenizer(
+            """
+            image = 10
+            b = 2
+            """);
+
+        Assert.Equal(
+            """
+            image | Identifier |    1 |    0
+            =     | Op         |    1 |    6
+            10    | Number     |    1 |    8
+            b     | Identifier |    2 |    0
+            =     | Op         |    2 |    2
+            2     | Number     |    2 |    4
+            """.ReplaceLineEndings("\n"), tokenizer.Dump());
+    }
+
+    [Fact]
+    public void CanReadTwoStatements_Linux()
+    {
+        var tokenizer = new Tokenizer(
+            """
+            image = 10
+            b = 2
+            """.ReplaceLineEndings("\n"));
+
+        Assert.Equal(
+            """
+            image | Identifier |    1 |    0
+            =     | Op         |    1 |    6
+            10    | Number     |    1 |    8
+            b     | Identifier |    2 |    0
+            =     | Op         |    2 |    2
+            2     | Number     |    2 |    4
+            """.ReplaceLineEndings("\n"), tokenizer.Dump());
+    }
+
+    [Fact]
     public void Read2()
     {
         var tokens = new Tokenizer(
@@ -233,6 +276,39 @@ public class TokenizerTests
 
 public static class TokenizerExtensions
 {
+    public static string Dump(this Tokenizer tokenizer)
+    {
+        var tokens = new List<Token>();
+
+        Token token;
+
+        while ((token = tokenizer.Next()).Kind != TokenKind.EOF)
+        {
+            tokens.Add(token);
+        }
+
+
+        var sb = new StringBuilder();
+
+        int textWidth = Math.Max("Text".Length, tokens.Max(t => t.Text.Length));
+        int kindWidth = Math.Max("Kind".Length, tokens.Max(t => t.Kind.ToString().Length));
+
+        int i = 0;
+
+        foreach (var t in tokens)
+        {
+            if (i > 0)
+            {
+                sb.Append('\n');
+            }
+            sb.AppendFormat("{0,-" + textWidth + "} | {1,-" + kindWidth + "} | {2,4} | {3,4}", t.Text, t.Kind, t.Start.Line, t.Start.Column);
+
+            i++;
+        }
+        
+        return sb.ToString();
+    }
+
     public static TokenKind ReadKind(this Tokenizer tokenizer) => tokenizer.Next().Kind;
 
     public static string Read(this Tokenizer tokenizer, TokenKind kind)
