@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Runtime.CompilerServices;
 using System.Text;
+using System.Text.Encodings.Web;
 
 namespace E.Parsing;
 
@@ -147,7 +148,7 @@ public sealed class Tokenizer
                 }
 
             case '.': // ., .., ...
-                if (char.IsDigit(reader.Peek())) // .{0-9}
+                if (char.IsAsciiDigit(reader.Peek())) // .{0-9}
                 {
                     return Read(DecimalPoint);
                 }
@@ -231,7 +232,7 @@ public sealed class Tokenizer
 
                 break;
 
-            case '\n' or '\r' or '\t' or ' ': 
+            case '\n' or '\r' or '\t' or ' ':
                 ReadTrivia(); 
                 goto start;
         }
@@ -369,7 +370,6 @@ public sealed class Tokenizer
 
         sb.Append(reader.Consume(s_digitOrUnderscoreChars));
     }
-
     
     public Token ReadSuperscript()
     {

@@ -73,7 +73,7 @@ public readonly struct Quantity<T>(T value, UnitInfo unit) : IQuantity<T>, IEqua
 
     public static Quantity<T> Parse(string text)
     {
-        if ((char.IsDigit(text[0]) || text[0] is '-'))
+        if ((char.IsAsciiDigit(text[0]) || text[0] is '-'))
         {
             var syntax = Parser.Parse(text);
 
