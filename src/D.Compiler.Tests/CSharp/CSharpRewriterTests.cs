@@ -166,7 +166,7 @@ public class CSharpRewriterTests
             {
                 return 5;
             }
-            """.Replace("\r\n", "\n"),
+            """.ReplaceLineEndings("\n"),
 
         Rewrite(
             """

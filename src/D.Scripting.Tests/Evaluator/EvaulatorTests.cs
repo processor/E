@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 
 using Carbon.Color;
 
@@ -181,20 +180,18 @@ public class EvaluatorTests
     {
         return new Evaluator().Evaluate(statement);
     }
-
     
     [Fact]
     public void Eval2()
     {
         var env = new Node(
            new ArithmeticModule()
-       );
+        );
 
         var result = new Evaluator(env).Evaluate("1kg * 1lb");
 
         Assert.Equal("0.453592kg²", result.ToString());
-    }
-    
+    }    
 
     [Theory]
     [InlineData("2kg * 3",                  "6kg")]

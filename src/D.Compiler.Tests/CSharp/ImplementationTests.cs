@@ -70,7 +70,7 @@ public class ImplementationTests
 
                 private object B4(double t) => (1 - t) * (1 - t) * (1 - t);
             }
-            """.Replace("\r\n", "\n"), r);
+            """.ReplaceLineEndings("\n"), r);
     }
 
     [Fact]
@@ -120,7 +120,7 @@ public class ImplementationTests
                 var y = point.Y;
                 var z = point.Z;
             }
-            """.Replace("\r\n", "\n"),
+            """.ReplaceLineEndings("\n"),
 
         Transpile(
             """
@@ -144,7 +144,7 @@ public class ImplementationTests
             public static object SinIn(double x) => Math.Sin(x * Math.PI * 0.5);
 
             public static object SinOut(double x) => -Math.Cos(Math.PI * x) / 2 + 0.5;
-            """.Replace("\r\n", "\n"),
+            """.ReplaceLineEndings("\n"),
 
         Transpile(
             """

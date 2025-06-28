@@ -58,13 +58,32 @@ public class AssignmentTests : TestBase
     }
 
     [Fact]
-    public void Read2()
+    public void CanReadTwoAssignments()
     {
         var parser = new Parser(
             """
             image = 10
             b = 2
-            """.ReplaceLineEndings(Environment.NewLine));
+            """);
+
+        var one = (BinaryExpressionSyntax)parser.Next();
+        var two = (BinaryExpressionSyntax)parser.Next();
+
+        Assert.Equal("image", one.Left.ToString());
+        Assert.Equal("10", one.Right.ToString());
+
+        Assert.Equal("b", two.Left.ToString());
+        Assert.Equal("2", two.Right.ToString());
+    }
+
+    [Fact]
+    public void CanReadTwoAssignments2()
+    {
+        var parser = new Parser(
+            """
+            image = 10
+            b = 2
+            """.ReplaceLineEndings("\n"));
 
         var one = (BinaryExpressionSyntax)parser.Next();
         var two = (BinaryExpressionSyntax)parser.Next();
