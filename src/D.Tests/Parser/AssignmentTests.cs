@@ -64,7 +64,7 @@ public class AssignmentTests : TestBase
             """
             image = 10
             b = 2
-            """);
+            """.ReplaceLineEndings(Environment.NewLine));
 
         var one = (BinaryExpressionSyntax)parser.Next();
         var two = (BinaryExpressionSyntax)parser.Next();
