@@ -2,6 +2,6 @@
 /.vs
 *.TMP
 .DS_Store
-*.suo
 *.user
 *.nupkg
+/src/.vs
